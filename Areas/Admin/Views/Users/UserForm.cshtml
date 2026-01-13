@@ -1,0 +1,199 @@
+﻿@using IPTS.Models.Entites
+@model UserFormViewModel
+
+@{
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+    var isEditMode = !string.IsNullOrEmpty(Model.Id);
+    ViewBag.Title = (isEditMode ? "Edit " : "Create ") + ViewBag.UserType;
+}
+
+<form asp-action="UserForm" asp-route-id="" method="post" asp-route-UserType="@ViewBag.UserType">
+    @* Hidden Id Field للتعديل لكل المستخدمين *@
+    <input type="hidden" asp-for="Id" />
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>User Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="flex flex-wrap gap-4">
+                 @if(!isEditMode){
+                <div class="flex-1 min-w-[200px]">
+                    <label asp-for="UserName" class="block text-sm font-medium text-gray-700"></label>
+                    <input asp-for="UserName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                        focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                    <span asp-validation-for="UserName" class="text-red-500 text-sm"></span>
+                </div>
+                 }
+                <div class="flex-1 min-w-[200px]">
+                    <label asp-for="Email" class="block text-sm font-medium text-gray-700"></label>
+                    <input asp-for="Email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                        focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                    <span asp-validation-for="Email" class="text-red-500 text-sm"></span>
+                </div>
+                <div class="flex-1 min-w-[200px]">
+                    <label asp-for="PhoneNumber" class="block text-sm font-medium text-gray-700"></label>
+                    <input asp-for="PhoneNumber" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                        focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                    <span asp-validation-for="PhoneNumber" class="text-red-500 text-sm"></span>
+                </div>
+            </div> 
+            <div class="card-body">
+            <div class="flex flex-wrap gap-4">
+
+                <div class="flex-1 min-w-[200px]">
+                    <label asp-for="FirstName" class="block text-sm font-medium text-gray-700"></label>
+                    <input asp-for="FirstName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                        focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                    <span asp-validation-for="FirstName" class="text-red-500 text-sm"></span>
+                </div>
+                <div class="flex-1 min-w-[200px]">
+                    <label asp-for="LastName" class="block text-sm font-medium text-gray-700"></label>
+                    <input asp-for="LastName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                        focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                    <span asp-validation-for="LastName" class="text-red-500 text-sm"></span>
+                </div>
+            </div>
+
+        @if(!isEditMode){
+                <div class="flex gap-4 mt-4">
+                    <div class="flex-1 min-w-[200px]">
+                        <label asp-for="Password" class="block text-sm font-medium text-gray-700"></label>
+                        <input asp-for="Password" type="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                        focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"  />
+                        <span asp-validation-for="Password" class="text-red-500 text-sm"></span>
+                    </div>
+                    <div class="flex-1 min-w-[200px]">
+                        <label asp-for="ConfirmPassword" class="block text-sm font-medium text-gray-700"></label>
+                        <input asp-for="ConfirmPassword" type="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                        focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                        <span asp-validation-for="ConfirmPassword" class="text-red-500 text-sm"></span>
+                    </div>
+                </div>
+        }
+            @if (isEditMode)
+            {
+                <div class="flex gap-4 mt-4">
+                    <div class="flex-1 min-w-[200px]">
+                        <label asp-for="Status" class="block text-sm font-medium text-gray-700"></label>
+                        <select asp-for="Status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <option value="0">Active</option>
+                            <option value="1">Inactive</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-red-500 text-sm"></span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    @* أقسام خاصة بالأنواع *@
+    @switch (ViewBag.UserType?.ToLower())
+    {
+        case "admin":
+            @* Id موجود مسبقًا في Hidden Field *@
+            break;
+
+        case "customer":
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Customer Information</h5>
+                </div>
+                <div class="card-body flex gap-4">
+                    @* Hidden Id للـ Customer إذا موجود *@
+                    <input type="hidden" asp-for="Customer.Id" />
+
+                    <div class="flex-1 min-w-[200px]">
+                        <label asp-for="Customer.FirstName" class="block text-sm font-medium text-gray-700"></label>
+                        <input asp-for="Customer.FirstName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                            focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                        <span asp-validation-for="Customer.FirstName" class="text-red-500 text-sm"></span>
+                    </div>
+                    <div class="flex-1 min-w-[200px]">
+                        <label asp-for="Customer.LastName" class="block text-sm font-medium text-gray-700"></label>
+                        <input asp-for="Customer.LastName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                            focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                        <span asp-validation-for="Customer.LastName" class="text-red-500 text-sm"></span>
+                    </div>
+                </div>
+            </div>
+            break;
+               case "patient":
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Patient Information</h5>
+            </div>
+            <div class="card-body flex gap-4">
+                <input type="hidden" asp-for="Patient.Id" />
+                <div class="flex-1 min-w-[200px]">
+                    <label asp-for="Patient.IdentityNumber" class="block text-sm font-medium text-gray-700">Identity Number *</label>
+                    @if (!isEditMode)
+                    {
+                        <input asp-for="Patient.IdentityNumber" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                            focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Enter identity number" required />
+                        <span asp-validation-for="Patient.IdentityNumber" class="text-red-500 text-sm"></span>
+                    }
+                    else
+                    {
+                        <input asp-for="Patient.IdentityNumber" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                            bg-gray-100 cursor-not-allowed" readonly />
+                        <small class="text-gray-500">Identity number cannot be modified</small>
+                    }
+                </div>
+                <div class="flex-1 min-w-[200px]">
+                    <label asp-for="Patient.BirthDate" class="block text-sm font-medium text-gray-700">Birth Date</label>
+                    <input asp-for="Patient.BirthDate" type="date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                        focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                    <span asp-validation-for="Patient.BirthDate" class="text-red-500 text-sm"></span>
+                </div>
+            </div>
+        </div>
+        break;
+
+    case "doctor":
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Doctor Information</h5>
+            </div>
+            <div class="card-body flex gap-4">
+                <input type="hidden" asp-for="Doctor.Id" />
+                <div class="flex-1 min-w-[200px]">
+                    <label asp-for="Doctor.SpecialtyId" class="block text-sm font-medium text-gray-700"></label>
+                    <select asp-for="Doctor.SpecialtyId" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        <option value="">Select specialty</option>
+                                @if (ViewBag.Specialties != null)
+                                {
+                                    @foreach (var specialty in ViewBag.Specialties as List<Specialty>)
+                                    {
+                                        <option value="@specialty.Id">@specialty.Name</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="">No specialties available</option>
+                                }
+                    </select>
+                    <span asp-validation-for="Doctor.SpecialtyId" class="text-red-500 text-sm"></span>
+                </div>
+            </div>
+        </div>
+        break;
+    }
+
+    <div class="flex gap-2 mt-6">
+        <a href="@Url.Action("Index")"
+           class="bg-secondary bg-opacity-20 hover:bg-opacity-40 rounded-lg px-6 py-1.5 text-secondary
+                  hover:shadow-xl transition duration-150">
+            Cancel
+        </a>
+
+        <button type="submit"
+                class="bg-primary hover:bg-primary-dark rounded-lg px-6 py-1.5 text-white
+                       hover:shadow-xl transition duration-150">
+            @(isEditMode ? "Save Changes" : "Create")
+        </button>
+    </div>
+
+    <div asp-validation-summary="All" class="text-red-500 text-sm mb-4"></div>
+</form>

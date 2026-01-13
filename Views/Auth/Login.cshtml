@@ -1,0 +1,106 @@
+﻿@model LoginViewModel
+@{
+    Layout = "~/Views/Shared/Layouts/_AuthLayout.cshtml";
+}
+
+<div class="max-w-md mx-auto bg-white shadow rounded-lg p-8">
+    <h2 class="text-center text-2xl font-bold tracking-wide text-gray-800">Sign In</h2>
+    <p class="text-center text-sm text-gray-600 mt-2">
+        Don't have an account yet?
+        <a href="@Url.Action("Register", "Auth")"
+           class="text-primary hover:text-primary-dark hover:underline"
+           title="Sign Up">
+            Sign up here
+        </a>
+    </p>
+
+    <form asp-controller="auth" asp-action="login" method="post" autocomplete="off"
+          class="my-8 text-sm space-y-6">
+        <input asp-for="ReturnUrl" type="hidden" />  
+
+        <div>
+            <label asp-for="UsernameOrEmail" class="text-gray-700">Email or Username</label>
+            <input asp-for="UsernameOrEmail"
+                   class="mt-2 py-2 w-full border-gray-300 focus:outline-none
+                          focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
+                   placeholder="you@example.com" />
+            <span asp-validation-for="UsernameOrEmail" class="text-sm text-red-500"></span>
+        </div>
+
+        <div>
+            <label asp-for="Password" class="text-gray-700">Password</label>
+            <div x-data="{ show: false }" class="relative flex items-center mt-2">
+                <input :type=" show ? 'text': 'password' "
+                       asp-for="Password"
+                       class="flex-1 py-2 pr-10 border-gray-300 focus:outline-none focus:ring-0
+                              focus:border-gray-300 rounded text-sm text-gray-900"
+                       placeholder="••••••••" />
+                <button x-on:click ="show = !show" type="button"
+                        class="absolute right-2 bg-transparent flex items-center justify-center text-gray-700">
+                </button>
+            </div>
+            <span asp-validation-for="Password" class="text-sm text-red-500"></span>
+        </div>
+
+        <div class="flex items-center">
+            <input asp-for="RememberMe" type="checkbox" id="remember_me"
+                   class="mr-2 focus:ring-0 rounded">
+            <label for="remember_me" class="text-gray-700">Remember me</label>
+        </div>
+@*         <button type="submit"
+        class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded transition duration-150 shadow">
+            Login
+        </button> *@
+        <div class="my-4 flex items-center justify-end space-x-4">
+            <a href="@Url.Action("ForgotPassword","auth")"
+               class="text-gray-700 hover:text-gray-900 hover:underline">
+                Forgot your password?
+            </a>
+            <button type="submit"
+                    class="bg-primary hover:bg-primary-dark rounded-lg px-8 py-2 text-gray-100
+                           hover:shadow-xl transition duration-150 uppercase">
+                Sign In
+            </button>
+        </div>
+
+        @await Html.PartialAsync("_ValidationSummary", ViewData.ModelState)
+    </form>
+
+    <!-- Divider -->
+@*     <div class="flex items-center justify-between my-6">
+        <div class="w-full h-[1px] bg-gray-300"></div>
+        <span class="text-sm uppercase mx-6 text-gray-400">Or</span>
+        <div class="w-full h-[1px] bg-gray-300"></div>
+    </div>
+ *@
+    <!-- External Providers -->
+    @* <div class="text-sm space-y-2">
+        <a href="@Url.Action("ExternalLogin", "auth", new { provider = "Google" })"
+           class="flex items-center justify-center space-x-2 text-gray-600 py-2 bg-gray-100
+          hover:bg-gray-200 rounded">
+            <i class="fab fa-google text-3xl" style="color:#DB4437;"></i>
+            <span>Continue with Google</span>
+        </a>
+
+        <a href="@Url.Action("ExternalLogin", "auth", new { provider = "Facebook" })"
+           class="flex items-center justify-center space-x-2 text-gray-600 py-2 bg-gray-100
+          hover:bg-gray-200 rounded">
+            <i class="fab fa-facebook text-3xl" style="color:#1877F2;"></i>
+            <span>Continue with Facebook</span>
+        </a>
+
+        <a href="@Url.Action("ExternalLogin", "auth", new { provider = "LinkedIn" })"
+           class="flex items-center justify-center space-x-2 text-gray-600 py-2 bg-gray-100
+          hover:bg-gray-200 rounded">
+            <i class="fab fa-linkedin text-3xl" style="color:#0077B5;"></i>
+            <span>Continue with LinkedIn</span>
+        </a>
+    </div> *@
+     <div class="mt-4">
+            <a asp-controller="Home" asp-action="Index"
+               class="text-green-600 hover:text-green-700 hover:underline">
+                ← Back to PhysoTech Home
+            </a>
+        </div>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+</div>

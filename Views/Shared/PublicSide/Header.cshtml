@@ -1,0 +1,165 @@
+﻿<header class="sticky top-0 bg-gray-50 shadow-sm z-50 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16 lg:h-20">
+            <!-- Logo -->
+            <a asp-controller="Home" asp-area="" asp-action="Index" class="flex items-center space-x-2">
+                <img src="/images/logo.svg" alt="ipts Logo"
+                    class="h-20 md:h-24 lg:h-28 w-auto transition-transform hover:scale-105">
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a asp-controller="Home" asp-area="" asp-action="Index" class="px-3 py-2 text-base font-semibold text-gray-600 hover:text-green-600 transition-colors">
+                    Home
+                </a>
+                <a asp-controller="Home" asp-area="" asp-action="About" class="px-3 py-2 text-base font-semibold text-gray-600 hover:text-green-600 transition-colors">
+                    About
+                </a>
+                <a asp-controller="Home" asp-area="" asp-action="Contact" class="px-3 py-2 text-base font-semibold text-gray-600 hover:text-green-600 transition-colors">
+                    Contact
+                </a>
+                <a asp-controller="Home" asp-area="" asp-action="Therapies" class="px-3 py-2 text-base font-semibold text-gray-600 hover:text-green-600 transition-colors">
+                    Therapies
+                </a>
+                @if (User.IsInRole("doctor"))
+                {
+                    <a asp-area="Doctor" asp-controller="Dashboard" asp-action="Index" class="px-3 py-2 text-base font-semibold text-gray-600 hover:text-green-600 transition-colors">
+                        Dashboard
+                    </a>
+                }
+                @if (User.IsInRole("admin"))
+                {
+                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="px-3 py-2 text-base font-semibold text-gray-600 hover:text-green-600 transition-colors">
+                        Dashboard
+                    </a>
+                }
+            </nav>
+
+            <!-- Right Side Controls -->
+            <div class="flex items-center space-x-4">
+                <!-- Theme Toggle -->
+                <button id="theme-toggle"
+                        class="p-2 text-gray-600 hover:text-green-600 transition-colors">
+                    <i data-lucide="moon" id="theme-icon" class="h-5 w-5"></i>
+                </button>
+
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <!-- Auth Button (Join) -->
+                    <a asp-controller="Auth" asp-action="Login"
+                       class="px-4 py-2 text-base font-semibold text-green-600 hover:text-green-700 transition-colors rounded-lg">
+                        Join
+                    </a>
+                }
+                else
+                {
+                    <!-- User Dropdown (Alpine.js) -->
+                    <div class="relative" x-data="{ open: false }">
+                        <button x-on:click="open = !open"
+                                class="flex items-center space-x-2 px-3 py-2 text-base font-semibold text-gray-600 hover:text-green-600 transition-colors">
+                            <i class="fas fa-user-circle text-2xl"></i>
+                            <span>@User.Identity.Name</span>
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="open" x-on:click.away="open = false"
+                             class="absolute right-0 mt-2 w-48 bg-white rounded shadow-lg z-50 py-2">
+                            <a asp-controller="profile" asp-action="Index" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Profile</a>
+                            @if (User.IsInRole("doctor"))
+                            {
+                                <a asp-area="Doctor" asp-controller="Dashboard" asp-action="Index" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Dashboard</a>
+                            }
+                            @if (User.IsInRole("admin"))
+                            {
+                                <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Dashboard</a>
+                            }
+                            @if (User.IsInRole("patient"))
+                            {
+                                <a asp-area="patient" asp-controller="panel" asp-action="Index" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">Panel</a>
+                                <a asp-area="patient" asp-controller="appointment" asp-action="Appointments" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">My Appointments</a>
+                            }
+                            <form  asp-area="" asp-controller="Auth" asp-action="Logout" method="post">
+                                <button type="submit" class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button"
+                        class="md:hidden p-2 text-gray-600 hover:text-blue-600 transition-colors">
+                    <i data-lucide="menu" id="mobile-menu-icon" class="h-6 w-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 py-4">
+            <div class="flex flex-col space-y-2">
+                <a asp-controller="Home" asp-action="Index" class="px-3 py-2 text-base font-semibold text-gray-600 hover:text-green-600 transition-colors">
+                    Home
+                </a>
+                <a asp-controller="Home" asp-action="About" class="px-3 py-2 text-base font-semibold text-gray-600 hover:text-green-600 transition-colors">
+                    About
+                </a>
+                <a asp-controller="Home" asp-action="Contact" class="px-3 py-2 text-base font-semibold text-gray-600 hover:text-green-600 transition-colors">
+                    Contact
+                </a>
+                <a asp-controller="Home" asp-action="Therapies" class="px-3 py-2 text-base font-semibold text-gray-600 hover:text-green-600 transition-colors">
+                    Therapies
+                </a>
+                <div class="pt-4 border-t border-gray-200 space-y-3">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Auth" asp-action="Login"
+                           class="block px-3 py-2 text-base font-semibold text-center text-green-600 hover:text-green-700 transition-colors">
+                            Join
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Profile" asp-action="Index" class="block px-3 py-2 text-base font-semibold text-center text-gray-600 hover:bg-gray-100">Profile</a>
+                        @if (User.IsInRole("doctor"))
+                        {
+                            <a asp-area="Doctor" asp-controller="Dashboard" asp-action="Index" class="block px-3 py-2 text-base font-semibold text-center text-gray-600 hover:bg-gray-100">Dashboard</a>
+                        }
+                        @if (User.IsInRole("admin"))
+                        {
+                            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="block px-3 py-2 text-base font-semibold text-center text-gray-600 hover:bg-gray-100">Dashboard</a>
+                        }
+                        @if (User.IsInRole("patient"))
+                        {
+                            <a asp-area="Patient" asp-controller="Panel" asp-action="Appointments" class="block px-3 py-2 text-base font-semibold text-center text-gray-600 hover:bg-gray-100">My Appointments</a>
+                        }
+                        <a asp-controller="Profile" asp-action="Index" class="block px-3 py-2 text-base font-semibold text-center text-gray-600 hover:bg-gray-100">My Page</a>
+                        <form asp-area="" asp-controller="Auth" asp-action="Logout"  method="post">
+                            <button type="submit" class="w-full text-center px-3 py-2 text-red-600 hover:bg-gray-100">Logout</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script src="/js/header.js"></script>
+<script> 
+    function highlightActiveLink() { 
+        const currentPath = window.location.pathname; 
+        document.querySelectorAll('nav a').forEach(link => { 
+            if (link.getAttribute('href') === currentPath) { 
+                link.classList.add('text-green-600', 'border-b-2', 'border-green-600');
+                link.classList.remove('text-gray-600', 'dark:text-gray-300');
+            } else { 
+                link.classList.remove('text-green-600', 'border-b-2', 'border-green-600');
+                link.classList.add('text-gray-600', 'dark:text-gray-300');
+            } 
+        }); 
+    } 
+    document.addEventListener('DOMContentLoaded', function () { 
+        highlightActiveLink(); 
+        lucide.createIcons(); 
+    }); 
+    window.addEventListener('popstate', highlightActiveLink); 
+</script>

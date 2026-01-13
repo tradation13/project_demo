@@ -1,0 +1,197 @@
+﻿@using IPTS.ViewModels
+@model DoctorScheduleViewModel
+@{
+    Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
+    ViewData["Title"] = "Available Appointments";
+
+    var doctor = Model.Doctor;
+    var slots = Model.TimeSlots ?? new List<AppointmentTimeSlotViewModel>();
+}
+
+<section class="py-10" aria-label="Available Appointments">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Doctor Header -->
+        <header class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 mb-8">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 rounded-2xl bg-gray-100 overflow-hidden flex items-center justify-center">
+                    @if (!string.IsNullOrWhiteSpace(doctor?.PhotoUrl))
+                    {
+                        <img src="@doctor.PhotoUrl" alt="@doctor.FullName" class="w-full h-full object-cover" />
+                    }
+                    else
+                    {
+                        <i class="fa-solid fa-user-doctor text-2xl text-gray-500"></i>
+                    }
+                </div>
+                <div class="flex-1">
+                    <h1 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                        @doctor?.FullName
+                        @if (doctor?.IsAvailable == true)
+                        {
+                            <span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-green-100 text-green-700">
+                                <i class="fa-solid fa-circle-check"></i> Available
+                            </span>
+                        }
+                    </h1>
+                    <div class="text-sm text-gray-600 flex flex-wrap items-center gap-3 mt-1">
+                        @if (!string.IsNullOrWhiteSpace(doctor?.Specialty))
+                        {
+                            <span class="inline-flex items-center gap-1">
+                                <i class="fa-solid fa-stethoscope text-gray-500"></i> @doctor.Specialty
+                            </span>
+                        }
+                        @if (doctor?.YearsOfExperience != null)
+                        {
+                            <span class="inline-flex items-center gap-1">
+                                <i class="fa-regular fa-clock text-gray-500"></i> @doctor.YearsOfExperience yrs
+                            </span>
+                        }
+                        @if (doctor?.Rating != null)
+                        {
+                            <span class="inline-flex items-center gap-1">
+                                <i class="fa-solid fa-star text-yellow-400"></i> @doctor.Rating
+                            </span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Date Filter -->
+        <form method="get" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label for="date" class="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                    <input id="date" name="date" type="date"
+                           value="@Model.SelectedDate.ToString("yyyy-MM-dd")"
+                           min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                </div>
+
+                <div class="flex items-end">
+                    <button type="submit"
+                            class="inline-flex items-center bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition">
+                        Search
+                    </button>
+                </div>
+
+                <div class="flex items-end text-sm text-gray-500">
+                    Working hours: 8:00 AM – 6:00 PM
+                </div>
+            </div>
+        </form>
+
+        <!-- Booking Form -->
+        <form asp-area="patient"
+              asp-controller="Appointment"
+              asp-action="Book"
+              asp-route-doctorId="@doctor.Id"
+              method="post"
+              class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" name="ScheduledDate" value="@Model.SelectedDate.ToString("yyyy-MM-dd")" />
+            <input type="hidden" id="time" name="Time" />
+
+            <div class="mb-4">
+                <h5 class="font-semibold text-gray-800">Select ONE appointment slot (20 minutes)</h5>
+            </div>
+
+            <!-- Slots Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                @if (!slots.Any())
+                {
+                    <div class="col-span-6 text-center text-sm text-gray-500 py-8">
+                        <i class="fas fa-calendar-times text-2xl mb-2 text-red-400"></i>
+                        <p>No time slots for the selected date.</p>
+                    </div>
+                }
+                else
+                {
+                    foreach (var s in slots)
+                    {
+                        var disabled = !s.IsAvailable;
+                        <label class="relative block rounded border-2 min-h-[72px] p-3 text-center text-sm cursor-pointer transition
+                                   peer-checked:border-blue-700 peer-checked:ring-2 peer-checked:ring-blue-400
+                                   @(!disabled ? "bg-green-50 hover:bg-green-100 border-green-300 text-green-800 hover:border-green-400" : "bg-red-50 text-red-700 border-red-300 opacity-75 cursor-not-allowed")">
+
+                            <!-- ✅ يربط مباشرة مع SlotIndex -->
+                            <input type="radio"
+                                   name="SlotIndex"
+                                   value="@s.SlotIndex"
+                                   data-time="@s.Time"
+                                   class="peer sr-only"
+                            @(disabled ? "disabled" : "") />
+
+                            <div class="font-bold text-base mb-1 peer-checked:text-white">@s.Time</div>
+                            <div class="text-xs @(disabled ? "text-red-500" : "text-green-600") peer-checked:text-white">
+                                @(disabled ? "Booked" : "Available")
+                            </div>
+
+                            <div class="pointer-events-none absolute inset-0 rounded peer-checked:bg-blue-600 peer-checked:shadow-lg"></div>
+                        </label>
+                    }
+                }
+            </div>
+
+            <!-- Summary -->
+            <div class="mt-4 p-4 bg-gray-50 rounded-lg grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
+                <div><span class="font-medium">Selected:</span> <span id="selectedCount" class="text-blue-600 font-bold">0</span></div>
+                <div><span class="font-medium">Duration:</span> <span id="totalDuration" class="text-green-600 font-bold">0</span> minutes</div>
+                <div class="col-span-2 md:col-span-2"><span class="font-medium">Time:</span> <span id="timeRange" class="text-purple-600 font-bold">-</span></div>
+            </div>
+
+            <!-- Notes -->
+            <div class="mt-6">
+                <label for="Notes" class="block text-sm font-medium text-gray-700 mb-2">Notes</label>
+                <textarea id="Notes" name="Notes" rows="3"
+                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                          placeholder="Optional"></textarea>
+            </div>
+
+            <!-- Actions -->
+            <div class="mt-6 flex justify-end gap-3">
+                <a asp-area="patient" asp-controller="Doctors" asp-action="Index"
+                   class="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600 transition">Cancel</a>
+                <button type="submit" id="submitBtn" disabled
+                        class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    Book
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+    const radios = document.querySelectorAll('input[type="radio"][name="SlotIndex"]');
+    const selectedCount = document.getElementById('selectedCount');
+    const totalDuration = document.getElementById('totalDuration');
+    const timeRange = document.getElementById('timeRange');
+    const submitBtn = document.getElementById('submitBtn');
+    const hTime = document.getElementById('time');
+
+    function resetSummary() {
+        selectedCount.textContent = '0';
+        totalDuration.textContent = '0';
+        timeRange.textContent = '-';
+        hTime.value = '';
+        submitBtn.disabled = true;
+    }
+
+    function onChangeRadio(e) {
+        const input = e.target;
+        if (!input || input.disabled) return;
+
+        const time = input.dataset.time || '';
+        selectedCount.textContent = '1';
+        totalDuration.textContent = '20';
+        timeRange.textContent = time;
+        hTime.value = time;
+        submitBtn.disabled = false;
+    }
+
+    resetSummary();
+    radios.forEach(r => r.addEventListener('change', onChangeRadio));
+</script>

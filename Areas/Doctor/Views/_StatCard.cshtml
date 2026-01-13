@@ -1,0 +1,17 @@
+﻿@model IPTS.Areas.Doctor.ViewsModels.StatCardViewModel
+
+<div class="rounded-2xl shadow p-5 bg-white border border-gray-100 hover:shadow-md transition">
+    <div class="flex items-center justify-between">
+        <div class="space-y-1">
+            <div class="text-sm text-gray-500">@Model.Title</div>
+            <div class="text-2xl font-bold tracking-tight">@Model.Value</div>
+            @if (!string.IsNullOrWhiteSpace(Model.Subtitle))
+            {
+                <div class="text-xs text-gray-400">@Model.Subtitle</div>
+            }
+        </div>
+        <div class="@Model.CardCss rounded-xl p-3">
+            <i class="@Model.IconCss text-xl"></i>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+@* About PhysoTech Section *@
+<section id="about" class="py-3 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="flex items-center justify-center">
+                <div class="relative">
+                    <img src="/images/home/about.svg"
+                         alt="PhysoTech Logo"
+                         width="450px"
+                         class="max-w-md h-auto transform hover:scale-105 transition-transform duration-300 drop-shadow-2xl" />
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="fas fa-dna text-primary-600 text-3xl"></i>
+                    <h2 class="text-4xl font-bold text-gray-900">About PhysoTech</h2>
+                </div>
+
+                <p class="text-lg text-gray-700 leading-relaxed">
+                    At PhysoTech, we combine advanced physiotherapy practices with cutting-edge technology to deliver exceptional treatment outcomes.
+                </p>
+
+                <p class="text-lg text-gray-700 leading-relaxed">
+                          Powered by the <span class="font-semibold text-primary-600">IPTS (Intelligent Patient Tracking System)</span>
+                          <a href="@Url.Action("AboutIPTS", "Home")"
+                       class="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium transition-colors ml-1">
+                        <span class="border-b border-primary-600 hover:border-primary-700">Read More</span>
+                        <i class="fas fa-arrow-right ml-1 text-sm"></i>
+                    </a>,
+                    we provide data-driven recovery plans, smart evaluations, and continuous progress monitoring—ensuring each patient receives care tailored specifically to their needs.
+                </p>
+
+                <div class="pt-6">
+                    <a href="@Url.Action("About", "Home")"
+                       class="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+                        <i class="fas fa-book-open"></i>
+                        Read More About Us
+                        <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

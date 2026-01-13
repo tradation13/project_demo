@@ -1,0 +1,20 @@
+﻿@using IPTS.Areas.Doctor.ViewsModels
+@model RejectAppointmentViewModel
+@{
+    ViewData["Title"] = "Reject Appointment";
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+}
+<h2 class="text-xl font-bold mb-4">Reject Appointment for @Model.PatientName</h2>
+<form asp-action="RejectRequest" method="post">
+    <input type="hidden" asp-for="AppointmentId" />
+    <input type="hidden" asp-for="PatientEmail" />
+    <div class="mb-4">
+        <label asp-for="RejectReason" class="block font-medium mb-2">Reason for rejection:</label>
+        <textarea asp-for="RejectReason" class="w-full border rounded p-2" rows="4"></textarea>
+        <span asp-validation-for="RejectReason" class="text-red-500"></span>
+    </div>
+    <div class="flex gap-3 mt-6">
+        <a asp-action="Requests" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</a>
+        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded">Reject &amp; Send Email</button>
+    </div>
+</form>

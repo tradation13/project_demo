@@ -1,0 +1,143 @@
+﻿@model RegisterViewModel
+@using IPTS.Models.Entites
+@{
+    Layout = "~/Views/Shared/Layouts/_AuthLayout.cshtml";
+}
+
+<div class="max-w-md mx-auto bg-white shadow rounded-lg p-8">
+    <h2 class="text-center text-2xl font-bold tracking-wide text-gray-800 mb-6">
+        Patient Registeration Form
+    </h2>
+
+    <form asp-controller="Auth" asp-action="Register"  method="post" autocomplete="off" class="space-y-6 text-sm">
+        <input hidden asp-for="@Model.UserTypeName" value="patient" />
+        <div>
+            <label asp-for="UserName" class="text-gray-700">Username</label>
+            <input asp-for="UserName"
+                   class="mt-2 py-2 w-full border-gray-300 focus:outline-none focus:ring-0
+                          focus:border-gray-300 rounded text-sm text-gray-900"
+                   placeholder="Enter your username" />
+            <span asp-validation-for="UserName" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div>
+            <label asp-for="Email" class="text-gray-700">Email</label>
+            <input asp-for="Email"
+                   class="mt-2 py-2 w-full border-gray-300 focus:outline-none focus:ring-0
+                          focus:border-gray-300 rounded text-sm text-gray-900"
+                   placeholder="you@example.com" />
+            <span asp-validation-for="Email" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div>
+            <label asp-for="PhoneNumber" class="text-gray-700">Phone Number</label>
+            <input asp-for="PhoneNumber"
+                   class="mt-2 py-2 w-full border-gray-300 focus:outline-none focus:ring-0
+                          focus:border-gray-300 rounded text-sm text-gray-900"
+                   placeholder="+966 5X XXX XXXX" />
+            <span asp-validation-for="PhoneNumber" class="text-red-500 text-sm"></span>
+        </div> 
+        <div>
+            <label asp-for="FirstName" class="text-gray-700">First Name</label>
+            <input asp-for="FirstName"
+                   class="mt-2 py-2 w-full border-gray-300 focus:outline-none focus:ring-0
+                          focus:border-gray-300 rounded text-sm text-gray-900"
+                    />
+            <span asp-validation-for="FirstName" class="text-red-500 text-sm"></span>
+        </div>
+        <div>
+            <label asp-for="LastName" class="text-gray-700">Last Name</label>
+            <input asp-for="LastName"
+                   class="mt-2 py-2 w-full border-gray-300 focus:outline-none focus:ring-0
+                          focus:border-gray-300 rounded text-sm text-gray-900"
+                   />
+            <span asp-validation-for="LastName" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div>
+            <label asp-for="Password" class="text-gray-700">Password</label>
+            <input asp-for="Password" type="password"
+                   class="mt-2 py-2 w-full border-gray-300 focus:outline-none focus:ring-0
+                          focus:border-gray-300 rounded text-sm text-gray-900"
+                   placeholder="••••••••" />
+            <span asp-validation-for="Password" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div>
+            <label asp-for="ConfirmPassword" class="text-gray-700">Confirm Password</label>
+            <input asp-for="ConfirmPassword" type="password"
+                   class="mt-2 py-2 w-full border-gray-300 focus:outline-none focus:ring-0
+                          focus:border-gray-300 rounded text-sm text-gray-900"
+                   placeholder="••••••••" />
+            <span asp-validation-for="ConfirmPassword" class="text-red-500 text-sm"></span>
+        </div>
+        <div>
+            <label asp-for="@Model.Patient.IdentityNumber" class="text-gray-700">Identity Number *</label>
+            <input asp-for="@Model.Patient.IdentityNumber"
+                   type="text"
+                   class="mt-2 py-2 w-full border-gray-300 focus:outline-none focus:ring-0
+                           focus:border-gray-300 rounded text-sm text-gray-900"
+                   placeholder="Enter your identity number" required />
+            <span asp-validation-for="@Model.Patient.IdentityNumber" class="text-red-500 text-sm"></span>
+        </div>
+        <div>
+            <label asp-for="@Model.Patient.BirthDate" class="text-gray-700">Birth Date *</label>
+            <input asp-for="@Model.Patient.BirthDate"
+                   type="date"
+                   class="mt-2 py-2 w-full border-gray-300 focus:outline-none focus:ring-0
+                           focus:border-gray-300 rounded text-sm text-gray-900"
+                   placeholder="Enter birth date" required />
+            <span asp-validation-for="@Model.Patient.BirthDate" class="text-red-500 text-sm"></span>
+        </div>
+
+
+        <button type="submit"
+                class="w-full bg-primary hover:bg-primary-dark rounded-lg px-8 py-2 text-gray-100
+                       hover:shadow-xl transition duration-150 uppercase">
+            Register
+        </button>
+    </form>
+
+    <!-- Validation Summary -->
+    <div asp-validation-summary="All" class="text-red-500 text-sm mt-4"></div>
+
+  @*   <!-- Divider -->
+    <div class="flex items-center justify-between my-6">
+        <div class="w-full h-[1px] bg-gray-300"></div>
+        <span class="text-sm uppercase mx-6 text-gray-400">Or</span>
+        <div class="w-full h-[1px] bg-gray-300"></div>
+    </div>
+
+    <!-- External Providers -->
+    <div class="text-sm space-y-2">
+        <a href="@Url.Action("ExternalLogin", "auth", new { provider = "Google" })"
+           class="flex items-center justify-center space-x-2 text-gray-600 py-2 bg-gray-100
+                  hover:bg-gray-200 rounded">
+            <i class="fab fa-google text-3xl" style="color:#DB4437;"></i>
+            <span>Continue with Google</span>
+        </a>
+
+        <a href="@Url.Action("ExternalLogin", "auth", new { provider = "Facebook" })"
+           class="flex items-center justify-center space-x-2 text-gray-600 py-2 bg-gray-100
+                  hover:bg-gray-200 rounded">
+            <i class="fab fa-facebook text-3xl" style="color:#1877F2;"></i>
+            <span>Continue with Facebook</span>
+        </a>
+
+        <a href="@Url.Action("ExternalLogin", "auth", new { provider = "LinkedIn" })"
+           class="flex items-center justify-center space-x-2 text-gray-600 py-2 bg-gray-100
+                  hover:bg-gray-200 rounded">
+            <i class="fab fa-linkedin text-3xl" style="color:#0077B5;"></i>
+            <span>Continue with LinkedIn</span>
+        </a>
+    </div> *@
+    <p class="text-center text-sm text-gray-600 mt-4">
+        Already have an account?
+        <a href="@Url.Action("Login", "auth")"
+           class="text-primary hover:text-primary-dark hover:underline"
+           title="Sign In">
+            Sign in here
+        </a>
+    </p>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+</div>

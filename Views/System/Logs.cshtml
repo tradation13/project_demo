@@ -1,0 +1,76 @@
+﻿@model List<LogViewModel>
+@using IPTS.ViewModels
+
+@{
+    Layout = ViewBag.HasDashboard == true
+        ? "~/Views/Shared/Layouts/_DashboardLayout.cshtml"
+        : "~/Views/Shared/Layouts/_AuthLayout.cshtml";
+}
+
+<div x-data="{ filter: false, systemSection: '' }" class="bg-white rounded-lg px-8 py-6 overflow-x-auto custom-scrollbar">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-semibold">System Logs</h2>
+        <button x-on:click="filter = !filter"
+                class="bg-primary text-white text-sm px-4 py-1 rounded hover:bg-primary-dark transition duration-150">
+            Toggle Filter
+        </button>
+    </div>
+
+    <div class="mb-4">
+        <form method="get" class="flex space-x-4 items-center">
+            <input type="text"
+                   name="systemSection"
+                   value="@(Context.Request.Query["systemSection"])"
+                   class="py-1 px-2 border border-gray-300 rounded focus:outline-none focus:ring-0"
+                   placeholder="Filter by System Section">
+            <button type="submit"
+                    class="bg-secondary text-white px-4 py-1 rounded hover:bg-primary-dark transition duration-150 text-sm">
+                Filter
+            </button>
+        </form>
+    </div>
+
+    <!-- Logs Table -->
+    <div class="overflow-x-auto">
+        <table class="w-full table-auto whitespace-nowrap mb-8 border border-gray-200">
+            <thead class="bg-secondary text-white font-bold">
+                <tr>
+                    <th class="px-3 py-2 text-center">#</th>
+                    <th class="px-3 py-2 text-center">Level</th>
+                    <th class="px-3 py-2 text-left">Description</th>
+                    <th class="px-3 py-2 text-left">User</th>
+                    <th class="px-3 py-2 text-left">Section</th>
+                    <th class="px-3 py-2 text-center">Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int x = 0;
+                    foreach (var log in Model)
+                    {
+                        var levelColor = log.Level switch
+                        {
+                            "5" => "bg-red-600 text-white",
+                            "4" => "bg-red-400 text-white",
+                            "3" => "bg-yellow-300",
+                            "2" => "bg-blue-200",
+                            "1" => "bg-gray-200",
+                            _ => ""
+                        };
+                        <tr class="hover:bg-gray-100">
+                            <td class="text-center px-2 py-1">@(++x)</td>
+                            <td class="@levelColor text-center px-2 py-1">@log.Level</td>
+                            <td class="px-2 py-1">@log.Description</td>
+                            <td class="px-2 py-1">@(!string.IsNullOrEmpty(log.UserName) ? log.UserName : log.UserId)</td>
+                            <td class="px-2 py-1">@log.SystemSection</td>
+                            <td class="text-center px-2 py-1">@log.Timestamp.ToString("g")</td>
+                        </tr>
+                }
+           
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

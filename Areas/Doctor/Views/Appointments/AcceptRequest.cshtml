@@ -1,0 +1,30 @@
+﻿@using IPTS.Areas.Doctor.ViewsModels
+@model AcceptAppointmentViewModel
+@{
+    ViewData["Title"] = "Confirm Appointment";
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+}
+<h2 class="text-xl font-bold mb-4">Confirm Appointment for @Model.PatientName</h2>
+<form asp-action="AcceptRequest" method="post">
+    <input type="hidden" asp-for="AppointmentId" />
+    <input type="hidden" asp-for="DoctorId" />
+    <input type="hidden" asp-for="ScheduledDate" />
+    <div class="mb-4">
+        <label class="block font-medium mb-2">Select one or more time slots:</label>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+            @foreach (var slot in Model.AvailableSlots)
+            {
+                <label class="block">
+                    <input type="checkbox" name="SelectedSlots" value="@slot.SlotIndex"
+                    @(Model.SelectedSlots.Contains(slot.SlotIndex) ? "checked" : "")
+                    @(slot.IsAvailable || Model.SelectedSlots.Contains(slot.SlotIndex) ? "" : "disabled") />
+                    <span class="ml-2">@slot.Time (@(slot.IsAvailable ? "Available" : "Booked"))</span>
+                </label>
+            }
+        </div>
+    </div>
+    <div class="flex gap-3 mt-6">
+        <a asp-action="Requests" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</a>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Confirm</button>
+    </div>
+</form>

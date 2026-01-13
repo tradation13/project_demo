@@ -1,0 +1,63 @@
+﻿@model TestViewModel
+@{
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+    ViewBag.Title = "Edit Test";
+    var availableGroups = ViewBag.AvailableGroups as List<TestGroupViewModel>;
+}
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Edit Test</h5>
+        </div>
+        <div class="card-body">
+            <div class="flex flex-wrap gap-4">
+                <div class="flex-1 min-w-[200px]">
+                    <label asp-for="Name" class="block text-sm font-medium text-gray-700"></label>
+                    <input asp-for="Name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                        focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                    <span asp-validation-for="Name" class="text-red-500 text-sm"></span>
+                </div>
+                <div class="flex-1 min-w-[200px]">
+                    <label asp-for="TestGroupId" class="block text-sm font-medium text-gray-700">Test Group</label>
+                    <select asp-for="TestGroupId" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm
+                        focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <option value="">Select group</option>
+                        @if (availableGroups != null)
+                        {
+                            foreach (var group in availableGroups)
+                            {
+                                if (group.Id == Model.TestGroupId)
+                                {
+                                 <option value="@group.Id" selected>@group.Name</option>
+
+                                }else{
+                                    <option value="@group.Id" >@group.Name</option>
+
+                                }
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="TestGroupId" class="text-red-500 text-sm"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex gap-2 mt-6">
+        <a href="@Url.Action("Index")"
+           class="bg-secondary bg-opacity-20 hover:bg-opacity-40 rounded-lg px-6 py-1.5 text-secondary
+                  hover:shadow-xl transition duration-150">
+            Cancel
+        </a>
+        <button type="submit"
+                class="bg-primary hover:bg-primary-dark rounded-lg px-6 py-1.5 text-white
+                       hover:shadow-xl transition duration-150">
+            Save Changes
+        </button>
+    </div>
+
+    <div asp-validation-summary="All" class="text-red-500 text-sm mb-4"></div>
+</form>

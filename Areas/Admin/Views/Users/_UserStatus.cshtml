@@ -1,0 +1,14 @@
+﻿@model int
+
+@{
+    var statusMap = new Dictionary<int, (string Label, string Color)>
+    {
+        { 0, ("Active", "green-500") },
+        { 1, ("Inactive", "yellow-500") },
+        { 2, ("Deleted", "red-500") },
+    };
+
+    var (label, color) = statusMap.ContainsKey(Model) ? statusMap[Model] : ("Unknown", "gray-500");
+}
+
+<span class="bg-@color text-white px-2 py-0.5 rounded text-sm">@label</span>

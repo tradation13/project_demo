@@ -1,0 +1,58 @@
+﻿@model List<IPTS.Areas.Admin.ViewsModels.TestViewModel>
+@{
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+    ViewBag.Title = "Tests List";
+}
+
+<div x-data="{ filter: false }" class="bg-white rounded-lg px-8 py-6 overflow-x-scroll custom-scrollbar">
+    <div class="flex items-center justify-between mb-4">
+        <h4 class="text-xl font-semibold">Tests</h4>
+        <a href="@Url.Action("Create")"
+           class="bg-primary text-white text-sm px-4 py-1 rounded hover:bg-primary-dark transition duration-150">
+            Add New
+        </a>
+    </div>
+
+    <table class="w-full whitespace-nowrap mb-8">
+        <thead class="bg-primary text-white font-bold">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Test Group</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 0;
+            }
+            @foreach (var test in Model)
+            {
+                <tr class="hover:bg-gray-100">
+                    <td class="text-center">@(++i)</td>
+                    <td class="text-center">@test.Name</td>
+                    <td class="text-center">@test.TestGroupName</td>
+                    <td class="py-3 pl-2 flex items-center justify-center text-center space-x-2">
+                        <!-- Edit -->
+                        <a href="@Url.Action("Edit", new { id = test.Id })">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500 hover:text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </a>
+
+                        <!-- Delete -->
+                        <form asp-action="Delete" asp-route-id="@test.Id" method="post" onsubmit="return confirm('Delete this test?');" class="inline">
+                            <button type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4
+                                            a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,61 @@
+@using IPTS.ViewModels
+@model AppointmentViewModel
+@{
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+}
+
+<div class="bg-white rounded-lg px-8 py-6">
+    <div class="flex items-center justify-between mb-4">
+        <h4 class="text-xl font-semibold">Appointment Details</h4>
+        <div class="flex space-x-2">
+            @* <a href="@Url.Action("Edit", "Appointments", new { id = Model.Id, area = "doctor" })" *@
+            @*    class="bg-yellow-500 text-white text-sm px-4 py-1 rounded hover:bg-yellow-600 transition duration-150"> *@
+            @*     Edit *@
+            @* </a> *@
+            <a href="@Url.Action("Index", "Appointments", new { area = "doctor" })"
+               class="bg-gray-500 text-white text-sm px-4 py-1 rounded hover:bg-gray-600 transition duration-150">
+                Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-gray-50 p-4 rounded-lg">
+            <h5 class="font-semibold text-gray-700 mb-3">Appointment Information</h5>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-sm font-medium text-gray-600">ID:</label>
+                    <p class="text-gray-900">@Model.Id</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Status:</label>
+                    <span class="px-2 py-1 text-xs rounded-full 
+                        @(Model.Status == AppointmentStatus.Confirmed ? "bg-green-100 text-green-800" :
+                          Model.Status == AppointmentStatus.Pending ? "bg-yellow-100 text-yellow-800" :
+                          Model.Status == AppointmentStatus.Completed ? "bg-blue-100 text-blue-800" :
+                          "bg-red-100 text-red-800")">
+                        @Model.StatusDisplay
+                    </span>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Scheduled Time:</label>
+                    <p class="text-gray-900">@Model.ScheduledTime.ToString("MMMM dd, yyyy 'at' HH:mm")</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gray-50 p-4 rounded-lg">
+            <h5 class="font-semibold text-gray-700 mb-3">People Information</h5>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Patient Name:</label>
+                    <p class="text-gray-900">@Model.PatientName</p>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Doctor Name:</label>
+                    <p class="text-gray-900">@Model.DoctorName</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

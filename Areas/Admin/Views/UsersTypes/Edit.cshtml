@@ -1,0 +1,78 @@
+﻿@model IPTS.Models.Entites.UserType
+
+@{
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+}
+
+<div>
+    <h4 class="text-xl capitalize">Edit User Type</h4>
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="grid grid-cols-2 gap-8">
+            <div class="flex flex-col my-4">
+                <label asp-for="Name" class="mb-1"></label>
+                <input asp-for="Name" class="flex-1 py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0" placeholder="Enter Name" />
+                <span asp-validation-for="Name" class="text-red-500 text-sm"></span>
+            </div>
+            <div class="flex flex-col my-4">
+                <label asp-for="HasDashboard" class="mb-1">Has Dashboard</label>
+                <select asp-for="HasDashboard" class="flex-1 py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-8">
+            <div class="flex flex-col my-4">
+                <label asp-for="Registerable" class="mb-1"></label>
+                <select asp-for="Registerable" class="flex-1 py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="flex flex-col my-4">
+                <label asp-for="DefaultController" class="mb-1"></label>
+                <input asp-for="DefaultController" class="flex-1 py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0" />
+            </div>
+            <div class="flex flex-col my-4">
+                <label asp-for="DefaultAction" class="mb-1"></label>
+                <input asp-for="DefaultAction" class="flex-1 py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0" />
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-8">
+            <div class="flex flex-col my-4">
+                <label asp-for="DefaultArea" class="mb-1"></label>
+                <input asp-for="DefaultArea" class="flex-1 py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0" />
+            </div>
+        </div>
+        <div class="flex flex-col my-4">
+            <label asp-for="DefaultRoleId" class="mb-1">Default Role</label>
+            <select asp-for="DefaultRoleId" asp-items="@((IEnumerable<SelectListItem>)ViewData["Roles"])"
+                    class="flex-1 py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0">
+                <option value="">-- Select Role --</option>
+            </select>
+            <span asp-validation-for="DefaultRoleId" class="text-red-500 text-sm"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RequireAdminApproval" class="control-label">Requires Admin Approval</label>
+            <input asp-for="RequireAdminApproval" type="checkbox" class="form-check-input" />
+            <span asp-validation-for="RequireAdminApproval" class="text-danger"></span>
+        </div>
+        <div class="flex gap-2 mt-6">
+            <a href="@Url.Action("Index")"
+               class="bg-secondary bg-opacity-20 hover:bg-opacity-40 rounded-lg px-6 py-1.5 text-secondary hover:shadow-xl transition duration-150">
+                Cancel
+            </a>
+
+            <button type="submit"
+                    class="bg-primary hover:bg-primary-dark rounded-lg px-6 py-1.5 text-white hover:shadow-xl transition duration-150">
+                Update
+            </button>
+        </div>
+    </form>
+
+    @await Html.PartialAsync("_ValidationSummary", ViewData.ModelState)
+</div>

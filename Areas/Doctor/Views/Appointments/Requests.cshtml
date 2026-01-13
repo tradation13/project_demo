@@ -1,0 +1,61 @@
+﻿@model List<IPTS.ViewModels.AppointmentViewModel>
+@using IPTS.Models.Entites
+@{
+    ViewData["Title"] = "Appointment Requests";
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+}
+
+<div class="max-w-5xl mx-auto py-8">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold">Pending Appointment Requests</h2>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded mb-4">
+            <p class="text-yellow-800">No pending appointment requests found.</p>
+        </div>
+    }
+    else
+    {
+        <div class="grid gap-6">
+            @foreach (var appt in Model)
+            {
+                <div class="bg-white rounded-lg shadow p-6 flex flex-col md:flex-row md:items-center md:justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="font-semibold text-lg">@appt.PatientName</span>
+                            <span class="ml-2 px-3 py-1 rounded-full text-xs font-bold bg-yellow-100 text-yellow-800">
+                                Pending
+                            </span>
+                        </div>
+                        <div class="text-gray-600 text-sm mb-1">
+                            <span class="font-medium">Date:</span> @appt.ScheduledTime.ToString("MMMM dd, yyyy")
+                            <span class="mx-2">|</span>
+                            <span class="font-medium">Time:</span> @appt.ScheduledTime.ToString("HH:mm")
+                        </div>
+                        <div class="text-gray-500 text-xs">
+                            Duration: @appt.TotalDurationMinutes min
+                        </div>
+                        @if (!string.IsNullOrWhiteSpace(appt.Notes))
+                        {
+                            <div class="mt-2 text-gray-700 text-sm">
+                                <span class="font-medium">Notes:</span> @appt.Notes
+                            </div>
+                        }
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-2 mt-4 md:mt-0">
+                        <form asp-action="AcceptRequest" asp-controller="Appointments" asp-area="Doctor" method="get" class="inline">
+                            <input type="hidden" name="id" value="@appt.Id" />
+                            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm">Accept</button>
+                        </form>
+                        <form asp-action="RejectRequest" asp-controller="Appointments" asp-area="Doctor" method="get" class="inline">
+                            <input type="hidden" name="id" value="@appt.Id" />
+                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-sm">Reject</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

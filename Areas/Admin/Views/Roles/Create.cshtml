@@ -1,0 +1,24 @@
+﻿@model IdentityRole
+@{
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+}
+<div>
+    <h4 class="text-xl capitalize">Add New Role</h4>
+    <form asp-action="Create" method="post">
+        <div class="flex flex-col my-4">
+            <label asp-for="Name" class="mb-1"></label>
+            <input asp-for="Name" class="py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0" placeholder="Role name" />
+            <span asp-validation-for="Name" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div class="flex gap-2 mt-6">
+            <a href="@Url.Action("Index")"
+               class="bg-secondary bg-opacity-20 hover:bg-opacity-40 rounded-lg px-6 py-1.5 text-secondary hover:shadow-xl transition duration-150">
+                Cancel
+            </a>
+            <button type="submit" class="bg-primary hover:bg-primary-dark rounded-lg px-6 py-1.5 text-white hover:shadow-xl transition duration-150">
+                Submit
+            </button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,58 @@
+﻿@model List<IPTS.Models.Entites.Patient>
+@{
+    ViewData["Title"] = "My Patients";
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+}
+
+<h2 class="text-2xl font-bold mb-6">My Patients</h2>
+@if (!Model.Any())
+{
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded mb-4">
+        <p class="text-yellow-800">No patients found.</p>
+    </div>
+}
+else
+{
+    <table class="min-w-full bg-white rounded shadow">
+        <thead>
+            <tr>
+                <th class="px-4 py-2 text-left">Name</th>
+                <th class="px-4 py-2 text-left">Identity</th>
+                <th class="px-4 py-2 text-left">Phone</th>
+                <th class="px-4 py-2 text-left">Email</th>
+                <th class="px-4 py-2 text-left">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr class="border-b">
+                    <td class="px-4 py-2">@($"{p.User?.FirstName} {p.User?.LastName}")</td>
+                    <td class="px-4 py-2">@p.IdentityNumber</td>
+                    <td class="px-4 py-2">@p.User?.PhoneNumber</td>
+                    <td class="px-4 py-2">@p.User?.Email</td>
+                    <td class="px-4 py-2 flex gap-2">
+                        <!-- بروفايل -->
+                        <a href="@Url.Action("Index", "Profile", new { area = "", id = p.UserId })"
+                           title="View Profile"
+                           class="text-blue-600 hover:text-blue-800">
+                            <i class="fa fa-user"></i>
+                        </a>
+                        <!-- مواعيد سابقة -->
+                        <a href="@Url.Action("PreviousAppointments", "Patients", new { area = "doctor", patientId = p.Id })"
+                           title="Previous Appointments"
+                           class="text-green-600 hover:text-green-800">
+                            <i class="fa fa-calendar-alt"></i>
+                        </a>
+                        <!-- الحالات الصحية -->
+                        <a href="@Url.Action("Index", "MedicalCases", new { area = "doctor", patientId = p.Id })"
+                           title="Medical Cases"
+                           class="text-purple-600 hover:text-purple-800">
+                            <i class="fa fa-notes-medical"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

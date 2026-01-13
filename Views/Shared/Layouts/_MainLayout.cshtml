@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en"> @*to change the directtion of the sidbar*@
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>- Physiotech</title>
+
+    @* Icon Set *@
+    <!-- Favicon base -->
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/images/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+
+    <!-- Apple iOS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    <!-- Android / PWA -->
+    <link rel="manifest" href="/images/site.webmanifest">
+    <meta name="theme-color" content="#22C55E">
+
+    <!-- Windows tiles -->
+    <meta name="msapplication-TileColor" content="#22C55E">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+
+    <!-- Optional: Favicons for bigger displays -->
+    <link rel="icon" type="image/png" sizes="128x128" href="/images/favicon-128x128.png">
+    <link rel="icon" type="image/png" sizes="256x256" href="/images/favicon-256x256.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon-512x512.png">
+    
+    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+@*     <link rel="stylesheet" href="~/IPTS.styles.css" asp-append-version="true" /> 
+ *@   <link href="~/css/output.css" rel="stylesheet" asp-append-version="true" />
+
+    <!-- Tailwind CSS -->
+@*     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+ *@
+    <!-- Alpine Persist Plugin -->
+    @* <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.13.5/dist/cdn.min.js"></script>
+*@
+    <!-- Alpine Core -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+    @await Html.PartialAsync("~/Views/Shared/_Alerts.cshtml")
+
+     @RenderBody()
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

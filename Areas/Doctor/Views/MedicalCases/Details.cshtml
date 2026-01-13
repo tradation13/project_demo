@@ -1,0 +1,137 @@
+﻿@model IPTS.Models.Entites.MedicalCase
+@{
+    var patient = ViewBag.Patient as IPTS.Models.Entites.Patient;
+    ViewData["Title"] = "Medical Case Details";
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+}
+
+<h2 class="text-2xl font-bold mb-4">Medical Case: @Model.Name</h2>
+
+<div class="mb-6 bg-white rounded shadow p-4">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+        <div>
+            <div class="font-semibold">Patient:</div>
+            <div class="text-gray-700">@($"{patient?.User?.FirstName} {patient?.User?.LastName}")</div>
+
+            <div class="font-semibold mt-2">Identity:</div>
+            <div class="text-gray-700">@patient?.IdentityNumber</div>
+
+            <div class="font-semibold mt-2">Phone:</div>
+            <div class="text-gray-700">@patient?.User?.PhoneNumber</div>
+
+            <div class="font-semibold mt-2">Email:</div>
+            <div class="text-gray-700">@patient?.User?.Email</div>
+        </div>
+
+        <div class="mt-4 md:mt-0">
+            <a href="@Url.Action("AddTest", "MedicalCases", new { area = "doctor", medicalCaseId = Model.Id })"
+               class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded shadow font-bold">
+                + Add Test
+            </a>
+            @if (Model.MedicalCaseTests.Count > 0)
+            {
+                <a href="@Url.Action("PrintReport", "MedicalCases", new { area = "doctor", id = Model.Id })"
+                   class="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-900 text-sm">Print Report</a>
+            }
+        </div>
+    </div>
+</div>
+
+@if (Model.MedicalCaseTests == null || !Model.MedicalCaseTests.Any())
+{
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded mb-4">
+        <p class="text-yellow-800">No tests found for this medical case.</p>
+    </div>
+}
+else
+{
+    var grouped = Model.MedicalCaseTests
+        .Where(t => t.Test != null && t.Test.TestGroup != null)
+        .GroupBy(t => t.Test.TestGroup.Name)
+        .OrderBy(g => g.Key);
+
+    foreach (var group in grouped)
+    {
+        <div class="mb-8">
+            <h3 class="font-bold text-lg text-teal-700 border-b border-teal-300 mb-4 pb-1">@group.Key</h3>
+
+            <!-- شبكة عرض أنيقة -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                @foreach (var test in group.OrderBy(t => t.Test.Name))
+                {
+                    var hasResult = !string.IsNullOrWhiteSpace(test.Result);
+
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-3">
+                        <div>
+                            <div class="font-semibold text-gray-800">@test.Test.Name</div>
+                            <div class="text-gray-600 text-sm">
+                                Result: @(hasResult ? test.Result : "Not set")
+                            </div>
+                            <div class="text-gray-400 text-xs">
+                                Added: @test.CreatedAt.ToString("yyyy-MM-dd")
+                            </div>
+                        </div>
+
+                        <!-- الزر -->
+                        <button type="button"
+                                class="toggle-form bg-blue-600 text-white px-3 py-1 rounded text-xs w-fit"
+                                data-target="form-@test.Id"
+                                data-defaulttext="@(hasResult ? "✏️ Update Result" : "➕ Add Result")">
+                            @(hasResult ? "✏️ Update Result" : "➕ Add Result")
+                        </button>
+
+                        <!-- الفورم -->
+                        <form id="form-@test.Id"
+                              asp-action="UpdateTestResult"
+                              asp-controller="MedicalCases"
+                              asp-area="doctor"
+                              method="post"
+                              class="hidden flex flex-col sm:flex-row gap-2 items-start sm:items-center mt-2">
+                            <input type="hidden" name="id" value="@test.Id" />
+                            <input type="text"
+                                   name="result"
+                                   value="@test.Result"
+                                   placeholder="Enter result..."
+                                   class="border rounded px-2 py-1 text-sm w-full sm:w-auto flex-1" />
+                            <button type="submit"
+                                    class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs">
+                                Save
+                            </button>
+                        </form>
+
+                        <form asp-action="DeleteTest"
+                              asp-controller="MedicalCases"
+                              asp-area="doctor"
+                              method="post"
+                              class="mt-1">
+                            <input type="hidden" name="id" value="@test.Id" />
+                            <button type="submit"
+                                    class="bg-red-600 text-white px-3 py-1 rounded text-xs"
+                                    onclick="return confirm('Delete this test?')">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".toggle-form").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    const targetId = this.getAttribute("data-target");
+                    const form = document.getElementById(targetId);
+                    const defaultText = this.getAttribute("data-defaulttext");
+
+                    const isHidden = form.classList.contains("hidden");
+                    form.classList.toggle("hidden");
+
+                    // غيّر النص عند الفتح أو الإغلاق
+                    this.textContent = isHidden ? "❌ Cancel Edit" : defaultText;
+                });
+            });
+        });
+    </script>

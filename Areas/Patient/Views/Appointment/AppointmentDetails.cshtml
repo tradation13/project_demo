@@ -1,0 +1,137 @@
+﻿@model AppointmentViewModel
+@using System.Globalization
+@{
+    ViewData["Title"] = "Appointment Details";
+    Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
+    var fmt = new CultureInfo("en-US");
+
+    var nowUtc = DateTime.UtcNow;
+    string BadgeClass(AppointmentViewModel appt, out string display)
+    {
+        var isPast = appt.ScheduledTime <= nowUtc;
+
+        display = appt.StatusDisplay;
+
+        if (isPast && appt.Status == AppointmentStatus.Pending)
+        {
+            display = "Pending (Expired)";
+            return "bg-orange-100 text-orange-800";
+        }
+        if (isPast && appt.Status == AppointmentStatus.Confirmed)
+        {
+            display = "Completed";
+            return "bg-blue-100 text-blue-800";
+        }
+        return appt.Status switch
+        {
+            AppointmentStatus.Confirmed => "bg-green-100 text-green-800",
+            AppointmentStatus.Pending => "bg-yellow-100 text-yellow-800",
+            AppointmentStatus.Completed => "bg-blue-100 text-blue-800",
+            AppointmentStatus.Cancelled => "bg-red-100 text-red-800",
+            _ => "bg-gray-100 text-gray-800"
+        };
+    }
+}
+
+<div class="max-w-4xl mx-auto py-8">
+    <!-- Breadcrumb + Back -->
+    <div class="flex items-center justify-between mb-6">
+        <div class="text-sm text-gray-500">
+            <a asp-action="Appointments" class="hover:underline">My Appointments</a>
+            <span class="mx-2">/</span>
+            <span class="text-gray-700">Appointment Details</span>
+        </div>
+        <a asp-action="Appointments"
+           class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-md shadow hover:bg-gray-200 transition">
+            <i class="fa-solid fa-arrow-left mr-2"></i> Back
+        </a>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white rounded-2xl shadow p-6 mb-6">
+        <div class="grid md:grid-cols-2 gap-6">
+            <!-- Doctor -->
+            <div>
+                <h2 class="text-lg font-semibold mb-3">Doctor</h2>
+                <div class="space-y-1 text-gray-700">
+                    <div class="flex"><span class="w-28 text-gray-500">Name:</span><span>@Model.DoctorName</span></div>
+                    <div class="flex"><span class="w-28 text-gray-500">ID:</span><span>#@Model.DoctorId</span></div>
+                </div>
+            </div>
+
+            <!-- Patient -->
+            <div>
+                <h2 class="text-lg font-semibold mb-3">Patient</h2>
+                <div class="space-y-1 text-gray-700">
+                    <div class="flex"><span class="w-28 text-gray-500">Name:</span><span>@Model.PatientName</span></div>
+                    <div class="flex"><span class="w-28 text-gray-500">ID Number:</span><span>@Model.PatientIdentityNumber</span></div>
+                    <div class="flex"><span class="w-28 text-gray-500">Phone:</span><span>@Model.PatientPhone</span></div>
+                    <div class="flex"><span class="w-28 text-gray-500">Email:</span><span>@Model.PatientEmail</span></div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-6">
+
+        <!-- Time / Status -->
+        <div class="grid md:grid-cols-2 gap-6">
+            <div>
+                <h2 class="text-lg font-semibold mb-3">Time</h2>
+                <div class="space-y-1 text-gray-700">
+                    <div class="flex">
+                        <span class="w-32 text-gray-500">Date & Time:</span>
+                        <span>@Model.ScheduledTime.ToString("dddd, dd MMM yyyy - HH:mm", fmt)</span>
+                    </div>
+                    <div class="flex">
+                        <span class="w-32 text-gray-500">Duration:</span>
+                        <span>@Model.TotalDurationMinutes min (@Model.TotalSlots slots)</span>
+                    </div>
+                    <div class="flex">
+                        <span class="w-32 text-gray-500">Slot Range:</span>
+                        <span>From @Model.StartSlotIndex to @Model.EndSlotIndex</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h2 class="text-lg font-semibold mb-3">Status</h2>
+                <div class="flex items-center gap-3">
+                    @{
+                        var isPast = Model.ScheduledTime <= nowUtc;
+                        var badgeText = "";
+                        var badgeClass = BadgeClass(Model, out badgeText);
+                 }
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium">
+                        <i class="fa-solid fa-circle mr-1 text-[8px]"></i> @badgeText
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-6">
+
+        <!-- Notes -->
+        <div>
+            <h2 class="text-lg font-semibold mb-3">Notes</h2>
+            <p class="text-gray-700 whitespace-pre-line">
+                @(string.IsNullOrWhiteSpace(Model.Notes) ? "No notes available." : Model.Notes)
+            </p>
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-8 flex flex-wrap gap-3">
+            <a asp-action="Appointments"
+               class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-md shadow hover:bg-gray-200 transition">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Back to Appointments
+            </a>
+
+            @* Future examples:
+            <a asp-action="Reschedule" asp-route-id="@Model.Id" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md shadow hover:bg-blue-700 transition">
+                <i class="fa-regular fa-calendar mr-2"></i> Reschedule
+            </a>
+            <a asp-action="Cancel" asp-route-id="@Model.Id" class="inline-flex items-center px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md shadow hover:bg-red-700 transition">
+                <i class="fa-regular fa-circle-xmark mr-2"></i> Cancel Appointment
+            </a>
+            *@
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+ق ASP.NET Core MVC على PostgreSQL مع هوية Identity وSerilog. يعرّف ApplicationDbContext مجموعات الكيانات (مستخدمين، أطباء، مرضى، مواعيد…)، ويستخدم MappingProfile لـ AutoMapper لربط الكيانات بـ ViewModels. الخدمات مبنية فوق BaseService للتعامل العام مع CRUD، مع خدمات متخصصة (مستخدمين، مواعيد…).
+ملاحظات جودة عالية الأولوية
+
+تكرار UseStaticFiles مرتين ويغيب مسار أخطاء/HSTS، وAddAuthentication() بلا إعداد مخطط افتراضي Program.cs:53-106. يؤدي إلى تهيئة غير واضحة ومسار وسط ناقص الأمان في الإنتاج.
+pattern يُترك فارغًا عند SystemType غير معروفة، ما قد يفشل تسجيل المسار Program.cs:87-107. ينبغي مسار احتياطي ثابت.
+BaseService.GetByIdAsync يبني تعبيرًا على خاصية اسمها Id فقط؛ أي كيان لا يطابق الاسم سينكسر، ولا يوجد CancellationToken/تتبع لعدم العثور [Services/BaseService.cs#L37-L68].
+AuthService فارغ تمامًا [Services/AuthService.cs]; يُحقن لكنه لا يقدم سلوكًا.
+في GetRedirectedRoute يُستخدم DefaultController بدل DefaultAction عند اختيار الأكشن (خطأ منطقي) ويُستخدم .Result المتزامن على GetUserAsync مما قد يسبب deadlock تحت مزودات تزامنية [Controllers/AuthController.cs].
+معالجات الأخطاء والغلق: لا يوجد UseExceptionHandler أو تسجيل أخطاء مركزي؛ بعض المواضع تلتقط استثناءات وتبتلعها بصمت (مثال CreateAppointmentWithSlotsAsync, CreateSingleSlotAppointmentAsync) ما يصعّب التشخيص [Services/AppointmentService.cs#L124-L195].
+خصائص مثل FirstName/LastName في AppUser وNotes إلزامية فعليًا لكن بلا Required ولا قيم افتراضية، ما يسمح بإدخالات غير مكتملة [Models/Entites/AppUser.cs#L9-L16]; شبيهًا في الكيانات الأخرى.
+ملاحظات متوسطة
+
+إنشاء الجدولة الزمنية للمواعيد يعتمد على منطقة زمنية ثابتة "Europe/Berlin" وDateTimeKind.Utc مع تحويلات جدارية، ما قد ينتج حجوزات خاطئة لعيادات مختلفة [Services/AppointmentService.cs#L74-L152]. يفضل تمرير المنطقة الزمنية من إعدادات الطبيب/العيادة.
+IsSlotAvailableAsync وعمليات التوافر تقارن بـ ScheduledTime.Date (UTC) بدون تحويل محلي، ما قد يفتح أو يغلق سلوتات خاطئة في المناطق الزمنية المختلفة [Services/AppointmentService.cs#L200-L216].
+المعاملات في UserService جيدة، لكن CreateUserAndSetTheDefaultRoleAsync يفترض وجود دور/معرّف بشكل صريح؛ لا تحكم خطأ ودّي ولا إعادة محاولة [Services/UserService.cs#L14-L64].
+استعمال ViewBag["ErrorMessage"] بدل خاصية في Register قد لا يظهر الرسالة [Controllers/AuthController.cs].
+ملاحظات منخفضة
+
+Appointment/Patient/Doctor لا تحتوي محددات قيود (طول/فهرس فريد). مثال: Patient.IdentityNumber بلا فهرس فريد أو تحقق مركزي، بينما الخدمة تستخدمه للبحث [Models/Entites/Patient.cs#L7-L15].
+Batteries.Init() لـ SQLite موجود رغم استخدام Npgsql فقط؛ خطوة زائدة [Program.cs#L22-L34].
+AutoMapper يضع قيم ثابتة (PhotoUrl فارغ، Rating=0) في DoctorViewModel؛ إذا استُخدم في واجهة نهائية سيظهر بيانات غير واقعية [Mapper/MappingProfile.cs#L106-L135].
+فهم التدفقات الرئيسية
+
+المصادقة: AuthController يدعم تسجيل الدخول، إعادة تعيين كلمة المرور، تفعيل البريد، واختيار نوع الحساب (طبيب/مريض). بعد تسجيل الدخول يوجّه حسب UserType وخصائصه (HasDashboard، Default*).
+التسجيل: UserService.RegisterAsync ينشئ المستخدم، يربطه بـ UserType، يضيف الكيان الخاص (Doctor/Patient/Admin)، ويبعث بريد تأكيد.
+المواعيد: AppointmentService يوفر إنشاء/تأكيد/إلغاء، حساب سلوتات 20 دقيقة، التحقق من التداخل، وإرسال بريد رفض. يستخدم خانات بداية/نهاية لتحديد مدة الحجز.
+الصفحة العامة: HomeController يعرض صفحات ثابتة، قائمة الأطباء مع تصفية/ترتيب، ونموذج تواصل يرسل بريدًا.
+تحسينات مقترحة سريعة
+
+إضافة UseExceptionHandler("/Home/Error") وUseHsts() للبيئة غير التطويرية، وإزالة تكرار UseStaticFiles وضبط مخطط المصادقة الافتراضي.
+معالجة SystemType بقيمة احتياطية وعدم ترك pattern فارغًا.
+إصلاح GetRedirectedRoute لاستخدام DefaultAction، واستبدال .Result بالانتظار غير المتزامن.
+تفعيل سجلات أخطاء في الخدمات التي تلتقط استثناءات، وتمرير CancellationToken في عمليات البيانات.
+جعل المنطقة الزمنية والمدة/السلوت قابلة للتهيئة حسب الطبيب/العيادة، وضبط تحويلات الوقت لتكون موحدة (إما UTC بالكامل أو محلية مع تخزين UTC).
+إضافة قيود/فهارس (Required, MaxLength, فهرس فريد لـ IdentityNumber والبريد والهاتف) وتعيين قيم افتراضية آمنة للخصائص النصية.
+ملء AuthService أو إزالة حقنه إن لم يُستخدم، وتدقيق الرسائل/التدفقات في التسجيل (إصلاح ViewBag).
+إذا أردت تغطية بقية المناطق (Views، بقية الخدمات، تكوين Bootstrap/Migrations)، يمكنني قراءتها وإضافة ملاحظات أكثر دقة أو إعداد خطة تحسين/اختبارات.
+

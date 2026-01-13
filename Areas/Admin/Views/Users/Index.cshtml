@@ -1,0 +1,161 @@
+﻿@using IPTS.ViewModels
+@model List<UserListViewModel>
+@{
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+
+}
+<div x-data="{ filter: false }" class="bg-white rounded-lg px-8 py-6 overflow-x-scroll custom-scrollbar">
+    <div class="flex items-center justify-between mb-4">
+        <h4 class="text-xl font-semibold">Users</h4>
+        <a href=@Url.Action(action:"Index", controller: "UsersTypes")
+           class="bg-primary text-white text-sm px-4 py-1 rounded hover:bg-primary-dark transition duration-150">
+            Add New
+        </a>
+    </div>    <div class="mt-8 mb-3 flex flex-col md:flex-row items-start md:items-center md:justify-between">
+        @* <div class="flex items-center justify-center space-x-4"> *@
+        @*     <form class="relative flex items-center"> *@
+        @*         <input type="search" *@
+        @*                name="input_search_without_btn" *@
+        @*                id="input_search_without_btn" *@
+        @*                class="flex-1 py-0.5 pl-10 border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300" *@
+        @*                placeholder="Search..."> *@
+        @*         <span class="absolute left-2 bg-transparent flex items-center justify-center" x-on:Click ="show = !show"> *@
+        @*             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg> *@
+        @*         </span> *@
+        @*     </form> *@
+        @*     <button x-on:click ="filter = !filter" *@
+        @*             class="text-primary hover:text-primary-dark font-semibold hover:underline"> *@
+        @*         Filters *@
+        @*     </button> *@
+        @* </div> *@
+        
+        @* <div class="mt-4 md:mt-0"> *@
+        @*     <form> *@
+        @*         <label>Order By:</label> *@
+        @*         <select class="text-sm py-0.5 ml-1"> *@
+        @*             <option></option> *@
+        @*             <option>Name</option> *@
+        @*             <option>Name DESC</option> *@
+        @*             <option>Price</option> *@
+        @*             <option>Price DESC</option> *@
+        @*         </select> *@
+        @*     </form> *@
+        @* </div> *@
+    </div>
+    <div x-show="filter"
+         x-collapse.duration.300ms>
+        <div class="mb-2 py-4 bg-gray-200 px-8 rounded-lg">
+            <h5 class="underline">Filter Results</h5>
+            <form class="py-2">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 my-4">
+                    <input type="text"
+                           name="order_id"
+                           class="flex-1 py-1 border-gray-300 rounded focus:border-gray-300 focus:outline-none focus:ring-0"
+                           placeholder="Order ID">
+                    <input type="text"
+                           name="customer_name"
+                           class="flex-1 py-1 border-gray-300 rounded focus:border-gray-300 focus:outline-none focus:ring-0"
+                           placeholder="Customer Name">
+                    <div class="w-full">
+                        <label class="mr-2">Status:</label>
+                        <select class="flex-1 py-1 border-gray-300 rounded focus:border-gray-300 focus:outline-none focus:ring-0">
+                            <option></option>
+                            <option>Pending</option>
+                            <option>Shipped</option>
+                            <option>Paid</option>
+                            <option>Canceled</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 my-4">
+                    <input type="number"
+                           name="min_price"
+                           class="flex-1 py-1 border-gray-300 rounded focus:border-gray-300 focus:outline-none focus:ring-0"
+                           placeholder="Min Price">
+                    <input type="number"
+                           name="max_price"
+                           class="flex-1 py-1 border-gray-300 rounded focus:border-gray-300 focus:outline-none focus:ring-0"
+                           placeholder="Max Price">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 my-4">
+                    <div>
+                        <label class="mr-2">From Date:</label>
+                        <input type="date"
+                               name="from_date"
+                               class="flex-1 py-1 border-gray-300 mt-1 rounded focus:border-gray-300 focus:outline-none focus:ring-0">
+                    </div>
+                    <div>
+                        <label class="mr-2">To Date:</label>
+                        <input type="date"
+                               name="to_date"
+                               class="flex-1 py-1 border-gray-300 mt-1 rounded focus:border-gray-300 focus:outline-none focus:ring-0">
+                    </div>
+                </div>
+
+                <button class="bg-primary hover:bg-primary-dark rounded-lg px-8 py-1 text-gray-100 hover:shadow-xl transition duration-150 mt-8 text-sm">Filter</button>
+            </form>
+        </div>
+    </div>
+    <table class="w-full whitespace-nowrap mb-8">
+        <thead class="bg-primary text-white font-bold">
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Account Type</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int x = 0;}
+            @foreach (var user in Model)
+            {
+                <tr class="hover:bg-gray-100">
+                    <td class="text-center">@(++x)</td>
+                    <td class="text-center">@user.Id</td>
+                    <td class="text-center">@user.UserTypeName</td>
+                    <td class="text-center">@user.UserName</td>
+                    <td class="text-center">@user.Email</td>
+                    <td class="text-center">
+                        <partial name="_UserStatus.cshtml" model=@((int)user.Status) />
+
+                    <td class="py-3 pl-2 flex items-center justify-center text-center space-x-2">
+                        <a asp-controller="Profile" asp-action="Index" asp-route-id="@user.Id" asp-area="">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary hover:text-primary-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </a>
+                        <a href="@Url.Action("UserForm", "Users", new { id = user.Id, UserType = user.UserTypeName })">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500 hover:text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </a>
+
+                        <form asp-action="Delete" asp-controller="Users" asp-route-id="@user.Id" method="post" onsubmit="return confirm('Are you sure?');" class="inline">
+                            <button type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4
+                     a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
+                        </form>
+                        <!-- Send Reset Password Link -->
+                        <form asp-controller="Users" asp-action="SendRestPasswordLink" method="post" class="inline" onsubmit="return confirm('Are you sure?');">
+                            <input type="hidden" name="Email" value="@user.Email" />
+                            <button type="submit" title="Send Reset Password Link" class="hover:text-green-600">
+                                <!-- أيقونة سهم ملفوف من Heroicons -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v6h6M20 20v-6h-6M16 8l4-4-4-4M8 16L4 20l4 4" />
+                                </svg>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

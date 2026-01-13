@@ -1,0 +1,43 @@
+﻿@model IPTS.Areas.Doctor.ViewsModels.DoctorDashboardStatsViewModel
+
+@{
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+    ViewData["Title"] = "Doctor Dashboard";
+    string nextAppt = Model.NextAppointmentUtc.HasValue
+        ? Model.NextAppointmentUtc.Value.ToLocalTime().ToString("ddd, dd MMM yyyy - HH:mm")
+        : "—";
+}
+
+
+
+<div class="max-w-7xl mx-auto py-8 space-y-6">
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold">Doctor Dashboard</h1>
+@*         <div class="text-sm text-gray-500">Next Appointment: <span class="font-medium text-gray-700">@nextAppt</span></div>
+ *@    </div>
+
+    <!-- KPI Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel("Total Appointments", Model.TotalAppointments.ToString("N0"), null, "fa-solid fa-calendar-check", "bg-blue-50 text-blue-600"))
+        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel("Upcoming", Model.UpcomingAppointments.ToString("N0"), "Next sessions in queue", "fa-solid fa-calendar-plus", "bg-emerald-50 text-emerald-600"))
+        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel("Completed (This Month)", Model.CompletedThisMonth.ToString("N0"), null, "fa-solid fa-clipboard-check", "bg-indigo-50 text-indigo-600"))
+        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel("Cancelled (This Month)", Model.CancelledThisMonth.ToString("N0"), null, "fa-solid fa-ban", "bg-rose-50 text-rose-600"))
+        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel("Unique Patients (All-time)", Model.UniquePatientsAllTime.ToString("N0"), null, "fa-solid fa-user-group", "bg-amber-50 text-amber-600"))
+        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel("Active Medical Cases", Model.ActiveMedicalCases.ToString("N0"), null, "fa-solid fa-file-medical", "bg-sky-50 text-sky-600"))
+        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel("Tests (This Month)", Model.TestsOrderedThisMonth.ToString("N0"), null, "fa-solid fa-vials", "bg-fuchsia-50 text-fuchsia-600"))
+        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel("Completion Rate", $"{Model.CompletionRateThisMonthPercent:0.0}%", "of monthly appointments", "fa-solid fa-percent", "bg-teal-50 text-teal-600"))
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel("Avg Appts / Day (7d)", $"{Model.AvgAppointmentsPerDayLast7Days:0.00}", null, "fa-solid fa-clock", "bg-lime-50 text-lime-600"))
+    </div>
+</div>

@@ -1,0 +1,585 @@
+@using IPTS.ViewModels
+@model AppointmentCreateViewModel
+@{
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+}
+
+<div class="bg-white rounded-lg px-8 py-6">
+    <div class="flex items-center justify-between mb-4">
+        <h4 class="text-xl font-semibold">Schedule Appointment</h4>
+        <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })"
+           class="bg-gray-500 text-white text-sm px-4 py-1 rounded hover:bg-gray-600 transition duration-150">
+            Back to Patient Search
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["WarningMessage"] != null)
+    {
+        <div class="mb-4 p-4 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded">
+            @TempData["WarningMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    @if (TempData["InfoMessage"] != null)
+    {
+        <div class="mb-4 p-4 bg-blue-100 border border-blue-400 text-blue-700 rounded">
+            @TempData["InfoMessage"]
+        </div>
+    }
+
+
+
+    <form asp-action="ScheduleAppointment" method="post" class="mt-8">
+        <input type="hidden" asp-for="PatientId" />
+        <input type="hidden" asp-for="DoctorId" />
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div>
+                <label asp-for="ScheduledDate" class="block text-sm font-medium text-gray-700 mb-2">Appointment Date</label>
+                <input asp-for="ScheduledDate" type="date" 
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                       onchange="loadTimeSlots(this.value)" />
+                <span asp-validation-for="ScheduledDate" class="text-red-500 text-sm"></span>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Patient Information</label>
+                <p class="text-gray-600">Patient ID: @Model.PatientId</p>
+                @if (TempData["PatientName"] != null)
+                {
+                    <p class="text-gray-600">Name: @TempData["PatientName"]</p>
+                }
+            </div>
+        </div>
+
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                                         <h5 class="font-semibold text-gray-700">Select Appointment Duration (20 minutes per slot)</h5>
+                                         <p class="text-sm text-gray-600 mt-1">
+                         <i class="fas fa-info-circle mr-1"></i>
+                         <strong>Important:</strong> Select consecutive time slots to define the appointment duration. 
+                         This creates ONE appointment covering the selected time period.
+                         <br><span class="text-blue-600 font-medium">Note:</span> Selecting a non-consecutive slot will clear previous selections and start fresh.
+                     </p>
+                </div>
+                <button type="button" onclick="loadTimeSlots(document.getElementById('ScheduledDate').value)" 
+                        class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-150">
+                    <i class="fas fa-sync-alt mr-2"></i>Refresh Time Slots
+                </button>
+            </div>
+            
+                         <div id="timeSlotsContainer" class="grid grid-cols-6 gap-2 min-h-[100px]">
+                 <div class="text-center text-sm text-gray-500 col-span-6 py-8">
+                     <i class="fas fa-calendar-alt text-2xl mb-2 text-gray-400"></i>
+                     <p>Please select a date to view available time slots for appointment duration</p>
+                 </div>
+             </div>
+            
+            <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
+                    <div>
+                        <span class="font-medium">Selected Slots:</span> 
+                        <span id="selectedCount" class="text-blue-600 font-bold">0</span>
+                    </div>
+                    <div>
+                        <span class="font-medium">Total Duration:</span> 
+                        <span id="totalDuration" class="text-green-600 font-bold">0</span> minutes
+                    </div>
+                    <div>
+                        <span class="font-medium">Time Range:</span> 
+                        <span id="timeRange" class="text-purple-600 font-bold">-</span>
+                    </div>
+                    <div>
+                        <span class="font-medium">Working Hours:</span> 
+                        <span class="text-gray-800">8:00 AM - 6:00 PM (German Time)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 mb-8">
+            <div>
+                <label asp-for="Notes" class="block text-sm font-medium text-gray-700 mb-2">Appointment Notes</label>
+                <textarea asp-for="Notes" rows="3" 
+                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                          placeholder="Enter any special requirements or notes..."></textarea>
+                <span asp-validation-for="Notes" class="text-red-500 text-sm"></span>
+            </div>
+        </div>
+
+                 <!-- Hidden inputs for time slot data -->
+         <input type="hidden" id="startSlotIndex" name="StartSlotIndex" value="" />
+         <input type="hidden" id="endSlotIndex" name="EndSlotIndex" value="" />
+         <input type="hidden" id="startTime" name="StartTime" value="" />
+         <input type="hidden" id="endTime" name="EndTime" value="" />
+         
+         <div class="flex justify-end space-x-3">
+             <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })" 
+                class="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600 transition duration-150">
+                 Cancel
+             </a>
+             <button type="submit" id="submitBtn" disabled
+                     class="bg-primary text-white px-6 py-2 rounded-md hover:bg-primary-dark transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed">
+                 Create Appointment
+             </button>
+         </div>
+         
+         <!-- Debug Info (can be removed in production) -->
+         <div id="debugInfo" class="mt-4 p-3 bg-gray-100 rounded text-xs text-gray-600" style="display: none;">
+             <strong>Debug Info:</strong>
+             <div>Start Slot Index: <span id="debugStartIndex">-</span></div>
+             <div>End Slot Index: <span id="debugEndIndex">-</span></div>
+             <div>Start Time: <span id="debugStartTime">-</span></div>
+             <div>End Time: <span id="debugEndTime">-</span></div>
+             
+             <div class="mt-2 pt-2 border-t border-gray-300">
+                 <strong>Hidden Input Values:</strong>
+                 <div>startSlotIndex: <span id="debugHiddenStartIndex">-</span></div>
+                 <div>endSlotIndex: <span id="debugHiddenEndIndex">-</span></div>
+                 <div>startTime: <span id="debugHiddenStartTime">-</span></div>
+                 <div>endTime: <span id="debugHiddenEndTime">-</span></div>
+             </div>
+             
+             <button type="button" onclick="testFormData()" class="mt-2 px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600">
+                 Test Form Data
+             </button>
+         </div>
+    </form>
+</div>
+
+<script>
+let selectedSlots = [];
+
+function loadTimeSlots(date) {
+    if (!date) {
+        showNoDateMessage();
+        return;
+    }
+    
+    // Show loading state
+    const container = document.getElementById('timeSlotsContainer');
+    container.innerHTML = `
+                         <div class="text-center text-sm text-gray-500 col-span-6 py-8">
+                     <i class="fas fa-spinner fa-spin text-2xl mb-2 text-blue-500"></i>
+                     <p>Loading available time slots for appointment duration...</p>
+                 </div>
+    `;
+    
+    fetch(`/doctor/appointments/gettimeslots?date=${date}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                allTimeSlots = data.timeSlots;
+                displayTimeSlots(data.timeSlots);
+            } else {
+                showErrorMessage(data.message || 'Failed to load time slots');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showErrorMessage('Error loading time slots for appointment duration. Please try again.');
+        });
+}
+
+function displayTimeSlots(timeSlots) {
+    const container = document.getElementById('timeSlotsContainer');
+    container.innerHTML = '';
+    
+    if (!timeSlots || timeSlots.length === 0) {
+        showNoSlotsMessage();
+        return;
+    }
+    
+    // Validate and process each slot
+    timeSlots.forEach((slot, index) => {
+        // Ensure slot has required properties
+        if (!slot.time || typeof slot.slotIndex === 'undefined' || typeof slot.isAvailable === 'undefined') {
+            console.warn('Invalid slot data:', slot);
+            return;
+        }
+        
+        const slotElement = document.createElement('div');
+        slotElement.className = `slot-element p-4 text-center text-sm rounded cursor-pointer transition-all duration-200 border-2 min-h-[80px] flex flex-col justify-center items-center ${
+            slot.isAvailable
+                ? 'bg-green-50 hover:bg-green-100 border-green-300 hover:border-green-400 hover:shadow-md text-green-800' 
+                : 'bg-red-50 text-red-700 border-red-300 cursor-not-allowed opacity-75'
+        }`;
+        
+        if (slot.isAvailable) {
+            slotElement.onclick = () => toggleSlot(slot);
+            slotElement.title = `Click to select ${slot.time}`;
+        } else {
+            slotElement.title = `${slot.time} - Not Available`;
+        }
+        
+        // Ensure text is clearly visible
+        slotElement.innerHTML = `
+            <div class="font-bold text-lg mb-1">${slot.time}</div>
+            <div class="text-xs ${slot.isAvailable ? 'text-green-600' : 'text-red-500'}">
+                ${slot.isAvailable ? 'Available' : 'Booked'}
+            </div>
+        `;
+        
+        container.appendChild(slotElement);
+    });
+    
+    updateSelectionDisplay();
+    updateSlotVisuals();
+}
+
+function showNoDateMessage() {
+    const container = document.getElementById('timeSlotsContainer');
+    container.innerHTML = `
+        <div class="text-center text-sm text-gray-500 col-span-6 py-8">
+            <i class="fas fa-calendar-alt text-2xl mb-2 text-gray-400"></i>
+            <p>Please select a date to view available time slots for appointment duration</p>
+        </div>
+    `;
+}
+
+function showNoSlotsMessage() {
+    const container = document.getElementById('timeSlotsContainer');
+    container.innerHTML = `
+        <div class="text-center text-sm text-gray-500 col-span-6 py-8">
+            <i class="fas fa-calendar-times text-2xl mb-2 text-red-400"></i>
+            <p>No time slots available for the selected date</p>
+            <p class="text-xs mt-1">Please try another date or contact the clinic</p>
+        </div>
+    `;
+}
+
+function showErrorMessage(message) {
+    const container = document.getElementById('timeSlotsContainer');
+    container.innerHTML = `
+        <div class="text-center text-sm text-red-500 col-span-6 py-8">
+            <i class="fas fa-exclamation-triangle text-2xl mb-2 text-red-400"></i>
+            <p>${message}</p>
+            <p class="text-xs mt-1">Please try again or contact support</p>
+        </div>
+    `;
+}
+
+let allTimeSlots = [];
+
+function toggleSlot(slot) {
+    const index = selectedSlots.findIndex(s => s.slotIndex === slot.slotIndex);
+    
+    if (index > -1) {
+        // Remove this slot from selection
+        selectedSlots.splice(index, 1);
+        slot.isSelected = false;
+    } else {
+        // Check if this slot can be added (must be consecutive)
+        if (canAddSlot(slot)) {
+            selectedSlots.push(slot);
+            slot.isSelected = true;
+        } else {
+            // Clear previous selection and start new one
+            clearAllSelections();
+            selectedSlots.push(slot);
+            slot.isSelected = true;
+        }
+    }
+    
+    // Validate and fix consecutiveness after any change
+    validateAndFixConsecutiveness();
+    
+    updateSelectionDisplay();
+    updateSubmitButton();
+    updateSlotVisuals();
+}
+
+function canAddSlot(slot) {
+    if (selectedSlots.length === 0) {
+        return true; // First slot can always be added
+    }
+    
+    // Check if the slot is consecutive to existing selection
+    const startIndex = Math.min(...selectedSlots.map(s => s.slotIndex));
+    const endIndex = Math.max(...selectedSlots.map(s => s.slotIndex));
+    
+    // Slot must be adjacent to existing selection (before start or after end)
+    return slot.slotIndex === startIndex - 1 || slot.slotIndex === endIndex + 1;
+}
+
+function clearAllSelections() {
+    // Clear all previous selections
+    selectedSlots.forEach(slot => {
+        slot.isSelected = false;
+    });
+    selectedSlots = [];
+}
+
+function validateAndFixConsecutiveness() {
+    if (selectedSlots.length <= 1) return;
+    
+    // Sort slots by index
+    selectedSlots.sort((a, b) => a.slotIndex - b.slotIndex);
+    
+    // Check if all slots are consecutive using mathematical calculation
+    const startIndex = selectedSlots[0].slotIndex;
+    const endIndex = selectedSlots[selectedSlots.length - 1].slotIndex;
+    const expectedSlots = (endIndex - startIndex) + 1;
+    
+    // If the actual number of slots doesn't match the expected consecutive range
+    if (selectedSlots.length !== expectedSlots) {
+        const lastSlot = selectedSlots[selectedSlots.length - 1];
+        clearAllSelections();
+        selectedSlots.push(lastSlot);
+        lastSlot.isSelected = true;
+        
+        // Show warning
+        showConsecutiveWarning();
+    }
+}
+
+function showConsecutiveWarning() {
+    // Show a temporary warning message
+    const warningDiv = document.createElement('div');
+    warningDiv.className = 'fixed top-4 right-4 bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 rounded shadow-lg z-50';
+    warningDiv.innerHTML = `
+        <div class="flex items-center">
+            <i class="fas fa-exclamation-triangle mr-2"></i>
+            <span>Non-consecutive selection detected. Keeping only the last selected slot.</span>
+        </div>
+    `;
+    
+    document.body.appendChild(warningDiv);
+    
+    // Remove warning after 3 seconds
+    setTimeout(() => {
+        if (warningDiv.parentNode) {
+            warningDiv.parentNode.removeChild(warningDiv);
+        }
+    }, 3000);
+}
+
+function updateSlotVisuals() {
+    const container = document.getElementById('timeSlotsContainer');
+    const slotElements = container.querySelectorAll('.slot-element');
+    
+    slotElements.forEach((element, index) => {
+        const slot = allTimeSlots[index];
+        if (!slot) return;
+        
+        const isSelected = selectedSlots.find(s => s.slotIndex === slot.slotIndex);
+        
+        if (isSelected) {
+            // Selected slot - use distinct blue color
+            element.classList.remove('bg-green-50', 'hover:bg-green-100', 'border-green-300', 'text-green-800', 'hover:border-green-400', 'hover:shadow-md');
+            element.classList.add('bg-blue-600', 'hover:bg-blue-700', 'border-blue-700', 'text-white', 'ring-2', 'ring-blue-400', 'shadow-lg', 'font-bold');
+            
+            // Update the "Available" text color to white for selected slots
+            const availableText = element.querySelector('.text-xs');
+            if (availableText) {
+                availableText.classList.remove('text-green-600');
+                availableText.classList.add('text-white');
+            }
+        } else if (slot.isAvailable) {
+            // Available but not selected - reset to green
+            element.classList.remove('bg-blue-600', 'hover:bg-blue-700', 'border-blue-700', 'text-white', 'ring-2', 'ring-blue-400', 'shadow-lg', 'font-bold');
+            element.classList.add('bg-green-50', 'hover:bg-green-100', 'border-green-300', 'text-green-800', 'hover:border-green-400', 'hover:shadow-md');
+            
+            // Reset the "Available" text color to green
+            const availableText = element.querySelector('.text-xs');
+            if (availableText) {
+                availableText.classList.remove('text-white');
+                availableText.classList.add('text-green-600');
+            }
+        }
+    });
+}
+
+function updateSelectionDisplay() {
+    if (selectedSlots.length === 0) {
+        document.getElementById('selectedCount').textContent = '0';
+        document.getElementById('totalDuration').textContent = '0';
+        document.getElementById('timeRange').textContent = '-';
+        
+        // Clear hidden inputs
+        document.getElementById('startSlotIndex').value = '';
+        document.getElementById('endSlotIndex').value = '';
+        document.getElementById('startTime').value = '';
+        document.getElementById('endTime').value = '';
+        
+        // Hide debug info
+        document.getElementById('debugInfo').style.display = 'none';
+        return;
+    }
+    
+    // Sort slots by index to ensure correct order
+    selectedSlots.sort((a, b) => a.slotIndex - b.slotIndex);
+    
+    // Calculate using start and end indices only
+    const startIndex = selectedSlots[0].slotIndex;
+    const endIndex = selectedSlots[selectedSlots.length - 1].slotIndex;
+    const totalSlots = (endIndex - startIndex) + 1;
+    const totalDuration = totalSlots * 20;
+    
+    // Get start and end times
+    const startTime = selectedSlots[0].time;
+    const endTime = selectedSlots[selectedSlots.length - 1].time;
+    
+    // Update display
+    document.getElementById('selectedCount').textContent = totalSlots;
+    document.getElementById('totalDuration').textContent = totalDuration;
+    document.getElementById('timeRange').textContent = `${startTime} - ${endTime}`;
+    
+    // Update hidden inputs
+    document.getElementById('startSlotIndex').value = startIndex;
+    document.getElementById('endSlotIndex').value = endIndex;
+    document.getElementById('startTime').value = startTime;
+    document.getElementById('endTime').value = endTime;
+    
+    // Update debug info
+    document.getElementById('debugStartIndex').textContent = startIndex;
+    document.getElementById('debugEndIndex').textContent = endIndex;
+    document.getElementById('debugStartTime').textContent = startTime;
+    document.getElementById('debugEndTime').textContent = endTime;
+    document.getElementById('debugInfo').style.display = 'block';
+    
+    console.log('Hidden inputs updated:', {
+        startSlotIndex: startIndex,
+        endSlotIndex: endIndex,
+        startTime: startTime,
+        endTime: endTime
+    });
+    
+    // Update debug hidden input values
+    document.getElementById('debugHiddenStartIndex').textContent = startIndex;
+    document.getElementById('debugHiddenEndIndex').textContent = endIndex;
+    document.getElementById('debugHiddenStartTime').textContent = startTime;
+    document.getElementById('debugHiddenEndTime').textContent = endTime;
+}
+
+function testFormData() {
+    const startSlotIndex = document.getElementById('startSlotIndex').value;
+    const endSlotIndex = document.getElementById('endSlotIndex').value;
+    const startTime = document.getElementById('startTime').value;
+    const endTime = document.getElementById('endTime').value;
+    
+    console.log('=== FORM DATA TEST ===');
+    console.log('Hidden Input Values:', {
+        startSlotIndex: startSlotIndex,
+        endSlotIndex: endSlotIndex,
+        startTime: startTime,
+        endTime: endTime
+    });
+    
+    console.log('Selected Slots:', selectedSlots);
+    
+    if (selectedSlots.length > 0) {
+        const sortedSlots = selectedSlots.sort((a, b) => a.slotIndex - b.slotIndex);
+        console.log('Sorted Slots:', sortedSlots);
+        console.log('First Slot:', sortedSlots[0]);
+        console.log('Last Slot:', sortedSlots[sortedSlots.length - 1]);
+    }
+    
+    // Test form submission simulation
+    const form = document.querySelector('form');
+    const formData = new FormData(form);
+    console.log('FormData entries:');
+    for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+    }
+}
+
+function updateSubmitButton() {
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = selectedSlots.length === 0;
+    
+    if (selectedSlots.length > 0) {
+        submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        submitBtn.classList.add('hover:shadow-lg');
+    } else {
+        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        submitBtn.classList.remove('hover:shadow-lg');
+    }
+}
+
+// Form submit validation
+document.querySelector('form').addEventListener('submit', function(e) {
+    console.log('Form submit event triggered');
+    console.log('Selected slots:', selectedSlots);
+    
+    if (selectedSlots.length === 0) {
+        e.preventDefault();
+        alert('Please select at least one time slot before creating the appointment.');
+        return;
+    }
+    
+    // Verify slots are consecutive
+    if (!areSlotsConsecutive()) {
+        e.preventDefault();
+        alert('Please select consecutive time slots only.');
+        return;
+    }
+    
+    // Verify hidden inputs have values
+    const startSlotIndex = document.getElementById('startSlotIndex').value;
+    const endSlotIndex = document.getElementById('endSlotIndex').value;
+    const startTime = document.getElementById('startTime').value;
+    const endTime = document.getElementById('endTime').value;
+    
+    console.log('Hidden input values before submit:', {
+        startSlotIndex: startSlotIndex,
+        endSlotIndex: endSlotIndex,
+        startTime: startTime,
+        endTime: endTime
+    });
+    
+    if (!startSlotIndex || !endSlotIndex || !startTime || !endTime) {
+        e.preventDefault();
+        alert('Time slot data is missing. Please refresh the page and try again.');
+        return;
+    }
+    
+    console.log('Form validation passed, submitting with data:', {
+        startSlotIndex: startSlotIndex,
+        endSlotIndex: endSlotIndex,
+        startTime: startTime,
+        endTime: endTime,
+        totalSlots: selectedSlots.length,
+        totalDuration: selectedSlots.length * 20
+    });
+});
+
+function areSlotsConsecutive() {
+    if (selectedSlots.length <= 1) return true;
+    
+    const sortedSlots = selectedSlots.sort((a, b) => a.slotIndex - b.slotIndex);
+    const startIndex = sortedSlots[0].slotIndex;
+    const endIndex = sortedSlots[sortedSlots.length - 1].slotIndex;
+    const expectedSlots = (endIndex - startIndex) + 1;
+    
+    // Check if the actual number of slots matches the expected consecutive range
+    return selectedSlots.length === expectedSlots;
+}
+
+// Load time slots when date changes
+document.getElementById('ScheduledDate').addEventListener('change', function() {
+    selectedSlots = []; // Reset selection when date changes
+    updateSelectionDisplay();
+    updateSubmitButton();
+    loadTimeSlots(this.value);
+});
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('ScheduledDate').value = today;
+    loadTimeSlots(today);
+});
+</script>

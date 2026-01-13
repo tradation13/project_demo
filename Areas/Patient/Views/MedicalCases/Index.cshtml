@@ -1,0 +1,50 @@
+﻿@model List<IPTS.Models.Entites.MedicalCase>
+@{
+    ViewData["Title"] = "Medical Cases";
+    Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
+}
+
+<section class="py-16" aria-label="Medical Cases">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Title + Back Button -->
+        <div class="flex items-center justify-between mb-12">
+            <h2 class="text-3xl font-bold">Medical Cases</h2>
+            <a href="@Url.Action("Index", "Panel", new { area = "Patient" })"
+               class="inline-block bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition">
+                Back
+            </a>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded w-1/2 mx-auto text-center">
+                <p class="text-yellow-800">No medical cases found for this patient.</p>
+            </div>
+        }
+        else
+        {
+            <div class="flex flex-wrap justify-center gap-6">
+                @foreach (var mc in Model)
+                {
+                    var hasFinishedTest = mc.MedicalCaseTests?.Any(t => !string.IsNullOrEmpty(t.Result)) == true;
+                    <div class="bg-white rounded-lg shadow-lg p-6 w-80 flex flex-col items-center hover:scale-105 transform transition">
+                        <div class="font-bold text-lg mb-2 text-center">@mc.Name</div>
+                        <div class="text-gray-600 text-sm mb-2 text-center">@mc.Description</div>
+                        <div class="text-gray-500 text-xs mb-4 text-center">Created: @mc.CreatedAt.ToString("yyyy-MM-dd")</div>
+
+                        <div class="flex gap-2">
+                            <a href="@Url.Action("Details", "MedicalCases", new { area = "Patient", id = mc.Id })"
+                               class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Details</a>
+                            @if (hasFinishedTest)
+                            {
+                                <a href="@Url.Action("PrintReport", "MedicalCases", new { area = "Patient", id = mc.Id })"
+                                   class="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-900 text-sm">Print Report</a>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>

@@ -1,0 +1,13 @@
+﻿@model Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary
+
+@if (!Model.IsValid)
+{
+    <div class="my-1 rounded-lg border border-red-400 bg-red-50 p-5 shadow-md">
+        <ul class="list-inside list-disc space-y-1 text-red-600 text-sm">
+            @foreach (var error in Model.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}

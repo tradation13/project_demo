@@ -1,0 +1,70 @@
+﻿@model IPTS.Models.Entites.MedicalCase
+@{
+    ViewData["Title"] = "Medical Case Details";
+    Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
+
+    var patient = ViewBag.Patient as IPTS.Models.Entites.Patient;
+}
+
+<section class="py-16" aria-label="Medical Case Details">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Title + Back Button -->
+        <div class="flex items-center justify-between mb-12">
+            <h2 class="text-3xl font-bold text-center flex-1">Medical Case: @Model.Name</h2>
+            <a href="@Url.Action("Index", "MedicalCases", new { area = "patient" })"
+               class="inline-block bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600 transition ml-6">
+                Back
+            </a>
+        </div>
+
+        <!-- Print Button -->
+        <div class="flex justify-center mb-8">
+            <a href="@Url.Action("PrintReport", "MedicalCases", new { area = "patient", id = Model.Id })"
+               class="px-6 py-2 bg-gray-700 text-white rounded hover:bg-gray-900 transition">
+                Print Report
+            </a>
+        </div>
+
+        <!-- Tests Section -->
+        @if (Model.MedicalCaseTests == null || !Model.MedicalCaseTests.Any())
+        {
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded w-1/2 mx-auto text-center">
+                    <p class="text-yellow-800">No tests found for this medical case.</p>
+                </div>
+        }
+        else
+        {
+            var grouped = Model.MedicalCaseTests
+                .Where(t => t.Test != null && t.Test.TestGroup != null)
+                .GroupBy(t => t.Test.TestGroup.Name)
+                .OrderBy(g => g.Key);
+
+            foreach (var group in grouped)
+            {
+                        <div class="mb-8">
+                            <h3 class="font-bold text-lg text-teal-700 border-b border-teal-300 mb-4 pb-1 text-center">@group.Key</h3>
+
+                            <div class="flex flex-wrap justify-center gap-6">
+                        @foreach (var test in group.OrderBy(t => t.Test.Name))
+                        {
+                            var hasResult = !string.IsNullOrWhiteSpace(test.Result);
+
+                                        <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-200 w-80 flex flex-col gap-3">
+                                            <div class="text-center">
+                                                <div class="font-semibold text-gray-800">@test.Test.Name</div>
+                                                <div class="text-gray-600 text-sm mt-1">
+                                                    Result: @(hasResult ? test.Result : "Not set")
+                                                </div>
+                                                <div class="text-gray-400 text-xs mt-1">
+                                                    Added: @test.CreatedAt.ToString("yyyy-MM-dd")
+                                                </div>
+                                            </div>
+                                        </div>
+                        }
+                            </div>
+                        </div>
+            }
+        }
+    </div>
+</section>

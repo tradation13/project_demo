@@ -1,0 +1,65 @@
+﻿@using IPTS.Models.Sidebar;
+
+<div x-data="{ menuOpen : true }">
+
+    <!-- start::Black overlay -->
+    <div :class="menuOpen ? 'block' : 'hidden'" x-on:click="menuOpen = false" class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
+    <!-- end::Black overlay -->
+    <aside :class="menuOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'"
+           class="fixed z-30 inset-y-0 left-0 w-64 transition duration-300  bg-primary-light bg-opacity-10 overflow-y-auto lg:translate-x-0 lg:inset-0 custom-scrollbar">
+        <!-- start::Logo -->
+        <div class="flex flex-col h-[210px] items-center justify-center bg-white/10 backdrop-blur-md border-b border-white/20">
+            <a href="/" class="flex flex-col items-center group">
+                <img src="/images/logo.png"
+                     alt="IPTS Logo"
+                     class="w-[180px] md:w-[180px] h-auto transition-transform duration-300 group-hover:scale-105 drop-shadow-lg">
+            </a>
+        </div>
+        <!-- end::Logo -->
+        <!-- start::Navigation -->
+        <nav class=" custom-scrollbar">
+            @*later crate the cusotm scrollbar*@
+
+            <!--start: Dynamic Navigation-->
+            @foreach (var group in SidebarProvider.GetSidebarItems(User))
+            {
+                <!-- عنوان المجموعة -->
+                <p class="text-xs text-gray-600 mt-10 mb-2 px-6 uppercase">@group.Title</p>
+
+                @foreach (var item in group.Items)
+                {
+                    <!-- رابط داخل المجموعة -->
+                    <a x-data="{ linkHover: false }"
+                       x-on:mouseover="linkHover = true"
+                       x-on:mouseleave="linkHover = false"
+                       href="@Url.Action(item.Action, item.Controller, new { area = item.Area })"
+                       class="flex items-center  px-6 py-3 cursor-pointer hover:bg-black hover:bg-opacity-10 transition duration-200">
+                        @if (item.Icon.StartsWith("<svg"))
+                        {
+                            @Html.Raw(item.Icon)
+                        }
+                        else
+                        {
+                            <!-- أيقونة باستخدام Font Awesome -->
+                            <i class="fa-solid fa-@item.Icon w-5 h-5 transition text-primary duration-200" :class="linkHover ? 'text-gray-100' : ''"></i>
+                        }
+
+                        <span class="ml-3 transition duration-200" :class="linkHover ? 'text-primary' : ''">
+                            @item.Title
+                        </span>
+                    </a>
+                }
+            }
+            <div class="mt-10 px-6">
+                <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post">
+                    <button type="submit"
+                            class="w-full flex items-center justify-center text-white bg-red-600 hover:bg-red-700 transition-colors duration-200 px-4 py-2 rounded-md">
+                        <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </nav>
+        <!-- end::Navigation -->
+    </aside>
+</div>

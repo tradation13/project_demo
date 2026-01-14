@@ -97,6 +97,8 @@ namespace IPTS
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}"
             );
+
+            
             //app.MapRazorPages();
 
             //await app.Services.EnsureInfrastructureAsync();

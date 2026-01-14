@@ -1,4 +1,5 @@
-﻿using IPTS.Data;
+﻿using IPTS.Areas.Doctor.ViewsModels;
+using IPTS.Data;
 using IPTS.Models.Entites;
 using IPTS.Services;
 using IPTS.ViewModels;
@@ -17,6 +18,42 @@ namespace IPTS.Areas.Doctor.Controllers
         private readonly ApplicationDbContext _context = context;
         private readonly UserService _userService = userService;
         private readonly AppointmentService _appointmentService = appointmentService;
+
+
+// 1. GET: لعرض صفحة إضافة مريض جديد
+[HttpGet]
+public IActionResult Create()
+{
+    return View();
+}
+
+// 2. POST: لاستقبال البيانات من الفورم وحفظها في قاعدة البيانات
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(PatientRegistrationViewModel model)
+{
+    // 1. التحقق من صحة المدخلات (Validation Attributes) التي وضعناها في الـ ViewModel
+    if (!ModelState.IsValid) 
+    {
+        return View(model); 
+    }
+
+    try 
+    {
+        // 2. استدعاء الخدمة لتنفيذ عملية التسجيل المعقدة
+        await _userService.RegisterPatientFromDoctorAsync(model);
+
+        // 3. إذا تمت العملية بنجاح، نرسل رسالة نجاح ونوجه الدكتور لصفحة القائمة
+        TempData["Success"] = $"Patient registered! Password format is: Aa{model.NationalId}_1";
+        return RedirectToAction(nameof(Index));
+    }
+    catch (Exception ex)
+    {
+        // 4. في حال حدوث خطأ (مثل: الإيميل مكرر)، نعرض الرسالة القادمة من الـ Service في الـ View
+        ModelState.AddModelError(string.Empty, ex.Message);
+        return View(model);
+    }
+}
 
         public async Task<IActionResult> Index()
         {
@@ -49,4 +86,6 @@ namespace IPTS.Areas.Doctor.Controllers
                 return View(appointments);
             }
     }
+
+    
 }

@@ -4,55 +4,85 @@
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
-<h2 class="text-2xl font-bold mb-6">My Patients</h2>
-@if (!Model.Any())
-{
-    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded mb-4">
-        <p class="text-yellow-800">No patients found.</p>
+<div class="p-6">
+    <div class="mb-6 flex items-center justify-between">
+        <h2 class="text-2xl font-bold text-slate-800">My Patients</h2>
+        <a asp-action="Create" class="rounded-xl bg-primary px-4 py-2 text-white shadow-lg transition hover:brightness-110">
+            <i class="fas fa-plus mr-2"></i> Add New Patient
+        </a>
     </div>
-}
-else
-{
-    <table class="min-w-full bg-white rounded shadow">
-        <thead>
-            <tr>
-                <th class="px-4 py-2 text-left">Name</th>
-                <th class="px-4 py-2 text-left">Identity</th>
-                <th class="px-4 py-2 text-left">Phone</th>
-                <th class="px-4 py-2 text-left">Email</th>
-                <th class="px-4 py-2 text-left">Options</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var p in Model)
-            {
-                <tr class="border-b">
-                    <td class="px-4 py-2">@($"{p.User?.FirstName} {p.User?.LastName}")</td>
-                    <td class="px-4 py-2">@p.IdentityNumber</td>
-                    <td class="px-4 py-2">@p.User?.PhoneNumber</td>
-                    <td class="px-4 py-2">@p.User?.Email</td>
-                    <td class="px-4 py-2 flex gap-2">
-                        <!-- بروفايل -->
-                        <a href="@Url.Action("Index", "Profile", new { area = "", id = p.UserId })"
-                           title="View Profile"
-                           class="text-blue-600 hover:text-blue-800">
-                            <i class="fa fa-user"></i>
-                        </a>
-                        <!-- مواعيد سابقة -->
-                        <a href="@Url.Action("PreviousAppointments", "Patients", new { area = "doctor", patientId = p.Id })"
-                           title="Previous Appointments"
-                           class="text-green-600 hover:text-green-800">
-                            <i class="fa fa-calendar-alt"></i>
-                        </a>
-                        <!-- الحالات الصحية -->
-                        <a href="@Url.Action("Index", "MedicalCases", new { area = "doctor", patientId = p.Id })"
-                           title="Medical Cases"
-                           class="text-purple-600 hover:text-purple-800">
-                            <i class="fa fa-notes-medical"></i>
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+
+    @* --- عرض رسائل النجاح القادمة من الكنترولر --- *@
+    @if (TempData["Success"] != null)
+    {
+        <div class="mb-6 flex items-center rounded-r-xl border-l-4 border-green-500 bg-green-50 p-4 shadow-sm">
+            <div class="flex-shrink-0 text-green-500">
+                <i class="fas fa-check-circle fa-lg"></i>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm font-medium text-green-800">@TempData["Success"]</p>
+            </div>
+            <button type="button" onclick="this.parentElement.remove()" class="ml-auto text-green-500 hover:text-green-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="rounded-xl border-l-4 border-yellow-400 bg-yellow-50 p-8 text-center shadow-sm">
+            <div class="mb-2 text-yellow-400">
+                <i class="fas fa-user-slash fa-3x"></i>
+            </div>
+            <p class="font-medium text-yellow-800">No patients found in your records.</p>
+        </div>
+    }
+    else
+    {
+        <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
+            <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-slate-50">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Name</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Identity</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Contact Info</th>
+                        <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-slate-500">Options</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @foreach (var p in Model)
+                    {
+                        <tr class="transition-colors hover:bg-slate-50/50">
+                            <td class="whitespace-nowrap px-6 py-4">
+                                <div class="font-semibold text-slate-700">@($"{p.User?.FirstName} {p.User?.LastName}")</div>
+                            </td>
+                            <td class="whitespace-nowrap px-6 py-4">
+                                <span class="rounded-full bg-slate-100 px-3 py-1 font-mono text-xs text-slate-600">@p.IdentityNumber</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="text-sm italic text-slate-600">@p.User?.Email</div>
+                                <div class="text-xs text-slate-400">@p.User?.PhoneNumber</div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex justify-center gap-3">
+                                    <a href="@Url.Action("Index", "Profile", new { area = "", id = p.UserId })"
+                                       title="Profile" class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600 transition-all hover:bg-blue-600 hover:text-white">
+                                        <i class="fa fa-user text-sm"></i>
+                                    </a>
+                                    <a href="@Url.Action("PreviousAppointments", "Patients", new { area = "doctor", patientId = p.Id })"
+                                       title="Appointments" class="flex h-8 w-8 items-center justify-center rounded-lg bg-green-50 text-green-600 transition-all hover:bg-green-600 hover:text-white">
+                                        <i class="fa fa-calendar-alt text-sm"></i>
+                                    </a>
+                                    <a href="@Url.Action("Index", "MedicalCases", new { area = "doctor", patientId = p.Id })"
+                                       title="Medical Cases" class="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-50 text-purple-600 transition-all hover:bg-purple-600 hover:text-white">
+                                        <i class="fa fa-notes-medical text-sm"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

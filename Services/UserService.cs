@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using IPTS.Areas.Admin.ViewsModels;
+using IPTS.Areas.Doctor.ViewsModels;
 using IPTS.Data;
 using IPTS.Models.Entites;
 using IPTS.Models.Enums;
@@ -262,5 +263,57 @@ namespace IPTS.Services
             }
         }
 
+    public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel model)
+{
+    // 1. التحققات المعتادة
+    if (await _userManager.FindByNameAsync(model.UserName) != null)
+        throw new Exception("This username is already taken.");
+
+    if (await _context.Patients.AnyAsync(p => p.IdentityNumber == model.NationalId))
+        throw new Exception("This National ID is already registered.");
+
+    await using var transaction = await _context.Database.BeginTransactionAsync();
+    try
+    {
+        // 2. تجهيز كلمة المرور حسب نمطك المقترح: Aa + IdentityNumber + _1
+        // مثال: Aa1022334455_1
+        string generatedPassword = $"Aa{model.NationalId}_1";
+
+        var user = new AppUser
+        {
+            UserName = model.UserName,
+            FirstName = model.FirstName,
+            LastName = model.LastName,
+            Email = model.Email,
+            PhoneNumber = model.PhoneNumber,
+            Status = EnUserStatus.Active,
+            EmailConfirmed = false
+        };
+
+        // 3. استدعاء الدالة باستخدام كلمة المرور الجديدة
+        user = await CreateUserAndSetTheDefaultRoleAsync(user, generatedPassword, "patient");
+
+        // 4. ربط سجل المريض
+        var patient = new Patient
+        {
+            UserId = user.Id,
+            IdentityNumber = model.NationalId,
+            BirthDate = model.DateOfBirth.ToUniversalTime()
+        };
+
+        await _context.Patients.AddAsync(patient);
+        await _context.SaveChangesAsync();
+
+        await transaction.CommitAsync();
     }
+    catch (Exception)
+    {
+        await transaction.RollbackAsync();
+        throw;
+    }
+}
+
+    }
+
+    
 }

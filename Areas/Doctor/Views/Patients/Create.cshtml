@@ -1,0 +1,100 @@
+@model IPTS.Areas.Doctor.ViewsModels.PatientRegistrationViewModel
+
+@{
+    ViewData["Title"] = "Add New Patient";
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+}
+
+<div class="min-h-screen bg-[#f8fafc] px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+        
+        <div class="mb-8 flex items-end justify-between px-2">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-800">New Patient</h1>
+                <p class="mt-1 text-sm text-slate-500">Fill in the information to register a new record.</p>
+            </div>
+            <a asp-action="Index" class="group flex items-center text-sm font-medium text-slate-400 transition hover:text-red-500">
+                <span class="mr-1 inline-block transition group-hover:rotate-90"><i class="fas fa-times"></i></span>
+                Cancel
+            </a>
+        </div>
+
+        <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-slate-200/50">
+            <div class="h-2 w-full bg-primary"></div>
+            
+            <form asp-area="Doctor" asp-controller="Patients" asp-action="Create" method="post" class="space-y-6 p-[10px]">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="px-6 pt-4 text-sm text-red-500"></div>
+
+                <div class="grid grid-cols-1 gap-x-6 gap-y-4 px-6 pt-6 md:grid-cols-2">
+                    
+                    @* Username - الحقل الجديد *@
+                    <div class="flex flex-col md:col-span-2">
+                        <label asp-for="UserName" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Username</label>
+                        <input asp-for="UserName" placeholder="johndoe88" 
+                               class="m-[3px] rounded-xl border border-slate-200 bg-slate-50/50 p-[5px] text-slate-700 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/5" />
+                        <span asp-validation-for="UserName" class="mt-1 text-[10px] text-red-500"></span>
+                    </div>
+
+                    @* First Name *@
+                    <div class="flex flex-col">
+                        <label asp-for="FirstName" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">First Name</label>
+                        <input asp-for="FirstName" placeholder="John" 
+                               class="m-[3px] rounded-xl border border-slate-200 bg-slate-50/50 p-[5px] text-slate-700 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/5" />
+                        <span asp-validation-for="FirstName" class="mt-1 text-[10px] text-red-500"></span>
+                    </div>
+
+                    @* Last Name *@
+                    <div class="flex flex-col">
+                        <label asp-for="LastName" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Last Name</label>
+                        <input asp-for="LastName" placeholder="Doe" 
+                               class="m-[3px] rounded-xl border border-slate-200 bg-slate-50/50 p-[5px] text-slate-700 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/5" />
+                        <span asp-validation-for="LastName" class="mt-1 text-[10px] text-red-500"></span>
+                    </div>
+
+                    @* National ID *@
+                    <div class="flex flex-col">
+                        <label asp-for="NationalId" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">National ID</label>
+                        <input asp-for="NationalId" placeholder="10xxxxxxxx" 
+                               class="m-[3px] rounded-xl border border-slate-200 bg-slate-50/50 p-[5px] text-slate-700 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/5" />
+                        <span asp-validation-for="NationalId" class="mt-1 text-[10px] text-red-500"></span>
+                    </div>
+
+                    @* Phone Number *@
+                    <div class="flex flex-col">
+                        <label asp-for="PhoneNumber" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Phone Number</label>
+                        <input asp-for="PhoneNumber" placeholder="05xxxxxxxx" 
+                               class="m-[3px] rounded-xl border border-slate-200 bg-slate-50/50 p-[5px] text-slate-700 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/5" />
+                        <span asp-validation-for="PhoneNumber" class="mt-1 text-[10px] text-red-500"></span>
+                    </div>
+
+                    @* Email *@
+                    <div class="flex flex-col md:col-span-2">
+                        <label asp-for="Email" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Email Address</label>
+                        <input asp-for="Email" placeholder="patient@example.com" 
+                               class="m-[3px] rounded-xl border border-slate-200 bg-slate-50/50 p-[5px] text-slate-700 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/5" />
+                        <span asp-validation-for="Email" class="mt-1 text-[10px] text-red-500"></span>
+                    </div>
+
+                    @* Date of Birth *@
+                    <div class="flex flex-col md:col-span-2">
+                        <label asp-for="DateOfBirth" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Date of Birth</label>
+                        <input asp-for="DateOfBirth" type="date" 
+                               class="m-[3px] rounded-xl border border-slate-200 bg-slate-50/50 p-[5px] text-slate-600 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/5" />
+                        <span asp-validation-for="DateOfBirth" class="mt-1 text-[10px] text-red-500"></span>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex items-center justify-end gap-6 border-t border-slate-50 bg-slate-50/30 p-8">
+                    <button type="submit" 
+                            class="m-[3px] rounded-2xl bg-primary p-[5px] px-12 text-sm font-bold tracking-wide text-white shadow-xl shadow-primary/30 transition-all duration-300 hover:-translate-y-1 hover:brightness-110 active:scale-95">
+                        <span class="flex items-center">
+                            <i class="fas fa-plus-circle mr-2"></i> Register Patient
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

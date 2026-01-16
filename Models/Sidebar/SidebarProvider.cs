@@ -170,7 +170,7 @@ namespace IPTS.Models.Sidebar
             Icon = "user-plus",
             Action = "Create",
             Controller = "Patients",
-            Area = "admin",
+            Area = "Doctor",
             Roles = ["doctor"]
         }
     ],

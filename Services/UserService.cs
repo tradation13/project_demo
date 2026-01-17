@@ -2,6 +2,7 @@
 using IPTS.Areas.Admin.ViewsModels;
 using IPTS.Areas.Doctor.ViewsModels;
 using IPTS.Data;
+using IPTS.Helpers;
 using IPTS.Models.Entites;
 using IPTS.Models.Enums;
 using IPTS.ViewModels;
@@ -11,12 +12,14 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace IPTS.Services
 {
-    public class UserService(IMapper mapper,EmailService emailService, ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration) : BaseService<AppUser>(context, mapper)
+    public class UserService(HttpUser currentUser, IMapper mapper,EmailService emailService, ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration) : BaseService<AppUser>(context, mapper)
     {
         private readonly UserManager<AppUser> _userManager = userManager;
         private readonly EmailService _emailService = emailService;
         private readonly RoleManager<IdentityRole> _roleManager = roleManager;
         private readonly IConfiguration _configuration = configuration;
+        private readonly HttpUser _currentUser = currentUser;
+        
 
         private async Task<AppUser> CreateUserAndSetTheDefaultRoleAsync(AppUser user, string password, string userTypeName)
         {
@@ -263,56 +266,105 @@ namespace IPTS.Services
             }
         }
 
-    public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel model)
+        private async Task<string> GetUserFullNameByIdAsync(string userId)
 {
-    // 1. التحققات المعتادة
+    if (string.IsNullOrEmpty(userId)) return "System";
+
+    var user = await _userManager.Users
+        .Where(u => u.Id == userId)
+        .Select(u => new { u.FirstName, u.LastName })
+        .FirstOrDefaultAsync();
+
+    return user != null ? $"{user.FirstName} {user.LastName}" : "Unknown User";
+}
+
+public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel model)
+{
+    
+    var doctorName = await GetUserFullNameByIdAsync(_currentUser.userId);
+
+   
     if (await _userManager.FindByNameAsync(model.UserName) != null)
         throw new Exception("This username is already taken.");
 
     if (await _context.Patients.AnyAsync(p => p.IdentityNumber == model.NationalId))
         throw new Exception("This National ID is already registered.");
 
-    await using var transaction = await _context.Database.BeginTransactionAsync();
-    try
+    string generatedPassword = $"Aa{model.NationalId}_1";
+    AppUser? userForEmail = null;
+
+  
+    using (var transaction = await _context.Database.BeginTransactionAsync())
     {
-        // 2. تجهيز كلمة المرور حسب نمطك المقترح: Aa + IdentityNumber + _1
-        // مثال: Aa1022334455_1
-        string generatedPassword = $"Aa{model.NationalId}_1";
-
-        var user = new AppUser
+        try
         {
-            UserName = model.UserName,
-            FirstName = model.FirstName,
-            LastName = model.LastName,
-            Email = model.Email,
-            PhoneNumber = model.PhoneNumber,
-            Status = EnUserStatus.Active,
-            EmailConfirmed = false
-        };
+            var user = new AppUser
+            {
+                UserName = model.UserName,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                Status = EnUserStatus.Active,
+                EmailConfirmed = false
+            };
 
-        // 3. استدعاء الدالة باستخدام كلمة المرور الجديدة
-        user = await CreateUserAndSetTheDefaultRoleAsync(user, generatedPassword, "patient");
+           
+            userForEmail = await CreateUserAndSetTheDefaultRoleAsync(user, generatedPassword, "patient");
 
-        // 4. ربط سجل المريض
-        var patient = new Patient
+           
+            var patient = new Patient
+            {
+                UserId = userForEmail.Id,
+                IdentityNumber = model.NationalId,
+                BirthDate = model.DateOfBirth.ToUniversalTime()
+            };
+
+            await _context.Patients.AddAsync(patient);
+            await _context.SaveChangesAsync();
+
+          
+            await transaction.CommitAsync();
+        }
+        catch (Exception ex)
         {
-            UserId = user.Id,
-            IdentityNumber = model.NationalId,
-            BirthDate = model.DateOfBirth.ToUniversalTime()
-        };
+   
+            await transaction.RollbackAsync();
+            throw new Exception($"Failed to register patient: {ex.Message}");
+        }
+    } 
 
-        await _context.Patients.AddAsync(patient);
-        await _context.SaveChangesAsync();
-
-        await transaction.CommitAsync();
-    }
-    catch (Exception)
+   
+    if (userForEmail != null)
     {
-        await transaction.RollbackAsync();
-        throw;
+
+ 
+        
+
+        var baseUrl = _configuration["App:BaseUrl"];
+        var loginUrl = $"{baseUrl}/Auth/Login";
+        var emailSubject = "Welcome to PhysoTech - Your Medical Profile is Ready";
+        
+        var emailBody = $@"
+            <div style='font-family: Segoe UI, sans-serif; line-height: 1.6;'>
+                <h2 style='color: #007bff;'>Welcome to PhysoTech</h2>
+                <p>Dear {model.FirstName} {model.LastName},</p>
+                <p>Your medical profile has been successfully created by <strong>Dr. {doctorName}</strong>.</p>
+                
+                <div style='background-color: #f4f4f4; padding: 20px; border-left: 5px solid #007bff; margin: 20px 0;'>
+                    <p style='margin: 5px 0;'><strong>Login Portal:</strong> <a href='{loginUrl}'>{loginUrl}</a></p>
+                    <p style='margin: 5px 0;'><strong>Username:</strong> {model.UserName}</p>
+                    <p style='margin: 5px 0;'><strong>Temporary Password:</strong> <code style='background: #eee; padding: 2px 5px;'>{generatedPassword}</code></p>
+                </div>
+
+                <p style='color: #d9534f;'><strong>Note:</strong> Please change your password after your first login.</p>
+                <br>
+                <p>Best Regards,<br>PhysoTech Management Team</p>
+            </div>";
+
+        await _emailService.SendEmail(userForEmail.Email, emailSubject, emailBody);
     }
 }
-
     }
 
     

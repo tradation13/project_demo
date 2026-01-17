@@ -1,5 +1,6 @@
 ﻿using IPTS.Data;
 using IPTS.Data.Bootstrap;
+using IPTS.Helpers;
 using IPTS.Mapper;
 using IPTS.Models.Entites;
 using IPTS.Services;
@@ -55,7 +56,13 @@ namespace IPTS
             builder.Services.AddAuthorization();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-            builder.Services.AddScoped< UserService>();
+            // 1. تمكين الوصول للـ HttpContext (هذا هو المحرك الأساسي)
+builder.Services.AddHttpContextAccessor();
+
+// 2. تسجيل كلاس الـ Helper الخاص بك
+builder.Services.AddScoped<HttpUser>();
+
+            builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<UserTypeService>();
             builder.Services.AddScoped<EmailService>();
             builder.Services.AddScoped<PdfPrintService>();

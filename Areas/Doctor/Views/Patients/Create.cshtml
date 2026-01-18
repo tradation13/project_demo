@@ -8,7 +8,7 @@
 <div class="min-h-screen bg-[#f8fafc] px-4 py-12 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
         
-        @* التعديل هنا: زر الرجوع أصبح في اليسار وباللون الأخضر *@
+       
         <div class="mb-8 flex flex-col items-start gap-4 px-2">
             <a asp-action="Index" class="group flex items-center text-sm font-bold text-primary transition-all hover:text-primary-dark">
                 <i class="fas fa-arrow-left mr-2 transition-transform group-hover:-translate-x-1"></i>
@@ -31,7 +31,7 @@
 
                 <div class="grid grid-cols-1 gap-x-6 gap-y-4 px-6 pt-6 md:grid-cols-2">
                     
-                    @* Username - الحقل الجديد *@
+                   
                     <div class="flex flex-col md:col-span-2">
                         <label asp-for="UserName" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Username</label>
                         <input asp-for="UserName" placeholder="johndoe88" 
@@ -39,7 +39,7 @@
                         <span asp-validation-for="UserName" class="mt-1 text-[10px] text-red-500"></span>
                     </div>
 
-                    @* First Name *@
+                 
                     <div class="flex flex-col">
                         <label asp-for="FirstName" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">First Name</label>
                         <input asp-for="FirstName" placeholder="John" 
@@ -47,7 +47,7 @@
                         <span asp-validation-for="FirstName" class="mt-1 text-[10px] text-red-500"></span>
                     </div>
 
-                    @* Last Name *@
+                
                     <div class="flex flex-col">
                         <label asp-for="LastName" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Last Name</label>
                         <input asp-for="LastName" placeholder="Doe" 
@@ -55,7 +55,7 @@
                         <span asp-validation-for="LastName" class="mt-1 text-[10px] text-red-500"></span>
                     </div>
 
-                    @* National ID *@
+                    
                     <div class="flex flex-col">
                         <label asp-for="NationalId" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">National ID</label>
                         <input asp-for="NationalId" placeholder="10xxxxxxxx" 
@@ -63,7 +63,7 @@
                         <span asp-validation-for="NationalId" class="mt-1 text-[10px] text-red-500"></span>
                     </div>
 
-                    @* Phone Number *@
+                   
                     <div class="flex flex-col">
                         <label asp-for="PhoneNumber" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Phone Number</label>
                         <input asp-for="PhoneNumber" placeholder="05xxxxxxxx" 
@@ -71,7 +71,7 @@
                         <span asp-validation-for="PhoneNumber" class="mt-1 text-[10px] text-red-500"></span>
                     </div>
 
-                    @* Email *@
+                    
                     <div class="flex flex-col md:col-span-2">
                         <label asp-for="Email" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Email Address</label>
                         <input asp-for="Email" placeholder="patient@example.com" 
@@ -79,7 +79,7 @@
                         <span asp-validation-for="Email" class="mt-1 text-[10px] text-red-500"></span>
                     </div>
 
-                    @* Date of Birth *@
+                  
                     <div class="flex flex-col md:col-span-2">
                         <label asp-for="DateOfBirth" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Date of Birth</label>
                         <input asp-for="DateOfBirth" type="date" 

@@ -12,13 +12,15 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace IPTS.Services
 {
-    public class UserService(HttpUser currentUser, IMapper mapper,EmailService emailService, ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration) : BaseService<AppUser>(context, mapper)
+    public class UserService(IHttpContextAccessor httpContextAccessor,LinkGenerator linkGenerator,HttpUser currentUser, IMapper mapper,EmailService emailService, ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration) : BaseService<AppUser>(context, mapper)
     {
         private readonly UserManager<AppUser> _userManager = userManager;
         private readonly EmailService _emailService = emailService;
         private readonly RoleManager<IdentityRole> _roleManager = roleManager;
         private readonly IConfiguration _configuration = configuration;
         private readonly HttpUser _currentUser = currentUser;
+        private readonly LinkGenerator _linkGenerator = linkGenerator; 
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor; 
         
 
         private async Task<AppUser> CreateUserAndSetTheDefaultRoleAsync(AppUser user, string password, string userTypeName)
@@ -243,9 +245,16 @@ namespace IPTS.Services
                 }
 
                 await _context.SaveChangesAsync();
-                var baseUrl = _configuration["App:BaseUrl"]; 
-                var emailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user); // should be the dinamic bese url
-                var confirmationLink = $"{baseUrl}/Auth/ConfirmEmail?userId={user.Id}&token={Uri.EscapeDataString(emailToken)}";
+
+               
+var emailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+var confirmationLink = _linkGenerator.GetUriByAction(
+    _httpContextAccessor.HttpContext!,
+    action: "ConfirmEmail", 
+    controller: "Auth",
+    values: new { userId = user.Id, token = emailToken }
+);
 
                 await _emailService.SendEmail(
                     user.Email,
@@ -338,11 +347,10 @@ public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel mo
     if (userForEmail != null)
     {
 
- 
-        
-
         var baseUrl = _configuration["App:BaseUrl"];
         var loginUrl = $"{baseUrl}/Auth/Login";
+
+
         var emailSubject = "Welcome to PhysoTech - Your Medical Profile is Ready";
         
         var emailBody = $@"

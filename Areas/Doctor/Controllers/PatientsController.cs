@@ -20,14 +20,14 @@ namespace IPTS.Areas.Doctor.Controllers
         private readonly AppointmentService _appointmentService = appointmentService;
 
 
-// 1. GET: لعرض صفحة إضافة مريض جديد
+
 [HttpGet]
 public IActionResult Create()
 {
     return View();
 }
 
-// 2. POST: لاستقبال البيانات من الفورم وحفظها في قاعدة البيانات
+
 [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Create(PatientRegistrationViewModel model)

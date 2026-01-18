@@ -56,11 +56,9 @@ namespace IPTS
             builder.Services.AddAuthorization();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-            // 1. تمكين الوصول للـ HttpContext (هذا هو المحرك الأساسي)
-builder.Services.AddHttpContextAccessor();
-
-// 2. تسجيل كلاس الـ Helper الخاص بك
-builder.Services.AddScoped<HttpUser>();
+          
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<HttpUser>();
 
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<UserTypeService>();

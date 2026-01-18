@@ -8,15 +8,17 @@
 <div class="min-h-screen bg-[#f8fafc] px-4 py-12 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl">
         
-        <div class="mb-8 flex items-end justify-between px-2">
+        @* التعديل هنا: زر الرجوع أصبح في اليسار وباللون الأخضر *@
+        <div class="mb-8 flex flex-col items-start gap-4 px-2">
+            <a asp-action="Index" class="group flex items-center text-sm font-bold text-primary transition-all hover:text-primary-dark">
+                <i class="fas fa-arrow-left mr-2 transition-transform group-hover:-translate-x-1"></i>
+                Back
+            </a>
+
             <div>
                 <h1 class="text-3xl font-bold text-slate-800">New Patient</h1>
                 <p class="mt-1 text-sm text-slate-500">Fill in the information to register a new record.</p>
             </div>
-            <a asp-action="Index" class="group flex items-center text-sm font-medium text-slate-400 transition hover:text-red-500">
-                <span class="mr-1 inline-block transition group-hover:rotate-90"><i class="fas fa-times"></i></span>
-                Cancel
-            </a>
         </div>
 
         <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-slate-200/50">

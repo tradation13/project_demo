@@ -32,7 +32,7 @@ public IActionResult Create()
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Create(PatientRegistrationViewModel model)
 {
-    // 1. التحقق من صحة المدخلات (Validation Attributes) التي وضعناها في الـ ViewModel
+    
     if (!ModelState.IsValid) 
     {
         return View(model); 
@@ -40,16 +40,17 @@ public async Task<IActionResult> Create(PatientRegistrationViewModel model)
 
     try 
     {
-        // 2. استدعاء الخدمة لتنفيذ عملية التسجيل المعقدة
+        
         await _userService.RegisterPatientFromDoctorAsync(model);
 
-        // 3. إذا تمت العملية بنجاح، نرسل رسالة نجاح ونوجه الدكتور لصفحة القائمة
-        TempData["Success"] = $"Patient registered! Password format is: Aa{model.NationalId}_1";
+        
+    TempData["SuccessMessage"] = $"Patient registered! Password format is: Aa{model.NationalId}_1";
+        
         return RedirectToAction(nameof(Index));
     }
     catch (Exception ex)
     {
-        // 4. في حال حدوث خطأ (مثل: الإيميل مكرر)، نعرض الرسالة القادمة من الـ Service في الـ View
+       
         ModelState.AddModelError(string.Empty, ex.Message);
         return View(model);
     }

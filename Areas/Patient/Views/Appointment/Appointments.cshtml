@@ -12,12 +12,12 @@
 
         if (isPast && appt.Status == AppointmentStatus.Pending)
         {
-            display = "Pending (Expired)";
+            display = @SharedLocalizer["Appt_Status_Expired"];
             return "bg-orange-100 text-orange-800";
         }
         if (isPast && appt.Status == AppointmentStatus.Confirmed)
         {
-            display = "Completed";
+            display =  @SharedLocalizer["Dash_CompletedMonth"];
             return "bg-blue-100 text-blue-800";
         }
         return appt.Status switch
@@ -31,19 +31,19 @@
     }
 }
 
-<div class="max-w-4xl mx-auto py-8">
-    <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-bold">My Appointments</h2>
+<div class="mx-auto max-w-4xl py-8">
+    <div class="mb-6 flex items-center justify-between">
+        <h2 class="text-2xl font-bold"> @SharedLocalizer["MyAppointments"]</h2>
         <a href="/home/therapies"
-           class="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md shadow hover:bg-green-700 transition">
-            <i class="fa-solid fa-plus mr-2"></i> New Appointment
+           class="inline-flex items-center rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white shadow transition hover:bg-green-700">
+            <i class="fa-solid fa-plus mr-2"></i> @SharedLocalizer["Appt_New"]
         </a>
     </div>
 
     @if (Model == null || !Model.Any())
     {
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded mb-4">
-            <p class="text-yellow-800">You have no appointments yet.</p>
+        <div class="mb-4 rounded border-l-4 border-yellow-400 bg-yellow-50 p-4">
+            <p class="text-yellow-800">@SharedLocalizer["Appt_NoAppointments"]</p>
         </div>
     }
     else
@@ -55,53 +55,53 @@
                 var badgeText = "";
                 var badgeClass = BadgeClass(appt, out badgeText);
 
-                <div class="bg-white rounded-lg shadow p-6 flex flex-col md:flex-row md:items-center md:justify-between">
+                <div class="flex flex-col rounded-lg bg-white p-6 shadow md:flex-row md:items-center md:justify-between">
                     <div>
-                        <div class="flex items-center gap-2 mb-2">
-                            <span class="font-semibold text-lg">@appt.DoctorName</span>
+                        <div class="mb-2 flex items-center gap-2">
+                            <span class="text-lg font-semibold">@appt.DoctorName</span>
 
-                            <span class="ml-2 px-3 py-1 rounded-full text-xs font-bold @badgeClass">
+                            <span class="@badgeClass ml-2 rounded-full px-3 py-1 text-xs font-bold">
                                 @badgeText
                             </span>
 
                             @if (isPast)
                             {
-                                <span class="ml-1 px-2 py-0.5 rounded-full text-[10px] bg-gray-100 text-gray-700 border border-gray-200">
-                                    Past
+                                <span class="ml-1 rounded-full border border-gray-200 bg-gray-100 px-2 py-0.5 text-[10px] text-gray-700">
+                                    @SharedLocalizer["Appt_Past"]
                                 </span>
                             }
                         </div>
 
-                        <div class="text-gray-600 text-sm mb-1">
-                            <span class="font-medium">Date:</span> @appt.ScheduledTime.ToString("MMMM dd, yyyy")
+                        <div class="mb-1 text-sm text-gray-600">
+                            <span class="font-medium"> @SharedLocalizer["Shared_Date"]:</span> @appt.ScheduledTime.ToString("MMMM dd, yyyy")
                             <span class="mx-2">|</span>
-                            <span class="font-medium">Time:</span> @appt.ScheduledTime.ToString("HH:mm")
+                            <span class="font-medium"> @SharedLocalizer["Shared_Time"]:</span> @appt.ScheduledTime.ToString("HH:mm")
                         </div>
 
-                        <div class="text-gray-500 text-xs">
-                            Duration: @appt.TotalDurationMinutes min
+                        <div class="text-xs text-gray-500">
+                             @SharedLocalizer["Req_Duration"]: @appt.TotalDurationMinutes  @SharedLocalizer["Shared_Min"]
                         </div>
 
                         @if (!string.IsNullOrWhiteSpace(appt.Notes))
                         {
-                            <div class="mt-2 text-gray-700 text-sm">
-                                <span class="font-medium">Notes:</span> @appt.Notes
+                            <div class="mt-2 text-sm text-gray-700">
+                                <span class="font-medium"> @SharedLocalizer["Shared_Notes"]:</span> @appt.Notes
                             </div>
                         }
                     </div>
 
-                    <div class="flex flex-col md:flex-row gap-2 mt-4 md:mt-0">
+                    <div class="mt-4 flex flex-col gap-2 md:mt-0 md:flex-row">
                         <a href="@Url.Action("my-appointments", "Appointment", new { area = "Patient", id = appt.Id })"
-                           class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm text-center">
-                            Details
+                           class="rounded bg-blue-600 px-4 py-2 text-center text-sm text-white hover:bg-blue-700">
+                             @SharedLocalizer["Shared_Details"]
                         </a>
 
                         @* نسمح بالتعديل فقط إن كانت الحالة Pending ولم ينته وقت الموعد *@
                         @if (appt.Status == AppointmentStatus.Pending && !isPast)
                         {
                             <a href="@Url.Action("Edit", "Appointment", new { area = "Patient", id = appt.Id })"
-                               class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm text-center">
-                                Edit
+                               class="rounded bg-yellow-500 px-4 py-2 text-center text-sm text-white hover:bg-yellow-600">
+                                 @SharedLocalizer["Shared_Edit"]
                             </a>
                         }
                     </div>

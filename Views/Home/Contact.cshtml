@@ -1,15 +1,17 @@
 @model IPTS.ViewModels.ContactFormViewModel
 @{
-    ViewData["Title"] = "Contact";
+    ViewData["Title"] = SharedLocalizer["Contact_Header"];
     Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
 }
 
-<section class="py-16 bg-white">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+
+<section class="bg-white py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div class="mb-10 space-y-2">
-            <p class="text-sm uppercase tracking-wide text-primary-600 font-semibold">Get in touch</p>
-            <h1 class="text-4xl font-bold text-gray-900">Contact PhysoTech</h1>
-            <p class="text-lg text-gray-700">Send us a message and we will get back to you promptly.</p>
+            <p class="text-sm font-semibold uppercase tracking-wide text-primary-600">@SharedLocalizer["Contact_GetInTouch"]</p>
+            <h1 class="text-4xl font-bold text-gray-900">@SharedLocalizer["Contact_Header"]</h1>
+            <p class="text-lg text-gray-700">@SharedLocalizer["Contact_SubHeader"]</p>
         </div>
 
         @if (TempData["ContactSuccess"] != null)
@@ -22,7 +24,7 @@
         @if (!ViewData.ModelState.IsValid)
         {
             <div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-800">
-                <ul class="list-disc list-inside text-sm">
+                <ul class="list-inside list-disc text-sm">
                     @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
                     {
                         <li>@error.ErrorMessage</li>
@@ -31,65 +33,65 @@
             </div>
         }
 
-        <div class="grid lg:grid-cols-2 gap-10 items-start">
-            <div class="p-6 rounded-2xl shadow-lg border border-gray-100 bg-white">
+        <div class="grid items-start gap-10 lg:grid-cols-2">
+            <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-lg">
                 <form asp-action="Contact" method="post" class="space-y-4">
                     @Html.AntiForgeryToken()
                     <div>
-                        <label asp-for="Name" class="block text-sm font-semibold text-gray-800 mb-1"></label>
+                        <label asp-for="Name" class="mb-1 block text-sm font-semibold text-gray-800">@SharedLocalizer["Contact_Label_Name"]</label>
                         <input asp-for="Name" class="w-full rounded-lg border border-gray-200 px-4 py-3 focus:border-primary-500 focus:ring-primary-200" />
                     </div>
                     <div>
-                        <label asp-for="Email" class="block text-sm font-semibold text-gray-800 mb-1"></label>
+                        <label asp-for="Email" class="mb-1 block text-sm font-semibold text-gray-800">@SharedLocalizer["Shared_Email"]</label>
                         <input asp-for="Email" class="w-full rounded-lg border border-gray-200 px-4 py-3 focus:border-primary-500 focus:ring-primary-200" />
                     </div>
                     <div>
-                        <label asp-for="Phone" class="block text-sm font-semibold text-gray-800 mb-1"></label>
+                        <label asp-for="Phone" class="mb-1 block text-sm font-semibold text-gray-800">@SharedLocalizer["Shared_Phone"]</label>
                         <input asp-for="Phone" class="w-full rounded-lg border border-gray-200 px-4 py-3 focus:border-primary-500 focus:ring-primary-200" />
                     </div>
                     <div>
-                        <label asp-for="Message" class="block text-sm font-semibold text-gray-800 mb-1"></label>
+                        <label asp-for="Message" class="mb-1 block text-sm font-semibold text-gray-800">@SharedLocalizer["Contact_Label_Message"]</label>
                         <textarea asp-for="Message" rows="5" class="w-full rounded-lg border border-gray-200 px-4 py-3 focus:border-primary-500 focus:ring-primary-200"></textarea>
                     </div>
-                    <button type="submit" class="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-colors">
+                    <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-700">
                         <i class="fas fa-paper-plane"></i>
-                        Send Message
+                        @SharedLocalizer["Contact_Btn_Send"]
                     </button>
                 </form>
             </div>
 
             <div class="space-y-4">
-                <div class="flex items-start gap-3 p-4 rounded-xl border border-gray-100 shadow-sm bg-gray-50">
-                    <div class="w-11 h-11 rounded-lg bg-primary-100 flex items-center justify-center text-primary-600 text-xl">
+                <div class="flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-100 text-xl text-primary-600">
                         <i class="fas fa-map-pin"></i>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-500 font-semibold">Address</p>
-                        <p class="text-gray-800 text-base">--</p>
+                        <p class="text-sm font-semibold text-gray-500">@SharedLocalizer["Shared_Address"]</p>
+                        <p class="text-base text-gray-800">--</p>
                     </div>
                 </div>
 
-                <div class="flex items-start gap-3 p-4 rounded-xl border border-gray-100 shadow-sm bg-gray-50">
-                    <div class="w-11 h-11 rounded-lg bg-primary-100 flex items-center justify-center text-primary-600 text-xl">
+                <div class="flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-100 text-xl text-primary-600">
                         <i class="fas fa-phone"></i>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-500 font-semibold">Phone</p>
-                        <a href="tel:+905062646625" class="text-primary-600 font-semibold hover:text-primary-700">+90 506 264 6625</a>
+                        <p class="text-sm font-semibold text-gray-500">@SharedLocalizer["Shared_Phone"]</p>
+                        <a href="tel:+905062646625" class="font-semibold text-primary-600 hover:text-primary-700">+90 506 264 6625</a>
                     </div>
                 </div>
 
-                <div class="flex items-start gap-3 p-4 rounded-xl border border-gray-100 shadow-sm bg-gray-50">
-                    <div class="w-11 h-11 rounded-lg bg-primary-100 flex items-center justify-center text-primary-600 text-xl">
+                <div class="flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-100 text-xl text-primary-600">
                         <i class="fas fa-envelope"></i>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-500 font-semibold">Email</p>
-                        <a href="mailto:muhammadkalumian@gmail.com" class="text-primary-600 font-semibold hover:text-primary-700">muhammadkalumian@gmail.com</a>
+                        <p class="text-sm font-semibold text-gray-500">@SharedLocalizer["Shared_Email"]</p>
+                        <a href="mailto:muhammadkalumian@gmail.com" class="font-semibold text-primary-600 hover:text-primary-700">muhammadkalumian@gmail.com</a>
                     </div>
                 </div>
 
-                <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-md">
+                <div class="overflow-hidden rounded-2xl border border-gray-200 shadow-md">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12604.130840641755!2d28.9783589!3d41.0082376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab9c282fbeac5%3A0xd56650e5d1bd7b3d!2sIstanbul!5e0!3m2!1sen!2str!4v1700000000000!5m2!1sen!2str"
                         width="100%"

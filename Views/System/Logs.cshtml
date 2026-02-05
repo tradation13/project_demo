@@ -7,42 +7,42 @@
         : "~/Views/Shared/Layouts/_AuthLayout.cshtml";
 }
 
-<div x-data="{ filter: false, systemSection: '' }" class="bg-white rounded-lg px-8 py-6 overflow-x-auto custom-scrollbar">
+<div x-data="{ filter: false, systemSection: '' }" class="custom-scrollbar overflow-x-auto rounded-lg bg-white px-8 py-6">
 
     <!-- Header -->
-    <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-semibold">System Logs</h2>
+    <div class="mb-4 flex items-center justify-between">
+        <h2 class="text-xl font-semibold">@SharedLocalizer["Logs_Title"]</h2>
         <button x-on:click="filter = !filter"
-                class="bg-primary text-white text-sm px-4 py-1 rounded hover:bg-primary-dark transition duration-150">
-            Toggle Filter
+                class="rounded bg-primary px-4 py-1 text-sm text-white transition duration-150 hover:bg-primary-dark">
+            @SharedLocalizer["Logs_Btn_ToggleFilter"]
         </button>
     </div>
 
     <div class="mb-4">
-        <form method="get" class="flex space-x-4 items-center">
+        <form method="get" class="flex items-center space-x-4">
             <input type="text"
                    name="systemSection"
                    value="@(Context.Request.Query["systemSection"])"
-                   class="py-1 px-2 border border-gray-300 rounded focus:outline-none focus:ring-0"
-                   placeholder="Filter by System Section">
+                   class="rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-0"
+                   placeholder=@SharedLocalizer["Logs_Placeholder_Section"]>
             <button type="submit"
-                    class="bg-secondary text-white px-4 py-1 rounded hover:bg-primary-dark transition duration-150 text-sm">
-                Filter
+                    class="rounded bg-secondary px-4 py-1 text-sm text-white transition duration-150 hover:bg-primary-dark">
+                @SharedLocalizer["Logs_Btn_Filter"]
             </button>
         </form>
     </div>
 
     <!-- Logs Table -->
     <div class="overflow-x-auto">
-        <table class="w-full table-auto whitespace-nowrap mb-8 border border-gray-200">
-            <thead class="bg-secondary text-white font-bold">
+        <table class="mb-8 w-full table-auto whitespace-nowrap border border-gray-200">
+            <thead class="bg-secondary font-bold text-white">
                 <tr>
                     <th class="px-3 py-2 text-center">#</th>
-                    <th class="px-3 py-2 text-center">Level</th>
-                    <th class="px-3 py-2 text-left">Description</th>
-                    <th class="px-3 py-2 text-left">User</th>
-                    <th class="px-3 py-2 text-left">Section</th>
-                    <th class="px-3 py-2 text-center">Time</th>
+                    <th class="px-3 py-2 text-center">@SharedLocalizer["Logs_Table_Level"]</th>
+                    <th class="px-3 py-2 text-left">@SharedLocalizer["Logs_Table_Description"]</th>
+                    <th class="px-3 py-2 text-left">@SharedLocalizer["Logs_Table_User"]</th>
+                    <th class="px-3 py-2 text-left">@SharedLocalizer["Logs_Table_Section"]</th>
+                    <th class="px-3 py-2 text-center">@SharedLocalizer["Logs_Table_Time"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,12 +60,12 @@
                             _ => ""
                         };
                         <tr class="hover:bg-gray-100">
-                            <td class="text-center px-2 py-1">@(++x)</td>
-                            <td class="@levelColor text-center px-2 py-1">@log.Level</td>
+                            <td class="px-2 py-1 text-center">@(++x)</td>
+                            <td class="@levelColor px-2 py-1 text-center">@log.Level</td>
                             <td class="px-2 py-1">@log.Description</td>
                             <td class="px-2 py-1">@(!string.IsNullOrEmpty(log.UserName) ? log.UserName : log.UserId)</td>
                             <td class="px-2 py-1">@log.SystemSection</td>
-                            <td class="text-center px-2 py-1">@log.Timestamp.ToString("g")</td>
+                            <td class="px-2 py-1 text-center">@log.Timestamp.ToString("g")</td>
                         </tr>
                 }
            

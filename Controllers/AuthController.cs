@@ -1,6 +1,7 @@
 ﻿using IPTS.Data;
 using IPTS.Models.Entites;
 using IPTS.Models.Enums;
+using IPTS.Resources;
 using IPTS.Services;
 using IPTS.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -18,8 +19,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace IPTS.Controllers
 {
-    public class AuthController(EmailService emailService, ILogger<AuthController> logger, UserManager<AppUser> userManager, UserService userService, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context) : Controller
+    public class AuthController(LocService locService,EmailService emailService, ILogger<AuthController> logger, UserManager<AppUser> userManager, UserService userService, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context) : Controller
     {
+
+        private readonly LocService _locService = locService;
         private readonly UserManager<AppUser> _userManager = userManager;
         private readonly SignInManager<AppUser> _signInManager = signInManager;
         private readonly RoleManager<IdentityRole> _roleManager = roleManager;
@@ -69,22 +72,26 @@ namespace IPTS.Controllers
                 ? await _userManager.FindByEmailAsync(model.UsernameOrEmail)
                 : await _userManager.FindByNameAsync(model.UsernameOrEmail);
 
-            if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
+             if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
+
             {
-                ModelState.AddModelError(string.Empty, "Username or password is incorrect.");
+
+                ModelState.AddModelError(string.Empty, _locService.GetSystem("Auth_InvalidLogin"));
+
                 return View(model);
+
             }
 
             if (user.Status != EnUserStatus.Active)
             {
-                ModelState.AddModelError(string.Empty, "User isn't active, please contact admins.");
-                TempData["ErrorMessage"] = "User isn't active, please contact admins.";
+                ModelState.AddModelError(string.Empty, _locService.GetSystem("Auth_UserInactive"));
+                TempData["ErrorMessage"] = _locService.GetSystem("Auth_UserInactive");
                 return View(model);
             }
 
             if (!user.EmailConfirmed)
             {
-                TempData["WarningMessage"] = "You need to verify your email first.";
+                TempData["WarningMessage"] = _locService.GetSystem("Auth_EmailNotVerified");
 
                 return RedirectToAction("VerifyEmail", new { email = user.Email});
             }
@@ -183,7 +190,7 @@ namespace IPTS.Controllers
                 u => u.Include(x => x.UserType));
 
             var redirectedRoute = GetRedirectedRoute(user);
-            TempData["SuccessMessage"] = "A password was changed successfully";
+            TempData["SuccessMessage"] = _locService.GetSystem("Auth_PasswordChanged");
 
             return RedirectToAction(
                 actionName: redirectedRoute.ActionName,
@@ -215,11 +222,11 @@ namespace IPTS.Controllers
             var resetLink = Url.Action("ResetPasswordConfirm", "Auth", new { token, email = model.Email }, Request.Scheme);
 
             await _emailService.SendEmail(model.Email,
-                "Reset your password",
-                $"<p>Hello,</p><p>You requested to reset your password.</p>" +
-                $"<p>Please click the link below to set a new password:</p>" +
-                $"<p><a href='{resetLink}'>Reset Password</a></p>" +
-                "<p>If you did not request this, please ignore this email.</p>");
+                _locService.GetSystem("Email_ResetTitle"),
+                $"<p>{_locService.GetSystem("Email_Hello")}</p><p>{_locService.GetSystem("Email_ResetRequest")}</p>" +
+                $"<p>{_locService.GetSystem("Email_ResetInstruction")}</p>" +
+                $"<p><a href='{resetLink}'>{_locService.GetSystem("Email_ResetButton")}</a></p>" +
+                $"<p>{_locService.GetSystem("Email_IgnoreRequest")}</p>");
 
             return RedirectToAction("ForgotPasswordConfirmation");
         }
@@ -301,7 +308,7 @@ namespace IPTS.Controllers
                 return View(model);
             }
 
-            TempData["SuccessMessage"] = "A verification email has been sent. Please check your inbox.";
+            TempData["SuccessMessage"] = _locService.GetSystem("Email_CheckInbox");
             return RedirectToAction("Login", "Auth");
         }
         [HttpGet]
@@ -315,13 +322,13 @@ namespace IPTS.Controllers
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "User not found.");
+                ModelState.AddModelError(string.Empty, _locService.GetSystem("User_NotFound"));
                 return View();
             }
 
             if (user.EmailConfirmed)
             {
-                TempData["SuccessMessage"] = "Your email is already verified. You can login now.";
+                TempData["SuccessMessage"] = _locService.GetSystem("Auth_EmailAlreadyVerified");
                 return RedirectToAction("Login");
             }
 
@@ -334,10 +341,10 @@ namespace IPTS.Controllers
 
             await _emailService.SendEmail(
                 user.Email,
-                "Email Verification",
-                $"Click this link to verify your email: <a href='{confirmationLink}'>Verify Email</a>"
+                _locService.GetSystem("Email_VerifyTitle"),
+                $"{_locService.GetSystem("Email_VerifyInstruction")} <a href='{confirmationLink}'>{_locService.GetSystem("Email_VerifyButton")}</a>"
             );
-            TempData["SuccessMessage"] = "A verification email has been sent. Please check your inbox to verify your email address.";
+            TempData["SuccessMessage"] = _locService.GetSystem("Email_CheckInbox");
             return View(new VerifyEmailViewModel { Email = user.Email });
         }
         [HttpGet]
@@ -349,7 +356,7 @@ namespace IPTS.Controllers
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if (result.Succeeded)
             {
-                TempData["SuccessMessage"] = "Email verified successfully! You can login now.";
+                TempData["SuccessMessage"] = _locService.GetSystem("Auth_VerifySuccess");
                 await _signInManager.SignInAsync(user, false);
                 var redirectedRoute = GetRedirectedRoute(user);
 
@@ -360,7 +367,7 @@ namespace IPTS.Controllers
 
             }
 
-            TempData["ErrorMessage"] = "Email verification failed.";
+            TempData["ErrorMessage"] = _locService.GetSystem("Auth_VerifyFailed");
             return RedirectToAction("Login");
         }
         [HttpPost]
@@ -370,16 +377,16 @@ namespace IPTS.Controllers
             var user = await _userManager.GetUserAsync(User);
             if(user == null)
             {
-                TempData["ErrorMessage"] = "user wasn't found";
+                TempData["ErrorMessage"] = _locService.GetSystem("User_NotFound");
                 return RedirectToAction("Login");
 
             }
             if (!user.EmailConfirmed)
             {
-                TempData["SuccessMessage"] = "Verification email resent!";
+                TempData["SuccessMessage"] = _locService.GetSystem("Auth_ResendSuccess");
                 return RedirectToAction("VerifyEmail");
             }
-            TempData["InfoMessage"] = "Email was verified!";
+            TempData["InfoMessage"] = _locService.GetSystem("Auth_EmailVerifiedStatus");
             return RedirectToAction("Login");
 
         }

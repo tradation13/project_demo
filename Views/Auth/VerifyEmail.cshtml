@@ -1,17 +1,26 @@
 ﻿@{
     Layout = "~/Views/Shared/Layouts/_AuthLayout.cshtml";
+    ViewData["Title"] = SharedLocalizer["Verify_PageTitle"];
 }
-<h2 class="text-center text-2xl font-bold tracking-wide text-gray-800">Email Verification</h2>
-<p class="text-center text-sm text-gray-600 mt-2">
-    Thanks for signing up! Before getting started, please verify your email.
+
+<h2 class="text-center text-2xl font-bold tracking-wide text-gray-800">
+    @SharedLocalizer["Verify_Header"]
+</h2>
+
+<p class="mt-2 text-center text-sm text-gray-600">
+    @SharedLocalizer["Verify_Description"]
 </p>
-<div class="sm:flex items-center justify-between">
+
+<div class="items-center justify-between sm:flex">
     <form asp-action="ResendVerificationEmail" method="post" class="my-8 text-sm">
-        <button class="w-full sm:w-auto bg-primary hover:bg-primary-dark rounded-lg px-8 py-2 text-gray-100 hover:shadow-xl transition duration-150 uppercase">
-            Resend Verification Email
+        <button class="w-full rounded-lg bg-primary px-8 py-2 uppercase text-gray-100 transition duration-150 hover:bg-primary-dark hover:shadow-xl sm:w-auto">
+            @SharedLocalizer["Verify_ResendBtn"]
         </button>
     </form>
+
     <form asp-action="Logout" method="post" class="flex items-center justify-center">
-        <button class="text-gray-600 hover:text-gray-800 text-sm underline" title="Log Out">Log Out</button>
+        <button class="text-sm text-gray-600 underline hover:text-gray-800" title="@SharedLocalizer["Shared_Logout"]">
+            @SharedLocalizer["Shared_Logout"]
+        </button>
     </form>
 </div>

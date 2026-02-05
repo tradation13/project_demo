@@ -14,12 +14,12 @@
 
         if (isPast && appt.Status == AppointmentStatus.Pending)
         {
-            display = "Pending (Expired)";
+            display = @SharedLocalizer["Appt_Status_Expired"];
             return "bg-orange-100 text-orange-800";
         }
         if (isPast && appt.Status == AppointmentStatus.Confirmed)
         {
-            display = "Completed";
+            display = @SharedLocalizer["Status_Completed"];
             return "bg-blue-100 text-blue-800";
         }
         return appt.Status switch
@@ -33,40 +33,40 @@
     }
 }
 
-<div class="max-w-4xl mx-auto py-8">
+<div class="mx-auto max-w-4xl py-8">
     <!-- Breadcrumb + Back -->
-    <div class="flex items-center justify-between mb-6">
+    <div class="mb-6 flex items-center justify-between">
         <div class="text-sm text-gray-500">
-            <a asp-action="Appointments" class="hover:underline">My Appointments</a>
+            <a asp-action="Appointments" class="hover:underline">@SharedLocalizer["MyAppointments"]</a>
             <span class="mx-2">/</span>
-            <span class="text-gray-700">Appointment Details</span>
+            <span class="text-gray-700">@SharedLocalizer["Shared_Appointment"] @SharedLocalizer["Shared_Details"]</span>
         </div>
         <a asp-action="Appointments"
-           class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-md shadow hover:bg-gray-200 transition">
-            <i class="fa-solid fa-arrow-left mr-2"></i> Back
+           class="inline-flex items-center rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 shadow transition hover:bg-gray-200">
+            <i class="fa-solid fa-arrow-left mr-2"></i> @SharedLocalizer["Shared_Back"]
         </a>
     </div>
 
     <!-- Card -->
-    <div class="bg-white rounded-2xl shadow p-6 mb-6">
-        <div class="grid md:grid-cols-2 gap-6">
+    <div class="mb-6 rounded-2xl bg-white p-6 shadow">
+        <div class="grid gap-6 md:grid-cols-2">
             <!-- Doctor -->
             <div>
-                <h2 class="text-lg font-semibold mb-3">Doctor</h2>
+                <h2 class="mb-3 text-lg font-semibold">@SharedLocalizer["Therapies_Doctor"]</h2>
                 <div class="space-y-1 text-gray-700">
-                    <div class="flex"><span class="w-28 text-gray-500">Name:</span><span>@Model.DoctorName</span></div>
-                    <div class="flex"><span class="w-28 text-gray-500">ID:</span><span>#@Model.DoctorId</span></div>
+                    <div class="flex"><span class="w-28 text-gray-500">@SharedLocalizer["Contact_Label_Name"]:</span><span>@Model.DoctorName</span></div>
+                    <div class="flex"><span class="w-28 text-gray-500">@SharedLocalizer["Shared_ID"]:</span><span>#@Model.DoctorId</span></div>
                 </div>
             </div>
 
             <!-- Patient -->
             <div>
-                <h2 class="text-lg font-semibold mb-3">Patient</h2>
+                <h2 class="mb-3 text-lg font-semibold">@SharedLocalizer["Shared_Patient"]</h2>
                 <div class="space-y-1 text-gray-700">
-                    <div class="flex"><span class="w-28 text-gray-500">Name:</span><span>@Model.PatientName</span></div>
-                    <div class="flex"><span class="w-28 text-gray-500">ID Number:</span><span>@Model.PatientIdentityNumber</span></div>
-                    <div class="flex"><span class="w-28 text-gray-500">Phone:</span><span>@Model.PatientPhone</span></div>
-                    <div class="flex"><span class="w-28 text-gray-500">Email:</span><span>@Model.PatientEmail</span></div>
+                    <div class="flex"><span class="w-28 text-gray-500">@SharedLocalizer["Contact_Label_Name"]:</span><span>@Model.PatientName</span></div>
+                    <div class="flex"><span class="w-28 text-gray-500">@SharedLocalizer["Shared_ID"] @SharedLocalizer["Shared_Number"]:</span><span>@Model.PatientIdentityNumber</span></div>
+                    <div class="flex"><span class="w-28 text-gray-500">@SharedLocalizer["Shared_Phone"]:</span><span>@Model.PatientPhone</span></div>
+                    <div class="flex"><span class="w-28 text-gray-500">@SharedLocalizer["Shared_Email"]:</span><span>@Model.PatientEmail</span></div>
                 </div>
             </div>
         </div>
@@ -74,33 +74,33 @@
         <hr class="my-6">
 
         <!-- Time / Status -->
-        <div class="grid md:grid-cols-2 gap-6">
+        <div class="grid gap-6 md:grid-cols-2">
             <div>
-                <h2 class="text-lg font-semibold mb-3">Time</h2>
+                <h2 class="mb-3 text-lg font-semibold">@SharedLocalizer["Shared_Time"]</h2>
                 <div class="space-y-1 text-gray-700">
                     <div class="flex">
-                        <span class="w-32 text-gray-500">Date & Time:</span>
+                        <span class="w-32 text-gray-500">@SharedLocalizer["Shared_Date"] & @SharedLocalizer["Shared_Time"]:</span>
                         <span>@Model.ScheduledTime.ToString("dddd, dd MMM yyyy - HH:mm", fmt)</span>
                     </div>
                     <div class="flex">
-                        <span class="w-32 text-gray-500">Duration:</span>
-                        <span>@Model.TotalDurationMinutes min (@Model.TotalSlots slots)</span>
+                        <span class="w-32 text-gray-500">@SharedLocalizer["Req_Duration"]:</span>
+                        <span>@Model.TotalDurationMinutes @SharedLocalizer["Shared_Min"] (@Model.TotalSlots @SharedLocalizer["Appt_SlotsCount"])</span>
                     </div>
                     <div class="flex">
-                        <span class="w-32 text-gray-500">Slot Range:</span>
-                        <span>From @Model.StartSlotIndex to @Model.EndSlotIndex</span>
+                        <span class="w-32 text-gray-500">@SharedLocalizer["Appt_SlotRange"]:</span>
+                        <span>@SharedLocalizer["Appt_From"] @Model.StartSlotIndex @SharedLocalizer["Appt_To"] @Model.EndSlotIndex</span>
                     </div>
                 </div>
             </div>
             <div>
-                <h2 class="text-lg font-semibold mb-3">Status</h2>
+                <h2 class="mb-3 text-lg font-semibold">@SharedLocalizer["Appt_Status"]</h2>
                 <div class="flex items-center gap-3">
                     @{
                         var isPast = Model.ScheduledTime <= nowUtc;
                         var badgeText = "";
                         var badgeClass = BadgeClass(Model, out badgeText);
                  }
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium">
+                    <span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium">
                         <i class="fa-solid fa-circle mr-1 text-[8px]"></i> @badgeText
                     </span>
                 </div>
@@ -111,24 +111,24 @@
 
         <!-- Notes -->
         <div>
-            <h2 class="text-lg font-semibold mb-3">Notes</h2>
-            <p class="text-gray-700 whitespace-pre-line">
-                @(string.IsNullOrWhiteSpace(Model.Notes) ? "No notes available." : Model.Notes)
+            <h2 class="mb-3 text-lg font-semibold">@SharedLocalizer["Shared_Notes"]</h2>
+            <p class="whitespace-pre-line text-gray-700">
+                @(string.IsNullOrWhiteSpace(Model.Notes) ? @SharedLocalizer["Appt_NoNotes"] : Model.Notes)
             </p>
         </div>
 
         <!-- Actions -->
         <div class="mt-8 flex flex-wrap gap-3">
             <a asp-action="Appointments"
-               class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-md shadow hover:bg-gray-200 transition">
-                <i class="fa-solid fa-arrow-left mr-2"></i> Back to Appointments
+               class="inline-flex items-center rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 shadow transition hover:bg-gray-200">
+                <i class="fa-solid fa-arrow-left mr-2"></i> @SharedLocalizer["Search_BackToAppointments"]
             </a>
 
             @* Future examples:
-            <a asp-action="Reschedule" asp-route-id="@Model.Id" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md shadow hover:bg-blue-700 transition">
+            <a asp-action="Reschedule" asp-route-id="@Model.Id" class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow transition hover:bg-blue-700">
                 <i class="fa-regular fa-calendar mr-2"></i> Reschedule
             </a>
-            <a asp-action="Cancel" asp-route-id="@Model.Id" class="inline-flex items-center px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md shadow hover:bg-red-700 transition">
+            <a asp-action="Cancel" asp-route-id="@Model.Id" class="inline-flex items-center rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white shadow transition hover:bg-red-700">
                 <i class="fa-regular fa-circle-xmark mr-2"></i> Cancel Appointment
             </a>
             *@

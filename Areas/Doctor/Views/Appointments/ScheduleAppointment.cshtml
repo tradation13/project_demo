@@ -4,36 +4,36 @@
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
-<div class="bg-white rounded-lg px-8 py-6">
-    <div class="flex items-center justify-between mb-4">
-        <h4 class="text-xl font-semibold">Schedule Appointment</h4>
+<div class="rounded-lg bg-white px-8 py-6">
+    <div class="mb-4 flex items-center justify-between">
+        <h4 class="text-xl font-semibold">@SharedLocalizer["Appt_Sched_Title"]</h4>
         <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })"
-           class="bg-gray-500 text-white text-sm px-4 py-1 rounded hover:bg-gray-600 transition duration-150">
-            Back to Patient Search
+           class="rounded bg-gray-500 px-4 py-1 text-sm text-white transition duration-150 hover:bg-gray-600">
+            @SharedLocalizer["Appt_Sched_Back"]
         </a>
     </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+        <div class="mb-4 rounded border border-green-400 bg-green-100 p-4 text-green-700">
             @TempData["SuccessMessage"]
         </div>
     }
     @if (TempData["WarningMessage"] != null)
     {
-        <div class="mb-4 p-4 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded">
+        <div class="mb-4 rounded border border-yellow-400 bg-yellow-100 p-4 text-yellow-700">
             @TempData["WarningMessage"]
         </div>
     }
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div class="mb-4 rounded border border-red-400 bg-red-100 p-4 text-red-700">
             @TempData["ErrorMessage"]
         </div>
     }
     @if (TempData["InfoMessage"] != null)
     {
-        <div class="mb-4 p-4 bg-blue-100 border border-blue-400 text-blue-700 rounded">
+        <div class="mb-4 rounded border border-blue-400 bg-blue-100 p-4 text-blue-700">
             @TempData["InfoMessage"]
         </div>
     }
@@ -44,78 +44,78 @@
         <input type="hidden" asp-for="PatientId" />
         <input type="hidden" asp-for="DoctorId" />
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
-                <label asp-for="ScheduledDate" class="block text-sm font-medium text-gray-700 mb-2">Appointment Date</label>
+                <label asp-for="ScheduledDate" class="mb-2 block text-sm font-medium text-gray-700">@SharedLocalizer["Appt_Sched_DateLabel"]</label>
                 <input asp-for="ScheduledDate" type="date" 
-                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                       class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
                        onchange="loadTimeSlots(this.value)" />
-                <span asp-validation-for="ScheduledDate" class="text-red-500 text-sm"></span>
+                <span asp-validation-for="ScheduledDate" class="text-sm text-red-500"></span>
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Patient Information</label>
-                <p class="text-gray-600">Patient ID: @Model.PatientId</p>
+                <label class="mb-2 block text-sm font-medium text-gray-700">@SharedLocalizer["Appt_Sched_PatientInfo"]</label>
+                <p class="text-gray-600">@SharedLocalizer["Shared_Patient"] @SharedLocalizer["Shared_ID"]: @Model.PatientId</p>
                 @if (TempData["PatientName"] != null)
                 {
-                    <p class="text-gray-600">Name: @TempData["PatientName"]</p>
+                    <p class="text-gray-600">@SharedLocalizer["Contact_Label_Name"]: @TempData["PatientName"]</p>
                 }
             </div>
         </div>
 
         <div class="mb-8">
-            <div class="flex items-center justify-between mb-4">
+            <div class="mb-4 flex items-center justify-between">
                 <div>
-                                         <h5 class="font-semibold text-gray-700">Select Appointment Duration (20 minutes per slot)</h5>
-                                         <p class="text-sm text-gray-600 mt-1">
+                                         <h5 class="font-semibold text-gray-700">@SharedLocalizer["Appt_Sched_DurationTitle"]</h5>
+                                         <p class="mt-1 text-sm text-gray-600">
                          <i class="fas fa-info-circle mr-1"></i>
-                         <strong>Important:</strong> Select consecutive time slots to define the appointment duration. 
-                         This creates ONE appointment covering the selected time period.
-                         <br><span class="text-blue-600 font-medium">Note:</span> Selecting a non-consecutive slot will clear previous selections and start fresh.
+                         <strong>@SharedLocalizer["Appt_Sched_Important"]:</strong> @SharedLocalizer["Appt_Sched_ConsecutiveNote"]. 
+                         @SharedLocalizer["Appt_Sched_OneApptNote"].
+                         <br><span class="font-medium text-blue-600">@SharedLocalizer["Appt_Sched_Note"]:</span> @SharedLocalizer["Appt_Sched_NonConsecutiveAlert"].
                      </p>
                 </div>
                 <button type="button" onclick="loadTimeSlots(document.getElementById('ScheduledDate').value)" 
-                        class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-150">
-                    <i class="fas fa-sync-alt mr-2"></i>Refresh Time Slots
+                        class="rounded-md bg-blue-600 px-4 py-2 text-white transition duration-150 hover:bg-blue-700">
+                    <i class="fas fa-sync-alt mr-2"></i>@SharedLocalizer["Appt_Sched_Refresh"]
                 </button>
             </div>
             
-                         <div id="timeSlotsContainer" class="grid grid-cols-6 gap-2 min-h-[100px]">
-                 <div class="text-center text-sm text-gray-500 col-span-6 py-8">
-                     <i class="fas fa-calendar-alt text-2xl mb-2 text-gray-400"></i>
-                     <p>Please select a date to view available time slots for appointment duration</p>
+                         <div id="timeSlotsContainer" class="grid min-h-[100px] grid-cols-6 gap-2">
+                 <div class="col-span-6 py-8 text-center text-sm text-gray-500">
+                     <i class="fas fa-calendar-alt mb-2 text-2xl text-gray-400"></i>
+                     <p>@SharedLocalizer["Appt_Sched_PromptDate"]</p>
                  </div>
              </div>
             
-            <div class="mt-4 p-4 bg-gray-50 rounded-lg">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
+            <div class="mt-4 rounded-lg bg-gray-50 p-4">
+                <div class="grid grid-cols-2 gap-4 text-sm text-gray-600 md:grid-cols-4">
                     <div>
-                        <span class="font-medium">Selected Slots:</span> 
-                        <span id="selectedCount" class="text-blue-600 font-bold">0</span>
+                        <span class="font-medium">@SharedLocalizer["Appt_Sched_SelectedSlots"]:</span> 
+                        <span id="selectedCount" class="font-bold text-blue-600">0</span>
                     </div>
                     <div>
-                        <span class="font-medium">Total Duration:</span> 
-                        <span id="totalDuration" class="text-green-600 font-bold">0</span> minutes
+                        <span class="font-medium">@SharedLocalizer["Appt_Sched_TotalDuration"]:</span> 
+                        <span id="totalDuration" class="font-bold text-green-600">0</span> @SharedLocalizer["Shared_Minutes"]
                     </div>
                     <div>
-                        <span class="font-medium">Time Range:</span> 
-                        <span id="timeRange" class="text-purple-600 font-bold">-</span>
+                        <span class="font-medium">@SharedLocalizer["Appt_Sched_TimeRange"]:</span> 
+                        <span id="timeRange" class="font-bold text-purple-600">-</span>
                     </div>
                     <div>
-                        <span class="font-medium">Working Hours:</span> 
-                        <span class="text-gray-800">8:00 AM - 6:00 PM (German Time)</span>
+                        <span class="font-medium">@SharedLocalizer["Shared_WorkingHours"]:</span> 
+                        <span class="text-gray-800">@SharedLocalizer["Appt_Sched_WorkingHoursRange"]</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-6 mb-8">
+        <div class="mb-8 grid grid-cols-1 gap-6">
             <div>
-                <label asp-for="Notes" class="block text-sm font-medium text-gray-700 mb-2">Appointment Notes</label>
+                <label asp-for="Notes" class="mb-2 block text-sm font-medium text-gray-700">@SharedLocalizer["Appt_Sched_Notes"]</label>
                 <textarea asp-for="Notes" rows="3" 
-                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                          placeholder="Enter any special requirements or notes..."></textarea>
-                <span asp-validation-for="Notes" class="text-red-500 text-sm"></span>
+                          class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
+                          placeholder=@SharedLocalizer["Appt_Sched_NotesPlaceholder"]></textarea>
+                <span asp-validation-for="Notes" class="text-sm text-red-500"></span>
             </div>
         </div>
 
@@ -127,24 +127,24 @@
          
          <div class="flex justify-end space-x-3">
              <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })" 
-                class="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600 transition duration-150">
-                 Cancel
+                class="rounded-md bg-gray-500 px-6 py-2 text-white transition duration-150 hover:bg-gray-600">
+                @SharedLocalizer["Shared_Cancel"]
              </a>
              <button type="submit" id="submitBtn" disabled
-                     class="bg-primary text-white px-6 py-2 rounded-md hover:bg-primary-dark transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed">
-                 Create Appointment
+                     class="rounded-md bg-primary px-6 py-2 text-white transition duration-150 hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50">
+                 @SharedLocalizer["Appt_Sched_CreateBtn"]
              </button>
          </div>
          
-         <!-- Debug Info (can be removed in production) -->
-         <div id="debugInfo" class="mt-4 p-3 bg-gray-100 rounded text-xs text-gray-600" style="display: none;">
+         @* <!-- Debug Info (can be removed in production) -->
+         <div id="debugInfo" class="mt-4 rounded bg-gray-100 p-3 text-xs text-gray-600" style="display: none;">
              <strong>Debug Info:</strong>
              <div>Start Slot Index: <span id="debugStartIndex">-</span></div>
              <div>End Slot Index: <span id="debugEndIndex">-</span></div>
              <div>Start Time: <span id="debugStartTime">-</span></div>
              <div>End Time: <span id="debugEndTime">-</span></div>
              
-             <div class="mt-2 pt-2 border-t border-gray-300">
+             <div class="mt-2 border-t border-gray-300 pt-2">
                  <strong>Hidden Input Values:</strong>
                  <div>startSlotIndex: <span id="debugHiddenStartIndex">-</span></div>
                  <div>endSlotIndex: <span id="debugHiddenEndIndex">-</span></div>
@@ -152,10 +152,10 @@
                  <div>endTime: <span id="debugHiddenEndTime">-</span></div>
              </div>
              
-             <button type="button" onclick="testFormData()" class="mt-2 px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600">
+             <button type="button" onclick="testFormData()" class="mt-2 rounded bg-blue-500 px-3 py-1 text-xs text-white hover:bg-blue-600">
                  Test Form Data
              </button>
-         </div>
+         </div> *@
     </form>
 </div>
 
@@ -171,9 +171,9 @@ function loadTimeSlots(date) {
     // Show loading state
     const container = document.getElementById('timeSlotsContainer');
     container.innerHTML = `
-                         <div class="text-center text-sm text-gray-500 col-span-6 py-8">
-                     <i class="fas fa-spinner fa-spin text-2xl mb-2 text-blue-500"></i>
-                     <p>Loading available time slots for appointment duration...</p>
+                         <div class="col-span-6 py-8 text-center text-sm text-gray-500">
+                     <i class="fas fa-spinner fa-spin mb-2 text-2xl text-blue-500"></i>
+                     <p>@SharedLocalizer["Appt_Sched_LoadingSlots"]</p>
                  </div>
     `;
     
@@ -184,12 +184,12 @@ function loadTimeSlots(date) {
                 allTimeSlots = data.timeSlots;
                 displayTimeSlots(data.timeSlots);
             } else {
-                showErrorMessage(data.message || 'Failed to load time slots');
+                showErrorMessage(data.message || '@SharedLocalizer["Error_LoadTimeSlots"]');
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            showErrorMessage('Error loading time slots for appointment duration. Please try again.');
+            showErrorMessage('@SharedLocalizer["Error_LoadSlotsForDuration"]');
         });
 }
 
@@ -219,16 +219,16 @@ function displayTimeSlots(timeSlots) {
         
         if (slot.isAvailable) {
             slotElement.onclick = () => toggleSlot(slot);
-            slotElement.title = `Click to select ${slot.time}`;
+            slotElement.title = `@SharedLocalizer["Appt_Sched_ClickSelect"] ${slot.time}`;
         } else {
-            slotElement.title = `${slot.time} - Not Available`;
+            slotElement.title = `${slot.time} - @SharedLocalizer["Shared_NotAvailable"]`;
         }
         
         // Ensure text is clearly visible
         slotElement.innerHTML = `
-            <div class="font-bold text-lg mb-1">${slot.time}</div>
+            <div class="mb-1 text-lg font-bold">${slot.time}</div>
             <div class="text-xs ${slot.isAvailable ? 'text-green-600' : 'text-red-500'}">
-                ${slot.isAvailable ? 'Available' : 'Booked'}
+                ${slot.isAvailable ? '@SharedLocalizer["Shared_Available"]' : '@SharedLocalizer["Shared_Booked"]'}
             </div>
         `;
         
@@ -242,9 +242,9 @@ function displayTimeSlots(timeSlots) {
 function showNoDateMessage() {
     const container = document.getElementById('timeSlotsContainer');
     container.innerHTML = `
-        <div class="text-center text-sm text-gray-500 col-span-6 py-8">
-            <i class="fas fa-calendar-alt text-2xl mb-2 text-gray-400"></i>
-            <p>Please select a date to view available time slots for appointment duration</p>
+        <div class="col-span-6 py-8 text-center text-sm text-gray-500">
+            <i class="fas fa-calendar-alt mb-2 text-2xl text-gray-400"></i>
+            <p>@SharedLocalizer["Appt_Sched_SelectDateMsg"]</p>
         </div>
     `;
 }
@@ -252,10 +252,10 @@ function showNoDateMessage() {
 function showNoSlotsMessage() {
     const container = document.getElementById('timeSlotsContainer');
     container.innerHTML = `
-        <div class="text-center text-sm text-gray-500 col-span-6 py-8">
-            <i class="fas fa-calendar-times text-2xl mb-2 text-red-400"></i>
-            <p>No time slots available for the selected date</p>
-            <p class="text-xs mt-1">Please try another date or contact the clinic</p>
+        <div class="col-span-6 py-8 text-center text-sm text-gray-500">
+            <i class="fas fa-calendar-times mb-2 text-2xl text-red-400"></i>
+            <p>@SharedLocalizer["Appt_Sched_NoSlotsMsg"]</p>
+            <p class="mt-1 text-xs">@SharedLocalizer["Appt_Sched_TryAnotherDate"]</p>
         </div>
     `;
 }
@@ -263,10 +263,10 @@ function showNoSlotsMessage() {
 function showErrorMessage(message) {
     const container = document.getElementById('timeSlotsContainer');
     container.innerHTML = `
-        <div class="text-center text-sm text-red-500 col-span-6 py-8">
-            <i class="fas fa-exclamation-triangle text-2xl mb-2 text-red-400"></i>
+        <div class="col-span-6 py-8 text-center text-sm text-red-500">
+            <i class="fas fa-exclamation-triangle mb-2 text-2xl text-red-400"></i>
             <p>${message}</p>
-            <p class="text-xs mt-1">Please try again or contact support</p>
+            <p class="mt-1 text-xs">@SharedLocalizer["Shared_TryAgainSupport"]</p>
         </div>
     `;
 }
@@ -352,7 +352,7 @@ function showConsecutiveWarning() {
     warningDiv.innerHTML = `
         <div class="flex items-center">
             <i class="fas fa-exclamation-triangle mr-2"></i>
-            <span>Non-consecutive selection detected. Keeping only the last selected slot.</span>
+            <span>@SharedLocalizer["Appt_Sched_NonConsecutive"]</span>
         </div>
     `;
     
@@ -516,14 +516,14 @@ document.querySelector('form').addEventListener('submit', function(e) {
     
     if (selectedSlots.length === 0) {
         e.preventDefault();
-        alert('Please select at least one time slot before creating the appointment.');
+        alert('@SharedLocalizer["Validation_SelectAtLeastOneSlot"]');
         return;
     }
     
     // Verify slots are consecutive
     if (!areSlotsConsecutive()) {
         e.preventDefault();
-        alert('Please select consecutive time slots only.');
+        alert('@SharedLocalizer["Validation_ConsecutiveSlotsOnly"]');
         return;
     }
     
@@ -542,7 +542,7 @@ document.querySelector('form').addEventListener('submit', function(e) {
     
     if (!startSlotIndex || !endSlotIndex || !startTime || !endTime) {
         e.preventDefault();
-        alert('Time slot data is missing. Please refresh the page and try again.');
+        alert('@SharedLocalizer["Error_MissingSlotData"]');
         return;
     }
     

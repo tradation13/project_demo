@@ -4,111 +4,112 @@
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
-<div x-data="{ filter: false }" class="bg-white rounded-lg px-8 py-6 overflow-x-scroll custom-scrollbar">
-    <div class="flex items-center justify-between mb-4">
-        <h4 class="text-xl font-semibold">Appointments</h4>
+<div x-data="{ filter: false }" class="custom-scrollbar overflow-x-scroll rounded-lg bg-white px-8 py-6">
+    <div class="mb-4 flex items-center justify-between">
+    <value>@SharedLocalizer["Appointments"]</value>
+        <h4 class="text-xl font-semibold">@SharedLocalizer[""]</h4>
         <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })"
-           class="bg-primary text-white text-sm px-4 py-1 rounded hover:bg-primary-dark transition duration-150">
-            Add New Appointment
+           class="rounded bg-primary px-4 py-1 text-sm text-white transition duration-150 hover:bg-primary-dark">
+           @SharedLocalizer["Appt_AddNew"]
         </a>
     </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+        <div class="mb-4 rounded border border-green-400 bg-green-100 p-4 text-green-700">
             @TempData["SuccessMessage"]
         </div>
     }
     @if (TempData["WarningMessage"] != null)
     {
-        <div class="mb-4 p-4 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded">
+        <div class="mb-4 rounded border border-yellow-400 bg-yellow-100 p-4 text-yellow-700">
             @TempData["WarningMessage"]
         </div>
     }
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div class="mb-4 rounded border border-red-400 bg-red-100 p-4 text-red-700">
             @TempData["ErrorMessage"]
         </div>
     }
     @if (TempData["InfoMessage"] != null)
     {
-        <div class="mb-4 p-4 bg-blue-100 border border-blue-400 text-blue-700 rounded">
+        <div class="mb-4 rounded border border-blue-400 bg-blue-100 p-4 text-blue-700">
             @TempData["InfoMessage"]
         </div>
     }
 
-    <div class="mt-8 mb-3 flex flex-col md:flex-row items-start md:items-center md:justify-between">
+    <div class="mb-3 mt-8 flex flex-col items-start md:flex-row md:items-center md:justify-between">
         <div class="flex items-center justify-center space-x-4">
             <form class="relative flex items-center">
                 <input type="search"
                        name="input_search_without_btn"
                        id="input_search_without_btn"
-                       class="flex-1 py-0.5 pl-10 border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300"
-                       placeholder="Search appointments...">
-                <span class="absolute left-2 bg-transparent flex items-center justify-center">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                       class="flex-1 border-gray-300 py-0.5 pl-10 focus:border-gray-300 focus:outline-none focus:ring-0"
+                       placeholder= @SharedLocalizer["Appt_SearchPlaceholder"]>
+                <span class="absolute left-2 flex items-center justify-center bg-transparent">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </span>
             </form>
             <button x-on:click="filter = !filter"
-                    class="text-primary hover:text-primary-dark font-semibold hover:underline">
-                Filters
+                    class="font-semibold text-primary hover:text-primary-dark hover:underline">
+                @SharedLocalizer["Appt_Filters"]
             </button>
         </div>
     </div>
 
     <div x-show="filter"
          x-collapse.duration.300ms>
-        <div class="mb-2 py-4 bg-gray-200 px-8 rounded-lg">
-            <h5 class="underline">Filter Results</h5>
+        <div class="mb-2 rounded-lg bg-gray-200 px-8 py-4">
+            <h5 class="underline">@SharedLocalizer["Appt_FilterResults"]</h5>
             <form class="py-2">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 my-4">
+                <div class="my-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     <input type="text"
                            name="patient_name"
-                           class="flex-1 py-1 border-gray-300 rounded focus:border-gray-300 focus:outline-none focus:ring-0"
-                           placeholder="Patient Name">
+                           class="flex-1 rounded border-gray-300 py-1 focus:border-gray-300 focus:outline-none focus:ring-0"
+                           placeholder=@SharedLocalizer["Appt_PatientName"]>
                     <div class="w-full">
-                        <label class="mr-2">Status:</label>
-                        <select class="flex-1 py-1 border-gray-300 rounded focus:border-gray-300 focus:outline-none focus:ring-0">
+                        <label class="mr-2">@SharedLocalizer["Appt_Status"]:</label>
+                        <select class="flex-1 rounded border-gray-300 py-1 focus:border-gray-300 focus:outline-none focus:ring-0">
                             <option></option>
-                            <option>Pending</option>
-                            <option>Confirmed</option>
-                            <option>Completed</option>
-                            <option>Cancelled</option>
+                            <option>@SharedLocalizer["Status_Pending"]</option>
+                            <option>@SharedLocalizer["Status_Confirmed"]</option>
+                            <option>@SharedLocalizer["Status_Completed"]</option>
+                            <option>@SharedLocalizer["Status_Cancelled"]</option>
                         </select>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 my-4">
+                <div class="my-4 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     <div>
-                        <label class="mr-2">From Date:</label>
+                        <label class="mr-2">@SharedLocalizer["Appt_FromDate"]:</label>
                         <input type="date"
                                name="from_date"
-                               class="flex-1 py-1 border-gray-300 mt-1 rounded focus:border-gray-300 focus:outline-none focus:ring-0">
+                               class="mt-1 flex-1 rounded border-gray-300 py-1 focus:border-gray-300 focus:outline-none focus:ring-0">
                     </div>
                     <div>
-                        <label class="mr-2">To Date:</label>
+                        <label class="mr-2">@SharedLocalizer["Appt_ToDate"]:</label>
                         <input type="date"
                                name="to_date"
-                               class="flex-1 py-1 border-gray-300 mt-1 rounded focus:border-gray-300 focus:outline-none focus:ring-0">
+                               class="mt-1 flex-1 rounded border-gray-300 py-1 focus:border-gray-300 focus:outline-none focus:ring-0">
                     </div>
                 </div>
 
-                <button class="bg-primary hover:bg-primary-dark rounded-lg px-8 py-1 text-gray-100 hover:shadow-xl transition duration-150 mt-8 text-sm">Filter</button>
+                <button class="mt-8 rounded-lg bg-primary px-8 py-1 text-sm text-gray-100 transition duration-150 hover:bg-primary-dark hover:shadow-xl">@SharedLocalizer["Appt_FilterBtn"]</button>
             </form>
         </div>
     </div>
 
-    <table class="w-full whitespace-nowrap mb-8">
-        <thead class="bg-primary text-white font-bold">
+    <table class="mb-8 w-full whitespace-nowrap">
+        <thead class="bg-primary font-bold text-white">
             <tr>
                 <th>#</th>
-                <th>Patient Name</th>
-                <th>Doctor Name</th>
-                <th>Scheduled Time</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th>@SharedLocalizer["Appt_PatientName"]</th>
+                <th>@SharedLocalizer["Appt_DoctorName"]</th>
+                <th>@SharedLocalizer["Appt_ScheduledTime"]</th>
+                <th>@SharedLocalizer["Appt_Status"]</th>
+                <th>@SharedLocalizer["Appt_Actions"]</th>
             </tr>
         </thead>
         <tbody>
@@ -121,15 +122,27 @@
                     <td class="text-center">@appointment.DoctorName</td>
                     <td class="text-center">@appointment.ScheduledTime.ToString("MMM dd, yyyy HH:mm")</td>
                     <td class="text-center">
-                        <span class="px-2 py-1 text-xs rounded-full 
-                            @(appointment.Status == AppointmentStatus.Confirmed ? "bg-green-100 text-green-800" :
-                              appointment.Status == AppointmentStatus.Pending ? "bg-yellow-100 text-yellow-800" :
-                              appointment.Status == AppointmentStatus.Completed ? "bg-blue-100 text-blue-800" :
-                              "bg-red-100 text-red-800")">
-                            @appointment.StatusDisplay
-                        </span>
-                    </td>
-                    <td class="py-3 pl-2 flex items-center justify-center text-center space-x-2">
+    <span class="rounded-full px-2 py-1 text-xs font-medium @(appointment.Status switch 
+          {
+              AppointmentStatus.Confirmed => "bg-green-100 text-green-800",
+              AppointmentStatus.Pending => "bg-yellow-100 text-yellow-800",
+              AppointmentStatus.Completed => "bg-blue-100 text-blue-800",
+              AppointmentStatus.Cancelled => "bg-red-100 text-red-800",
+              _ => "bg-gray-100 text-gray-800"
+          })">
+        
+        @* نصوص الترجمة *@
+        @(appointment.Status switch
+        {
+            AppointmentStatus.Pending => SharedLocalizer["Status_Pending"],
+            AppointmentStatus.Confirmed => SharedLocalizer["Status_Confirmed"],
+            AppointmentStatus.Completed => SharedLocalizer["Status_Completed"],
+            AppointmentStatus.Cancelled => SharedLocalizer["Status_Cancelled"],
+            _ => appointment.StatusDisplay
+        })
+    </span>
+</td>
+                    <td class="flex items-center justify-center space-x-2 py-3 pl-2 text-center">
                         <a asp-controller="Appointments" asp-action="Details" asp-route-id="@appointment.Id" asp-area="doctor">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary hover:text-primary-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />

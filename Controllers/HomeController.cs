@@ -1,6 +1,7 @@
 using IPTS.Models;
 using IPTS.Services;
 using IPTS.ViewModels;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +22,13 @@ namespace IPTS.Controllers
         {
             return View();
         }
-        [OutputCache(Duration = 3600)]
-        public IActionResult About()
+
+         public IActionResult Privacy()
         {
             return View();
         }
-        public IActionResult AboutIPTS()
+        [OutputCache(Duration = 3600)]
+        public IActionResult About()
         {
             return View();
         }
@@ -103,6 +105,20 @@ namespace IPTS.Controllers
 
             return View(therapies);
         }
+
+        [HttpGet] // أو HttpGet حسب تفضيلك، يفضل Post للأمان
+public IActionResult SetLanguage(string culture, string returnUrl)
+{
+    Response.Cookies.Append(
+        CookieRequestCultureProvider.DefaultCookieName,
+        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+        new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+    );
+
+    return LocalRedirect(returnUrl);
+}
+
+
 
     }
 }

@@ -1,4 +1,8 @@
-﻿using IPTS.Data;
+﻿using IPTS.Resources; // استيراد مسار الخدمة الجديد
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+
+using IPTS.Data;
 using IPTS.Data.Bootstrap;
 using IPTS.Helpers;
 using IPTS.Mapper;
@@ -16,6 +20,7 @@ using SQLitePCL;
 using System;
 using System.Data;
 using System.Diagnostics;
+using IPTS.Models.Sidebar;
 
 namespace IPTS
 {
@@ -26,6 +31,26 @@ namespace IPTS
             Batteries.Init(); 
 
             var builder = WebApplication.CreateBuilder(args);
+
+
+// 1. إضافة الـ Localization وتحديد مجلد الموارد
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+// 2. تسجيل LocService كـ Singleton (نفس فكرة المشروع القديم)
+builder.Services.AddSingleton<LocService>();
+
+// 3. إعداد MVC مع دعم الـ SharedResource للـ DataAnnotations
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization(options =>
+    {
+        options.DataAnnotationLocalizerProvider = (type, factory) =>
+        {
+           // قمنا بتغيير SharedResource إلى AppResource هنا فقط
+            var assemblyName = new System.Reflection.AssemblyName(typeof(SystemResource).Assembly.FullName!);
+            return factory.Create("SystemResource", assemblyName.Name!);
+        };
+    });
 
             builder.Host.UseSerilog((context, config) =>
             {
@@ -50,7 +75,7 @@ namespace IPTS
                 options.SlidingExpiration = true;
 
             });
-            builder.Services.AddControllersWithViews();
+            // builder.Services.AddControllersWithViews();
 
             builder.Services.AddAuthentication();
             builder.Services.AddAuthorization();
@@ -80,6 +105,15 @@ namespace IPTS
             builder.Services.AddOutputCache();
             builder.Services.AddMemoryCache();
             var app = builder.Build();
+
+            // 4. إعداد اللغات (Middleware)
+var supportedCultures = new[] { "en-US", "de-DE"};
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(supportedCultures[1])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
+app.UseRequestLocalization(localizationOptions);
 
     
             app.UseHttpsRedirection();

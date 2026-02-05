@@ -6,9 +6,9 @@
 
 <div class="p-6">
     <div class="mb-6 flex items-center justify-between">
-        <h2 class="text-2xl font-bold text-slate-800">My Patients</h2>
+        <h2 class="text-2xl font-bold text-slate-800">@SharedLocalizer["Pat_Header"]</h2>
         <a asp-action="Create" class="rounded-xl bg-primary px-4 py-2 text-white shadow-lg transition hover:brightness-110">
-            <i class="fas fa-plus mr-2"></i> Add New Patient
+            <i class="fas fa-plus mr-2"></i> @SharedLocalizer["Pat_AddNew"]
         </a>
     </div>
 
@@ -20,7 +20,7 @@
             <div class="mb-2 text-yellow-400">
                 <i class="fas fa-user-slash fa-3x"></i>
             </div>
-            <p class="font-medium text-yellow-800">No patients found in your records.</p>
+            <p class="font-medium text-yellow-800">@SharedLocalizer["Pat_NoPatients"]</p>
         </div>
     }
     else
@@ -29,10 +29,10 @@
             <table class="min-w-full divide-y divide-slate-200">
                 <thead class="bg-slate-50">
                     <tr>
-                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Name</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Identity</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">Contact Info</th>
-                        <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-slate-500">Options</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">@SharedLocalizer["Contact_Label_Name"]</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">@SharedLocalizer["Shared_Identity_Number"]</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">@SharedLocalizer["Shared_Contact_Info"]</th>
+                        <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-slate-500">@SharedLocalizer["Shared_Options"]</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
@@ -52,15 +52,15 @@
                             <td class="px-6 py-4">
                                 <div class="flex justify-center gap-3">
                                     <a href="@Url.Action("Index", "Profile", new { area = "", id = p.UserId })"
-                                       title="Profile" class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600 transition-all hover:bg-blue-600 hover:text-white">
+                                       title=@SharedLocalizer["Shared_Profile"] class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600 transition-all hover:bg-blue-600 hover:text-white">
                                         <i class="fa fa-user text-sm"></i>
                                     </a>
                                     <a href="@Url.Action("PreviousAppointments", "Patients", new { area = "doctor", patientId = p.Id })"
-                                       title="Appointments" class="flex h-8 w-8 items-center justify-center rounded-lg bg-green-50 text-green-600 transition-all hover:bg-green-600 hover:text-white">
+                                       title=@SharedLocalizer["Appt_Header"] class="flex h-8 w-8 items-center justify-center rounded-lg bg-green-50 text-green-600 transition-all hover:bg-green-600 hover:text-white">
                                         <i class="fa fa-calendar-alt text-sm"></i>
                                     </a>
                                     <a href="@Url.Action("Index", "MedicalCases", new { area = "doctor", patientId = p.Id })"
-                                       title="Medical Cases" class="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-50 text-purple-600 transition-all hover:bg-purple-600 hover:text-white">
+                                       title=@SharedLocalizer["Shared_Medical_Cases"] class="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-50 text-purple-600 transition-all hover:bg-purple-600 hover:text-white">
                                         <i class="fa fa-notes-medical text-sm"></i>
                                     </a>
                                 </div>

@@ -1,10 +1,10 @@
 ﻿<div class="flex flex-col">
-    <header class="flex justify-between items-center h-16 py-4 px-6 bg-white">
+    <header class="flex h-16 items-center justify-between bg-white px-6 py-4">
         <!-- start::Mobile menu button -->
         <div class="flex items-center">
             <button x-on:click="menuOpen = true"
-                    class="text-gray-500 hover:text-primary focus:outline-none lg:hidden transition duration-200">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    class="text-gray-500 transition duration-200 hover:text-primary focus:outline-none lg:hidden">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
                 </svg>
             </button>
@@ -15,49 +15,49 @@
         <div class="flex items-center space-x-4">
             <!-- start::Email Verification -->
          @*    <div x-data="{ linkActive: false, emailVerified: false }" class="relative">
-                <div  class="cursor-pointer flex items-center">
+                <div  class="flex cursor-pointer items-center">
                     <span class="mr-2 text-xs" x-text="emailVerified ? 'Verified' : 'Not Verified'"></span>
-                    <i class="fas fa-envelope text-gray-600 fa-lg"></i>
+                    <i class="fas fa-envelope fa-lg text-gray-600"></i>
                 </div>
             </div> *@
             <!-- 🏠 start::Home button -->
             <a href="@Url.Action("Index", "Home", new { area = "" })"
-               class="text-gray-600 hover:text-primary transition duration-200"
-               title="Home"> 
+               class="text-gray-600 transition duration-200 hover:text-primary"
+               title="@SharedLocalizer["Shared_Home"]"> 
                 <i class="fas fa-home fa-lg"></i>
             </a>
             <!-- 🏠 end::Home button -->
             <!-- end::Email Verification -->
             <!-- start::Date -->
-            <div class="text-gray-600 text-sm">
+            <div class="text-sm text-gray-600">
                 @DateTime.Now.ToString("dd/MM/yyyy")
             </div>
             <!-- end::Date -->
             <!-- start::Notifications -->
             <div x-data="{ linkActive: false }" class="relative">
-                <div x-on:click="linkActive = !linkActive" class="cursor-pointer flex">
-                    <svg class="w-6 h-6 cursor-pointer hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <div x-on:click="linkActive = !linkActive" class="flex cursor-pointer">
+                    <svg class="h-6 w-6 cursor-pointer hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                     </svg>
                     <sub>
-                        <span class="bg-red-600 text-gray-100 px-1.5 py-0.5 rounded-full -ml-1 animate-pulse">
+                        <span class="-ml-1 animate-pulse rounded-full bg-red-600 px-1.5 py-0.5 text-gray-100">
                             1
                         </span>
                     </sub>
                 </div>
 
                 <div x-show="linkActive" x-on:click.away="linkActive = false" x-cloak
-                     class="absolute right-0 w-96 top-11 border border-gray-300 z-10">
-                    <div class="bg-white rounded max-h-96 overflow-y-scroll custom-scrollbar">
+                     class="absolute right-0 top-11 z-10 w-96 border border-gray-300">
+                    <div class="custom-scrollbar max-h-96 overflow-y-scroll rounded bg-white">
                         <!-- Single Notification Example -->
-                        <a x-data="{ linkHover: false }" href="#" class="flex items-center justify-between py-4 px-3 hover:bg-gray-100 bg-opacity-20"
+                        <a x-data="{ linkHover: false }" href="#" class="flex items-center justify-between bg-opacity-20 px-3 py-4 hover:bg-gray-100"
                            x-on:mouseover="linkHover = true" x-on:mouseleave="linkHover = false">
                             <div class="flex items-center">
-                                <svg class="w-8 h-8 bg-primary bg-opacity-20 text-primary px-1.5 py-0.5 rounded-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="h-8 w-8 rounded-full bg-primary bg-opacity-20 px-1.5 py-0.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                                 </svg>
-                                <div class="text-sm ml-3">
-                                    <p class="text-gray-600 font-bold capitalize" :class=" linkHover ? 'text-primary' : ''">Order Completed</p>
+                                <div class="ml-3 text-sm">
+                                    <p class="font-bold capitalize text-gray-600" :class=" linkHover ? 'text-primary' : ''">Order Completed</p>
                                     <p class="text-xs">Your order is completed</p>
                                 </div>
                             </div>
@@ -77,19 +77,19 @@
 
                 <!-- Submenu -->
                 <div x-show="linkActive" x-on:click.away="linkActive = false" x-cloak
-                     class="absolute right-0 w-40 top-11 border border-gray-300 z-20">
-                    <div class="bg-white rounded">
+                     class="absolute right-0 top-11 z-20 w-40 border border-gray-300">
+                    <div class="rounded bg-white">
 
                         <!-- Profile link -->
                         <a x-data="{ linkHover: false }"
                            href="@Url.Action("Index", "Profile", new { area = "" })"
-                           class="flex items-center justify-between py-2 px-3 hover:bg-gray-100 bg-opacity-20"
+                           class="flex items-center justify-between bg-opacity-20 px-3 py-2 hover:bg-gray-100"
                            x-on:mouseover="linkHover = true"
                            x-on:mouseleave="linkHover = false">
                             <div class="flex items-center">
                                 <i class="fas fa-user text-primary"></i>
-                                <div class="text-sm ml-3">
-                                    <p class="text-gray-600 font-bold capitalize" :class=" linkHover ? 'text-primary' : ''">Profile</p>
+                                <div class="ml-3 text-sm">
+                                    <p class="font-bold capitalize text-gray-600" :class=" linkHover ? 'text-primary' : ''">@SharedLocalizer["Shared_Profile"]</p>
                                 </div>
                             </div>
                         </a>
@@ -97,13 +97,13 @@
                         <!-- Settings link -->
                         <a x-data="{ linkHover: false }"
                            href="./pages/settings.html"
-                           class="flex items-center justify-between py-2 px-3 hover:bg-gray-100 bg-opacity-20"
+                           class="flex items-center justify-between bg-opacity-20 px-3 py-2 hover:bg-gray-100"
                            x-on:mouseover="linkHover = true"
                            x-on:mouseleave="linkHover = false">
                             <div class="flex items-center">
                                 <i class="fas fa-cog text-primary"></i>
-                                <div class="text-sm ml-3">
-                                    <p class="text-gray-600 font-bold capitalize" :class=" linkHover ? 'text-primary' : ''">Settings</p>
+                                <div class="ml-3 text-sm">
+                                    <p class="font-bold capitalize text-gray-600" :class=" linkHover ? 'text-primary' : ''">@SharedLocalizer["Shared_Settings"]</p>
                                 </div>
                             </div>
                         </a>
@@ -113,14 +113,14 @@
                         <!-- Logout -->
                         <form method="post" action="@Url.Action("Logout", "Auth", new { area = "" })"
                               x-data="{ linkHover: false }"
-                              class="flex items-center justify-between py-2 px-3 hover:bg-gray-100 bg-opacity-20"
+                              class="flex items-center justify-between bg-opacity-20 px-3 py-2 hover:bg-gray-100"
                               x-on:mouseover="linkHover = true"
                               x-on:mouseleave="linkHover = false">
                             <div class="flex items-center">
                                 <i class="fas fa-sign-out-alt text-red-600"></i>
-                                <button type="submit" class="text-sm ml-3 text-gray-600 font-bold capitalize"
+                                <button type="submit" class="ml-3 text-sm font-bold capitalize text-gray-600"
                                         :class=" linkHover ? 'text-red-600' : ''">
-                                    Log out
+                                     @SharedLocalizer["Shared_Logout"]
                                 </button>
                             </div>
                         </form>

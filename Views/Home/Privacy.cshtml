@@ -1,6 +1,53 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@{
+    ViewData["Title"] = SharedLocalizer["Shared_Privacy_Title"];
+    Layout = "~/Views/Shared/Layouts/_MainLayout.cshtml";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="mx-auto mt-10 max-w-4xl rounded-xl bg-white p-10 shadow-lg">
+    <h1 class="mb-8 border-b pb-4 text-3xl font-bold text-gray-900">@ViewData["Title"]</h1>
+
+    <div class="space-y-8 text-justify leading-relaxed text-gray-700">
+        
+        @* 1. Acceptance of Terms (The point you emphasized) *@
+        <section class="rounded-r-lg border-l-4 border-blue-600 bg-blue-50 p-6">
+            <h2 class="mb-3 flex items-center text-xl font-bold text-blue-800">
+                <svg class="mr-2 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                @SharedLocalizer["Privacy_Acceptance_Head"]
+            </h2>
+            <div class="text-blue-900">
+                <p class="mb-2 font-semibold">@SharedLocalizer["Privacy_Acceptance_Content_Main"]</p>
+                <p class="text-sm">@SharedLocalizer["Privacy_Acceptance_Content_Detail"]</p>
+            </div>
+        </section>
+
+        @* 2. Introduction *@
+        <section>
+            <h2 class="mb-3 text-xl font-semibold text-gray-800">2. @SharedLocalizer["Privacy_Sec1_Head"]</h2>
+            <p>@SharedLocalizer["Privacy_Sec1_Content"]</p>
+        </section>
+
+        @* 3. Data Security *@
+        <section>
+            <h2 class="mb-3 text-xl font-semibold text-gray-800">3. @SharedLocalizer["Privacy_Sec2_Head"]</h2>
+            <p>@SharedLocalizer["Privacy_Sec2_Content"]</p>
+        </section>
+
+        @* 4. LEGAL WARNING (Cyber Security) *@
+        <section class="rounded-r-lg border-l-4 border-red-600 bg-red-50 p-6">
+            <h2 class="mb-3 flex items-center text-xl font-bold text-red-700">
+                <svg class="mr-2 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                4. @SharedLocalizer["Privacy_Legal_Head"]
+            </h2>
+            <p class="font-bold text-red-800">
+                @SharedLocalizer["Privacy_Legal_Content"]
+            </p>
+        </section>
+
+        @* 5. Cookies *@
+        <section>
+            <h2 class="mb-3 text-xl font-semibold text-gray-800">5. @SharedLocalizer["Privacy_Cookies_Head"]</h2>
+            <p>@SharedLocalizer["Privacy_Cookies_Content"]</p>
+        </section>
+    </div>
+</div>

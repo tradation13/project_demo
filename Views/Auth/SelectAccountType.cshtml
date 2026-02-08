@@ -1,60 +1,60 @@
 ﻿@using IPTS.Controllers
 @{
     Layout = "~/Views/Shared/Layouts/_AuthLayout.cshtml";
-    ViewBag.Title = "Select Account Type";
+    ViewBag.Title = SharedLocalizer["Auth_SelectAccountTitle"];
 }
 
-<div class="max-w-md mx-auto bg-white shadow rounded-lg p-8">
-    <h2 class="text-center text-2xl font-bold tracking-wide text-gray-800 mb-6">
-        Choose Your Account Type
+<div class="mx-auto max-w-md rounded-lg bg-white p-8 shadow">
+    <h2 class="mb-6 text-center text-2xl font-bold tracking-wide text-gray-800">
+        @SharedLocalizer["Auth_ChooseAccountHeading"]
     </h2>
     
-    <p class="text-center text-gray-600 mb-8">
-        Please select the type of account you want to create
+    <p class="mb-8 text-center text-gray-600">
+        @SharedLocalizer["Auth_ChooseAccountSubheading"]
     </p>
 
     <div class="space-y-4">
         <!-- Doctor Account Option -->
-        <a asp-controller="Auth" asp-action="Register" asp-route-accountType="doctor" class="block w-full p-6 border-2 border-blue-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-all duration-200 group">
+        <a asp-controller="Auth" asp-action="Register" asp-route-accountType="doctor" class="group block w-full rounded-lg border-2 border-blue-200 p-6 transition-all duration-200 hover:border-blue-400 hover:bg-blue-50">
            
             <div class="flex items-center space-x-4">
                 <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition-colors">
-                        <i class="fas fa-user-md text-blue-600 text-xl"></i>
+                    <div class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 transition-colors group-hover:bg-blue-200">
+                        <i class="fas fa-user-md text-xl text-blue-600"></i>
                     </div>
                 </div>
                 <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-gray-800 group-hover:text-blue-700 transition-colors">
-                        Doctor Account
+                    <h3 class="text-lg font-semibold text-gray-800 transition-colors group-hover:text-blue-700">
+                        @SharedLocalizer["Auth_DoctorAccount"]
                     </h3>
                     <p class="text-sm text-gray-600">
-                        For medical professionals to manage patients and appointments
+                        @SharedLocalizer["Auth_DoctorDescription"]
                     </p>
                 </div>
                 <div class="flex-shrink-0">
-                    <i class="fas fa-chevron-right text-gray-400 group-hover:text-blue-500 transition-colors"></i>
+                    <i class="fas fa-chevron-right text-gray-400 transition-colors group-hover:text-blue-500"></i>
                 </div>
             </div>
         </a>
 
         <!-- Patient Account Option -->
-        <a asp-controller="Auth" asp-action="Register" asp-route-accountType="patient" class="block w-full p-6 border-2 border-green-200 rounded-lg hover:border-green-400 hover:bg-green-50 transition-all duration-200 group">
+        <a asp-controller="Auth" asp-action="Register" asp-route-accountType="patient" class="group block w-full rounded-lg border-2 border-green-200 p-6 transition-all duration-200 hover:border-green-400 hover:bg-green-50">
             <div class="flex items-center space-x-4">
                 <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center group-hover:bg-green-200 transition-colors">
-                        <i class="fas fa-user text-green-600 text-xl"></i>
+                    <div class="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 transition-colors group-hover:bg-green-200">
+                        <i class="fas fa-user text-xl text-green-600"></i>
                     </div>
                 </div>
                 <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-gray-800 group-hover:text-green-700 transition-colors">
-                        Patient Account
+                    <h3 class="text-lg font-semibold text-gray-800 transition-colors group-hover:text-green-700">
+                        @SharedLocalizer["Auth_PatientAccount"]
                     </h3>
                     <p class="text-sm text-gray-600">
-                        For patients to book appointments and manage their health records
+                        @SharedLocalizer["Auth_PatientDescription"]
                     </p>
                 </div>
                 <div class="flex-shrink-0">
-                    <i class="fas fa-chevron-right text-gray-400 group-hover:text-green-500 transition-colors"></i>
+                    <i class="fas fa-chevron-right text-gray-400 transition-colors group-hover:text-green-500"></i>
                 </div>
             </div>
         </a>
@@ -63,10 +63,10 @@
     <!-- Back to Login -->
     <div class="mt-8 text-center">
         <p class="text-sm text-gray-600">
-            Already have an account?
+            @SharedLocalizer["Auth_AlreadyHaveAccount"]
             <a href="@Url.Action("Login", "Auth")"
-               class="text-blue-600 hover:text-blue-700 hover:underline font-medium">
-                Sign in here
+               class="font-medium text-blue-600 hover:text-blue-700 hover:underline">
+                @SharedLocalizer["Auth_SignInHere"]
             </a>
         </p>
     </div>

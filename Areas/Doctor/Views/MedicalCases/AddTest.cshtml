@@ -2,30 +2,30 @@
 @{
     var patient = ViewBag.Patient as IPTS.Models.Entites.Patient;
     var tests = ViewBag.Tests as List<IPTS.Models.Entites.Test>;
-    ViewData["Title"] = "Add Test";
+    ViewData["Title"] = @SharedLocalizer["MedCase_Det_AddTest"];
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
-<h2 class="text-2xl font-bold mb-4">
-    Add Test for @($"{patient?.User?.FirstName} {patient?.User?.LastName}")
+<h2 class="mb-4 text-2xl font-bold">
+    @SharedLocalizer["AddTest_Header"] @($"{patient?.User?.FirstName} {patient?.User?.LastName}")
 </h2>
 
-<form asp-action="AddTest" method="post" class="bg-white rounded shadow p-6 max-w-lg">
+<form asp-action="AddTest" method="post" class="max-w-lg rounded bg-white p-6 shadow">
     <input type="hidden" asp-for="MedicalCaseId" />
 
     <!-- حقل البحث -->
-    <div class="mb-4 relative">
-        <label class="block font-semibold mb-1">Search Test</label>
-        <input type="text" id="testSearch" placeholder="Type to search test..."
-               class="w-full border rounded px-3 py-2" autocomplete="off" />
+    <div class="relative mb-4">
+        <label class="mb-1 block font-semibold">@SharedLocalizer["AddTest_SearchLabel"]</label>
+        <input type="text" id="testSearch" placeholder=@SharedLocalizer["AddTest_SearchPlaceholder"]
+               class="w-full rounded border px-3 py-2" autocomplete="off" />
 
         <!-- قائمة الاقتراحات -->
         <ul id="suggestions"
-            class="absolute z-10 bg-white border rounded mt-1 w-full shadow max-h-48 overflow-y-auto hidden">
+            class="absolute z-10 mt-1 hidden max-h-48 w-full overflow-y-auto rounded border bg-white shadow">
             @foreach (var t in tests)
             {
                 <li data-id="@t.Id"
-                    class="px-3 py-2 cursor-pointer hover:bg-green-100">
+                    class="cursor-pointer px-3 py-2 hover:bg-green-100">
                     @($"{t.TestGroup?.Name} - {t.Name}")
                 </li>
             }
@@ -34,22 +34,22 @@
 
     <!-- الحقل الفعلي الذي يخزن TestId -->
     <input type="hidden" asp-for="TestId" id="selectedTestId" />
-    <span asp-validation-for="TestId" class="text-red-500 text-sm"></span>
+    <span asp-validation-for="TestId" class="text-sm text-red-500"></span>
 
     <div class="mb-4">
-        <label asp-for="Result" class="block font-semibold mb-1">Result (optional)</label>
-        <input asp-for="Result" class="w-full border rounded px-3 py-2" />
+        <label asp-for="Result" class="mb-1 block font-semibold">@SharedLocalizer["Shared_Result"] @SharedLocalizer["Shared_Optional"]</label>
+        <input asp-for="Result" class="w-full rounded border px-3 py-2" />
     </div>
 
     <div class="mb-4">
-        <label class="block font-semibold mb-1">Created At</label>
-        <input asp-for="CreatedAt" type="date" class="w-full border rounded px-3 py-2"
+        <label class="mb-1 block font-semibold">@SharedLocalizer["MedCase_Create_Date"]</label>
+        <input asp-for="CreatedAt" type="date" class="w-full rounded border px-3 py-2"
                value="@DateTime.Now.ToString("yyyy-MM-dd")" />
     </div>
 
     <button type="submit"
-            class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded shadow font-bold">
-        Add Test
+            class="rounded bg-green-600 px-6 py-2 font-bold text-white shadow hover:bg-green-700">
+        @SharedLocalizer["MedCase_Det_AddTest"]
     </button>
 </form>
 

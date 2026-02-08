@@ -4,27 +4,27 @@
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 
 }
-<div x-data="{ filter: false }" class="bg-white rounded-lg px-8 py-6 overflow-x-scroll custom-scrollbar">
-    <div class="flex items-center justify-between mb-4">
-        <h4 class="text-xl font-semibold">Users</h4>
+<div x-data="{ filter: false }" class="custom-scrollbar overflow-x-scroll rounded-lg bg-white px-8 py-6">
+    <div class="mb-4 flex items-center justify-between">
+        <h4 class="text-xl font-semibold">@SharedLocalizer["Users"]</h4>
         <a href=@Url.Action(action:"Index", controller: "UsersTypes")
-           class="bg-primary text-white text-sm px-4 py-1 rounded hover:bg-primary-dark transition duration-150">
-            Add New
+           class="rounded bg-primary px-4 py-1 text-sm text-white transition duration-150 hover:bg-primary-dark">
+            @SharedLocalizer["Shared_Add_New"]
         </a>
-    </div>    <div class="mt-8 mb-3 flex flex-col md:flex-row items-start md:items-center md:justify-between">
+    </div>    <div class="mb-3 mt-8 flex flex-col items-start md:flex-row md:items-center md:justify-between">
         @* <div class="flex items-center justify-center space-x-4"> *@
         @*     <form class="relative flex items-center"> *@
         @*         <input type="search" *@
         @*                name="input_search_without_btn" *@
         @*                id="input_search_without_btn" *@
-        @*                class="flex-1 py-0.5 pl-10 border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300" *@
+        @*                class="flex-1 border-gray-300 py-0.5 pl-10 focus:border-gray-300 focus:outline-none focus:ring-0" *@
         @*                placeholder="Search..."> *@
-        @*         <span class="absolute left-2 bg-transparent flex items-center justify-center" x-on:Click ="show = !show"> *@
-        @*             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg> *@
+        @*         <span class="absolute left-2 flex items-center justify-center bg-transparent" x-on:Click ="show = !show"> *@
+        @*             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg> *@
         @*         </span> *@
         @*     </form> *@
         @*     <button x-on:click ="filter = !filter" *@
-        @*             class="text-primary hover:text-primary-dark font-semibold hover:underline"> *@
+        @*             class="font-semibold text-primary hover:text-primary-dark hover:underline"> *@
         @*         Filters *@
         @*     </button> *@
         @* </div> *@
@@ -32,7 +32,7 @@
         @* <div class="mt-4 md:mt-0"> *@
         @*     <form> *@
         @*         <label>Order By:</label> *@
-        @*         <select class="text-sm py-0.5 ml-1"> *@
+        @*         <select class="ml-1 py-0.5 text-sm"> *@
         @*             <option></option> *@
         @*             <option>Name</option> *@
         @*             <option>Name DESC</option> *@
@@ -44,67 +44,67 @@
     </div>
     <div x-show="filter"
          x-collapse.duration.300ms>
-        <div class="mb-2 py-4 bg-gray-200 px-8 rounded-lg">
-            <h5 class="underline">Filter Results</h5>
+        <div class="mb-2 rounded-lg bg-gray-200 px-8 py-4">
+            <h5 class="underline">@SharedLocalizer["Appt_FilterResults"]</h5>
             <form class="py-2">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 my-4">
+                <div class="my-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     <input type="text"
                            name="order_id"
-                           class="flex-1 py-1 border-gray-300 rounded focus:border-gray-300 focus:outline-none focus:ring-0"
-                           placeholder="Order ID">
+                           class="flex-1 rounded border-gray-300 py-1 focus:border-gray-300 focus:outline-none focus:ring-0"
+                           placeholder=@SharedLocalizer["Users_OrderID"]>
                     <input type="text"
                            name="customer_name"
-                           class="flex-1 py-1 border-gray-300 rounded focus:border-gray-300 focus:outline-none focus:ring-0"
-                           placeholder="Customer Name">
+                           class="flex-1 rounded border-gray-300 py-1 focus:border-gray-300 focus:outline-none focus:ring-0"
+                           placeholder=@SharedLocalizer["Users_CustomerName"]>
                     <div class="w-full">
-                        <label class="mr-2">Status:</label>
-                        <select class="flex-1 py-1 border-gray-300 rounded focus:border-gray-300 focus:outline-none focus:ring-0">
+                        <label class="mr-2">@SharedLocalizer["Appt_Status"]:</label>
+                        <select class="flex-1 rounded border-gray-300 py-1 focus:border-gray-300 focus:outline-none focus:ring-0">
                             <option></option>
-                            <option>Pending</option>
-                            <option>Shipped</option>
-                            <option>Paid</option>
-                            <option>Canceled</option>
+                            <option>@SharedLocalizer["Status_Pending"]</option>
+                            <option>@SharedLocalizer["Status_Shipped"]</option>
+                            <option>@SharedLocalizer["Status_Paid"]</option>
+                            <option>@SharedLocalizer["Status_Canceled"]</option>
                         </select>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 my-4">
+                <div class="my-4 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     <input type="number"
                            name="min_price"
-                           class="flex-1 py-1 border-gray-300 rounded focus:border-gray-300 focus:outline-none focus:ring-0"
-                           placeholder="Min Price">
+                           class="flex-1 rounded border-gray-300 py-1 focus:border-gray-300 focus:outline-none focus:ring-0"
+                           placeholder=@SharedLocalizer["Users_MinPrice"]>
                     <input type="number"
                            name="max_price"
-                           class="flex-1 py-1 border-gray-300 rounded focus:border-gray-300 focus:outline-none focus:ring-0"
-                           placeholder="Max Price">
+                           class="flex-1 rounded border-gray-300 py-1 focus:border-gray-300 focus:outline-none focus:ring-0"
+                           placeholder=@SharedLocalizer["Users_MaxPrice"]>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 my-4">
+                <div class="my-4 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     <div>
-                        <label class="mr-2">From Date:</label>
+                        <label class="mr-2">@SharedLocalizer["Appt_From"] @SharedLocalizer["Shared_Date"]:</label>
                         <input type="date"
                                name="from_date"
-                               class="flex-1 py-1 border-gray-300 mt-1 rounded focus:border-gray-300 focus:outline-none focus:ring-0">
+                               class="mt-1 flex-1 rounded border-gray-300 py-1 focus:border-gray-300 focus:outline-none focus:ring-0">
                     </div>
                     <div>
-                        <label class="mr-2">To Date:</label>
+                        <label class="mr-2">@SharedLocalizer["Appt_To"] @SharedLocalizer["Shared_Date"]:</label>
                         <input type="date"
                                name="to_date"
-                               class="flex-1 py-1 border-gray-300 mt-1 rounded focus:border-gray-300 focus:outline-none focus:ring-0">
+                               class="mt-1 flex-1 rounded border-gray-300 py-1 focus:border-gray-300 focus:outline-none focus:ring-0">
                     </div>
                 </div>
 
-                <button class="bg-primary hover:bg-primary-dark rounded-lg px-8 py-1 text-gray-100 hover:shadow-xl transition duration-150 mt-8 text-sm">Filter</button>
+                <button class="mt-8 rounded-lg bg-primary px-8 py-1 text-sm text-gray-100 transition duration-150 hover:bg-primary-dark hover:shadow-xl">@SharedLocalizer["Logs_Btn_Filter"]</button>
             </form>
         </div>
     </div>
-    <table class="w-full whitespace-nowrap mb-8">
-        <thead class="bg-primary text-white font-bold">
+    <table class="mb-8 w-full whitespace-nowrap">
+        <thead class="bg-primary font-bold text-white">
             <tr>
                 <th>#</th>
-                <th>ID</th>
-                <th>Account Type</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Status</th>
+                <th>@SharedLocalizer["Shared_ID"]</th>
+                <th>@SharedLocalizer["Users_AccountType"]</th>
+                <th>@SharedLocalizer["Shared_UserName"]</th>
+                <th>@SharedLocalizer["Shared_Email"]</th>
+                <th>@SharedLocalizer["Appt_Status"]</th>
                 <th></th>
             </tr>
         </thead>
@@ -121,7 +121,7 @@
                     <td class="text-center">
                         <partial name="_UserStatus.cshtml" model=@((int)user.Status) />
 
-                    <td class="py-3 pl-2 flex items-center justify-center text-center space-x-2">
+                    <td class="flex items-center justify-center space-x-2 py-3 pl-2 text-center">
                         <a asp-controller="Profile" asp-action="Index" asp-route-id="@user.Id" asp-area="">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary hover:text-primary-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -134,7 +134,7 @@
                             </svg>
                         </a>
 
-                        <form asp-action="Delete" asp-controller="Users" asp-route-id="@user.Id" method="post" onsubmit="return confirm('Are you sure?');" class="inline">
+                        <form asp-action="Delete" asp-controller="Users" asp-route-id="@user.Id" method="post" onsubmit="return confirm('@SharedLocalizer["Msg_AreYouSure"]');" class="inline">
                             <button type="submit">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -144,7 +144,7 @@
                             </button>
                         </form>
                         <!-- Send Reset Password Link -->
-                        <form asp-controller="Users" asp-action="SendRestPasswordLink" method="post" class="inline" onsubmit="return confirm('Are you sure?');">
+                        <form asp-controller="Users" asp-action="SendRestPasswordLink" method="post" class="inline" onsubmit="return confirm('@SharedLocalizer["Msg_AreYouSure"]');">
                             <input type="hidden" name="Email" value="@user.Email" />
                             <button type="submit" title="Send Reset Password Link" class="hover:text-green-600">
                                 <!-- أيقونة سهم ملفوف من Heroicons -->

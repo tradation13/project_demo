@@ -1,42 +1,46 @@
 ﻿@model List<DoctorViewModel>
 @{
-    ViewData["Title"] = "Therapies";
+    ViewData["Title"] = SharedLocalizer["Therapies_PageTitle"];
     Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
     var tomorrowMidnight = DateTime.Today.AddDays(1);
+    
+    // سطر ذكي إضافي للتأكد من أن الكاش يفهم اللغة الحالية برمجياً
+    var currentLang = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 
 <div class="min-h-screen bg-gray-50">
-    <cache expires-on="@tomorrowMidnight">
+    @* أضفنا vary-by-culture و vary-by-query لضمان عدم حدوث تداخل بين اللغات *@
+    <cache expires-on="@tomorrowMidnight" vary-by-culture="true" vary-by-query="culture">
         <section class="bg-gradient-to-br from-blue-50 to-indigo-100 py-16">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center space-x-4 mb-8">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mb-8 flex items-center space-x-4">
                     <button onclick="window.history.back()"
-                            class="p-2 text-gray-600 hover:text-green-600 transition-colors bg-white rounded-lg shadow-sm">
-                        <!-- SVG Back Arrow -->
+                            class="rounded-lg bg-white p-2 text-gray-600 shadow-sm transition-colors hover:text-green-600">
+                         <i class="fas fa-arrow-left"></i>
                     </button>
                 </div>
                 <div class="text-center">
-                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                        Meet Our Expert Physical Therapists
+                    <h1 class="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">
+                        @SharedLocalizer["Therapies_Hero_Title"]
                     </h1>
-                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Connect with our team of licensed physical therapists specializing in various rehabilitation areas.
-                        Find the right therapist for your recovery needs.
+                    <p class="mx-auto max-w-3xl text-xl text-gray-600">
+                       @SharedLocalizer["Therapies_Hero_Desc"]
                     </p>
                 </div>
             </div>
         </section>
    </cache>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <cache expires-on="@tomorrowMidnight">
-       @*  <form method="get" class="flex flex-col lg:flex-row gap-6 mb-6">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        @* نستخدم نفس الخصائص هنا أيضاً *@
+        <cache expires-on="@tomorrowMidnight" vary-by-culture="true" vary-by-query="culture">
+        @* <form method="get" class="mb-6 flex flex-col gap-6 lg:flex-row">
             <div class="flex-1">
                 <input type="text" name="search" value="@(Context.Request.Query["search"])" placeholder="Search therapists by name or specialty..."
-                       class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+                       class="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-gray-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
             <div class="lg:w-48">
-                <select name="sort" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                <select name="sort" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="name" selected="@(Context.Request.Query["sort"] == "name")">Name (A-Z)</option>
                     <option value="rating" selected="@(Context.Request.Query["sort"] == "rating")">Highest Rated</option>
                     <option value="experience" selected="@(Context.Request.Query["sort"] == "experience")">Most Experienced</option>
@@ -44,7 +48,7 @@
                 </select>
             </div>
             <div class="lg:w-48">
-                <select name="specialty" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                <select name="specialty" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="">All Specialties</option>
                     @foreach (var spec in Model.Select(d => d.Specialty).Distinct())
                     {
@@ -52,32 +56,35 @@
                     }
                 </select>
             </div>
-            <button type="submit" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">Filter</button>
+            <button type="submit" class="rounded-lg bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700">Filter</button>
         </form> *@
 
         <div class="mb-8">
             <p id="results-summary" class="text-gray-600">
-                Showing @Model.Count doctor@(Model.Count == 1 ? "" : "s")
+                @SharedLocalizer["Therapies_Showing"] @Model.Count 
+                @(Model.Count == 1 ? SharedLocalizer["Therapies_Doctor"] : SharedLocalizer["Therapies_Doctors"])
             </p>
         </div>
         </cache>
 
-        <div id="doctors-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div id="doctors-grid" class="mb-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             @if (Model.Count == 0)
             {
-                <div class="col-span-full text-center py-12">
-                    <h3 class="text-lg font-medium text-gray-900 mb-2">No doctors found</h3>
-                    <p class="text-gray-600 mb-6">Try adjusting your search criteria or filters to find more doctors.</p>
-                    <a href="/Home/Therapies" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">Clear All Filters</a>
+                <div class="col-span-full py-12 text-center">
+                    <h3 class="mb-2 text-lg font-medium text-gray-900">@SharedLocalizer["Therapies_NoFound"]</h3>
+                    <p class="mb-6 text-gray-600">@SharedLocalizer["Therapies_NoFound_Desc"]</p>
+                    <a href="/Home/Therapies" class="rounded-lg bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700">
+                        @SharedLocalizer["Therapies_ClearFilters"]
+                    </a>
                 </div>
             }
             else
             {
                 @foreach (var doctor in Model)
                 {
-                    <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="rounded-xl bg-white p-6 shadow-lg transition-shadow hover:shadow-xl">
                         <div class="text-center">
-                            <div class="w-24 h-24 mx-auto mb-4 relative flex items-center justify-center">
+                            <div class="relative mx-auto mb-4 flex h-24 w-24 items-center justify-center">
                                 @if (string.IsNullOrWhiteSpace(doctor?.PhotoUrl))
                                 {
                                     <i class="fa-solid fa-user-doctor text-primary-dark" style="font-size: 80px;"></i>
@@ -86,30 +93,35 @@
                                 {
                                     <img src="@doctor.PhotoUrl"
                                          alt="@doctor.FullName"
-                                         class="w-24 h-24 rounded-full object-cover" />
+                                         class="h-24 w-24 rounded-full object-cover" />
                                 }
                             </div>
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">@doctor.FullName</h3>
-                            <p class="text-blue-600 font-medium mb-2">@doctor.Specialty</p>
-                            @* <div class="flex items-center justify-center space-x-2 mb-4"> *@
-                            @*     <div class="flex text-yellow-400"> *@
-                            @*         @for (int i = 0; i < Math.Round(doctor.Rating); i++) *@
-                            @*         { *@
-                            @*             <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="..." /></svg> *@
-                            @*         } *@
-                            @*     </div> *@
-                            @*     <span class="text-sm text-gray-600">@doctor.Rating.ToString("0.0")</span> *@
+                            <h3 class="mb-2 text-xl font-semibold text-gray-900">@doctor.FullName</h3>
+                            
+                            <p class="mb-2 font-medium text-blue-600">
+                                @(SharedLocalizer[doctor.Specialty ?? "N/A"])
+                            </p>
+
+                            @* <div class="mb-4 flex items-center justify-center space-x-2"> *@
+                            @* <div class="flex text-yellow-400"> *@
+                            @* @for (int i = 0; i < Math.Round(doctor.Rating); i++) *@
+                            @* { *@
+                            @* <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="..." /></svg> *@
+                            @* } *@
                             @* </div> *@
+                            @* <span class="text-sm text-gray-600">@doctor.Rating.ToString("0.0")</span> *@
+                            @* </div> *@
+                            
                             <a href="@Url.Action("Index","Profile", new {id = doctor.Id})"
-                               class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors mb-2">
-                                View Profile
+                               class="bg-primary-50 mb-2 inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-primary-600 transition-colors hover:bg-primary-100">
+                                @SharedLocalizer["Therapies_ViewProfile"]
                             </a>
                             <a asp-area="patient"
                                 asp-controller="Appointment"
                                 asp-action="Index"
                                 asp-route-Id="@doctor.UserId"
-                               class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">
-                                Book Appointment
+                               class="inline-flex w-full items-center justify-center rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-700">
+                                @SharedLocalizer["Therapies_BookNow"]
                             </a>
                         </div>
                     </div>

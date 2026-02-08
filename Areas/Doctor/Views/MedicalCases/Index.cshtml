@@ -5,21 +5,21 @@
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
-<h2 class="text-2xl font-bold mb-4">Medical Cases for @($"{patient?.User?.FirstName} {patient?.User?.LastName}")</h2>
-<div class="mb-6 bg-white rounded shadow p-4">
+<h2 class="mb-4 text-2xl font-bold">@SharedLocalizer["MedCase_Header"] @($"{patient?.User?.FirstName} {patient?.User?.LastName}")</h2>
+<div class="mb-6 rounded bg-white p-4 shadow">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between">
         <div>
-            <div class="font-semibold">Identity:</div>
+            <div class="font-semibold">@SharedLocalizer["Shared_Identity_Number"]:</div>
             <div class="text-gray-700">@patient?.IdentityNumber</div>
-            <div class="font-semibold mt-2">Phone:</div>
+            <div class="mt-2 font-semibold">@SharedLocalizer["Shared_Phone"]:</div>
             <div class="text-gray-700">@patient?.User?.PhoneNumber</div>
-            <div class="font-semibold mt-2">Email:</div>
+            <div class="mt-2 font-semibold">@SharedLocalizer["Shared_Email"]:</div>
             <div class="text-gray-700">@patient?.User?.Email</div>
         </div>
         <div class="mt-4 md:mt-0">
             <a href="@Url.Action("Create", "MedicalCases", new { area = "doctor", patientId = patient?.Id })"
-               class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded shadow font-bold">
-                + Add New Medical Case
+               class="rounded bg-green-600 px-6 py-2 font-bold text-white shadow hover:bg-green-700">
+                + @SharedLocalizer["Shared_Add_MedicalCase"]
             </a>
         </div>
     </div>
@@ -27,8 +27,8 @@
 
 @if (!Model.Any())
 {
-    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded mb-4">
-        <p class="text-yellow-800">No medical cases found for this patient.</p>
+    <div class="mb-4 rounded border-l-4 border-yellow-400 bg-yellow-50 p-4">
+        <p class="text-yellow-800">@SharedLocalizer["MedCase_NoData"]</p>
     </div>
 }
 else
@@ -37,19 +37,19 @@ else
         @foreach (var mc in Model)
         {
             var hasFinishedTest = mc.MedicalCaseTests?.Any(t => !string.IsNullOrEmpty(t.Result)) == true;
-            <div class="bg-white rounded-lg shadow p-6 flex flex-col md:flex-row md:items-center md:justify-between">
+            <div class="flex flex-col rounded-lg bg-white p-6 shadow md:flex-row md:items-center md:justify-between">
                 <div>
-                    <div class="font-bold text-lg mb-1">@mc.Name</div>
-                    <div class="text-gray-600 text-sm mb-1">@mc.Description</div>
-                    <div class="text-gray-500 text-xs">Created: @mc.CreatedAt.ToString("yyyy-MM-dd")</div>
+                    <div class="mb-1 text-lg font-bold">@mc.Name</div>
+                    <div class="mb-1 text-sm text-gray-600">@mc.Description</div>
+                    <div class="text-xs text-gray-500">@SharedLocalizer["Shared_Created"]: @mc.CreatedAt.ToString("yyyy-MM-dd")</div>
                 </div>
-                <div class="flex gap-2 mt-4 md:mt-0">
+                <div class="mt-4 flex gap-2 md:mt-0">
                     <a href="@Url.Action("Details", "MedicalCases", new { area = "doctor", id = mc.Id })"
-                       class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Details</a>
+                       class="rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700">@SharedLocalizer["Shared_Details"]</a>
                     @if (hasFinishedTest)
                     {
                         <a href="@Url.Action("PrintReport", "MedicalCases", new { area = "doctor", id = mc.Id })"
-                           class="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-900 text-sm">Print Report</a>
+                           class="rounded bg-gray-700 px-4 py-2 text-sm text-white hover:bg-gray-900">@SharedLocalizer["Shared_Print_Report"]</a>
                     }
                 </div>
             </div>

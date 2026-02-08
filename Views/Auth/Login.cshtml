@@ -1,42 +1,45 @@
 ﻿@model LoginViewModel
 @{
     Layout = "~/Views/Shared/Layouts/_AuthLayout.cshtml";
+    ViewData["Title"] = SharedLocalizer["Login_PageTitle"];
 }
 
-<div class="max-w-md mx-auto bg-white shadow rounded-lg p-8">
-    <h2 class="text-center text-2xl font-bold tracking-wide text-gray-800">Sign In</h2>
-    <p class="text-center text-sm text-gray-600 mt-2">
-        Don't have an account yet?
+<div class="mx-auto max-w-md rounded-lg bg-white p-8 shadow">
+    <h2 class="text-center text-2xl font-bold tracking-wide text-gray-800">
+        @SharedLocalizer["Shared_SignIn"]
+    </h2>
+    <p class="mt-2 text-center text-sm text-gray-600">
+        @SharedLocalizer["Login_NoAccount"]
         <a href="@Url.Action("Register", "Auth")"
            class="text-primary hover:text-primary-dark hover:underline"
-           title="Sign Up">
-            Sign up here
+           title="@SharedLocalizer["Login_SignUp_Title"]">
+             @SharedLocalizer["Login_SignUp_Link"]
         </a>
     </p>
 
     <form asp-controller="auth" asp-action="login" method="post" autocomplete="off"
-          class="my-8 text-sm space-y-6">
+          class="my-8 space-y-6 text-sm">
         <input asp-for="ReturnUrl" type="hidden" />  
 
         <div>
-            <label asp-for="UsernameOrEmail" class="text-gray-700">Email or Username</label>
+            <label asp-for="UsernameOrEmail" class="text-gray-700">@SharedLocalizer["Login_Label_UserEmail"]</label>
             <input asp-for="UsernameOrEmail"
-                   class="mt-2 py-2 w-full border-gray-300 focus:outline-none
-                          focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
-                   placeholder="you@example.com" />
+                   class="mt-2 w-full rounded border-gray-300 py-2 text-sm text-gray-900 focus:border-gray-300 focus:outline-none focus:ring-0"
+                   placeholder="Leo@gmail.com" />
             <span asp-validation-for="UsernameOrEmail" class="text-sm text-red-500"></span>
         </div>
 
         <div>
-            <label asp-for="Password" class="text-gray-700">Password</label>
-            <div x-data="{ show: false }" class="relative flex items-center mt-2">
+            <label asp-for="Password" class="text-gray-700">@SharedLocalizer["Shared_Password"]</label>
+            <div x-data="{ show: false }" class="relative mt-2 flex items-center">
                 <input :type=" show ? 'text': 'password' "
                        asp-for="Password"
-                       class="flex-1 py-2 pr-10 border-gray-300 focus:outline-none focus:ring-0
-                              focus:border-gray-300 rounded text-sm text-gray-900"
+                       class="flex-1 rounded border-gray-300 py-2 pr-10 text-sm text-gray-900 focus:border-gray-300 focus:outline-none focus:ring-0"
                        placeholder="••••••••" />
                 <button x-on:click ="show = !show" type="button"
-                        class="absolute right-2 bg-transparent flex items-center justify-center text-gray-700">
+                        class="absolute right-2 flex items-center justify-center bg-transparent text-gray-700">
+                        @* يمكنك إضافة أيقونة العين هنا *@
+                        <i :class="show ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
                 </button>
             </div>
             <span asp-validation-for="Password" class="text-sm text-red-500"></span>
@@ -44,63 +47,60 @@
 
         <div class="flex items-center">
             <input asp-for="RememberMe" type="checkbox" id="remember_me"
-                   class="mr-2 focus:ring-0 rounded">
-            <label for="remember_me" class="text-gray-700">Remember me</label>
+                   class="mr-2 rounded focus:ring-0">
+            <label for="remember_me" class="text-gray-700">@SharedLocalizer["Login_RememberMe"]</label>
         </div>
-@*         <button type="submit"
-        class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded transition duration-150 shadow">
+
+@* <button type="submit"
+        class="w-full rounded bg-green-600 px-6 py-2 font-bold text-white shadow transition duration-150 hover:bg-green-700">
             Login
         </button> *@
+
         <div class="my-4 flex items-center justify-end space-x-4">
             <a href="@Url.Action("ForgotPassword","auth")"
                class="text-gray-700 hover:text-gray-900 hover:underline">
-                Forgot your password?
+                @SharedLocalizer["Shared__ForgotPassword"]
             </a>
             <button type="submit"
-                    class="bg-primary hover:bg-primary-dark rounded-lg px-8 py-2 text-gray-100
-                           hover:shadow-xl transition duration-150 uppercase">
-                Sign In
+                    class="rounded-lg bg-primary px-8 py-2 uppercase text-gray-100 transition duration-150 hover:bg-primary-dark hover:shadow-xl">
+                @SharedLocalizer["Shared_SignIn"]
             </button>
         </div>
 
         @await Html.PartialAsync("_ValidationSummary", ViewData.ModelState)
     </form>
 
-    <!-- Divider -->
-@*     <div class="flex items-center justify-between my-6">
-        <div class="w-full h-[1px] bg-gray-300"></div>
-        <span class="text-sm uppercase mx-6 text-gray-400">Or</span>
-        <div class="w-full h-[1px] bg-gray-300"></div>
+    @* <div class="my-6 flex items-center justify-between">
+        <div class="h-[1px] w-full bg-gray-300"></div>
+        <span class="mx-6 text-sm uppercase text-gray-400">Or</span>
+        <div class="h-[1px] w-full bg-gray-300"></div>
     </div>
  *@
-    <!-- External Providers -->
-    @* <div class="text-sm space-y-2">
+    @* <div class="space-y-2 text-sm">
         <a href="@Url.Action("ExternalLogin", "auth", new { provider = "Google" })"
-           class="flex items-center justify-center space-x-2 text-gray-600 py-2 bg-gray-100
-          hover:bg-gray-200 rounded">
+           class="flex items-center justify-center space-x-2 rounded bg-gray-100 py-2 text-gray-600 hover:bg-gray-200">
             <i class="fab fa-google text-3xl" style="color:#DB4437;"></i>
             <span>Continue with Google</span>
         </a>
 
         <a href="@Url.Action("ExternalLogin", "auth", new { provider = "Facebook" })"
-           class="flex items-center justify-center space-x-2 text-gray-600 py-2 bg-gray-100
-          hover:bg-gray-200 rounded">
+           class="flex items-center justify-center space-x-2 rounded bg-gray-100 py-2 text-gray-600 hover:bg-gray-200">
             <i class="fab fa-facebook text-3xl" style="color:#1877F2;"></i>
             <span>Continue with Facebook</span>
         </a>
 
         <a href="@Url.Action("ExternalLogin", "auth", new { provider = "LinkedIn" })"
-           class="flex items-center justify-center space-x-2 text-gray-600 py-2 bg-gray-100
-          hover:bg-gray-200 rounded">
+           class="flex items-center justify-center space-x-2 rounded bg-gray-100 py-2 text-gray-600 hover:bg-gray-200">
             <i class="fab fa-linkedin text-3xl" style="color:#0077B5;"></i>
             <span>Continue with LinkedIn</span>
         </a>
     </div> *@
-     <div class="mt-4">
-            <a asp-controller="Home" asp-action="Index"
-               class="text-green-600 hover:text-green-700 hover:underline">
-                ← Back to PhysoTech Home
-            </a>
-        </div>
+
+    <div class="mt-4">
+        <a asp-controller="Home" asp-action="Index"
+           class="text-green-600 hover:text-green-700 hover:underline">
+            ← @SharedLocalizer["Login_BackHome"]
+        </a>
+    </div>
     @await Html.PartialAsync("_ValidationScriptsPartial")
 </div>

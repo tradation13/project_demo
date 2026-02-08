@@ -1,0 +1,1912 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Shared_Home" xml:space="preserve">
+    <value>Startseite</value>
+    <comment>VIiews -&gt; Shared -&gt; PublicSide</comment>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>Über uns</value>
+    <comment>VIiews -&gt; Shared -&gt; PublicSide</comment>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Kontakt</value>
+    <comment>VIiews -&gt; Shared -&gt; PublicSide</comment>
+  </data>
+  <data name="Therapies" xml:space="preserve">
+    <value>Therapien</value>
+    <comment>VIiews -&gt; Shared -&gt; PublicSide</comment>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+    <comment>VIiews -&gt; Shared -&gt; PublicSide -&gt; Header</comment>
+  </data>
+  <data name="Join" xml:space="preserve">
+    <value>Anmelden</value>
+    <comment>VIiews -&gt; Shared -&gt; PublicSide -&gt; Header</comment>
+  </data>
+  <data name="Panel" xml:space="preserve">
+    <value>Benutzerpanel</value>
+    <comment>VIiews -&gt; Shared -&gt; PublicSide -&gt; Header</comment>
+  </data>
+  <data name="MyAppointments" xml:space="preserve">
+    <value>Meine Termine</value>
+    <comment>VIiews -&gt; Shared -&gt; PublicSide -&gt; Header</comment>
+  </data>
+  <data name="QuickLinks" xml:space="preserve">
+    <value>Schnelle Links</value>
+    <comment>VIiews -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="MyPage" xml:space="preserve">
+    <value>Meine Seite</value>
+    <comment>VIiews -&gt; Shared -&gt; PublicSide</comment>
+  </data>
+  <data name="CopyRight" xml:space="preserve">
+    <value>IPTS - Intelligentes Patiententracking-System. Alle Rechte vorbehalten.</value>
+    <comment>VIiews -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="SystemDescription" xml:space="preserve">
+    <value>Fortschrittliches System für das Physiotherapie-Management, das umfassende Rehabilitationsdienste mit intelligenter Patientenverfolgung bietet.</value>
+    <comment>VIiews -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="Hero_Slogan" xml:space="preserve">
+    <value>Intelligente Pflege. Schnelle Genesung.</value>
+    <comment>VIiews -&gt; Home -&gt; Hero</comment>
+  </data>
+  <data name="Hero_Description" xml:space="preserve">
+    <value>Bei PhysoTech verbinden wir innovative Technologie mit Physiotherapie für eine schnellere Genesung.</value>
+    <comment>VIiews -&gt; Home -&gt; Hero</comment>
+  </data>
+  <data name="Hero_BtnBook" xml:space="preserve">
+    <value>Jetzt einen Termin buchen</value>
+    <comment>VIiews -&gt; Home -&gt; Hero</comment>
+  </data>
+  <data name="Hero_BtnLearnMore" xml:space="preserve">
+    <value>Mehr erfahren</value>
+    <comment>VIiews -&gt; Home -&gt; Hero</comment>
+  </data>
+  <data name="Hero_ImgAlt" xml:space="preserve">
+    <value>Intelligente Physiotherapie-Technologie</value>
+    <comment>VIiews -&gt; Home -&gt; Hero</comment>
+  </data>
+  <data name="About_Brief" xml:space="preserve">
+    <value>Bei PhysioTech kombinieren wir fortschrittliche Physiotherapie-Praktiken mit modernster Technologie.</value>
+    <comment>VIiews -&gt; Home -&gt; AboutSection</comment>
+  </data>
+  <data name="About_PoweredBy" xml:space="preserve">
+    <value>Unterstützt durch das</value>
+    <comment>VIiews -&gt; Home -&gt; AboutSection</comment>
+  </data>
+  <data name="About_LinkReadMore" xml:space="preserve">
+    <value>Weiterlesen</value>
+    <comment>VIiews -&gt; Home -&gt; AboutSection</comment>
+  </data>
+  <data name="About_Details" xml:space="preserve">
+    <value>bieten wir datengesteuerte Erholungspläne, intelligente Auswertungen und eine kontinuierliche Fortschrittskontrolle.</value>
+    <comment>VIiews -&gt; Home -&gt; AboutSection</comment>
+  </data>
+  <data name="About_BtnMoreUs" xml:space="preserve">
+    <value>Mehr über uns lesen</value>
+    <comment>VIiews -&gt; Home -&gt; AboutSection</comment>
+  </data>
+  <data name="Why_Title" xml:space="preserve">
+    <value>Warum PhysoTech?</value>
+    <comment>VIiews -&gt; Home -&gt; WhySection</comment>
+  </data>
+  <data name="Why_Card1_Title" xml:space="preserve">
+    <value>Intelligente Berichte</value>
+    <comment>VIiews -&gt; Home -&gt; WhySection</comment>
+  </data>
+  <data name="Why_Card1_Desc" xml:space="preserve">
+    <value>Klare IPTS-Zusammenfassungen.</value>
+    <comment>VIiews -&gt; Home -&gt; WhySection</comment>
+  </data>
+  <data name="Why_Card2_Title" xml:space="preserve">
+    <value>KI-gestützt</value>
+    <comment>VIiews -&gt; Home -&gt; WhySection</comment>
+  </data>
+  <data name="Why_Card2_Desc" xml:space="preserve">
+    <value>Intelligente Auswertungen.</value>
+    <comment>VIiews -&gt; Home -&gt; WhySection</comment>
+  </data>
+  <data name="Why_Card3_Title" xml:space="preserve">
+    <value>Fortschrittskontrolle</value>
+    <comment>VIiews -&gt; Home -&gt; WhySection</comment>
+  </data>
+  <data name="Why_Card3_Desc" xml:space="preserve">
+    <value>Regelmäßige Meilensteine.</value>
+    <comment>VIiews -&gt; Home -&gt; WhySection</comment>
+  </data>
+  <data name="Why_Card4_Title" xml:space="preserve">
+    <value>Zertifizierte Spezialisten</value>
+    <comment>VIiews -&gt; Home -&gt; WhySection</comment>
+  </data>
+  <data name="Why_Card4_Desc" xml:space="preserve">
+    <value>Erfahrenes Team.</value>
+    <comment>VIiews -&gt; Home -&gt; WhySection</comment>
+  </data>
+  <data name="Services_Title" xml:space="preserve">
+    <value>Unsere Kernleistungen</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
+  </data>
+  <data name="Services_Subtitle" xml:space="preserve">
+    <value>Umfassende Physiotherapie-Lösungen, unterstützt durch intelligente Technologie</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
+  </data>
+  <data name="Services_S1_Title" xml:space="preserve">
+    <value>Physiotherapie-Sitzungen</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
+  </data>
+  <data name="Services_S1_Desc" xml:space="preserve">
+    <value>Individuelle Behandlungsprogramme zur Schmerzlinderung, Muskelstärkung und Wiederherstellung der Mobilität.</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
+  </data>
+  <data name="Services_S2_Title" xml:space="preserve">
+    <value>Wirbelsäulentherapie</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
+  </data>
+  <data name="Services_S2_Desc" xml:space="preserve">
+    <value>Professionelle Techniken zur Verbesserung der Körperhaltung und Entlastung der Wirbelsäule.</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
+  </data>
+  <data name="Services_S3_Title" xml:space="preserve">
+    <value>Sportrehabilitation</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
+  </data>
+  <data name="Services_S3_Desc" xml:space="preserve">
+    <value>Spezialisierte Programme für Sportler nach Verstauchungen, Muskelfaserrissen und Gelenkverletzungen.</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
+  </data>
+  <data name="Services_S4_Title" xml:space="preserve">
+    <value>Intelligente Bewertung via IPTS</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
+  </data>
+  <data name="Services_S4_Desc" xml:space="preserve">
+    <value>Präzise Auswertungen durch fortschrittliche Monitoring-Tools und KI-gestützte Analysen.</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
+  </data>
+  <data name="Services_S5_Title" xml:space="preserve">
+    <value>Verfolgung des Behandlungsfortschritts</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
+  </data>
+  <data name="Services_S5_Desc" xml:space="preserve">
+    <value>Echtzeit-Einblicke in Ihren Genesungsprozess, damit Sie immer auf dem richtigen Weg sind.</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
+  </data>
+  <data name="Services_CTA_Title" xml:space="preserve">
+    <value>Bereit loszulegen?</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
+  </data>
+  <data name="Services_CTA_Desc" xml:space="preserve">
+    <value>Buchen Sie Ihre Sitzung und beginnen Sie noch heute Ihre Genesung.</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
+  </data>
+  <data name="Shared_Book_Now" xml:space="preserve">
+    <value>Jetzt buchen</value>
+    <comment>VIiews -&gt; Home -&gt; ServicesSection + DoctorsSection </comment>
+  </data>
+  <data name="Docs_Title" xml:space="preserve">
+    <value>Unsere führenden Therapeuten</value>
+    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+  </data>
+  <data name="Docs_Subtitle" xml:space="preserve">
+    <value>Ein engagiertes Team zertifizierter Physiotherapeuten für personalisierte, technologiegestützte Pflege.</value>
+    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+  </data>
+  <data name="Docs_D1_Name" xml:space="preserve">
+    <value>Dr. Adam Brooks</value>
+    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+  </data>
+  <data name="Docs_D1_Title" xml:space="preserve">
+    <value>Fachphysiotherapeut</value>
+    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+  </data>
+  <data name="Docs_D1_Bio" xml:space="preserve">
+    <value>MSK-Therapie &amp; Rehabilitation.</value>
+    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+  </data>
+  <data name="Docs_D2_Name" xml:space="preserve">
+    <value>Dr. Emily Carter</value>
+    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+  </data>
+  <data name="Docs_D2_Title" xml:space="preserve">
+    <value>Spezialistin für Wirbelsäulenpflege</value>
+    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+  </data>
+  <data name="Docs_D2_Bio" xml:space="preserve">
+    <value>Ausrichtung &amp; Haltungspflege.</value>
+    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+  </data>
+  <data name="Docs_D3_Name" xml:space="preserve">
+    <value>Dr. Michael Reed</value>
+    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+  </data>
+  <data name="Docs_D3_Title" xml:space="preserve">
+    <value>Experte für Sportrehabilitation</value>
+    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+  </data>
+  <data name="Docs_D3_Bio" xml:space="preserve">
+    <value>Erholung &amp; Mobilität für Sportler.</value>
+    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+  </data>
+  <data name="Docs_D4_Name" xml:space="preserve">
+    <value>Dr. Sarah Mitchell</value>
+    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+  </data>
+  <data name="Docs_D4_Title" xml:space="preserve">
+    <value>Spezialistin für Neurotherapie</value>
+    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+  </data>
+  <data name="Docs_D4_Bio" xml:space="preserve">
+    <value>Neuro-Reha &amp; fortgeschrittene PT.</value>
+    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+  </data>
+  <data name="Contact_Title" xml:space="preserve">
+    <value>Standort &amp; Kontakt</value>
+    <comment>VIiews -&gt; Home -&gt;  LocationSection </comment>
+  </data>
+  <data name="Contact_Subtitle" xml:space="preserve">
+    <value>Finden Sie uns und kontaktieren Sie uns einfach.</value>
+    <comment>VIiews -&gt; Home -&gt;  LocationSection </comment>
+  </data>
+  <data name="Contact_Map_Hint" xml:space="preserve">
+    <value>Karten-Platzhalter – aktualisieren Sie den Link mit Ihrem genauen Standort.</value>
+    <comment>VIiews -&gt; Home -&gt;  LocationSection </comment>
+  </data>
+  <data name="PageAbout_MainHeading" xml:space="preserve">
+    <value>Präzisions-Physiotherapie, unterstützt durch Technik</value>
+    <comment>VIiews -&gt; Home -&gt;  About</comment>
+  </data>
+  <data name="PageAbout_IntroPara" xml:space="preserve">
+    <value>PhysoTech ist eine Klinik für Physiotherapie, die sich einer schnelleren Genesung und einer intelligenteren Betreuung widmet. Wir verbinden erfahrene Therapeuten mit digitalen Workflows, sodass jede Beurteilung, jede Sitzung und jede Nachbetreuung koordiniert und messbar ist.</value>
+    <comment>VIiews -&gt; Home -&gt;  About</comment>
+  </data>
+  <data name="PageAbout_IPTSPara" xml:space="preserve">
+    <value>Die Klinik nutzt IPTS (Intelligent Patient Tracking System) als digitalen Motor – für die Abwicklung von Buchungen, Krankheitsfällen und der Fortschrittskontrolle – damit sich unser Team voll und ganz auf die praktische Behandlung und personalisierte Pläne konzentrieren kann.</value>
+    <comment>VIiews -&gt; Home -&gt;  About</comment>
+  </data>
+  <data name="PageAbout_Card1_Title" xml:space="preserve">
+    <value>Klinische Exzellenz</value>
+    <comment>VIiews -&gt; Home -&gt;  About</comment>
+  </data>
+  <data name="PageAbout_Card1_Desc" xml:space="preserve">
+    <value>Manuelle Therapie, Bewegungstherapie und Wirbelsäulenpflege, gestützt auf Protokolle.</value>
+    <comment>VIiews -&gt; Home -&gt;  About</comment>
+  </data>
+  <data name="PageAbout_Card2_Title" xml:space="preserve">
+    <value>Patientenerfahrung</value>
+    <comment>VIiews -&gt; Home -&gt;  About</comment>
+  </data>
+  <data name="PageAbout_Card2_Desc" xml:space="preserve">
+    <value>Online-Buchung, Fortschritts-Updates und angeleitete Heimprogramme binden die Patienten ein.</value>
+    <comment>VIiews -&gt; Home -&gt;  About</comment>
+  </data>
+  <data name="PageAbout_Card3_Title" xml:space="preserve">
+    <value>Datengesteuerte Pflege</value>
+    <comment>VIiews -&gt; Home -&gt;  About</comment>
+  </data>
+  <data name="PageAbout_Card3_Desc" xml:space="preserve">
+    <value>IPTS-Dashboards zeigen Adhärenz, ROM-Fortschritte und die Genesungsgeschwindigkeit an.</value>
+    <comment>VIiews -&gt; Home -&gt;  About</comment>
+  </data>
+  <data name="PageAbout_Card4_Title" xml:space="preserve">
+    <value>Team-bereit</value>
+    <comment>VIiews -&gt; Home -&gt;  About</comment>
+  </data>
+  <data name="PageAbout_Card4_Desc" xml:space="preserve">
+    <value>Therapeuten, Admins und Patienten bleiben durch rollenbasierten Zugriff aufeinander abgestimmt.</value>
+    <comment>VIiews -&gt; Home -&gt;  About</comment>
+  </data>
+  <data name="Contact_GetInTouch" xml:space="preserve">
+    <value>Kontakt aufnehmen</value>
+    <comment>VIiews -&gt; Home -&gt;  Contact</comment>
+  </data>
+  <data name="Contact_Header" xml:space="preserve">
+    <value>PhysoTech kontaktieren</value>
+    <comment>VIiews -&gt; Home -&gt;  Contact</comment>
+  </data>
+  <data name="Contact_SubHeader" xml:space="preserve">
+    <value>Senden Sie uns eine Nachricht, wir melden uns umgehend.</value>
+    <comment>VIiews -&gt; Home -&gt;  Contact</comment>
+  </data>
+  <data name="Contact_Label_Name" xml:space="preserve">
+    <value>Name</value>
+    <comment>VIiews -&gt; Home -&gt;  Contact</comment>
+  </data>
+  <data name="Contact_Label_Message" xml:space="preserve">
+    <value>Nachricht</value>
+    <comment>VIiews -&gt; Home -&gt;  Contact</comment>
+  </data>
+  <data name="Contact_Btn_Send" xml:space="preserve">
+    <value>Nachricht senden</value>
+    <comment>VIiews -&gt; Home -&gt;  Contact</comment>
+  </data>
+  <data name="Therapies_Hero_Title" xml:space="preserve">
+    <value>Unsere erfahrenen Physiotherapeuten</value>
+    <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
+  </data>
+  <data name="Therapies_Hero_Desc" xml:space="preserve">
+    <value>Kontaktieren Sie unser Team von lizenzierten Physiotherapeuten.</value>
+    <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
+  </data>
+  <data name="Therapies_Showing" xml:space="preserve">
+    <value>Anzeige von</value>
+    <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
+  </data>
+  <data name="Therapies_Doctors" xml:space="preserve">
+    <value>Ärzte</value>
+    <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
+  </data>
+  <data name="Therapies_Doctor" xml:space="preserve">
+    <value>Arzt</value>
+    <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
+  </data>
+  <data name="Therapies_NoFound" xml:space="preserve">
+    <value>Keine Ärzte gefunden</value>
+    <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
+  </data>
+  <data name="Therapies_ViewProfile" xml:space="preserve">
+    <value>Profil anzeigen</value>
+    <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
+  </data>
+  <data name="Therapies_BookNow" xml:space="preserve">
+    <value>Termin buchen</value>
+    <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
+  </data>
+  <data name="Therapies_ClearFilters" xml:space="preserve">
+    <value>Alle Filter löschen</value>
+    <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
+  </data>
+  <data name="Login_NoAccount" xml:space="preserve">
+    <value>Noch kein Konto?</value>
+    <comment>VIiews -&gt; Auth -&gt;  Login</comment>
+  </data>
+  <data name="Login_SignUp_Link" xml:space="preserve">
+    <value>Hier registrieren</value>
+    <comment>VIiews -&gt; Auth -&gt;  Login</comment>
+  </data>
+  <data name="Login_Label_UserEmail" xml:space="preserve">
+    <value>E-Mail oder Benutzername</value>
+    <comment>VIiews -&gt; Auth -&gt;  Login</comment>
+  </data>
+  <data name="Login_BackHome" xml:space="preserve">
+    <value>Zurück zur Startseite</value>
+    <comment>VIiews -&gt; Auth -&gt;  Login</comment>
+  </data>
+  <data name="Login_RememberMe" xml:space="preserve">
+    <value>Angemeldet bleiben</value>
+    <comment>VIiews -&gt; Auth -&gt;  Login</comment>
+  </data>
+  <data name="ForgotPass_Desc" xml:space="preserve">
+    <value>Kein Problem. Geben Sie Ihre E-Mail-Adresse ein, und wir senden Ihnen einen Link zum Zurücksetzen Ihres Passworts.</value>
+    <comment>VIiews -&gt; Auth -&gt;  ForgotPassword</comment>
+  </data>
+  <data name="ForgotPass_SubmitBtn" xml:space="preserve">
+    <value>Link zum Zurücksetzen senden</value>
+    <comment>VIiews -&gt; Auth -&gt;  ForgotPassword</comment>
+  </data>
+  <data name="ForgotConf_Message" xml:space="preserve">
+    <value>Wenn ein Konto mit der angegebenen E-Mail existiert, haben wir einen Link gesendet. Bitte prüfen Sie Ihren Posteingang (und Spam-Ordner).</value>
+    <comment>VIiews -&gt; Auth -&gt;  ForgotPasswordConfirmation</comment>
+  </data>
+  <data name="Reg_Header" xml:space="preserve">
+    <value>Patienten-Registrierungsformular</value>
+    <comment>VIiews -&gt; Auth -&gt;  Register</comment>
+  </data>
+  <data name="Reg_Placeholder_User" xml:space="preserve">
+    <value>Benutzernamen eingeben</value>
+    <comment>VIiews -&gt; Auth -&gt;  Register</comment>
+  </data>
+  <data name="Reg_SubmitBtn" xml:space="preserve">
+    <value>Registrieren</value>
+    <comment>VIiews -&gt; Auth -&gt;  Register</comment>
+  </data>
+  <data name="Reg_AlreadyHaveAccount" xml:space="preserve">
+    <value>Haben Sie bereits ein Konto?</value>
+    <comment>VIiews -&gt; Auth -&gt;  Register</comment>
+  </data>
+  <data name="Reg_SignIn_Link" xml:space="preserve">
+    <value>Hier anmelden</value>
+    <comment>VIiews -&gt; Auth -&gt;  Register</comment>
+  </data>
+  <data name="Reg_Placeholder_FirstName" xml:space="preserve">
+    <value>Vorname eingeben</value>
+    <comment>VIiews -&gt; Auth -&gt;  Register</comment>
+  </data>
+  <data name="Reg_Placeholder_LastName" xml:space="preserve">
+    <value>Nachname eingeben</value>
+    <comment>VIiews -&gt; Auth -&gt;  Register</comment>
+  </data>
+  <data name="Reg_Placeholder_ID" xml:space="preserve">
+    <value>Identitätsnummer eingeben</value>
+    <comment>VIiews -&gt; Auth -&gt;  Register</comment>
+  </data>
+  <data name="Verify_Header" xml:space="preserve">
+    <value>E-Mail-Verifizierung</value>
+    <comment>VIiews -&gt; Auth -&gt;  VerifyEmail</comment>
+  </data>
+  <data name="Verify_Description" xml:space="preserve">
+    <value>Vielen Dank für Ihre Anmeldung! Bevor Sie loslegen können, verifizieren Sie bitte Ihre E-Mail.</value>
+    <comment>VIiews -&gt; Auth -&gt;  VerifyEmail</comment>
+  </data>
+  <data name="Verify_ResendBtn" xml:space="preserve">
+    <value>Verifizierungs-E-Mail erneut senden</value>
+    <comment>VIiews -&gt; Auth -&gt;  VerifyEmail</comment>
+  </data>
+  <data name="Reg_LegalConsent_Text" xml:space="preserve">
+    <value>Durch Klicken auf Registrieren bestätigen Sie, dass Sie unsere gelesen haben und damit einverstanden sind</value>
+    <comment>VIiews -&gt; Auth -&gt;  Register</comment>
+  </data>
+  <data name="Privacy_Acceptance_Head" xml:space="preserve">
+    <value>Einwilligung und Annahme</value>
+    <comment>VIiews -&gt; Auth -&gt;  Privacy</comment>
+  </data>
+  <data name="Privacy_Acceptance_Content_Main" xml:space="preserve">
+    <value>Die Nutzung unserer Dienste setzt die volle Zustimmung voraus.</value>
+    <comment>VIiews -&gt; Auth -&gt;  Privacy</comment>
+  </data>
+  <data name="Privacy_Acceptance_Content_Detail" xml:space="preserve">
+    <value>Dies ist verbindlich, egal ob Sie sich selbst registriert haben oder ein Therapeut im Zentrum ein Konto/Termin für Sie angelegt hat.</value>
+    <comment>VIiews -&gt; Auth -&gt;  Privacy</comment>
+  </data>
+  <data name="Privacy_Sec1_Head" xml:space="preserve">
+    <value>Einleitung</value>
+    <comment>VIiews -&gt; Auth -&gt;  Privacy</comment>
+  </data>
+  <data name="Privacy_Sec1_Content" xml:space="preserve">
+    <value>Wir schützen Ihre Privatsphäre. Diese Richtlinie erklärt die Datenerfassung.</value>
+    <comment>VIiews -&gt; Auth -&gt;  Privacy</comment>
+  </data>
+  <data name="Privacy_Sec2_Head" xml:space="preserve">
+    <value>Datensicherheit</value>
+    <comment>VIiews -&gt; Auth -&gt;  Privacy</comment>
+  </data>
+  <data name="Privacy_Sec2_Content" xml:space="preserve">
+    <value>Fortgeschrittene Verschlüsselung wird für alle Daten verwendet.</value>
+    <comment>VIiews -&gt; Auth -&gt;  Privacy</comment>
+  </data>
+  <data name="Privacy_Legal_Head" xml:space="preserve">
+    <value>RECHTLICHER WARNHINWEIS</value>
+    <comment>VIiews -&gt; Auth -&gt;  Privacy</comment>
+  </data>
+  <data name="Privacy_Legal_Content" xml:space="preserve">
+    <value>Hacking oder Datenmanipulation wird strafrechtlich verfolgt. Wir tracken alle IPs.</value>
+    <comment>VIiews -&gt; Auth -&gt;  Privacy</comment>
+  </data>
+  <data name="Privacy_Cookies_Head" xml:space="preserve">
+    <value>Cookies</value>
+    <comment>VIiews -&gt; Auth -&gt;  Privacy</comment>
+  </data>
+  <data name="Privacy_Cookies_Content" xml:space="preserve">
+    <value>Wir nutzen Cookies zur Verbesserung der Stabilität.</value>
+    <comment>VIiews -&gt; Auth -&gt;  Privacy</comment>
+  </data>
+  <data name="Access_Message" xml:space="preserve">
+    <value>Sie haben keine Berechtigung, diese Seite anzuzeigen.</value>
+    <comment>VIiews -&gt; Auth -&gt;  AccessDenied</comment>
+  </data>
+  <data name="Access_ContactAdmin" xml:space="preserve">
+    <value>Bitte kontaktieren Sie Ihren Administrator, wenn Sie glauben, dass dies ein Fehler ist.</value>
+    <comment>VIiews -&gt; Auth -&gt;  AccessDenied</comment>
+  </data>
+  <data name="Access_GoHome" xml:space="preserve">
+    <value>Zur Startseite</value>
+    <comment>VIiews -&gt; Auth -&gt;  AccessDenied</comment>
+  </data>
+  <data name="Forgot_SubmitBtn" xml:space="preserve">
+    <value>Link senden</value>
+    <comment>VIiews -&gt; Auth -&gt;  ForgotPassword</comment>
+  </data>
+  <data name="ResetPass_Label_Current" xml:space="preserve">
+    <value>Aktuelles Passwort</value>
+    <comment>VIiews -&gt; Auth -&gt;  ResetPassword</comment>
+  </data>
+  <data name="ResetPass_Placeholder_Current" xml:space="preserve">
+    <value>Aktuelles Passwort eingeben</value>
+    <comment>VIiews -&gt; Auth -&gt;  ResetPassword</comment>
+  </data>
+  <data name="ResetPass_UpdateBtn" xml:space="preserve">
+    <value>Passwort aktualisieren</value>
+    <comment>VIiews -&gt; Auth -&gt;  ResetPassword</comment>
+  </data>
+  <data name="ResetSuccess_Message" xml:space="preserve">
+    <value>Ihr Passwort wurde erfolgreich zurückgesetzt. Sie können sich nun باحتياطي mit Ihrem neuen Passwort anmelden.</value>
+    <comment>VIiews -&gt; Auth -&gt;  ResetPasswordConfirmation</comment>
+  </data>
+  <data name="Profile_Title" xml:space="preserve">
+    <value>Benutzerprofil</value>
+    <comment>VIiews -&gt; Profile -&gt;  Index</comment>
+  </data>
+  <data name="Profile_EditBtn" xml:space="preserve">
+    <value>Profil bearbeiten</value>
+    <comment>VIiews -&gt; Profile -&gt;  Index</comment>
+  </data>
+  <data name="Profile_SaveBtn" xml:space="preserve">
+    <value>Änderungen speichern</value>
+    <comment>VIiews -&gt; Profile -&gt;  Index</comment>
+  </data>
+  <data name="Profile_AdminDetails" xml:space="preserve">
+    <value>Admin-Details</value>
+    <comment>VIiews -&gt; Profile -&gt;  Index</comment>
+  </data>
+  <data name="Profile_PatientDetails" xml:space="preserve">
+    <value>Patientendaten</value>
+    <comment>VIiews -&gt; Profile -&gt;  Index</comment>
+  </data>
+  <data name="Profile_Specialty" xml:space="preserve">
+    <value>Fachgebiet</value>
+    <comment>VIiews -&gt; Profile -&gt;  Index</comment>
+  </data>
+  <data name="Profile_NotAvailable" xml:space="preserve">
+    <value>Nicht verfügbar</value>
+    <comment>VIiews -&gt; Profile -&gt;  Index</comment>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Allgemein</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="UserManagement" xml:space="preserve">
+    <value>Benutzerverwaltung</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Benutzer</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Rollen</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>Berechtigungen</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="UserTypes" xml:space="preserve">
+    <value>Benutzertypen</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="Policies" xml:space="preserve">
+    <value>Richtlinien</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="TestsManagement" xml:space="preserve">
+    <value>Testverwaltung</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="TestGroups" xml:space="preserve">
+    <value>Testgruppen</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="Tests" xml:space="preserve">
+    <value>Tests</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="AppointmentManagement" xml:space="preserve">
+    <value>Terminverwaltung</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="Appointments" xml:space="preserve">
+    <value>Termine</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="AppointmentRequests" xml:space="preserve">
+    <value>Terminanfragen</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="PatientsManagement" xml:space="preserve">
+    <value>Patientenverwaltung</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="Patients" xml:space="preserve">
+    <value>Patienten</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="AddNewPatient" xml:space="preserve">
+    <value>Neuen Patienten hinzufügen</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>System</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="SystemSettings" xml:space="preserve">
+    <value>Systemeinstellungen</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="AboutSystem" xml:space="preserve">
+    <value>Über das System</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="SystemLogs" xml:space="preserve">
+    <value>Systemprotokolle</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Bericht</value>
+    <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
+  </data>
+  <data name="Error_Title" xml:space="preserve">
+    <value>Fehler</value>
+    <comment>VIiews -&gt; Shared -&gt; Error</comment>
+  </data>
+  <data name="Error_Header" xml:space="preserve">
+    <value>Beim Verarbeiten Ihrer Anfrage ist ein Fehler aufgetreten.</value>
+    <comment>VIiews -&gt; Shared -&gt; Error</comment>
+  </data>
+  <data name="Error_RequestId" xml:space="preserve">
+    <value>Anfrage-ID</value>
+    <comment>VIiews -&gt; Shared -&gt; Error</comment>
+  </data>
+  <data name="Error_DevMode_Title" xml:space="preserve">
+    <value>Entwicklungsmodus</value>
+    <comment>VIiews -&gt; Shared -&gt; Error</comment>
+  </data>
+  <data name="Error_DevMode_Desc" xml:space="preserve">
+    <value>Der Wechsel in die Entwicklungsumgebung zeigt detailliertere Informationen über den aufgetretenen Fehler an.</value>
+    <comment>VIiews -&gt; Shared -&gt; Error</comment>
+  </data>
+  <data name="Error_DevMode_Warning" xml:space="preserve">
+    <value>Die Entwicklungsumgebung sollte für bereitgestellte Anwendungen nicht aktiviert werden. Dies kann dazu führen, dass sensible Informationen aus Ausnahmen für Endbenutzer angezeigt werden.</value>
+    <comment>VIiews -&gt; Shared -&gt; Error</comment>
+  </data>
+  <data name="Error_DevMode_Info" xml:space="preserve">
+    <value>Dies kann dazu führen, dass sensible Informationen aus Ausnahmen für Endbenutzer angezeigt werden. Aktivieren Sie für lokales Debugging die Entwicklungsumgebung, indem Sie die Umgebungsvariable ASPNETCORE_ENVIRONMENT auf Development setzen und die App neu starten.</value>
+    <comment>VIiews -&gt; Shared -&gt; Error</comment>
+  </data>
+  <data name="Logs_Title" xml:space="preserve">
+    <value>Systemprotokolle</value>
+    <comment>VIiews -&gt; System -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Btn_ToggleFilter" xml:space="preserve">
+    <value>Filter umschalten</value>
+    <comment>VIiews -&gt; System -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Btn_Filter" xml:space="preserve">
+    <value>Filtern</value>
+    <comment>VIiews -&gt; System -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Placeholder_Section" xml:space="preserve">
+    <value>Nach Systembereich filtern</value>
+    <comment>VIiews -&gt; System -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Table_Level" xml:space="preserve">
+    <value>Ebene</value>
+    <comment>VIiews -&gt; System -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Table_Description" xml:space="preserve">
+    <value>Beschreibung</value>
+    <comment>VIiews -&gt; System -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Table_User" xml:space="preserve">
+    <value>Benutzer</value>
+    <comment>VIiews -&gt; System -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Table_Section" xml:space="preserve">
+    <value>Bereich</value>
+    <comment>VIiews -&gt; System -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Table_Time" xml:space="preserve">
+    <value>Zeit</value>
+    <comment>VIiews -&gt; System -&gt; Logs</comment>
+  </data>
+  <data name="Dash_DoctorHeader" xml:space="preserve">
+    <value>Arzt-Dashboard</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_TotalAppts" xml:space="preserve">
+    <value>Gesamttermine</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_Upcoming" xml:space="preserve">
+    <value>Anstehend</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_UpcomingDesc" xml:space="preserve">
+    <value>Nächste Sitzungen in der Warteschlange</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_CompletedMonth" xml:space="preserve">
+    <value>Abgeschlossen (Diesen Monat)</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_CancelledMonth" xml:space="preserve">
+    <value>Abgesagt (Diesen Monat)</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_UniquePatients" xml:space="preserve">
+    <value>Einzigartige Patienten (Gesamtzeit)</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_ActiveCases" xml:space="preserve">
+    <value>Aktive medizinische Fälle</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_TestsMonth" xml:space="preserve">
+    <value>Tests (Diesen Monat)</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_CompletionRate" xml:space="preserve">
+    <value>Abschlussquote</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_RateDesc" xml:space="preserve">
+    <value>der monatlichen Termine</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_AvgAppts7d" xml:space="preserve">
+    <value>Ø Termine / Tag (7 Tage)</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Appt_Header" xml:space="preserve">
+    <value>Termine</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_AddNew" xml:space="preserve">
+    <value>Neuen Termin hinzufügen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_SearchPlaceholder" xml:space="preserve">
+    <value>Termine suchen...</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_Filters" xml:space="preserve">
+    <value>Filter</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_FilterResults" xml:space="preserve">
+    <value>Filterergebnisse</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_PatientName" xml:space="preserve">
+    <value>Patientenname</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_DoctorName" xml:space="preserve">
+    <value>Arztname</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_Status" xml:space="preserve">
+    <value>Status</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_FromDate" xml:space="preserve">
+    <value>Von Datum</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_ToDate" xml:space="preserve">
+    <value>Bis Datum</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_FilterBtn" xml:space="preserve">
+    <value>Filtern</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_ScheduledTime" xml:space="preserve">
+    <value>Geplante Zeit</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_Actions" xml:space="preserve">
+    <value>Aktionen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Status_Pending" xml:space="preserve">
+    <value>Ausstehend</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Status_Confirmed" xml:space="preserve">
+    <value>Bestätigt</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Status_Completed" xml:space="preserve">
+    <value>Abgeschlossen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Status_Cancelled" xml:space="preserve">
+    <value>Abgesagt</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Req_Title" xml:space="preserve">
+    <value>Terminanfragen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Requests</comment>
+  </data>
+  <data name="Req_PendingHeader" xml:space="preserve">
+    <value>Ausstehende Terminanfragen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Requests</comment>
+  </data>
+  <data name="Req_NoPendingFound" xml:space="preserve">
+    <value>Keine ausstehenden Terminanfragen gefunden.</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Requests</comment>
+  </data>
+  <data name="Req_Duration" xml:space="preserve">
+    <value>Dauer</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Requests</comment>
+  </data>
+  <data name="Search_BackToAppointments" xml:space="preserve">
+    <value>Zurück zu Terminen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_SearchPatient" xml:space="preserve">
+    <value>Patient suchen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_QuickStart" xml:space="preserve">
+    <value>Schnellstart</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_InstructionMain" xml:space="preserve">
+    <value>Suchen Sie nach einem bestehenden Patienten anhand seiner Identitätsnummer, Telefonnummer oder E-Mail. Falls der Patient nicht existiert, nutzen Sie die Schaltfläche "Neuen Patienten anlegen".</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_Tip" xml:space="preserve">
+    <value>Tipp: Die Identitätsnummer ist die zuverlässigste Suchmethode.</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_Workflow" xml:space="preserve">
+    <value>Ablauf: Suchen → Erstellen (falls nötig) → Termin vereinbaren</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_PlaceholderID" xml:space="preserve">
+    <value>Identitätsnummer eingeben...</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_PlaceholderPhone" xml:space="preserve">
+    <value>Telefonnummer eingeben...</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_PlaceholderEmail" xml:space="preserve">
+    <value>E-Mail-Adresse eingeben...</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_InstructionsTitle" xml:space="preserve">
+    <value>Suchanweisungen:</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_Step1" xml:space="preserve">
+    <value>Geben Sie die nationale ID- oder Passnummer des Patienten ein (am zuverlässigsten)</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_Step2" xml:space="preserve">
+    <value>Geben Sie die Telefonnummer des Patienten ein</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_Step3" xml:space="preserve">
+    <value>Geben Sie die E-Mail-Adresse des Patienten ein</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_Step4" xml:space="preserve">
+    <value>Sie können eines, zwei oder alle drei Felder ausfüllen, um genauere Suchergebnisse zu erhalten</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_Step5" xml:space="preserve">
+    <value>Falls der Patient nicht gefunden wird: Nutzen Sie die Schaltfläche "Patient anlegen"</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Search_Step6" xml:space="preserve">
+    <value>Nachdem Sie den Patienten gefunden haben: Können Sie mit der Terminplanung fortfahren</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
+  </data>
+  <data name="Pat_Header" xml:space="preserve">
+    <value>Meine Patienten</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Patients -&gt; Index</comment>
+  </data>
+  <data name="Pat_AddNew" xml:space="preserve">
+    <value>Neuen Patienten hinzufügen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Patients -&gt; Index</comment>
+  </data>
+  <data name="Pat_NoPatients" xml:space="preserve">
+    <value>Keine Patienten in Ihren Unterlagen gefunden.</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Patients -&gt; Index</comment>
+  </data>
+  <data name="CreatePat_SubHeader" xml:space="preserve">
+    <value>Füllen Sie die Informationen aus, um einen neuen Datensatz zu registrieren.</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Patients -&gt; Create</comment>
+  </data>
+  <data name="CreatePat_RegisterBtn" xml:space="preserve">
+    <value>Patient registrieren</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Patients -&gt; Create</comment>
+  </data>
+  <data name="CreatePat_Header" xml:space="preserve">
+    <value>Neuer Patient</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Patients -&gt; Create</comment>
+  </data>
+  <data name="PrevAppt_Header" xml:space="preserve">
+    <value>Vorherige Termine</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Patients -&gt; PrewiousAppointments</comment>
+  </data>
+  <data name="PrevAppt_NoData" xml:space="preserve">
+    <value>Keine vorherigen Termine für diesen Patienten gefunden.</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Patients -&gt; PrewiousAppointments</comment>
+  </data>
+  <data name="MedCase_Header" xml:space="preserve">
+    <value>Medizinische Fälle für</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; Index</comment>
+  </data>
+  <data name="MedCase_NoData" xml:space="preserve">
+    <value>Keine medizinischen Fälle für diesen Patienten gefunden.</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; Index</comment>
+  </data>
+  <data name="MedCase_Create_Title" xml:space="preserve">
+    <value>Medizinischen Fall hinzufügen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; Create</comment>
+  </data>
+  <data name="MedCase_Create_Header" xml:space="preserve">
+    <value>Medizinischen Fall hinzufügen für</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; Create</comment>
+  </data>
+  <data name="MedCase_Create_Name" xml:space="preserve">
+    <value>Fallname</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; Create</comment>
+  </data>
+  <data name="MedCase_Create_Desc" xml:space="preserve">
+    <value>Beschreibung</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; Create</comment>
+  </data>
+  <data name="MedCase_Create_Date" xml:space="preserve">
+    <value>Erstellt am</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; Create</comment>
+  </data>
+  <data name="MedCase_Create_Btn" xml:space="preserve">
+    <value>Fall hinzufügen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; Create</comment>
+  </data>
+  <data name="MedCase_Det_Title" xml:space="preserve">
+    <value>Medizinischer Fall</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; Details</comment>
+  </data>
+  <data name="MedCase_Det_AddTest" xml:space="preserve">
+    <value>Test hinzufügen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; Details</comment>
+  </data>
+  <data name="MedCase_Det_NoTests" xml:space="preserve">
+    <value>Keine Tests für diesen medizinischen Fall gefunden.</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; Details</comment>
+  </data>
+  <data name="MedCase_Det_EnterResult" xml:space="preserve">
+    <value>Ergebnis eingeben...</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; Details</comment>
+  </data>
+  <data name="MedCase_Det_NotSet" xml:space="preserve">
+    <value>Nicht festgelegt</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; Details</comment>
+  </data>
+  <data name="MedCase_Det_ConfirmDelete" xml:space="preserve">
+    <value>Sind Sie sicher, dass Sie diesen Test löschen möchten?</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; Details</comment>
+  </data>
+  <data name="AddTest_Header" xml:space="preserve">
+    <value>Test hinzufügen für</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; AddTest</comment>
+  </data>
+  <data name="AddTest_SearchLabel" xml:space="preserve">
+    <value>Test suchen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; AddTest</comment>
+  </data>
+  <data name="AddTest_SearchPlaceholder" xml:space="preserve">
+    <value>Geben Sie ein, um den Test zu suchen...</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; MedicalCases -&gt; AddTest</comment>
+  </data>
+  <data name="Appt_Sched_Title" xml:space="preserve">
+    <value>Termin planen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_Back" xml:space="preserve">
+    <value>Zurück zur Patientensuche</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_DateLabel" xml:space="preserve">
+    <value>Termindatum</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_PatientInfo" xml:space="preserve">
+    <value>Patienteninformationen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_DurationTitle" xml:space="preserve">
+    <value>Termindauer wählen (20 Min. pro Slot)</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_Refresh" xml:space="preserve">
+    <value>Zeitfenster aktualisieren</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_SelectedSlots" xml:space="preserve">
+    <value>Ausgewählte Slots</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_TotalDuration" xml:space="preserve">
+    <value>Gesamtdauer</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_TimeRange" xml:space="preserve">
+    <value>Zeitraum</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_Notes" xml:space="preserve">
+    <value>Terminhinweise</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_CreateBtn" xml:space="preserve">
+    <value>Termin erstellen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_PromptDate" xml:space="preserve">
+    <value>Bitte wählen Sie ένα Datum, um verfügbare Zeitfenster anzuzeigen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_NonConsecutive" xml:space="preserve">
+    <value>Nicht aufeinanderfolgende Auswahl erkannt. Nur der letzte Slot wird behalten.</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_Important" xml:space="preserve">
+    <value>Wichtig</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_ConsecutiveNote" xml:space="preserve">
+    <value>Wählen Sie aufeinanderfolgende Zeitfenster aus, um die Termindauer festzulegen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_OneApptNote" xml:space="preserve">
+    <value>Dies erstellt EINEN Termin, der den ausgewählten Zeitraum abdeckt</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_Note" xml:space="preserve">
+    <value>Hinweis</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_NonConsecutiveAlert" xml:space="preserve">
+    <value>Die Auswahl eines nicht aufeinanderfolgenden Slots löscht die vorherige Auswahl und beginnt von vorn</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_WorkingHoursRange" xml:space="preserve">
+    <value>08:00 - 18:00 Uhr (Deutsche Zeit)</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_NotesPlaceholder" xml:space="preserve">
+    <value>Geben Sie eventuelle besondere Anforderungen oder Anmerkungen ein...</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_LoadingSlots" xml:space="preserve">
+    <value>Verfügbare Zeitfenster für die Termindauer werden geladen...</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_ClickSelect" xml:space="preserve">
+    <value>Klicken zum Auswählen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_SelectDateMsg" xml:space="preserve">
+    <value>Bitte wählen Sie ein Datum aus, um die verfügbaren Zeitfenster für die Termindauer anzuzeigen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_NoSlotsMsg" xml:space="preserve">
+    <value>Für das gewählte Datum sind keine Zeitfenster verfügbar</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Sched_TryAnotherDate" xml:space="preserve">
+    <value>Bitte versuchen Sie es mit einem anderen Datum oder kontaktieren Sie die Klinik</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Appt_Reject_Title" xml:space="preserve">
+    <value>Termin ablehnen für</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; RejectRequest</comment>
+  </data>
+  <data name="Appt_Reject_ReasonLabel" xml:space="preserve">
+    <value>Grund für die Ablehnung:</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; RejectRequest</comment>
+  </data>
+  <data name="Appt_Reject_BtnSubmit" xml:space="preserve">
+    <value>Ablehnen &amp; E-Mail senden</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; RejectRequest</comment>
+  </data>
+  <data name="Appt_Confirm_Title" xml:space="preserve">
+    <value>Termin bestätigen für</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; RejectRequest</comment>
+  </data>
+  <data name="Appt_Confirm_SelectSlots" xml:space="preserve">
+    <value>Wählen Sie ein oder mehrere Zeitfenster aus:</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; RejectRequest</comment>
+  </data>
+  <data name="Appt_Confirm_BtnSubmit" xml:space="preserve">
+    <value>Termin</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; RejectRequest</comment>
+  </data>
+  <data name="Patient_Label_BasicInfo" xml:space="preserve">
+    <value>Basisinformationen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Patient_Desc_BasicInfo" xml:space="preserve">
+    <value>Vorname, Nachname, Telefon und E-Mail sind erforderlich</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Patient_Label_AccountAccess" xml:space="preserve">
+    <value>Kontozugriff</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Patient_Desc_AccountAccess" xml:space="preserve">
+    <value>Benutzername und Passwort für den Patienten-Login</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Patient_Label_AfterCreation" xml:space="preserve">
+    <value>Nach der Erstellung</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Patient_Desc_AfterCreation" xml:space="preserve">
+    <value>Der Patient kann gesucht و Termine geplant werden</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Patient_Create_Title" xml:space="preserve">
+    <value>Neuen Patienten anlegen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Patient_BackToSearch" xml:space="preserve">
+    <value>Zurück zur Patientensuche</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Patient_Guidelines_Title" xml:space="preserve">
+    <value>Richtlinien zur Patientenerstellung:</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Patient_Guideline_Identity" xml:space="preserve">
+    <value>Erforderlich - Personalausweis- oder Reisepassnummer (sehr wichtig)</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Patient_Guideline_Medical" xml:space="preserve">
+    <value>Erforderlich für die Patientenakte</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Patient_CreationNote" xml:space="preserve">
+    <value>Dadurch wird ein vollständiges Patientenkonto mit Login-Zugriff erstellt. Der Patient erhält eine E-Mail-Bestätigung.</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Patient_Placeholder_User" xml:space="preserve">
+    <value>Benutzernamen eingeben</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Patient_Placeholder_Pass" xml:space="preserve">
+    <value>Passwort eingeben</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Patient_BtnCreate" xml:space="preserve">
+    <value>Patient anlegen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
+  </data>
+  <data name="Appt_Status_Expired" xml:space="preserve">
+    <value>Ausstehend (Abgelaufen)</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; AppointmentDetails</comment>
+  </data>
+  <data name="Appt_SlotRange" xml:space="preserve">
+    <value>Zeitfenster-Bereich</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; AppointmentDetails</comment>
+  </data>
+  <data name="Appt_From" xml:space="preserve">
+    <value>Von</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; AppointmentDetails</comment>
+  </data>
+  <data name="Appt_To" xml:space="preserve">
+    <value>bis</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; AppointmentDetails</comment>
+  </data>
+  <data name="Appt_NoNotes" xml:space="preserve">
+    <value>Keine Notizen verfügbar.</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; AppointmentDetails</comment>
+  </data>
+  <data name="Appt_SlotsCount" xml:space="preserve">
+    <value>Slots</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; AppointmentDetails</comment>
+  </data>
+  <data name="Appt_Booking_Title" xml:space="preserve">
+    <value>Wählen Sie EINEN Termin aus (20 Minuten)</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; Index</comment>
+  </data>
+  <data name="Appt_NoSlots" xml:space="preserve">
+    <value>Keine Zeitfenster für das gewählte Datum verfügbar.</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; Index</comment>
+  </data>
+  <data name="Appt_Selected" xml:space="preserve">
+    <value>Ausgewählt</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; Index</comment>
+  </data>
+  <data name="Appt_Exp_Years" xml:space="preserve">
+    <value>Jahre Erfahrung</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; Index</comment>
+  </data>
+  <data name="Appt_New" xml:space="preserve">
+    <value>Neuer Termin</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; Appointments</comment>
+  </data>
+  <data name="Appt_NoAppointments" xml:space="preserve">
+    <value>Sie haben noch keine Termine.</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; Appointments</comment>
+  </data>
+  <data name="Appt_Past" xml:space="preserve">
+    <value>Vergangen</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; Appointments</comment>
+  </data>
+  <data name="Panel_Title" xml:space="preserve">
+    <value>IPTS Patienten-Panel</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Panel -&gt; Index</comment>
+  </data>
+  <data name="Panel_Subtitle" xml:space="preserve">
+    <value>Verwalten Sie Ihre Termine, medizinischen Fälle und Ihr Konto ganz einfach.</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Panel -&gt; Index</comment>
+  </data>
+  <data name="Panel_Account" xml:space="preserve">
+    <value>Konto</value>
+    <comment>Areas -&gt; Patient-&gt; Views -&gt; Panel -&gt; Index</comment>
+  </data>
+  <data name="Roles_AddNew" xml:space="preserve">
+    <value>Neue Rolle hinzufügen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Roles-&gt; Create</comment>
+  </data>
+  <data name="Roles_Name" xml:space="preserve">
+    <value>Rollenname</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Roles-&gt; Create</comment>
+  </data>
+  <data name="Roles_Placeholder" xml:space="preserve">
+    <value>Rollennamen eingeben</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Roles-&gt; Create</comment>
+  </data>
+  <data name="Shared_Add_New" xml:space="preserve">
+    <value>Neu hinzufügen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Roles-&gt; Index</comment>
+  </data>
+  <data name="TestGroups_AddNew" xml:space="preserve">
+    <value>Neue Testgruppe hinzufügen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; TestGroups-&gt; Create</comment>
+  </data>
+  <data name="TestGroups_GroupName" xml:space="preserve">
+    <value>Gruppenname</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; TestGroups-&gt; Edit</comment>
+  </data>
+  <data name="TestGroups_Edit" xml:space="preserve">
+    <value>Testgruppe bearbeiten</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; TestGroups-&gt; Edit</comment>
+  </data>
+  <data name="Tests_AddNew" xml:space="preserve">
+    <value>Neuen Test hinzufügen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Tests-&gt; Create</comment>
+  </data>
+  <data name="Tests_Name" xml:space="preserve">
+    <value>Testname</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Tests-&gt; Create</comment>
+  </data>
+  <data name="Tests_GroupLabel" xml:space="preserve">
+    <value>Testgruppe</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Tests-&gt; Create</comment>
+  </data>
+  <data name="Tests_SelectGroup" xml:space="preserve">
+    <value>Gruppe auswählen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Tests-&gt; Create</comment>
+  </data>
+  <data name="Tests_Edit" xml:space="preserve">
+    <value>Test bearbeiten</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Tests-&gt; Edit</comment>
+  </data>
+  <data name="Tests_List" xml:space="preserve">
+    <value>Testliste</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Tests-&gt; Index</comment>
+  </data>
+  <data name="Users_CreateTitle" xml:space="preserve">
+    <value>Erstellen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Create </comment>
+  </data>
+  <data name="Users_UserInformation" xml:space="preserve">
+    <value>Benutzerinformationen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Create </comment>
+  </data>
+  <data name="Users_CustomerInformation" xml:space="preserve">
+    <value>Kundeninformationen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Create </comment>
+  </data>
+  <data name="Users_EditAdmin" xml:space="preserve">
+    <value>Admin bearbeiten</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; EditAdmin</comment>
+  </data>
+  <data name="Users_AccountType" xml:space="preserve">
+    <value>Kontotyp</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="Users_OrderID" xml:space="preserve">
+    <value>Bestell-ID</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="Users_MinPrice" xml:space="preserve">
+    <value>Mindestpreis</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="Users_MaxPrice" xml:space="preserve">
+    <value>Höchstpreis</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="Users_CustomerName" xml:space="preserve">
+    <value>Kundenname</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="Users_SelectSpecialty" xml:space="preserve">
+    <value>Fachgebiet auswählen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; UserForm</comment>
+  </data>
+  <data name="Users_NoSpecialties" xml:space="preserve">
+    <value>Keine Fachgebiete verfügbar</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; UserForm</comment>
+  </data>
+  <data name="Users_IdentityReadOnly" xml:space="preserve">
+    <value>Identitätsnummer kann nicht geändert werden</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; UserForm</comment>
+  </data>
+  <data name="Users_DoctorInformation" xml:space="preserve">
+    <value>Fachliche Informationen des Arztes</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; UserForm</comment>
+  </data>
+  <data name="UserTypes_EditTitle" xml:space="preserve">
+    <value>Benutzertyp bearbeiten</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Edit</comment>
+  </data>
+  <data name="Shared_EnterName" xml:space="preserve">
+    <value>Name eingeben</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Create</comment>
+  </data>
+  <data name="UserTypes_AddNew" xml:space="preserve">
+    <value>Neuen Benutzertyp hinzufügen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Create</comment>
+  </data>
+  <data name="UserTypes_HasDashboard" xml:space="preserve">
+    <value>Hat Dashboard</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Create</comment>
+  </data>
+  <data name="UserTypes_Registerable" xml:space="preserve">
+    <value>Registrierbar</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Create</comment>
+  </data>
+  <data name="UserTypes_DefaultController" xml:space="preserve">
+    <value>Standard-Controller</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Create</comment>
+  </data>
+  <data name="UserTypes_DefaultAction" xml:space="preserve">
+    <value>Standard-Aktion</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Create</comment>
+  </data>
+  <data name="UserTypes_DefaultArea" xml:space="preserve">
+    <value>Standard-Bereich</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Create</comment>
+  </data>
+  <data name="UserTypes_DefaultRole" xml:space="preserve">
+    <value>Standard-Rolle</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Create</comment>
+  </data>
+  <data name="UserTypes_AdminApproval" xml:space="preserve">
+    <value>Erfordert Admin-Genehmigung</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Create</comment>
+  </data>
+  <data name="UserTypes_Title" xml:space="preserve">
+    <value>Benutzertypen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes-&gt; Index</comment>
+  </data>
+  <data name="UserTypes_Area" xml:space="preserve">
+    <value>Bereich</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes-&gt; Index</comment>
+  </data>
+  <data name="UserTypes_AddUser" xml:space="preserve">
+    <value>Benutzer hinzufügen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes-&gt; Index</comment>
+  </data>
+  <data name="Auth_SelectAccountTitle" xml:space="preserve">
+    <value>Kontotyp auswählen</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_ChooseAccountHeading" xml:space="preserve">
+    <value>Wählen Sie Ihren Kontotyp</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_ChooseAccountSubheading" xml:space="preserve">
+    <value>Bitte wählen Sie den Typ des Kontos aus, das Sie erstellen möchten</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_DoctorAccount" xml:space="preserve">
+    <value>Arztkonto</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_DoctorDescription" xml:space="preserve">
+    <value>Für medizinisches Fachpersonal zur Verwaltung von Patienten und Terminen</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_PatientAccount" xml:space="preserve">
+    <value>Patientenkonto</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_PatientDescription" xml:space="preserve">
+    <value>Für Patienten zur Buchung von Terminen und Verwaltung ihrer Krankenakten</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_AlreadyHaveAccount" xml:space="preserve">
+    <value>Haben Sie bereits ein Konto?</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_SignInHere" xml:space="preserve">
+    <value>Hier anmelden</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="System_FullTitle" xml:space="preserve">
+    <value>IPTS (Intelligentes Patienten-Tracking-System)</value>
+    <comment>Views -&gt; Home -&gt; AboutSection</comment>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Erfolg</value>
+    <comment>Views -&gt; Shared -&gt; Alerts</comment>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warnung</value>
+    <comment>Views -&gt; Shared -&gt; Alerts</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Fehler</value>
+    <comment>Views -&gt; Shared -&gt; Alerts</comment>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Info</value>
+    <comment>Views -&gt; Shared -&gt; Alerts</comment>
+  </data>
+  <data name="Msg_ConfirmDelete" xml:space="preserve">
+    <value>Sind Sie sicher, dass Sie diesen Artikel löschen möchten?</value>
+    <comment>Messages</comment>
+  </data>
+  <data name="Msg_ConfirmDeleteGroup" xml:space="preserve">
+    <value>Diese Gruppe löschen?</value>
+    <comment>Messages</comment>
+  </data>
+  <data name="Msg_ConfirmDeleteTest" xml:space="preserve">
+    <value>Diesen Test löschen?</value>
+    <comment>Messages</comment>
+  </data>
+  <data name="Msg_AreYouSure" xml:space="preserve">
+    <value>Sind Sie sicher?</value>
+    <comment>Messages</comment>
+  </data>
+  <data name="Error_LoadTimeSlots" xml:space="preserve">
+    <value>Zeitfenster konnten nicht geladen werden</value>
+    <comment>Messages</comment>
+  </data>
+  <data name="Error_LoadSlotsForDuration" xml:space="preserve">
+    <value>Fehler beim Laden der Zeitfenster für die Termindauer. Bitte versuchen Sie es erneut</value>
+    <comment>Messages</comment>
+  </data>
+  <data name="Validation_SelectAtLeastOneSlot" xml:space="preserve">
+    <value>Bitte wählen Sie mindestens ein Zeitfenster aus, bevor Sie den Termin erstellen</value>
+    <comment>Messages</comment>
+  </data>
+  <data name="Validation_ConsecutiveSlotsOnly" xml:space="preserve">
+    <value>Bitte wählen Sie nur aufeinanderfolgende Zeitfenster aus</value>
+    <comment>Messages</comment>
+  </data>
+  <data name="Error_MissingSlotData" xml:space="preserve">
+    <value>Zeitfensterdaten fehlen. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut</value>
+    <comment>Messages</comment>
+  </data>
+  <data name="Shared_Controller" xml:space="preserve">
+    <value>Controller</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Action" xml:space="preserve">
+    <value>Aktion</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_SelectRole" xml:space="preserve">
+    <value>-- Rolle auswählen --</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Yes" xml:space="preserve">
+    <value>Ja</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_No" xml:space="preserve">
+    <value>Nein</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Status_Shipped" xml:space="preserve">
+    <value>Versandt</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Status_Paid" xml:space="preserve">
+    <value>Bezahlt</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Status_Canceled" xml:space="preserve">
+    <value>Storniert</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Number" xml:space="preserve">
+    <value>Nummer</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Status_Active" xml:space="preserve">
+    <value>Aktiv</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Status_Inactive" xml:space="preserve">
+    <value>Inaktiv</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Status_Deleted" xml:space="preserve">
+    <value>Gelöscht</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Status_Unknown" xml:space="preserve">
+    <value>Unbekannt</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_BasicInfo" xml:space="preserve">
+    <value>Basisinformationen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_AccountAccess" xml:space="preserve">
+    <value>Kontozugriff</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Appointment" xml:space="preserve">
+    <value>Termin</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Patient" xml:space="preserve">
+    <value>Patient</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_TryAgainSupport" xml:space="preserve">
+    <value>Bitte versuchen Sie es erneut oder kontaktieren Sie den Support</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Save" xml:space="preserve">
+    <value>Speichern</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Submit" xml:space="preserve">
+    <value>Einstellungen speichern</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_People" xml:space="preserve">
+    <value>Personen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Information" xml:space="preserve">
+    <value>Informationen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_NotAvailable" xml:space="preserve">
+    <value>Nicht verfügbar</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Available" xml:space="preserve">
+    <value>Verfügbar</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Booked" xml:space="preserve">
+    <value>Gebucht</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Minutes" xml:space="preserve">
+    <value>Minuten</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_WorkingHours" xml:space="preserve">
+    <value>Arbeitszeiten</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Update" xml:space="preserve">
+    <value>Aktualisieren</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Add" xml:space="preserve">
+    <value>Hinzufügen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Result" xml:space="preserve">
+    <value>Ergebnis</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Options" xml:space="preserve">
+    <value>Optionen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Search" xml:space="preserve">
+    <value>Suche</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Optional" xml:space="preserve">
+    <value>(optional)</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Added" xml:space="preserve">
+    <value>Hinzugefügt</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Add_MedicalCase" xml:space="preserve">
+    <value>Neuen medizinischen Fall hinzufügen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Edit" xml:space="preserve">
+    <value>Bearbeiten</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Details" xml:space="preserve">
+    <value>Details</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Print_Report" xml:space="preserve">
+    <value>Bericht drucken</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Created" xml:space="preserve">
+    <value>Erstellt</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Contact_Info" xml:space="preserve">
+    <value>Kontaktinformationen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Medical_Cases" xml:space="preserve">
+    <value>Medizinische Fälle</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_PhoneNumber" xml:space="preserve">
+    <value>Telefonnummer</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Date" xml:space="preserve">
+    <value>Datum</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Time" xml:space="preserve">
+    <value>Zeit</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Min" xml:space="preserve">
+    <value>Min.</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Notes" xml:space="preserve">
+    <value>Notizen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Accept" xml:space="preserve">
+    <value>Akzeptieren</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Reject" xml:space="preserve">
+    <value>Ablehnen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_ID" xml:space="preserve">
+    <value>ID</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Admin" xml:space="preserve">
+    <value>Admin</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_AboutPhysoTech" xml:space="preserve">
+    <value>Über PhysoTech</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Logout" xml:space="preserve">
+    <value>Abmelden</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Back" xml:space="preserve">
+    <value>Zurück</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Address" xml:space="preserve">
+    <value>Adresse</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Phone" xml:space="preserve">
+    <value>Telefon</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Email" xml:space="preserve">
+    <value>E-Mail</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_AccessDenied" xml:space="preserve">
+    <value>Zugriff verweigert</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Password" xml:space="preserve">
+    <value>Passwort</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared__ForgotPassword" xml:space="preserve">
+    <value>Passwort vergessen?</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Privacy_Title" xml:space="preserve">
+    <value>Datenschutz &amp; Rechtliche Hinweise</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_ConfirmPassword" xml:space="preserve">
+    <value>Passwort bestätigen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_SignIn" xml:space="preserve">
+    <value>Anmelden</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_ResetPassword" xml:space="preserve">
+    <value>Passwort zurücksetzen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_UserName" xml:space="preserve">
+    <value>Benutzername</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Identity_Number" xml:space="preserve">
+    <value>Identitätsnummer</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_EmailAddress" xml:space="preserve">
+    <value>E-Mail-Adresse</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Date_Of_Birth" xml:space="preserve">
+    <value>Geburtsdatum</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_ForgotPassword" xml:space="preserve">
+    <value>Passwort vergessen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_NewPassword" xml:space="preserve">
+    <value>Neues Passwort</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_EnterYourEmail" xml:space="preserve">
+    <value>Geben Sie Ihre E-Mail ein</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_EnterNewPassword" xml:space="preserve">
+    <value>Neues Passwort eingeben</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_ConfirmNewPassword" xml:space="preserve">
+    <value>Neues Passwort bestätigen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_BackToLogin" xml:space="preserve">
+    <value>Zurück zum Login</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_FirstName" xml:space="preserve">
+    <value>Vorname</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_LastName" xml:space="preserve">
+    <value>Nachname</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Settings" xml:space="preserve">
+    <value>Einstellungen</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Profile" xml:space="preserve">
+    <value>Profil</value>
+    <comment>Shared</comment>
+  </data>
+</root>

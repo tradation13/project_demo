@@ -5,33 +5,33 @@
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
-<h2 class="text-2xl font-bold mb-4">Medical Case: @Model.Name</h2>
+<h2 class="mb-4 text-2xl font-bold">@SharedLocalizer["MedCase_Det_Title"]: @Model.Name</h2>
 
-<div class="mb-6 bg-white rounded shadow p-4">
+<div class="mb-6 rounded bg-white p-4 shadow">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between">
         <div>
-            <div class="font-semibold">Patient:</div>
+            <div class="font-semibold">@SharedLocalizer["Shared_Patient"]:</div>
             <div class="text-gray-700">@($"{patient?.User?.FirstName} {patient?.User?.LastName}")</div>
 
-            <div class="font-semibold mt-2">Identity:</div>
+            <div class="mt-2 font-semibold">@SharedLocalizer["Shared_Identity_Number"]:</div>
             <div class="text-gray-700">@patient?.IdentityNumber</div>
 
-            <div class="font-semibold mt-2">Phone:</div>
+            <div class="mt-2 font-semibold">@SharedLocalizer["Shared_Phone"]:</div>
             <div class="text-gray-700">@patient?.User?.PhoneNumber</div>
 
-            <div class="font-semibold mt-2">Email:</div>
+            <div class="mt-2 font-semibold">@SharedLocalizer["Shared_Email"]:</div>
             <div class="text-gray-700">@patient?.User?.Email</div>
         </div>
 
         <div class="mt-4 md:mt-0">
             <a href="@Url.Action("AddTest", "MedicalCases", new { area = "doctor", medicalCaseId = Model.Id })"
-               class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded shadow font-bold">
-                + Add Test
+               class="rounded bg-green-600 px-6 py-2 font-bold text-white shadow hover:bg-green-700">
+                + @SharedLocalizer["MedCase_Det_AddTest"]
             </a>
             @if (Model.MedicalCaseTests.Count > 0)
             {
                 <a href="@Url.Action("PrintReport", "MedicalCases", new { area = "doctor", id = Model.Id })"
-                   class="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-900 text-sm">Print Report</a>
+                   class="rounded bg-gray-700 px-4 py-2 text-sm text-white hover:bg-gray-900">@SharedLocalizer["Shared_Print_Report"]</a>
             }
         </div>
     </div>
@@ -39,8 +39,8 @@
 
 @if (Model.MedicalCaseTests == null || !Model.MedicalCaseTests.Any())
 {
-    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded mb-4">
-        <p class="text-yellow-800">No tests found for this medical case.</p>
+    <div class="mb-4 rounded border-l-4 border-yellow-400 bg-yellow-50 p-4">
+        <p class="text-yellow-800">@SharedLocalizer["MedCase_Det_NoTests"]</p>
     </div>
 }
 else
@@ -53,32 +53,39 @@ else
     foreach (var group in grouped)
     {
         <div class="mb-8">
-            <h3 class="font-bold text-lg text-teal-700 border-b border-teal-300 mb-4 pb-1">@group.Key</h3>
+            <h3 class="mb-4 border-b border-teal-300 pb-1 text-lg font-bold text-teal-700">@group.Key</h3>
 
             <!-- شبكة عرض أنيقة -->
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach (var test in group.OrderBy(t => t.Test.Name))
                 {
                     var hasResult = !string.IsNullOrWhiteSpace(test.Result);
 
-                    <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-3">
+                    <div class="flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all duration-200 hover:shadow-md">
                         <div>
                             <div class="font-semibold text-gray-800">@test.Test.Name</div>
-                            <div class="text-gray-600 text-sm">
-                                Result: @(hasResult ? test.Result : "Not set")
+                            <div class="text-sm text-gray-600">
+                                @SharedLocalizer["Shared_Result"]: @(hasResult ? test.Result : @SharedLocalizer["MedCase_Det_NotSet"])
                             </div>
-                            <div class="text-gray-400 text-xs">
-                                Added: @test.CreatedAt.ToString("yyyy-MM-dd")
+                            <div class="text-xs text-gray-400">
+                                @SharedLocalizer["Shared_Added"]: @test.CreatedAt.ToString("yyyy-MM-dd")
                             </div>
                         </div>
 
                         <!-- الزر -->
-                        <button type="button"
-                                class="toggle-form bg-blue-600 text-white px-3 py-1 rounded text-xs w-fit"
-                                data-target="form-@test.Id"
-                                data-defaulttext="@(hasResult ? "✏️ Update Result" : "➕ Add Result")">
-                            @(hasResult ? "✏️ Update Result" : "➕ Add Result")
-                        </button>
+                       @{
+    // تعريف النص مسبقاً يمنع تداخل علامات التنصيص في الـ HTML
+    var buttonText = hasResult 
+        ? $"✏️ {SharedLocalizer["Shared_Update"]} {SharedLocalizer["Shared_Result"]}" 
+        : $"➕ {SharedLocalizer["Shared_Add"]} {SharedLocalizer["Shared_Result"]}";
+}
+
+<button type="button"
+        class="toggle-form w-fit rounded bg-blue-600 px-3 py-1 text-xs text-white"
+        data-target="form-@test.Id"
+        data-defaulttext="@buttonText">
+    @buttonText
+</button>
 
                         <!-- الفورم -->
                         <form id="form-@test.Id"
@@ -86,16 +93,16 @@ else
                               asp-controller="MedicalCases"
                               asp-area="doctor"
                               method="post"
-                              class="hidden flex flex-col sm:flex-row gap-2 items-start sm:items-center mt-2">
+                              class="mt-2 flex hidden flex-col items-start gap-2 sm:flex-row sm:items-center">
                             <input type="hidden" name="id" value="@test.Id" />
                             <input type="text"
                                    name="result"
                                    value="@test.Result"
-                                   placeholder="Enter result..."
-                                   class="border rounded px-2 py-1 text-sm w-full sm:w-auto flex-1" />
+                                   placeholder=@SharedLocalizer["MedCase_Det_EnterResult"]
+                                   class="w-full flex-1 rounded border px-2 py-1 text-sm sm:w-auto" />
                             <button type="submit"
-                                    class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs">
-                                Save
+                                    class="rounded bg-green-600 px-3 py-1 text-xs text-white hover:bg-green-700">
+                                @SharedLocalizer["Shared_Save"]
                             </button>
                         </form>
 
@@ -106,9 +113,9 @@ else
                               class="mt-1">
                             <input type="hidden" name="id" value="@test.Id" />
                             <button type="submit"
-                                    class="bg-red-600 text-white px-3 py-1 rounded text-xs"
+                                    class="rounded bg-red-600 px-3 py-1 text-xs text-white"
                                     onclick="return confirm('Delete this test?')">
-                                Delete
+                                @SharedLocalizer["Shared_Delete"]
                             </button>
                         </form>
                     </div>
@@ -130,7 +137,7 @@ else
                     form.classList.toggle("hidden");
 
                     // غيّر النص عند الفتح أو الإغلاق
-                    this.textContent = isHidden ? "❌ Cancel Edit" : defaultText;
+                    this.textContent = isHidden ? "❌ @SharedLocalizer["Shared_Cancel"] @SharedLocalizer["Shared_Edit"]" : defaultText;
                 });
             });
         });

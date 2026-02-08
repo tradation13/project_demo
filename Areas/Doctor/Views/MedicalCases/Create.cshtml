@@ -1,26 +1,26 @@
 ﻿@model IPTS.ViewModels.MedicalCaseViewModel
 @{
     var patient = ViewBag.Patient as IPTS.Models.Entites.Patient;
-    ViewData["Title"] = "Add Medical Case";
+    ViewData["Title"] = @SharedLocalizer["MedCase_Create_Title"];
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
-<h2 class="text-2xl font-bold mb-4">Add Medical Case for @($"{patient?.User?.FirstName} {patient?.User?.LastName}")</h2>
-<form asp-action="Create" method="post" class="bg-white rounded shadow p-6 max-w-lg">
+<h2 class="mb-4 text-2xl font-bold">@SharedLocalizer["MedCase_Create_Header"] @($"{patient?.User?.FirstName} {patient?.User?.LastName}")</h2>
+<form asp-action="Create" method="post" class="max-w-lg rounded bg-white p-6 shadow">
     <input type="hidden" asp-for="PatientId" />
     <div class="mb-4">
-        <label asp-for="Name" class="block font-semibold mb-1">Case Name</label>
-        <input asp-for="Name" class="w-full border rounded px-3 py-2" />
-        <span asp-validation-for="Name" class="text-red-500 text-sm"></span>
+        <label asp-for="Name" class="mb-1 block font-semibold">@SharedLocalizer["MedCase_Create_Name"]</label>
+        <input asp-for="Name" class="w-full rounded border px-3 py-2" />
+        <span asp-validation-for="Name" class="text-sm text-red-500"></span>
     </div>
     <div class="mb-4">
-        <label asp-for="Description" class="block font-semibold mb-1">Description</label>
-        <textarea asp-for="Description" class="w-full border rounded px-3 py-2"></textarea>
-        <span asp-validation-for="Description" class="text-red-500 text-sm"></span>
+        <label asp-for="Description" class="mb-1 block font-semibold">@SharedLocalizer["MedCase_Create_Desc"]</label>
+        <textarea asp-for="Description" class="w-full rounded border px-3 py-2"></textarea>
+        <span asp-validation-for="Description" class="text-sm text-red-500"></span>
     </div>
     <div class="mb-4">
-        <label asp-for="CreatedAt" class="block font-semibold mb-1">Created At</label>
-        <input asp-for="CreatedAt" type="date" class="w-full border rounded px-3 py-2" value="@Model.CreatedAt.ToString("yyyy-MM-dd")" />
+        <label asp-for="CreatedAt" class="mb-1 block font-semibold">@SharedLocalizer["MedCase_Create_Date"]</label>
+        <input asp-for="CreatedAt" type="date" class="w-full rounded border px-3 py-2" value="@Model.CreatedAt.ToString("yyyy-MM-dd")" />
     </div>
-    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded shadow font-bold">Add Case</button>
+    <button type="submit" class="rounded bg-green-600 px-6 py-2 font-bold text-white shadow hover:bg-green-700">@SharedLocalizer["MedCase_Create_Btn"]</button>
 </form>

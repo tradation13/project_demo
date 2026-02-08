@@ -5,71 +5,71 @@
 }
 
 <div>
-    <h4 class="text-xl capitalize">Edit User Type</h4>
+    <h4 class="text-xl capitalize">@SharedLocalizer["UserTypes_EditTitle"]</h4>
     <form asp-action="Edit" method="post">
         <input type="hidden" asp-for="Id" />
 
         <div class="grid grid-cols-2 gap-8">
-            <div class="flex flex-col my-4">
+            <div class="my-4 flex flex-col">
                 <label asp-for="Name" class="mb-1"></label>
-                <input asp-for="Name" class="flex-1 py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0" placeholder="Enter Name" />
-                <span asp-validation-for="Name" class="text-red-500 text-sm"></span>
+                <input asp-for="Name" class="mt-1 flex-1 rounded border-gray-300 py-1 focus:outline-none focus:ring-0" placeholder=@SharedLocalizer["Shared_EnterName"] />
+                <span asp-validation-for="Name" class="text-sm text-red-500"></span>
             </div>
-            <div class="flex flex-col my-4">
-                <label asp-for="HasDashboard" class="mb-1">Has Dashboard</label>
-                <select asp-for="HasDashboard" class="flex-1 py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
+            <div class="my-4 flex flex-col">
+                <label asp-for="HasDashboard" class="mb-1">@SharedLocalizer["UserTypes_HasDashboard"]</label>
+                <select asp-for="HasDashboard" class="mt-1 flex-1 rounded border-gray-300 py-1 focus:outline-none focus:ring-0">
+                    <option value="true">@SharedLocalizer["Shared_Yes"]</option>
+                    <option value="false">@SharedLocalizer["Shared_No"]</option>
                 </select>
             </div>
         </div>
 
         <div class="grid grid-cols-3 gap-8">
-            <div class="flex flex-col my-4">
+            <div class="my-4 flex flex-col">
                 <label asp-for="Registerable" class="mb-1"></label>
-                <select asp-for="Registerable" class="flex-1 py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
+                <select asp-for="Registerable" class="mt-1 flex-1 rounded border-gray-300 py-1 focus:outline-none focus:ring-0">
+                    <option value="true">@SharedLocalizer["Shared_Yes"]</option>
+                    <option value="false">@SharedLocalizer["Shared_No"]</option>
                 </select>
             </div>
-            <div class="flex flex-col my-4">
+            <div class="my-4 flex flex-col">
                 <label asp-for="DefaultController" class="mb-1"></label>
-                <input asp-for="DefaultController" class="flex-1 py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0" />
+                <input asp-for="DefaultController" class="mt-1 flex-1 rounded border-gray-300 py-1 focus:outline-none focus:ring-0" />
             </div>
-            <div class="flex flex-col my-4">
+            <div class="my-4 flex flex-col">
                 <label asp-for="DefaultAction" class="mb-1"></label>
-                <input asp-for="DefaultAction" class="flex-1 py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0" />
+                <input asp-for="DefaultAction" class="mt-1 flex-1 rounded border-gray-300 py-1 focus:outline-none focus:ring-0" />
             </div>
         </div>
 
         <div class="grid grid-cols-2 gap-8">
-            <div class="flex flex-col my-4">
+            <div class="my-4 flex flex-col">
                 <label asp-for="DefaultArea" class="mb-1"></label>
-                <input asp-for="DefaultArea" class="flex-1 py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0" />
+                <input asp-for="DefaultArea" class="mt-1 flex-1 rounded border-gray-300 py-1 focus:outline-none focus:ring-0" />
             </div>
         </div>
-        <div class="flex flex-col my-4">
-            <label asp-for="DefaultRoleId" class="mb-1">Default Role</label>
+        <div class="my-4 flex flex-col">
+            <label asp-for="DefaultRoleId" class="mb-1">@SharedLocalizer["UserTypes_DefaultRole"]</label>
             <select asp-for="DefaultRoleId" asp-items="@((IEnumerable<SelectListItem>)ViewData["Roles"])"
-                    class="flex-1 py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0">
-                <option value="">-- Select Role --</option>
+                    class="mt-1 flex-1 rounded border-gray-300 py-1 focus:outline-none focus:ring-0">
+                <option value="">@SharedLocalizer["Shared_SelectRole"]</option>
             </select>
-            <span asp-validation-for="DefaultRoleId" class="text-red-500 text-sm"></span>
+            <span asp-validation-for="DefaultRoleId" class="text-sm text-red-500"></span>
         </div>
         <div class="form-group">
-            <label asp-for="RequireAdminApproval" class="control-label">Requires Admin Approval</label>
+            <label asp-for="RequireAdminApproval" class="control-label">@SharedLocalizer["UserTypes_AdminApproval"]</label>
             <input asp-for="RequireAdminApproval" type="checkbox" class="form-check-input" />
             <span asp-validation-for="RequireAdminApproval" class="text-danger"></span>
         </div>
-        <div class="flex gap-2 mt-6">
+        <div class="mt-6 flex gap-2">
             <a href="@Url.Action("Index")"
-               class="bg-secondary bg-opacity-20 hover:bg-opacity-40 rounded-lg px-6 py-1.5 text-secondary hover:shadow-xl transition duration-150">
-                Cancel
+               class="rounded-lg bg-secondary bg-opacity-20 px-6 py-1.5 text-secondary transition duration-150 hover:bg-opacity-40 hover:shadow-xl">
+                @SharedLocalizer["Shared_Cancel"]
             </a>
 
             <button type="submit"
-                    class="bg-primary hover:bg-primary-dark rounded-lg px-6 py-1.5 text-white hover:shadow-xl transition duration-150">
-                Update
+                    class="rounded-lg bg-primary px-6 py-1.5 text-white transition duration-150 hover:bg-primary-dark hover:shadow-xl">
+                @SharedLocalizer["Shared_Update"]
             </button>
         </div>
     </form>

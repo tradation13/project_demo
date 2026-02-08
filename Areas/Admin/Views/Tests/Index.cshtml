@@ -1,25 +1,25 @@
 ﻿@model List<IPTS.Areas.Admin.ViewsModels.TestViewModel>
 @{
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
-    ViewBag.Title = "Tests List";
+    ViewBag.Title = @SharedLocalizer["Tests_List"];
 }
 
-<div x-data="{ filter: false }" class="bg-white rounded-lg px-8 py-6 overflow-x-scroll custom-scrollbar">
-    <div class="flex items-center justify-between mb-4">
-        <h4 class="text-xl font-semibold">Tests</h4>
+<div x-data="{ filter: false }" class="custom-scrollbar overflow-x-scroll rounded-lg bg-white px-8 py-6">
+    <div class="mb-4 flex items-center justify-between">
+        <h4 class="text-xl font-semibold">@SharedLocalizer["Tests"]</h4>
         <a href="@Url.Action("Create")"
-           class="bg-primary text-white text-sm px-4 py-1 rounded hover:bg-primary-dark transition duration-150">
-            Add New
+           class="rounded bg-primary px-4 py-1 text-sm text-white transition duration-150 hover:bg-primary-dark">
+            @SharedLocalizer["Shared_Add_New"]
         </a>
     </div>
 
-    <table class="w-full whitespace-nowrap mb-8">
-        <thead class="bg-primary text-white font-bold">
+    <table class="mb-8 w-full whitespace-nowrap">
+        <thead class="bg-primary font-bold text-white">
             <tr>
                 <th>#</th>
-                <th>Name</th>
-                <th>Test Group</th>
-                <th class="text-center">Actions</th>
+                <th>@SharedLocalizer["Contact_Label_Name"]</th>
+                <th>@SharedLocalizer["Tests_GroupLabel"]</th>
+                <th class="text-center">@SharedLocalizer["Appt_Actions"]</th>
             </tr>
         </thead>
         <tbody>
@@ -32,7 +32,7 @@
                     <td class="text-center">@(++i)</td>
                     <td class="text-center">@test.Name</td>
                     <td class="text-center">@test.TestGroupName</td>
-                    <td class="py-3 pl-2 flex items-center justify-center text-center space-x-2">
+                    <td class="flex items-center justify-center space-x-2 py-3 pl-2 text-center">
                         <!-- Edit -->
                         <a href="@Url.Action("Edit", new { id = test.Id })">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500 hover:text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -41,7 +41,7 @@
                         </a>
 
                         <!-- Delete -->
-                        <form asp-action="Delete" asp-route-id="@test.Id" method="post" onsubmit="return confirm('Delete this test?');" class="inline">
+                        <form asp-action="Delete" asp-route-id="@test.Id" method="post" onsubmit="return confirm('@SharedLocalizer["Msg_ConfirmDeleteTest"]');" class="inline">
                             <button type="submit">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

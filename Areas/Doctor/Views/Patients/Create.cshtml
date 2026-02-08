@@ -1,7 +1,7 @@
 @model IPTS.Areas.Doctor.ViewsModels.PatientRegistrationViewModel
 
 @{
-    ViewData["Title"] = "Add New Patient";
+    ViewData["Title"] = @SharedLocalizer["Pat_AddNew"];
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
@@ -12,12 +12,12 @@
         <div class="mb-8 flex flex-col items-start gap-4 px-2">
             <a asp-action="Index" class="group flex items-center text-sm font-bold text-primary transition-all hover:text-primary-dark">
                 <i class="fas fa-arrow-left mr-2 transition-transform group-hover:-translate-x-1"></i>
-                Back
+                @SharedLocalizer["Shared_Back"]
             </a>
 
             <div>
-                <h1 class="text-3xl font-bold text-slate-800">New Patient</h1>
-                <p class="mt-1 text-sm text-slate-500">Fill in the information to register a new record.</p>
+                <h1 class="text-3xl font-bold text-slate-800">@SharedLocalizer["CreatePat_Header"]</h1>
+                <p class="mt-1 text-sm text-slate-500">@SharedLocalizer["CreatePat_SubHeader"]</p>
             </div>
         </div>
 
@@ -33,7 +33,7 @@
                     
                    
                     <div class="flex flex-col md:col-span-2">
-                        <label asp-for="UserName" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Username</label>
+                        <label asp-for="UserName" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">@SharedLocalizer["Shared_UserName"]</label>
                         <input asp-for="UserName" placeholder="johndoe88" 
                                class="m-[3px] rounded-xl border border-slate-200 bg-slate-50/50 p-[5px] text-slate-700 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/5" />
                         <span asp-validation-for="UserName" class="mt-1 text-[10px] text-red-500"></span>
@@ -41,7 +41,7 @@
 
                  
                     <div class="flex flex-col">
-                        <label asp-for="FirstName" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">First Name</label>
+                        <label asp-for="FirstName" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">@SharedLocalizer["Shared_FirstName"]</label>
                         <input asp-for="FirstName" placeholder="John" 
                                class="m-[3px] rounded-xl border border-slate-200 bg-slate-50/50 p-[5px] text-slate-700 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/5" />
                         <span asp-validation-for="FirstName" class="mt-1 text-[10px] text-red-500"></span>
@@ -49,7 +49,7 @@
 
                 
                     <div class="flex flex-col">
-                        <label asp-for="LastName" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Last Name</label>
+                        <label asp-for="LastName" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">@SharedLocalizer["Shared_LastName"]</label>
                         <input asp-for="LastName" placeholder="Doe" 
                                class="m-[3px] rounded-xl border border-slate-200 bg-slate-50/50 p-[5px] text-slate-700 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/5" />
                         <span asp-validation-for="LastName" class="mt-1 text-[10px] text-red-500"></span>
@@ -57,7 +57,7 @@
 
                     
                     <div class="flex flex-col">
-                        <label asp-for="NationalId" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">National ID</label>
+                        <label asp-for="NationalId" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">@SharedLocalizer["Shared_Identity_Number"]</label>
                         <input asp-for="NationalId" placeholder="10xxxxxxxx" 
                                class="m-[3px] rounded-xl border border-slate-200 bg-slate-50/50 p-[5px] text-slate-700 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/5" />
                         <span asp-validation-for="NationalId" class="mt-1 text-[10px] text-red-500"></span>
@@ -65,7 +65,7 @@
 
                    
                     <div class="flex flex-col">
-                        <label asp-for="PhoneNumber" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Phone Number</label>
+                        <label asp-for="PhoneNumber" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">@SharedLocalizer["Shared_PhoneNumber"]</label>
                         <input asp-for="PhoneNumber" placeholder="05xxxxxxxx" 
                                class="m-[3px] rounded-xl border border-slate-200 bg-slate-50/50 p-[5px] text-slate-700 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/5" />
                         <span asp-validation-for="PhoneNumber" class="mt-1 text-[10px] text-red-500"></span>
@@ -73,7 +73,7 @@
 
                     
                     <div class="flex flex-col md:col-span-2">
-                        <label asp-for="Email" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Email Address</label>
+                        <label asp-for="Email" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">@SharedLocalizer["Shared_EmailAddress"]</label>
                         <input asp-for="Email" placeholder="patient@example.com" 
                                class="m-[3px] rounded-xl border border-slate-200 bg-slate-50/50 p-[5px] text-slate-700 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/5" />
                         <span asp-validation-for="Email" class="mt-1 text-[10px] text-red-500"></span>
@@ -81,7 +81,7 @@
 
                   
                     <div class="flex flex-col md:col-span-2">
-                        <label asp-for="DateOfBirth" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">Date of Birth</label>
+                        <label asp-for="DateOfBirth" class="mb-1 ml-1 text-[11px] font-black uppercase tracking-widest text-slate-400">@SharedLocalizer["Shared_Date_Of_Birth"]</label>
                         <input asp-for="DateOfBirth" type="date" 
                                class="m-[3px] rounded-xl border border-slate-200 bg-slate-50/50 p-[5px] text-slate-600 outline-none transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/5" />
                         <span asp-validation-for="DateOfBirth" class="mt-1 text-[10px] text-red-500"></span>
@@ -92,7 +92,7 @@
                     <button type="submit" 
                             class="m-[3px] rounded-2xl bg-primary p-[5px] px-12 text-sm font-bold tracking-wide text-white shadow-xl shadow-primary/30 transition-all duration-300 hover:-translate-y-1 hover:brightness-110 active:scale-95">
                         <span class="flex items-center">
-                            <i class="fas fa-plus-circle mr-2"></i> Register Patient
+                            <i class="fas fa-plus-circle mr-2"></i> @SharedLocalizer["CreatePat_RegisterBtn"]
                         </span>
                     </button>
                 </div>

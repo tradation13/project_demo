@@ -1,23 +1,24 @@
 ﻿@model IdentityRole
 @{
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+    ViewData["Title"] = SharedLocalizer["Roles_AddNew"];
 }
 <div>
-    <h4 class="text-xl capitalize">Add New Role</h4>
+    <h4 class="text-xl capitalize">@SharedLocalizer["Roles_AddNew"]</h4>
     <form asp-action="Create" method="post">
-        <div class="flex flex-col my-4">
+        <div class="my-4 flex flex-col">
             <label asp-for="Name" class="mb-1"></label>
-            <input asp-for="Name" class="py-1 border-gray-300 mt-1 rounded focus:outline-none focus:ring-0" placeholder="Role name" />
-            <span asp-validation-for="Name" class="text-red-500 text-sm"></span>
+            <input asp-for="Name" class="mt-1 rounded border-gray-300 py-1 focus:outline-none focus:ring-0" placeholder=@SharedLocalizer["Roles_Name"] />
+            <span asp-validation-for="Name" class="text-sm text-red-500"></span>
         </div>
 
-        <div class="flex gap-2 mt-6">
+        <div class="mt-6 flex gap-2">
             <a href="@Url.Action("Index")"
-               class="bg-secondary bg-opacity-20 hover:bg-opacity-40 rounded-lg px-6 py-1.5 text-secondary hover:shadow-xl transition duration-150">
-                Cancel
+               class="rounded-lg bg-secondary bg-opacity-20 px-6 py-1.5 text-secondary transition duration-150 hover:bg-opacity-40 hover:shadow-xl">
+                @SharedLocalizer["Shared_Cancel"]
             </a>
-            <button type="submit" class="bg-primary hover:bg-primary-dark rounded-lg px-6 py-1.5 text-white hover:shadow-xl transition duration-150">
-                Submit
+            <button type="submit" class="rounded-lg bg-primary px-6 py-1.5 text-white transition duration-150 hover:bg-primary-dark hover:shadow-xl">
+                @SharedLocalizer["Shared_Submit"]
             </button>
         </div>
     </form>

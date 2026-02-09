@@ -170,7 +170,7 @@
     <comment>VIiews -&gt; Home -&gt; Hero</comment>
   </data>
   <data name="Hero_Description" xml:space="preserve">
-    <value>Bei PhysoTech verbinden wir innovative Technologie mit Physiotherapie für eine schnellere Genesung.</value>
+    <value>Bei PhysioTech verbinden wir innovative Technologie mit Physiotherapie für eine schnellere Genesung.</value>
     <comment>VIiews -&gt; Home -&gt; Hero</comment>
   </data>
   <data name="Hero_BtnBook" xml:space="preserve">
@@ -206,7 +206,7 @@
     <comment>VIiews -&gt; Home -&gt; AboutSection</comment>
   </data>
   <data name="Why_Title" xml:space="preserve">
-    <value>Warum PhysoTech?</value>
+    <value>Warum PhysioTech?</value>
     <comment>VIiews -&gt; Home -&gt; WhySection</comment>
   </data>
   <data name="Why_Card1_Title" xml:space="preserve">
@@ -374,7 +374,7 @@
     <comment>VIiews -&gt; Home -&gt;  About</comment>
   </data>
   <data name="PageAbout_IntroPara" xml:space="preserve">
-    <value>PhysoTech ist eine Klinik für Physiotherapie, die sich einer schnelleren Genesung und einer intelligenteren Betreuung widmet. Wir verbinden erfahrene Therapeuten mit digitalen Workflows, sodass jede Beurteilung, jede Sitzung und jede Nachbetreuung koordiniert und messbar ist.</value>
+    <value>PhysioTech ist eine Klinik für Physiotherapie, die sich einer schnelleren Genesung und einer intelligenteren Betreuung widmet. Wir verbinden erfahrene Therapeuten mit digitalen Workflows, sodass jede Beurteilung, jede Sitzung und jede Nachbetreuung koordiniert und messbar ist.</value>
     <comment>VIiews -&gt; Home -&gt;  About</comment>
   </data>
   <data name="PageAbout_IPTSPara" xml:space="preserve">
@@ -418,7 +418,7 @@
     <comment>VIiews -&gt; Home -&gt;  Contact</comment>
   </data>
   <data name="Contact_Header" xml:space="preserve">
-    <value>PhysoTech kontaktieren</value>
+    <value>PhysioTech kontaktieren</value>
     <comment>VIiews -&gt; Home -&gt;  Contact</comment>
   </data>
   <data name="Contact_SubHeader" xml:space="preserve">
@@ -1802,7 +1802,7 @@
     <comment>Shared</comment>
   </data>
   <data name="Shared_AboutPhysoTech" xml:space="preserve">
-    <value>Über PhysoTech</value>
+    <value>Über PhysioTech</value>
     <comment>Shared</comment>
   </data>
   <data name="Shared_Logout" xml:space="preserve">

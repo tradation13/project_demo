@@ -170,7 +170,7 @@
     <comment>VIiews -&gt; Home -&gt; Hero</comment>
   </data>
   <data name="Hero_Description" xml:space="preserve">
-    <value>At PhysoTech, we merge innovative technology with expert physiotherapy to deliver faster recovery, smarter assessments, and truly personalized treatment experiences.</value>
+    <value>At PhysioTech, we merge innovative technology with expert physiotherapy to deliver faster recovery, smarter assessments, and truly personalized treatment experiences.</value>
     <comment>VIiews -&gt; Home -&gt; Hero</comment>
   </data>
   <data name="Hero_BtnBook" xml:space="preserve">
@@ -206,7 +206,7 @@
     <comment>VIiews -&gt; Home -&gt; AboutSection</comment>
   </data>
   <data name="Why_Title" xml:space="preserve">
-    <value>Why PhysoTech?</value>
+    <value>Why PhysioTech?</value>
     <comment>VIiews -&gt; Home -&gt; WhySection</comment>
   </data>
   <data name="Why_Card1_Title" xml:space="preserve">
@@ -374,7 +374,7 @@
     <comment>VIiews -&gt; Home -&gt;  About</comment>
   </data>
   <data name="PageAbout_IntroPara" xml:space="preserve">
-    <value>PhysoTech is a physiotherapy clinic dedicated to faster recovery and smarter care. We blend expert practitioners with digital workflows so every assessment, session, and follow-up is coordinated and measurable.</value>
+    <value>PhysioTech is a physiotherapy clinic dedicated to faster recovery and smarter care. We blend expert practitioners with digital workflows so every assessment, session, and follow-up is coordinated and measurable.</value>
     <comment>VIiews -&gt; Home -&gt;  About</comment>
   </data>
   <data name="PageAbout_IPTSPara" xml:space="preserve">
@@ -418,7 +418,7 @@
     <comment>VIiews -&gt; Home -&gt;  Contact</comment>
   </data>
   <data name="Contact_Header" xml:space="preserve">
-    <value>Contact PhysoTech</value>
+    <value>Contact PhysioTech</value>
     <comment>VIiews -&gt; Home -&gt;  Contact</comment>
   </data>
   <data name="Contact_SubHeader" xml:space="preserve">
@@ -1882,7 +1882,7 @@
     <comment>Shared</comment>
   </data>
   <data name="Shared_AboutPhysoTech" xml:space="preserve">
-    <value>About PhysoTech</value>
+    <value>About PhysioTech</value>
     <comment>Shared</comment>
   </data>
   <data name="Shared_NewPassword" xml:space="preserve">

@@ -21,29 +21,26 @@
           class="my-8 space-y-6 text-sm">
         <input asp-for="ReturnUrl" type="hidden" />  
 
-        <div>
-            <label asp-for="UsernameOrEmail" class="text-gray-700">@SharedLocalizer["Login_Label_UserEmail"]</label>
-            <input asp-for="UsernameOrEmail"
-                   class="mt-2 w-full rounded border-gray-300 py-2 text-sm text-gray-900 focus:border-gray-300 focus:outline-none focus:ring-0"
-                   placeholder="Leo@gmail.com" />
-            <span asp-validation-for="UsernameOrEmail" class="text-sm text-red-500"></span>
-        </div>
+       <div class="mb-6"> <label asp-for="UsernameOrEmail" class="ml-1 block font-medium text-gray-700">@SharedLocalizer["Login_Label_UserEmail"]</label>
+    <input asp-for="UsernameOrEmail"
+           class="mt-2 w-full rounded-xl border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none transition-all focus:border-primary focus:ring-1 focus:ring-primary/20"
+           placeholder="Leo@gmail.com" />
+    <span asp-validation-for="UsernameOrEmail" class="mt-1 block text-xs text-red-500"></span>
+</div>
 
-        <div>
-            <label asp-for="Password" class="text-gray-700">@SharedLocalizer["Shared_Password"]</label>
-            <div x-data="{ show: false }" class="relative mt-2 flex items-center">
-                <input :type=" show ? 'text': 'password' "
-                       asp-for="Password"
-                       class="flex-1 rounded border-gray-300 py-2 pr-10 text-sm text-gray-900 focus:border-gray-300 focus:outline-none focus:ring-0"
-                       placeholder="••••••••" />
-                <button x-on:click ="show = !show" type="button"
-                        class="absolute right-2 flex items-center justify-center bg-transparent text-gray-700">
-                        @* يمكنك إضافة أيقونة العين هنا *@
-                        <i :class="show ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
-                </button>
-            </div>
-            <span asp-validation-for="Password" class="text-sm text-red-500"></span>
-        </div>
+<div class="mb-6"> <label asp-for="Password" class="ml-1 block font-medium text-gray-700">@SharedLocalizer["Shared_Password"]</label>
+    <div x-data="{ show: false }" class="relative mt-2 flex items-center">
+        <input :type=" show ? 'text': 'password' "
+               asp-for="Password"
+               class="w-full rounded-xl border-gray-200 px-4 py-3 pr-12 text-sm text-gray-900 outline-none transition-all focus:border-primary focus:ring-1 focus:ring-primary/20"
+               placeholder="••••••••" />
+        <button x-on:click="show = !show" type="button"
+                class="absolute right-4 flex items-center justify-center text-gray-400 transition-colors hover:text-gray-600">
+                <i :class="show ? 'fas fa-eye' : 'fas fa-eye-slash'" class="text-sm"></i>
+        </button>
+    </div>
+    <span asp-validation-for="Password" class="mt-1 block text-xs text-red-500"></span>
+</div>
 
         <div class="flex items-center">
             <input asp-for="RememberMe" type="checkbox" id="remember_me"

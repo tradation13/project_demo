@@ -3,152 +3,111 @@
 @{
     Layout = "~/Views/Shared/Layouts/_AuthLayout.cshtml";
     ViewData["Title"] = SharedLocalizer["Reg_PageTitle"];
+    // كلاس موحد للحقول لسهولة التعديل
+    string inputClasses = "mt-1.5 w-full rounded-xl border-gray-200 bg-gray-50/50 px-4 py-3 text-sm text-gray-900 transition-all focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/10 outline-none";
+    string labelClasses = "text-xs font-black uppercase tracking-widest text-gray-500 ml-1";
 }
 
-<div class="mx-auto max-w-md rounded-lg bg-white p-8 shadow">
-    <h2 class="mb-6 text-center text-2xl font-bold tracking-wide text-gray-800">
-        @SharedLocalizer["Reg_Header"]
+<div class="mx-auto max-w-md rounded-[2.5rem] border border-gray-50 bg-white p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)]">
+    <h2 class="mb-10 text-center text-3xl font-black tracking-tighter text-gray-800">
+        @SharedLocalizer["Reg_Header"]<span class="text-primary">.</span>
     </h2>
 
-    <form asp-controller="Auth" asp-action="Register" method="post" autocomplete="off" class="space-y-6 text-sm">
+    <form asp-controller="Auth" asp-action="Register" method="post" autocomplete="off" class="space-y-5">
         <input hidden asp-for="@Model.UserTypeName" value="patient" />
         
+        @* اسم المستخدم *@
         <div>
-            <label asp-for="UserName" class="text-gray-700">@SharedLocalizer["Shared_UserName"]</label>
-            <input asp-for="UserName"
-                   class="mt-2 w-full rounded border-gray-300 py-2 text-sm text-gray-900 focus:border-gray-300 focus:outline-none focus:ring-0"
-                   placeholder="@SharedLocalizer["Reg_Placeholder_User"]" />
-            <span asp-validation-for="UserName" class="text-sm text-red-500"></span>
+            <label asp-for="UserName" class="@labelClasses">@SharedLocalizer["Shared_UserName"]</label>
+            <input asp-for="UserName" class="@inputClasses" placeholder="@SharedLocalizer["Reg_Placeholder_User"]" />
+            <span asp-validation-for="UserName" class="mt-1 block text-[11px] font-medium text-red-500"></span>
         </div>
 
-        <div>
-            <label asp-for="Email" class="text-gray-700">@SharedLocalizer["Shared_Email"]</label>
-            <input asp-for="Email"
-                   class="mt-2 w-full rounded border-gray-300 py-2 text-sm text-gray-900 focus:border-gray-300 focus:outline-none focus:ring-0"
-                   placeholder="Leo@gmail.com" />
-            <span asp-validation-for="Email" class="text-sm text-red-500"></span>
+        <div class="grid grid-cols-2 gap-4">
+            @* الاسم الأول *@
+            <div>
+                <label asp-for="FirstName" class="@labelClasses">@SharedLocalizer["Shared_FirstName"]</label>
+                <input asp-for="FirstName" class="@inputClasses" placeholder="@SharedLocalizer["Reg_Placeholder_FirstName"]" />
+                <span asp-validation-for="FirstName" class="mt-1 block text-[11px] font-medium text-red-500"></span>
+            </div>
+
+            @* الاسم الأخير *@
+            <div>
+                <label asp-for="LastName" class="@labelClasses">@SharedLocalizer["Shared_LastName"]</label>
+                <input asp-for="LastName" class="@inputClasses" placeholder="@SharedLocalizer["Reg_Placeholder_LastName"]" />
+                <span asp-validation-for="LastName" class="mt-1 block text-[11px] font-medium text-red-500"></span>
+            </div>
         </div>
 
+        @* الإيميل *@
         <div>
-            <label asp-for="PhoneNumber" class="text-gray-700">@SharedLocalizer["Shared_Phone"]</label>
-            <input asp-for="PhoneNumber"
-                   class="mt-2 w-full rounded border-gray-300 py-2 text-sm text-gray-900 focus:border-gray-300 focus:outline-none focus:ring-0"
-                   placeholder="+49 0X XXX XXXX" />
-            <span asp-validation-for="PhoneNumber" class="text-sm text-red-500"></span>
+            <label asp-for="Email" class="@labelClasses">@SharedLocalizer["Shared_Email"]</label>
+            <input asp-for="Email" class="@inputClasses" placeholder="Leo@gmail.com" />
+            <span asp-validation-for="Email" class="mt-1 block text-[11px] font-medium text-red-500"></span>
+        </div>
+
+        @* الهاتف *@
+        <div>
+            <label asp-for="PhoneNumber" class="@labelClasses">@SharedLocalizer["Shared_Phone"]</label>
+            <input asp-for="PhoneNumber" class="@inputClasses" placeholder="+49 0X XXX XXXX" />
+            <span asp-validation-for="PhoneNumber" class="mt-1 block text-[11px] font-medium text-red-500"></span>
         </div> 
 
-        <div>
-            <label asp-for="FirstName" class="text-gray-700">@SharedLocalizer["Shared_FirstName"]</label>
-            <input asp-for="FirstName"
-                   class="mt-2 w-full rounded border-gray-300 py-2 text-sm text-gray-900 focus:border-gray-300 focus:outline-none focus:ring-0"
-                   placeholder="@SharedLocalizer["Reg_Placeholder_FirstName"]" />
-            <span asp-validation-for="FirstName" class="text-sm text-red-500"></span>
-        </div>
-
-        <div>
-            <label asp-for="LastName" class="text-gray-700">@SharedLocalizer["Shared_LastName"]</label>
-            <input asp-for="LastName"
-                   class="mt-2 w-full rounded border-gray-300 py-2 text-sm text-gray-900 focus:border-gray-300 focus:outline-none focus:ring-0"
-                   placeholder="@SharedLocalizer["Reg_Placeholder_LastName"]" />
-            <span asp-validation-for="LastName" class="text-sm text-red-500"></span>
-        </div>
-
-        @* Password with Eye Icon fixed to the right *@
+        @* كلمة المرور *@
         <div x-data="{ show: false }">
-            <label asp-for="Password" class="text-gray-700">@SharedLocalizer["Shared_Password"]</label>
-            <div class="relative mt-2">
-                <input :type="show ? 'text' : 'password'"
-                       asp-for="Password"
-                       class="w-full rounded border-gray-300 py-2 pr-10 text-sm text-gray-900 focus:border-gray-300 focus:outline-none focus:ring-0"
-                       placeholder="••••••••" />
-                <button x-on:click="show = !show" type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700">
+            <label asp-for="Password" class="@labelClasses">@SharedLocalizer["Shared_Password"]</label>
+            <div class="relative">
+                <input :type="show ? 'text' : 'password'" asp-for="Password" class="@inputClasses pr-12" placeholder="••••••••" />
+                <button x-on:click="show = !show" type="button" class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 transition-colors hover:text-primary">
                     <i class="fa-solid" :class="show ? 'fa-eye' : 'fa-eye-slash'"></i>
                 </button>
             </div>
-            <span asp-validation-for="Password" class="text-sm text-red-500"></span>
+            <span asp-validation-for="Password" class="mt-1 block text-[11px] font-medium text-red-500"></span>
         </div>
 
-        @* Confirm Password with Eye Icon fixed to the right *@
+        @* تأكيد كلمة المرور *@
         <div x-data="{ show: false }">
-            <label asp-for="ConfirmPassword" class="text-gray-700">@SharedLocalizer["Shared_ConfirmPassword"]</label>
-            <div class="relative mt-2">
-                <input :type="show ? 'text' : 'password'"
-                       asp-for="ConfirmPassword"
-                       class="w-full rounded border-gray-300 py-2 pr-10 text-sm text-gray-900 focus:border-gray-300 focus:outline-none focus:ring-0"
-                       placeholder="••••••••" />
-                <button x-on:click="show = !show" type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700">
+            <label asp-for="ConfirmPassword" class="@labelClasses">@SharedLocalizer["Shared_ConfirmPassword"]</label>
+            <div class="relative">
+                <input :type="show ? 'text' : 'password'" asp-for="ConfirmPassword" class="@inputClasses pr-12" placeholder="••••••••" />
+                <button x-on:click="show = !show" type="button" class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 transition-colors hover:text-primary">
                     <i class="fa-solid" :class="show ? 'fa-eye' : 'fa-eye-slash'"></i>
                 </button>
             </div>
-            <span asp-validation-for="ConfirmPassword" class="text-sm text-red-500"></span>
+            <span asp-validation-for="ConfirmPassword" class="mt-1 block text-[11px] font-medium text-red-500"></span>
         </div>
 
+        @* رقم الهوية *@
         <div>
-            <label asp-for="@Model.Patient.IdentityNumber" class="text-gray-700">@SharedLocalizer["Shared_Identity_Number"] *</label>
-            <input asp-for="@Model.Patient.IdentityNumber"
-                   type="text"
-                   class="mt-2 w-full rounded border-gray-300 py-2 text-sm text-gray-900 focus:border-gray-300 focus:outline-none focus:ring-0"
-                   placeholder="@SharedLocalizer["Reg_Placeholder_ID"]" required />
-            <span asp-validation-for="@Model.Patient.IdentityNumber" class="text-sm text-red-500"></span>
+            <label asp-for="@Model.Patient.IdentityNumber" class="@labelClasses">@SharedLocalizer["Shared_Identity_Number"] *</label>
+            <input asp-for="@Model.Patient.IdentityNumber" class="@inputClasses" placeholder="@SharedLocalizer["Reg_Placeholder_ID"]" required />
+            <span asp-validation-for="@Model.Patient.IdentityNumber" class="mt-1 block text-[11px] font-medium text-red-500"></span>
         </div>
 
+        @* تاريخ الميلاد *@
         <div>
-            <label asp-for="@Model.Patient.BirthDate" class="text-gray-700">@SharedLocalizer["Shared_Date_Of_Birth"] *</label>
-            <input asp-for="@Model.Patient.BirthDate"
-                   type="date"
-                   class="mt-2 w-full rounded border-gray-300 py-2 text-sm text-gray-900 focus:border-gray-300 focus:outline-none focus:ring-0"
-                   required />
-            <span asp-validation-for="@Model.Patient.BirthDate" class="text-sm text-red-500"></span>
+            <label asp-for="@Model.Patient.BirthDate" class="@labelClasses">@SharedLocalizer["Shared_Date_Of_Birth"] *</label>
+            <input asp-for="@Model.Patient.BirthDate" type="date" class="@inputClasses" required />
+            <span asp-validation-for="@Model.Patient.BirthDate" class="mt-1 block text-[11px] font-medium text-red-500"></span>
         </div>
 
-         <div class="mt-4 text-xs leading-relaxed text-gray-500">
+         <div class="mt-6 text-center text-[11px] leading-relaxed text-gray-400">
             @SharedLocalizer["Reg_LegalConsent_Text"]
-            <a href="@Url.Action("Privacy", "Home")" class="font-medium text-primary hover:underline">
+            <a href="@Url.Action("Privacy", "Home")" class="font-bold text-primary hover:underline">
                 @SharedLocalizer["Shared_Privacy_Title"]
-            </a>.
+            </a>
         </div>
 
         <button type="submit"
-                class="w-full rounded-lg bg-primary px-8 py-2 uppercase text-gray-100 transition duration-150 hover:bg-primary-dark hover:shadow-xl">
+                class="w-full rounded-2xl bg-primary py-4 text-sm font-black uppercase tracking-widest text-white shadow-xl shadow-primary/20 transition-all hover:-translate-y-0.5 hover:bg-primary-dark active:scale-95">
             @SharedLocalizer["Reg_SubmitBtn"]
         </button>
     </form>
 
-    <div asp-validation-summary="All" class="mt-4 text-sm text-red-500"></div>
-
-  @* <div class="my-6 flex items-center justify-between">
-        <div class="h-[1px] w-full bg-gray-300"></div>
-        <span class="mx-6 text-sm uppercase text-gray-400">Or</span>
-        <div class="h-[1px] w-full bg-gray-300"></div>
-    </div>
-
-    <div class="space-y-2 text-sm">
-        <a href="@Url.Action("ExternalLogin", "auth", new { provider = "Google" })"
-           class="flex items-center justify-center space-x-2 rounded bg-gray-100 py-2 text-gray-600 hover:bg-gray-200">
-            <i class="fab fa-google text-3xl" style="color:#DB4437;"></i>
-            <span>Continue with Google</span>
-        </a>
-
-        <a href="@Url.Action("ExternalLogin", "auth", new { provider = "Facebook" })"
-           class="flex items-center justify-center space-x-2 rounded bg-gray-100 py-2 text-gray-600 hover:bg-gray-200">
-            <i class="fab fa-facebook text-3xl" style="color:#1877F2;"></i>
-            <span>Continue with Facebook</span>
-        </a>
-
-        <a href="@Url.Action("ExternalLogin", "auth", new { provider = "LinkedIn" })"
-           class="flex items-center justify-center space-x-2 rounded bg-gray-100 py-2 text-gray-600 hover:bg-gray-200">
-            <i class="fab fa-linkedin text-3xl" style="color:#0077B5;"></i>
-            <span>Continue with LinkedIn</span>
-        </a>
-    </div> *@
-
-    <p class="mt-4 text-center text-sm text-gray-600">
+    <p class="mt-8 text-center text-sm font-medium text-gray-500">
         @SharedLocalizer["Reg_AlreadyHaveAccount"]
-        <a href="@Url.Action("Login", "auth")"
-           class="text-primary hover:text-primary-dark hover:underline"
-           title="@SharedLocalizer["Reg_SignIn_Title"]">
+        <a href="@Url.Action("Login", "auth")" class="font-bold text-primary transition-colors hover:text-primary-dark">
              @SharedLocalizer["Reg_SignIn_Link"]
         </a>
     </p>
-    @await Html.PartialAsync("_ValidationScriptsPartial")
 </div>

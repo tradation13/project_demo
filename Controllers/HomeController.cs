@@ -106,18 +106,32 @@ namespace IPTS.Controllers
             return View(therapies);
         }
 
-        [HttpGet] // أو HttpGet حسب تفضيلك، يفضل Post للأمان
+ [HttpGet]
 public IActionResult SetLanguage(string culture, string returnUrl)
 {
+    // 1. تثبيت اللغة في الكوكيز
     Response.Cookies.Append(
         CookieRequestCultureProvider.DefaultCookieName,
         CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
         new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
     );
 
-    return LocalRedirect(returnUrl);
-}
+    // 2. فحص الرابط (المريض يواجه مشكلة مع الروابط التي تحتوي على سبيس أو كاراكتر خاص)
+    if (string.IsNullOrEmpty(returnUrl))
+    {
+        returnUrl = Request.Headers["Referer"].ToString();
+    }
 
+    // 3. الأمان: إذا كان الرابط خارجي أو فارغ ارجع للرئيسية
+    if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
+    {
+        return Redirect("/");
+    }
+
+    // 4. الحل السحري لمشكلة الـ 404: 
+    // نستخدم Redirect بدل LocalRedirect لأنها تتعامل مع الـ Routes المعقدة بشكل أفضل
+    return Redirect(returnUrl); 
+}
 
 
     }

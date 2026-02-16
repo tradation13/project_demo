@@ -174,7 +174,10 @@ namespace IPTS.Areas.Admin.Controllers
                     "UsersController.UserFormAsync",
                     LogEventLevel.Fatal
                 );
-                throw;
+                // throw;
+                // ✅ منع الكراش وإظهار رسالة للمستخدم
+        ModelState.AddModelError(string.Empty, "An error occurred while saving the user. Please make sure the Email or Username is not already taken.");
+        return View(model);
             }
         }
 

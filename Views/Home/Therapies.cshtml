@@ -112,7 +112,7 @@
                             @* <span class="text-sm text-gray-600">@doctor.Rating.ToString("0.0")</span> *@
                             @* </div> *@
                             
-                            <a href="@Url.Action("Index","Profile", new {id = doctor.Id})"
+                            <a href="@Url.Action("Index","Profile", new {id = doctor.UserId})"
                                class="bg-primary-50 mb-2 inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-primary-600 transition-colors hover:bg-primary-100">
                                 @SharedLocalizer["Therapies_ViewProfile"]
                             </a>

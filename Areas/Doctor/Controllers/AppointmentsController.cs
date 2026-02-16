@@ -115,14 +115,17 @@ namespace IPTS.Areas.Doctor.Controllers
                 if (patient == null)
                 {
                     TempData["WarningMessage"] = "Patient not found with the provided information. You can create a new patient.";
-                    TempData["SearchData"] = new { IdentityNumber, PhoneNumber, Email };
+                    // TempData["SearchData"] = new { IdentityNumber, PhoneNumber, Email };
+                    TempData["Draft_Identity"] = IdentityNumber;
+    TempData["Draft_Phone"] = PhoneNumber;
+    TempData["Draft_Email"] = Email;
                     return RedirectToAction("CreatePatient");
                 }
 
                 // Patient found, redirect to appointment scheduling  
                 TempData["PatientId"] = patient.Id;
                 TempData["PatientName"] = $"{patient.User?.FirstName} {patient.User?.LastName}".Trim();
-                if (string.IsNullOrEmpty(TempData["PatientName"].ToString()))
+                if (string.IsNullOrEmpty(TempData["PatientName"]?.ToString()))
                 {
                     TempData["PatientName"] = patient.User?.UserName ?? "Unknown";
                 }
@@ -139,7 +142,12 @@ namespace IPTS.Areas.Doctor.Controllers
                     "AppointmentsController.SearchPatient",
                     LogEventLevel.Fatal
                 );
-                throw;
+                // throw;
+
+                // 2. رسالة الخطأ عند "انفجار" الكود (الرسالة المعبرة للوحوش)
+    TempData["ErrorMessage"] = "A technical error occurred while processing your search. Please try again or contact the system administrator if the issue persists.";
+    
+    return RedirectToAction("SearchPatient");
             }
         }
 
@@ -184,6 +192,21 @@ namespace IPTS.Areas.Doctor.Controllers
                     TempData["WarningMessage"] = "Please correct the errors in the form.";
                     return View(model);
                 }
+
+                var existingUser = await _userManager.FindByEmailAsync(model.Email);
+        if (existingUser != null)
+        {
+            ModelState.AddModelError("Email", "This email is already registered.");
+            TempData["WarningMessage"] = "The email address is already in use.";
+            return View(model);
+        }
+
+        var existingUserName = await _userManager.FindByNameAsync(model.UserName);
+        if (existingUserName != null)
+        {
+            ModelState.AddModelError("UserName", "This username is already taken.");
+            return View(model);
+        }
 
                 // Create the patient using UserService
                 var registerModel = new RegisterViewModel

@@ -86,11 +86,13 @@
                 <div class="text-center">
                     <h3 class="text-l mb-2 font-bold text-gray-900">@SharedLocalizer["Services_CTA_Title"]</h3>
                     <p class="mb-4 text-sm text-gray-600">@SharedLocalizer["Services_CTA_Desc"]</p>
-                    <a href="http://localhost:5049/home/therapies"
-                       class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-primary-700">
-                        @SharedLocalizer["Shared_Book_Now"]
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
+                    <a asp-controller="Home" 
+   asp-action="Therapies" 
+   asp-area=""
+   class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-primary-700">
+    @SharedLocalizer["Shared_Book_Now"]
+    <i class="fas fa-arrow-right"></i>
+</a>
                 </div>
             </div>
         </div>

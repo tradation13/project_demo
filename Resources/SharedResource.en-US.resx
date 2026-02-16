@@ -158,7 +158,7 @@
     <comment>VIiews -&gt; Shared -&gt; PublicSide</comment>
   </data>
   <data name="CopyRight" xml:space="preserve">
-    <value>IPTS - Intelligentes Patiententracking-System. All rights reserved.</value>
+    <value>Physiotech. All rights reserved.</value>
     <comment>VIiews -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
   </data>
   <data name="SystemDescription" xml:space="preserve">
@@ -214,7 +214,7 @@
     <comment>VIiews -&gt; Home -&gt; WhySection</comment>
   </data>
   <data name="Why_Card1_Desc" xml:space="preserve">
-    <value>Clear IPTS summaries.</value>
+    <value>Clear Physiotech summaries.</value>
     <comment>VIiews -&gt; Home -&gt; WhySection</comment>
   </data>
   <data name="Why_Card2_Title" xml:space="preserve">
@@ -274,7 +274,7 @@
     <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
   </data>
   <data name="Services_S4_Title" xml:space="preserve">
-    <value>Smart Assessment via IPTS</value>
+    <value>Smart Assessment via Physiotech</value>
     <comment>VIiews -&gt; Home -&gt; ServicesSection</comment>
   </data>
   <data name="Services_S4_Desc" xml:space="preserve">
@@ -377,8 +377,8 @@
     <value>PhysioTech is a physiotherapy clinic dedicated to faster recovery and smarter care. We blend expert practitioners with digital workflows so every assessment, session, and follow-up is coordinated and measurable.</value>
     <comment>VIiews -&gt; Home -&gt;  About</comment>
   </data>
-  <data name="PageAbout_IPTSPara" xml:space="preserve">
-    <value>The clinic runs on IPTS (Intelligent Patient Tracking System) as our digital engine—handling booking, cases, and progress tracking—so our team stays focused on delivering hands-on treatment and personalized plans.</value>
+  <data name="PageAbout_PhysiotechPara" xml:space="preserve">
+    <value>The clinic runs on Physiotech as our digital engine—handling booking, cases, and progress tracking—so our team stays focused on delivering hands-on treatment and personalized plans.</value>
     <comment>VIiews -&gt; Home -&gt;  About</comment>
   </data>
   <data name="PageAbout_Card1_Title" xml:space="preserve">
@@ -402,7 +402,7 @@
     <comment>VIiews -&gt; Home -&gt;  About</comment>
   </data>
   <data name="PageAbout_Card3_Desc" xml:space="preserve">
-    <value>IPTS dashboards surface adherence, ROM gains, and recovery velocity.</value>
+    <value>Physiotech dashboards surface adherence, ROM gains, and recovery velocity.</value>
     <comment>VIiews -&gt; Home -&gt;  About</comment>
   </data>
   <data name="PageAbout_Card4_Title" xml:space="preserve">
@@ -450,15 +450,15 @@
     <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
   </data>
   <data name="Therapies_Doctors" xml:space="preserve">
-    <value>doctors</value>
+    <value>Therapists</value>
     <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
   </data>
   <data name="Therapies_Doctor" xml:space="preserve">
-    <value>doctor</value>
+    <value>Therapist</value>
     <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
   </data>
   <data name="Therapies_NoFound" xml:space="preserve">
-    <value>No doctors found</value>
+    <value>No therapists found</value>
     <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
   </data>
   <data name="Therapies_ViewProfile" xml:space="preserve">
@@ -810,7 +810,7 @@
     <comment>VIiews -&gt; System -&gt; Logs</comment>
   </data>
   <data name="Dash_DoctorHeader" xml:space="preserve">
-    <value>Doctor Dashboard</value>
+    <value>Therapist Dashboard</value>
     <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
   </data>
   <data name="Dash_TotalAppts" xml:space="preserve">
@@ -882,7 +882,7 @@
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
   </data>
   <data name="Appt_DoctorName" xml:space="preserve">
-    <value>Doctor Name</value>
+    <value>Therapist Name</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
   </data>
   <data name="Appt_Status" xml:space="preserve">
@@ -1366,7 +1366,7 @@
     <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; Appointments</comment>
   </data>
   <data name="Panel_Title" xml:space="preserve">
-    <value>IPTS Patient Panel</value>
+    <value>Physiotech Patient Panel</value>
     <comment>Areas -&gt; Patient-&gt; Views -&gt; Panel -&gt; Index</comment>
   </data>
   <data name="Panel_Subtitle" xml:space="preserve">
@@ -1478,7 +1478,7 @@
     <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; UserForm</comment>
   </data>
   <data name="Users_DoctorInformation" xml:space="preserve">
-    <value>Doctor Professional Info</value>
+    <value>Therapist Professional Info</value>
     <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; UserForm</comment>
   </data>
   <data name="UserTypes_EditTitle" xml:space="preserve">
@@ -1554,7 +1554,7 @@
     <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
   </data>
   <data name="Auth_DoctorAccount" xml:space="preserve">
-    <value>Doctor Account</value>
+    <value>Therapist Account</value>
     <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
   </data>
   <data name="Auth_DoctorDescription" xml:space="preserve">
@@ -1578,7 +1578,7 @@
     <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
   </data>
   <data name="System_FullTitle" xml:space="preserve">
-    <value>IPTS (Intelligent Patient Tracking System)</value>
+    <value>Physiotech</value>
     <comment>Views -&gt; Home -&gt; AboutSection</comment>
   </data>
   <data name="Success" xml:space="preserve">

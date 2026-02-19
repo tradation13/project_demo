@@ -1,4 +1,5 @@
 ﻿using IPTS.Models.Entites;
+using IPTS.Resources;
 using IPTS.Services;
 using IPTS.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -11,8 +12,9 @@ namespace IPTS.Areas.Patient.Controllers
     [Area("patient")]
     [Authorize(Roles = "patient")]
     [Route("[area]/[controller]")]
-    public class AppointmentController(AppointmentService appointmentService, UserService userService) : Controller
+    public class AppointmentController(LocService locService, AppointmentService appointmentService, UserService userService) : Controller
     {
+        private readonly LocService _locService = locService;
         private readonly AppointmentService _appointmentService = appointmentService;
         private readonly UserService _userService = userService;
 
@@ -38,7 +40,10 @@ namespace IPTS.Areas.Patient.Controllers
 
                     if (hasAnyWithSameDoctor)
                     {
-                        TempData["InfoMessage"] = $"You already have a previous appointment with Dr. {doctor.FullName}. You have been redirected to your appointments page.";
+                        TempData["InfoMessage"] = string.Format(
+    _locService.GetSystem("Msg_AlreadyHasAppointmentRedirect"), 
+    doctor.FullName
+);
                         return RedirectToAction(nameof(Appointments));
                     }
                 }
@@ -67,20 +72,20 @@ namespace IPTS.Areas.Patient.Controllers
 
             if (!ModelState.IsValid)
             {
-                TempData["WarningMessage"] = "Please fill all required fields.";
+                TempData["WarningMessage"] = _locService.GetSystem("Warn_FillRequiredFields");
                 return RedirectToAction(nameof(Index), new { doctorId, date = selectedDate.ToString("yyyy-MM-dd") });
             }
 
             if (model.SlotIndex < 0)
             {
-                TempData["WarningMessage"] = "Please select one valid time slot.";
+                TempData["WarningMessage"] = _locService.GetSystem("Warn_SelectValidTimeSlot");
                 return RedirectToAction(nameof(Index), new { doctorId, date = selectedDate.ToString("yyyy-MM-dd") });
             }
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var patientId = await _userService.GetByIdAsync(userId, q => q.Include(u=>u.Patient));
             if (patientId == null)
             {
-                TempData["ErrorMessage"] = "Patient profile not found.";
+                TempData["ErrorMessage"] = _locService.GetSystem("Error_PatientProfileNotFound");
                 return RedirectToAction(nameof(Index), new { doctorId, date = selectedDate.ToString("yyyy-MM-dd") });
             }
 
@@ -93,7 +98,7 @@ namespace IPTS.Areas.Patient.Controllers
             var available = await _appointmentService.IsSlotAvailableAsync(model.ScheduledDate, model.DoctorId, model.SlotIndex);
             if (!available)
             {
-                TempData["ErrorMessage"] = "Selected time slot is no longer available.";
+                TempData["ErrorMessage"] = _locService.GetSystem("Error_SlotNoLongerAvailable");
                 return RedirectToAction(nameof(Index), new { doctorId, date = selectedDate.ToString("yyyy-MM-dd") });
             }
 
@@ -102,7 +107,7 @@ namespace IPTS.Areas.Patient.Controllers
 
             if (hasPending)
             {
-                TempData["ErrorMessage"] = "You already have a pending appointment for this time slot with this doctor.";
+                TempData["ErrorMessage"] = _locService.GetSystem("Error_AlreadyHasPendingAppointment");
                 return RedirectToAction(nameof(Index), new { doctorId, date = selectedDate.ToString("yyyy-MM-dd") });
             }
 
@@ -110,11 +115,14 @@ namespace IPTS.Areas.Patient.Controllers
             var success = await _appointmentService.CreateSingleSlotAppointmentAsync(model);
             if (!success)
             {
-                TempData["ErrorMessage"] = "Failed to book appointment. Please try again.";
+                TempData["ErrorMessage"] = _locService.GetSystem("Error_AppointmentBookingFailed");
                 return RedirectToAction(nameof(Index), new { doctorId, date = selectedDate.ToString("yyyy-MM-dd") });
             }
 
-            TempData["SuccessMessage"] = $"Appointment booked for {model.Time} (20 minutes).";
+            TempData["SuccessMessage"] = string.Format(
+    _locService.GetSystem("Msg_AppointmentBookedWithDuration"), 
+    model.Time
+);
             return RedirectToAction(
                 "Appointments",
                 "Appointment",                 
@@ -132,7 +140,7 @@ namespace IPTS.Areas.Patient.Controllers
             // Get the patient entity for the current user
             var patient = await _userService.GetByIdAsync(userId, q => q.Include(u => u.Patient));
             if (patient?.Patient == null)
-                return NotFound("Patient profile not found.");
+                return NotFound(_locService.GetSystem("Error_PatientProfileNotFound"));
 
             // Fetch appointments for this patient
             var appointments = await _appointmentService.GetAllAsync<AppointmentViewModel>(
@@ -151,7 +159,7 @@ namespace IPTS.Areas.Patient.Controllers
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
             var user = await _userService.GetByIdAsync(userId, q => q.Include(u => u.Patient));
-            if (user?.Patient == null) return NotFound("Patient profile not found.");
+            if (user?.Patient == null) return NotFound(_locService.GetSystem("Error_PatientProfileNotFound"));
 
             // Fetch the entity (not a VM)
             var appt = await _appointmentService.GetByIdAsync(id, a => a
@@ -192,7 +200,7 @@ namespace IPTS.Areas.Patient.Controllers
         [HttpGet("Edit")]
         public IActionResult Edit()
         {
-            TempData["WarningMessage"] = "Failed to book appointment. Please contact the clinic directly to modify or reschedule your appointment.";
+            TempData["WarningMessage"] = _locService.GetSystem("Warn_BookingFailedContactClinic");
             return RedirectToAction(nameof(Appointments));
 
         }

@@ -239,7 +239,7 @@ namespace IPTS.Areas.Doctor.Controllers
 <body>
     <div class='header'>
         <img src='wwwroot/images/logo.png' alt='System Logo' />
-        <h1>Intelegente Patient Tracker System (IPTS)</h1>
+        <h1>Physiotech</h1>
         <h3>Physiotherapy & Rehabilitation Governance Platform</h3>
     </div>
 

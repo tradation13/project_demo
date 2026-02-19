@@ -2,6 +2,7 @@
 using IPTS.Areas.Doctor.ViewsModels;
 using IPTS.Data;
 using IPTS.Models.Entites;
+using IPTS.Resources;
 using IPTS.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,8 +14,9 @@ namespace IPTS.Areas.Doctor.Controllers
 {
     [Area("doctor")]
     [Authorize(Roles = "doctor")]
-    public class DashboardController(AppointmentService appointmentService, IMapper mapper, UserManager<AppUser> userManager, ApplicationDbContext context, UserService userService, MedicalCaseService medicalCaseService, MedicalCaseTestService medicalCaseTestService) : Controller
+    public class DashboardController(LocService locService,AppointmentService appointmentService, IMapper mapper, UserManager<AppUser> userManager, ApplicationDbContext context, UserService userService, MedicalCaseService medicalCaseService, MedicalCaseTestService medicalCaseTestService) : Controller
     {
+        private readonly LocService _locService = locService;
         private readonly AppointmentService _appointmentService = appointmentService;
         private readonly IMapper _mapper = mapper;
         private readonly UserManager<AppUser> _userManager = userManager;
@@ -30,7 +32,7 @@ namespace IPTS.Areas.Doctor.Controllers
             // Resolve current doctor
             var doctor = (await _userService.GetByIdAsync(userId, q => q.Include(u => u.Doctor))).Doctor;
 
-            if (doctor == null) return NotFound("Doctor profile not found.");
+            if (doctor == null) return NotFound(_locService.GetSystem("Error_DoctorProfileNotFound"));
 
             var now = DateTime.UtcNow;
             var startOfMonth = new DateTime(now.Year, now.Month, 1, 0, 0, 0, DateTimeKind.Utc);

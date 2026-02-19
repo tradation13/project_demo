@@ -177,4 +177,146 @@
   <data name="Auth_EmailVerifiedStatus" xml:space="preserve">
     <value>E-Mail wurde bestätigt</value>
   </data>
+  <data name="Label_Name" xml:space="preserve"><value>Name</value></data>
+<data name="Label_Email" xml:space="preserve"><value>E-Mail</value></data>
+<data name="Label_Phone" xml:space="preserve"><value>Telefon</value></data>
+<data name="Label_Message" xml:space="preserve"><value>Nachricht</value></data>
+<data name="Label_Visitor" xml:space="preserve"><value>Besucher</value></data>
+<data name="Notification_NewContact" xml:space="preserve"><value>Neuer Kontakt von</value></data>
+<data name="Status_SuccessSent" xml:space="preserve">
+  <value>Vielen Dank! Ihre Nachricht wurde gesendet.</value>
+</data>
+<data name="Status_ErrorGeneral" xml:space="preserve">
+  <value>Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es später noch einmal.</value>
+</data>
+<data name="Msg_CreateSuccess" xml:space="preserve"><value>Erfolgreich erstellt.</value></data>
+<data name="Msg_UpdateSuccess" xml:space="preserve"><value>Erfolgreich aktualisiert.</value></data>
+<data name="Msg_ErrorSave" xml:space="preserve"><value>Fehler beim Speichern. Bitte prüfen Sie, ob die Daten bereits existieren.</value></data>
+<data name="Msg_ErrorResetLink" xml:space="preserve"><value>Reset-Link konnte nicht gesendet werden.</value></data>
+<data name="Msg_LinkSentSuccess" xml:space="preserve">
+  <value>Der Link wurde an die E-Mail-Adresse gesendet.</value>
+</data>
+<data name="Msg_DeleteSuccess" xml:space="preserve">
+  <value>Erfolgreich gelöscht.</value>
+</data>
+<data name="Msg_SearchCriteriaRequired" xml:space="preserve">
+  <value>Bitte geben Sie mindestens ein Suchkriterium an.</value>
+</data>
+<data name="Msg_NotFoundCreateNew" xml:space="preserve">
+  <value>Kein passender Datensatz gefunden. Sie können einen neuen erstellen.</value>
+</data>
+<data name="Label_Unknown" xml:space="preserve">
+  <value>Unbekannt</value>
+</data>
+<data name="Status_PatientFound" xml:space="preserve">
+  <value>Patient gefunden</value>
+</data>
+<data name="Process_AppointmentScheduling" xml:space="preserve">
+  <value>Weiter zur Terminplanung.</value>
+</data>
+<data name="Error_TechnicalSearch" xml:space="preserve">
+  <value>Bei der Verarbeitung Ihrer Suche ist ein technischer Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie den Systemadministrator, falls das Problem weiterhin besteht. Lore ipsum</value>
+</data>
+<data name="Msg_CreateAccountInfo" xml:space="preserve">
+  <value>Erstellen Sie ein neues Konto. Alle mit * markierten Felder sind Pflichtfelder.</value>
+</data>
+<data name="Msg_ValidationError" xml:space="preserve">
+  <value>Bitte korrigieren Sie die Fehler im Formular. </value>
+</data>
+<data name="Auth_EmailAlreadyExists" xml:space="preserve">
+  <value>Diese E-Mail-Adresse ist bereits registriert.</value>
+</data>
+<data name="Msg_EmailInUse" xml:space="preserve">
+  <value>Die E-Mail-Adresse wird bereits verwendet.</value>
+</data>
+<data name="Auth_UsernameAlreadyTaken" xml:space="preserve">
+  <value>Dieser Benutzername ist bereits vergeben.</value>
+</data>
+<data name="Msg_PatientCreatedScheduleInfo" xml:space="preserve">
+  <value>Patient erfolgreich erstellt! Sie können nun nach ihm/ihr suchen, um einen Termin zu vereinbaren.</value>
+</data>
+<data name="Msg_ValidationError" xml:space="preserve">
+  <value>Bitte korrigieren Sie die Fehler im Formular.</value>
+</data>
+<data name="Error_CreatePatient" xml:space="preserve">
+  <value>Fehler beim Erstellen des Patienten: {0}</value>
+</data>
+<data name="Msg_NoPatientSelected" xml:space="preserve">
+  <value>Kein Patient ausgewählt. Bitte suchen Sie zuerst nach einem Patienten.</value>
+</data>
+<data name="Error_DoctorProfileNotFound" xml:space="preserve">
+  <value>Arztprofil wurde nicht gefunden.</value>
+</data>
+<data name="Msg_SelectAppointmentSlot" xml:space="preserve">
+  <value>Wählen Sie Datum und Uhrzeit für den Termin aus.</value>
+</data>
+<data name="Msg_RequiredFieldsMissing" xml:space="preserve">
+  <value>Bitte füllen Sie alle Pflichtfelder aus.</value>
+</data>
+<data name="Msg_InvalidTimeSlots" xml:space="preserve">
+  <value>Bitte wählen Sie gültige Zeitfenster aus.</value>
+</data>
+<data name="Error_DoctorProfileNotFound" xml:space="preserve">
+  <value>Arztprofil nicht gefunden.</value>
+</data>
+<data name="Msg_AppointmentCreateSuccessDetails" xml:space="preserve">
+  <value>Termin erfolgreich erstellt! Dauer: {0} Minuten ({1} - {2}). Ein Termin wurde für alle ausgewählten Zeitfenster erstellt.</value>
+</data>
+<data name="Error_AppointmentCreateFailed" xml:space="preserve">
+  <value>Termin konnte nicht erstellt werden. Bitte versuchen Sie es erneut.</value>
+</data>
+<data name="Error_DoctorProfileNotFound" xml:space="preserve">
+  <value>Arztprofil nicht gefunden.</value>
+</data>
+<data name="Error_LoadingTimeSlots" xml:space="preserve">
+  <value>Fehler beim Laden der Zeitfenster.</value>
+</data>
+<data name="Msg_AppointmentUpdateSuccess" xml:space="preserve">
+  <value>Termin erfolgreich aktualisiert.</value>
+</data>
+<data name="Msg_AppointmentDeleteSuccess" xml:space="preserve">
+  <value>Termin erfolgreich gelöscht.</value>
+</data>
+<data name="Val_RequiredTimeSlot" xml:space="preserve">
+  <value>Bitte wählen Sie mindestens ein Zeitfenster aus.</value>
+</data>
+<data name="Msg_AppointmentConfirmedSlotsUpdated" xml:space="preserve">
+  <value>Termin bestätigt und Zeitfenster erfolgreich aktualisiert.</value>
+</data>
+<data name="Error_AppointmentConfirmationFailed" xml:space="preserve">
+  <value>Die Terminbestätigung ist fehlgeschlagen. Bitte versuchen Sie es erneut.</value>
+</data>
+<data name="Val_RejectionReasonRequired" xml:space="preserve">
+  <value>Bitte geben Sie einen Grund für die Ablehnung an.</value>
+</data>
+<data name="Msg_AppointmentRejectedSuccess" xml:space="preserve">
+  <value>Termin abgelehnt und Grund an den Patienten gesendet.</value>
+</data>
+<data name="Msg_PatientRegisteredPasswordInfo" xml:space="preserve">
+  <value>Patient registriert! Das Passwortformat ist: Aa{0}_1</value>
+</data>
+<data name="Msg_AlreadyHasAppointmentRedirect" xml:space="preserve">
+  <value>Sie haben bereits einen vorherigen Termin bei Dr. {0}. Sie wurden zu Ihrer Terminübersicht weitergeleitet.</value>
+</data>
+<data name="Warn_FillRequiredFields" xml:space="preserve">
+  <value>Bitte füllen Sie alle Pflichtfelder aus.</value>
+</data>
+<data name="Warn_SelectValidTimeSlot" xml:space="preserve">
+  <value>Bitte wählen Sie ein gültiges Zeitfenster aus.</value>
+</data>
+<data name="Error_PatientProfileNotFound" xml:space="preserve">
+  <value>Patientenprofil nicht gefunden.</value>
+</data>
+<data name="Error_SlotNoLongerAvailable" xml:space="preserve">
+  <value>Das ausgewählte Zeitfenster ist nicht mehr verfügbar.</value>
+</data>
+<data name="Error_AlreadyHasPendingAppointment" xml:space="preserve">
+  <value>Sie haben bereits eine ausstehende Terminanfrage für dieses Zeitfenster bei diesem Arzt.</value>
+</data>
+<data name="Msg_AppointmentBookedWithDuration" xml:space="preserve">
+  <value>Termin für {0} gebucht (20 Minuten).</value>
+</data>
+<data name="Warn_BookingFailedContactClinic" xml:space="preserve">
+  <value>Die Terminbuchung ist fehlgeschlagen. Bitte kontaktieren Sie die Klinik direkt, um Ihren Termin zu ändern oder zu verschieben.</value>
+</data>
 </root>

@@ -1,4 +1,5 @@
 using IPTS.Models;
+using IPTS.Resources;
 using IPTS.Services;
 using IPTS.ViewModels;
 using Microsoft.AspNetCore.Localization;
@@ -10,8 +11,9 @@ using System.Diagnostics;
 
 namespace IPTS.Controllers
 {
-    public class HomeController(UserService userService, EmailService emailService, IConfiguration configuration, IMemoryCache cache) : Controller
+    public class HomeController(LocService locService, UserService userService, EmailService emailService, IConfiguration configuration, IMemoryCache cache) : Controller
     {
+        private readonly LocService _locService = locService;
         private readonly UserService _userService = userService;
         private readonly EmailService _emailService = emailService;
         private readonly IConfiguration _configuration = configuration;
@@ -47,22 +49,23 @@ namespace IPTS.Controllers
                 return View(model);
             }
 
+ 
          
-            var subject = $"New contact from {model.Name ?? "Visitor"}";
-            var body = $@"<p><strong>Name:</strong> {model.Name}</p>
-                        <p><strong>Email:</strong> {model.Email}</p>
-                        <p><strong>Phone:</strong> {model.Phone}</p>
-                        <p><strong>Message:</strong><br/>{model.Message}</p>";
+            var subject = $"{_locService.GetSystem("Notification_NewContact")} {model.Name ?? _locService.GetSystem("Label_Visitor")}";
+            var body = $@"<p><strong>{_locService.GetSystem("Label_Name")}:</strong> {model.Name}</p>
+                        <p><strong>{_locService.GetSystem("Label_Email")}:</strong> {model.Email}</p>
+                        <p><strong>{_locService.GetSystem("Label_Phone")}:</strong> {model.Phone}</p>
+                        <p><strong>{_locService.GetSystem("Label_Message")}:</strong><br/>{model.Message}</p>";
 
             try
             {
-                await _emailService.SendEmail("tradation10@gmail.com", subject, body);
-                TempData["Success"] = "Thank you! Your message has been sent.";
+                await _emailService.SendEmail("physiotech7@gmail.com", subject, body);
+                TempData["Success"] = _locService.GetSystem("Status_SuccessSent");
                 return RedirectToAction(nameof(Contact));
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Could not send your message. Please try again later.");
+                ModelState.AddModelError(string.Empty, _locService.GetSystem("Status_ErrorGeneral"));
                 Debug.WriteLine(ex);
                 return View(model);
             }

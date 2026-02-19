@@ -177,4 +177,144 @@
   <data name="Auth_EmailVerifiedStatus" xml:space="preserve">
     <value>Email was verified</value>
   </data>
+  <data name="Label_Name" xml:space="preserve"><value>Name</value></data>
+<data name="Label_Email" xml:space="preserve"><value>Email</value></data>
+<data name="Label_Phone" xml:space="preserve"><value>Phone</value></data>
+<data name="Label_Message" xml:space="preserve"><value>Message</value></data>
+<data name="Label_Visitor" xml:space="preserve"><value>Visitor</value></data>
+<data name="Notification_NewContact" xml:space="preserve"><value>New contact from</value></data>
+
+<data name="Status_SuccessSent" xml:space="preserve">
+  <value>Thank you! Your message has been sent.</value>
+</data>
+<data name="Status_ErrorGeneral" xml:space="preserve">
+  <value>Could not send your message. Please try again later.</value>
+</data>
+<data name="Msg_CreateSuccess" xml:space="preserve"><value>Created successfully.</value></data>
+<data name="Msg_UpdateSuccess" xml:space="preserve"><value>Updated successfully.</value></data>
+<data name="Msg_ErrorSave" xml:space="preserve"><value>An error occurred while saving. Please check if data already exists.</value></data>
+<data name="Msg_ErrorResetLink" xml:space="preserve"><value>Reset link could not be sent.</value></data>
+<data name="Msg_LinkSentSuccess" xml:space="preserve">
+  <value>Link has been sent to the email address.</value>
+</data>
+<data name="Msg_DeleteSuccess" xml:space="preserve">
+  <value>Deleted successfully.</value>
+</data>
+<data name="Msg_SearchCriteriaRequired" xml:space="preserve">
+  <value>Please provide at least one search criteria.</value>
+</data>
+<data name="Msg_NotFoundCreateNew" xml:space="preserve">
+  <value>No matching record found. You can create a new one.</value>
+</data>
+<data name="Label_Unknown" xml:space="preserve">
+  <value>Unknown</value>
+</data>
+<data name="Status_PatientFound" xml:space="preserve">
+  <value>Patient found</value>
+</data>
+<data name="Process_AppointmentScheduling" xml:space="preserve">
+  <value>Proceeding to appointment scheduling.</value>
+</data>
+<data name="Error_TechnicalSearch" xml:space="preserve">
+  <value>A technical error occurred while processing your search. Please try again or contact the system administrator if the issue persists.</value>
+</data>
+<data name="Msg_CreateAccountInfo" xml:space="preserve">
+  <value>Create a new account. All fields marked with * are required.</value>
+</data>
+<data name="Msg_ValidationError" xml:space="preserve">
+  <value>Please correct the errors in the form.</value>
+</data>
+<data name="Auth_EmailAlreadyExists" xml:space="preserve">
+  <value>This email is already registered.</value>
+</data>
+<data name="Msg_EmailInUse" xml:space="preserve">
+  <value>The email address is already in use.</value>
+</data>
+<data name="Auth_UsernameAlreadyTaken" xml:space="preserve">
+  <value>This username is already taken.</value>
+</data>
+<data name="Msg_PatientCreatedScheduleInfo" xml:space="preserve">
+  <value>Patient created successfully! You can now search for them to schedule an appointment.</value>
+</data>
+<data name="Msg_ValidationError" xml:space="preserve">
+  <value>Please correct the errors in the form.</value>
+</data>
+<data name="Error_CreatePatient" xml:space="preserve">
+  <value>Error creating patient: {0}</value>
+</data>
+<data name="Msg_NoPatientSelected" xml:space="preserve">
+  <value>No patient selected. Please search for a patient first.</value>
+</data>
+<data name="Msg_SelectAppointmentSlot" xml:space="preserve">
+  <value>Select date and time slots for the appointment.</value>
+</data>
+<data name="Msg_RequiredFieldsMissing" xml:space="preserve">
+  <value>Please fill all required fields.</value>
+</data>
+<data name="Msg_InvalidTimeSlots" xml:space="preserve">
+  <value>Please select valid time slots.</value>
+</data>
+<data name="Error_DoctorProfileNotFound" xml:space="preserve">
+  <value>Doctor profile not found.</value>
+</data>
+<data name="Msg_AppointmentCreateSuccessDetails" xml:space="preserve">
+  <value>Appointment created successfully! Duration: {0} minutes ({1} - {2}). One appointment created covering all selected time slots.</value>
+</data>
+<data name="Error_AppointmentCreateFailed" xml:space="preserve">
+  <value>Failed to create appointment. Please try again.</value>
+</data>
+<data name="Error_LoadingTimeSlots" xml:space="preserve">
+  <value>Error loading time slots.</value>
+</data>
+<data name="Msg_AppointmentUpdateSuccess" xml:space="preserve">
+  <value>Appointment updated successfully.</value>
+</data>
+<data name="Msg_AppointmentDeleteSuccess" xml:space="preserve">
+  <value>Appointment deleted successfully.</value>
+</data>
+<data name="Val_RequiredTimeSlot" xml:space="preserve">
+  <value>Please select at least one time slot.</value>
+</data>
+<data name="Msg_AppointmentConfirmedSlotsUpdated" xml:space="preserve">
+  <value>Appointment confirmed and slots updated successfully.</value>
+</data>
+<data name="Error_AppointmentConfirmationFailed" xml:space="preserve">
+  <value>Failed to confirm appointment. Please try again.</value>
+</data>
+<data name="Val_RejectionReasonRequired" xml:space="preserve">
+  <value>Please provide a reason for rejection.</value>
+</data>
+<data name="Msg_AppointmentRejectedSuccess" xml:space="preserve">
+  <value>Appointment rejected and reason sent to the patient.</value>
+</data>
+<data name="Msg_PatientRegisteredPasswordInfo" xml:space="preserve">
+  <value>Patient registered! Password format is: Aa{0}_1</value>
+</data>
+<data name="Msg_AlreadyHasAppointmentRedirect" xml:space="preserve">
+  <value>You already have a previous appointment with Dr. {0}. You have been redirected to your appointments page.</value>
+</data>
+<data name="Warn_FillRequiredFields" xml:space="preserve">
+  <value>Please fill all required fields.</value>
+</data>
+<data name="Warn_SelectValidTimeSlot" xml:space="preserve">
+  <value>Please select one valid time slot.</value>
+</data>
+<data name="Error_PatientProfileNotFound" xml:space="preserve">
+  <value>Patient profile not found.</value>
+</data>
+<data name="Error_SlotNoLongerAvailable" xml:space="preserve">
+  <value>Selected time slot is no longer available.</value>
+</data>
+<data name="Error_AlreadyHasPendingAppointment" xml:space="preserve">
+  <value>You already have a pending appointment for this time slot with this doctor.</value>
+</data>
+<data name="Error_AppointmentBookingFailed" xml:space="preserve">
+  <value>Failed to book appointment. Please try again.</value>
+</data>
+<data name="Msg_AppointmentBookedWithDuration" xml:space="preserve">
+  <value>Appointment booked for {0} (20 minutes).</value>
+</data>
+<data name="Warn_BookingFailedContactClinic" xml:space="preserve">
+  <value>Failed to book appointment. Please contact the clinic directly to modify or reschedule your appointment.</value>
+</data>
 </root>

@@ -1,4 +1,5 @@
 ﻿using IPTS.Areas.Patient.ViewsModels;
+using IPTS.Resources;
 using IPTS.Services;
 using IPTS.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -11,8 +12,9 @@ namespace IPTS.Models.Entites
 {
     [Area("patient")]
     [Authorize(Roles = "patient")]
-    public class PanelController(UserService userService, AppointmentService appointmentService, MedicalCaseService medicalCaseService) : Controller
+    public class PanelController(LocService locService,UserService userService, AppointmentService appointmentService, MedicalCaseService medicalCaseService) : Controller
     {
+        private readonly LocService _locService = locService;
         private readonly UserService _userService = userService;
         private readonly AppointmentService _appointmentService = appointmentService;
         private readonly MedicalCaseService _medicalCaseService = medicalCaseService;
@@ -25,7 +27,7 @@ namespace IPTS.Models.Entites
             // Get the patient entity for the current user
             var patient = await _userService.GetByIdAsync(userId, q => q.Include(u => u.Patient));
             if (patient?.Patient == null)
-                return NotFound("Patient profile not found.");
+                return NotFound(_locService.GetSystem("Error_PatientProfileNotFound"));
 
             // Count appointments and medical cases
             var appointmentsCount = (await _appointmentService.GetAllAsync(q => q.Where(a => a.PatientId == patient.Patient.Id))).Count;

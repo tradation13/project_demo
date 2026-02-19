@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog.Events;
 using IPTS.Helpers;
+using IPTS.Resources;
 
 namespace IPTS.Areas.Admin.Controllers
 {
@@ -22,9 +23,11 @@ namespace IPTS.Areas.Admin.Controllers
         RoleManager<IdentityRole> roleManager,
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
-        SpecialtyService specialtyService
+        SpecialtyService specialtyService,
+        LocService locService
         ) : Controller
     {
+        private readonly LocService _locService = locService;
         private readonly UserManager<AppUser> _userManager = userManager;
         private readonly SignInManager<AppUser> _signInManager = signInManager;
         private readonly RoleManager<IdentityRole> _roleManager = roleManager;
@@ -148,7 +151,7 @@ namespace IPTS.Areas.Admin.Controllers
                         "UsersController.UserFormAsync",
                         LogEventLevel.Warning
                     );
-                    TempData["SuccessMessage"] = "User created successfully.";
+                    TempData["SuccessMessage"] = _locService.GetSystem("Msg_CreateSuccess");
                 }
                 else
                 {
@@ -160,7 +163,7 @@ namespace IPTS.Areas.Admin.Controllers
                         "UsersController.UserFormAsync",
                         LogEventLevel.Warning
                     );
-                    TempData["SuccessMessage"] = "User updated successfully.";
+                    TempData["SuccessMessage"] = _locService.GetSystem("Msg_UpdateSuccess");
                 }
 
                 return RedirectToAction("Index");
@@ -176,7 +179,7 @@ namespace IPTS.Areas.Admin.Controllers
                 );
                 // throw;
                 // ✅ منع الكراش وإظهار رسالة للمستخدم
-        ModelState.AddModelError(string.Empty, "An error occurred while saving the user. Please make sure the Email or Username is not already taken.");
+        ModelState.AddModelError(string.Empty, _locService.GetSystem("Msg_ErrorSave"));
         return View(model);
             }
         }
@@ -207,18 +210,18 @@ namespace IPTS.Areas.Admin.Controllers
                         "UsersController.SendRestPasswordLink",
                         LogEventLevel.Warning
                     );
-                    TempData["ErrorMessage"] = "Cannot send reset link for this email.";
+                   TempData["ErrorMessage"] = _locService.GetSystem("Msg_ErrorResetLink");
                     return View(model);
                 }
 
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var resetLink = Url.Action("ResetPasswordConfirm", "Auth", new { token, email = model.Email }, Request.Scheme);
 
-                await _emailService.SendEmail(model.Email, "Reset your password",
-                    $"<p>Hello,</p><p>You requested to reset your password.</p>" +
-                    $"<p>Please click the link below to set a new password:</p>" +
-                    $"<p><a href='{resetLink}'>Reset Password</a></p>" +
-                    "<p>If you did not request this, please ignore this email.</p>"
+                await _emailService.SendEmail(model.Email, _locService.GetSystem("Email_ResetTitle"),
+                    $"<p>{_locService.GetSystem("Email_Hello")},</p><p>{_locService.GetSystem("Email_ResetRequest")}.</p>" +
+                    $"<p>{_locService.GetSystem("Email_ResetInstruction")}</p>" +
+                    $"<p><a href='{resetLink}'>{_locService.GetSystem("Email_ResetButton")}</a></p>" +
+                    $"<p>{_locService.GetSystem("Email_IgnoreRequest")}</p>"
                 );
 
                 LogHelper.LogWithContext(
@@ -229,7 +232,7 @@ namespace IPTS.Areas.Admin.Controllers
                     LogEventLevel.Warning
                 );
 
-                TempData["SuccessMessage"] = "Password Reset link has been sent to the user email.";
+                TempData["SuccessMessage"] = _locService.GetSystem("Msg_LinkSentSuccess");
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -286,7 +289,7 @@ namespace IPTS.Areas.Admin.Controllers
                     LogEventLevel.Warning
                 );
 
-                TempData["SuccessMessage"] = "User has been deleted successfully.";
+                TempData["SuccessMessage"] = _locService.GetSystem("Msg_DeleteSuccess");
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

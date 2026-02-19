@@ -1,6 +1,7 @@
 ﻿using IPTS.Areas.Doctor.ViewsModels;
 using IPTS.Data;
 using IPTS.Models.Entites;
+using IPTS.Resources;
 using IPTS.Services;
 using IPTS.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -13,11 +14,12 @@ namespace IPTS.Areas.Doctor.Controllers
     [Area("doctor")]
     [Authorize(Roles = "doctor")]
 
-    public class PatientsController(ApplicationDbContext context, UserService userService, AppointmentService appointmentService) : Controller
+    public class PatientsController(LocService locService,ApplicationDbContext context, UserService userService, AppointmentService appointmentService) : Controller
     {
         private readonly ApplicationDbContext _context = context;
         private readonly UserService _userService = userService;
         private readonly AppointmentService _appointmentService = appointmentService;
+        private readonly LocService _locService = locService;
 
 
 
@@ -44,7 +46,10 @@ public async Task<IActionResult> Create(PatientRegistrationViewModel model)
         await _userService.RegisterPatientFromDoctorAsync(model);
 
         
-    TempData["SuccessMessage"] = $"Patient registered! Password format is: Aa{model.NationalId}_1";
+    TempData["SuccessMessage"] = string.Format(
+    _locService.GetSystem("Msg_PatientRegisteredPasswordInfo"), 
+    model.NationalId
+);
         
         return RedirectToAction(nameof(Index));
     }

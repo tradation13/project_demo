@@ -12,13 +12,15 @@ using IPTS.Helpers;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using IPTS.Areas.Doctor.ViewsModels;
+using IPTS.Resources;
 namespace IPTS.Areas.Doctor.Controllers
 {
     [Area("doctor")]
     [Authorize(Roles = "doctor")]
-    public class AppointmentsController(AppointmentService appointmentService, IMapper mapper, UserManager<AppUser> userManager, ApplicationDbContext context, UserService userService) : Controller
+    public class AppointmentsController(LocService locService,AppointmentService appointmentService, IMapper mapper, UserManager<AppUser> userManager, ApplicationDbContext context, UserService userService) : Controller
     {
         private readonly AppointmentService _appointmentService = appointmentService;
+        private readonly LocService _locService = locService;
         private readonly IMapper _mapper = mapper;
         private readonly UserManager<AppUser> _userManager = userManager;
         private readonly ApplicationDbContext _context = context;
@@ -88,7 +90,7 @@ namespace IPTS.Areas.Doctor.Controllers
                     string.IsNullOrWhiteSpace(PhoneNumber) &&
                     string.IsNullOrWhiteSpace(Email))
                 {
-                    TempData["ErrorMessage"] = "Please provide at least one search criteria (Identity Number, Phone Number, or Email).";
+                    TempData["ErrorMessage"] = _locService.GetSystem("Msg_SearchCriteriaRequired");
                     return RedirectToAction("SearchPatient");
                 }
 
@@ -114,7 +116,7 @@ namespace IPTS.Areas.Doctor.Controllers
 
                 if (patient == null)
                 {
-                    TempData["WarningMessage"] = "Patient not found with the provided information. You can create a new patient.";
+                    TempData["WarningMessage"] = _locService.GetSystem("Msg_NotFoundCreateNew");
                     // TempData["SearchData"] = new { IdentityNumber, PhoneNumber, Email };
                     TempData["Draft_Identity"] = IdentityNumber;
     TempData["Draft_Phone"] = PhoneNumber;
@@ -127,9 +129,9 @@ namespace IPTS.Areas.Doctor.Controllers
                 TempData["PatientName"] = $"{patient.User?.FirstName} {patient.User?.LastName}".Trim();
                 if (string.IsNullOrEmpty(TempData["PatientName"]?.ToString()))
                 {
-                    TempData["PatientName"] = patient.User?.UserName ?? "Unknown";
+                    TempData["PatientName"] = patient.User?.UserName ?? _locService.GetSystem("Label_Unknown");
                 }
-                TempData["SuccessMessage"] = $"Patient found: {TempData["PatientName"]}. Proceeding to appointment scheduling.";
+                TempData["SuccessMessage"] = $"{_locService.GetSystem("Status_PatientFound")}: {TempData["PatientName"]}. {_locService.GetSystem("Process_AppointmentScheduling")}";
 
                 return RedirectToAction("ScheduleAppointment");
             }
@@ -145,7 +147,7 @@ namespace IPTS.Areas.Doctor.Controllers
                 // throw;
 
                 // 2. رسالة الخطأ عند "انفجار" الكود (الرسالة المعبرة للوحوش)
-    TempData["ErrorMessage"] = "A technical error occurred while processing your search. Please try again or contact the system administrator if the issue persists.";
+    TempData["ErrorMessage"] = _locService.GetSystem("Error_TechnicalSearch");
     
     return RedirectToAction("SearchPatient");
             }
@@ -165,7 +167,7 @@ namespace IPTS.Areas.Doctor.Controllers
                     // This will be handled in the view
                 }
                 
-                TempData["InfoMessage"] = "Create a new patient account. All fields marked with * are required.";
+                TempData["InfoMessage"] = _locService.GetSystem("Msg_CreateAccountInfo");
                 return View(model);
             }
             catch (Exception ex)
@@ -189,22 +191,22 @@ namespace IPTS.Areas.Doctor.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    TempData["WarningMessage"] = "Please correct the errors in the form.";
+                    TempData["WarningMessage"] = _locService.GetSystem("Msg_ValidationError");
                     return View(model);
                 }
 
                 var existingUser = await _userManager.FindByEmailAsync(model.Email);
         if (existingUser != null)
         {
-            ModelState.AddModelError("Email", "This email is already registered.");
-            TempData["WarningMessage"] = "The email address is already in use.";
+            ModelState.AddModelError("Email", _locService.GetSystem("Auth_EmailAlreadyExists"));
+            TempData["WarningMessage"] = _locService.GetSystem("Msg_EmailInUse");
             return View(model);
         }
 
         var existingUserName = await _userManager.FindByNameAsync(model.UserName);
         if (existingUserName != null)
         {
-            ModelState.AddModelError("UserName", "This username is already taken.");
+            ModelState.AddModelError("UserName", _locService.GetSystem("Auth_UsernameAlreadyTaken"));
             return View(model);
         }
 
@@ -231,7 +233,7 @@ namespace IPTS.Areas.Doctor.Controllers
                 
                 if (result.Succeeded)
                 {
-                    TempData["SuccessMessage"] = "Patient created successfully! You can now search for them to schedule an appointment.";
+                    TempData["SuccessMessage"] = _locService.GetSystem("Msg_PatientCreatedScheduleInfo");
                     return RedirectToAction("SearchPatient");
                 }
                 else
@@ -240,7 +242,7 @@ namespace IPTS.Areas.Doctor.Controllers
                     {
                         ModelState.AddModelError("", error.Description);
                     }
-                    TempData["WarningMessage"] = "Please correct the errors in the form.";
+                    TempData["WarningMessage"] = _locService.GetSystem("Msg_ValidationError");
                     return View(model);
                 }
             }
@@ -253,7 +255,7 @@ namespace IPTS.Areas.Doctor.Controllers
                     "AppointmentsController.CreatePatient",
                     LogEventLevel.Fatal
                 );
-                TempData["ErrorMessage"] = $"Error creating patient: {ex.Message}";
+                TempData["ErrorMessage"] = string.Format(_locService.GetSystem("Error_CreatePatient"), ex.Message);
                 return View(model);
             }
         }
@@ -266,7 +268,7 @@ namespace IPTS.Areas.Doctor.Controllers
                 var patientId = TempData["PatientId"] as int?;
                 if (!patientId.HasValue)
                 {
-                    TempData["WarningMessage"] = "No patient selected. Please search for a patient first.";
+                    TempData["WarningMessage"] = _locService.GetSystem("Msg_NoPatientSelected");
                     return RedirectToAction("SearchPatient");
                 }
 
@@ -276,8 +278,8 @@ namespace IPTS.Areas.Doctor.Controllers
                 
                 if (doctor == null)
                 {
-                    TempData["ErrorMessage"] = "Doctor profile not found.";
-                    return NotFound("Doctor profile not found");
+                    TempData["ErrorMessage"] = _locService.GetSystem("Error_DoctorProfileNotFound");
+                    return NotFound(_locService.GetSystem("Error_DoctorProfileNotFound"));
                 }
 
                 var model = new AppointmentCreateViewModel
@@ -287,7 +289,7 @@ namespace IPTS.Areas.Doctor.Controllers
                     ScheduledDate = DateTime.SpecifyKind(DateTime.Today, DateTimeKind.Utc)
                 };
 
-                TempData["InfoMessage"] = "Select date and time slots for the appointment.";
+                TempData["InfoMessage"] = _locService.GetSystem("Msg_SelectAppointmentSlot");
                 return View(model);
             }
             catch (Exception ex)
@@ -311,14 +313,14 @@ namespace IPTS.Areas.Doctor.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    TempData["WarningMessage"] = "Please fill all required fields.";
+                    TempData["WarningMessage"] = _locService.GetSystem("Msg_RequiredFieldsMissing");
                     return View(model);
                 }
 
                 // Validate time slot selection
                 if (model.StartSlotIndex < 0 || model.EndSlotIndex < 0 || model.StartSlotIndex > model.EndSlotIndex)
                 {
-                    TempData["WarningMessage"] = "Please select valid time slots.";
+                    TempData["WarningMessage"] = _locService.GetSystem("Msg_InvalidTimeSlots");
                     return View(model);
                 }
 
@@ -327,8 +329,8 @@ namespace IPTS.Areas.Doctor.Controllers
                 
                 if (doctor == null)
                 {
-                    TempData["ErrorMessage"] = "Doctor profile not found.";
-                    return NotFound("Doctor profile not found");
+                    TempData["ErrorMessage"] = _locService.GetSystem("Error_DoctorProfileNotFound");
+                    return NotFound(_locService.GetSystem("Error_DoctorProfileNotFound"));
                 }
 
                 model.DoctorId = doctor.Id;
@@ -360,12 +362,17 @@ namespace IPTS.Areas.Doctor.Controllers
 
                 if (result)
                 {
-                    TempData["SuccessMessage"] = $"Appointment created successfully! Duration: {totalDuration} minutes ({model.StartTime} - {model.EndTime}). One appointment created covering all selected time slots.";
+                    TempData["SuccessMessage"] = string.Format(
+    _locService.GetSystem("Msg_AppointmentCreateSuccessDetails"), 
+    totalDuration, 
+    model.StartTime, 
+    model.EndTime
+);
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "Failed to create appointment. Please try again.";
+                    TempData["ErrorMessage"] = _locService.GetSystem("Error_AppointmentCreateFailed");
                     return View(model);
                 }
             }
@@ -392,7 +399,10 @@ namespace IPTS.Areas.Doctor.Controllers
                 
                 if (doctor == null)
                 {
-                    return Json(new { success = false, message = "Doctor profile not found" });
+                    return Json(new { 
+    success = false, 
+    message = _locService.GetSystem("Error_DoctorProfileNotFound") 
+});
                 }
 
                 // Ensure the date is in UTC format for PostgreSQL
@@ -409,7 +419,10 @@ namespace IPTS.Areas.Doctor.Controllers
                     "AppointmentsController.GetTimeSlots",
                     LogEventLevel.Fatal
                 );
-                return Json(new { success = false, message = "Error loading time slots" });
+                return Json(new { 
+    success = false, 
+    message = _locService.GetSystem("Error_LoadingTimeSlots") 
+});
             }
         }
 
@@ -424,7 +437,7 @@ namespace IPTS.Areas.Doctor.Controllers
                 
                 if (doctor == null)
                 {
-                    return NotFound("Doctor profile not found");
+                    return NotFound(_locService.GetSystem("Error_DoctorProfileNotFound"));
                 }
 
                 var appointment = await _appointmentService.GetAppointmentByIdAsync(id);
@@ -464,7 +477,7 @@ namespace IPTS.Areas.Doctor.Controllers
                 
                 if (doctor == null)
                 {
-                    return NotFound("Doctor profile not found");
+                    return NotFound(_locService.GetSystem("Error_DoctorProfileNotFound"));
                 }
 
                 var appointment = await _appointmentService.GetAppointmentForEditAsync(id);
@@ -510,7 +523,7 @@ namespace IPTS.Areas.Doctor.Controllers
                 
                 if (doctor == null)
                 {
-                    return NotFound("Doctor profile not found");
+                    return NotFound(_locService.GetSystem("Error_DoctorProfileNotFound"));
                 }
 
                 // استخدام BaseService.UpdateAsync مباشرة
@@ -525,7 +538,7 @@ namespace IPTS.Areas.Doctor.Controllers
                     LogEventLevel.Information
                 );
 
-                TempData["SuccessMessage"] = "Appointment updated successfully.";
+                TempData["SuccessMessage"] = _locService.GetSystem("Msg_AppointmentUpdateSuccess");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -553,7 +566,7 @@ namespace IPTS.Areas.Doctor.Controllers
                 
                 if (doctor == null)
                 {
-                    return NotFound("Doctor profile not found");
+                    return NotFound(_locService.GetSystem("Error_DoctorProfileNotFound"));
                 }
 
                 var result = await _appointmentService.DeleteAppointmentAsync(id);
@@ -567,7 +580,7 @@ namespace IPTS.Areas.Doctor.Controllers
                     LogEventLevel.Information
                 );
 
-                TempData["SuccessMessage"] = "Appointment deleted successfully.";
+                TempData["SuccessMessage"] = _locService.GetSystem("Msg_AppointmentDeleteSuccess");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -592,7 +605,7 @@ namespace IPTS.Areas.Doctor.Controllers
 
             var doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.UserId == userId);
             if (doctor == null)
-                return NotFound("Doctor profile not found.");
+                return NotFound(_locService.GetSystem("Error_DoctorProfileNotFound"));
 
             var query = _context.Appointments
                 .Include(a => a.Patient).ThenInclude(p => p.User)
@@ -637,7 +650,7 @@ namespace IPTS.Areas.Doctor.Controllers
         {
             if (model.SelectedSlots == null || !model.SelectedSlots.Any())
             {
-                ModelState.AddModelError("", "Please select at least one time slot.");
+                ModelState.AddModelError("", _locService.GetSystem("Val_RequiredTimeSlot"));
                 // إعادة تحميل الـ Slots
                 model.AvailableSlots = await _appointmentService.GetAvailableTimeSlotsAsync(model.ScheduledDate, model.DoctorId);
                 return View(model);
@@ -649,11 +662,11 @@ namespace IPTS.Areas.Doctor.Controllers
             if (updated)
             {
                 await _appointmentService.CancelOtherPendingAppointmentsAsync(model.AppointmentId);
-                TempData["SuccessMessage"] = "Appointment confirmed and slots updated successfully.";
+                TempData["SuccessMessage"] = _locService.GetSystem("Msg_AppointmentConfirmedSlotsUpdated");
             }
             else
             {
-                TempData["ErrorMessage"] = "Failed to confirm appointment. Please try again.";
+                TempData["ErrorMessage"] = _locService.GetSystem("Error_AppointmentConfirmationFailed");
             }
             return RedirectToAction(nameof(Requests));
         }
@@ -677,7 +690,7 @@ namespace IPTS.Areas.Doctor.Controllers
         {
             if (string.IsNullOrWhiteSpace(model.RejectReason))
             {
-                ModelState.AddModelError("", "Please provide a reason for rejection.");
+                ModelState.AddModelError("", _locService.GetSystem("Val_RejectionReasonRequired"));
                 return View(model);
             }
 
@@ -686,7 +699,7 @@ namespace IPTS.Areas.Doctor.Controllers
             // إرسال الإيميل
             await _appointmentService.SendRejectionEmailAsync(model.PatientEmail, model.PatientName, model.RejectReason);
 
-            TempData["SuccessMessage"] = "Appointment rejected and reason sent to the patient.";
+            TempData["SuccessMessage"] = _locService.GetSystem("Msg_AppointmentRejectedSuccess");
             return RedirectToAction(nameof(Requests));
         }
     }

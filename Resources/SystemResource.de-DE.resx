@@ -319,4 +319,95 @@
 <data name="Warn_BookingFailedContactClinic" xml:space="preserve">
   <value>Die Terminbuchung ist fehlgeschlagen. Bitte kontaktieren Sie die Klinik direkt, um Ihren Termin zu ändern oder zu verschieben.</value>
 </data>
+<data name="Email_Subject_AppointmentRejected" xml:space="preserve">
+  <value>Terminabsage – Ihr Termin wurde abgelehnt</value>
+</data>
+<data name="Email_Body_AppointmentRejected" xml:space="preserve">
+  <value>Sehr geehrte(r) {0},&lt;br/&gt;&lt;br/&gt;Ihre Terminanfrage wurde aus folgendem Grund abgelehnt:&lt;br/&gt;&lt;b&gt;{1}&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Bei Fragen wenden Sie sich bitte an die Klinik.&lt;br/&gt;&lt;br/&gt;Mit freundlichen Grüßen.</value>
+</data>
+<data name="Label_Report" xml:space="preserve">
+  <value>Bericht</value>
+</data>
+<data name="Error_UserTypeNotFound" xml:space="preserve">
+  <value>Benutzertyp nicht gefunden.</value>
+</data>
+<data name="Error_DefaultRoleNotSet" xml:space="preserve">
+  <value>Die Standardrollen-ID für diesen Benutzertyp ist nicht festgelegt.</value>
+</data>
+<data name="Error_DefaultRoleNotFound" xml:space="preserve">
+  <value>Die Standardrolle wurde nicht gefunden.</value>
+</data>
+<data name="Error_UserCreationFailed" xml:space="preserve">
+  <value>Benutzererstellung fehlgeschlagen: {0}</value>
+</data>
+<data name="Error_AddingRoleFailed" xml:space="preserve">
+  <value>Fehler beim Zuweisen der Rolle: {0}</value>
+</data>
+<data name="Error_DoctorRequired" xml:space="preserve">
+  <value>Angaben zum Arzt sind erforderlich.</value>
+</data>
+<data name="Error_PatientRequired" xml:space="preserve">
+  <value>Angaben zum Patienten sind erforderlich.</value>
+</data>
+<data name="Error_UnsupportedUserType" xml:space="preserve">
+  <value>Nicht unterstützter Benutzertyp.</value>
+</data>
+<data name="Error_UserNotFound" xml:space="preserve">
+  <value>Benutzer nicht gefunden.</value>
+</data>
+<data name="Error_EmailEmpty" xml:space="preserve">
+  <value>Die E-Mail-Adresse darf nicht leer sein.</value>
+</data>
+<data name="Error_PhoneEmpty" xml:space="preserve">
+  <value>Die Telefonnummer darf nicht leer sein.</value>
+</data>
+<data name="Error_EmailAlreadyInUse" xml:space="preserve">
+  <value>Diese E-Mail-Adresse wird bereits verwendet.</value>
+</data>
+<data name="Error_PhoneAlreadyInUse" xml:space="preserve">
+  <value>Diese Telefonnummer wird bereits verwendet.</value>
+</data>
+<data name="Error_UnsupportedUserType" xml:space="preserve">
+  <value>Nicht unterstützter Benutzertyp.</value>
+</data>
+<data name="Email_Subject_Confirm" xml:space="preserve">
+  <value>Bestätigen Sie Ihre E-Mail</value>
+</data>
+<data name="Email_Body_Confirm" xml:space="preserve">
+  <value><![CDATA[<p>Willkommen!</p><p>Bitte bestätigen Sie Ihre E-Mail, indem Sie auf den untenstehenden Link klicken:</p><p><a href='{0}'>E-Mail bestätigen</a></p>]]></value>
+</data>
+<data name="Code_RegistrationFailed" xml:space="preserve">
+  <value>Registrierung fehlgeschlagen</value>
+</data>
+<data name="Label_UnknownUser" xml:space="preserve">
+  <value>Unbekannter Benutzer</value>
+</data>
+<data name="Error_UsernameTaken" xml:space="preserve">
+  <value>Dieser Benutzername ist bereits vergeben.</value>
+</data>
+<data name="Error_NationalIdRegistered" xml:space="preserve">
+  <value>Diese Personalausweisnummer ist bereits registriert.</value>
+</data>
+<data name="Error_PatientRegistrationFailed" xml:space="preserve">
+  <value>Fehler bei der Patientenregistrierung: {0}</value>
+</data>
+<data name="Email_Welcome_Subject" xml:space="preserve">
+  <value>Willkommen bei PhysioTech - Ihr medizinisches Profil ist bereit</value>
+</data>
+<data name="Email_Welcome_Body" xml:space="preserve">
+  <value><![CDATA[
+    <div style='font-family: Segoe UI, sans-serif; line-height: 1.6;'>
+        <h2 style='color: #007bff;'>Willkommen bei PhysioTech</h2>
+        <p>Sehr geehrte(r) {0} {1},</p>
+        <p>Ihr medizinisches Profil wurde erfolgreich von <strong>Dr. {2}</strong> erstellt.</p>
+        <div style='background-color: #f4f4f4; padding: 20px; border-left: 5px solid #007bff; margin: 20px 0;'>
+            <p style='margin: 5px 0;'><strong>Login-Portal:</strong> <a href='{3}'>{3}</a></p>
+            <p style='margin: 5px 0;'><strong>Benutzername:</strong> {4}</p>
+            <p style='margin: 5px 0;'><strong>Temporäres Passwort:</strong> <code style='background: #eee; padding: 2px 5px;'>{5}</code></p>
+        </div>
+        <p style='color: #d9534f;'><strong>Hinweis:</strong> Bitte ändern Sie Ihr Passwort nach dem ersten Login.</p>
+        <br>
+        <p>Mit freundlichen Grüßen,<br>Ihr PhysioTech Management Team</p>
+    </div>]]></value>
+</data>
 </root>

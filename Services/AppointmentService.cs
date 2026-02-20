@@ -2,14 +2,16 @@ using AutoMapper;
 using IPTS.Data;
 using IPTS.Models.Entites;
 using IPTS.Models.Enums;
+using IPTS.Resources;
 using IPTS.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace IPTS.Services
 {
-    public class AppointmentService(EmailService emailService, ApplicationDbContext context, IMapper mapper, UserService userService) : BaseService<Appointment>(context, mapper)
+    public class AppointmentService(LocService locService,EmailService emailService, ApplicationDbContext context, IMapper mapper, UserService userService) : BaseService<Appointment>(context, mapper)
     {
+        private readonly LocService _locService = locService;
         private readonly UserService _userService = userService;
         private readonly EmailService _emailService = emailService;
         public async Task<List<AppointmentViewModel>> GetAppointmentsForDoctorAsync(string userId)
@@ -53,11 +55,12 @@ namespace IPTS.Services
         }
         public async Task SendRejectionEmailAsync(string toEmail, string patientName, string reason)
         {
-            var subject = "Appointment Request Rejected";
-            var body = $"Dear {patientName},<br/><br/>" +
-                       $"Your appointment request has been rejected for the following reason:<br/>" +
-                       $"<b>{reason}</b><br/><br/>" +
-                       $"If you have any questions, please contact the clinic.<br/><br/>Best regards.";
+            var subject = _locService.GetSystem("Email_Subject_AppointmentRejected");
+           var body = string.Format(
+    _locService.GetSystem("Email_Body_AppointmentRejected"), 
+    patientName, 
+    reason
+);
             await _emailService.SendEmail(toEmail, subject, body);
         }
         public async Task<bool> HasPendingAppointmentAsync(int patientId, int doctorId, DateTime scheduledDate, int slotIndex)

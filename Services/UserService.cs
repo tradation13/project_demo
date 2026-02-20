@@ -5,6 +5,7 @@ using IPTS.Data;
 using IPTS.Helpers;
 using IPTS.Models.Entites;
 using IPTS.Models.Enums;
+using IPTS.Resources;
 using IPTS.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +13,13 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace IPTS.Services
 {
-    public class UserService(IHttpContextAccessor httpContextAccessor,LinkGenerator linkGenerator,HttpUser currentUser, IMapper mapper,EmailService emailService, ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration) : BaseService<AppUser>(context, mapper)
+    public class UserService(LocService locService,IHttpContextAccessor httpContextAccessor,LinkGenerator linkGenerator,HttpUser currentUser, IMapper mapper,EmailService emailService, ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration) : BaseService<AppUser>(context, mapper)
     {
         private readonly UserManager<AppUser> _userManager = userManager;
         private readonly EmailService _emailService = emailService;
         private readonly RoleManager<IdentityRole> _roleManager = roleManager;
         private readonly IConfiguration _configuration = configuration;
+        private readonly LocService _locService = locService;
         private readonly HttpUser _currentUser = currentUser;
         private readonly LinkGenerator _linkGenerator = linkGenerator; 
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor; 
@@ -27,24 +29,31 @@ namespace IPTS.Services
         {
             await ValidateEmailAndPhoneAsync(user.Email, user.PhoneNumber);
 
-            var userType = await _context.UserTypes.FirstOrDefaultAsync(ut => ut.Name == userTypeName)
-                ?? throw new Exception("User type not found.");
+           var userType = await _context.UserTypes.FirstOrDefaultAsync(ut => ut.Name == userTypeName)
+               ?? throw new Exception(_locService.GetSystem("Error_UserTypeNotFound"));
 
             user.UserType = userType;
 
-            var defaultRoleId = userType.DefaultRoleId ?? throw new Exception("Default role id is not set for this user type.");
-            var defaultRole = await _roleManager.FindByIdAsync(defaultRoleId.ToString())
-                ?? throw new Exception("Default role not found.");
+           var defaultRoleId = userType.DefaultRoleId 
+                   ?? throw new Exception(_locService.GetSystem("Error_DefaultRoleNotSet"));
+          var defaultRole = await _roleManager.FindByIdAsync(defaultRoleId.ToString())
+                 ?? throw new Exception(_locService.GetSystem("Error_DefaultRoleNotFound"));
 
             var result = await _userManager.CreateAsync(user, password);
 
             if (!result.Succeeded)
-                throw new Exception($"User creation failed: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+{
+    var errorDetails = string.Join(", ", result.Errors.Select(e => e.Description));
+    throw new Exception(string.Format(_locService.GetSystem("Error_UserCreationFailed"), errorDetails));
+}
 
             var roleResult = await _userManager.AddToRoleAsync(user, defaultRole.Name);
 
-            if (!roleResult.Succeeded)
-                throw new Exception($"Adding role failed: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
+           if (!roleResult.Succeeded)
+{
+    var errorDetails = string.Join(", ", roleResult.Errors.Select(e => e.Description));
+    throw new Exception(string.Format(_locService.GetSystem("Error_AddingRoleFailed"), errorDetails));
+}
 
             return user;
         }
@@ -88,8 +97,8 @@ namespace IPTS.Services
 
              
                     case "doctor":
-                        if (model.Doctor == null)
-                            throw new Exception("Doctor information is required.");
+                       if (model.Doctor == null)
+    throw new Exception(_locService.GetSystem("Error_DoctorRequired"));
 
                         await _context.Doctors.AddAsync(new Doctor
                         {
@@ -99,8 +108,8 @@ namespace IPTS.Services
                         break;
 
                     case "patient":
-                        if (model.Patient == null)
-                            throw new Exception("Patient information is required.");
+                       if (model.Patient == null)
+    throw new Exception(_locService.GetSystem("Error_PatientRequired"));
                         await _context.Patients.AddAsync(new Patient
                         {
                             UserId = user.Id,
@@ -109,8 +118,8 @@ namespace IPTS.Services
                         });
                         break;
 
-                    default:
-                        throw new Exception("Unsupported user type.");
+                   default:
+    throw new Exception(_locService.GetSystem("Error_UnsupportedUserType"));
                 }
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
@@ -140,7 +149,7 @@ namespace IPTS.Services
                     .Include(u => u.Doctor)
                     .Include(u => u.Patient)
                     .FirstOrDefaultAsync(u => u.Id == userId)
-                    ?? throw new Exception("User not found");
+                    ?? throw new Exception(_locService.GetSystem("Error_UserNotFound"));
 
                 // التحقق من البريد والهاتف
                 var emailProp = typeof(TViewModel).GetProperty("Email");
@@ -173,25 +182,25 @@ namespace IPTS.Services
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
-                return IdentityResult.Failed(new IdentityError { Description = "User not found." });
+                return IdentityResult.Failed(new IdentityError { Description = _locService.GetSystem("Error_UserNotFound") });
 
             return await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
         }
         private async Task ValidateEmailAndPhoneAsync(string email, string phoneNumber, string? userId = null)
         {
             if (string.IsNullOrWhiteSpace(email))
-                throw new Exception("Email cannot be empty.");
+                throw new Exception(_locService.GetSystem("Error_EmailEmpty"));
 
             if (string.IsNullOrWhiteSpace(phoneNumber))
-                throw new Exception("Phone number cannot be empty.");
+                throw new Exception(_locService.GetSystem("Error_PhoneEmpty"));
 
             var existingUserByEmail = await _userManager.FindByEmailAsync(email);
             if (existingUserByEmail != null && existingUserByEmail.Id != userId)
-                throw new Exception("This email is already in use.");
+                throw new Exception(_locService.GetSystem("Error_EmailAlreadyInUse"));
 
             var existingUserByPhone = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber && u.Id != userId);
             if (existingUserByPhone != null)
-                throw new Exception("This phone number is already in use.");
+                throw new Exception(_locService.GetSystem("Error_PhoneAlreadyInUse"));
         }
         public async Task<IdentityResult> RegisterAsync(RegisterViewModel model)
         {
@@ -221,7 +230,7 @@ namespace IPTS.Services
 
                     case "doctor":
                         if (model.Doctor == null)
-                            throw new Exception("Doctor information is required.");
+                            throw new Exception(_locService.GetSystem("Error_DoctorRequired"));
                         await _context.Doctors.AddAsync(new Doctor
                         {
                             UserId = user.Id,
@@ -231,7 +240,7 @@ namespace IPTS.Services
 
                     case "patient":
                         if (model.Patient == null)
-                            throw new Exception("Patient information is required.");
+                            throw new Exception(_locService.GetSystem("Error_PatientRequired"));
                         await _context.Patients.AddAsync(new Patient
                         {
                             UserId = user.Id,
@@ -241,7 +250,7 @@ namespace IPTS.Services
                         break;
 
                     default:
-                        throw new Exception("Unsupported user type.");
+    throw new Exception(_locService.GetSystem("Error_UnsupportedUserType"));
                 }
 
                 await _context.SaveChangesAsync();
@@ -256,11 +265,11 @@ var confirmationLink = _linkGenerator.GetUriByAction(
     values: new { userId = user.Id, token = emailToken }
 );
 
-                await _emailService.SendEmail(
-                    user.Email,
-                    "Confirm your email",
-                    $"<p>Welcome!</p><p>Please confirm your email by clicking the link below:</p><p><a href='{confirmationLink}'>Confirm Email</a></p>"
-                );
+              await _emailService.SendEmail(
+    user.Email,
+    _locService.GetSystem("Email_Subject_Confirm"),
+    string.Format(_locService.GetSystem("Email_Body_Confirm"), confirmationLink)
+);
                 await transaction.CommitAsync();
 
                 return IdentityResult.Success;
@@ -269,7 +278,7 @@ var confirmationLink = _linkGenerator.GetUriByAction(
             {
                 return IdentityResult.Failed(new IdentityError
                 {
-                    Code = "Registeration Failed",
+                    Code = _locService.GetSystem("Code_RegistrationFailed"),
                     Description = err.Message
                 });
             }
@@ -284,7 +293,7 @@ var confirmationLink = _linkGenerator.GetUriByAction(
         .Select(u => new { u.FirstName, u.LastName })
         .FirstOrDefaultAsync();
 
-    return user != null ? $"{user.FirstName} {user.LastName}" : "Unknown User";
+    return user != null ? $"{user.FirstName} {user.LastName}" : _locService.GetSystem("Label_UnknownUser");
 }
 
 public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel model)
@@ -294,10 +303,10 @@ public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel mo
 
    
     if (await _userManager.FindByNameAsync(model.UserName) != null)
-        throw new Exception("This username is already taken.");
+        throw new Exception(_locService.GetSystem("Error_UsernameTaken"));
 
     if (await _context.Patients.AnyAsync(p => p.IdentityNumber == model.NationalId))
-        throw new Exception("This National ID is already registered.");
+        throw new Exception(_locService.GetSystem("Error_NationalIdRegistered"));
 
     string generatedPassword = $"Aa{model.NationalId}_1";
     AppUser? userForEmail = null;
@@ -339,7 +348,7 @@ public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel mo
         {
    
             await transaction.RollbackAsync();
-            throw new Exception($"Failed to register patient: {ex.Message}");
+           throw new Exception(string.Format(_locService.GetSystem("Error_PatientRegistrationFailed"), ex.Message));
         }
     } 
 
@@ -351,25 +360,15 @@ public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel mo
         var loginUrl = $"{baseUrl}/Auth/Login";
 
 
-        var emailSubject = "Welcome to PhysoTech - Your Medical Profile is Ready";
+        var emailSubject = _locService.GetSystem("Email_Welcome_Subject");
         
-        var emailBody = $@"
-            <div style='font-family: Segoe UI, sans-serif; line-height: 1.6;'>
-                <h2 style='color: #007bff;'>Welcome to PhysoTech</h2>
-                <p>Dear {model.FirstName} {model.LastName},</p>
-                <p>Your medical profile has been successfully created by <strong>Dr. {doctorName}</strong>.</p>
-                
-                <div style='background-color: #f4f4f4; padding: 20px; border-left: 5px solid #007bff; margin: 20px 0;'>
-                    <p style='margin: 5px 0;'><strong>Login Portal:</strong> <a href='{loginUrl}'>{loginUrl}</a></p>
-                    <p style='margin: 5px 0;'><strong>Username:</strong> {model.UserName}</p>
-                    <p style='margin: 5px 0;'><strong>Temporary Password:</strong> <code style='background: #eee; padding: 2px 5px;'>{generatedPassword}</code></p>
-                </div>
-
-                <p style='color: #d9534f;'><strong>Note:</strong> Please change your password after your first login.</p>
-                <br>
-                <p>Best Regards,<br>PhysoTech Management Team</p>
-            </div>";
-
+       var emailBody = string.Format(_locService.GetSystem("Email_Welcome_Body"), 
+    model.FirstName, 
+    model.LastName, 
+    doctorName, 
+    loginUrl, 
+    model.UserName, 
+    generatedPassword);
         await _emailService.SendEmail(userForEmail.Email, emailSubject, emailBody);
     }
 }

@@ -317,4 +317,95 @@
 <data name="Warn_BookingFailedContactClinic" xml:space="preserve">
   <value>Failed to book appointment. Please contact the clinic directly to modify or reschedule your appointment.</value>
 </data>
+<data name="Email_Subject_AppointmentRejected" xml:space="preserve">
+  <value>Appointment Request Rejected</value>
+</data>
+<data name="Email_Body_AppointmentRejected" xml:space="preserve">
+  <value>Dear {0},&lt;br/&gt;&lt;br/&gt;Your appointment request has been rejected for the following reason:&lt;br/&gt;&lt;b&gt;{1}&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;If you have any questions, please contact the clinic.&lt;br/&gt;&lt;br/&gt;Best regards.</value>
+</data>
+<data name="Label_Report" xml:space="preserve">
+  <value>Report</value>
+</data>
+<data name="Error_UserTypeNotFound" xml:space="preserve">
+  <value>User type not found.</value>
+</data>
+<data name="Error_DefaultRoleNotSet" xml:space="preserve">
+  <value>Default role id is not set for this user type.</value>
+</data>
+<data name="Error_DefaultRoleNotFound" xml:space="preserve">
+  <value>Default role not found.</value>
+</data>
+<data name="Error_UserCreationFailed" xml:space="preserve">
+  <value>User creation failed: {0}</value>
+</data>
+<data name="Error_AddingRoleFailed" xml:space="preserve">
+  <value>Adding role failed: {0}</value>
+</data>
+<data name="Error_DoctorRequired" xml:space="preserve">
+  <value>Doctor information is required.</value>
+</data>
+<data name="Error_PatientRequired" xml:space="preserve">
+  <value>Patient information is required.</value>
+</data>
+<data name="Error_UnsupportedUserType" xml:space="preserve">
+  <value>Unsupported user type.</value>
+</data>
+<data name="Error_UserNotFound" xml:space="preserve">
+  <value>User not found.</value>
+</data>
+<data name="Error_EmailEmpty" xml:space="preserve">
+  <value>Email cannot be empty.</value>
+</data>
+<data name="Error_PhoneEmpty" xml:space="preserve">
+  <value>Phone number cannot be empty.</value>
+</data>
+<data name="Error_EmailAlreadyInUse" xml:space="preserve">
+  <value>This email is already in use.</value>
+</data>
+<data name="Error_PhoneAlreadyInUse" xml:space="preserve">
+  <value>This phone number is already in use.</value>
+</data>
+<data name="Error_UnsupportedUserType" xml:space="preserve">
+  <value>Unsupported user type.</value>
+</data>
+<data name="Email_Subject_Confirm" xml:space="preserve">
+  <value>Confirm your email</value>
+</data>
+<data name="Email_Body_Confirm" xml:space="preserve">
+  <value><![CDATA[<p>Welcome!</p><p>Please confirm your email by clicking the link below:</p><p><a href='{0}'>Confirm Email</a></p>]]></value>
+</data>
+<data name="Code_RegistrationFailed" xml:space="preserve">
+  <value>Registration Failed</value>
+</data>
+<data name="Label_UnknownUser" xml:space="preserve">
+  <value>Unknown User</value>
+</data>
+<data name="Error_UsernameTaken" xml:space="preserve">
+  <value>This username is already taken.</value>
+</data>
+<data name="Error_NationalIdRegistered" xml:space="preserve">
+  <value>This National ID is already registered.</value>
+</data>
+<data name="Error_PatientRegistrationFailed" xml:space="preserve">
+  <value>Failed to register patient: {0}</value>
+</data>
+<data name="Email_Welcome_Subject" xml:space="preserve">
+  <value>Welcome to PhysioTech - Your Medical Profile is Ready</value>
+</data>
+<data name="Email_Welcome_Body" xml:space="preserve">
+  <value><![CDATA[
+    <div style='font-family: Segoe UI, sans-serif; line-height: 1.6;'>
+        <h2 style='color: #007bff;'>Welcome to PhysioTech</h2>
+        <p>Dear {0} {1},</p>
+        <p>Your medical profile has been successfully created by <strong>Dr. {2}</strong>.</p>
+        <div style='background-color: #f4f4f4; padding: 20px; border-left: 5px solid #007bff; margin: 20px 0;'>
+            <p style='margin: 5px 0;'><strong>Login Portal:</strong> <a href='{3}'>{3}</a></p>
+            <p style='margin: 5px 0;'><strong>Username:</strong> {4}</p>
+            <p style='margin: 5px 0;'><strong>Temporary Password:</strong> <code style='background: #eee; padding: 2px 5px;'>{5}</code></p>
+        </div>
+        <p style='color: #d9534f;'><strong>Note:</strong> Please change your password after your first login.</p>
+        <br>
+        <p>Best Regards,<br>PhysioTech Management Team</p>
+    </div>]]></value>
+</data>
 </root>

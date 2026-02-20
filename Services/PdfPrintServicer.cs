@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using IPTS.Helpers;
+using IPTS.Resources;
 using iText.Html2pdf;
 using iText.Kernel.Pdf;
 using iText.Layout;
@@ -10,8 +11,21 @@ namespace IPTS.Services
 {
     public class PdfPrintService
     {
-        public byte[] GeneratePdf(HttpUser httpUser, string htmlContent, string title = "Report")
+        private readonly LocService _locService;
+
+        public PdfPrintService(LocService locService)
         {
+            _locService = locService;
+        }
+
+        public byte[] GeneratePdf(HttpUser httpUser, string htmlContent, string title = null)
+        {
+            if (title == null)
+            {
+                title = _locService.GetSystem("Label_Report");
+            }
+                
+            
             using MemoryStream ms = new();
             ConverterProperties props = new();
             HtmlConverter.ConvertToPdf(htmlContent, ms, props);

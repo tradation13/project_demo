@@ -17,7 +17,7 @@ namespace IPTS.Areas.Doctor.Controllers
 {
     [Area("doctor")]
     [Authorize(Roles = "doctor")]
-    public class AppointmentsController(LocService locService,AppointmentService appointmentService, IMapper mapper, UserManager<AppUser> userManager, ApplicationDbContext context, UserService userService) : Controller
+    public class AppointmentsController(LocService locService,AppointmentService appointmentService, IMapper mapper, UserManager<AppUser> userManager, ApplicationDbContext context, UserService userService, IdentityErrorTranslator identityErrorTranslator) : Controller
     {
         private readonly AppointmentService _appointmentService = appointmentService;
         private readonly LocService _locService = locService;
@@ -25,6 +25,7 @@ namespace IPTS.Areas.Doctor.Controllers
         private readonly UserManager<AppUser> _userManager = userManager;
         private readonly ApplicationDbContext _context = context;
         private readonly UserService _userService = userService;
+        private readonly IdentityErrorTranslator _identityErrorTranslator = identityErrorTranslator;
 
         public async Task<IActionResult> Index()
         {
@@ -238,9 +239,10 @@ namespace IPTS.Areas.Doctor.Controllers
                 }
                 else
                 {
-                    foreach (var error in result.Errors)
+                    var translatedErrors = _identityErrorTranslator.TranslateErrorsList(result.Errors);
+                    foreach (var error in translatedErrors)
                     {
-                        ModelState.AddModelError("", error.Description);
+                        ModelState.AddModelError("", error);
                     }
                     TempData["WarningMessage"] = _locService.GetSystem("Msg_ValidationError");
                     return View(model);

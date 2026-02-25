@@ -15,6 +15,10 @@ namespace IPTS.Data.Configurations
                    .IsRequired()
                    .HasMaxLength(150);
 
+            builder.Property(mc => mc.Description)
+                   .IsRequired()
+                   .HasMaxLength(2000);
+
             builder.HasOne(mc => mc.Patient)
                    .WithMany(a => a.MedicalCases)
                    .HasForeignKey(mc => mc.PatientId)

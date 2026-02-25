@@ -14,7 +14,11 @@
     </h2>
 
     <form asp-controller="Auth" asp-action="Register" method="post" autocomplete="off" class="space-y-5">
-        <input hidden asp-for="@Model.UserTypeName" value="patient" />
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="All" class="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600"></div>
+
+        <input hidden asp-for="UserTypeName" value="patient" />
         
         @* اسم المستخدم *@
         <div>
@@ -79,16 +83,16 @@
 
         @* رقم الهوية *@
         <div>
-            <label asp-for="@Model.Patient.IdentityNumber" class="@labelClasses">@SharedLocalizer["Shared_Identity_Number"] *</label>
-            <input asp-for="@Model.Patient.IdentityNumber" class="@inputClasses" placeholder="@SharedLocalizer["Reg_Placeholder_ID"]"  />
-            <span asp-validation-for="@Model.Patient.IdentityNumber" class="mt-1 block text-[11px] font-medium text-red-500"></span>
+            <label asp-for="Patient.IdentityNumber" class="@labelClasses">@SharedLocalizer["Shared_Identity_Number"] *</label>
+            <input asp-for="Patient.IdentityNumber" class="@inputClasses" placeholder="@SharedLocalizer["Reg_Placeholder_ID"]"  />
+            <span asp-validation-for="Patient.IdentityNumber" class="mt-1 block text-[11px] font-medium text-red-500"></span>
         </div>
 
         @* تاريخ الميلاد *@
         <div>
-            <label asp-for="@Model.Patient.BirthDate" class="@labelClasses">@SharedLocalizer["Shared_Date_Of_Birth"] *</label>
-            <input asp-for="@Model.Patient.BirthDate" type="date" class="@inputClasses"  />
-            <span asp-validation-for="@Model.Patient.BirthDate" class="mt-1 block text-[11px] font-medium text-red-500"></span>
+            <label asp-for="Patient.BirthDate" class="@labelClasses">@SharedLocalizer["Shared_Date_Of_Birth"] *</label>
+            <input asp-for="Patient.BirthDate" type="date" class="@inputClasses"  />
+            <span asp-validation-for="Patient.BirthDate" class="mt-1 block text-[11px] font-medium text-red-500"></span>
         </div>
 
          <div class="mt-6 text-center text-[11px] leading-relaxed text-gray-400">

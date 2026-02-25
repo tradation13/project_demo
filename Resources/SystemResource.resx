@@ -121,4 +121,8 @@
     <value>Home</value>
     <comment/>
   </data>
+  <data name="Error_IncorrectPassword" xml:space="preserve">
+    <value>Incorrect password</value>
+    <comment/>
+  </data>
 </root>

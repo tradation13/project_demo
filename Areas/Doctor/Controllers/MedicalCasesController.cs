@@ -106,7 +106,7 @@ namespace IPTS.Areas.Doctor.Controllers
 
             ViewBag.Tests = await _testService.GetAllAsync(q => q.Include(t => t.TestGroup).OrderBy(t => t.Name));
             ViewBag.Patient = medicalCase.Patient;
-            return View(new MedicalCaseTest { MedicalCaseId = medicalCaseId });
+            return View(new MedicalCaseTestViewModel { MedicalCaseId = medicalCaseId });
         }
 
         [HttpPost]

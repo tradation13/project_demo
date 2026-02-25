@@ -1533,6 +1533,14 @@
     <value>Für Patienten zur Buchung von Terminen und Verwaltung ihrer Krankenakten</value>
     <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
   </data>
+  <data name="Shared_ResetPassword" xml:space="preserve">
+    <value>Passwort zurücksetzen</value>
+    <comment>Shared</comment>
+  </data>
+     <data name="ForgotConf_Header" xml:space="preserve">
+    <value>Passwort zurücksetzen Bestätigung</value>
+    <comment>Shared</comment>
+  </data>
   <data name="Auth_AlreadyHaveAccount" xml:space="preserve">
     <value>Haben Sie bereits ein Konto?</value>
     <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
@@ -1596,6 +1604,10 @@
   <data name="Error_MissingSlotData" xml:space="preserve">
     <value>Zeitfensterdaten fehlen. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut</value>
     <comment>Messages</comment>
+  </data>
+  <data name="Tests_GroupLabel" xml:space="preserve">
+    <value>Testgruppe</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Tests-&gt; Create</comment>
   </data>
   <data name="Shared_Controller" xml:space="preserve">
     <value>Controller</value>
@@ -1829,6 +1841,10 @@
     <value>Zugriff verweigert</value>
     <comment>Shared</comment>
   </data>
+    <data name="Shared_Delete" xml:space="preserve">
+    <value>Löschen</value>
+    <comment>Shared</comment>
+  </data>
   <data name="Shared_Password" xml:space="preserve">
     <value>Passwort</value>
     <comment>Shared</comment>
@@ -1847,10 +1863,6 @@
   </data>
   <data name="Shared_SignIn" xml:space="preserve">
     <value>Anmelden</value>
-    <comment>Shared</comment>
-  </data>
-  <data name="Shared_ResetPassword" xml:space="preserve">
-    <value>Passwort zurücksetzen</value>
     <comment>Shared</comment>
   </data>
   <data name="Shared_UserName" xml:space="preserve">

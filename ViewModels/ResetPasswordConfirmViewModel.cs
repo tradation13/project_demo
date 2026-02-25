@@ -11,12 +11,12 @@ namespace IPTS.ViewModels
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        // [Required]
         [DataType(DataType.Password)]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Compare("NewPassword", ErrorMessage = "Passwords do not match.")]
+        // [Compare("NewPassword", ErrorMessage = "Passwords do not match.")]
         public string ConfirmPassword { get; set; }
     }
 

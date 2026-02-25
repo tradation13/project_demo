@@ -13,7 +13,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace IPTS.Services
 {
-    public class UserService(LocService locService,IHttpContextAccessor httpContextAccessor,LinkGenerator linkGenerator,HttpUser currentUser, IMapper mapper,EmailService emailService, ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration) : BaseService<AppUser>(context, mapper)
+    public class UserService(LocService locService,IHttpContextAccessor httpContextAccessor,LinkGenerator linkGenerator,HttpUser currentUser, IMapper mapper,EmailService emailService, ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IdentityErrorTranslator identityErrorTranslator) : BaseService<AppUser>(context, mapper)
     {
         private readonly UserManager<AppUser> _userManager = userManager;
         private readonly EmailService _emailService = emailService;
@@ -22,7 +22,8 @@ namespace IPTS.Services
         private readonly LocService _locService = locService;
         private readonly HttpUser _currentUser = currentUser;
         private readonly LinkGenerator _linkGenerator = linkGenerator; 
-        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor; 
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+        private readonly IdentityErrorTranslator _identityErrorTranslator = identityErrorTranslator;
         
 
         private async Task<AppUser> CreateUserAndSetTheDefaultRoleAsync(AppUser user, string password, string userTypeName)
@@ -42,18 +43,18 @@ namespace IPTS.Services
             var result = await _userManager.CreateAsync(user, password);
 
             if (!result.Succeeded)
-{
-    var errorDetails = string.Join(", ", result.Errors.Select(e => e.Description));
-    throw new Exception(string.Format(_locService.GetSystem("Error_UserCreationFailed"), errorDetails));
-}
+            {
+                var translatedErrors = _identityErrorTranslator.TranslateErrors(result.Errors);
+                throw new Exception(string.Format(_locService.GetSystem("Error_UserCreationFailed"), translatedErrors));
+            }
 
             var roleResult = await _userManager.AddToRoleAsync(user, defaultRole.Name);
 
            if (!roleResult.Succeeded)
-{
-    var errorDetails = string.Join(", ", roleResult.Errors.Select(e => e.Description));
-    throw new Exception(string.Format(_locService.GetSystem("Error_AddingRoleFailed"), errorDetails));
-}
+            {
+                var translatedErrors = _identityErrorTranslator.TranslateErrors(roleResult.Errors);
+                throw new Exception(string.Format(_locService.GetSystem("Error_AddingRoleFailed"), translatedErrors));
+            }
 
             return user;
         }
@@ -184,7 +185,16 @@ namespace IPTS.Services
             if (user == null)
                 return IdentityResult.Failed(new IdentityError { Description = _locService.GetSystem("Error_UserNotFound") });
 
-            return await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+            
+            // ترجمة أخطاء Identity إذا كانت موجودة
+            if (!result.Succeeded)
+            {
+                var translatedErrors = _identityErrorTranslator.TranslateErrorsList(result.Errors);
+                return IdentityResult.Failed(translatedErrors.Select(e => new IdentityError { Description = e }).ToArray());
+            }
+
+            return result;
         }
         private async Task ValidateEmailAndPhoneAsync(string email, string phoneNumber, string? userId = null)
         {
@@ -204,7 +214,7 @@ namespace IPTS.Services
         }
         public async Task<IdentityResult> RegisterAsync(RegisterViewModel model)
         {
-            var userType = await _context.UserTypes.FirstOrDefaultAsync(ut => ut.Name == model.UserTypeName && ut.Registerable) ?? throw new Exception("This user type is not allowed for registration.");
+            var userType = await _context.UserTypes.FirstOrDefaultAsync(ut => ut.Name == model.UserTypeName && ut.Registerable) ?? throw new Exception(_locService.GetSystem("Error_UserTypeNotRegisterable"));
             await using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {

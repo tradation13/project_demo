@@ -1,4 +1,5 @@
 ﻿using IPTS.Data;
+using IPTS.Helpers;
 using IPTS.Models.Entites;
 using IPTS.Models.Enums;
 using IPTS.Resources;
@@ -19,7 +20,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace IPTS.Controllers
 {
-    public class AuthController(LocService locService,EmailService emailService, ILogger<AuthController> logger, UserManager<AppUser> userManager, UserService userService, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context) : Controller
+    public class AuthController(LocService locService,EmailService emailService, ILogger<AuthController> logger, UserManager<AppUser> userManager, UserService userService, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context, IdentityErrorTranslator identityErrorTranslator) : Controller
     {
 
         private readonly LocService _locService = locService;
@@ -30,6 +31,7 @@ namespace IPTS.Controllers
         private readonly EmailService _emailService = emailService;
         private readonly ILogger<AuthController> _logger = logger;
         private readonly ApplicationDbContext _context = context;
+        private readonly IdentityErrorTranslator _identityErrorTranslator = identityErrorTranslator;
 
         [HttpGet]
         [OutputCache(Duration = 3600)]
@@ -174,15 +176,16 @@ namespace IPTS.Controllers
 
             if (!result.Succeeded)
             {
-                foreach (var error in result.Errors)
+                var translatedErrors = _identityErrorTranslator.TranslateErrorsList(result.Errors);
+                foreach (var error in translatedErrors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(string.Empty, error);
                 }
 
                 var currentUser = await _userService.GetByIdAsync(currentUserId,
                     u => u.Include(x => x.UserType));
                 ViewBag.HasDashboard = currentUser.UserType?.HasDashboard ?? false;
-                TempData["ErrorMessage"] = "Ensure";
+                TempData["ErrorMessage"] = string.Join(", ", translatedErrors);
                 return View(model);
             }
 
@@ -265,7 +268,8 @@ namespace IPTS.Controllers
 
             if (result.Succeeded) return RedirectToAction("ResetPasswordConfirmation");
             
-            foreach (var error in result.Errors) ModelState.AddModelError("", error.Description);
+            var translatedErrors = _identityErrorTranslator.TranslateErrorsList(result.Errors);
+            foreach (var error in translatedErrors) ModelState.AddModelError("", error);
             
             return View(model);
         }
@@ -302,8 +306,9 @@ namespace IPTS.Controllers
 
             if (!result.Succeeded)
             {
-                foreach (var error in result.Errors)
-                    ModelState.AddModelError(string.Empty, error.Description);
+                var translatedErrors = _identityErrorTranslator.TranslateErrorsList(result.Errors);
+                foreach (var error in translatedErrors)
+                    ModelState.AddModelError(string.Empty, error);
 
                 return View(model);
             }

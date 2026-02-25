@@ -29,6 +29,7 @@
     }
 
     <form asp-action="Edit" asp-controller="Profile" method="post">
+        <div asp-validation-summary="ModelOnly" class="mb-4 text-sm text-red-500"></div>
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
              @if (!isEditMode)
                 {
@@ -42,6 +43,7 @@
                 @if (isEditMode)
                 {
                     <input asp-for="Email" type="email" class="w-full rounded border border-gray-300 px-3 py-2" />
+                    <span asp-validation-for="Email" class="text-sm text-red-500"></span>
                 }
                 else
                 {
@@ -54,6 +56,7 @@
                 @if (isEditMode)
                 {
                     <input asp-for="FirstName" type="text" class="w-full rounded border border-gray-300 px-3 py-2" />
+                    <span asp-validation-for="FirstName" class="text-sm text-red-500"></span>
                 }
                 else
                 {
@@ -66,6 +69,7 @@
                 @if (isEditMode)
                 {
                     <input asp-for="LastName" type="text" class="w-full rounded border border-gray-300 px-3 py-2" />
+                    <span asp-validation-for="LastName" class="text-sm text-red-500"></span>
                 }
                 else
                 {
@@ -79,6 +83,7 @@
                 @if (isEditMode)
                 {
                     <input asp-for="PhoneNumber" class="w-full rounded border border-gray-300 px-3 py-2" />
+                    <span asp-validation-for="PhoneNumber" class="text-sm text-red-500"></span>
                 }
                 else
                 {
@@ -128,7 +133,7 @@
                         {
                             foreach (var specialty in specialties)
                             {
-                                <option value="@specialty.Id">@specialty.Name</option>
+                                <option value="@specialty.Id" selected="@(specialty.Id == Model.Doctor.SpecialtyId ? "selected" : String.Empty)">@specialty.Name</option>
                             }
                         }
                     </select>

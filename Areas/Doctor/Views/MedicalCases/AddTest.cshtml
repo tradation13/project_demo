@@ -1,8 +1,9 @@
-﻿@model IPTS.Models.Entites.MedicalCaseTest
+﻿@model IPTS.ViewModels.MedicalCaseTestViewModel
 @{
     var patient = ViewBag.Patient as IPTS.Models.Entites.Patient;
-    var tests = ViewBag.Tests as List<IPTS.Models.Entites.Test>;
-    ViewData["Title"] = @SharedLocalizer["MedCase_Det_AddTest"];
+    var tests = ViewBag.Tests as List<IPTS.Models.Entites.Test> ?? new List<IPTS.Models.Entites.Test>();
+    var searchPlaceholder = SharedLocalizer["AddTest_SearchPlaceholder"]?.ToString() ?? "Search";
+    ViewData["Title"] = SharedLocalizer["MedCase_Det_AddTest"]?.ToString() ?? "Add Test";
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
@@ -16,25 +17,30 @@
     <!-- حقل البحث -->
     <div class="relative mb-4">
         <label class="mb-1 block font-semibold">@SharedLocalizer["AddTest_SearchLabel"]</label>
-        <input type="text" id="testSearch" placeholder=@SharedLocalizer["AddTest_SearchPlaceholder"]
+        <input type="text" id="testSearch" placeholder="@searchPlaceholder"
                class="w-full rounded border px-3 py-2" autocomplete="off" />
 
         <!-- قائمة الاقتراحات -->
         <ul id="suggestions"
             class="absolute z-10 mt-1 hidden max-h-48 w-full overflow-y-auto rounded border bg-white shadow">
-            @foreach (var t in tests)
+            @if (tests != null && tests.Any())
             {
-                <li data-id="@t.Id"
-                    class="cursor-pointer px-3 py-2 hover:bg-green-100">
-                    @($"{t.TestGroup?.Name} - {t.Name}")
-                </li>
+                @foreach (var t in tests)
+                {
+                    <li data-id="@t.Id" data-name="@t.Name" data-group="@t.TestGroup?.Name"
+                        class="cursor-pointer px-3 py-2 hover:bg-green-100">
+                        @($"{t.TestGroup?.Name} - {t.Name}")
+                    </li>
+                }
             }
         </ul>
     </div>
 
-    <!-- الحقل الفعلي الذي يخزن TestId -->
+    <!-- الحقول الفعلية -->
     <input type="hidden" asp-for="TestId" id="selectedTestId" />
+    <input type="hidden" asp-for="TestName" id="selectedTestName" />
     <span asp-validation-for="TestId" class="text-sm text-red-500"></span>
+    <span asp-validation-for="TestName" class="text-sm text-red-500"></span>
 
     <div class="mb-4">
         <label asp-for="Result" class="mb-1 block font-semibold">@SharedLocalizer["Shared_Result"] @SharedLocalizer["Shared_Optional"]</label>
@@ -84,9 +90,11 @@
         if (!li) return;
         const testName = li.textContent.trim();
         const testId = li.getAttribute("data-id");
+        const testNameInput = document.getElementById("selectedTestName");
 
         searchInput.value = testName;
         hiddenInput.value = testId;
+        testNameInput.value = testName;
 
         suggestionBox.style.display = "none";
     });

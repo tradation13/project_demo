@@ -1,7 +1,7 @@
 ﻿using IPTS.Resources; // استيراد مسار الخدمة الجديد
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
-
+using FluentValidation;
 using IPTS.Data;
 using IPTS.Data.Bootstrap;
 using IPTS.Helpers;
@@ -21,6 +21,7 @@ using System;
 using System.Data;
 using System.Diagnostics;
 using IPTS.Models.Sidebar;
+using FluentValidation.AspNetCore;
 
 namespace IPTS
 {
@@ -33,13 +34,24 @@ namespace IPTS
             var builder = WebApplication.CreateBuilder(args);
 
 
-// 1. إضافة الـ Localization وتحديد مجلد الموارد
+// 1. إضافة الـ Localization وتحديد مجلد الموارد **أولاً**
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-// 2. تسجيل LocService كـ Singleton (نفس فكرة المشروع القديم)
+// 2. تسجيل LocService كـ Singleton **ثانياً** (يحتاجه RegisterValidator)
 builder.Services.AddSingleton<LocService>();
 
-// 3. إعداد MVC مع دعم الـ SharedResource للـ DataAnnotations
+// 3. تسجيل كل الـ Validators الموجودة في المشروع **بعد LocService**
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+
+// 4. تفعيل الفحص التلقائي (Auto Validation) لكي لا تضطر لكتابة كود فحص في كل Controller
+builder.Services.AddFluentValidationAutoValidation();
+
+builder.Services.AddMvc(opt =>
+{
+	opt.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+});
+
+// 5. إعداد MVC مع دعم الـ SharedResource للـ DataAnnotations
 builder.Services.AddControllersWithViews()
     .AddViewLocalization()
     .AddDataAnnotationsLocalization(options =>
@@ -81,7 +93,9 @@ builder.Services.AddControllersWithViews()
             builder.Services.AddAuthorization();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-          
+            // ✅ تسجيل IdentityErrorTranslator لترجمة أخطاء Identity
+            builder.Services.AddScoped<IdentityErrorTranslator>();
+
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<HttpUser>();
 
@@ -105,6 +119,8 @@ builder.Services.AddControllersWithViews()
             builder.Services.AddOutputCache();
             builder.Services.AddMemoryCache();
             var app = builder.Build();
+
+              app.UseStaticFiles();
 
             // 4. إعداد اللغات (Middleware)
 var supportedCultures = new[] { "en-US", "de-DE"};
@@ -130,7 +146,7 @@ app.UseRequestLocalization(localizationOptions);
                  pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
              );
 
-            app.UseStaticFiles();
+          
 
             app.MapControllerRoute(
                 name: "default",

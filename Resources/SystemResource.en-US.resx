@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
     Microsoft ResX Schema
@@ -117,295 +117,624 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
- <data name="Auth_InvalidLogin" xml:space="preserve">
+  <data name="Auth_InvalidLogin" xml:space="preserve">
     <value>Username or password is incorrect</value>
+    <comment/>
   </data>
   <data name="Auth_UserInactive" xml:space="preserve">
     <value>User isn't active, please contact admins</value>
+    <comment/>
   </data>
   <data name="Auth_EmailNotVerified" xml:space="preserve">
     <value>You need to verify your email first</value>
+    <comment/>
   </data>
   <data name="Auth_PasswordChanged" xml:space="preserve">
     <value>A password was changed successfully</value>
+    <comment/>
   </data>
   <data name="Email_ResetTitle" xml:space="preserve">
     <value>Reset your password</value>
+    <comment/>
   </data>
   <data name="Email_Hello" xml:space="preserve">
     <value>Hello</value>
+    <comment/>
   </data>
   <data name="Email_ResetRequest" xml:space="preserve">
     <value>You requested to reset your password</value>
+    <comment/>
   </data>
   <data name="Email_ResetInstruction" xml:space="preserve">
     <value>Please click the link below to set a new password</value>
+    <comment/>
   </data>
   <data name="Email_ResetButton" xml:space="preserve">
     <value>Reset Password</value>
+    <comment/>
   </data>
   <data name="Email_IgnoreRequest" xml:space="preserve">
     <value>If you did not request this, please ignore this email</value>
+    <comment/>
   </data>
   <data name="Email_CheckInbox" xml:space="preserve">
     <value>A verification email has been sent. Please check your inbox</value>
+    <comment/>
   </data>
   <data name="User_NotFound" xml:space="preserve">
     <value>User not found</value>
+    <comment/>
   </data>
   <data name="Auth_EmailAlreadyVerified" xml:space="preserve">
     <value>Your email is already verified. You can login now</value>
+    <comment/>
   </data>
   <data name="Email_VerifyTitle" xml:space="preserve">
     <value>Email Verification</value>
+    <comment/>
   </data>
   <data name="Email_VerifyInstruction" xml:space="preserve">
     <value>Click this link to verify your email</value>
+    <comment/>
   </data>
   <data name="Email_VerifyButton" xml:space="preserve">
     <value>Verify Email</value>
+    <comment/>
   </data>
   <data name="Auth_VerifySuccess" xml:space="preserve">
     <value>Email verified successfully! You can login now</value>
+    <comment/>
   </data>
   <data name="Auth_VerifyFailed" xml:space="preserve">
     <value>Email verification failed</value>
+    <comment/>
   </data>
   <data name="Auth_ResendSuccess" xml:space="preserve">
     <value>Verification email resent</value>
+    <comment/>
   </data>
   <data name="Auth_EmailVerifiedStatus" xml:space="preserve">
     <value>Email was verified</value>
+    <comment/>
   </data>
-  <data name="Label_Name" xml:space="preserve"><value>Name</value></data>
-<data name="Label_Email" xml:space="preserve"><value>Email</value></data>
-<data name="Label_Phone" xml:space="preserve"><value>Phone</value></data>
-<data name="Label_Message" xml:space="preserve"><value>Message</value></data>
-<data name="Label_Visitor" xml:space="preserve"><value>Visitor</value></data>
-<data name="Notification_NewContact" xml:space="preserve"><value>New contact from</value></data>
-
-<data name="Status_SuccessSent" xml:space="preserve">
-  <value>Thank you! Your message has been sent.</value>
-</data>
-<data name="Status_ErrorGeneral" xml:space="preserve">
-  <value>Could not send your message. Please try again later.</value>
-</data>
-<data name="Msg_CreateSuccess" xml:space="preserve"><value>Created successfully.</value></data>
-<data name="Msg_UpdateSuccess" xml:space="preserve"><value>Updated successfully.</value></data>
-<data name="Msg_ErrorSave" xml:space="preserve"><value>An error occurred while saving. Please check if data already exists.</value></data>
-<data name="Msg_ErrorResetLink" xml:space="preserve"><value>Reset link could not be sent.</value></data>
-<data name="Msg_LinkSentSuccess" xml:space="preserve">
-  <value>Link has been sent to the email address.</value>
-</data>
-<data name="Msg_DeleteSuccess" xml:space="preserve">
-  <value>Deleted successfully.</value>
-</data>
-<data name="Msg_SearchCriteriaRequired" xml:space="preserve">
-  <value>Please provide at least one search criteria.</value>
-</data>
-<data name="Msg_NotFoundCreateNew" xml:space="preserve">
-  <value>No matching record found. You can create a new one.</value>
-</data>
-<data name="Label_Unknown" xml:space="preserve">
-  <value>Unknown</value>
-</data>
-<data name="Status_PatientFound" xml:space="preserve">
-  <value>Patient found</value>
-</data>
-<data name="Process_AppointmentScheduling" xml:space="preserve">
-  <value>Proceeding to appointment scheduling.</value>
-</data>
-<data name="Error_TechnicalSearch" xml:space="preserve">
-  <value>A technical error occurred while processing your search. Please try again or contact the system administrator if the issue persists.</value>
-</data>
-<data name="Msg_CreateAccountInfo" xml:space="preserve">
-  <value>Create a new account. All fields marked with * are required.</value>
-</data>
-<data name="Msg_ValidationError" xml:space="preserve">
-  <value>Please correct the errors in the form.</value>
-</data>
-<data name="Auth_EmailAlreadyExists" xml:space="preserve">
-  <value>This email is already registered.</value>
-</data>
-<data name="Msg_EmailInUse" xml:space="preserve">
-  <value>The email address is already in use.</value>
-</data>
-<data name="Auth_UsernameAlreadyTaken" xml:space="preserve">
-  <value>This username is already taken.</value>
-</data>
-<data name="Msg_PatientCreatedScheduleInfo" xml:space="preserve">
-  <value>Patient created successfully! You can now search for them to schedule an appointment.</value>
-</data>
-<data name="Msg_ValidationError" xml:space="preserve">
-  <value>Please correct the errors in the form.</value>
-</data>
-<data name="Error_CreatePatient" xml:space="preserve">
-  <value>Error creating patient: {0}</value>
-</data>
-<data name="Msg_NoPatientSelected" xml:space="preserve">
-  <value>No patient selected. Please search for a patient first.</value>
-</data>
-<data name="Msg_SelectAppointmentSlot" xml:space="preserve">
-  <value>Select date and time slots for the appointment.</value>
-</data>
-<data name="Msg_RequiredFieldsMissing" xml:space="preserve">
-  <value>Please fill all required fields.</value>
-</data>
-<data name="Msg_InvalidTimeSlots" xml:space="preserve">
-  <value>Please select valid time slots.</value>
-</data>
-<data name="Error_DoctorProfileNotFound" xml:space="preserve">
-  <value>Doctor profile not found.</value>
-</data>
-<data name="Msg_AppointmentCreateSuccessDetails" xml:space="preserve">
-  <value>Appointment created successfully! Duration: {0} minutes ({1} - {2}). One appointment created covering all selected time slots.</value>
-</data>
-<data name="Error_AppointmentCreateFailed" xml:space="preserve">
-  <value>Failed to create appointment. Please try again.</value>
-</data>
-<data name="Error_LoadingTimeSlots" xml:space="preserve">
-  <value>Error loading time slots.</value>
-</data>
-<data name="Msg_AppointmentUpdateSuccess" xml:space="preserve">
-  <value>Appointment updated successfully.</value>
-</data>
-<data name="Msg_AppointmentDeleteSuccess" xml:space="preserve">
-  <value>Appointment deleted successfully.</value>
-</data>
-<data name="Val_RequiredTimeSlot" xml:space="preserve">
-  <value>Please select at least one time slot.</value>
-</data>
-<data name="Msg_AppointmentConfirmedSlotsUpdated" xml:space="preserve">
-  <value>Appointment confirmed and slots updated successfully.</value>
-</data>
-<data name="Error_AppointmentConfirmationFailed" xml:space="preserve">
-  <value>Failed to confirm appointment. Please try again.</value>
-</data>
-<data name="Val_RejectionReasonRequired" xml:space="preserve">
-  <value>Please provide a reason for rejection.</value>
-</data>
-<data name="Msg_AppointmentRejectedSuccess" xml:space="preserve">
-  <value>Appointment rejected and reason sent to the patient.</value>
-</data>
-<data name="Msg_PatientRegisteredPasswordInfo" xml:space="preserve">
-  <value>Patient registered! Password format is: Aa{0}_1</value>
-</data>
-<data name="Msg_AlreadyHasAppointmentRedirect" xml:space="preserve">
-  <value>You already have a previous appointment with Dr. {0}. You have been redirected to your appointments page.</value>
-</data>
-<data name="Warn_FillRequiredFields" xml:space="preserve">
-  <value>Please fill all required fields.</value>
-</data>
-<data name="Warn_SelectValidTimeSlot" xml:space="preserve">
-  <value>Please select one valid time slot.</value>
-</data>
-<data name="Error_PatientProfileNotFound" xml:space="preserve">
-  <value>Patient profile not found.</value>
-</data>
-<data name="Error_SlotNoLongerAvailable" xml:space="preserve">
-  <value>Selected time slot is no longer available.</value>
-</data>
-<data name="Error_AlreadyHasPendingAppointment" xml:space="preserve">
-  <value>You already have a pending appointment for this time slot with this doctor.</value>
-</data>
-<data name="Error_AppointmentBookingFailed" xml:space="preserve">
-  <value>Failed to book appointment. Please try again.</value>
-</data>
-<data name="Msg_AppointmentBookedWithDuration" xml:space="preserve">
-  <value>Appointment booked for {0} (20 minutes).</value>
-</data>
-<data name="Warn_BookingFailedContactClinic" xml:space="preserve">
-  <value>Failed to book appointment. Please contact the clinic directly to modify or reschedule your appointment.</value>
-</data>
-<data name="Email_Subject_AppointmentRejected" xml:space="preserve">
-  <value>Appointment Request Rejected</value>
-</data>
-<data name="Email_Body_AppointmentRejected" xml:space="preserve">
-  <value>Dear {0},&lt;br/&gt;&lt;br/&gt;Your appointment request has been rejected for the following reason:&lt;br/&gt;&lt;b&gt;{1}&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;If you have any questions, please contact the clinic.&lt;br/&gt;&lt;br/&gt;Best regards.</value>
-</data>
-<data name="Label_Report" xml:space="preserve">
-  <value>Report</value>
-</data>
-<data name="Error_UserTypeNotFound" xml:space="preserve">
-  <value>User type not found.</value>
-</data>
-<data name="Error_DefaultRoleNotSet" xml:space="preserve">
-  <value>Default role id is not set for this user type.</value>
-</data>
-<data name="Error_DefaultRoleNotFound" xml:space="preserve">
-  <value>Default role not found.</value>
-</data>
-<data name="Error_UserCreationFailed" xml:space="preserve">
-  <value>User creation failed: {0}</value>
-</data>
-<data name="Error_AddingRoleFailed" xml:space="preserve">
-  <value>Adding role failed: {0}</value>
-</data>
-<data name="Error_DoctorRequired" xml:space="preserve">
-  <value>Doctor information is required.</value>
-</data>
-<data name="Error_PatientRequired" xml:space="preserve">
-  <value>Patient information is required.</value>
-</data>
-<data name="Error_UnsupportedUserType" xml:space="preserve">
-  <value>Unsupported user type.</value>
-</data>
-<data name="Error_UserNotFound" xml:space="preserve">
-  <value>User not found.</value>
-</data>
-<data name="Error_EmailEmpty" xml:space="preserve">
-  <value>Email cannot be empty.</value>
-</data>
-<data name="Error_PhoneEmpty" xml:space="preserve">
-  <value>Phone number cannot be empty.</value>
-</data>
-<data name="Error_EmailAlreadyInUse" xml:space="preserve">
-  <value>This email is already in use.</value>
-</data>
-<data name="Error_PhoneAlreadyInUse" xml:space="preserve">
-  <value>This phone number is already in use.</value>
-</data>
-<data name="Error_UnsupportedUserType" xml:space="preserve">
-  <value>Unsupported user type.</value>
-</data>
-<data name="Email_Subject_Confirm" xml:space="preserve">
-  <value>Confirm your email</value>
-</data>
-<data name="Email_Body_Confirm" xml:space="preserve">
-  <value><![CDATA[<p>Welcome!</p><p>Please confirm your email by clicking the link below:</p><p><a href='{0}'>Confirm Email</a></p>]]></value>
-</data>
-<data name="Code_RegistrationFailed" xml:space="preserve">
-  <value>Registration Failed</value>
-</data>
-<data name="Label_UnknownUser" xml:space="preserve">
-  <value>Unknown User</value>
-</data>
-<data name="Error_UsernameTaken" xml:space="preserve">
-  <value>This username is already taken.</value>
-</data>
-<data name="Error_NationalIdRegistered" xml:space="preserve">
-  <value>This National ID is already registered.</value>
-</data>
-<data name="Error_PatientRegistrationFailed" xml:space="preserve">
-  <value>Failed to register patient: {0}</value>
-</data>
-<data name="Email_Welcome_Subject" xml:space="preserve">
-  <value>Welcome to PhysioTech - Your Medical Profile is Ready</value>
-</data>
-<data name="Email_Welcome_Body" xml:space="preserve">
-  <value><![CDATA[
-    <div style='font-family: Segoe UI, sans-serif; line-height: 1.6;'>
-        <h2 style='color: #007bff;'>Welcome to PhysioTech</h2>
-        <p>Dear {0} {1},</p>
-        <p>Your medical profile has been successfully created by <strong>Dr. {2}</strong>.</p>
-        <div style='background-color: #f4f4f4; padding: 20px; border-left: 5px solid #007bff; margin: 20px 0;'>
-            <p style='margin: 5px 0;'><strong>Login Portal:</strong> <a href='{3}'>{3}</a></p>
-            <p style='margin: 5px 0;'><strong>Username:</strong> {4}</p>
-            <p style='margin: 5px 0;'><strong>Temporary Password:</strong> <code style='background: #eee; padding: 2px 5px;'>{5}</code></p>
-        </div>
-        <p style='color: #d9534f;'><strong>Note:</strong> Please change your password after your first login.</p>
-        <br>
-        <p>Best Regards,<br>PhysioTech Management Team</p>
-    </div>]]></value>
-</data>
+  <data name="Label_Name" xml:space="preserve">
+    <value>Name</value>
+    <comment/>
+  </data>
+  <data name="Label_Email" xml:space="preserve">
+    <value>Email</value>
+    <comment/>
+  </data>
+  <data name="Label_Phone" xml:space="preserve">
+    <value>Phone</value>
+    <comment/>
+  </data>
+  <data name="Label_Message" xml:space="preserve">
+    <value>Message</value>
+    <comment/>
+  </data>
+  <data name="Label_Visitor" xml:space="preserve">
+    <value>Visitor</value>
+    <comment/>
+  </data>
+  <data name="Notification_NewContact" xml:space="preserve">
+    <value>New contact from</value>
+    <comment/>
+  </data>
+  <data name="Status_SuccessSent" xml:space="preserve">
+    <value>Thank you! Your message has been sent.</value>
+    <comment/>
+  </data>
+  <data name="Status_ErrorGeneral" xml:space="preserve">
+    <value>Could not send your message. Please try again later.</value>
+    <comment/>
+  </data>
+  <data name="Msg_CreateSuccess" xml:space="preserve">
+    <value>Created successfully.</value>
+    <comment/>
+  </data>
+  <data name="Msg_UpdateSuccess" xml:space="preserve">
+    <value>Updated successfully.</value>
+    <comment/>
+  </data>
+  <data name="Msg_ErrorSave" xml:space="preserve">
+    <value>An error occurred while saving. Please check if data already exists.</value>
+    <comment/>
+  </data>
+  <data name="Msg_ErrorResetLink" xml:space="preserve">
+    <value>Reset link could not be sent.</value>
+    <comment/>
+  </data>
+  <data name="Msg_LinkSentSuccess" xml:space="preserve">
+    <value>Link has been sent to the email address.</value>
+    <comment/>
+  </data>
+  <data name="Msg_DeleteSuccess" xml:space="preserve">
+    <value>Deleted successfully.</value>
+    <comment/>
+  </data>
+  <data name="Msg_SearchCriteriaRequired" xml:space="preserve">
+    <value>Please provide at least one search criteria.</value>
+    <comment/>
+  </data>
+  <data name="Msg_NotFoundCreateNew" xml:space="preserve">
+    <value>No matching record found. You can create a new one.</value>
+    <comment/>
+  </data>
+  <data name="Label_Unknown" xml:space="preserve">
+    <value>Unknown</value>
+    <comment/>
+  </data>
+  <data name="Status_PatientFound" xml:space="preserve">
+    <value>Patient found</value>
+    <comment/>
+  </data>
+  <data name="Process_AppointmentScheduling" xml:space="preserve">
+    <value>Proceeding to appointment scheduling.</value>
+    <comment/>
+  </data>
+  <data name="Error_TechnicalSearch" xml:space="preserve">
+    <value>A technical error occurred while processing your search. Please try again or contact the system administrator if the issue persists.</value>
+    <comment/>
+  </data>
+  <data name="Msg_CreateAccountInfo" xml:space="preserve">
+    <value>Create a new account. All fields marked with * are required.</value>
+    <comment/>
+  </data>
+  <data name="Msg_ValidationError" xml:space="preserve">
+    <value>Please correct the errors in the form.</value>
+    <comment/>
+  </data>
+  <data name="Auth_EmailAlreadyExists" xml:space="preserve">
+    <value>This email is already registered.</value>
+    <comment/>
+  </data>
+  <data name="Msg_EmailInUse" xml:space="preserve">
+    <value>The email address is already in use.</value>
+    <comment/>
+  </data>
+  <data name="Auth_UsernameAlreadyTaken" xml:space="preserve">
+    <value>This username is already taken.</value>
+    <comment/>
+  </data>
+  <data name="Msg_PatientCreatedScheduleInfo" xml:space="preserve">
+    <value>Patient created successfully! You can now search for them to schedule an appointment.</value>
+    <comment/>
+  </data>
+  <data name="Error_CreatePatient" xml:space="preserve">
+    <value>Error creating patient: {0}</value>
+    <comment/>
+  </data>
+  <data name="Msg_NoPatientSelected" xml:space="preserve">
+    <value>No patient selected. Please search for a patient first.</value>
+    <comment/>
+  </data>
+  <data name="Msg_SelectAppointmentSlot" xml:space="preserve">
+    <value>Select date and time slots for the appointment.</value>
+    <comment/>
+  </data>
+  <data name="Msg_RequiredFieldsMissing" xml:space="preserve">
+    <value>Please fill all required fields.</value>
+    <comment/>
+  </data>
+  <data name="Msg_InvalidTimeSlots" xml:space="preserve">
+    <value>Please select valid time slots.</value>
+    <comment/>
+  </data>
+  <data name="Error_DoctorProfileNotFound" xml:space="preserve">
+    <value>Doctor profile not found.</value>
+    <comment/>
+  </data>
+  <data name="Msg_AppointmentCreateSuccessDetails" xml:space="preserve">
+    <value>Appointment created successfully! Duration: {0} minutes ({1} - {2}). One appointment created covering all selected time slots.</value>
+    <comment/>
+  </data>
+  <data name="Error_AppointmentCreateFailed" xml:space="preserve">
+    <value>Failed to create appointment. Please try again.</value>
+    <comment/>
+  </data>
+  <data name="Error_LoadingTimeSlots" xml:space="preserve">
+    <value>Error loading time slots.</value>
+    <comment/>
+  </data>
+  <data name="Msg_AppointmentUpdateSuccess" xml:space="preserve">
+    <value>Appointment updated successfully.</value>
+    <comment/>
+  </data>
+  <data name="Msg_AppointmentDeleteSuccess" xml:space="preserve">
+    <value>Appointment deleted successfully.</value>
+    <comment/>
+  </data>
+  <data name="Val_RequiredTimeSlot" xml:space="preserve">
+    <value>Please select at least one time slot.</value>
+    <comment/>
+  </data>
+  <data name="Msg_AppointmentConfirmedSlotsUpdated" xml:space="preserve">
+    <value>Appointment confirmed and slots updated successfully.</value>
+    <comment/>
+  </data>
+  <data name="Error_AppointmentConfirmationFailed" xml:space="preserve">
+    <value>Failed to confirm appointment. Please try again.</value>
+    <comment/>
+  </data>
+  <data name="Val_RejectionReasonRequired" xml:space="preserve">
+    <value>Please provide a reason for rejection.</value>
+    <comment/>
+  </data>
+  <data name="Msg_AppointmentRejectedSuccess" xml:space="preserve">
+    <value>Appointment rejected and reason sent to the patient.</value>
+    <comment/>
+  </data>
+  <data name="Msg_PatientRegisteredPasswordInfo" xml:space="preserve">
+    <value>Patient registered! Password format is: Aa{0}_1</value>
+    <comment/>
+  </data>
+  <data name="Msg_AlreadyHasAppointmentRedirect" xml:space="preserve">
+    <value>You already have a previous appointment with Dr. {0}. You have been redirected to your appointments page.</value>
+    <comment/>
+  </data>
+  <data name="Warn_FillRequiredFields" xml:space="preserve">
+    <value>Please fill all required fields.</value>
+    <comment/>
+  </data>
+  <data name="Warn_SelectValidTimeSlot" xml:space="preserve">
+    <value>Please select one valid time slot.</value>
+    <comment/>
+  </data>
+  <data name="Error_PatientProfileNotFound" xml:space="preserve">
+    <value>Patient profile not found.</value>
+    <comment/>
+  </data>
+  <data name="Error_SlotNoLongerAvailable" xml:space="preserve">
+    <value>Selected time slot is no longer available.</value>
+    <comment/>
+  </data>
+  <data name="Error_AlreadyHasPendingAppointment" xml:space="preserve">
+    <value>You already have a pending appointment for this time slot with this doctor.</value>
+    <comment/>
+  </data>
+  <data name="Error_AppointmentBookingFailed" xml:space="preserve">
+    <value>Failed to book appointment. Please try again.</value>
+    <comment/>
+  </data>
+  <data name="Msg_AppointmentBookedWithDuration" xml:space="preserve">
+    <value>Appointment booked for {0} (20 minutes).</value>
+    <comment/>
+  </data>
+  <data name="Warn_BookingFailedContactClinic" xml:space="preserve">
+    <value>Failed to book appointment. Please contact the clinic directly to modify or reschedule your appointment.</value>
+    <comment/>
+  </data>
+  <data name="Email_Subject_AppointmentRejected" xml:space="preserve">
+    <value>Appointment Request Rejected</value>
+    <comment/>
+  </data>
+  <data name="Email_Body_AppointmentRejected" xml:space="preserve">
+    <value>Dear {0},&lt;br/&gt;&lt;br/&gt;Your appointment request has been rejected for the following reason:&lt;br/&gt;&lt;b&gt;{1}&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;If you have any questions, please contact the clinic.&lt;br/&gt;&lt;br/&gt;Best regards.</value>
+    <comment/>
+  </data>
+  <data name="Label_Report" xml:space="preserve">
+    <value>Report</value>
+    <comment/>
+  </data>
+  <data name="Error_UserTypeNotFound" xml:space="preserve">
+    <value>User type not found.</value>
+    <comment/>
+  </data>
+  <data name="Error_DefaultRoleNotSet" xml:space="preserve">
+    <value>Default role id is not set for this user type.</value>
+    <comment/>
+  </data>
+  <data name="Error_DefaultRoleNotFound" xml:space="preserve">
+    <value>Default role not found.</value>
+    <comment/>
+  </data>
+  <data name="Error_UserCreationFailed" xml:space="preserve">
+    <value>User creation failed: {0}</value>
+    <comment/>
+  </data>
+  <data name="Error_AddingRoleFailed" xml:space="preserve">
+    <value>Adding role failed: {0}</value>
+    <comment/>
+  </data>
+  <data name="Error_DoctorRequired" xml:space="preserve">
+    <value>Doctor information is required.</value>
+    <comment/>
+  </data>
+  <data name="Error_PatientRequired" xml:space="preserve">
+    <value>Patient information is required.</value>
+    <comment/>
+  </data>
+  <data name="Error_UnsupportedUserType" xml:space="preserve">
+    <value>Unsupported user type.</value>
+    <comment/>
+  </data>
+  <data name="Error_UserNotFound" xml:space="preserve">
+    <value>User not found.</value>
+    <comment/>
+  </data>
+  <data name="Error_EmailEmpty" xml:space="preserve">
+    <value>Email cannot be empty.</value>
+    <comment/>
+  </data>
+  <data name="Error_PhoneEmpty" xml:space="preserve">
+    <value>Phone number cannot be empty.</value>
+    <comment/>
+  </data>
+  <data name="Error_EmailAlreadyInUse" xml:space="preserve">
+    <value>This email is already in use.</value>
+    <comment/>
+  </data>
+  <data name="Error_PhoneAlreadyInUse" xml:space="preserve">
+    <value>This phone number is already in use.</value>
+    <comment/>
+  </data>
+  <data name="Email_Subject_Confirm" xml:space="preserve">
+    <value>Confirm your email</value>
+    <comment/>
+  </data>
+  <data name="Email_Body_Confirm" xml:space="preserve">
+    <value>&lt;p&gt;Welcome!&lt;/p&gt;&lt;p&gt;Please confirm your email by clicking the link below:&lt;/p&gt;&lt;p&gt;&lt;a href='{0}'&gt;Confirm Email&lt;/a&gt;&lt;/p&gt;</value>
+    <comment/>
+  </data>
+  <data name="Code_RegistrationFailed" xml:space="preserve">
+    <value>Registration Failed</value>
+    <comment/>
+  </data>
+  <data name="Label_UnknownUser" xml:space="preserve">
+    <value>Unknown User</value>
+    <comment/>
+  </data>
+  <data name="Error_UsernameTaken" xml:space="preserve">
+    <value>This username is already taken.</value>
+    <comment/>
+  </data>
+  <data name="Error_NationalIdRegistered" xml:space="preserve">
+    <value>This National ID is already registered.</value>
+    <comment/>
+  </data>
+  <data name="Error_PatientRegistrationFailed" xml:space="preserve">
+    <value>Failed to register patient: {0}</value>
+    <comment/>
+  </data>
+  <data name="Email_Welcome_Subject" xml:space="preserve">
+    <value>Welcome to PhysioTech - Your Medical Profile is Ready</value>
+    <comment/>
+  </data>
+  <data name="Email_Welcome_Body" xml:space="preserve">
+    <value>    &lt;div style='font-family: Segoe UI, sans-serif; line-height: 1.6;'&gt;        &lt;h2 style='color: #007bff;'&gt;Welcome to PhysioTech&lt;/h2&gt;        &lt;p&gt;Dear {0} {1},&lt;/p&gt;        &lt;p&gt;Your medical profile has been successfully created by &lt;strong&gt;Dr. {2}&lt;/strong&gt;.&lt;/p&gt;        &lt;div style='background-color: #f4f4f4; padding: 20px; border-left: 5px solid #007bff; margin: 20px 0;'&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Login Portal:&lt;/strong&gt; &lt;a href='{3}'&gt;{3}&lt;/a&gt;&lt;/p&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Username:&lt;/strong&gt; {4}&lt;/p&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Temporary Password:&lt;/strong&gt; &lt;code style='background: #eee; padding: 2px 5px;'&gt;{5}&lt;/code&gt;&lt;/p&gt;        &lt;/div&gt;        &lt;p style='color: #d9534f;'&gt;&lt;strong&gt;Note:&lt;/strong&gt; Please change your password after your first login.&lt;/p&gt;        &lt;br&gt;        &lt;p&gt;Best Regards,&lt;br&gt;PhysioTech Management Team&lt;/p&gt;    &lt;/div&gt;</value>
+    <comment/>
+  </data>
+  <data name="UsernameRequired" xml:space="preserve">
+    <value>Username is required</value>
+    <comment/>
+  </data>
+  <data name="UsernameMaxLength" xml:space="preserve">
+    <value>Username cannot exceed 50 characters</value>
+    <comment/>
+  </data>
+  <data name="InvalidId" xml:space="preserve">
+    <value>Invalid identifier</value>
+    <comment/>
+  </data>
+  <data name="PatientNameRequired" xml:space="preserve">
+    <value>Patient name is required</value>
+    <comment/>
+  </data>
+  <data name="PatientNameMaxLength" xml:space="preserve">
+    <value>Patient name cannot exceed 150 characters</value>
+    <comment/>
+  </data>
+  <data name="IdentityRequired" xml:space="preserve">
+    <value>Identity number is required</value>
+    <comment/>
+  </data>
+  <data name="IdentityMaxLength" xml:space="preserve">
+    <value>Identity number cannot exceed 50 characters</value>
+    <comment/>
+  </data>
+  <data name="InvalidDoctorId" xml:space="preserve">
+    <value>Invalid doctor identifier</value>
+    <comment/>
+  </data>
+  <data name="ScheduledTimeRequired" xml:space="preserve">
+    <value>Scheduled time is required</value>
+    <comment/>
+  </data>
+  <data name="NotesMaxLength" xml:space="preserve">
+    <value>Notes cannot exceed 2000 characters</value>
+    <comment/>
+  </data>
+  <data name="SpecialtyRequired" xml:space="preserve">
+    <value>Medical specialty is required</value>
+    <comment/>
+  </data>
+  <data name="DoctorRequired" xml:space="preserve">
+    <value>Doctor information is required</value>
+    <comment/>
+  </data>
+  <data name="TimeSlotsRequired" xml:space="preserve">
+    <value>Time slots are required</value>
+    <comment/>
+  </data>
+  <data name="SelectedDateRequired" xml:space="preserve">
+    <value>Selected date is required</value>
+    <comment/>
+  </data>
+  <data name="UserIdRequired" xml:space="preserve">
+    <value>User id is required</value>
+    <comment/>
+  </data>
+  <data name="FullNameRequired" xml:space="preserve">
+    <value>Full name is required</value>
+    <comment/>
+  </data>
+  <data name="FullNameMaxLength" xml:space="preserve">
+    <value>Full name cannot exceed 200 characters</value>
+    <comment/>
+  </data>
+  <data name="InvalidRating" xml:space="preserve">
+    <value>Invalid rating value</value>
+    <comment/>
+  </data>
+  <data name="UsernameOrEmailRequired" xml:space="preserve">
+    <value>Username or email is required</value>
+    <comment/>
+  </data>
+  <data name="InvalidTestId" xml:space="preserve">
+    <value>Invalid test identifier</value>
+    <comment/>
+  </data>
+  <data name="InvalidMedicalCaseId" xml:space="preserve">
+    <value>Invalid medical case identifier</value>
+    <comment/>
+  </data>
+  <data name="TestNameRequired" xml:space="preserve">
+    <value>Test name is required</value>
+    <comment/>
+  </data>
+  <data name="BirthDateRequired" xml:space="preserve">
+    <value>Birth date is required</value>
+    <comment/>
+  </data>
+  <data name="SearchTermRequired" xml:space="preserve">
+    <value>Search term is required</value>
+    <comment/>
+  </data>
+  <data name="SearchTypeRequired" xml:space="preserve">
+    <value>Search type is required</value>
+    <comment/>
+  </data>
+  <data name="TokenRequired" xml:space="preserve">
+    <value>Token is required</value>
+    <comment/>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>Name is required</value>
+    <comment/>
+  </data>
+  <data name="NameMaxLength" xml:space="preserve">
+    <value>Name cannot exceed 100 characters</value>
+    <comment/>
+  </data>
+  <data name="PhoneMaxLength" xml:space="preserve">
+    <value>Phone number cannot exceed 30 characters</value>
+    <comment/>
+  </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>Message is required</value>
+    <comment/>
+  </data>
+  <data name="MessageMaxLength" xml:space="preserve">
+    <value>Message cannot exceed 2000 characters</value>
+    <comment/>
+  </data>
+  <data name="TimeRequired" xml:space="preserve">
+    <value>Time is required</value>
+    <comment/>
+  </data>
+  <data name="InvalidSlotIndex" xml:space="preserve">
+    <value>Invalid slot index</value>
+    <comment/>
+  </data>
+  <data name="StartTimeRequired" xml:space="preserve">
+    <value>Start time is required</value>
+    <comment/>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>Email is required</value>
+    <comment/>
+  </data>
+  <data name="InvalidEmailFormat" xml:space="preserve">
+    <value>Please enter a valid email address</value>
+    <comment/>
+  </data>
+  <data name="PhoneRequired" xml:space="preserve">
+    <value>Phone number is required</value>
+    <comment/>
+  </data>
+  <data name="InvalidPhoneFormat" xml:space="preserve">
+    <value>Please enter a valid phone number</value>
+    <comment/>
+  </data>
+  <data name="FirstNameRequired" xml:space="preserve">
+    <value>First name is required</value>
+    <comment/>
+  </data>
+  <data name="FirstNameMaxLength" xml:space="preserve">
+    <value>First name cannot exceed 50 characters</value>
+    <comment/>
+  </data>
+  <data name="LastNameRequired" xml:space="preserve">
+    <value>Last name is required</value>
+    <comment/>
+  </data>
+  <data name="LastNameMaxLength" xml:space="preserve">
+    <value>Last name cannot exceed 50 characters</value>
+    <comment/>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Password is required</value>
+    <comment/>
+  </data>
+  <data name="PasswordMinLength" xml:space="preserve">
+    <value>Password must be at least 6 characters</value>
+    <comment/>
+  </data>
+  <data name="ConfirmPasswordRequired" xml:space="preserve">
+    <value>Please confirm your password</value>
+    <comment/>
+  </data>
+  <data name="PasswordsDoNotMatch" xml:space="preserve">
+    <value>Passwords do not match</value>
+    <comment/>
+  </data>
+  <data name="UserTypeRequired" xml:space="preserve">
+    <value>User type is required</value>
+    <comment/>
+  </data>
+  <data name="Error_PasswordRequiresUppercase" xml:space="preserve">
+    <value>Password must contain at least one uppercase letter</value>
+    <comment/>
+  </data>
+  <data name="Error_PasswordRequiresLowercase" xml:space="preserve">
+    <value>Password must contain at least one lowercase letter</value>
+    <comment/>
+  </data>
+  <data name="Error_PasswordRequiresDigit" xml:space="preserve">
+    <value>Password must contain at least one number</value>
+    <comment/>
+  </data>
+  <data name="Error_PasswordRequiresSpecialChar" xml:space="preserve">
+    <value>Password must contain at least one special character</value>
+    <comment/>
+  </data>
+  <data name="Error_PasswordTooShort" xml:space="preserve">
+    <value>Password is too short</value>
+    <comment/>
+  </data>
+  <data name="Error_InvalidEmailFormat" xml:space="preserve">
+    <value>Invalid email format</value>
+    <comment/>
+  </data>
+  <data name="Error_IncorrectPassword" xml:space="preserve">
+    <value>Incorrect password</value>
+    <comment/>
+  </data>
+  <data name="TestGroupRequired" xml:space="preserve">
+    <value>Test group is required</value>
+    <comment></comment>
+  </data>
+  <data name="Error_UserTypeNotRegisterable" xml:space="preserve">
+    <value>This user type is not allowed for registration.</value>
+    <comment/>
+  </data>
+  <data name="DescriptionRequired" xml:space="preserve">
+    <value>Description is required</value>
+    <comment/>
+  </data>
+  <data name="DescriptionMaxLength" xml:space="preserve">
+    <value>Description cannot exceed 2000 characters</value>
+    <comment/>
+  </data>
 </root>

@@ -1,4 +1,5 @@
 ﻿using IPTS.Models.Entites;
+using IPTS.Models.Enums;
 using IPTS.Resources;
 using IPTS.Services;
 using IPTS.ViewModels;
@@ -12,19 +13,26 @@ namespace IPTS.Areas.Patient.Controllers
     [Area("patient")]
     [Authorize(Roles = "patient")]
     [Route("[area]/[controller]")]
-    public class AppointmentController(LocService locService, AppointmentService appointmentService, UserService userService) : Controller
+    public class AppointmentController(LocService locService, AppointmentService appointmentService, UserService userService, IFileService fileService) : Controller
     {
         private readonly LocService _locService = locService;
         private readonly AppointmentService _appointmentService = appointmentService;
         private readonly UserService _userService = userService;
-
+        private readonly IFileService _fileService = fileService;
         [HttpGet("{Id}")]
         public async Task<IActionResult> Index([FromRoute] string Id, [FromQuery] DateTime? date)
         {
+            if (string.IsNullOrEmpty(Id))
+                return NotFound();
+
+            var selectedDate = (date ?? DateTime.Now).Date;
+
+            // Get doctor by UserId
             var doctor = await _userService.GetByIdAsync<string, DoctorViewModel>(
                 Id, q => q.Include(u => u.Doctor));
 
-            if (doctor is null) return NotFound();
+            if (doctor?.Id <= 0)
+                return NotFound();
 
             if (User.Identity?.IsAuthenticated == true)
             {
@@ -35,24 +43,23 @@ namespace IPTS.Areas.Patient.Controllers
                 if (patientId != null)
                 {
                     var hasAnyWithSameDoctor = await _appointmentService.IsExistAsync(
-                        a => (a.PatientId == patientId && a.DoctorId == doctor.Id) &&( a.Status == AppointmentStatus.Pending || a.ScheduledTime > DateTime.UtcNow)
+                        a => (a.PatientId == patientId && a.DoctorId == doctor!.Id) &&( a.Status == AppointmentStatus.Pending || a.ScheduledTime > DateTime.UtcNow)
                     );
 
                     if (hasAnyWithSameDoctor)
                     {
                         TempData["InfoMessage"] = string.Format(
     _locService.GetSystem("Msg_AlreadyHasAppointmentRedirect"), 
-    doctor.FullName
+    doctor!.FullName
 );
                         return RedirectToAction(nameof(Appointments));
                     }
                 }
             }
 
-            var selectedDate = (date ?? DateTime.Now).Date;
             var timeSlots = await _appointmentService.GetAvailableTimeSlotsAsync(
                 dateLocal: selectedDate,
-                doctorId: doctor.Id
+                doctorId: doctor!.Id
             );
 
             var vm = new DoctorScheduleViewModel
@@ -70,23 +77,35 @@ namespace IPTS.Areas.Patient.Controllers
         {
             var selectedDate = model.ScheduledDate == default ? DateTime.Now.Date : model.ScheduledDate.Date;
 
+            // Get doctor to get doctor UserId for redirects
+            var appointments = await _appointmentService.GetAllAsync(q => q
+                .Include(a => a.Doctor)
+                .Where(a => a.DoctorId == doctorId)
+                .Take(1));
+
+            var appointment = appointments.FirstOrDefault();
+            if (appointment?.Doctor?.UserId is null)
+                return NotFound();
+
+            var doctorUserId = appointment.Doctor.UserId;
+
             if (!ModelState.IsValid)
             {
                 TempData["WarningMessage"] = _locService.GetSystem("Warn_FillRequiredFields");
-                return RedirectToAction(nameof(Index), new { doctorId, date = selectedDate.ToString("yyyy-MM-dd") });
+                return RedirectToAction(nameof(Index), new { Id = doctorUserId, date = selectedDate.ToString("yyyy-MM-dd") });
             }
 
             if (model.SlotIndex < 0)
             {
                 TempData["WarningMessage"] = _locService.GetSystem("Warn_SelectValidTimeSlot");
-                return RedirectToAction(nameof(Index), new { doctorId, date = selectedDate.ToString("yyyy-MM-dd") });
+                return RedirectToAction(nameof(Index), new { Id = doctorUserId, date = selectedDate.ToString("yyyy-MM-dd") });
             }
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var patientId = await _userService.GetByIdAsync(userId, q => q.Include(u=>u.Patient));
-            if (patientId == null)
+            if (patientId == null || patientId.Patient == null)
             {
                 TempData["ErrorMessage"] = _locService.GetSystem("Error_PatientProfileNotFound");
-                return RedirectToAction(nameof(Index), new { doctorId, date = selectedDate.ToString("yyyy-MM-dd") });
+                return RedirectToAction(nameof(Index), new { Id = doctorUserId, date = selectedDate.ToString("yyyy-MM-dd") });
             }
 
             // تعبئة الحقول
@@ -99,7 +118,7 @@ namespace IPTS.Areas.Patient.Controllers
             if (!available)
             {
                 TempData["ErrorMessage"] = _locService.GetSystem("Error_SlotNoLongerAvailable");
-                return RedirectToAction(nameof(Index), new { doctorId, date = selectedDate.ToString("yyyy-MM-dd") });
+                return RedirectToAction(nameof(Index), new { Id = doctorUserId, date = selectedDate.ToString("yyyy-MM-dd") });
             }
 
             var hasPending = await _appointmentService.HasPendingAppointmentAsync(
@@ -108,7 +127,7 @@ namespace IPTS.Areas.Patient.Controllers
             if (hasPending)
             {
                 TempData["ErrorMessage"] = _locService.GetSystem("Error_AlreadyHasPendingAppointment");
-                return RedirectToAction(nameof(Index), new { doctorId, date = selectedDate.ToString("yyyy-MM-dd") });
+                return RedirectToAction(nameof(Index), new { Id = doctorUserId, date = selectedDate.ToString("yyyy-MM-dd") });
             }
 
             // إنشاء الموعد لخانة واحدة
@@ -116,7 +135,7 @@ namespace IPTS.Areas.Patient.Controllers
             if (!success)
             {
                 TempData["ErrorMessage"] = _locService.GetSystem("Error_AppointmentBookingFailed");
-                return RedirectToAction(nameof(Index), new { doctorId, date = selectedDate.ToString("yyyy-MM-dd") });
+                return RedirectToAction(nameof(Index), new { Id = doctorUserId, date = selectedDate.ToString("yyyy-MM-dd") });
             }
 
             TempData["SuccessMessage"] = string.Format(
@@ -126,7 +145,7 @@ namespace IPTS.Areas.Patient.Controllers
             return RedirectToAction(
                 "Appointments",
                 "Appointment",                 
-                new { area = "Patient", doctorId, date = selectedDate.ToString("yyyy-MM-dd") }
+                new { area = "Patient" }
             );
         }
         
@@ -163,8 +182,8 @@ namespace IPTS.Areas.Patient.Controllers
 
             // Fetch the entity (not a VM)
             var appt = await _appointmentService.GetByIdAsync(id, a => a
-                .Include(x => x.Doctor).ThenInclude(d => d.User)
-                .Include(x => x.Patient).ThenInclude(p => p.User)
+                .Include(x => x.Doctor).ThenInclude(d => d!.User)
+                .Include(x => x.Patient).ThenInclude(p => p!.User)
             );
 
             if (appt == null) return NotFound();
@@ -182,7 +201,7 @@ namespace IPTS.Areas.Patient.Controllers
 
                 // Doctor
                 DoctorId = appt.DoctorId,
-                DoctorName = appt.Patient?.User?.FirstName + " " + appt.Patient?.User?.LastName ?? appt.Doctor?.User?.UserName ?? string.Empty,
+                DoctorName = appt.Doctor?.User?.FirstName + " " + appt.Doctor?.User?.LastName ?? appt.Doctor?.User?.UserName ?? string.Empty,
 
                 // Time/Status/Notes
                 ScheduledTime = appt.ScheduledTime,
@@ -202,8 +221,71 @@ namespace IPTS.Areas.Patient.Controllers
         {
             TempData["WarningMessage"] = _locService.GetSystem("Warn_BookingFailedContactClinic");
             return RedirectToAction(nameof(Appointments));
+        }
 
+        [HttpGet("download-prescription/{id:int}")]
+        public async Task<IActionResult> DownloadPrescription(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var user = await _userService.GetByIdAsync(userId, q => q.Include(u => u.Patient));
+            if (user?.Patient == null)
+                return Unauthorized();
+
+            // Get appointment and verify ownership
+            var appointment = await _appointmentService.GetByIdAsync(id);
+            if (appointment == null || appointment.PatientId != user.Patient.Id)
+                return Unauthorized();
+
+            if (string.IsNullOrEmpty(appointment.PrescriptionFileName))
+                return NotFound(_locService.GetSystem("Error_PrescriptionNotFound"));
+
+            // Get file
+            var (fileBytes, contentType, fileName) = await _fileService.GetPrescriptionFileAsync(appointment.PrescriptionFileName);
+            if (fileBytes == null)
+                return NotFound(_locService.GetSystem("Error_PrescriptionNotFound"));
+
+            // Serve inline so browser displays instead of forcing download
+            Response.Headers["Content-Disposition"] = $"inline; filename=\"{fileName}\"";
+            return File(fileBytes, contentType ?? "application/octet-stream");
+        }
+
+        [HttpPost("delete/{id:int}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var user = await _userService.GetByIdAsync(userId, q => q.Include(u => u.Patient));
+            if (user?.Patient == null)
+                return Unauthorized();
+
+            // Get appointment and verify ownership
+            var appointment = await _appointmentService.GetByIdAsync(id);
+            if (appointment == null || appointment.PatientId != user.Patient.Id)
+                return Unauthorized();
+
+            // Can only delete pending or cancelled appointments
+            if (appointment.Status != AppointmentStatus.Pending && appointment.Status != AppointmentStatus.Cancelled)
+            {
+                TempData["ErrorMessage"] = _locService.GetSystem("Error_CannotDeleteConfirmedAppointment");
+                return RedirectToAction(nameof(Appointments));
+            }
+
+            // Delete appointment and files
+            var success = await _appointmentService.DeleteAppointmentWithFilesAsync(id);
+            if (!success)
+            {
+                TempData["ErrorMessage"] = _locService.GetSystem("Error_FailedToDeleteAppointment");
+                return RedirectToAction(nameof(Appointments));
+            }
+
+            TempData["SuccessMessage"] = _locService.GetSystem("Msg_AppointmentDeletedSuccessfully");
+            return RedirectToAction(nameof(Appointments));
         }
     }
 }
-

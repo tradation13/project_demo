@@ -937,6 +937,10 @@
     <value>Dauer</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Requests</comment>
   </data>
+  <data name="Shared_Prescription" xml:space="preserve">
+    <value>Rezept</value>
+    <comment>Shared label for prescription file (Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Requests)</comment>
+  </data>
   <data name="Search_BackToAppointments" xml:space="preserve">
     <value>Zurück zu Terminen</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
@@ -1609,6 +1613,18 @@
     <value>Testgruppe</value>
     <comment>Areas -&gt; Admin -&gt; Views -&gt; Tests-&gt; Create</comment>
   </data>
+  <data name="UploadMedicalPrescription" xml:space="preserve">
+  <value>Medizinische Verschreibung hochladen</value>
+</data>
+<data name="ClickToUploadOrDragAndDrop" xml:space="preserve">
+  <value>Zum Hochladen klicken oder Drag &amp; Drop</value>
+</data>
+<data name="FileFormatAndSizeLimit" xml:space="preserve">
+  <value>PNG, JPG oder PDF (MAX. 5MB)</value>
+</data>
+<data name="FileSelected" xml:space="preserve">
+  <value>Ausgewählt</value>
+</data>
   <data name="Shared_Controller" xml:space="preserve">
     <value>Controller</value>
     <comment>Shared</comment>

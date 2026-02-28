@@ -1,4 +1,5 @@
 using IPTS.Models.Entites;
+using Microsoft.AspNetCore.Http;
 
 namespace IPTS.ViewModels
 {
@@ -15,6 +16,26 @@ namespace IPTS.ViewModels
         public AppointmentStatus Status { get; set; }
         public string StatusDisplay => Status.ToString();
         public string Notes { get; set; } = string.Empty;
+        public string? PrescriptionFileName { get; set; }
+        
+        // Computed property to extract original filename from stored filename
+        public string? PrescriptionDisplayName
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(PrescriptionFileName))
+                    return null;
+                
+                // Extract original name: "originalname_guid.ext" -> "originalname.ext"
+                var lastUnderscoreIndex = PrescriptionFileName.LastIndexOf('_');
+                if (lastUnderscoreIndex <= 0)
+                    return PrescriptionFileName;
+                
+                var originalName = PrescriptionFileName.Substring(0, lastUnderscoreIndex);
+                var extension = System.IO.Path.GetExtension(PrescriptionFileName);
+                return originalName + extension;
+            }
+        }
         
         // Computed properties for time slots
         public int StartSlotIndex { get; set; }
@@ -48,17 +69,20 @@ namespace IPTS.ViewModels
         public int PatientId { get; set; }
         public int DoctorId { get; set; }
 
-        // ÇáÊÇÑíÎ ÇáãÎÊÇÑ (íæã ÝÞØ). ÎÒøäå ßÜ UTC Ýí ÇáßæäÊÑæáÑ ÞÈá ÇáÍÝÙ.
+        // ØªØ§Ø±ÙŠØ® Ø§Ù„Ù…ÙˆØ¹Ø¯ (Ø¨Ø¯ÙˆÙ† ÙˆÙ‚Øª). ÙŠØ­ØªÙØ¸ Ø¨Ù€ UTC Ø¨Ø¯ÙˆÙ† ØªØ­ÙˆÙŠÙ„ Ø£ÙŠ Ù…Ù†Ù‡Ù…Ø§.
         public DateTime ScheduledDate { get; set; }
 
-        // ÎÇäÉ æÇÍÏÉ ÝÞØ
-        public int SlotIndex { get; set; }               // ÈÏíá StartSlotIndex
-        public string Time { get; set; } = string.Empty; // ÈÏíá StartTime (ÕíÛÉ ÚÑÖíÉ ãËá "10:20")
+        // Ø­Ù‚Ù„ ÙˆØ§Ø­Ø¯ ÙÙ‚Ø· Ø¨ÙˆØ§Ù‚Øª ÙŠÙˆÙ…
+        public int SlotIndex { get; set; }               // Ù†ÙØ³ StartSlotIndex
+        public string Time { get; set; } = string.Empty; // Ù…Ø«Ù„ StartTime (Ø¨ØµÙŠØºØ© ØªØ³Ù„Ø³Ù„ Ù…Ø«Ù„ "10:20")
 
         public AppointmentStatus Status { get; set; } = AppointmentStatus.Pending;
         public string? Notes { get; set; } = string.Empty;
 
-        // ãÍÓæÈÇÊ ËÇÈÊÉ áãæÚÏ æÇÍÏ
+        // Prescription file
+        public IFormFile? PrescriptionFile { get; set; }
+
+        // Ø®ØµØ§Ø¦Øµ Ù…Ø­Ø³ÙˆØ¨Ø© Ù„Ù„Ø¹Ø±Ø¶ ÙÙ‚Ø·
         public int TotalSlots => 1;
         public int TotalDurationMinutes => 20;
     }

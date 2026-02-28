@@ -22,6 +22,9 @@
         // Time slot properties for appointment duration
         public int StartSlotIndex { get; set; }
         public int EndSlotIndex { get; set; }
+
+        // Prescription file storage
+        public string? PrescriptionFileName { get; set; } = null;
     }
 
 }

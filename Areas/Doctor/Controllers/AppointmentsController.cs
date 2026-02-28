@@ -17,7 +17,7 @@ namespace IPTS.Areas.Doctor.Controllers
 {
     [Area("doctor")]
     [Authorize(Roles = "doctor")]
-    public class AppointmentsController(LocService locService,AppointmentService appointmentService, IMapper mapper, UserManager<AppUser> userManager, ApplicationDbContext context, UserService userService, IdentityErrorTranslator identityErrorTranslator) : Controller
+    public class AppointmentsController(LocService locService,AppointmentService appointmentService, IMapper mapper, UserManager<AppUser> userManager, ApplicationDbContext context, UserService userService, IdentityErrorTranslator identityErrorTranslator, IFileService fileService) : Controller
     {
         private readonly AppointmentService _appointmentService = appointmentService;
         private readonly LocService _locService = locService;
@@ -26,6 +26,7 @@ namespace IPTS.Areas.Doctor.Controllers
         private readonly ApplicationDbContext _context = context;
         private readonly UserService _userService = userService;
         private readonly IdentityErrorTranslator _identityErrorTranslator = identityErrorTranslator;
+        private readonly IFileService _fileService = fileService;
 
         public async Task<IActionResult> Index()
         {
@@ -703,6 +704,43 @@ namespace IPTS.Areas.Doctor.Controllers
 
             TempData["SuccessMessage"] = _locService.GetSystem("Msg_AppointmentRejectedSuccess");
             return RedirectToAction(nameof(Requests));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadPrescription(int id)
+        {
+            try
+            {
+                var appointment = await _appointmentService.GetAppointmentByIdAsync(id);
+                if (appointment == null)
+                    return NotFound();
+
+                if (string.IsNullOrWhiteSpace(appointment.PrescriptionFileName))
+                    return NotFound();
+
+                    var (content, contentType, fileName) = await _fileService.GetPrescriptionFileAsync(appointment.PrescriptionFileName);
+                    if (content == null)
+                        return NotFound();
+
+                    // Prefer inline display when possible so browser opens in a new tab
+                    if (!string.IsNullOrWhiteSpace(fileName))
+                    {
+                        Response.Headers["Content-Disposition"] = $"inline; filename=\"{fileName}\"";
+                    }
+
+                    return File(content, contentType ?? "application/octet-stream");
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogWithContext(
+                    $"Error downloading prescription: {ex.Message}",
+                    User?.Identity?.Name ?? "Unknown",
+                    "Doctor",
+                    "AppointmentsController.DownloadPrescription",
+                    LogEventLevel.Error
+                );
+                return NotFound();
+            }
         }
     }
 }

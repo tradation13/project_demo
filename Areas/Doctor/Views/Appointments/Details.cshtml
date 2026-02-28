@@ -57,4 +57,20 @@
             </div>
         </div>
     </div>
+
+    <!-- Additional section for notes and prescription -->
+    <div class="mt-6 rounded-lg bg-gray-50 p-4">
+        <h5 class="mb-3 font-semibold text-gray-700">@SharedLocalizer["Shared_Notes"]</h5>
+        <p class="text-gray-900">@(string.IsNullOrWhiteSpace(Model.Notes) ? "-" : Model.Notes)</p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.PrescriptionFileName))
+        {
+            <div class="mt-4">
+                <span class="font-medium">@SharedLocalizer["Shared_Prescription"]:</span>
+                <a href="@Url.Action("DownloadPrescription", "Appointments", new { id = Model.Id, area = "Doctor" })" target="_blank" rel="noopener noreferrer" class="ml-1 inline-block rounded bg-blue-100 px-2 py-1 text-blue-700 hover:bg-blue-200">
+                    <img src="~/images/logo.png" class="inline-block h-4 w-4" alt="logo" /> @Model.PrescriptionDisplayName
+                </a>
+            </div>
+        }
+    </div>
 </div>

@@ -88,8 +88,16 @@
                                 <span class="font-medium"> @SharedLocalizer["Shared_Notes"]:</span> @appt.Notes
                             </div>
                         }
+                        @if (!string.IsNullOrWhiteSpace(appt.PrescriptionFileName))
+                        {
+                            <div class="mt-2 text-sm">
+                                <span class="font-medium">@SharedLocalizer["Shared_Prescription"]:</span>
+                                <a href="@Url.Action("DownloadPrescription", "Appointment", new { area = "Patient", id = appt.Id })" target="_blank" rel="noopener noreferrer" class="ml-1 inline-block rounded bg-blue-100 px-2 py-1 text-blue-700 hover:bg-blue-200">
+                                    <img src="~/images/logo.png" class="inline-block w-4 h-4" alt="logo" /> @appt.PrescriptionDisplayName
+                                </a>
+                            </div>
+                        }
                     </div>
-
                     <div class="mt-4 flex flex-col gap-2 md:mt-0 md:flex-row">
                         <a href="@Url.Action("my-appointments", "Appointment", new { area = "Patient", id = appt.Id })"
                            class="rounded bg-blue-600 px-4 py-2 text-center text-sm text-white hover:bg-blue-700">

@@ -941,6 +941,10 @@
     <value>Duration</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Requests</comment>
   </data>
+  <data name="Shared_Prescription" xml:space="preserve">
+    <value>Prescription</value>
+    <comment>Shared label for prescription file (Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Requests)</comment>
+  </data>
   <data name="Search_BackToAppointments" xml:space="preserve">
     <value>Back to Appointments</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
@@ -1633,6 +1637,18 @@
     <value>Time slot data is missing. Please refresh the page and try again</value>
     <comment>Messages</comment>
   </data>
+  <data name="UploadMedicalPrescription" xml:space="preserve">
+  <value>Upload Medical Prescription</value>
+</data>
+<data name="ClickToUploadOrDragAndDrop" xml:space="preserve">
+  <value>Click to upload or drag &amp; drop</value>
+</data>
+<data name="FileFormatAndSizeLimit" xml:space="preserve">
+  <value>PNG, JPG or PDF (MAX. 5MB)</value>
+</data>
+<data name="FileSelected" xml:space="preserve">
+  <value>Selected</value>
+</data>
    <data name="ForgotConf_Header" xml:space="preserve">
     <value>Forgot Password Confirmation</value>
     <comment>Shared</comment>

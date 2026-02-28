@@ -116,6 +116,10 @@ builder.Services.AddControllersWithViews()
             builder.Services.AddScoped<SystemService>();
             builder.Services.AddScoped<SpecialtyService>();
             builder.Services.AddScoped<AppointmentService>();
+            
+            // Register FileService for prescription file handling
+            builder.Services.AddScoped<IFileService, FileService>();
+            
             builder.Services.AddOutputCache();
             builder.Services.AddMemoryCache();
             var app = builder.Build();

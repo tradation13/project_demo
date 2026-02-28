@@ -9,11 +9,12 @@ using System.Security.Claims;
 
 namespace IPTS.Services
 {
-    public class AppointmentService(LocService locService,EmailService emailService, ApplicationDbContext context, IMapper mapper, UserService userService) : BaseService<Appointment>(context, mapper)
+    public class AppointmentService(LocService locService, EmailService emailService, ApplicationDbContext context, IMapper mapper, UserService userService, IFileService fileService) : BaseService<Appointment>(context, mapper)
     {
         private readonly LocService _locService = locService;
         private readonly UserService _userService = userService;
         private readonly EmailService _emailService = emailService;
+        private readonly IFileService _fileService = fileService;
         public async Task<List<AppointmentViewModel>> GetAppointmentsForDoctorAsync(string userId)
         {
             var user = await _userService.GetByIdAsync(userId, q => q.Include(u => u.Doctor));
@@ -26,9 +27,9 @@ namespace IPTS.Services
             // Get appointments with full navigation properties
             var appointments = await _context.Appointments
                 .Include(a => a.Patient)
-                    .ThenInclude(p => p.User)
+                    .ThenInclude(p => p!.User)
                 .Include(a => a.Doctor)
-                    .ThenInclude(d => d.User)
+                    .ThenInclude(d => d!.User)
                 .Where(a => a.DoctorId == user.Doctor.Id)
                 .OrderByDescending(a => a.ScheduledTime)
                 .ToListAsync();
@@ -79,9 +80,9 @@ namespace IPTS.Services
         {
             var appointment = await _context.Appointments
                 .Include(a => a.Patient)
-                    .ThenInclude(p => p.User)
+                    .ThenInclude(p => p!.User)
                 .Include(a => a.Doctor)
-                    .ThenInclude(d => d.User)
+                    .ThenInclude(d => d!.User)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (appointment == null) return null;
@@ -261,6 +262,20 @@ namespace IPTS.Services
         {
             try
             {
+                string? prescriptionFileName = null;
+
+                // Handle prescription file upload if provided
+                if (model.PrescriptionFile != null && model.PrescriptionFile.Length > 0)
+                {
+                    var (isValid, errorMessage) = _fileService.ValidatePrescriptionFile(model.PrescriptionFile);
+                    if (!isValid)
+                        throw new ArgumentException(errorMessage);
+
+                    prescriptionFileName = await _fileService.SavePrescriptionFileAsync(model.PrescriptionFile);
+                    if (string.IsNullOrEmpty(prescriptionFileName))
+                        throw new Exception("Failed to save prescription file");
+                }
+
                 // وقت بداية الخانة
                 var startTimeUtc = DateTime.SpecifyKind(
                     model.ScheduledDate.AddMinutes(model.SlotIndex * 20),
@@ -275,7 +290,8 @@ namespace IPTS.Services
                     Status = AppointmentStatus.Pending,
                     Notes = model.Notes ?? string.Empty,
                     StartSlotIndex = model.SlotIndex,
-                    EndSlotIndex = model.SlotIndex // نفس الخانة
+                    EndSlotIndex = model.SlotIndex, // نفس الخانة
+                    PrescriptionFileName = prescriptionFileName
                 };
 
                 await _dbSet.AddAsync(appointment);
@@ -321,6 +337,78 @@ namespace IPTS.Services
                 }
                 _dbSet.UpdateRange(toCancel);
                 await _context.SaveChangesAsync();
+            }
+        }
+
+        /// <summary>
+        /// Update appointment with new prescription file
+        /// </summary>
+        public async Task<bool> UpdateAppointmentWithPrescriptionAsync(int appointmentId, SingleAppointmentCreateViewModel model)
+        {
+            try
+            {
+                var appointment = await _dbSet.FirstOrDefaultAsync(a => a.Id == appointmentId);
+                if (appointment == null)
+                    return false;
+
+                // Delete old prescription file if exists
+                if (!string.IsNullOrEmpty(appointment.PrescriptionFileName))
+                {
+                    await _fileService.DeletePrescriptionFileAsync(appointment.PrescriptionFileName);
+                }
+
+                // Save new prescription file if provided
+                string? newPrescriptionFileName = null;
+                if (model.PrescriptionFile != null && model.PrescriptionFile.Length > 0)
+                {
+                    var (isValid, _) = _fileService.ValidatePrescriptionFile(model.PrescriptionFile);
+                    if (!isValid)
+                        return false;
+
+                    newPrescriptionFileName = await _fileService.SavePrescriptionFileAsync(model.PrescriptionFile);
+                    if (string.IsNullOrEmpty(newPrescriptionFileName))
+                        return false;
+                }
+
+                // Update appointment
+                appointment.PrescriptionFileName = newPrescriptionFileName;
+                appointment.Notes = model.Notes ?? appointment.Notes;
+                
+                _dbSet.Update(appointment);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Delete appointment and its prescription file
+        /// </summary>
+        public async Task<bool> DeleteAppointmentWithFilesAsync(int id)
+        {
+            try
+            {
+                var appointment = await _dbSet.FirstOrDefaultAsync(a => a.Id == id);
+                if (appointment == null)
+                    return false;
+
+                // Delete prescription file if exists
+                if (!string.IsNullOrEmpty(appointment.PrescriptionFileName))
+                {
+                    await _fileService.DeletePrescriptionFileAsync(appointment.PrescriptionFileName);
+                }
+
+                // Delete appointment
+                _dbSet.Remove(appointment);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

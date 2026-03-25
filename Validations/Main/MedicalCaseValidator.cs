@@ -15,6 +15,19 @@ namespace IPTS.Validators
             RuleFor(x => x.DoctorId).GreaterThanOrEqualTo(0).WithMessage(x => localizer.GetSystem("InvalidDoctorId"));
             RuleFor(x => x.PatientId).GreaterThan(0).WithMessage(x => localizer.GetSystem("InvalidPatientId"));
             RuleForEach(x => x.Tests).SetValidator(new MedicalCaseTestValidator(localizer));
+            // --- قواعد الـ Physical Vitals الجديدة ---
+
+    // التحقق من الوزن (إذا تم إدخاله يجب أن يكون أكبر من 0 وأقل من 500 مثلاً)
+    RuleFor(x => x.Weight)
+        .InclusiveBetween(1, 500)
+        .When(x => x.Weight.HasValue)
+        .WithMessage(x => localizer.GetSystem("InvalidWeight"));
+
+    // التحقق من الطول (إذا تم إدخاله يجب أن يكون بين 30 و 300 سم)
+    RuleFor(x => x.Height)
+        .InclusiveBetween(30, 300)
+        .When(x => x.Height.HasValue)
+        .WithMessage(x => localizer.GetSystem("InvalidHeight"));
         }
     }
 }

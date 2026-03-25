@@ -195,7 +195,7 @@ namespace IPTS.Areas.Patient.Controllers
 
                 // Patient
                 PatientName = appt.Patient?.User?.FirstName + " " + appt.Patient?.User?.LastName ?? appt.Patient?.User?.UserName ?? string.Empty,
-                PatientIdentityNumber = appt.Patient?.IdentityNumber ?? string.Empty,
+                // PatientIdentityNumber = appt.Patient?.IdentityNumber ?? string.Empty,
                 PatientPhone = appt.Patient?.User?.PhoneNumber ?? string.Empty,
                 PatientEmail = appt.Patient?.User?.Email ?? string.Empty,
 

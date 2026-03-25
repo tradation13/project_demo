@@ -114,7 +114,7 @@ namespace IPTS.Services
                         await _context.Patients.AddAsync(new Patient
                         {
                             UserId = user.Id,
-                            IdentityNumber = model.Patient.IdentityNumber,
+                            // IdentityNumber = model.Patient.IdentityNumber,
                             BirthDate = model.Patient.BirthDate.ToUniversalTime()
                         });
                         break;
@@ -254,7 +254,7 @@ namespace IPTS.Services
                         await _context.Patients.AddAsync(new Patient
                         {
                             UserId = user.Id,
-                            IdentityNumber = model.Patient.IdentityNumber,
+                            // IdentityNumber = model.Patient.IdentityNumber,
                             BirthDate = model.Patient.BirthDate.ToUniversalTime()
                         });
                         break;
@@ -315,10 +315,10 @@ public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel mo
     if (await _userManager.FindByNameAsync(model.UserName) != null)
         throw new Exception(_locService.GetSystem("Error_UsernameTaken"));
 
-    if (await _context.Patients.AnyAsync(p => p.IdentityNumber == model.NationalId))
-        throw new Exception(_locService.GetSystem("Error_NationalIdRegistered"));
+    // if (await _context.Patients.AnyAsync(p => p.IdentityNumber == model.NationalId))
+    //     throw new Exception(_locService.GetSystem("Error_NationalIdRegistered"));
 
-    string generatedPassword = $"Aa{model.NationalId}_1";
+    string generatedPassword = $"Aa{model.Email}_1";
     AppUser? userForEmail = null;
 
   
@@ -344,7 +344,7 @@ public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel mo
             var patient = new Patient
             {
                 UserId = userForEmail.Id,
-                IdentityNumber = model.NationalId,
+                // IdentityNumber = model.NationalId,
                 BirthDate = model.DateOfBirth.ToUniversalTime()
             };
 

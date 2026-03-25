@@ -8,7 +8,7 @@ namespace IPTS.Areas.Doctor.ViewsModels
 
         public required string LastName { get; set; }
 
-        public required string NationalId { get; set; }
+        // public required string NationalId { get; set; }
 
         public required string PhoneNumber { get; set; }
 

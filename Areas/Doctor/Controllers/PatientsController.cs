@@ -47,8 +47,8 @@ public async Task<IActionResult> Create(PatientRegistrationViewModel model)
 
         
     TempData["SuccessMessage"] = string.Format(
-    _locService.GetSystem("Msg_PatientRegisteredPasswordInfo"), 
-    model.NationalId
+    _locService.GetSystem("Msg_PatientRegisteredPasswordInfo"),
+    model.Email
 );
         
         return RedirectToAction(nameof(Index));

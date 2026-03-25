@@ -109,11 +109,11 @@
             <div class="mt-8">
                 <h3 class="mb-4 text-xl font-semibold">@SharedLocalizer["Profile_PatientDetails"]</h3>
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div>
+                    @* <div>
                         <label class="mb-1 block text-sm font-medium">@SharedLocalizer["Shared_Identity_Number"]</label>
                         <input type="text" value="@(Model.Patient.IdentityNumber ?? SharedLocalizer["Profile_NotAvailable"].Value)" readonly 
                                class="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-gray-700" />
-                    </div>
+                    </div> *@
                     <div>
                         <label class="mb-1 block text-sm font-medium">@SharedLocalizer["Shared_Date_Of_Birth"]</label>
                         <input type="text" value="@Model.Patient.BirthDate.ToShortDateString()" readonly 

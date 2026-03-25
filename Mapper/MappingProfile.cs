@@ -66,12 +66,12 @@ namespace IPTS.Mapper
             CreateMap<Patient, PatientProfileViewModel>().ReverseMap()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.User, opt => opt.Ignore())
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
-                .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.IdentityNumber));
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
+                // .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.IdentityNumber));
 
             CreateMap<Patient, PatientFormViewModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.IdentityNumber))
+                // .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.IdentityNumber))
                 .ReverseMap()
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
 
@@ -139,8 +139,8 @@ namespace IPTS.Mapper
                     opt.MapFrom(src => src.Patient.User != null ? 
                         $"{src.Patient.User.FirstName} {src.Patient.User.LastName}".Trim() : 
                         src.Patient.User.UserName ?? "Unknown"))
-                .ForMember(dest => dest.PatientIdentityNumber, opt => 
-                    opt.MapFrom(src => src.Patient.IdentityNumber ?? ""))
+                // .ForMember(dest => dest.PatientIdentityNumber, opt => 
+                //     opt.MapFrom(src => src.Patient.IdentityNumber ?? ""))
                 .ForMember(dest => dest.PatientPhone, opt => 
                     opt.MapFrom(src => src.Patient.User.PhoneNumber ?? ""))
                 .ForMember(dest => dest.PatientEmail, opt => 

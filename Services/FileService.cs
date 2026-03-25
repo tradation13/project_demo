@@ -51,14 +51,14 @@ namespace IPTS.Services
         public (bool IsValid, string ErrorMessage) ValidatePrescriptionFile(IFormFile file)
         {
             if (file == null || file.Length == 0)
-                return (false, "يجب اختيار ملف.");
+                return (false, "A file must be selected.");
 
             if (file.Length > MaxFileSize)
-                return (false, $"حجم الملف يجب أن لا يتجاوز 5MB. الحجم الحالي: {file.Length / (1024 * 1024)}MB");
+                return (false, $"File size must not exceed 5MB. Current size: {file.Length / (1024 * 1024)}MB");
 
             var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
             if (!_allowedExtensions.Contains(fileExtension))
-                return (false, $"نوع الملف غير مدعوم. الأنواع المسموحة: JPG, PNG, PDF");
+                return (false, "Unsupported file type. Allowed types: JPG, PNG, PDF");
 
             return (true, string.Empty);
         }

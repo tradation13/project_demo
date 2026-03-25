@@ -8,7 +8,7 @@ namespace IPTS.Validators
     {
         public PatientRegisterValidator(LocService localizer)
         {
-            RuleFor(x => x.IdentityNumber).NotEmpty().WithMessage(x => localizer.GetSystem("IdentityRequired")).MaximumLength(50).WithMessage(x => localizer.GetSystem("IdentityMaxLength"));
+            // RuleFor(x => x.IdentityNumber).NotEmpty().WithMessage(x => localizer.GetSystem("IdentityRequired")).MaximumLength(50).WithMessage(x => localizer.GetSystem("IdentityMaxLength"));
             RuleFor(x => x.BirthDate).NotEmpty().WithMessage(x => localizer.GetSystem("BirthDateRequired"));
         }
     }

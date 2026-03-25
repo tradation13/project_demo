@@ -200,6 +200,14 @@ namespace IPTS.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<byte?>("ActivityLevel")
+                        .HasColumnType("smallint")
+                        .HasComment("0: Sedentary, 1: Moderate, 2: Active, 3: Professional");
+
+                    b.Property<byte?>("BloodGroup")
+                        .HasColumnType("smallint")
+                        .HasComment("0: A+, 1: A-, 2: B+, 3: B-, 4: O+, 5: O-, 6: AB+, 7: AB-");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -211,6 +219,19 @@ namespace IPTS.Data.Migrations
                     b.Property<int?>("DoctorId")
                         .HasColumnType("integer");
 
+                    b.Property<byte?>("DominantSide")
+                        .HasColumnType("smallint")
+                        .HasComment("0: RightSide, 1: LeftSide");
+
+                    b.Property<bool?>("HasChronicDisease")
+                        .HasColumnType("boolean");
+
+                    b.Property<float?>("Height")
+                        .HasColumnType("real");
+
+                    b.Property<bool?>("IsSmoker")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -218,6 +239,9 @@ namespace IPTS.Data.Migrations
 
                     b.Property<int>("PatientId")
                         .HasColumnType("integer");
+
+                    b.Property<float?>("Weight")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -268,11 +292,6 @@ namespace IPTS.Data.Migrations
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("IdentityNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("UserId")
                         .IsRequired()

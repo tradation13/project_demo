@@ -6,8 +6,8 @@ namespace IPTS.ViewModels
     {
         public int? Id { get; set; }
         
-        [Display(Name = "Identity Number")]
-        public string IdentityNumber { get; set; } = string.Empty;
+        // [Display(Name = "Identity Number")]
+        // public string IdentityNumber { get; set; } = string.Empty;
         
         [Display(Name = "Birth Date")]
         public DateTime BirthDate { get; set; }

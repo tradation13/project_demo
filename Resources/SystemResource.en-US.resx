@@ -737,4 +737,83 @@
     <value>Description cannot exceed 2000 characters</value>
     <comment/>
   </data>
+  <data name="PlatformTitle" xml:space="preserve">
+    <value>Physiotherapy &amp; Rehabilitation Governance Platform</value>
+  </data>
+  <data name="MedicalReport" xml:space="preserve">
+    <value>Medical Report</value>
+  </data>
+  <data name="PatientInformation" xml:space="preserve">
+    <value>Patient Information</value>
+  </data>
+  <data name="ClinicalDetails" xml:space="preserve">
+    <value>Clinical Details</value>
+  </data>
+  <data name="SmartAnalysisTitle" xml:space="preserve">
+    <value>Smart Clinical Analysis</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>Birth Date</value>
+  </data>
+  <data name="Doctor" xml:space="preserve">
+    <value>Doctor</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="TestGroup" xml:space="preserve">
+    <value>Test Group</value>
+  </data>
+  <data name="GeneratedOn" xml:space="preserve">
+    <value>Generated on</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="CaseID" xml:space="preserve">
+    <value>Case ID</value>
+  </data>
+
+<data name="InvalidWeight" xml:space="preserve">
+  <value>Please enter a valid weight (1 - 500 kg).</value>
+</data>
+<data name="InvalidHeight" xml:space="preserve">
+  <value>Please enter a valid height (30 - 300 cm).</value>
+</data>
+<data name="PhysicalMeasurements" xml:space="preserve">
+  <value>Physical Measurements</value>
+</data>
+<data name="HealthHistory" xml:space="preserve">
+  <value>Health History</value>
+</data>
+<data name="Height" xml:space="preserve">
+  <value>Height</value>
+</data>
+<data name="Weight" xml:space="preserve">
+  <value>Weight</value>
+</data>
+<data name="BloodGroup" xml:space="preserve">
+  <value>Blood Group</value>
+</data>
+<data name="IsSmoker" xml:space="preserve">
+  <value>Smoker</value>
+</data>
+<data name="ChronicDiseases" xml:space="preserve">
+  <value>Chronic Diseases</value>
+</data>
+<data name="ActivityLevel" xml:space="preserve">
+  <value>Activity Level</value>
+</data>
+<data name="Yes" xml:space="preserve">
+  <value>Yes</value>
+</data>
+<data name="No" xml:space="preserve">
+  <value>No</value>
+</data>
 </root>

@@ -19,10 +19,10 @@ namespace IPTS.Validators.Doctor
             RuleFor(x => x.LastName)
                 .NotEmpty().WithMessage(localizer.GetSystem("LastNameRequired"));
 
-            RuleFor(x => x.NationalId)
-                .NotEmpty().WithMessage(localizer.GetSystem("IdentityRequired"))
-                .Length(10).WithMessage(localizer.GetSystem("InvalidId"))
-                .Matches(@"^\d{10}$").WithMessage(localizer.GetSystem("IdentityMustBeNumbers"));
+            // RuleFor(x => x.NationalId)
+            //     .NotEmpty().WithMessage(localizer.GetSystem("IdentityRequired"))
+            //     .Length(10).WithMessage(localizer.GetSystem("InvalidId"))
+            //     .Matches(@"^\d{10}$").WithMessage(localizer.GetSystem("IdentityMustBeNumbers"));
 
             RuleFor(x => x.PhoneNumber)
                 .NotEmpty().WithMessage(localizer.GetSystem("PhoneRequired"))

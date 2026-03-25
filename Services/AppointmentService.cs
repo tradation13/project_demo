@@ -120,12 +120,12 @@ namespace IPTS.Services
             return await AddAsync(model);
         }
 
-        public async Task<Patient?> SearchPatientByIdentityNumberAsync(string identityNumber)
-        {
-            return await _context.Patients
-                .Include(p => p.User)
-                .FirstOrDefaultAsync(p => p.IdentityNumber == identityNumber);
-        }
+        // public async Task<Patient?> SearchPatientByIdentityNumberAsync(string identityNumber)
+        // {
+        //     return await _context.Patients
+        //         .Include(p => p.User)
+        //         .FirstOrDefaultAsync(p => p.IdentityNumber == identityNumber);
+        // }
 
 
         public async Task<Patient?> SearchPatientByPhoneAsync(string phoneNumber)
@@ -235,6 +235,7 @@ namespace IPTS.Services
                     ScheduledTime = appointmentStartTime, // Start time of the first selected slot
                     Status = AppointmentStatus.Confirmed,
                     Notes = string.IsNullOrWhiteSpace(model.Notes) ? string.Empty : model.Notes,
+                    PrescriptionFileName = string.IsNullOrWhiteSpace(model.PrescriptionFileName) ? string.Empty : model.PrescriptionFileName,
                     StartSlotIndex = startSlotIndex,
                     EndSlotIndex = selectedSlotIndices.Max()
                 };
@@ -254,10 +255,10 @@ namespace IPTS.Services
         /// <summary>
         /// Check if patient exists by identity number
         /// </summary>
-        public async Task<bool> PatientExistsAsync(string identityNumber)
-        {
-            return await _context.Patients.AnyAsync(p => p.IdentityNumber == identityNumber);
-        }
+        // public async Task<bool> PatientExistsAsync(string identityNumber)
+        // {
+        //     return await _context.Patients.AnyAsync(p => p.IdentityNumber == identityNumber);
+        // }
         public async Task<bool> CreateSingleSlotAppointmentAsync(SingleAppointmentCreateViewModel model)
         {
             try
@@ -411,5 +412,20 @@ namespace IPTS.Services
                 return false;
             }
         }
+  public async Task<List<Patient>> SearchPatientsAsync(string term)
+{
+    if (string.IsNullOrWhiteSpace(term)) return new List<Patient>();
+
+    return await _context.Patients
+        .Include(p => p.User) // نضمن تحميل بيانات المستخدم
+        .Where(p => p.User.FirstName.Contains(term) || 
+                    p.User.LastName.Contains(term) 
+                    )
+        .Take(5)
+        .ToListAsync();
+}
+
     }
+
+    
 }

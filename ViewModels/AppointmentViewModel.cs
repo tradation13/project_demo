@@ -7,7 +7,7 @@ namespace IPTS.ViewModels
     {
         public int Id { get; set; }
         public string PatientName { get; set; } = string.Empty;
-        public string PatientIdentityNumber { get; set; } = string.Empty;
+        // public string PatientIdentityNumber { get; set; } = string.Empty;
         public string PatientPhone { get; set; } = string.Empty;
         public string PatientEmail { get; set; } = string.Empty;
         public string DoctorName { get; set; } = string.Empty;
@@ -53,6 +53,8 @@ namespace IPTS.ViewModels
         public string ScheduledTime { get; set; } = string.Empty;
         public AppointmentStatus Status { get; set; } = AppointmentStatus.Pending;
         public string? Notes { get; set; } = string.Empty;
+        public IFormFile? PrescriptionFile { get; set; }
+        public string? PrescriptionFileName { get; set; }
         
         // Time slot properties
         public int StartSlotIndex { get; set; }

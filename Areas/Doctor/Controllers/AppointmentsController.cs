@@ -83,77 +83,74 @@ namespace IPTS.Areas.Doctor.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SearchPatient([FromForm] string? IdentityNumber, [FromForm] string? PhoneNumber, [FromForm] string? Email)
+public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [FromForm] string? PhoneNumber, [FromForm] string? Email)
+{
+    try
+    {
+        // 1. التأكد من إدخال معلومة واحدة على الأقل
+        if (string.IsNullOrWhiteSpace(SearchName) &&
+            string.IsNullOrWhiteSpace(PhoneNumber) &&
+            string.IsNullOrWhiteSpace(Email))
         {
-            try
-            {
-                // Check if at least one search criteria is provided  
-                if (string.IsNullOrWhiteSpace(IdentityNumber) &&
-                    string.IsNullOrWhiteSpace(PhoneNumber) &&
-                    string.IsNullOrWhiteSpace(Email))
-                {
-                    TempData["ErrorMessage"] = _locService.GetSystem("Msg_SearchCriteriaRequired");
-                    return RedirectToAction("SearchPatient");
-                }
-
-                IPTS.Models.Entites.Patient? patient = null;
-
-                // Search by Identity Number first (most reliable)  
-                if (!string.IsNullOrWhiteSpace(IdentityNumber))
-                {
-                    patient = await _appointmentService.SearchPatientByIdentityNumberAsync(IdentityNumber);
-                }
-
-                // If not found by identity, search by phone  
-                if (patient == null && !string.IsNullOrWhiteSpace(PhoneNumber))
-                {
-                    patient = await _appointmentService.SearchPatientByPhoneAsync(PhoneNumber);
-                }
-
-                // If still not found, search by email  
-                if (patient == null && !string.IsNullOrWhiteSpace(Email))
-                {
-                    patient = await _appointmentService.SearchPatientByEmailAsync(Email);
-                }
-
-                if (patient == null)
-                {
-                    TempData["WarningMessage"] = _locService.GetSystem("Msg_NotFoundCreateNew");
-                    // TempData["SearchData"] = new { IdentityNumber, PhoneNumber, Email };
-                    TempData["Draft_Identity"] = IdentityNumber;
-    TempData["Draft_Phone"] = PhoneNumber;
-    TempData["Draft_Email"] = Email;
-                    return RedirectToAction("CreatePatient");
-                }
-
-                // Patient found, redirect to appointment scheduling  
-                TempData["PatientId"] = patient.Id;
-                TempData["PatientName"] = $"{patient.User?.FirstName} {patient.User?.LastName}".Trim();
-                if (string.IsNullOrEmpty(TempData["PatientName"]?.ToString()))
-                {
-                    TempData["PatientName"] = patient.User?.UserName ?? _locService.GetSystem("Label_Unknown");
-                }
-                TempData["SuccessMessage"] = $"{_locService.GetSystem("Status_PatientFound")}: {TempData["PatientName"]}. {_locService.GetSystem("Process_AppointmentScheduling")}";
-
-                return RedirectToAction("ScheduleAppointment");
-            }
-            catch (Exception ex)
-            {
-                LogHelper.LogWithContext(
-                    $"Error searching for patient: {ex.Message}",
-                    User?.Identity?.Name ?? "Unknown",
-                    "Doctor",
-                    "AppointmentsController.SearchPatient",
-                    LogEventLevel.Fatal
-                );
-                // throw;
-
-                // 2. رسالة الخطأ عند "انفجار" الكود (الرسالة المعبرة للوحوش)
-    TempData["ErrorMessage"] = _locService.GetSystem("Error_TechnicalSearch");
-    
-    return RedirectToAction("SearchPatient");
-            }
+            TempData["ErrorMessage"] = _locService.GetSystem("Msg_SearchCriteriaRequired");
+            return RedirectToAction("SearchPatient");
         }
+
+        IPTS.Models.Entites.Patient? patient = null;
+
+        // 2. البحث الذكي (استخدام السيرفيس الجديدة)
+        // نبحث أولاً بالاسم إذا تم اختياره من القائمة أو كتابته
+        var patients = await _appointmentService.SearchPatientsAsync(SearchName ?? PhoneNumber ?? Email ?? "");
+        
+        // إذا وجدنا نتائج، نأخذ أول مريض (الأكثر مطابقة)
+        patient = patients.FirstOrDefault();
+
+        // 3. إذا لم نجد مريضاً بالمطابقة العامة، نجرب البحث المباشر بالهاتف أو الإيميل كخطة بديلة
+        if (patient == null && !string.IsNullOrWhiteSpace(PhoneNumber))
+        {
+            patient = await _appointmentService.SearchPatientByPhoneAsync(PhoneNumber);
+        }
+
+        if (patient == null && !string.IsNullOrWhiteSpace(Email))
+        {
+            patient = await _appointmentService.SearchPatientByEmailAsync(Email);
+        }
+
+        // 4. في حال لم يتم العثور على أي مريض
+        if (patient == null)
+        {
+            TempData["WarningMessage"] = _locService.GetSystem("Msg_NotFoundCreateNew");
+            TempData["Draft_Name"] = SearchName;
+            TempData["Draft_Phone"] = PhoneNumber;
+            TempData["Draft_Email"] = Email;
+            return RedirectToAction("CreatePatient");
+        }
+
+        // 5. تم العثور على المريض -> التوجه لجدولة الموعد
+        // نضمن تحميل بيانات الـ User لتجنب الـ Null في الاسم
+        var patientName = patient.User != null 
+            ? $"{patient.User.FirstName} {patient.User.LastName}".Trim() 
+            : _locService.GetSystem("Label_Unknown");
+
+        TempData["PatientId"] = patient.Id;
+        TempData["PatientName"] = patientName;
+        TempData["SuccessMessage"] = $"{_locService.GetSystem("Status_PatientFound")}: {patientName}.";
+
+        return RedirectToAction("ScheduleAppointment");
+    }
+    catch (Exception ex)
+    {
+        LogHelper.LogWithContext(
+            $"Error searching for patient: {ex.Message}",
+            User?.Identity?.Name ?? "Unknown",
+            "Doctor",
+            "AppointmentsController.SearchPatient",
+            LogEventLevel.Fatal
+        );
+        TempData["ErrorMessage"] = _locService.GetSystem("Error_TechnicalSearch");
+        return RedirectToAction("SearchPatient");
+    }
+}
 
         [HttpGet]
         public IActionResult CreatePatient()
@@ -225,7 +222,7 @@ namespace IPTS.Areas.Doctor.Controllers
                     UserTypeName = "patient",
                     Patient = new PatientRegisterViewModel
                     {
-                        IdentityNumber = model.IdentityNumber,
+                        // IdentityNumber = model.IdentityNumber,
                         BirthDate = model.BirthDate
                     }
                 };
@@ -314,6 +311,7 @@ namespace IPTS.Areas.Doctor.Controllers
         {
             try
             {
+               
                 if (!ModelState.IsValid)
                 {
                     TempData["WarningMessage"] = _locService.GetSystem("Msg_RequiredFieldsMissing");
@@ -343,6 +341,17 @@ namespace IPTS.Areas.Doctor.Controllers
                 {
                     model.ScheduledDate = DateTime.SpecifyKind(model.ScheduledDate, DateTimeKind.Utc);
                 }
+
+                // --- 2. الجزء المضاف: معالجة رفع الملف كما فعلنا عند المريض ---
+        if (model.PrescriptionFile != null && model.PrescriptionFile.Length > 0)
+        {
+            // حفظ الملف باستخدام الـ FileService
+            var fileName = await _fileService.SavePrescriptionFileAsync(model.PrescriptionFile);
+            
+            // تخزين اسم الملف في الـ ViewModel ليتم تمريره للسيرفيس
+            model.PrescriptionFileName = fileName;
+        }
+        // -------------------------------------------------------
                 
                 // Calculate total slots and duration
                 var totalSlots = model.TotalSlots;
@@ -742,5 +751,26 @@ namespace IPTS.Areas.Doctor.Controllers
                 return NotFound();
             }
         }
-    }
+
+[HttpGet]
+public async Task<IActionResult> GetPatientSuggestions(string term)
+{
+    var patients = await _appointmentService.SearchPatientsAsync(term);
+    
+    var result = patients.Select(p => new {
+        id = p.Id,
+        // دمج الاسم الأول والأخير من جدول الـ User
+        name = p.User != null ? $"{p.User.FirstName} {p.User.LastName}" : "Unknown", 
+        phone = p.User?.PhoneNumber ?? "",
+        email = p.User?.Email ?? ""
+    });
+
+    return Json(result);
 }
+
+    }
+    
+}
+
+
+

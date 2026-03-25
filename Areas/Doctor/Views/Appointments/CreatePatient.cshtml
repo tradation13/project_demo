@@ -17,7 +17,7 @@
     <div class="mb-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
         <h5 class="mb-2 font-semibold text-blue-800">@SharedLocalizer["Patient_Guidelines_Title"]</h5>
         <ul class="space-y-1 text-sm text-blue-700">
-            <li>• <strong>@SharedLocalizer["Shared_Identity_Number"]:</strong> @SharedLocalizer["Patient_Guideline_Identity"]</li>
+            @* <li>• <strong>@SharedLocalizer["Shared_Identity_Number"]:</strong> @SharedLocalizer["Patient_Guideline_Identity"]</li> *@
             <li>• <strong>@SharedLocalizer["Patient_Label_BasicInfo"]:</strong> @SharedLocalizer["Patient_Desc_BasicInfo"]</li>
             <li>• <strong>@SharedLocalizer["Patient_Label_AccountAccess"]:</strong> @SharedLocalizer["Patient_Desc_AccountAccess"]</li>
             <li>• <strong>@SharedLocalizer["Shared_Date_Of_Birth"]:</strong> @SharedLocalizer["Patient_Guideline_Medical"]</li>
@@ -55,13 +55,13 @@
 
     <form asp-action="CreatePatient" method="post" class="mt-8">
         <div class="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div>
+            @* <div>
                 <label asp-for="IdentityNumber" class="mb-2 block text-sm font-medium text-gray-700">@SharedLocalizer["Shared_Identity_Number"] *</label>
                 <input asp-for="IdentityNumber" type="text" 
                        class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
                        placeholder="@SharedLocalizer["Reg_Placeholder_ID"]" />
                 <span asp-validation-for="IdentityNumber" class="text-sm text-red-500"></span>
-            </div>
+            </div> *@
 
             <div>
                 <label asp-for="FirstName" class="mb-2 block text-sm font-medium text-gray-700">@SharedLocalizer["Shared_FirstName"] *</label>

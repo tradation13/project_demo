@@ -18,8 +18,16 @@
 
     <!-- KPI Grid -->
     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
-                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(@SharedLocalizer["Dash_TotalAppts"], Model.TotalAppointments.ToString("N0"), null, "fa-solid fa-calendar-check", "bg-blue-50 text-blue-600"))
+       <a href="@Url.Action("Index", "Appointments", new { area = "Doctor" })" class="block transition-all hover:opacity-90">
+    @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+        new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(
+            @SharedLocalizer["Dash_TotalAppts"], 
+            Model.TotalAppointments.ToString("N0"), 
+            null, 
+            "fa-solid fa-calendar-check", 
+            "bg-emerald-50 text-emerald-600"
+        ))
+</a>
         @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
                  new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(@SharedLocalizer["Dash_Upcoming"], Model.UpcomingAppointments.ToString("N0"), @SharedLocalizer["Dash_UpcomingDesc"], "fa-solid fa-calendar-plus", "bg-emerald-50 text-emerald-600"))
         @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",

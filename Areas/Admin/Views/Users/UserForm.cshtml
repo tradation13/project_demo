@@ -115,7 +115,7 @@
                 <h5>@SharedLocalizer["Appt_Sched_PatientInfo"]</h5>
             </div>
             <div class="card-body flex gap-4">
-                <input type="hidden" asp-for="Patient.Id" />
+                @* <input type="hidden" asp-for="Patient.Id" />
                 <div class="min-w-[200px] flex-1">
                     <label asp-for="Patient.IdentityNumber" class="block text-sm font-medium text-gray-700">@SharedLocalizer["Shared_Identity_Number"] *</label>
                     @if (!isEditMode)
@@ -128,7 +128,7 @@
                         <input asp-for="Patient.IdentityNumber" class="mt-1 block w-full cursor-not-allowed rounded-md border-gray-300 bg-gray-100 shadow-sm" readonly />
                         <small class="text-gray-500">@SharedLocalizer["Users_IdentityReadOnly"]</small>
                     }
-                </div>
+                </div> *@
                 <div class="min-w-[200px] flex-1">
                     <label asp-for="Patient.BirthDate" class="block text-sm font-medium text-gray-700">@SharedLocalizer["Shared_Date_Of_Birth"]</label>
                     <input asp-for="Patient.BirthDate" type="date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />

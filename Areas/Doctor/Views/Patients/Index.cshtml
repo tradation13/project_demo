@@ -30,7 +30,7 @@
                 <thead class="bg-slate-50">
                     <tr>
                         <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">@SharedLocalizer["Contact_Label_Name"]</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">@SharedLocalizer["Shared_Identity_Number"]</th>
+                        @* <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">@SharedLocalizer["Shared_Identity_Number"]</th> *@
                         <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">@SharedLocalizer["Shared_Contact_Info"]</th>
                         <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-slate-500">@SharedLocalizer["Shared_Options"]</th>
                     </tr>
@@ -42,9 +42,9 @@
                             <td class="whitespace-nowrap px-6 py-4">
                                 <div class="font-semibold text-slate-700">@($"{p.User?.FirstName} {p.User?.LastName}")</div>
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4">
+                            @* <td class="whitespace-nowrap px-6 py-4">
                                 <span class="rounded-full bg-slate-100 px-3 py-1 font-mono text-xs text-slate-600">@p.IdentityNumber</span>
-                            </td>
+                            </td> *@
                             <td class="px-6 py-4">
                                 <div class="text-sm italic text-slate-600">@p.User?.Email</div>
                                 <div class="text-xs text-slate-400">@p.User?.PhoneNumber</div>

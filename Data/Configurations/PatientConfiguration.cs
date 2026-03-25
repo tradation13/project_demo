@@ -10,10 +10,10 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
 
         builder.HasKey(p => p.Id);
 
-        // تكوين IdentityNumber
-        builder.Property(p => p.IdentityNumber)
-               .IsRequired()
-               .HasMaxLength(50);
+        // // تكوين IdentityNumber
+        // builder.Property(p => p.IdentityNumber)
+        //        .IsRequired()
+        //        .HasMaxLength(50);
 
         // العلاقة مع AppUser
         builder.HasOne(p => p.User)

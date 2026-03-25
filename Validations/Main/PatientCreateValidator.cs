@@ -15,7 +15,7 @@ namespace IPTS.Validators
             RuleFor(x => x.LastName).NotEmpty().WithMessage(x => localizer.GetSystem("LastNameRequired")).MaximumLength(50).WithMessage(x => localizer.GetSystem("LastNameMaxLength"));
             RuleFor(x => x.Password).NotEmpty().WithMessage(x => localizer.GetSystem("PasswordRequired")).MinimumLength(6).WithMessage(x => localizer.GetSystem("PasswordMinLength"));
             RuleFor(x => x.ConfirmPassword).NotEmpty().WithMessage(x => localizer.GetSystem("ConfirmPasswordRequired")).Equal(x => x.Password).WithMessage(x => localizer.GetSystem("PasswordsDoNotMatch"));
-            RuleFor(x => x.IdentityNumber).NotEmpty().WithMessage(x => localizer.GetSystem("IdentityRequired")).MaximumLength(50).WithMessage(x => localizer.GetSystem("IdentityMaxLength"));
+            // RuleFor(x => x.IdentityNumber).NotEmpty().WithMessage(x => localizer.GetSystem("IdentityRequired")).MaximumLength(50).WithMessage(x => localizer.GetSystem("IdentityMaxLength"));
             RuleFor(x => x.BirthDate).NotEmpty().WithMessage(x => localizer.GetSystem("BirthDateRequired")).LessThan(DateTime.Now).WithMessage(x => localizer.GetSystem("BirthDateInvalid"));
         }
     }

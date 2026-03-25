@@ -7,16 +7,40 @@
 <div class="rounded-lg bg-white px-8 py-6">
     <div class="mb-4 flex items-center justify-between">
         <h4 class="text-xl font-semibold">@SharedLocalizer["Shared_Appointment"] @SharedLocalizer["Shared_Details"]</h4>
-        <div class="flex space-x-2">
-            @* <a href="@Url.Action("Edit", "Appointments", new { id = Model.Id, area = "doctor" })" *@
-            @*    class="rounded bg-yellow-500 px-4 py-1 text-sm text-white transition duration-150 hover:bg-yellow-600"> *@
-            @*     Edit *@
-            @* </a> *@
-            <a href="@Url.Action("Index", "Appointments", new { area = "doctor" })"
-               class="rounded bg-gray-500 px-4 py-1 text-sm text-white transition duration-150 hover:bg-gray-600">
-                @SharedLocalizer["Shared_Back"]
-            </a>
-        </div>
+       <div class="flex items-center gap-3">
+    @if (Model.Status == AppointmentStatus.Pending)
+    {
+        <form asp-action="AcceptRequest" asp-controller="Appointments" asp-area="Doctor" method="get" class="inline">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 hover:shadow-lg active:scale-95">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                @SharedLocalizer["Shared_Accept"]
+            </button>
+        </form>
+
+        <form asp-action="RejectRequest" asp-controller="Appointments" asp-area="Doctor" method="get" class="inline">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-red-700 hover:shadow-lg active:scale-95">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                @SharedLocalizer["Shared_Reject"]
+            </button>
+        </form>
+
+        <div class="mx-1 h-8 w-px bg-gray-200"></div>
+    }
+
+    <a href="@Url.Action("Index", "Appointments", new { area = "doctor" })"
+       class="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-gray-50 hover:shadow-sm active:scale-95">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        @SharedLocalizer["Shared_Back"]
+    </a>
+</div>
     </div>
 
     <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">

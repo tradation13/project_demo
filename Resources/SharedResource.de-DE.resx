@@ -121,6 +121,12 @@
     <value>Startseite</value>
     <comment>VIiews -&gt; Shared -&gt; PublicSide</comment>
   </data>
+  <data name="Reg_PrivacyConsent" xml:space="preserve">
+    <value>Ich stimme der Datenschutzrichtlinie und den Bedingungen zu</value>
+  </data>
+  <data name="Reg_PrivacyConsent_Error" xml:space="preserve">
+    <value>Sie müssen die Datenschutzrichtlinie und die Bedingungen akzeptieren, um sich zu registrieren.</value>
+  </data>
   <data name="About" xml:space="preserve">
     <value>Über uns</value>
     <comment>VIiews -&gt; Shared -&gt; PublicSide</comment>
@@ -299,75 +305,19 @@
   </data>
   <data name="Shared_Book_Now" xml:space="preserve">
     <value>Jetzt buchen</value>
-    <comment>VIiews -&gt; Home -&gt; ServicesSection + DoctorsSection </comment>
-  </data>
-  <data name="Docs_Title" xml:space="preserve">
-    <value>Unsere führenden Therapeuten</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_Subtitle" xml:space="preserve">
-    <value>Ein engagiertes Team zertifizierter Physiotherapeuten für personalisierte, technologiegestützte Pflege.</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D1_Name" xml:space="preserve">
-    <value>Dr. Adam Brooks</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D1_Title" xml:space="preserve">
-    <value>Fachphysiotherapeut</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D1_Bio" xml:space="preserve">
-    <value>MSK-Therapie &amp; Rehabilitation.</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D2_Name" xml:space="preserve">
-    <value>Dr. Emily Carter</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D2_Title" xml:space="preserve">
-    <value>Spezialistin für Wirbelsäulenpflege</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D2_Bio" xml:space="preserve">
-    <value>Ausrichtung &amp; Haltungspflege.</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D3_Name" xml:space="preserve">
-    <value>Dr. Michael Reed</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D3_Title" xml:space="preserve">
-    <value>Experte für Sportrehabilitation</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D3_Bio" xml:space="preserve">
-    <value>Erholung &amp; Mobilität für Sportler.</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D4_Name" xml:space="preserve">
-    <value>Dr. Sarah Mitchell</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D4_Title" xml:space="preserve">
-    <value>Spezialistin für Neurotherapie</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D4_Bio" xml:space="preserve">
-    <value>Neuro-Reha &amp; fortgeschrittene PT.</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+    <comment>VIiews -> Home -> ServicesSection + DoctorsSection </comment>
   </data>
   <data name="Contact_Title" xml:space="preserve">
     <value>Standort &amp; Kontakt</value>
-    <comment>VIiews -&gt; Home -&gt;  LocationSection </comment>
+    <comment>VIiews -> Home ->  LocationSection </comment>
   </data>
   <data name="Contact_Subtitle" xml:space="preserve">
     <value>Finden Sie uns und kontaktieren Sie uns einfach.</value>
-    <comment>VIiews -&gt; Home -&gt;  LocationSection </comment>
+    <comment>VIiews -> Home ->  LocationSection </comment>
   </data>
   <data name="Contact_Map_Hint" xml:space="preserve">
     <value>Karten-Platzhalter – aktualisieren Sie den Link mit Ihrem genauen Standort.</value>
-    <comment>VIiews -&gt; Home -&gt;  LocationSection </comment>
+    <comment>VIiews -> Home ->  LocationSection </comment>
   </data>
   <data name="PageAbout_MainHeading" xml:space="preserve">
     <value>Präzisions-Physiotherapie, unterstützt durch Technik</value>
@@ -954,9 +904,9 @@
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
   </data>
   <data name="Search_InstructionMain" xml:space="preserve">
-    <value>Suchen Sie nach einem bestehenden Patienten anhand seiner Identitätsnummer, Telefonnummer oder E-Mail. Falls der Patient nicht existiert, nutzen Sie die Schaltfläche "Neuen Patienten anlegen".</value>
-    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
-  </data>
+    <value>Suchen Sie nach einem bestehenden Patienten anhand seines Namens, seiner Telefonnummer oder E-Mail. Falls der Patient nicht existiert, nutzen Sie die Schaltfläche "Neuen Patienten anlegen".</value>
+    <comment>Areas -> Doctor -> Views -> Appointments -> SearchPatient</comment>
+</data>
   <data name="Search_Tip" xml:space="preserve">
     <value>Tipp: Die Identitätsnummer ist die zuverlässigste Suchmethode.</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
@@ -982,9 +932,9 @@
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
   </data>
   <data name="Search_Step1" xml:space="preserve">
-    <value>Geben Sie die nationale ID- oder Passnummer des Patienten ein (am zuverlässigsten)</value>
-    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
-  </data>
+    <value>Geben Sie den Namen des Patienten ein, um zu suchen</value>
+    <comment>Areas -> Doctor -> Views -> Appointments -> SearchPatient</comment>
+</data>
   <data name="Search_Step2" xml:space="preserve">
     <value>Geben Sie die Telefonnummer des Patienten ein</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
@@ -1625,6 +1575,54 @@
 <data name="FileSelected" xml:space="preserve">
   <value>Ausgewählt</value>
 </data>
+  <data name="MedCase_PhysicalVitals_Header" xml:space="preserve">
+  <value>Physische Vitalwerte (Essentiell für KI-Analyse)</value>
+</data>
+
+<data name="MedCase_Weight" xml:space="preserve"><value>GEWICHT (KG)</value></data>
+<data name="MedCase_Height" xml:space="preserve"><value>GRÖSSE (CM)</value></data>
+<data name="MedCase_Smoker" xml:space="preserve"><value>Raucher?</value></data>
+<data name="MedCase_ChronicDiseases" xml:space="preserve"><value>Chronische Krankheiten?</value></data>
+
+<data name="MedCase_BloodGroup" xml:space="preserve"><value>BLUTGRUPPE</value></data>
+<data name="BloodGroup_PositiveGroup" xml:space="preserve"><value>Positiv (+)</value></data>
+<data name="BloodGroup_NegativeGroup" xml:space="preserve"><value>Negativ (-)</value></data>
+<data name="BloodGroup_APositive" xml:space="preserve"><value>A+</value></data>
+<data name="BloodGroup_ANegative" xml:space="preserve"><value>A-</value></data>
+<data name="BloodGroup_BPositive" xml:space="preserve"><value>B+</value></data>
+<data name="BloodGroup_BNegative" xml:space="preserve"><value>B-</value></data>
+<data name="BloodGroup_OPositive" xml:space="preserve"><value>O+</value></data>
+<data name="BloodGroup_ONegative" xml:space="preserve"><value>O-</value></data>
+<data name="BloodGroup_ABPositive" xml:space="preserve"><value>AB+</value></data>
+<data name="BloodGroup_ABNegative" xml:space="preserve"><value>AB-</value></data>
+
+<data name="MedCase_DominantSide" xml:space="preserve"><value>DOMINANTE SEITE</value></data>
+<data name="DominantSide_Right" xml:space="preserve"><value>Rechte Seite</value></data>
+<data name="DominantSide_Left" xml:space="preserve"><value>Linke Seite</value></data>
+
+<data name="MedCase_ActivityLevel" xml:space="preserve"><value>AKTIVITÄTSLEVEL</value></data>
+<data name="Activity_Sedentary" xml:space="preserve"><value>Sitzend (Wenig Aktivität)</value></data>
+<data name="Activity_Moderate" xml:space="preserve"><value>Mäßig (Sport 1-3 Tage/Woche)</value></data>
+<data name="Activity_Active" xml:space="preserve"><value>Aktiv (Sport 3-5 Tage/Woche)</value></data>
+<data name="Activity_Athlete" xml:space="preserve"><value>Leistungssportler</value></data>
+
+<data name="Reg_PrivacyModal_Title" xml:space="preserve">
+    <value>Datenschutzhinweis</value>
+    <comment>Registration Page - Modal Title</comment>
+  </data>
+  <data name="Reg_PrivacyModal_Message" xml:space="preserve">
+    <value>Bitte lesen und akzeptieren Sie unsere Datenschutzbestimmungen und Nutzungsbedingungen, um mit Ihrer Registrierung fortzufahren.</value>
+    <comment>Registration Page - Modal Body Message</comment>
+  </data>
+  <data name="Shared_GotIt" xml:space="preserve">
+    <value>Verstanden</value>
+    <comment>General Purpose - Confirmation Button</comment>
+  </data>
+  <data name="Reg_PrivacyConsent" xml:space="preserve">
+    <value>Ich stimme den Datenschutzbestimmungen und Nutzungsbedingungen zu</value>
+    <comment>Registration Page - Checkbox Label</comment>
+  </data>
+  
   <data name="Shared_Controller" xml:space="preserve">
     <value>Controller</value>
     <comment>Shared</comment>
@@ -1885,10 +1883,10 @@
     <value>Benutzername</value>
     <comment>Shared</comment>
   </data>
-  <data name="Shared_Identity_Number" xml:space="preserve">
+  <!-- <data name="Shared_Identity_Number" xml:space="preserve">
     <value>Identitätsnummer</value>
     <comment>Shared</comment>
-  </data>
+  </data> -->
   <data name="Shared_EmailAddress" xml:space="preserve">
     <value>E-Mail-Adresse</value>
     <comment>Shared</comment>

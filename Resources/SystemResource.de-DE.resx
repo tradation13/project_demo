@@ -733,4 +733,83 @@
     <value>Beschreibung darf 2000 Zeichen nicht überschreiten</value>
     <comment/>
   </data>
+  <data name="PlatformTitle" xml:space="preserve">
+    <value>Physiotherapie &amp; Rehabilitations-Plattform</value>
+  </data>
+  <data name="MedicalReport" xml:space="preserve">
+    <value>Medizinischer Bericht</value>
+  </data>
+  <data name="PatientInformation" xml:space="preserve">
+    <value>Patienteninformationen</value>
+  </data>
+  <data name="ClinicalDetails" xml:space="preserve">
+    <value>Klinische Details</value>
+  </data>
+  <data name="SmartAnalysisTitle" xml:space="preserve">
+    <value>Intelligente klinische Analyse</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>Geburtsdatum</value>
+  </data>
+  <data name="Doctor" xml:space="preserve">
+    <value>Arzt</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Ergebnis</value>
+  </data>
+  <data name="TestGroup" xml:space="preserve">
+    <value>Testgruppe</value>
+  </data>
+  <data name="GeneratedOn" xml:space="preserve">
+    <value>Erstellt am</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="CaseID" xml:space="preserve">
+    <value>Fall-ID</value>
+  </data>
+
+<data name="InvalidWeight" xml:space="preserve">
+  <value>Bitte geben Sie ein gültiges Gewicht ein (1 - 500 kg).</value>
+</data>
+<data name="InvalidHeight" xml:space="preserve">
+  <value>Bitte geben Sie eine gültige Größe ein (30 - 300 cm).</value>
+</data>
+<data name="PhysicalMeasurements" xml:space="preserve">
+  <value>Physische Messungen</value>
+</data>
+<data name="HealthHistory" xml:space="preserve">
+  <value>Anamnese</value>
+</data>
+<data name="Height" xml:space="preserve">
+  <value>Größe</value>
+</data>
+<data name="Weight" xml:space="preserve">
+  <value>Gewicht</value>
+</data>
+<data name="BloodGroup" xml:space="preserve">
+  <value>Blutgruppe</value>
+</data>
+<data name="IsSmoker" xml:space="preserve">
+  <value>Raucher</value>
+</data>
+<data name="ChronicDiseases" xml:space="preserve">
+  <value>Chronische Krankheiten</value>
+</data>
+<data name="ActivityLevel" xml:space="preserve">
+  <value>Aktivitätsniveau</value>
+</data>
+<data name="Yes" xml:space="preserve">
+  <value>Ja</value>
+</data>
+<data name="No" xml:space="preserve">
+  <value>Nein</value>
+</data>
 </root>

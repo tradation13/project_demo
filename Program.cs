@@ -106,6 +106,8 @@ builder.Services.AddControllersWithViews()
             builder.Services.AddScoped<TestGroupService>();
             builder.Services.AddScoped<MedicalCaseService>();
             builder.Services.AddScoped<MedicalCaseTestService>();
+            // builder.Services.AddScoped<MedicalReportService>();
+            builder.Services.AddHttpClient<MedicalReportService>(); // تسجيل MedicalReportService مع دعم HttpClient
             builder.Services.AddScoped<TestService>();
             builder.Services.AddScoped<PatientService>();
             builder.Services.AddScoped<IDbConnection>(sp =>

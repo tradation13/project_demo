@@ -121,6 +121,213 @@
     <value>Home</value>
     <comment>VIiews -&gt; Shared -&gt; PublicSide </comment>
   </data>
+  <data name="Reg_PrivacyConsent" xml:space="preserve">
+    <value>I agree to the privacy policy and terms</value>
+  </data>
+  <data name="Reg_PrivacyConsent_Error" xml:space="preserve">
+    <value>You must accept the privacy policy and terms to register.</value>
+  </data>
+  <data name="Privacy_Title" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="Privacy_Section1_Title" xml:space="preserve">
+    <value>1. Privacy at a Glance</value>
+  </data>
+  <data name="Privacy_Section1_Subtitle" xml:space="preserve">
+    <value>General Information</value>
+  </data>
+  <data name="Privacy_Section1_Overview" xml:space="preserve">
+    <value>The following notes provide a simple overview of what happens to your personal data when you visit this website. Personal data are all data with which you can be personally identified. Detailed information on data protection can be found in our privacy policy below.</value>
+  </data>
+  <data name="Privacy_Section1_DataCollectionTitle" xml:space="preserve">
+    <value>Data collection on this website</value>
+  </data>
+  <data name="Privacy_Section1_DataCollectionResponsibilityTitle" xml:space="preserve">
+    <value>Who is responsible for data collection on this website?</value>
+  </data>
+  <data name="Privacy_Section1_DataCollectionResponsibilityText" xml:space="preserve">
+    <value>Data processing on this website is carried out by the website operator. Their contact details can be found in the imprint of this website.</value>
+  </data>
+  <data name="Privacy_Section1_HowCollectTitle" xml:space="preserve">
+    <value>How do we collect your data?</value>
+  </data>
+  <data name="Privacy_Section1_HowCollectText" xml:space="preserve">
+    <value>Your data is collected, for example, when you provide it to us (e.g. contact form). Other data is automatically captured by our IT systems when you visit the website, especially technical data such as browser, OS or visit time.</value>
+  </data>
+  <data name="Privacy_Section1_WhyUseTitle" xml:space="preserve">
+    <value>What do we use your data for?</value>
+  </data>
+  <data name="Privacy_Section1_WhyUseText" xml:space="preserve">
+    <value>Part of the data is collected to provide a fault-free website. Other data may be used to analyze user behavior.</value>
+  </data>
+  <data name="Privacy_Section1_RightsTitle" xml:space="preserve">
+    <value>What rights do you have?</value>
+  </data>
+  <data name="Privacy_Section1_RightsText" xml:space="preserve">
+    <value>You have the right to obtain information about the origin, recipient and purpose of your stored personal data at any time, and the right to correction or deletion. You also have the right to lodge a complaint with the competent supervisory authority.</value>
+  </data>
+  <data name="Privacy_Section2_Title" xml:space="preserve">
+    <value>2. Hosting</value>
+  </data>
+  <data name="Privacy_Section2_Subtitle" xml:space="preserve">
+    <value>External hosting</value>
+  </data>
+  <data name="Privacy_Section2_Content1" xml:space="preserve">
+    <value>This website is hosted by an external provider. Personal data is stored on the provider's servers, e.g. IP addresses, contact requests, meta and communication data.</value>
+  </data>
+  <data name="Privacy_Section2_Content2" xml:space="preserve">
+    <value>The use of the hoster is for contract performance (Art. 6 para. 1 lit. b GDPR) and in the interest of a secure and efficient online offer (Art. 6 para. 1 lit. f GDPR).</value>
+  </data>
+  <data name="Privacy_Section2_Content3" xml:space="preserve">
+    <value>Our hoster processes personal data only as required for its duties and according to our instructions.</value>
+  </data>
+  <data name="Privacy_Section3_Title" xml:space="preserve">
+    <value>3. General Information and Mandatory Information</value>
+  </data>
+  <data name="Privacy_Section3_Text1" xml:space="preserve">
+    <value>The website operators take the protection of your personal data very seriously. We treat your personal data confidentially and in accordance with legal data protection regulations.</value>
+  </data>
+  <data name="Privacy_Section3_Text2" xml:space="preserve">
+    <value>When you use this website, various personal data are collected. This privacy policy explains what data we collect and for what purpose.</value>
+  </data>
+  <data name="Privacy_Section3_Text3" xml:space="preserve">
+    <value>Note: data transmission on the internet can have security gaps. Complete protection from third-party access is not possible.</value>
+  </data>
+  <data name="Privacy_Section3_ResponsibleTitle" xml:space="preserve">
+    <value>Responsible entity</value>
+  </data>
+  <data name="Privacy_Section3_ResponsibleName" xml:space="preserve">
+    <value>PhysioTech</value>
+  </data>
+  <data name="Privacy_Section3_ResponsibleAddress" xml:space="preserve">
+    <value>Venloer Straße 305</value>
+  </data>
+  <data name="Privacy_Section3_ResponsibleCity" xml:space="preserve">
+    <value>50823 Köln-Ehrenfeld</value>
+  </data>
+  <data name="Privacy_Section3_ResponsiblePhone" xml:space="preserve">
+    <value>Phone: 0172 8758302</value>
+  </data>
+  <data name="Privacy_Section3_ResponsibleEmail" xml:space="preserve">
+    <value>Email: kurtogluahmet18@gmail.com</value>
+  </data>
+  <data name="Privacy_Section3_WithdrawalTitle" xml:space="preserve">
+    <value>Withdrawal of your consent</value>
+  </data>
+  <data name="Privacy_Section3_WithdrawalText" xml:space="preserve">
+    <value>Consents can be revoked at any time by e-mail. The legality of processing carried out before the revocation remains unaffected.</value>
+  </data>
+  <data name="Privacy_Section3_ObjectionTitle" xml:space="preserve">
+    <value>Right to object</value>
+  </data>
+  <data name="Privacy_Section3_ObjectionText" xml:space="preserve">
+    <value>You have the right to object to processing based on Article 6(1)(e) or (f) GDPR for reasons arising from your particular situation.</value>
+  </data>
+  <data name="Privacy_Section3_ComplaintTitle" xml:space="preserve">
+    <value>Right to complain</value>
+  </data>
+  <data name="Privacy_Section3_ComplaintText" xml:space="preserve">
+    <value>If there are infringements of the GDPR, you have the right to complain to the competent supervisory authority.</value>
+  </data>
+  <data name="Privacy_Section3_PortabilityTitle" xml:space="preserve">
+    <value>Right to data portability</value>
+  </data>
+  <data name="Privacy_Section3_PortabilityText" xml:space="preserve">
+    <value>You have the right to receive data in a structured, commonly used and machine-readable format and to transfer it to another controller where technically feasible.</value>
+  </data>
+  <data name="Privacy_Section3_EncryptionTitle" xml:space="preserve">
+    <value>SSL/TLS encryption</value>
+  </data>
+  <data name="Privacy_Section3_EncryptionText" xml:space="preserve">
+    <value>This site uses SSL/TLS for secure transmission of confidential content, recognizable by "https://" and the padlock symbol.</value>
+  </data>
+  <data name="Privacy_Section3_AccessTitle" xml:space="preserve">
+    <value>Access, deletion, correction</value>
+  </data>
+  <data name="Privacy_Section3_AccessText" xml:space="preserve">
+    <value>You can request access to your stored data and request correction or deletion.</value>
+  </data>
+  <data name="Privacy_Section3_RestrictionTitle" xml:space="preserve">
+    <value>Right to restrict processing</value>
+  </data>
+  <data name="Privacy_Section3_RestrictionText" xml:space="preserve">
+    <value>You can request restriction where processing validity is in question or the data is no longer needed.</value>
+  </data>
+  <data name="Privacy_Section4_Title" xml:space="preserve">
+    <value>4. Data collection on this website</value>
+  </data>
+  <data name="Privacy_Section4_CookiesTitle" xml:space="preserve">
+    <value>Cookies</value>
+  </data>
+  <data name="Privacy_Section4_CookiesText1" xml:space="preserve">
+    <value>Cookies are small text files stored on your device. They make the site more user-friendly, effective, and secure.</value>
+  </data>
+  <data name="Privacy_Section4_CookiesText2" xml:space="preserve">
+    <value>Session cookies are deleted after the visit. Other cookies remain until deletion.</value>
+  </data>
+  <data name="Privacy_Section4_CookiesText3" xml:space="preserve">
+    <value>You can configure your browser to inform you about cookies or block them.</value>
+  </data>
+  <data name="Privacy_Section4_LogsTitle" xml:space="preserve">
+    <value>Server log files</value>
+  </data>
+  <data name="Privacy_Section4_LogsText1" xml:space="preserve">
+    <value>Automatically collected data includes browser type, OS, referrer, timestamp, and IP address. No merging with other data sources occurs.</value>
+  </data>
+  <data name="Privacy_Section4_LogsText2" xml:space="preserve">
+    <value>Collection is based on legitimate interest (Art. 6(1)(f) GDPR).</value>
+  </data>
+  <data name="Privacy_Section4_ContactTitle" xml:space="preserve">
+    <value>Contact inquiries</value>
+  </data>
+  <data name="Privacy_Section4_ContactText" xml:space="preserve">
+    <value>When you contact us by email or phone, your data is stored for query processing.</value>
+  </data>
+  <data name="Privacy_Section4_NewsletterTitle" xml:space="preserve">
+    <value>Newsletter registration</value>
+  </data>
+  <data name="Privacy_Section4_NewsletterText" xml:space="preserve">
+    <value>Newsletter data is processed using double opt-in. Consent can be revoked at any time.</value>
+  </data>
+  <data name="Privacy_Section5_Title" xml:space="preserve">
+    <value>5. Plugins and Tools</value>
+  </data>
+  <data name="Privacy_Section5_GoogleFontsTitle" xml:space="preserve">
+    <value>Google Web Fonts</value>
+  </data>
+  <data name="Privacy_Section5_GoogleFontsText" xml:space="preserve">
+    <value>We use Google Web Fonts. Your IP address may be transmitted to Google.</value>
+  </data>
+  <data name="Privacy_Section5_GoogleMapsTitle" xml:space="preserve">
+    <value>Google Maps</value>
+  </data>
+  <data name="Privacy_Section5_GoogleMapsText" xml:space="preserve">
+    <value>When using Google Maps, your IP address is transmitted to Google.</value>
+  </data>
+  <data name="Privacy_Section5_GoogleAnalyticsTitle" xml:space="preserve">
+    <value>Google Analytics</value>
+  </data>
+  <data name="Privacy_Section5_GoogleAnalyticsText" xml:space="preserve">
+    <value>Google Analytics analyzes anonymous user behavior, and IP anonymization is enabled.</value>
+  </data>
+  <data name="Privacy_Section5_FacebookPixelTitle" xml:space="preserve">
+    <value>Facebook Pixel</value>
+  </data>
+  <data name="Privacy_Section5_FacebookPixelText" xml:space="preserve">
+    <value>Facebook Pixel measures conversions; data may be transferred to third countries.</value>
+  </data>
+  <data name="Privacy_Section5_ReCaptchaTitle" xml:space="preserve">
+    <value>Google reCAPTCHA</value>
+  </data>
+  <data name="Privacy_Section5_ReCaptchaText" xml:space="preserve">
+    <value>reCAPTCHA protects against bots by analyzing user behavior.</value>
+  </data>
+  <data name="Privacy_Section5_AnalyticsTitle" xml:space="preserve">
+    <value>Analytics tools and AI</value>
+  </data>
+  <data name="Privacy_Section5_AnalyticsText" xml:space="preserve">
+    <value>We also use data for AI analysis in anonymized form and with consent.</value>
+  </data>
   <data name="About" xml:space="preserve">
     <value>About</value>
     <comment>VIiews -&gt; Shared -&gt; PublicSide </comment>
@@ -299,75 +506,19 @@
   </data>
   <data name="Shared_Book_Now" xml:space="preserve">
     <value>Book Now</value>
-    <comment>VIiews -&gt; Home -&gt; ServicesSection + DoctorsSection </comment>
-  </data>
-  <data name="Docs_Title" xml:space="preserve">
-    <value>Our Leading Practitioners</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_Subtitle" xml:space="preserve">
-    <value>A focused team of certified physiotherapists delivering personalized, tech-enabled care.</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D1_Name" xml:space="preserve">
-    <value>Dr. Adam Brooks</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D1_Title" xml:space="preserve">
-    <value>Specialist Physiotherapist</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D1_Bio" xml:space="preserve">
-    <value>MSK therapy &amp; rehab.</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D2_Name" xml:space="preserve">
-    <value>Dr. Emily Carter</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D2_Title" xml:space="preserve">
-    <value>Spinal Care Specialist</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D2_Bio" xml:space="preserve">
-    <value>Alignment &amp; posture care.</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D3_Name" xml:space="preserve">
-    <value>Dr. Michael Reed</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D3_Title" xml:space="preserve">
-    <value>Sports Rehab Expert</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D3_Bio" xml:space="preserve">
-    <value>Athlete recovery &amp; mobility.</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D4_Name" xml:space="preserve">
-    <value>Dr. Sarah Mitchell</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D4_Title" xml:space="preserve">
-    <value>Neuro Therapy Specialist</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
-  </data>
-  <data name="Docs_D4_Bio" xml:space="preserve">
-    <value>Neuro rehab &amp; advanced PT.</value>
-    <comment>VIiews -&gt; Home -&gt;  DoctorsSection </comment>
+    <comment>VIiews -> Home -> ServicesSection + DoctorsSection </comment>
   </data>
   <data name="Contact_Title" xml:space="preserve">
     <value>Location &amp; Contact</value>
-    <comment>VIiews -&gt; Home -&gt;  LocationSection </comment>
+    <comment>VIiews -> Home ->  LocationSection </comment>
   </data>
   <data name="Contact_Subtitle" xml:space="preserve">
     <value>Find us and reach out easily.</value>
-    <comment>VIiews -&gt; Home -&gt;  LocationSection </comment>
+    <comment>VIiews -> Home ->  LocationSection </comment>
   </data>
   <data name="Contact_Map_Hint" xml:space="preserve">
     <value>Map placeholder — update embed with your exact clinic location.</value>
-    <comment>VIiews -&gt; Home -&gt;  LocationSection </comment>
+    <comment>VIiews -> Home ->  LocationSection </comment>
   </data>
   <data name="PageAbout_MainHeading" xml:space="preserve">
     <value>Precision physiotherapy, powered by tech</value>
@@ -537,10 +688,10 @@
     <value>Enter your last name</value>
     <comment>VIiews -&gt; Auth -&gt;  Register</comment>
   </data>
-  <data name="Reg_Placeholder_ID" xml:space="preserve">
+  <!-- <data name="Reg_Placeholder_ID" xml:space="preserve">
     <value>Enter your identity number</value>
     <comment>VIiews -&gt; Auth -&gt;  Register</comment>
-  </data>
+  </data> -->
   <data name="Verify_Header" xml:space="preserve">
     <value>Email Verification</value>
     <comment>VIiews -&gt; Auth -&gt;  VerifyEmail</comment>
@@ -958,13 +1109,13 @@
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
   </data>
   <data name="Search_InstructionMain" xml:space="preserve">
-    <value>Search for an existing patient using their identity number, phone, or email. If the patient doesn't exist, use the "Create New Patient" button above to add them.</value>
+    <value>Search for an existing patient using their Name, phone, or email. If the patient doesn't exist, use the "Create New Patient" button above to add them.</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
   </data>
-  <data name="Search_Tip" xml:space="preserve">
+  <!-- <data name="Search_Tip" xml:space="preserve">
     <value>Tip: Identity Number is the most reliable search method.</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
-  </data>
+  </data> -->
   <data name="Search_Workflow" xml:space="preserve">
     <value>Workflow: Search → Create (if needed) → Schedule Appointment</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
@@ -985,10 +1136,10 @@
     <value>Search Instructions:</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
   </data>
-  <data name="Search_Step1" xml:space="preserve">
-    <value>Enter the patient's national ID or passport number (most reliable)</value>
-    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
-  </data>
+ <data name="Search_Step1" xml:space="preserve">
+    <value>Enter the patient's full name to search</value>
+    <comment>Areas -> Doctor -> Views -> Appointments -> SearchPatient</comment>
+</data>
   <data name="Search_Step2" xml:space="preserve">
     <value>Enter the patient's phone number</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
@@ -1477,10 +1628,10 @@
     <value>No Specialties Available</value>
     <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; UserForm</comment>
   </data>
-  <data name="Users_IdentityReadOnly" xml:space="preserve">
+  <!-- <data name="Users_IdentityReadOnly" xml:space="preserve">
     <value>Identity number cannot be modified</value>
     <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; UserForm</comment>
-  </data>
+  </data> -->
   <data name="Users_DoctorInformation" xml:space="preserve">
     <value>Therapist Professional Info</value>
     <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; UserForm</comment>
@@ -1649,6 +1800,54 @@
 <data name="FileSelected" xml:space="preserve">
   <value>Selected</value>
 </data>
+  <data name="MedCase_PhysicalVitals_Header" xml:space="preserve">
+  <value>Physical Vitals (Essential for AI Analysis)</value>
+</data>
+
+<data name="MedCase_Weight" xml:space="preserve"><value>WEIGHT (KG)</value></data>
+<data name="MedCase_Height" xml:space="preserve"><value>HEIGHT (CM)</value></data>
+<data name="MedCase_Smoker" xml:space="preserve"><value>Smoker?</value></data>
+<data name="MedCase_ChronicDiseases" xml:space="preserve"><value>Chronic Diseases?</value></data>
+
+<data name="MedCase_BloodGroup" xml:space="preserve"><value>BLOOD GROUP</value></data>
+<data name="BloodGroup_PositiveGroup" xml:space="preserve"><value>Positive (+)</value></data>
+<data name="BloodGroup_NegativeGroup" xml:space="preserve"><value>Negative (-)</value></data>
+<data name="BloodGroup_APositive" xml:space="preserve"><value>A+</value></data>
+<data name="BloodGroup_ANegative" xml:space="preserve"><value>A-</value></data>
+<data name="BloodGroup_BPositive" xml:space="preserve"><value>B+</value></data>
+<data name="BloodGroup_BNegative" xml:space="preserve"><value>B-</value></data>
+<data name="BloodGroup_OPositive" xml:space="preserve"><value>O+</value></data>
+<data name="BloodGroup_ONegative" xml:space="preserve"><value>O-</value></data>
+<data name="BloodGroup_ABPositive" xml:space="preserve"><value>AB+</value></data>
+<data name="BloodGroup_ABNegative" xml:space="preserve"><value>AB-</value></data>
+
+<data name="MedCase_DominantSide" xml:space="preserve"><value>DOMINANT SIDE</value></data>
+<data name="DominantSide_Right" xml:space="preserve"><value>Right Side</value></data>
+<data name="DominantSide_Left" xml:space="preserve"><value>Left Side</value></data>
+
+<data name="MedCase_ActivityLevel" xml:space="preserve"><value>ACTIVITY LEVEL</value></data>
+<data name="Activity_Sedentary" xml:space="preserve"><value>Sedentary (Low activity)</value></data>
+<data name="Activity_Moderate" xml:space="preserve"><value>Moderate (Exercise 1-3 days/week)</value></data>
+<data name="Activity_Active" xml:space="preserve"><value>Active (Exercise 3-5 days/week)</value></data>
+<data name="Activity_Athlete" xml:space="preserve"><value>Professional Athlete</value></data>
+
+<data name="Reg_PrivacyModal_Title" xml:space="preserve">
+    <value>Privacy Notice</value>
+    <comment>Registration Page - Modal Title</comment>
+  </data>
+  <data name="Reg_PrivacyModal_Message" xml:space="preserve">
+    <value>Please review and accept our Privacy Policy and Terms of Service to continue with your registration.</value>
+    <comment>Registration Page - Modal Body Message</comment>
+  </data>
+  <data name="Shared_GotIt" xml:space="preserve">
+    <value>Got it</value>
+    <comment>General Purpose - Confirmation Button</comment>
+  </data>
+  <data name="Reg_PrivacyConsent" xml:space="preserve">
+    <value>I agree to the Privacy Policy and Terms of Use</value>
+    <comment>Registration Page - Checkbox Label</comment>
+  </data>
+  
    <data name="ForgotConf_Header" xml:space="preserve">
     <value>Forgot Password Confirmation</value>
     <comment>Shared</comment>
@@ -1857,10 +2056,10 @@
     <value>Password</value>
     <comment>Shared</comment>
   </data>
-  <data name="Shared_Identity_Number" xml:space="preserve">
+  <!-- <data name="Shared_Identity_Number" xml:space="preserve">
     <value>Identity Number</value>
     <comment>Shared</comment>
-  </data>
+  </data> -->
   <data name="Shared_Date_Of_Birth" xml:space="preserve">
     <value>Date Of Birth</value>
     <comment>Shared</comment>

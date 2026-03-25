@@ -10,7 +10,7 @@ namespace IPTS.Validators
         {
             RuleFor(x => x.Id).GreaterThan(0).WithMessage(x => localizer.GetSystem("InvalidId"));
             RuleFor(x => x.PatientName).NotEmpty().WithMessage(x => localizer.GetSystem("PatientNameRequired")).MaximumLength(150).WithMessage(x => localizer.GetSystem("PatientNameMaxLength"));
-            RuleFor(x => x.PatientIdentityNumber).NotEmpty().WithMessage(x => localizer.GetSystem("IdentityRequired")).MaximumLength(50).WithMessage(x => localizer.GetSystem("IdentityMaxLength"));
+            // RuleFor(x => x.PatientIdentityNumber).NotEmpty().WithMessage(x => localizer.GetSystem("IdentityRequired")).MaximumLength(50).WithMessage(x => localizer.GetSystem("IdentityMaxLength"));
             RuleFor(x => x.PatientPhone).NotEmpty().WithMessage(x => localizer.GetSystem("PhoneRequired")).Matches(@"^\+?[1-9]\d{1,14}$").WithMessage(x => localizer.GetSystem("InvalidPhoneFormat"));
             RuleFor(x => x.PatientEmail).NotEmpty().WithMessage(x => localizer.GetSystem("EmailRequired")).EmailAddress().WithMessage(x => localizer.GetSystem("InvalidEmailFormat"));
             RuleFor(x => x.DoctorId).GreaterThan(0).WithMessage(x => localizer.GetSystem("InvalidDoctorId"));

@@ -147,6 +147,10 @@
     <value>Anmelden</value>
     <comment>VIiews -&gt; Shared -&gt; PublicSide -&gt; Header</comment>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Sprache</value>
+    <comment>VIiews -&gt; Shared -&gt; PublicSide -&gt; Header</comment>
+  </data>
   <data name="Panel" xml:space="preserve">
     <value>Benutzerpanel</value>
     <comment>VIiews -&gt; Shared -&gt; PublicSide -&gt; Header</comment>

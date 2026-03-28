@@ -348,6 +348,10 @@
     <value>Join</value>
     <comment>VIiews -&gt; Shared -&gt; PublicSide -&gt; Header</comment>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+    <comment>VIiews -&gt; Shared -&gt; PublicSide -&gt; Header</comment>
+  </data>
   <data name="Panel" xml:space="preserve">
     <value>Panel</value>
     <comment>VIiews -&gt; Shared -&gt; PublicSide -&gt; Header</comment>

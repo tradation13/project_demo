@@ -2,9 +2,9 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between lg:h-20">
             <!-- Logo -->
-            <a asp-controller="Home" asp-area="" asp-action="Index" class="flex items-center space-x-2">
+            <a asp-controller="Home" asp-area="" asp-action="Index" class="flex shrink-0 items-center space-x-2">
                 <img src="/images/logo.svg" alt="ipts Logo"
-                    class="h-20 w-auto transition-transform hover:scale-105 md:h-24 lg:h-28">
+                    class="h-12 w-auto transition-transform hover:scale-105 sm:h-14 md:h-24 lg:h-28">
             </a>
 
            <nav class="hidden items-center gap-2 md:flex">
@@ -50,6 +50,13 @@
         var currentCulture = Context.Features.Get<IRequestCultureFeature>()?.RequestCulture.Culture.Name;
         var targetCulture = currentCulture == "de-DE" ? "en-US" : "de-DE";
         var toggleLabel = currentCulture == "de-DE" ? "EN" : "DE";
+        var languageLabel = SharedLocalizer["Language"].Value;
+
+        // Fallback: if de culture falls back to key text, force German label.
+        if (currentCulture?.StartsWith("de") == true && string.Equals(languageLabel, "Language", StringComparison.OrdinalIgnoreCase))
+        {
+            languageLabel = "Sprache";
+        }
     }
 
     <a asp-area="" 
@@ -70,7 +77,7 @@
 </nav>
 
             <!-- Right Side Controls -->
-            <div class="flex items-center space-x-4">
+            <div class="ml-2 flex shrink-0 items-center gap-1 sm:gap-3">
                 <!-- Theme Toggle -->
                 <button id="theme-toggle"
                         class="p-2 text-gray-600 transition-colors hover:text-green-600">
@@ -79,44 +86,46 @@
 
                 
 
-                @if (!User.Identity.IsAuthenticated)
+                @if (User?.Identity?.IsAuthenticated != true)
                 {
                     <!-- Auth Button (Join) -->
                     <a asp-controller="Auth" asp-action="Login"
-                       class="rounded-lg px-4 py-2 text-base font-semibold text-green-600 transition-colors hover:text-green-700">
+                       class="guest-desktop-join rounded-lg px-4 py-2 text-base font-semibold text-green-600 transition-colors hover:text-green-700">
                         @SharedLocalizer["Join"]
                     </a>
                 }
                 else
                 {
-                    <!-- User Dropdown (Alpine.js) -->
-                    <div class="relative" x-data="{ open: false }">
-                        <button x-on:click="open = !open"
-                                class="flex items-center space-x-2 px-3 py-2 text-base font-semibold text-gray-600 transition-colors hover:text-green-600">
-                            <i class="fas fa-user-circle text-2xl"></i>
-                            <span>@User.Identity.Name</span>
-                            <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <!-- Desktop User Menu -->
+                    <div class="desktop-user-menu relative ml-2">
+                        <input id="desktop-user-menu-toggle" type="checkbox" class="desktop-user-menu-toggle sr-only" />
+                        <label for="desktop-user-menu-toggle"
+                               class="desktop-user-menu-button inline-flex max-w-[200px] cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm transition-colors hover:border-green-600 hover:text-green-700">
+                            <i class="fas fa-user-circle text-lg"></i>
+                            <span class="truncate">@User.Identity?.Name</span>
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
-                        </button>
-                        <div x-show="open" x-on:click.away="open = false"
-                             class="absolute right-0 z-50 mt-2 w-48 rounded bg-white py-2 shadow-lg">
-                            <a asp-controller="profile" asp-action="Index" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">@SharedLocalizer["Profile"]</a>
+                        </label>
+
+                        <div id="desktop-user-menu-panel" class="hidden absolute right-0 z-50 mt-2 w-56 rounded-lg border border-gray-100 bg-white py-2 shadow-lg">
+                            <a asp-area="" asp-controller="Profile" asp-action="Index" class="block px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100 hover:text-green-700">@SharedLocalizer["Shared_Profile"]</a>
                             @if (User.IsInRole("doctor"))
                             {
-                                <a asp-area="Doctor" asp-controller="Dashboard" asp-action="Index" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">@SharedLocalizer["Dashboard"]</a>
+                                <a asp-area="Doctor" asp-controller="Dashboard" asp-action="Index" class="block px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100 hover:text-green-700">@SharedLocalizer["Dashboard"]</a>
                             }
                             @if (User.IsInRole("admin"))
                             {
-                                <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">@SharedLocalizer["Dashboard"]</a>
+                                <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="block px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100 hover:text-green-700">@SharedLocalizer["Dashboard"]</a>
                             }
                             @if (User.IsInRole("patient"))
                             {
-                                <a asp-area="patient" asp-controller="panel" asp-action="Index" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">@SharedLocalizer["Panel"]</a>
-                                <a asp-area="patient" asp-controller="appointment" asp-action="Appointments" class="block px-4 py-2 text-gray-600 hover:bg-gray-100">@SharedLocalizer["MyAppointments"]</a>
+                                <a asp-area="Patient" asp-controller="Panel" asp-action="Index" class="block px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100 hover:text-green-700">@SharedLocalizer["Panel"]</a>
+                                <a asp-area="Patient" asp-controller="Appointment" asp-action="Appointments" class="block px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100 hover:text-green-700">@SharedLocalizer["MyAppointments"]</a>
                             }
-                            <form  asp-area="" asp-controller="Auth" asp-action="Logout" method="post">
-                                <button type="submit" class="w-full px-4 py-2 text-left text-red-600 hover:bg-gray-100">@SharedLocalizer["Shared_Logout"]</button>
+                            <div class="my-1 border-t border-gray-100"></div>
+                            <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post">
+                                <button type="submit" class="block w-full px-4 py-2 text-left text-sm font-semibold text-red-600 transition-colors hover:bg-red-50 hover:text-red-700">@SharedLocalizer["Shared_Logout"]</button>
                             </form>
                         </div>
                     </div>
@@ -124,8 +133,27 @@
 
                 <!-- Mobile Menu Button -->
                 <button id="mobile-menu-button"
-                        class="p-2 text-gray-600 transition-colors hover:text-blue-600 md:hidden">
-                    <i data-lucide="menu" id="mobile-menu-icon" class="h-6 w-6"></i>
+                    class="mobile-only-trigger inline-flex items-center justify-center text-gray-700 transition-colors hover:text-green-600 @(User?.Identity?.IsAuthenticated == true ? "rounded-md border border-gray-200 p-2 hover:border-green-600" : "guest-mobile-menu-trigger gap-1 px-2 py-1.5 font-semibold")">
+                    @if (User?.Identity?.IsAuthenticated == true)
+                    {
+                        var userDisplayName = string.IsNullOrWhiteSpace(User.Identity?.Name)
+                            ? SharedLocalizer["Shared_Profile"].Value
+                            : User.Identity.Name;
+                        <span class="flex items-center gap-1.5 leading-tight">
+                            <i class="fas fa-user-circle text-base text-gray-600"></i>
+                            <span class="max-w-[120px] truncate text-sm font-semibold text-gray-700">@userDisplayName</span>
+                            <svg class="h-3.5 w-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="text-sm font-semibold text-green-700">@SharedLocalizer["Join"]</span>
+                        <svg class="h-3.5 w-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    }
                 </button>
             </div>
         </div>
@@ -133,29 +161,39 @@
         <!-- Mobile Navigation -->
         <div id="mobile-menu" class="hidden border-t border-gray-200 py-4 md:hidden">
             <div class="flex flex-col space-y-2">
-                <a asp-controller="Home" asp-action="Index" class="px-3 py-2 text-base font-semibold text-gray-600 transition-colors hover:text-green-600">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="px-3 py-2 text-base font-semibold text-gray-600 transition-colors hover:text-green-600">
                     @SharedLocalizer["Shared_Home"]
                 </a>
-                <a asp-controller="Home" asp-action="About" class="px-3 py-2 text-base font-semibold text-gray-600 transition-colors hover:text-green-600">
+                <a asp-area="" asp-controller="Home" asp-action="About" class="px-3 py-2 text-base font-semibold text-gray-600 transition-colors hover:text-green-600">
                     @SharedLocalizer["About"]
                 </a>
-                <a asp-controller="Home" asp-action="Contact" class="px-3 py-2 text-base font-semibold text-gray-600 transition-colors hover:text-green-600">
+                <a asp-area="" asp-controller="Home" asp-action="Contact" class="px-3 py-2 text-base font-semibold text-gray-600 transition-colors hover:text-green-600">
                     @SharedLocalizer["Contact"]
                 </a>
-                <a asp-controller="Home" asp-action="Therapies" class="px-3 py-2 text-base font-semibold text-gray-600 transition-colors hover:text-green-600">
+                <a asp-area="" asp-controller="Home" asp-action="Therapies" class="px-3 py-2 text-base font-semibold text-gray-600 transition-colors hover:text-green-600">
                     @SharedLocalizer["Therapies"]
                 </a>
-                <div class="space-y-3 border-t border-gray-200 pt-4">
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                        <a asp-controller="Auth" asp-action="Login"
+                <a asp-area="" 
+                   asp-controller="Home" 
+                   asp-action="SetLanguage" 
+                   asp-route-culture="@targetCulture" 
+                   asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)"
+                   class="px-3 py-2 text-base font-semibold text-gray-600 transition-colors hover:text-green-600">
+                    @languageLabel (@toggleLabel)
+                </a>
+                @if (User?.Identity?.IsAuthenticated != true)
+                {
+                    <div class="border-t border-gray-200 pt-3">
+                        <a asp-area="" asp-controller="Auth" asp-action="Login"
                            class="block px-3 py-2 text-center text-base font-semibold text-green-600 transition-colors hover:text-green-700">
                             @SharedLocalizer["Join"]
                         </a>
-                    }
-                    else
-                    {
-                        <a asp-controller="Profile" asp-action="Index" class="block px-3 py-2 text-center text-base font-semibold text-gray-600 hover:bg-gray-100">@SharedLocalizer["Shared_Profile"]</a>
+                    </div>
+                }
+                @if (User?.Identity?.IsAuthenticated == true)
+                {
+                    <div class="space-y-3 border-t border-gray-200 pt-4">
+                        <a asp-area="" asp-controller="Profile" asp-action="Index" class="block px-3 py-2 text-center text-base font-semibold text-gray-600 hover:bg-gray-100">@SharedLocalizer["Shared_Profile"]</a>
                         @if (User.IsInRole("doctor"))
                         {
                             <a asp-area="Doctor" asp-controller="Dashboard" asp-action="Index" class="block px-3 py-2 text-center text-base font-semibold text-gray-600 hover:bg-gray-100">@SharedLocalizer["Dashboard"]</a>
@@ -166,18 +204,61 @@
                         }
                         @if (User.IsInRole("patient"))
                         {
-                            <a asp-area="Patient" asp-controller="Panel" asp-action="Appointments" class="block px-3 py-2 text-center text-base font-semibold text-gray-600 hover:bg-gray-100">@SharedLocalizer["MyAppointments"]</a>
+                            <a asp-area="Patient" asp-controller="Panel" asp-action="Index" class="block px-3 py-2 text-center text-base font-semibold text-gray-600 hover:bg-gray-100">@SharedLocalizer["Panel"]</a>
+                            <a asp-area="Patient" asp-controller="Appointment" asp-action="Appointments" class="block px-3 py-2 text-center text-base font-semibold text-gray-600 hover:bg-gray-100">@SharedLocalizer["MyAppointments"]</a>
                         }
-                        <a asp-controller="Profile" asp-action="Index" class="block px-3 py-2 text-center text-base font-semibold text-gray-600 hover:bg-gray-100">@SharedLocalizer["MyPage"]</a>
                         <form asp-area="" asp-controller="Auth" asp-action="Logout"  method="post">
-                            <button type="submit" class="w-full px-3 py-2 text-center text-red-600 hover:bg-gray-100">@SharedLocalizer["Logout"]</button>
+                            <button type="submit" class="w-full px-3 py-2 text-center text-red-600 hover:bg-gray-100">@SharedLocalizer["Shared_Logout"]</button>
                         </form>
-                    }
-                </div>
+                    </div>
+                }
             </div>
         </div>
     </div>
 </header>
+
+<style>
+    .guest-desktop-join {
+        display: none;
+    }
+
+    .desktop-user-menu {
+        display: none;
+    }
+
+    @@media (min-width: 768px) {
+        .guest-desktop-join {
+            display: inline-flex;
+        }
+
+        .desktop-user-menu {
+            display: block;
+        }
+
+        .desktop-user-menu-toggle:checked ~ #desktop-user-menu-panel {
+            display: block;
+        }
+
+        .desktop-user-menu-toggle:checked + .desktop-user-menu-button {
+            border-color: rgb(22 163 74);
+            color: rgb(21 128 61);
+        }
+
+        .mobile-only-trigger {
+            display: none;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .mobile-only-trigger {
+            display: inline-flex;
+        }
+
+        .guest-mobile-menu-trigger {
+            display: inline-flex;
+        }
+    }
+</style>
 
 <script src="/js/header.js"></script>
 <script> 

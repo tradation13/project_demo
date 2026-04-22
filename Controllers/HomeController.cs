@@ -6,18 +6,16 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using System.Diagnostics;
 
 namespace IPTS.Controllers
 {
-    public class HomeController(LocService locService, UserService userService, EmailService emailService, IConfiguration configuration, IMemoryCache cache) : Controller
+    public class HomeController(LocService locService, UserService userService, EmailService emailService, IConfiguration configuration) : Controller
     {
         private readonly LocService _locService = locService;
         private readonly UserService _userService = userService;
         private readonly EmailService _emailService = emailService;
         private readonly IConfiguration _configuration = configuration;
-        private readonly IMemoryCache _cache = cache;
 
         [OutputCache(Duration = 3600)]
         public IActionResult Index()
@@ -73,14 +71,7 @@ namespace IPTS.Controllers
         [HttpGet]
         public async Task<IActionResult> Therapies(string search = "", string sort = "name", string specialty = "")
         {
-            // Fetch all doctors
-            // Use Cache
-            if(!_cache.TryGetValue("therapies", out List<DoctorViewModel> therapies))
-            {
-                therapies = await _userService.GetAllAsync<DoctorViewModel>(u => u.Include(u => u.Doctor).Where(u => u.Doctor != null && u.Status == Models.Enums.EnUserStatus.Active));
-
-                _cache.Set("therapies", therapies, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1)));
-            }
+            var therapies = await _userService.GetAllAsync<DoctorViewModel>(u => u.Include(u => u.Doctor).Where(u => u.Doctor != null && u.Status == Models.Enums.EnUserStatus.Active));
 
             // Filter by search
             if (!string.IsNullOrWhiteSpace(search))

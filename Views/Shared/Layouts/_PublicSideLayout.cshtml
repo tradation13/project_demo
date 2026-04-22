@@ -2,7 +2,12 @@
     Layout = "~/Views/Shared/Layouts/_MainLayout.cshtml";
 }
 
-<partial name="PublicSide/Header" />
-@* <partial name="Dashboard/_SidebarMenu" /> *@
-@RenderBody()
-<partial name="PublicSide/Footer" />
+
+<div class="min-h-screen flex flex-col">
+    <partial name="PublicSide/Header" />
+    @* <partial name="Dashboard/_SidebarMenu" /> *@
+    <main class="flex-1">
+        @RenderBody()
+    </main>
+    <partial name="PublicSide/Footer" />
+</div>

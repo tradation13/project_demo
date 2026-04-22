@@ -200,7 +200,7 @@
     <value>PhysioTech</value>
   </data>
   <data name="Privacy_Section3_ResponsibleAddress" xml:space="preserve">
-    <value>Venloer Straße 305</value>
+    <value>Venloer Straße 305, 50823 Köln-Ehrenfeld</value>
   </data>
   <data name="Privacy_Section3_ResponsibleCity" xml:space="preserve">
     <value>50823 Köln-Ehrenfeld</value>
@@ -530,6 +530,10 @@
   </data>
   <data name="PageAbout_IntroPara" xml:space="preserve">
     <value>PhysioTech is a physiotherapy clinic dedicated to faster recovery and smarter care. We blend expert practitioners with digital workflows so every assessment, session, and follow-up is coordinated and measurable.</value>
+    <comment>VIiews -&gt; Home -&gt;  About</comment>
+  </data>
+  <data name="PageAbout_IPTSPara" xml:space="preserve">
+    <value>The clinic relies on Physiotech as its digital engine to manage bookings, medical cases, and progress tracking, allowing our team to focus fully on hands-on treatment and personalized care plans.</value>
     <comment>VIiews -&gt; Home -&gt;  About</comment>
   </data>
   <data name="PageAbout_PhysiotechPara" xml:space="preserve">

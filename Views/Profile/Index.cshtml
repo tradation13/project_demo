@@ -8,86 +8,86 @@
     bool canEdit = ViewBag.CanEdit ?? false;
 }
 
-<div class="mb-6 px-4 sm:px-6 lg:px-8">
-    <a href="javascript:history.back()" class="text-green-600 hover:text-green-700 hover:underline">
+<div class="mb-4 px-4 pt-4 sm:mb-6 sm:px-6 lg:px-8">
+    <a href="javascript:history.back()" class="inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-4 py-2 text-sm font-medium text-green-700 transition hover:border-green-300 hover:bg-green-100">
         ← @SharedLocalizer["Shared_Back"]
     </a>
 </div>
 
-<div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-    <section class="mb-10 rounded bg-white p-6 shadow">
-        <h2 class="mb-6 text-2xl font-semibold">@SharedLocalizer["Profile_Title"]</h2>
+<div class="mx-auto max-w-5xl px-4 pb-8 sm:px-6 sm:pb-12 lg:px-8">
+    <section class="mb-10 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
+        <h2 class="mb-6 text-2xl font-bold tracking-tight text-slate-800 sm:text-3xl">@SharedLocalizer["Profile_Title"]</h2>
 
     @if (canEdit && !isEditMode)
     {
         <div class="mb-6 text-right">
             <a asp-action="Edit" asp-route-id="@Model.Id"
-               class="inline-block rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark active:scale-95">
+               class="inline-block rounded-2xl border border-primary/20 bg-primary px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-dark active:scale-95">
                 <i class="fa-solid fa-pen mr-1"></i> @SharedLocalizer["Profile_EditBtn"]
             </a>
         </div>
     }
 
     <form asp-action="Edit" asp-controller="Profile" method="post">
-        <div asp-validation-summary="ModelOnly" class="mb-4 text-sm text-red-500"></div>
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div asp-validation-summary="ModelOnly" class="mb-4 rounded-2xl border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
+        <div class="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2">
              @if (!isEditMode)
                 {
             <div>
-                <label class="mb-1 block text-sm font-medium">@SharedLocalizer["Shared_UserName"]</label>
-                <input value="@ViewBag.UserName" disabled class="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-gray-700" />
+                <label class="mb-1.5 block text-sm font-semibold text-slate-700">@SharedLocalizer["Shared_UserName"]</label>
+                <input value="@ViewBag.UserName" disabled class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 text-slate-700" />
             </div>
                 }
             <div>
-                <label asp-for="Email" class="mb-1 block text-sm font-medium">@SharedLocalizer["Shared_Email"]</label>
+                <label asp-for="Email" class="mb-1.5 block text-sm font-semibold text-slate-700">@SharedLocalizer["Shared_Email"]</label>
                 @if (isEditMode)
                 {
-                    <input asp-for="Email" type="email" class="w-full rounded border border-gray-300 px-3 py-2" />
+                    <input asp-for="Email" type="email" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
                     <span asp-validation-for="Email" class="text-sm text-red-500"></span>
                 }
                 else
                 {
-                    <input asp-for="Email" type="email" disabled class="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-gray-700" />
+                    <input asp-for="Email" type="email" disabled class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 text-slate-700" />
                 }
             
             </div>
             <div>
-                <label asp-for="FirstName" class="mb-1 block text-sm font-medium">@SharedLocalizer["Shared_FirstName"]</label>
+                <label asp-for="FirstName" class="mb-1.5 block text-sm font-semibold text-slate-700">@SharedLocalizer["Shared_FirstName"]</label>
                 @if (isEditMode)
                 {
-                    <input asp-for="FirstName" type="text" class="w-full rounded border border-gray-300 px-3 py-2" />
+                    <input asp-for="FirstName" type="text" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
                     <span asp-validation-for="FirstName" class="text-sm text-red-500"></span>
                 }
                 else
                 {
-                    <input asp-for="FirstName" type="text" disabled class="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-gray-700" />
+                    <input asp-for="FirstName" type="text" disabled class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 text-slate-700" />
                 } 
             
             </div>
             <div>
-                <label asp-for="LastName" class="mb-1 block text-sm font-medium">@SharedLocalizer["Shared_LastName"]</label>
+                <label asp-for="LastName" class="mb-1.5 block text-sm font-semibold text-slate-700">@SharedLocalizer["Shared_LastName"]</label>
                 @if (isEditMode)
                 {
-                    <input asp-for="LastName" type="text" class="w-full rounded border border-gray-300 px-3 py-2" />
+                    <input asp-for="LastName" type="text" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
                     <span asp-validation-for="LastName" class="text-sm text-red-500"></span>
                 }
                 else
                 {
-                    <input asp-for="LastName" type="text" disabled class="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-gray-700" />
+                    <input asp-for="LastName" type="text" disabled class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 text-slate-700" />
                 }
             
             </div>
 
             <div>
-                <label asp-for="PhoneNumber" class="mb-1 block text-sm font-medium">@SharedLocalizer["Shared_Phone"]</label>
+                <label asp-for="PhoneNumber" class="mb-1.5 block text-sm font-semibold text-slate-700">@SharedLocalizer["Shared_Phone"]</label>
                 @if (isEditMode)
                 {
-                    <input asp-for="PhoneNumber" class="w-full rounded border border-gray-300 px-3 py-2" />
+                    <input asp-for="PhoneNumber" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
                     <span asp-validation-for="PhoneNumber" class="text-sm text-red-500"></span>
                 }
                 else
                 {
-                    <input type="text" value="@(Model.PhoneNumber ?? SharedLocalizer["Profile_NotAvailable"].Value)" disabled class="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-gray-700" />
+                    <input type="text" value="@(Model.PhoneNumber ?? SharedLocalizer["Profile_NotAvailable"].Value)" disabled class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 text-slate-700" />
                 }
             </div>
 
@@ -95,19 +95,19 @@
 
         @if (Model.Admin != null)
         {
-            <div class="mt-8">
-                <h3 class="mb-4 text-xl font-semibold">@SharedLocalizer["Profile_AdminDetails"]</h3>
-                <div class="mb-4">
-                    <label asp-for="Admin.Id" class="mb-1 block text-sm font-medium">@SharedLocalizer["Shared_Admin"] @SharedLocalizer["Shared_ID"]</label>
-                    <input type="text" asp-for="Admin.Id" readonly class="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-gray-700" />
+            <div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+                <h3 class="mb-4 text-lg font-bold text-slate-800 sm:text-xl">@SharedLocalizer["Profile_AdminDetails"]</h3>
+                <div class="mb-1">
+                    <label asp-for="Admin.Id" class="mb-1.5 block text-sm font-semibold text-slate-700">@SharedLocalizer["Shared_Admin"] @SharedLocalizer["Shared_ID"]</label>
+                    <input type="text" asp-for="Admin.Id" readonly class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 text-slate-700" />
                 </div>
             </div>
         }
 
         @if (Model.Patient != null)
         {
-            <div class="mt-8">
-                <h3 class="mb-4 text-xl font-semibold">@SharedLocalizer["Profile_PatientDetails"]</h3>
+            <div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+                <h3 class="mb-4 text-lg font-bold text-slate-800 sm:text-xl">@SharedLocalizer["Profile_PatientDetails"]</h3>
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     @* <div>
                         <label class="mb-1 block text-sm font-medium">@SharedLocalizer["Shared_Identity_Number"]</label>
@@ -115,9 +115,9 @@
                                class="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-gray-700" />
                     </div> *@
                     <div>
-                        <label class="mb-1 block text-sm font-medium">@SharedLocalizer["Shared_Date_Of_Birth"]</label>
+                           <label class="mb-1.5 block text-sm font-semibold text-slate-700">@SharedLocalizer["Shared_Date_Of_Birth"]</label>
                         <input type="text" value="@Model.Patient.BirthDate.ToShortDateString()" readonly 
-                               class="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-gray-700" />
+                               class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 text-slate-700" />
                     </div>
                 </div>
             </div>
@@ -125,9 +125,9 @@
         @if (Model.Doctor != null)
         {
             @if(isEditMode){
-                <div class="min-w-[200px] flex-1">
-                    <label asp-for="Doctor.SpecialtyId" class="block text-sm font-medium text-gray-700">@SharedLocalizer["Profile_Specialty"]</label>
-                    <select asp-for="Doctor.SpecialtyId" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+                    <label asp-for="Doctor.SpecialtyId" class="mb-1.5 block text-sm font-semibold text-slate-700">@SharedLocalizer["Profile_Specialty"]</label>
+                    <select asp-for="Doctor.SpecialtyId" class="mt-1 block w-full rounded-2xl border border-slate-300 bg-white px-4 py-2.5 shadow-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
                         <option value="">@SharedLocalizer["Profile_SelectSpecialty"]</option>
                         @if (ViewBag.Specialties is List<Specialty> specialties)
                         {
@@ -141,9 +141,9 @@
                 </div>
             }else{
                 @if (ViewBag.Specialties is List<Specialty> specialties){
-                 <div class="mb-4">
-                    <label class="mb-1 block text-sm font-medium">@SharedLocalizer["Profile_Specialty"]</label>
-                        <input type="text" value=@specialties.Find(i=>i.Id == Model.Doctor.SpecialtyId).Name readonly class="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-gray-700" />
+                 <div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-700">@SharedLocalizer["Profile_Specialty"]</label>
+                        <input type="text" value="@(specialties.FirstOrDefault(i => i.Id == Model.Doctor.SpecialtyId)?.Name ?? SharedLocalizer["Profile_NotAvailable"].Value)" readonly class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 text-slate-700" />
                  </div>
                  }
 
@@ -153,12 +153,12 @@
 
         @if (isEditMode)
         {
-            <div class="mt-6 flex gap-4">
-                <button type="submit" class="rounded bg-green-600 px-6 py-2 text-white hover:bg-green-700">
+            <div class="mt-8 grid grid-cols-1 gap-3 sm:flex sm:gap-4">
+                <button type="submit" class="inline-flex items-center justify-center rounded-2xl border border-green-500 bg-green-600 px-6 py-2.5 font-semibold text-white transition hover:bg-green-700">
                     @SharedLocalizer["Profile_SaveBtn"]
                 </button>
                 <a asp-action="Index" asp-route-id="@Model.Id"
-                   class="rounded bg-gray-300 px-6 py-2 text-gray-800 hover:bg-gray-400">
+                   class="inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-slate-100 px-6 py-2.5 font-semibold text-slate-800 transition hover:bg-slate-200">
                     @SharedLocalizer["Shared_Cancel"]
                 </a>
             </div>

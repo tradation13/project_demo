@@ -122,6 +122,7 @@
                             {
                                 <a asp-area="Patient" asp-controller="Panel" asp-action="Index" class="block px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100 hover:text-green-700">@SharedLocalizer["Panel"]</a>
                                 <a asp-area="Patient" asp-controller="Appointment" asp-action="Appointments" class="block px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100 hover:text-green-700">@SharedLocalizer["MyAppointments"]</a>
+                                <a asp-area="Patient" asp-controller="MedicalCases" asp-action="Index" class="block px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100 hover:text-green-700">@SharedLocalizer["Shared_Medical_Cases"]</a>
                             }
                             <div class="my-1 border-t border-gray-100"></div>
                             <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post">
@@ -206,6 +207,7 @@
                         {
                             <a asp-area="Patient" asp-controller="Panel" asp-action="Index" class="block px-3 py-2 text-center text-base font-semibold text-gray-600 hover:bg-gray-100">@SharedLocalizer["Panel"]</a>
                             <a asp-area="Patient" asp-controller="Appointment" asp-action="Appointments" class="block px-3 py-2 text-center text-base font-semibold text-gray-600 hover:bg-gray-100">@SharedLocalizer["MyAppointments"]</a>
+                            <a asp-area="Patient" asp-controller="MedicalCases" asp-action="Index" class="block px-3 py-2 text-center text-base font-semibold text-gray-600 hover:bg-gray-100">@SharedLocalizer["Shared_Medical_Cases"]</a>
                         }
                         <form asp-area="" asp-controller="Auth" asp-action="Logout"  method="post">
                             <button type="submit" class="w-full px-3 py-2 text-center text-red-600 hover:bg-gray-100">@SharedLocalizer["Shared_Logout"]</button>

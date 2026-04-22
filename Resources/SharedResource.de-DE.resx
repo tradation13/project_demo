@@ -332,7 +332,7 @@
     <comment>VIiews -&gt; Home -&gt;  About</comment>
   </data>
   <data name="PageAbout_IPTSPara" xml:space="preserve">
-    <value>Die Klinik nutzt Physiotech als digitalen Motor – für die Abwicklung von Buchungen, Krankheitsfällen und der Fortschrittskontrolle – damit sich unser Team voll und ganz auf die praktische Behandlung und personalisierte Pläne konzentrieren kann.</value>
+    <value>Die Klinik nutzt Physiotech als digitalen Motor zur Verwaltung von Buchungen, medizinischen Fällen und der Fortschrittskontrolle, damit sich unser Team voll auf die praktische Behandlung und personalisierte Therapiepläne konzentrieren kann.</value>
     <comment>VIiews -&gt; Home -&gt;  About</comment>
   </data>
   <data name="PageAbout_Card1_Title" xml:space="preserve">
@@ -551,6 +551,274 @@
     <value>Wir nutzen Cookies zur Verbesserung der Stabilität.</value>
     <comment>VIiews -&gt; Auth -&gt;  Privacy</comment>
   </data>
+  <data name="Privacy_Title" xml:space="preserve">
+    <value>Datenschutzrichtlinie</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section1_Title" xml:space="preserve">
+    <value>1. Datenschutz auf einen Blick</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section1_Subtitle" xml:space="preserve">
+    <value>Allgemeine Informationen</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section1_Overview" xml:space="preserve">
+    <value>Die folgenden Hinweise geben Ihnen einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können. Ausführliche Informationen zum Datenschutz finden Sie weiter unten in unserer Datenschutzerklärung.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section1_DataCollectionTitle" xml:space="preserve">
+    <value>Datenerfassung auf dieser Website</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section1_DataCollectionResponsibilityTitle" xml:space="preserve">
+    <value>Wer ist für die Datenerfassung auf dieser Website verantwortlich?</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section1_DataCollectionResponsibilityText" xml:space="preserve">
+    <value>Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber. Die Kontaktdaten finden Sie im Impressum dieser Website.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section1_HowCollectTitle" xml:space="preserve">
+    <value>Wie erfassen wir Ihre Daten?</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section1_HowCollectText" xml:space="preserve">
+    <value>Ihre Daten werden beispielsweise erfasst, wenn Sie sie uns mitteilen (z. B. über das Kontaktformular). Andere Daten werden automatisch von unseren IT-Systemen erfasst, wenn Sie die Website besuchen, insbesondere technische Daten wie Browser, Betriebssystem oder Besuchszeit.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section1_WhyUseTitle" xml:space="preserve">
+    <value>Wofür nutzen wir Ihre Daten?</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section1_WhyUseText" xml:space="preserve">
+    <value>Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Andere Daten können zur Analyse des Nutzerverhaltens verwendet werden.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section1_RightsTitle" xml:space="preserve">
+    <value>Welche Rechte haben Sie?</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section1_RightsText" xml:space="preserve">
+    <value>Sie haben jederzeit das Recht, Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten sowie das Recht auf Berichtigung oder Löschung. Außerdem haben Sie das Recht, Beschwerde bei der zuständigen Aufsichtsbehörde einzulegen.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section2_Title" xml:space="preserve">
+    <value>2. Hosting</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section2_Subtitle" xml:space="preserve">
+    <value>Externes Hosting</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section2_Content1" xml:space="preserve">
+    <value>Diese Website wird von einem externen Anbieter gehostet. Personenbezogene Daten werden auf den Servern des Anbieters gespeichert, z. B. IP-Adressen, Kontaktanfragen sowie Meta- und Kommunikationsdaten.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section2_Content2" xml:space="preserve">
+    <value>Die Nutzung des Hosters erfolgt zur Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO) sowie im Interesse eines sicheren und effizienten Online-Angebots (Art. 6 Abs. 1 lit. f DSGVO).</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section2_Content3" xml:space="preserve">
+    <value>Unser Hoster verarbeitet personenbezogene Daten nur im Rahmen seiner Pflichten und gemäß unseren Weisungen.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_Title" xml:space="preserve">
+    <value>3. Allgemeine Hinweise und Pflichtinformationen</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_Text1" xml:space="preserve">
+    <value>Die Betreiber dieser Website nehmen den Schutz Ihrer personenbezogenen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend den gesetzlichen Datenschutzvorschriften.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_Text2" xml:space="preserve">
+    <value>Wenn Sie diese Website nutzen, werden verschiedene personenbezogene Daten erfasst. Diese Datenschutzrichtlinie erläutert, welche Daten wir erfassen und zu welchem Zweck.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_Text3" xml:space="preserve">
+    <value>Hinweis: Die Datenübertragung im Internet kann Sicherheitslücken aufweisen. Ein vollständiger Schutz vor dem Zugriff durch Dritte ist nicht möglich.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_ResponsibleTitle" xml:space="preserve">
+    <value>Verantwortliche Stelle</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_ResponsibleName" xml:space="preserve">
+    <value>PhysioTech</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_ResponsibleAddress" xml:space="preserve">
+    <value>Venloer Straße 305</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_ResponsibleCity" xml:space="preserve">
+    <value>50823 Köln-Ehrenfeld</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_ResponsiblePhone" xml:space="preserve">
+    <value>Telefon: 0172 8758302</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_ResponsibleEmail" xml:space="preserve">
+    <value>E-Mail: kurtogluahmet18@gmail.com</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_WithdrawalTitle" xml:space="preserve">
+    <value>Widerruf Ihrer Einwilligung</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_WithdrawalText" xml:space="preserve">
+    <value>Einwilligungen können jederzeit per E-Mail widerrufen werden. Die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung bleibt unberührt.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_ObjectionTitle" xml:space="preserve">
+    <value>Widerspruchsrecht</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_ObjectionText" xml:space="preserve">
+    <value>Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeben, gegen die Verarbeitung gemäß Art. 6 Abs. 1 lit. e oder f DSGVO Widerspruch einzulegen.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_ComplaintTitle" xml:space="preserve">
+    <value>Beschwerderecht</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_ComplaintText" xml:space="preserve">
+    <value>Bei Verstößen gegen die DSGVO haben Sie das Recht, bei der zuständigen Aufsichtsbehörde Beschwerde einzulegen.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_PortabilityTitle" xml:space="preserve">
+    <value>Recht auf Datenübertragbarkeit</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_PortabilityText" xml:space="preserve">
+    <value>Sie haben das Recht, Daten in einem strukturierten, gängigen und maschinenlesbaren Format zu erhalten und sie einem anderen Verantwortlichen zu übermitteln, soweit dies technisch machbar ist.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_EncryptionTitle" xml:space="preserve">
+    <value>SSL/TLS-Verschlüsselung</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_EncryptionText" xml:space="preserve">
+    <value>Diese Website nutzt SSL/TLS zur sicheren Übertragung vertraulicher Inhalte, erkennbar an „https://“ und dem Schloss-Symbol.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_AccessTitle" xml:space="preserve">
+    <value>Auskunft, Löschung, Berichtigung</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_AccessText" xml:space="preserve">
+    <value>Sie können Auskunft über Ihre gespeicherten Daten verlangen sowie deren Berichtigung oder Löschung beantragen.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_RestrictionTitle" xml:space="preserve">
+    <value>Recht auf Einschränkung der Verarbeitung</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section3_RestrictionText" xml:space="preserve">
+    <value>Sie können eine Einschränkung verlangen, wenn die Rechtmäßigkeit der Verarbeitung umstritten ist oder die Daten nicht mehr benötigt werden.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section4_Title" xml:space="preserve">
+    <value>4. Datenerfassung auf dieser Website</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section4_CookiesTitle" xml:space="preserve">
+    <value>Cookies</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section4_CookiesText1" xml:space="preserve">
+    <value>Cookies sind kleine Textdateien, die auf Ihrem Gerät gespeichert werden. Sie machen die Website benutzerfreundlicher, effektiver und sicherer.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section4_CookiesText2" xml:space="preserve">
+    <value>Session-Cookies werden nach dem Besuch gelöscht. Andere Cookies bleiben bis zur Löschung gespeichert.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section4_CookiesText3" xml:space="preserve">
+    <value>Sie können Ihren Browser so einstellen, dass er Sie über Cookies informiert oder diese blockiert.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section4_LogsTitle" xml:space="preserve">
+    <value>Server-Logdateien</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section4_LogsText1" xml:space="preserve">
+    <value>Automatisch erfasste Daten umfassen Browsertyp, Betriebssystem, Referrer, Zeitstempel und IP-Adresse. Eine Zusammenführung mit anderen Datenquellen findet nicht statt.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section4_LogsText2" xml:space="preserve">
+    <value>Die Erfassung erfolgt auf Grundlage des berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO).</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section4_ContactTitle" xml:space="preserve">
+    <value>Kontaktanfragen</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section4_ContactText" xml:space="preserve">
+    <value>Wenn Sie uns per E-Mail oder Telefon kontaktieren, werden Ihre Daten zur Bearbeitung Ihrer Anfrage gespeichert.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section4_NewsletterTitle" xml:space="preserve">
+    <value>Newsletter-Anmeldung</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section4_NewsletterText" xml:space="preserve">
+    <value>Newsletter-Daten werden im Double-Opt-In-Verfahren verarbeitet. Die Einwilligung kann jederzeit widerrufen werden.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section5_Title" xml:space="preserve">
+    <value>5. Plugins und Tools</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section5_GoogleFontsTitle" xml:space="preserve">
+    <value>Google Web Fonts</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section5_GoogleFontsText" xml:space="preserve">
+    <value>Wir verwenden Google Web Fonts. Ihre IP-Adresse kann an Google übertragen werden.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section5_GoogleMapsTitle" xml:space="preserve">
+    <value>Google Maps</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section5_GoogleMapsText" xml:space="preserve">
+    <value>Bei der Nutzung von Google Maps wird Ihre IP-Adresse an Google übermittelt.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section5_GoogleAnalyticsTitle" xml:space="preserve">
+    <value>Google Analytics</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section5_GoogleAnalyticsText" xml:space="preserve">
+    <value>Google Analytics analysiert anonymes Nutzerverhalten; die IP-Anonymisierung ist aktiviert.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section5_FacebookPixelTitle" xml:space="preserve">
+    <value>Facebook Pixel</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section5_FacebookPixelText" xml:space="preserve">
+    <value>Facebook Pixel misst Conversions; Daten können in Drittländer übertragen werden.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section5_ReCaptchaTitle" xml:space="preserve">
+    <value>Google reCAPTCHA</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section5_ReCaptchaText" xml:space="preserve">
+    <value>reCAPTCHA schützt vor Bots, indem das Nutzerverhalten analysiert wird.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section5_AnalyticsTitle" xml:space="preserve">
+    <value>Analyse-Tools und KI</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Privacy_Section5_AnalyticsText" xml:space="preserve">
+    <value>Wir verwenden Daten außerdem in anonymisierter Form und mit Einwilligung für KI-Analysen.</value>
+    <comment>VIiews -&gt; Home -&gt; Privacy</comment>
+  </data>
   <data name="Access_Message" xml:space="preserve">
     <value>Sie haben keine Berechtigung, diese Seite anzuzeigen.</value>
     <comment>VIiews -&gt; Auth -&gt;  AccessDenied</comment>
@@ -580,7 +848,7 @@
     <comment>VIiews -&gt; Auth -&gt;  ResetPassword</comment>
   </data>
   <data name="ResetSuccess_Message" xml:space="preserve">
-    <value>Ihr Passwort wurde erfolgreich zurückgesetzt. Sie können sich nun باحتياطي mit Ihrem neuen Passwort anmelden.</value>
+    <value>Ihr Passwort wurde erfolgreich zurückgesetzt. Sie können sich nunbmit Ihrem neuen Passwort anmelden.</value>
     <comment>VIiews -&gt; Auth -&gt;  ResetPasswordConfirmation</comment>
   </data>
   <data name="Profile_Title" xml:space="preserve">

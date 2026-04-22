@@ -8,15 +8,18 @@
     string labelClasses = "text-xs font-black uppercase tracking-widest text-gray-500 ml-1";
 }
 
-<div class="mx-auto max-w-md rounded-[2.5rem] border border-gray-50 bg-white p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)]">
-    <h2 class="mb-10 text-center text-3xl font-black tracking-tighter text-gray-800">
+<div class="mx-auto w-full max-w-md rounded-lg border border-gray-50 bg-white p-5 shadow-[0_20px_50px_rgba(0,0,0,0.05)] sm:rounded-[2.5rem] sm:p-8 md:p-10">
+    <h2 class="mb-8 text-center text-2xl font-black tracking-tighter text-gray-800 sm:mb-10 sm:text-3xl">
         @SharedLocalizer["Reg_Header"]<span class="text-primary">.</span>
     </h2>
 
     <form asp-controller="Auth" asp-action="Register" method="post" autocomplete="off" onsubmit="return checkPrivacyConsent()" class="space-y-5">
         @Html.AntiForgeryToken()
 
-        <div asp-validation-summary="All" class="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600"></div>
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.Values.Any(v => v.Errors.Any()))
+{
+    <div asp-validation-summary="All" class="mb-4 rounded-lg bg-red-50 p-4 text-sm text-red-600 border border-red-200"></div>
+}
 
         <input hidden asp-for="UserTypeName" value="patient" />
         
@@ -27,7 +30,7 @@
             <span asp-validation-for="UserName" class="mt-1 block text-[11px] font-medium text-red-500"></span>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             @* الاسم الأول *@
             <div>
                 <label asp-for="FirstName" class="@labelClasses">@SharedLocalizer["Shared_FirstName"]</label>
@@ -97,15 +100,15 @@
 
          <div class="mt-6 text-center text-[11px] leading-relaxed text-gray-400">
             @SharedLocalizer["Reg_LegalConsent_Text"]
-            <a href="@Url.Action("Privacy", "Home")" class="font-bold text-primary hover:underline">
+            <a href="@Url.Action("Privacy", "Home", new { returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}" })" class="font-bold text-primary hover:underline">
                 @SharedLocalizer["Shared_Privacy_Title"]
             </a>
         </div>
 
         @* Checkbox for privacy consent *@
-        <div class="flex items-center">
+        <div class="flex items-start gap-2">
             <input asp-for="AcceptPrivacy" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
-            <label asp-for="AcceptPrivacy" class="ml-2 text-sm text-gray-600">
+            <label asp-for="AcceptPrivacy" class="text-sm text-gray-600">
                 @SharedLocalizer["Reg_PrivacyConsent"]
             </label>
         </div>
@@ -131,7 +134,7 @@
     
     <div class="absolute inset-0 bg-white/40 backdrop-blur-md"></div>
 
-    <div class="relative w-full max-w-sm transform overflow-hidden rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.1)] transition-all">
+    <div class="relative w-[90%] max-w-[340px] transform overflow-hidden rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.1)] transition-all">
         
         <div class="text-center">
             <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-orange-50 text-orange-500">

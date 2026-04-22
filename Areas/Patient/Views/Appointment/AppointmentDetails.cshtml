@@ -33,94 +33,94 @@
     }
 }
 
-<div class="mx-auto max-w-4xl py-8">
+<div class="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
     <!-- Breadcrumb + Back -->
-    <div class="mb-6 flex items-center justify-between">
+    <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div class="text-sm text-gray-500">
             <a asp-action="Appointments" class="hover:underline">@SharedLocalizer["MyAppointments"]</a>
             <span class="mx-2">/</span>
             <span class="text-gray-700">@SharedLocalizer["Shared_Appointment"] @SharedLocalizer["Shared_Details"]</span>
         </div>
         <a asp-action="Appointments"
-           class="inline-flex items-center rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 shadow transition hover:bg-gray-200">
+           class="inline-flex w-full items-center justify-center rounded-xl border border-slate-300 bg-slate-100 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-slate-200 sm:w-auto">
             <i class="fa-solid fa-arrow-left mr-2"></i> @SharedLocalizer["Shared_Back"]
         </a>
     </div>
 
     <!-- Card -->
-    <div class="mb-6 rounded-2xl bg-white p-6 shadow">
-        <div class="grid gap-6 md:grid-cols-2">
+    <div class="mb-6 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6 lg:p-8">
+        <div class="grid gap-5 md:grid-cols-2 md:gap-6">
             <!-- Doctor -->
-            <div>
-                <h2 class="mb-3 text-lg font-semibold">@SharedLocalizer["Therapies_Doctor"]</h2>
-                <div class="space-y-1 text-gray-700">
-                    <div class="flex"><span class="w-28 text-gray-500">@SharedLocalizer["Contact_Label_Name"]:</span><span>@Model.DoctorName</span></div>
-                    <div class="flex"><span class="w-28 text-gray-500">@SharedLocalizer["Shared_ID"]:</span><span>#@Model.DoctorId</span></div>
+            <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+                <h2 class="mb-3 text-base font-bold text-slate-800 sm:text-lg">@SharedLocalizer["Therapies_Doctor"]</h2>
+                <div class="space-y-2 text-sm text-gray-700 sm:text-base">
+                    <div class="flex flex-col gap-0.5 sm:flex-row sm:gap-2"><span class="text-gray-500 sm:min-w-[120px]">@SharedLocalizer["Contact_Label_Name"]:</span><span class="break-words">@Model.DoctorName</span></div>
+                    <div class="flex flex-col gap-0.5 sm:flex-row sm:gap-2"><span class="text-gray-500 sm:min-w-[120px]">@SharedLocalizer["Shared_ID"]:</span><span>#@Model.DoctorId</span></div>
                 </div>
             </div>
 
             <!-- Patient -->
-            <div>
-                <h2 class="mb-3 text-lg font-semibold">@SharedLocalizer["Shared_Patient"]</h2>
-                <div class="space-y-1 text-gray-700">
-                    <div class="flex"><span class="w-28 text-gray-500">@SharedLocalizer["Contact_Label_Name"]:</span><span>@Model.PatientName</span></div>
+            <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+                <h2 class="mb-3 text-base font-bold text-slate-800 sm:text-lg">@SharedLocalizer["Shared_Patient"]</h2>
+                <div class="space-y-2 text-sm text-gray-700 sm:text-base">
+                    <div class="flex flex-col gap-0.5 sm:flex-row sm:gap-2"><span class="text-gray-500 sm:min-w-[120px]">@SharedLocalizer["Contact_Label_Name"]:</span><span class="break-words">@Model.PatientName</span></div>
                     @* <div class="flex"><span class="w-28 text-gray-500">@SharedLocalizer["Shared_ID"] @SharedLocalizer["Shared_Number"]:</span><span>@Model.PatientIdentityNumber</span></div> *@
-                    <div class="flex"><span class="w-28 text-gray-500">@SharedLocalizer["Shared_Phone"]:</span><span>@Model.PatientPhone</span></div>
-                    <div class="flex"><span class="w-28 text-gray-500">@SharedLocalizer["Shared_Email"]:</span><span>@Model.PatientEmail</span></div>
+                    <div class="flex flex-col gap-0.5 sm:flex-row sm:gap-2"><span class="text-gray-500 sm:min-w-[120px]">@SharedLocalizer["Shared_Phone"]:</span><span>@Model.PatientPhone</span></div>
+                    <div class="flex flex-col gap-0.5 sm:flex-row sm:gap-2"><span class="text-gray-500 sm:min-w-[120px]">@SharedLocalizer["Shared_Email"]:</span><span class="break-all">@Model.PatientEmail</span></div>
                 </div>
             </div>
         </div>
 
-        <hr class="my-6">
+        <hr class="my-6 border-slate-200">
 
         <!-- Time / Status -->
-        <div class="grid gap-6 md:grid-cols-2">
-            <div>
-                <h2 class="mb-3 text-lg font-semibold">@SharedLocalizer["Shared_Time"]</h2>
-                <div class="space-y-1 text-gray-700">
-                    <div class="flex">
-                        <span class="w-32 text-gray-500">@SharedLocalizer["Shared_Date"] & @SharedLocalizer["Shared_Time"]:</span>
-                        <span>@Model.ScheduledTime.ToString("dddd, dd MMM yyyy - HH:mm", fmt)</span>
+        <div class="grid gap-5 md:grid-cols-2 md:gap-6">
+            <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+                <h2 class="mb-3 text-base font-bold text-slate-800 sm:text-lg">@SharedLocalizer["Shared_Time"]</h2>
+                <div class="space-y-2 text-sm text-gray-700 sm:text-base">
+                    <div class="flex flex-col gap-0.5 sm:flex-row sm:gap-2">
+                        <span class="text-gray-500 sm:min-w-[170px]">@SharedLocalizer["Shared_Date"] & @SharedLocalizer["Shared_Time"]:</span>
+                        <span class="break-words">@Model.ScheduledTime.ToString("dddd, dd MMM yyyy - HH:mm", fmt)</span>
                     </div>
-                    <div class="flex">
-                        <span class="w-32 text-gray-500">@SharedLocalizer["Req_Duration"]:</span>
+                    <div class="flex flex-col gap-0.5 sm:flex-row sm:gap-2">
+                        <span class="text-gray-500 sm:min-w-[170px]">@SharedLocalizer["Req_Duration"]:</span>
                         <span>@Model.TotalDurationMinutes @SharedLocalizer["Shared_Min"] (@Model.TotalSlots @SharedLocalizer["Appt_SlotsCount"])</span>
                     </div>
-                    <div class="flex">
-                        <span class="w-32 text-gray-500">@SharedLocalizer["Appt_SlotRange"]:</span>
+                    <div class="flex flex-col gap-0.5 sm:flex-row sm:gap-2">
+                        <span class="text-gray-500 sm:min-w-[170px]">@SharedLocalizer["Appt_SlotRange"]:</span>
                         <span>@SharedLocalizer["Appt_From"] @Model.StartSlotIndex @SharedLocalizer["Appt_To"] @Model.EndSlotIndex</span>
                     </div>
                 </div>
             </div>
-            <div>
-                <h2 class="mb-3 text-lg font-semibold">@SharedLocalizer["Appt_Status"]</h2>
+            <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+                <h2 class="mb-3 text-base font-bold text-slate-800 sm:text-lg">@SharedLocalizer["Appt_Status"]</h2>
                 <div class="flex items-center gap-3">
                     @{
                         var isPast = Model.ScheduledTime <= nowUtc;
                         var badgeText = "";
                         var badgeClass = BadgeClass(Model, out badgeText);
                  }
-                    <span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium">
+                    <span class="@badgeClass inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold">
                         <i class="fa-solid fa-circle mr-1 text-[8px]"></i> @badgeText
                     </span>
                 </div>
             </div>
         </div>
 
-        <hr class="my-6">
+        <hr class="my-6 border-slate-200">
 
         <!-- Notes -->
-        <div>
-            <h2 class="mb-3 text-lg font-semibold">@SharedLocalizer["Shared_Notes"]</h2>
-            <p class="whitespace-pre-line text-gray-700">
+        <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+            <h2 class="mb-3 text-base font-bold text-slate-800 sm:text-lg">@SharedLocalizer["Shared_Notes"]</h2>
+            <p class="whitespace-pre-line text-sm text-gray-700 sm:text-base">
                 @(string.IsNullOrWhiteSpace(Model.Notes) ? @SharedLocalizer["Appt_NoNotes"] : Model.Notes)
             </p>
         </div>
 
         <!-- Actions -->
-        <div class="mt-8 flex flex-wrap gap-3">
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <a asp-action="Appointments"
-               class="inline-flex items-center rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 shadow transition hover:bg-gray-200">
+               class="inline-flex w-full items-center justify-center rounded-xl border border-slate-300 bg-slate-100 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-slate-200 sm:w-auto">
                 <i class="fa-solid fa-arrow-left mr-2"></i> @SharedLocalizer["Search_BackToAppointments"]
             </a>
 

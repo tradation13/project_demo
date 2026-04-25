@@ -779,41 +779,52 @@
   <data name="CaseID" xml:space="preserve">
     <value>Case ID</value>
   </data>
-
-<data name="InvalidWeight" xml:space="preserve">
-  <value>Please enter a valid weight (1 - 500 kg).</value>
-</data>
-<data name="InvalidHeight" xml:space="preserve">
-  <value>Please enter a valid height (30 - 300 cm).</value>
-</data>
-<data name="PhysicalMeasurements" xml:space="preserve">
-  <value>Physical Measurements</value>
-</data>
-<data name="HealthHistory" xml:space="preserve">
-  <value>Health History</value>
-</data>
-<data name="Height" xml:space="preserve">
-  <value>Height</value>
-</data>
-<data name="Weight" xml:space="preserve">
-  <value>Weight</value>
-</data>
-<data name="BloodGroup" xml:space="preserve">
-  <value>Blood Group</value>
-</data>
-<data name="IsSmoker" xml:space="preserve">
-  <value>Smoker</value>
-</data>
-<data name="ChronicDiseases" xml:space="preserve">
-  <value>Chronic Diseases</value>
-</data>
-<data name="ActivityLevel" xml:space="preserve">
-  <value>Activity Level</value>
-</data>
-<data name="Yes" xml:space="preserve">
-  <value>Yes</value>
-</data>
-<data name="No" xml:space="preserve">
-  <value>No</value>
-</data>
+  <data name="Users_DoctorPhoto" xml:space="preserve">
+    <value>Doctor Photo</value>
+  </data>
+  <data name="Users_SelectSpecialty" xml:space="preserve">
+    <value>Select Specialty</value>
+  </data>
+  <data name="Users_NoSpecialties" xml:space="preserve">
+    <value>No specialties available</value>
+  </data>
+  <data name="Users_DoctorInformation" xml:space="preserve">
+    <value>Doctor Information</value>
+  </data>
+  <data name="InvalidWeight" xml:space="preserve">
+    <value>Please enter a valid weight (1 - 500 kg).</value>
+  </data>
+  <data name="InvalidHeight" xml:space="preserve">
+    <value>Please enter a valid height (30 - 300 cm).</value>
+  </data>
+  <data name="PhysicalMeasurements" xml:space="preserve">
+    <value>Physical Measurements</value>
+  </data>
+  <data name="HealthHistory" xml:space="preserve">
+    <value>Health History</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Weight</value>
+  </data>
+  <data name="BloodGroup" xml:space="preserve">
+    <value>Blood Group</value>
+  </data>
+  <data name="IsSmoker" xml:space="preserve">
+    <value>Smoker</value>
+  </data>
+  <data name="ChronicDiseases" xml:space="preserve">
+    <value>Chronic Diseases</value>
+  </data>
+  <data name="ActivityLevel" xml:space="preserve">
+    <value>Activity Level</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
 </root>

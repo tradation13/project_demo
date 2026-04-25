@@ -52,7 +52,8 @@ namespace IPTS.Mapper
             CreateMap<Doctor, DoctorProfileViewModel>().ReverseMap()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.User, opt => opt.Ignore())
-                .ForMember(dest => dest.UserId, opt => opt.Ignore());
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.PhotoUrl));
                 
             CreateMap<Doctor, DoctorFormViewModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
@@ -166,7 +167,7 @@ namespace IPTS.Mapper
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Doctor.Id))
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}".Trim()))
-                .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src =>  ""))
+                .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.Doctor != null ? src.Doctor.PhotoUrl : ""))
                 .ForMember(dest => dest.Specialty, opt => opt.MapFrom(src => src.Doctor != null && src.Doctor.Specialty != null ? src.Doctor.Specialty.Name : ""))
                 .ForMember(dest => dest.Rating, opt => opt.MapFrom(src =>  0))
                 .ForMember(dest => dest.YearsOfExperience, opt => opt.MapFrom(src =>  0))

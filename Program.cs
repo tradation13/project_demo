@@ -126,7 +126,16 @@ builder.Services.AddControllersWithViews()
             builder.Services.AddMemoryCache();
             var app = builder.Build();
 
-              app.UseStaticFiles();
+// السماح بالوصول للملفات الثابتة في wwwroot
+app.UseStaticFiles();
+
+// السماح بالوصول لمجلد InternalStorage كـ static files
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "InternalStorage")),
+    RequestPath = "/InternalStorage"
+});
 
             // 4. إعداد اللغات (Middleware)
 var supportedCultures = new[] { "en-US", "de-DE"};

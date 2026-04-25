@@ -12,5 +12,8 @@ namespace IPTS.Models.Entites
         public Specialty Specialty { get; set; }
         public ICollection<Appointment> Appointments { get; set; }
         public ICollection<MedicalCase> MedicalCases { get; set; }
+
+        // اسم أو مسار صورة الطبيب
+        public string? PhotoUrl { get; set; }
     }
 }

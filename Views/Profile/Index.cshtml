@@ -28,7 +28,7 @@
         </div>
     }
 
-    <form asp-action="Edit" asp-controller="Profile" method="post">
+    <form asp-action="Edit" asp-controller="Profile" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="mb-4 rounded-2xl border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
         <div class="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2">
              @if (!isEditMode)
@@ -124,6 +124,49 @@
         }
         @if (Model.Doctor != null)
         {
+            <div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+                <label class="mb-1.5 block text-sm font-semibold text-slate-700">@SharedLocalizer["Profile_Photo"]</label>
+                <div class="flex items-center gap-6">
+                    <input type="hidden" asp-for="Doctor.PhotoUrl" />
+                    @if (!string.IsNullOrWhiteSpace(Model.Doctor.PhotoUrl))
+                    {
+                        <img src="/InternalStorage/DoctorPhotos/@Model.Doctor.PhotoUrl" alt="Doctor Photo" class="h-24 w-24 rounded-full object-cover border" />
+                    }
+                    else
+                    {
+                        <i class="fa-solid fa-user-doctor text-primary-dark" style="font-size: 80px;"></i>
+                    }
+                  @if (isEditMode)
+{
+    <div class="mt-4 flex flex-col items-center sm:items-start">
+        @* زر الرفع المخصص *@
+        <label for="doctorPhoto" class="group relative flex cursor-pointer items-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-4 py-2 text-sm font-semibold text-primary transition-all hover:bg-primary hover:text-white active:scale-95">
+            <i class="fa-solid fa-camera transition-transform group-hover:rotate-12"></i>
+            <span>@SharedLocalizer["Profile_ChangePhoto"]</span>
+            
+            @* الـ Input مخفي تماماً *@
+            <input asp-for="Doctor.PhotoFile" id="doctorPhoto" type="file" accept="image/*" class="hidden" onchange="showFileName(this)" />
+        </label>
+
+        @* مكان لعرض اسم الملف المختار ليطمئن المستخدم *@
+        <span id="fileNameDisplay" class="mt-2 text-xs text-slate-400"></span>
+        
+        @* رسالة التحقق *@
+        <span asp-validation-for="Doctor.PhotoFile" class="text-xs text-red-500"></span>
+    </div>
+
+    @* Script بسيط جداً لتحديث اسم الملف عند الاختيار *@
+    <script>
+        function showFileName(input) {
+            const label = document.getElementById('fileNameDisplay');
+            if (input.files && input.files[0]) {
+                label.textContent = "📎 " + input.files[0].name;
+            }
+        }
+    </script>
+}
+                </div>
+            </div>
             @if(isEditMode){
                 <div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
                     <label asp-for="Doctor.SpecialtyId" class="mb-1.5 block text-sm font-semibold text-slate-700">@SharedLocalizer["Profile_Specialty"]</label>
@@ -146,8 +189,6 @@
                         <input type="text" value="@(specialties.FirstOrDefault(i => i.Id == Model.Doctor.SpecialtyId)?.Name ?? SharedLocalizer["Profile_NotAvailable"].Value)" readonly class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 text-slate-700" />
                  </div>
                  }
-
-               
             }
         }
 

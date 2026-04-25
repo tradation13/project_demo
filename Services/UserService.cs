@@ -97,14 +97,31 @@ namespace IPTS.Services
                         break;
 
              
+
                     case "doctor":
-                       if (model.Doctor == null)
-    throw new Exception(_locService.GetSystem("Error_DoctorRequired"));
+                        if (model.Doctor == null)
+                            throw new Exception(_locService.GetSystem("Error_DoctorRequired"));
+
+
+                        string? photoFileName = null;
+                        if (model.Doctor.PhotoFile != null && model.Doctor.PhotoFile.Length > 0)
+                        {
+                            var ext = Path.GetExtension(model.Doctor.PhotoFile.FileName);
+                            var originalName = Path.GetFileNameWithoutExtension(model.Doctor.PhotoFile.FileName);
+                            var guid = Guid.NewGuid().ToString();
+                            photoFileName = $"{originalName}_{guid}{ext}";
+                            var savePath = Path.Combine("InternalStorage", "DoctorPhotos", photoFileName);
+                            using (var stream = new FileStream(savePath, FileMode.Create))
+                            {
+                                await model.Doctor.PhotoFile.CopyToAsync(stream);
+                            }
+                        }
 
                         await _context.Doctors.AddAsync(new Doctor
                         {
                             UserId = user.Id,
                             SpecialtyId = model.Doctor.SpecialtyId,
+                            PhotoUrl = photoFileName
                         });
                         break;
 
@@ -167,6 +184,68 @@ namespace IPTS.Services
                 }
 
                 _mapper.Map(model, user);
+
+                // حماية PhotoUrl من المسح إذا لم يتم رفع صورة جديدة
+                if (user.Doctor != null)
+                {
+                    IFormFile? photoFile = null;
+                    string? oldPhoto = user.Doctor.PhotoUrl;
+                    if (model is UserFormViewModel userForm && userForm.Doctor != null)
+                        photoFile = userForm.Doctor.PhotoFile;
+                    else if (model is UserProfileViewModel profileForm && profileForm.Doctor != null)
+                        photoFile = profileForm.Doctor.PhotoFile;
+
+                    if (photoFile == null || photoFile.Length == 0)
+                    {
+                        // أعد تعيين القيمة القديمة إذا لم يتم رفع صورة جديدة
+                        user.Doctor.PhotoUrl = oldPhoto;
+                    }
+                }
+
+                // تحديث صورة الطبيب إذا كان المستخدم دكتور
+                if (user.Doctor != null)
+                {
+                    IFormFile? photoFile = null;
+                    string? oldPhoto = user.Doctor.PhotoUrl;
+                    if (model is UserFormViewModel userForm && userForm.Doctor != null)
+                        photoFile = userForm.Doctor.PhotoFile;
+                    else if (model is UserProfileViewModel profileForm && profileForm.Doctor != null)
+                        photoFile = profileForm.Doctor.PhotoFile;
+
+                    // فقط إذا رفع صورة جديدة
+                    if (photoFile != null && photoFile.Length > 0)
+                    {
+                        // حذف الصورة القديمة من InternalStorage إذا كانت موجودة
+                        if (!string.IsNullOrWhiteSpace(oldPhoto))
+                        {
+                            var oldPath = Path.Combine("InternalStorage", "DoctorPhotos", oldPhoto);
+                            if (File.Exists(oldPath))
+                            {
+                                File.Delete(oldPath);
+                                LogHelper.LogWithContext($"[DoctorImage] Deleted old photo: {oldPath}", user.Id, "doctor", "DoctorImage");
+                            }
+                            else
+                            {
+                                LogHelper.LogWithContext($"[DoctorImage] Old photo not found: {oldPath}", user.Id, "doctor", "DoctorImage");
+                            }
+                        }
+                        // حفظ الصورة الجديدة
+                        var ext = Path.GetExtension(photoFile.FileName);
+                        var originalName = Path.GetFileNameWithoutExtension(photoFile.FileName);
+                        var guid = Guid.NewGuid().ToString();
+                        var photoFileName = $"{originalName}_{guid}{ext}";
+                        var savePath = Path.Combine("InternalStorage", "DoctorPhotos", photoFileName);
+                        using (var stream = new FileStream(savePath, FileMode.Create))
+                        {
+                            await photoFile.CopyToAsync(stream);
+                        }
+                        LogHelper.LogWithContext($"[DoctorImage] Saved new photo: {savePath}", user.Id, "doctor", "DoctorImage");
+                        // تحديث اسم الصورة في قاعدة البيانات
+                        user.Doctor.PhotoUrl = photoFileName;
+                        LogHelper.LogWithContext($"[DoctorImage] Updated Doctor.PhotoUrl to: {photoFileName}", user.Id, "doctor", "DoctorImage");
+                    }
+                    // إذا لم يرفع صورة جديدة لا تفعل أي شيء للصورة
+                }
 
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();

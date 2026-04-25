@@ -1472,7 +1472,7 @@
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
   </data>
   <data name="Patient_Desc_AfterCreation" xml:space="preserve">
-    <value>Der Patient kann gesucht و Termine geplant werden</value>
+    <value>Der Patient kann gesucht und Termine geplant werden</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; CreatePatient</comment>
   </data>
   <data name="Patient_Create_Title" xml:space="preserve">
@@ -1671,13 +1671,14 @@
     <value>Keine Fachgebiete verfügbar</value>
     <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; UserForm</comment>
   </data>
-  <data name="Users_IdentityReadOnly" xml:space="preserve">
-    <value>Identitätsnummer kann nicht geändert werden</value>
-    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; UserForm</comment>
+  <data name="Users_DoctorPhoto" xml:space="preserve">
+    <value>Foto des Therapeuten</value>
   </data>
   <data name="Users_DoctorInformation" xml:space="preserve">
     <value>Fachliche Informationen des Therapeuten</value>
-    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; UserForm</comment>
+  </data>
+  <data name="DoctorPhotoImageOnly" xml:space="preserve">
+    <value>Nur Bilddateien sind für das Arztfoto erlaubt (jpg, png, webp, gif).</value>
   </data>
   <data name="UserTypes_EditTitle" xml:space="preserve">
     <value>Benutzertyp bearbeiten</value>
@@ -1878,6 +1879,17 @@
 <data name="Activity_Active" xml:space="preserve"><value>Aktiv (Sport 3-5 Tage/Woche)</value></data>
 <data name="Activity_Athlete" xml:space="preserve"><value>Leistungssportler</value></data>
 
+<data name="Profile_ChangePhoto" xml:space="preserve">
+    <value>Profilfoto ändern</value>
+    <comment>Profile Page - Button to change profile picture</comment>
+  </data>
+
+   <data name="Profile_SelectPhoto" xml:space="preserve">
+    <value>Neues Profilfoto auswählen</value>
+    <comment>Profile Page - Modal Title for selecting new profile picture</comment>
+  </data>
+  
+
 <data name="Reg_PrivacyModal_Title" xml:space="preserve">
     <value>Datenschutzhinweis</value>
     <comment>Registration Page - Modal Title</comment>
@@ -1894,6 +1906,17 @@
     <value>Ich stimme den Datenschutzbestimmungen und Nutzungsbedingungen zu</value>
     <comment>Registration Page - Checkbox Label</comment>
   </data>
+
+  <data name="Profile_Photo" xml:space="preserve">
+  <value>Profilfoto</value>
+</data>
+
+
+ <data name="Shared_Browse" xml:space="preserve">
+    <value>Durchsuchen</value>
+    <comment>General Purpose - Button to open file dialog</comment>
+  </data>
+
   
   <data name="Shared_Controller" xml:space="preserve">
     <value>Controller</value>

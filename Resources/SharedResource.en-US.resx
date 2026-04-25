@@ -1144,7 +1144,7 @@
     <value>Search Instructions:</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; SearchPatient</comment>
   </data>
- <data name="Search_Step1" xml:space="preserve">
+  <data name="Search_Step1" xml:space="preserve">
     <value>Enter the patient's full name to search</value>
     <comment>Areas -> Doctor -> Views -> Appointments -> SearchPatient</comment>
 </data>
@@ -1839,6 +1839,11 @@
 <data name="Activity_Active" xml:space="preserve"><value>Active (Exercise 3-5 days/week)</value></data>
 <data name="Activity_Athlete" xml:space="preserve"><value>Professional Athlete</value></data>
 
+
+<data name="Profile_Photo" xml:space="preserve">
+  <value>Profile Photo</value>
+</data>
+
 <data name="Reg_PrivacyModal_Title" xml:space="preserve">
     <value>Privacy Notice</value>
     <comment>Registration Page - Modal Title</comment>
@@ -1854,6 +1859,21 @@
   <data name="Reg_PrivacyConsent" xml:space="preserve">
     <value>I agree to the Privacy Policy and Terms of Use</value>
     <comment>Registration Page - Checkbox Label</comment>
+  </data>
+
+  <data name="Profile_ChangePhoto" xml:space="preserve">
+    <value>Change Photo</value>
+    <comment>Profile Page - Button to change profile picture</comment>
+  </data>
+
+  <data name="Profile_SelectPhoto" xml:space="preserve">
+    <value>Select a new profile photo</value>
+    <comment>Profile Page - Modal Title for selecting new profile picture</comment>
+  </data>
+
+  <data name="Shared_Browse" xml:space="preserve">
+    <value>Browse</value>
+    <comment>General Purpose - Button to open file dialog</comment>
   </data>
   
    <data name="ForgotConf_Header" xml:space="preserve">
@@ -2147,5 +2167,20 @@
   <data name="Shared_Profile" xml:space="preserve">
     <value>Profile</value>
     <comment>Shared</comment>
+  </data>
+  <data name="Users_DoctorPhoto" xml:space="preserve">
+    <value>Doctor Photo</value>
+  </data>
+  <data name="Users_SelectSpecialty" xml:space="preserve">
+    <value>Select Specialty</value>
+  </data>
+  <data name="Users_NoSpecialties" xml:space="preserve">
+    <value>No specialties available</value>
+  </data>
+  <data name="Users_DoctorInformation" xml:space="preserve">
+    <value>Doctor Information</value>
+  </data>
+  <data name="DoctorPhotoImageOnly" xml:space="preserve">
+    <value>Only image files are allowed for doctor photo (jpg, png, webp, gif).</value>
   </data>
 </root>

@@ -90,9 +90,10 @@
                                 }
                                 else
                                 {
-                                    <img src="@doctorItem.PhotoUrl"
+                                     <img src="/InternalStorage/DoctorPhotos/@doctorItem.PhotoUrl"
                                          alt="@(doctorItem.FullName ?? "Doctor")"
-                                         class="h-24 w-24 rounded-full object-cover" />
+                                         class="h-24 w-24 rounded-full object-cover"
+                                         onload="console.log('PhotoUrl: @doctorItem.PhotoUrl')" />
                                 }
                             </div>
                             <h3 class="mb-2 text-xl font-semibold text-gray-900">@(doctorItem.FullName ?? SharedLocalizer["Shared_NotAvailable"])</h3>

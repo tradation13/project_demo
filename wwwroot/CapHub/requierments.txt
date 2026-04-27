@@ -1,9 +1,0 @@
-fastapi
-uvicorn[standard]
-python-dotenv
-sqlalchemy
-sqlalchemy.orm
-pydantic_settings
-alembic
-psycopg[binary]
-pydantic[email]

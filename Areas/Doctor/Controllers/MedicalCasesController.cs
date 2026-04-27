@@ -1,4 +1,5 @@
-﻿using IPTS.Models.Entites;
+﻿using IPTS.Data;
+using IPTS.Models.Entites;
 using IPTS.Services;
 using IPTS.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +19,8 @@ namespace IPTS.Areas.Doctor.Controllers
         TestService testService,
         PdfPrintService pdfPrintService,
         UserService userService,
-        MedicalReportService medicalReportService) : Controller
+        MedicalReportService medicalReportService,
+        ApplicationDbContext context) : Controller
     {
         private readonly MedicalReportService _medicalReportService = medicalReportService;
         private readonly MedicalCaseService _medicalCaseService = medicalCaseService;
@@ -27,7 +29,7 @@ namespace IPTS.Areas.Doctor.Controllers
         private readonly TestService _testService = testService;
         private readonly PdfPrintService _pdfPrintService = pdfPrintService;
         private readonly UserService _userService = userService;
-
+        private readonly ApplicationDbContext _context = context;
         public async Task<IActionResult> Index(int patientId)
         {
 
@@ -180,12 +182,63 @@ public async Task<IActionResult> PrintReport(int id)
 
     // 3. تحويل الـ HTML إلى PDF
     byte[] pdfBytes = _pdfPrintService.GeneratePdf(new Helpers.HttpUser(HttpContext), html, $"Medical Report - {medicalCase.Name}");
+
+    // --- بداية الشغل الجديد (المنطق اللي اتفقنا عليه) ---
+
+    // 3. تجهيز اسم الملف والمسار
+    string fileName = $"{Guid.NewGuid()}_{medicalCase.Name}.pdf";
+    string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "InternalStorage", "MedicalReports");
+
+    // التأكد أن المجلد موجود، وإذا مش موجود ننشئه
+    if (!Directory.Exists(folderPath))
+    {
+        Directory.CreateDirectory(folderPath);
+    }
+
+    string filePath = Path.Combine(folderPath, fileName);
+
+    // 4. حفظ الملف في السيرفر (Physical Save)
+    await System.IO.File.WriteAllBytesAsync(filePath, pdfBytes);
+
+    // 5. حفظ السجل في قاعدة البيانات (Database Record)
+    var reportHistory = new MedicalReportHistory
+    {
+        MedicalCaseId = medicalCase.Id,
+        UserId = medicalCase.Patient.UserId, // معرف المريض
+        ReportUrl = fileName, // نحفظ اسم الملف فقط كما اتفقنا
+        CreatedAt = DateTime.UtcNow,
+    };
+
+    // هنا استدعي السيرفس الخاصة بالتقارير أو الـ Context لحفظ السجل
+    _context.MedicalReportHistories.Add(reportHistory);
+    await _context.SaveChangesAsync();
+
+    // --- نهاية الشغل الجديد ---
     
    // تحديد البادئة بناءً على اللغة
 string filePrefix = (currentLang == "de") ? "MedizinischerBericht" : "MedicalReport";
 
 return File(pdfBytes, "application/pdf", $"{filePrefix}_Case{medicalCase.Id}_{medicalCase.Patient.User.LastName}.pdf");
 }
+
+[HttpGet]
+public IActionResult ViewReport(string fileName)
+{
+    if (string.IsNullOrEmpty(fileName)) return NotFound();
+
+    // نحدد المسار الفيزيائي للمجلد الذي يحتوي التقارير
+    var path = Path.Combine(Directory.GetCurrentDirectory(), "InternalStorage", "MedicalReports", fileName);
+
+    // نتحقق هل الملف موجود فعلاً في السيرفر؟
+    if (!System.IO.File.Exists(path)) return NotFound("الملف غير موجود على السيرفر");
+
+    // قراءة الملف كـ Stream (أفضل للأداء من read all bytes)
+    var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+    
+    // إرجاع الملف بصيغة PDF ليفتحه المتصفح
+    return File(fileStream, "application/pdf");
+}
+
 //         [HttpGet]
 //         public async Task<IActionResult> PrintReport(int id)
 //         {

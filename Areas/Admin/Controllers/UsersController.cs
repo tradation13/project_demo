@@ -136,6 +136,11 @@ namespace IPTS.Areas.Admin.Controllers
                     "UsersController.UserFormAsync",
                     LogEventLevel.Warning
                 );
+
+
+                if (model.Doctor != null)
+                    ViewBag.Specialties = await _specialtyService.GetAllAsync();
+
                 return View(model);
             }
 

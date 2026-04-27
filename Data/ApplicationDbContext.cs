@@ -17,6 +17,9 @@ namespace IPTS.Data
         public DbSet<Specialty> Specialties { get; set; }
         public DbSet<Test> Tests { get; set; }
         public DbSet<TestGroup> TestGroups { get; set; }
+
+        public DbSet<MedicalReportHistory> MedicalReportHistories { get; set; }
+        
         //public DbSet<Report> Reports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

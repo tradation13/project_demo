@@ -427,14 +427,15 @@ Important rules:
        // 3. تجهيز الـ JSON المتوافق مع OpenAI
 var requestBody = new
 {
-    model = "gpt-4o", // تم التغيير لموديل OpenAI
+    model = "gpt-4o-mini", // تم التغيير لموديل OpenAI
     messages = new[]
     {
         new { role = "system", content = systemMessage },
         new { role = "user", content = userContent }
     },
     stream = false,
-    max_tokens = 1200 // رفعنا القيمة لضمان اكتمال التحليل المفصل
+    max_tokens = 1200, // رفعنا القيمة لضمان اكتمال التحليل المفصل
+    temperature = 0.2 // قيمة منخفضة تجعل الموديل أكثر دقة وواقعية وأقل ميلاً للهبد
 };
 
 var jsonRequest = JsonSerializer.Serialize(requestBody);
@@ -459,6 +460,12 @@ if (response.IsSuccessStatusCode)
                     .GetProperty("content")
                     .GetString();
 
+// أضف هذا السطر لمراقبة التكلفة فوراً
+var usage = doc.RootElement.GetProperty("usage");
+int prompt = usage.GetProperty("prompt_tokens").GetInt32();
+int completion = usage.GetProperty("completion_tokens").GetInt32();
+
+Console.WriteLine($"[Cost Monitor] Prompt: {prompt}, Completion: {completion} | Total: {prompt + completion}");
     Console.WriteLine("OpenAI Analysis received successfully!");
     return aiText?.Trim() ?? "No analysis content returned.";
 }

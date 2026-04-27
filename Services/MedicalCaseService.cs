@@ -12,15 +12,16 @@ namespace IPTS.Services
         {
         }
 
-        // جلب كل الحالات الصحية لمريض
-        public async Task<List<MedicalCase>> GetCasesForPatientAsync(int patientId, int? DoctorId = null)
-        {
-            return await GetAllAsync(q =>
-                q.Where(mc => DoctorId == null ? mc.PatientId == patientId : mc.DoctorId == DoctorId)
-                 .Include(mc => mc.MedicalCaseTests)
-                 .OrderByDescending(mc => mc.CreatedAt)
-            );
-        }
+       // جلب كل الحالات الصحية لمريض
+ public async Task<List<MedicalCase>> GetCasesForPatientAsync(int patientId, int? DoctorId = null)
+ {
+     return await GetAllAsync(q =>
+         q.Where(mc => DoctorId == null ? mc.PatientId == patientId : mc.DoctorId == DoctorId)
+          .Include(mc => mc.MedicalCaseTests)
+          .Include(mc => mc.MedicalReportHistories) // السطر السحري اللي يخلي الزر يشتغل في الفيو
+          .OrderByDescending(mc => mc.CreatedAt)
+     );
+ }
 
         // جلب حالة صحية مع اختبارات وتفاصيلها
         public async Task<MedicalCase?> GetCaseWithTestsAsync(int caseId)

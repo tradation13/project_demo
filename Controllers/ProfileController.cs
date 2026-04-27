@@ -103,20 +103,19 @@ namespace IPTS.Controllers
             ViewBag.CanEdit = true;
 
             if (!ModelState.IsValid)
-            {
-               
-                if (!string.IsNullOrEmpty(currentUserId))
-                {
-                    var currentUser = await _userService.GetByIdAsync(currentUserId,
-                        u => u.Include(x => x.UserType));
+{
+    if (!string.IsNullOrEmpty(currentUserId))
+    {
+        var currentUser = await _userService.GetByIdAsync(currentUserId,
+            u => u.Include(x => x.UserType));
+        ViewBag.HasDashboard = currentUser.UserType?.HasDashboard ?? false;
+    }
 
-                    ViewBag.HasDashboard = currentUser.UserType?.HasDashboard ?? false;
+    if (model.Doctor != null)
+        ViewBag.Specialties = await _specialtyService.GetAllAsync();
 
-                }
- 
-
-                return View("Index", model);
-            }
+    return View("Index", model);
+}
             if (model.Doctor != null)
                 ViewBag.Specialties = await _specialtyService.GetAllAsync();
 

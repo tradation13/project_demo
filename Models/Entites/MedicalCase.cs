@@ -25,6 +25,7 @@ namespace IPTS.Models.Entites
     public bool? HasChronicDisease { get; set; }
 
         public ICollection<MedicalCaseTest> MedicalCaseTests { get; set; }
+        public ICollection<MedicalReportHistory> MedicalReportHistories { get; set; }
     }
 
 }

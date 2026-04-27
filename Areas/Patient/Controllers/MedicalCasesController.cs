@@ -1,4 +1,5 @@
-﻿using IPTS.Services;
+﻿
+using IPTS.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +46,24 @@ namespace IPTS.Areas.Patient.Controllers
             return View(medicalCases);
         }
 
+
+         [HttpGet]
+        public IActionResult ViewReport(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName)) return NotFound();
+
+            // نحدد المسار الفيزيائي للمجلد الذي يحتوي التقارير
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "InternalStorage", "MedicalReports", fileName);
+
+            // نتحقق هل الملف موجود فعلاً في السيرفر؟
+            if (!System.IO.File.Exists(path)) return NotFound("الملف غير موجود على السيرفر");
+
+            // قراءة الملف كـ Stream (أفضل للأداء من read all bytes)
+            var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            // إرجاع الملف بصيغة PDF ليفتحه المتصفح
+            return File(fileStream, "application/pdf");
+        }
+
 [HttpGet]
 public async Task<IActionResult> PrintReport(int id)
 {
@@ -76,8 +95,10 @@ public async Task<IActionResult> PrintReport(int id)
 string filePrefix = (currentLang == "de") ? "MedizinischerBericht" : "MedicalReport";
 
 return File(pdfBytes, "application/pdf", $"{filePrefix}_Case{medicalCase.Id}_{medicalCase.Patient.User.LastName}.pdf");
-    
 }
+    
+
+       
         
         //   [HttpGet]
         // public async Task<IActionResult> PrintReport(int id)

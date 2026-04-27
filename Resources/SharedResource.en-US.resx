@@ -1844,6 +1844,10 @@
   <value>Profile Photo</value>
 </data>
 
+<data name="Profile_SelectSpecialty" xml:space="preserve">
+  <value>Select Specialty</value>
+</data>
+
 <data name="Reg_PrivacyModal_Title" xml:space="preserve">
     <value>Privacy Notice</value>
     <comment>Registration Page - Modal Title</comment>
@@ -1874,6 +1878,11 @@
   <data name="Shared_Browse" xml:space="preserve">
     <value>Browse</value>
     <comment>General Purpose - Button to open file dialog</comment>
+  </data>
+
+  <data name="Shared_View_Latest_Report" xml:space="preserve">
+    <value>View Latest Report</value>
+    <comment>Button to view the latest report for a medical case</comment>
   </data>
   
    <data name="ForgotConf_Header" xml:space="preserve">

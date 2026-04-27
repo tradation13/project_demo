@@ -1911,10 +1911,19 @@
   <value>Profilfoto</value>
 </data>
 
+  <data name="Profile_SelectSpecialty" xml:space="preserve">
+    <value>Fachgebiet auswählen</value>
+  </data>
+
 
  <data name="Shared_Browse" xml:space="preserve">
     <value>Durchsuchen</value>
     <comment>General Purpose - Button to open file dialog</comment>
+  </data>
+
+  <data name="Shared_View_Latest_Report" xml:space="preserve">
+    <value>Letzten Bericht anzeigen</value>
+    <comment>Button zum Anzeigen des letzten Berichts für einen medizinischen Fall</comment>
   </data>
 
   
@@ -1922,6 +1931,7 @@
     <value>Controller</value>
     <comment>Shared</comment>
   </data>
+
   <data name="Shared_Action" xml:space="preserve">
     <value>Aktion</value>
     <comment>Shared</comment>

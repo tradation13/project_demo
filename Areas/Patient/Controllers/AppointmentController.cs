@@ -13,12 +13,13 @@ namespace IPTS.Areas.Patient.Controllers
     [Area("patient")]
     [Authorize(Roles = "patient")]
     [Route("[area]/[controller]")]
-    public class AppointmentController(LocService locService, AppointmentService appointmentService, UserService userService, IFileService fileService) : Controller
+    public class AppointmentController(LocService locService, AppointmentService appointmentService, UserService userService, IFileService fileService, IPTS.Data.ApplicationDbContext dbContext) : Controller
     {
         private readonly LocService _locService = locService;
         private readonly AppointmentService _appointmentService = appointmentService;
         private readonly UserService _userService = userService;
         private readonly IFileService _fileService = fileService;
+        private readonly IPTS.Data.ApplicationDbContext _dbContext = dbContext;
         [HttpGet("{Id}")]
         public async Task<IActionResult> Index([FromRoute] string Id, [FromQuery] DateTime? date)
         {
@@ -77,17 +78,14 @@ namespace IPTS.Areas.Patient.Controllers
         {
             var selectedDate = model.ScheduledDate == default ? DateTime.Now.Date : model.ScheduledDate.Date;
 
-            // Get doctor to get doctor UserId for redirects
-            var appointments = await _appointmentService.GetAllAsync(q => q
-                .Include(a => a.Doctor)
-                .Where(a => a.DoctorId == doctorId)
-                .Take(1));
-
-            var appointment = appointments.FirstOrDefault();
-            if (appointment?.Doctor?.UserId is null)
+            // جلب كيان الطبيب مباشرة من DbContext المحقون
+            var doctorEntity = await _dbContext.Doctors.FirstOrDefaultAsync(d => d.Id == doctorId);
+            if (doctorEntity == null || string.IsNullOrEmpty(doctorEntity.UserId))
                 return NotFound();
 
-            var doctorUserId = appointment.Doctor.UserId;
+            var doctorUserId = doctorEntity.UserId;
+            // ثم جلب DoctorViewModel من UserService باستخدام UserId (string)
+            var doctor = await _userService.GetByIdAsync<string, DoctorViewModel>(doctorUserId, q => q.Include(u => u.Doctor));
 
             if (!ModelState.IsValid)
             {

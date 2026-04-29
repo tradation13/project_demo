@@ -398,7 +398,7 @@
     <comment/>
   </data>
   <data name="Warn_BookingFailedContactClinic" xml:space="preserve">
-    <value>Die Terminbuchung ist fehlgeschlagen. Bitte kontaktieren Sie die Klinik direkt, um Ihren Termin zu أ¤ndern oder zu verschieben.</value>
+    <value>Die Terminbuchung ist fehlgeschlagen. Bitte kontaktieren Sie die Klinik direkt, um Ihren Termin zu ändern oder zu verschieben.</value>
     <comment/>
   </data>
   <data name="Email_Subject_AppointmentRejected" xml:space="preserve">
@@ -498,7 +498,7 @@
     <comment/>
   </data>
   <data name="Email_Welcome_Body" xml:space="preserve">
-    <value>    &lt;div style='font-family: Segoe UI, sans-serif; line-height: 1.6;'&gt;        &lt;h2 style='color: #007bff;'&gt;Willkommen bei PhysioTech&lt;/h2&gt;        &lt;p&gt;Sehr geehrte(r) {0} {1},&lt;/p&gt;        &lt;p&gt;Ihr medizinisches Profil wurde erfolgreich von &lt;strong&gt;Dr. {2}&lt;/strong&gt; erstellt.&lt;/p&gt;        &lt;div style='background-color: #f4f4f4; padding: 20px; border-left: 5px solid #007bff; margin: 20px 0;'&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Login-Portal:&lt;/strong&gt; &lt;a href='{3}'&gt;{3}&lt;/a&gt;&lt;/p&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Benutzername:&lt;/strong&gt; {4}&lt;/p&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Temporأ¤res Passwort:&lt;/strong&gt; &lt;code style='background: #eee; padding: 2px 5px;'&gt;{5}&lt;/code&gt;&lt;/p&gt;        &lt;/div&gt;        &lt;p style='color: #d9534f;'&gt;&lt;strong&gt;Hinweis:&lt;/strong&gt; Bitte أ¤ndern Sie Ihr Passwort nach dem ersten Login.&lt;/p&gt;        &lt;br&gt;        &lt;p&gt;Mit freundlichen Grأ¼أںen,&lt;br&gt;Ihr PhysioTech Management Team&lt;/p&gt;    &lt;/div&gt;</value>
+    <value>    &lt;div style='font-family: Segoe UI, sans-serif; line-height: 1.6;'&gt;        &lt;h2 style='color: #007bff;'&gt;Willkommen bei PhysioTech&lt;/h2&gt;        &lt;p&gt;Sehr geehrte(r) {0} {1},&lt;/p&gt;        &lt;p&gt;Ihr medizinisches Profil wurde erfolgreich von &lt;strong&gt;Dr. {2}&lt;/strong&gt; erstellt.&lt;/p&gt;        &lt;div style='background-color: #f4f4f4; padding: 20px; border-left: 5px solid #007bff; margin: 20px 0;'&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Login-Portal:&lt;/strong&gt; &lt;a href='{3}'&gt;{3}&lt;/a&gt;&lt;/p&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Benutzername:&lt;/strong&gt; {4}&lt;/p&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Temporأ¤res Passwort:&lt;/strong&gt; &lt;code style='background: #eee; padding: 2px 5px;'&gt;{5}&lt;/code&gt;&lt;/p&gt;        &lt;/div&gt;        &lt;p style='color: #d9534f;'&gt;&lt;strong&gt;Hinweis:&lt;/strong&gt; Bitte ändern Sie Ihr Passwort nach dem ersten Login.&lt;/p&gt;        &lt;br&gt;        &lt;p&gt;Mit freundlichen Grأ¼أںen,&lt;br&gt;Ihr PhysioTech Management Team&lt;/p&gt;    &lt;/div&gt;</value>
     <comment/>
   </data>
   <data name="UsernameRequired" xml:space="preserve">
@@ -775,41 +775,43 @@
   <data name="CaseID" xml:space="preserve">
     <value>Fall-ID</value>
   </data>
-
-<data name="InvalidWeight" xml:space="preserve">
-  <value>Bitte geben Sie ein gültiges Gewicht ein (1 - 500 kg).</value>
-</data>
-<data name="InvalidHeight" xml:space="preserve">
-  <value>Bitte geben Sie eine gültige Größe ein (30 - 300 cm).</value>
-</data>
-<data name="PhysicalMeasurements" xml:space="preserve">
-  <value>Physische Messungen</value>
-</data>
-<data name="HealthHistory" xml:space="preserve">
-  <value>Anamnese</value>
-</data>
-<data name="Height" xml:space="preserve">
-  <value>Größe</value>
-</data>
-<data name="Weight" xml:space="preserve">
-  <value>Gewicht</value>
-</data>
-<data name="BloodGroup" xml:space="preserve">
-  <value>Blutgruppe</value>
-</data>
-<data name="IsSmoker" xml:space="preserve">
-  <value>Raucher</value>
-</data>
-<data name="ChronicDiseases" xml:space="preserve">
-  <value>Chronische Krankheiten</value>
-</data>
-<data name="ActivityLevel" xml:space="preserve">
-  <value>Aktivitätsniveau</value>
-</data>
-<data name="Yes" xml:space="preserve">
-  <value>Ja</value>
-</data>
-<data name="No" xml:space="preserve">
-  <value>Nein</value>
-</data>
-</root>
+  <data name="AdditionalPatientInfo" xml:space="preserve">
+    <value>Zusätzliche Patienteninformationen</value>
+  </data>
+  <data name="InvalidWeight" xml:space="preserve">
+    <value>Bitte geben Sie ein gültiges Gewicht ein (1 - 500 kg).</value>
+  </data>
+  <data name="InvalidHeight" xml:space="preserve">
+    <value>Bitte geben Sie eine gültige Größe ein (30 - 300 cm).</value>
+  </data>
+  <data name="PhysicalMeasurements" xml:space="preserve">
+    <value>Physische Messungen</value>
+  </data>
+  <data name="HealthHistory" xml:space="preserve">
+    <value>Anamnese</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Größe</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Gewicht</value>
+  </data>
+  <data name="BloodGroup" xml:space="preserve">
+    <value>Blutgruppe</value>
+  </data>
+  <data name="IsSmoker" xml:space="preserve">
+    <value>Raucher</value>
+  </data>
+  <data name="ChronicDiseases" xml:space="preserve">
+    <value>Chronische Krankheiten</value>
+  </data>
+  <data name="ActivityLevel" xml:space="preserve">
+    <value>Aktivitätsniveau</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nein</value>
+  </data>
+  </root>

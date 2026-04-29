@@ -47,6 +47,23 @@ namespace IPTS.Data.Configurations
             builder.Property(mc => mc.IsSmoker).IsRequired(false);
             builder.Property(mc => mc.HasChronicDisease).IsRequired(false);
 
+            // --- إعدادات الحقول الإضافية ---
+            builder.Property(mc => mc.InjuryHistory)
+                   .HasMaxLength(2000)
+                   .IsRequired(false);
+
+            builder.Property(mc => mc.Medications)
+                   .HasMaxLength(2000)
+                   .IsRequired(false);
+
+            builder.Property(mc => mc.FunctionalAbility)
+                   .HasMaxLength(2000)
+                   .IsRequired(false);
+
+            builder.Property(mc => mc.PersonalGoals)
+                   .HasMaxLength(2000)
+                   .IsRequired(false);
+
             builder.HasOne(mc => mc.Patient)
                    .WithMany(a => a.MedicalCases)
                    .HasForeignKey(mc => mc.PatientId)

@@ -827,4 +827,7 @@
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="AdditionalPatientInfo" xml:space="preserve">
+    <value>Additional Patient Info</value>
+  </data>
 </root>

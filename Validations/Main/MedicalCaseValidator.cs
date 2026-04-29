@@ -28,6 +28,23 @@ namespace IPTS.Validators
         .InclusiveBetween(30, 300)
         .When(x => x.Height.HasValue)
         .WithMessage(x => localizer.GetSystem("InvalidHeight"));
+
+            // --- الحقول الإضافية: تقبل null أو أي نص ---
+            RuleFor(x => x.InjuryHistory)
+                .MaximumLength(2000)
+                .When(x => x.InjuryHistory != null);
+
+            RuleFor(x => x.Medications)
+                .MaximumLength(2000)
+                .When(x => x.Medications != null);
+
+            RuleFor(x => x.FunctionalAbility)
+                .MaximumLength(2000)
+                .When(x => x.FunctionalAbility != null);
+
+            RuleFor(x => x.PersonalGoals)
+                .MaximumLength(2000)
+                .When(x => x.PersonalGoals != null);
         }
     }
 }

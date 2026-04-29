@@ -1839,6 +1839,15 @@
 <data name="Activity_Active" xml:space="preserve"><value>Active (Exercise 3-5 days/week)</value></data>
 <data name="Activity_Athlete" xml:space="preserve"><value>Professional Athlete</value></data>
 
+<data name="MedCase_InjuryHistory_Label" xml:space="preserve"><value>When did the problem start? Was it sudden or gradual?</value></data>
+  <data name="MedCase_InjuryHistory_Placeholder" xml:space="preserve"><value>Example: The problem started after a fall a week ago...</value></data>
+  <data name="MedCase_Medications_Label" xml:space="preserve"><value>Medications the patient is taking (if any)</value></data>
+  <data name="MedCase_Medications_Placeholder" xml:space="preserve"><value>Example: Paracetamol, blood pressure medications...</value></data>
+  <data name="MedCase_FunctionalAbility_Label" xml:space="preserve"><value>How does the injury affect daily life? (walking, stairs, sleep, work...)</value></data>
+  <data name="MedCase_FunctionalAbility_Placeholder" xml:space="preserve"><value>Example: Difficulty climbing stairs or walking long distances...</value></data>
+  <data name="MedCase_PersonalGoals_Label" xml:space="preserve"><value>Patient's personal goals</value></data>
+  <data name="MedCase_PersonalGoals_Placeholder" xml:space="preserve"><value>Example: Return to running, carry the child without pain...</value></data>
+
 
 <data name="Profile_Photo" xml:space="preserve">
   <value>Profile Photo</value>

@@ -102,6 +102,12 @@ namespace IPTS.Areas.Doctor.Controllers
     ActivityLevel = model.ActivityLevel,
     IsSmoker = model.IsSmoker,
     HasChronicDisease = model.HasChronicDisease,
+
+    InjuryHistory = model.InjuryHistory,
+    Medications = model.Medications,
+    FunctionalAbility = model.FunctionalAbility,
+    PersonalGoals = model.PersonalGoals,
+
     CreatedAt = model.CreatedAt == default ? DateTime.UtcNow : model.CreatedAt.ToUniversalTime()
 };
 

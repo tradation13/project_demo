@@ -24,6 +24,27 @@ namespace IPTS.Models.Entites
     public bool? IsSmoker { get; set; }
     public bool? HasChronicDisease { get; set; }
 
+        // --- معلومات إضافية لتحسين جودة التقرير --- //
+        /// <summary>
+        /// تاريخ بداية الإصابة الحالية، وهل كان السبب حادثاً مفاجئاً أم ظهرت تدريجياً
+        /// </summary>
+        public string InjuryHistory { get; set; }
+
+        /// <summary>
+        /// قائمة الأدوية التي يتناولها المريض
+        /// </summary>
+        public string Medications { get; set; }
+
+        /// <summary>
+        /// كيف تؤثر الإصابة على الحياة اليومية (المشي، صعود الدرج، النوم، العمل...)
+        /// </summary>
+        public string FunctionalAbility { get; set; }
+
+        /// <summary>
+        /// الأهداف الشخصية للمريض (مثلاً: العودة للركض، أو حمل الطفل بدون ألم)
+        /// </summary>
+        public string PersonalGoals { get; set; }
+
         public ICollection<MedicalCaseTest> MedicalCaseTests { get; set; }
         public ICollection<MedicalReportHistory> MedicalReportHistories { get; set; }
     }

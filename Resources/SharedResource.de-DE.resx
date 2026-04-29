@@ -1879,6 +1879,15 @@
 <data name="Activity_Active" xml:space="preserve"><value>Aktiv (Sport 3-5 Tage/Woche)</value></data>
 <data name="Activity_Athlete" xml:space="preserve"><value>Leistungssportler</value></data>
 
+<data name="MedCase_InjuryHistory_Label" xml:space="preserve"><value>Wann hat das Problem begonnen? War es plötzlich oder allmählich?</value></data>
+  <data name="MedCase_InjuryHistory_Placeholder" xml:space="preserve"><value>Beispiel: Das Problem begann nach einem Sturz vor einer Woche...</value></data>
+  <data name="MedCase_Medications_Label" xml:space="preserve"><value>Medikamente, die der Patient einnimmt (falls vorhanden)</value></data>
+  <data name="MedCase_Medications_Placeholder" xml:space="preserve"><value>Beispiel: Paracetamol, Blutdruckmedikamente...</value></data>
+  <data name="MedCase_FunctionalAbility_Label" xml:space="preserve"><value>Wie beeinflusst die Verletzung das tägliche Leben? (Gehen, Treppen, Schlaf, Arbeit...)</value></data>
+  <data name="MedCase_FunctionalAbility_Placeholder" xml:space="preserve"><value>Beispiel: Schwierigkeiten beim Treppensteigen oder längeren Gehen...</value></data>
+  <data name="MedCase_PersonalGoals_Label" xml:space="preserve"><value>Persönliche Ziele des Patienten</value></data>
+  <data name="MedCase_PersonalGoals_Placeholder" xml:space="preserve"><value>Beispiel: Rückkehr zum Laufen, das Kind schmerzfrei tragen...</value></data>
+
 <data name="Profile_ChangePhoto" xml:space="preserve">
     <value>Profilfoto ändern</value>
     <comment>Profile Page - Button to change profile picture</comment>

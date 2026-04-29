@@ -102,24 +102,52 @@ sb.Append($@"
         margin-bottom: 10px;
     }}
 
-    /* Info Sections */
-    .info-section {{
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 20px;
-        margin-bottom: 30px;
+    .additional-info-page {{
+  margin-top: 60px;
+  border-top: 2px dashed #00bfa5;
+  display: block;
+  width: 100%;
+  min-height: 600px; /* اختياري: يعطي إحساس الصفحة */
+  background: #fff;
+  box-sizing: border-box;
+  page-break-before: always; /* للطباعة */
+  break-before: page;        /* للمتصفحات الحديثة */
+}}
+
+ @media print {{
+        .additional-info-page {{
+            page-break-before: always;
+            break-before: page;
+        }}
     }}
 
-    .info-box {{
-        flex: 1 1 45%;
-        background-color: #f0f4f8;
-        border: 1px solid #cfd8dc;
-        border-radius: 8px;
-        padding: 15px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        transition: all 0.3s ease;
-    }}
+
+
+    /* Info Sections */
+    .info-section {{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}}
+
+.info-box {{
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: none;
+    border-top: 4px solid #00695c; /* خط علوي نحيف يعطي فخامة */
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}}
+
+.info-box h3 {{
+    margin-top: 0;
+    font-size: 1.1em;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}}
 
     .info-box:hover {{
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -236,6 +264,15 @@ sb.Append($@"
         </div>" : "")}
     </div>
 
+    {(!string.IsNullOrWhiteSpace(medicalCase.InjuryHistory) || !string.IsNullOrWhiteSpace(medicalCase.Medications) || !string.IsNullOrWhiteSpace(medicalCase.FunctionalAbility) || !string.IsNullOrWhiteSpace(medicalCase.PersonalGoals) ? $@"
+    <div class='info-box additional-info-page'>
+        <h3>{_loc.GetSystem("AdditionalPatientInfo")}</h3>
+        {(!string.IsNullOrWhiteSpace(medicalCase.InjuryHistory) ? $"<p><strong>{_loc.GetSystem("InjuryHistory")}:</strong> {medicalCase.InjuryHistory}</p>" : "")}
+        {(!string.IsNullOrWhiteSpace(medicalCase.Medications) ? $"<p><strong>{_loc.GetSystem("Medications")}:</strong> {medicalCase.Medications}</p>" : "")}
+        {(!string.IsNullOrWhiteSpace(medicalCase.FunctionalAbility) ? $"<p><strong>{_loc.GetSystem("FunctionalAbility")}:</strong> {medicalCase.FunctionalAbility}</p>" : "")}
+        {(!string.IsNullOrWhiteSpace(medicalCase.PersonalGoals) ? $"<p><strong>{_loc.GetSystem("PersonalGoals")}:</strong> {medicalCase.PersonalGoals}</p>" : "")}
+    </div>" : "")}
+
     <div class='ai-section'>
         <div class='ai-title'>🤖 {_loc.GetSystem("SmartAnalysisTitle")}</div>
         <p>{generalAnalysis.Replace("\n", "<br/>")}</p>
@@ -296,6 +333,10 @@ if (medicalCase.BloodGroup != null) vitalsSb.AppendLine($"- Blood Group: {medica
 if (medicalCase.IsSmoker.HasValue) vitalsSb.AppendLine($"- Is Smoker: {(medicalCase.IsSmoker == true ? "Yes" : "No")}");
 if (medicalCase.HasChronicDisease.HasValue) vitalsSb.AppendLine($"- Has Chronic Diseases: {(medicalCase.HasChronicDisease == true ? "Yes" : "No")}");
 if (medicalCase.ActivityLevel != null) vitalsSb.AppendLine($"- Activity Level: {medicalCase.ActivityLevel}");
+if (!string.IsNullOrWhiteSpace(medicalCase.InjuryHistory)) vitalsSb.AppendLine($"- Injury History: {medicalCase.InjuryHistory}");
+if (!string.IsNullOrWhiteSpace(medicalCase.Medications)) vitalsSb.AppendLine($"- Medications: {medicalCase.Medications}");
+if (!string.IsNullOrWhiteSpace(medicalCase.FunctionalAbility)) vitalsSb.AppendLine($"- Functional Ability: {medicalCase.FunctionalAbility}");
+if (!string.IsNullOrWhiteSpace(medicalCase.PersonalGoals)) vitalsSb.AppendLine($"- Personal Goals: {medicalCase.PersonalGoals}");
 vitalsSb.AppendLine($"- Patient Date of Birth: {medicalCase.Patient.BirthDate:yyyy-MM-dd}");
 vitalsSb.AppendLine($"- Current Date: {DateTime.Today:yyyy-MM-dd}");
 

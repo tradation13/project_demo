@@ -13,7 +13,9 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace IPTS.Services
 {
-    public class UserService(LocService locService,IHttpContextAccessor httpContextAccessor,LinkGenerator linkGenerator,HttpUser currentUser, IMapper mapper,EmailService emailService, ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IdentityErrorTranslator identityErrorTranslator) : BaseService<AppUser>(context, mapper)
+    using Microsoft.AspNetCore.Hosting;
+
+    public class UserService(LocService locService,IHttpContextAccessor httpContextAccessor,LinkGenerator linkGenerator,HttpUser currentUser, IMapper mapper,EmailService emailService, ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IdentityErrorTranslator identityErrorTranslator, IWebHostEnvironment webHostEnvironment) : BaseService<AppUser>(context, mapper)
     {
         private readonly UserManager<AppUser> _userManager = userManager;
         private readonly EmailService _emailService = emailService;
@@ -24,7 +26,7 @@ namespace IPTS.Services
         private readonly LinkGenerator _linkGenerator = linkGenerator; 
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
         private readonly IdentityErrorTranslator _identityErrorTranslator = identityErrorTranslator;
-        
+        private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
 
         private async Task<AppUser> CreateUserAndSetTheDefaultRoleAsync(AppUser user, string password, string userTypeName)
         {
@@ -110,7 +112,12 @@ namespace IPTS.Services
                             var originalName = Path.GetFileNameWithoutExtension(model.Doctor.PhotoFile.FileName);
                             var guid = Guid.NewGuid().ToString();
                             photoFileName = $"{originalName}_{guid}{ext}";
-                            var savePath = Path.Combine("InternalStorage", "DoctorPhotos", photoFileName);
+                            var folderPath = Path.Combine(_webHostEnvironment.ContentRootPath, "InternalStorage", "DoctorPhotos");
+                            if (!Directory.Exists(folderPath))
+                            {
+                                Directory.CreateDirectory(folderPath);
+                            }
+                            var savePath = Path.Combine(folderPath, photoFileName);
                             using (var stream = new FileStream(savePath, FileMode.Create))
                             {
                                 await model.Doctor.PhotoFile.CopyToAsync(stream);
@@ -218,23 +225,36 @@ namespace IPTS.Services
                         // حذف الصورة القديمة من InternalStorage إذا كانت موجودة
                         if (!string.IsNullOrWhiteSpace(oldPhoto))
                         {
-                            var oldPath = Path.Combine("InternalStorage", "DoctorPhotos", oldPhoto);
+                            var oldPath = Path.Combine(_webHostEnvironment.ContentRootPath, "InternalStorage", "DoctorPhotos", oldPhoto);
                             if (File.Exists(oldPath))
                             {
-                                File.Delete(oldPath);
-                                LogHelper.LogWithContext($"[DoctorImage] Deleted old photo: {oldPath}", user.Id, "doctor", "DoctorImage");
+                                try
+                                {
+                                    File.Delete(oldPath);
+                                    LogHelper.LogWithContext($"[DoctorImage] Deleted old photo: {oldPath}", user.Id, "doctor", "DoctorImage");
+                                }
+                                catch (Exception ex)
+                                {
+                                    LogHelper.LogWithContext($"[DoctorImage] Failed to delete old photo: {oldPath}. Error: {ex.Message}", user.Id, "doctor", "DoctorImage");
+                                }
                             }
                             else
                             {
                                 LogHelper.LogWithContext($"[DoctorImage] Old photo not found: {oldPath}", user.Id, "doctor", "DoctorImage");
                             }
                         }
+                        // التأكد من وجود المجلد قبل الحفظ
+                        var folderPath = Path.Combine(_webHostEnvironment.ContentRootPath, "InternalStorage", "DoctorPhotos");
+                        if (!Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
                         // حفظ الصورة الجديدة
                         var ext = Path.GetExtension(photoFile.FileName);
                         var originalName = Path.GetFileNameWithoutExtension(photoFile.FileName);
                         var guid = Guid.NewGuid().ToString();
                         var photoFileName = $"{originalName}_{guid}{ext}";
-                        var savePath = Path.Combine("InternalStorage", "DoctorPhotos", photoFileName);
+                        var savePath = Path.Combine(folderPath, photoFileName);
                         using (var stream = new FileStream(savePath, FileMode.Create))
                         {
                             await photoFile.CopyToAsync(stream);

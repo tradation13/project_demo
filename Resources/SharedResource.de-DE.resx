@@ -2249,4 +2249,112 @@
     <value>Profil</value>
     <comment>Shared</comment>
   </data>
+  <data name="Dash_TotalPatients" xml:space="preserve">
+    <value>Gesamtpatienten</value>
+    <comment>VIiews -&gt; Admin -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_TotalTherapists" xml:space="preserve">
+    <value>Gesamttherapeuten</value>
+    <comment>VIiews -&gt; Admin -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_TotalAdmins" xml:space="preserve">
+    <value>Gesamtadmins</value>
+    <comment>VIiews -&gt; Admin -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_TotalMedicalCases" xml:space="preserve">
+    <value>Gesamtmedizinische Fälle</value>
+    <comment>VIiews -&gt; Admin -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_TotalTests" xml:space="preserve">
+    <value>Gesamttests</value>
+    <comment>VIiews -&gt; Admin -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_TotalTestGroups" xml:space="preserve">
+    <value>Gesamttestgruppen</value>
+    <comment>VIiews -&gt; Admin -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_UserTypesInSystem" xml:space="preserve">
+    <value>Benutzertypen im System</value>
+    <comment>VIiews -&gt; Admin -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_SystemOverview" xml:space="preserve">
+    <value>Systemübersicht</value>
+    <comment>VIiews -&gt; Admin -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Title" xml:space="preserve">
+    <value>Dashboard</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Subtitle" xml:space="preserve">
+    <value>Zusammenfassung der Systemstatistiken</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalPatients" xml:space="preserve">
+    <value>Gesamtpatienten</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Patients_Description" xml:space="preserve">
+    <value>Registrierte Patienten im System</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalDoctors" xml:space="preserve">
+    <value>Gesamttherapeuten</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Doctors_Description" xml:space="preserve">
+    <value>Therapeuten und Ärzte</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalAdmins" xml:space="preserve">
+    <value>Gesamtadmins</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Admins_Description" xml:space="preserve">
+    <value>Systemadministratoren</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalCases" xml:space="preserve">
+    <value>Medizinische Fälle</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Cases_Description" xml:space="preserve">
+    <value>Registrierte Fälle</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalTests" xml:space="preserve">
+    <value>Gesamttests</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Tests_Description" xml:space="preserve">
+    <value>Verfügbare Tests</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TestGroups" xml:space="preserve">
+    <value>Testgruppen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TestGroups_Description" xml:space="preserve">
+    <value>Mehrere Gruppen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_UserTypes" xml:space="preserve">
+    <value>Benutzertypen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_UserTypes_Types" xml:space="preserve">
+    <value>Patient • Therapeut • Admin</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_UserTypes_Description" xml:space="preserve">
+    <value>Hauptbenutzertypen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Info_Title" xml:space="preserve">
+    <value>Systeminformationen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Info_Description" xml:space="preserve">
+    <value>Diese Zusammenfassung zeigt umfassende Statistiken aller im System registrierten Daten. Die Daten werden automatisch aktualisiert, wenn neue Daten hinzugefügt oder gelöscht werden.</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
 </root>

@@ -1797,9 +1797,85 @@
     <comment>Messages</comment>
   </data>
   <data name="UploadMedicalPrescription" xml:space="preserve">
-  <value>Upload Medical Prescription</value>
-</data>
-<data name="ClickToUploadOrDragAndDrop" xml:space="preserve">
+    <value>Upload Medical Prescription</value>
+  </data>
+  <data name="Dashboard_Title" xml:space="preserve">
+    <value>Dashboard</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Subtitle" xml:space="preserve">
+    <value>System Statistics Summary</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalPatients" xml:space="preserve">
+    <value>Total Patients</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Patients_Description" xml:space="preserve">
+    <value>Registered Patients in System</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalDoctors" xml:space="preserve">
+    <value>Total Doctors</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Doctors_Description" xml:space="preserve">
+    <value>Doctors and Therapists</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalAdmins" xml:space="preserve">
+    <value>Total Admins</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Admins_Description" xml:space="preserve">
+    <value>System Administrators</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalCases" xml:space="preserve">
+    <value>Medical Cases</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Cases_Description" xml:space="preserve">
+    <value>Registered Cases</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalTests" xml:space="preserve">
+    <value>Total Tests</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Tests_Description" xml:space="preserve">
+    <value>Available Tests</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TestGroups" xml:space="preserve">
+    <value>Test Groups</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TestGroups_Description" xml:space="preserve">
+    <value>Multiple Groups</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_UserTypes" xml:space="preserve">
+    <value>User Types</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_UserTypes_Types" xml:space="preserve">
+    <value>Patient • Doctor • Admin</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_UserTypes_Description" xml:space="preserve">
+    <value>Main User Types</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Info_Title" xml:space="preserve">
+    <value>System Information</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Info_Description" xml:space="preserve">
+    <value>This summary displays comprehensive statistics of all data registered in the system. Data is updated automatically when new data is added or deleted.</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="ClickToUploadOrDragAndDrop" xml:space="preserve">
   <value>Click to upload or drag &amp; drop</value>
 </data>
 <data name="FileFormatAndSizeLimit" xml:space="preserve">

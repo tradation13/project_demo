@@ -126,14 +126,22 @@ builder.Services.AddControllersWithViews()
             builder.Services.AddMemoryCache();
             var app = builder.Build();
 
-// السماح بالوصول للملفات الثابتة في wwwroot
-app.UseStaticFiles();
+// 1. السماح بالوصول للملفات الثابتة العادية في wwwroot
+app.UseStaticFiles(); 
 
-// السماح بالوصول لمجلد InternalStorage كـ static files
+// 2. تعريف مسار مجلد الصور (خارج wwwroot)
+var internalStoragePath = Path.Combine(builder.Environment.ContentRootPath, "InternalStorage");
+
+// تأكد أن المجلد موجود عشان ما يرمي Exception ويقفل الموقع
+if (!Directory.Exists(internalStoragePath))
+{
+    Directory.CreateDirectory(internalStoragePath);
+}
+
+// 3. منح تصريح مرور لمجلد InternalStorage
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "InternalStorage")),
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(internalStoragePath),
     RequestPath = "/InternalStorage"
 });
 

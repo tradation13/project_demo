@@ -39,7 +39,7 @@ namespace IPTS.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Admins");
+                    b.ToTable("Admins", (string)null);
                 });
 
             modelBuilder.Entity("IPTS.Models.Entites.AppUser", b =>
@@ -477,7 +477,7 @@ namespace IPTS.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserTypes");
+                    b.ToTable("UserTypes", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

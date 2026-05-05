@@ -1,36 +1,49 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: [
-        './Views/**/*.cshtml',
-        './Areas/**/Views/**/*.cshtml'
-    ],
-    theme: {
-        extend: {
-            colors: {
-                primary: {
-                    DEFAULT: '#22C55E',   // «·√Œ÷— «·√”«”Ì (Green 500)
-                    light: '#4ADE80',     // «·√Œ÷— «·›« Õ (Green 400)s
-                    dark: '#16A34A',       // «·√Œ÷— «·€«„ﬁ (Green 600)
-                    100: '#DCFCE7',
-                    200: '#BBF7D0',
-                    300: '#86EFAC',
-                    400: '#4ADE80',
-                    500: '#22C55E',
-                    600: '#16A34A',
-                    700: '#15803D',
-                    800: '#166534',
-                    900: '#14532D',
-                },
-                secondary: {
-                    DEFAULT: '#9CA3AF',   // —„«œÌ „ Ê”ÿ (Gray 400)
-                    light: '#D1D5DB',     // —„«œÌ ›« Õ (Gray 300)
-                    dark: '#6B7280'       // —„«œÌ €«„ﬁ (Gray 500)
-                }
-            },
-            fontFamily: {
-                sans: ['Montserrat', 'ui-sans-serif', 'system-ui'],
-            },
-        }
+  content: ["./Views/**/*.cshtml", "./Areas/**/Views/**/*.cshtml"],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          // Tints (ÿßŸÑÿØÿ±ÿ¨ÿßÿ™ ÿßŸÑŸÅÿßÿ™ÿ≠ÿ©)
+          50: "#F0FDF4",
+          100: "#DCFCE7",
+          200: "#BBF7D0",
+          300: "#86EFAC",
+          400: "#4ADE80",
+          light: "#4ADE80", // ŸÖÿ∑ÿßÿ®ŸÇ ŸÑÿØÿ±ÿ¨ÿ© 400
+
+          // Base & Saturation (ÿßŸÑŸÑŸàŸÜ ÿßŸÑÿ£ÿ≥ÿßÿ≥Ÿä)
+          500: "#22C55E",
+          DEFAULT: "#22C55E", // Green 500
+
+          // Shades (ÿßŸÑÿØÿ±ÿ¨ÿßÿ™ ÿßŸÑÿ∫ÿßŸÖŸÇÿ©)
+          600: "#16A34A",
+          dark: "#16A34A", // ŸÖÿ∑ÿßÿ®ŸÇ ŸÑÿØÿ±ÿ¨ÿ© 600
+          700: "#15803D",
+          800: "#166534",
+          900: "#14532D",
+          950: "#052E16",
+        },
+        secondary: {
+          100: "#F3F4F6",
+          200: "#E5E7EB",
+          300: "#D1D5DB",
+          light: "#D1D5DB", // Gray 300
+          400: "#9CA3AF",
+          DEFAULT: "#9CA3AF", // Gray 400
+          500: "#6B7280",
+          dark: "#6B7280", // Gray 500
+          600: "#4B5563",
+          700: "#374151",
+          800: "#1F2937",
+          900: "#111827",
+        },
+      },
+      fontFamily: {
+        sans: ["Montserrat", "ui-sans-serif", "system-ui"],
+      },
     },
-    plugins: [],
-}
+  },
+  plugins: [],
+};

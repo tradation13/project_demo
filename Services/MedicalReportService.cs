@@ -107,7 +107,6 @@ sb.Append($@"
   border-top: 2px dashed #00bfa5;
   display: block;
   width: 100%;
-  min-height: 600px; /* اختياري: يعطي إحساس الصفحة */
   background: #fff;
   box-sizing: border-box;
   page-break-before: always; /* للطباعة */

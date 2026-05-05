@@ -1,4 +1,5 @@
 ﻿@model List<DoctorViewModel>
+@inject IWebHostEnvironment WebHostEnvironment
 @{
     ViewData["Title"] = SharedLocalizer["Therapies_PageTitle"];
     Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
@@ -25,34 +26,9 @@
     </section>
 
     <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        @* <form method="get" class="mb-6 flex flex-col gap-6 lg:flex-row">
-            <div class="flex-1">
-                <input type="text" name="search" value="@(Context.Request.Query["search"])" placeholder="Search therapists by name or specialty..."
-                       class="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-gray-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            </div>
-            <div class="lg:w-48">
-                <select name="sort" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="name" selected="@(Context.Request.Query["sort"] == "name")">Name (A-Z)</option>
-                    <option value="rating" selected="@(Context.Request.Query["sort"] == "rating")">Highest Rated</option>
-                    <option value="experience" selected="@(Context.Request.Query["sort"] == "experience")">Most Experienced</option>
-                    <option value="availability" selected="@(Context.Request.Query["sort"] == "availability")">Availability</option>
-                </select>
-            </div>
-            <div class="lg:w-48">
-                <select name="specialty" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">All Specialties</option>
-                    @foreach (var spec in Model.Select(d => d.Specialty).Distinct())
-                    {
-                        <option >1</option>
-                    }
-                </select>
-            </div>
-            <button type="submit" class="rounded-lg bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700">Filter</button>
-        </form> *@
-
         <div class="mb-8">
             <p id="results-summary" class="text-gray-600">
-                @SharedLocalizer["Therapies_Showing"] @Model.Count 
+                @SharedLocalizer["Therapies_Showing"] @Model.Count
                 @(Model.Count == 1 ? SharedLocalizer["Therapies_Doctor"] : SharedLocalizer["Therapies_Doctors"])
             </p>
         </div>
@@ -78,22 +54,31 @@
                         continue;
                     }
 
-                    var doctorItem = doctor!;
-
                     var delay = i * 120;
+                    var doctorItem = doctor!;
+                    var photoFileName = doctorItem.PhotoUrl?.Trim();
+                    var photoFileExists = false;
+
+                    if (!string.IsNullOrWhiteSpace(photoFileName))
+                    {
+                        var safePhotoFileName = System.IO.Path.GetFileName(photoFileName);
+                        var photoFilePath = System.IO.Path.Combine(WebHostEnvironment.WebRootPath, "InternalStorage", "DoctorPhotos", safePhotoFileName);
+                        photoFileExists = System.IO.File.Exists(photoFilePath);
+                        photoFileName = safePhotoFileName;
+                    }
+
                     <div class="therapy-reveal rounded-xl bg-white p-6 shadow-lg transition-shadow hover:shadow-xl" data-delay="@delay" style="opacity: 0; transform: translateY(28px); transition: opacity 0.95s ease, transform 0.95s ease;">
                         <div class="text-center">
                             <div class="relative mx-auto mb-4 flex h-24 w-24 items-center justify-center">
-                                @if (string.IsNullOrWhiteSpace(doctorItem.PhotoUrl))
+                                @if (!photoFileExists)
                                 {
                                     <i class="fa-solid fa-user-doctor text-primary-dark" style="font-size: 80px;"></i>
                                 }
                                 else
                                 {
-                                     <img src="/InternalStorage/DoctorPhotos/@doctorItem.PhotoUrl"
+                                    <img src="/InternalStorage/DoctorPhotos/@photoFileName"
                                          alt="@(doctorItem.FullName ?? "Doctor")"
-                                         class="h-24 w-24 rounded-full object-cover"
-                                         onload="console.log('PhotoUrl: @doctorItem.PhotoUrl')" />
+                                         class="h-24 w-24 rounded-full object-cover" />
                                 }
                             </div>
                             <h3 class="mb-2 text-xl font-semibold text-gray-900">@(doctorItem.FullName ?? SharedLocalizer["Shared_NotAvailable"])</h3>
@@ -102,24 +87,14 @@
                                 @(SharedLocalizer[doctorItem.Specialty ?? "N/A"])
                             </p>
 
-                            @* <div class="mb-4 flex items-center justify-center space-x-2"> *@
-                            @* <div class="flex text-yellow-400"> *@
-                            @* @for (int i = 0; i < Math.Round(doctor.Rating); i++) *@
-                            @* { *@
-                            @* <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="..." /></svg> *@
-                            @* } *@
-                            @* </div> *@
-                            @* <span class="text-sm text-gray-600">@doctor.Rating.ToString("0.0")</span> *@
-                            @* </div> *@
-                            
-                            <a href="@Url.Action("Index","Profile", new {id = doctorItem.UserId})"
+                            <a href="@Url.Action("Index","Profile", new { id = doctorItem.UserId })"
                                class="bg-primary-50 mb-2 inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-primary-600 transition-colors hover:bg-primary-100">
                                 @SharedLocalizer["Therapies_ViewProfile"]
                             </a>
                             <a asp-area="patient"
-                                asp-controller="Appointment"
-                                asp-action="Index"
-                                asp-route-Id="@doctorItem.UserId"
+                               asp-controller="Appointment"
+                               asp-action="Index"
+                               asp-route-Id="@doctorItem.UserId"
                                class="inline-flex w-full items-center justify-center rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-700">
                                 @SharedLocalizer["Therapies_BookNow"]
                             </a>

@@ -94,7 +94,7 @@ namespace IPTS.Areas.Doctor.Controllers
     Description = model.Description,
     PatientId = model.PatientId,
     DoctorId = doctor.Id,
-    // التعديل هنا: أضفنا كل الحقول الجديدة التي استقبلناها من الموديل
+    
     Weight = model.Weight,
     Height = model.Height,
     BloodGroup = model.BloodGroup,
@@ -167,7 +167,7 @@ namespace IPTS.Areas.Doctor.Controllers
 [HttpGet]
 public async Task<IActionResult> PrintReport(int id)
 {
-    // 1. جلب البيانات مع كل الـ Includes الضرورية
+    
     var medicalCase = await _medicalCaseService.GetByIdAsync(
         id,
         q => q
@@ -186,16 +186,16 @@ public async Task<IActionResult> PrintReport(int id)
     
     string html = await _medicalReportService.GenerateHtmlReport(medicalCase, currentLang);
 
-    // 3. تحويل الـ HTML إلى PDF
+    
     byte[] pdfBytes = _pdfPrintService.GeneratePdf(new Helpers.HttpUser(HttpContext), html, $"Medical Report - {medicalCase.Name}");
 
-    // --- بداية الشغل الجديد (المنطق اللي اتفقنا عليه) ---
+    
 
-    // 3. تجهيز اسم الملف والمسار
+    
     string fileName = $"{Guid.NewGuid()}_{medicalCase.Name}.pdf";
     string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "InternalStorage", "MedicalReports");
 
-    // التأكد أن المجلد موجود، وإذا مش موجود ننشئه
+   
     if (!Directory.Exists(folderPath))
     {
         Directory.CreateDirectory(folderPath);
@@ -203,25 +203,23 @@ public async Task<IActionResult> PrintReport(int id)
 
     string filePath = Path.Combine(folderPath, fileName);
 
-    // 4. حفظ الملف في السيرفر (Physical Save)
+    
     await System.IO.File.WriteAllBytesAsync(filePath, pdfBytes);
 
-    // 5. حفظ السجل في قاعدة البيانات (Database Record)
+    
     var reportHistory = new MedicalReportHistory
     {
         MedicalCaseId = medicalCase.Id,
-        UserId = medicalCase.Patient.UserId, // معرف المريض
-        ReportUrl = fileName, // نحفظ اسم الملف فقط كما اتفقنا
+        UserId = medicalCase.Patient.UserId, 
+        ReportUrl = fileName, 
         CreatedAt = DateTime.UtcNow,
     };
 
-    // هنا استدعي السيرفس الخاصة بالتقارير أو الـ Context لحفظ السجل
+    
     _context.MedicalReportHistories.Add(reportHistory);
     await _context.SaveChangesAsync();
 
-    // --- نهاية الشغل الجديد ---
-    
-   // تحديد البادئة بناءً على اللغة
+   
 string filePrefix = (currentLang == "de") ? "MedizinischerBericht" : "MedicalReport";
 
 return File(pdfBytes, "application/pdf", $"{filePrefix}_Case{medicalCase.Id}_{medicalCase.Patient.User.LastName}.pdf");
@@ -232,221 +230,19 @@ public IActionResult ViewReport(string fileName)
 {
     if (string.IsNullOrEmpty(fileName)) return NotFound();
 
-    // نحدد المسار الفيزيائي للمجلد الذي يحتوي التقارير
+    
     var path = Path.Combine(Directory.GetCurrentDirectory(), "InternalStorage", "MedicalReports", fileName);
 
-    // نتحقق هل الملف موجود فعلاً في السيرفر؟
+ 
     if (!System.IO.File.Exists(path)) return NotFound("الملف غير موجود على السيرفر");
 
-    // قراءة الملف كـ Stream (أفضل للأداء من read all bytes)
+   
     var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
     
-    // إرجاع الملف بصيغة PDF ليفتحه المتصفح
+    
     return File(fileStream, "application/pdf");
 }
 
-//         [HttpGet]
-//         public async Task<IActionResult> PrintReport(int id)
-//         {
-//             var medicalCase = await _medicalCaseService.GetByIdAsync(
-//                 id,
-//                 q => q
-//                     .Include(mc => mc.Patient).ThenInclude(p => p.User)
-//                     .Include(mc => mc.Doctor).ThenInclude(d => d.User)
-//                     .Include(mc => mc.Doctor).ThenInclude(d => d.Specialty)
-//                     .Include(mc => mc.MedicalCaseTests)
-//                         .ThenInclude(mct => mct.Test)
-//                             .ThenInclude(t => t.TestGroup)
-//             );
-
-//             if (medicalCase == null)
-//                 return NotFound();
-
-//             var sb = new System.Text.StringBuilder();
-
-//             sb.Append($@"
-// <html>
-// <head>
-//     <style>
-//         body {{
-//             font-family: 'Segoe UI', Arial, sans-serif;
-//             color: #1a1a1a;
-//             margin: 30px;
-//             font-size: 10pt;
-//         }}
-//         h1, h2, h3 {{
-//             color: #004d40;
-//             margin-bottom: 6px;
-//         }}
-//         .header {{
-//             text-align: center;
-//             margin-bottom: 25px;
-//         }}
-//         .header img {{
-//             width: 150px;
-//             margin-bottom: 10px;
-//         }}
-//         .info-section {{
-//             display: flex;
-//             justify-content: space-between;
-//             margin-bottom: 20px;
-//         }}
-//         .info-box {{
-//             width: 48%;
-//             padding: 8px 12px;
-//             border: 1px solid #b0bec5;
-//             border-radius: 6px;
-//             background-color: #f9f9f9;
-//         }}
-//         .test-group {{
-//             margin-top: 25px;
-//             border-top: 2px solid #004d40;
-//             padding-top: 10px;
-//         }}
-//         table {{
-//             width: 100%;
-//             border-collapse: collapse;
-//             margin-top: 10px;
-//             font-size: 10pt;
-//         }}
-//         th, td {{
-//             border: 1px solid #cfd8dc;
-//             padding: 5px;
-//         }}
-//         th {{
-//             background-color: #004d40;
-//             color: white;
-//             text-align: left;
-//         }}
-//         .footer {{
-//             border-top: 2px solid #004d40;
-//             margin-top: 30px;
-//             padding-top: 10px;
-//             font-size: 9pt;
-//             text-align: right;
-//             color: #555;
-//         }}
-//         svg {{
-//             margin-top: 10px;
-//         }}
-//         text {{
-//             font-size: 8pt;
-//             fill: #004d40;
-//         }}
-//     </style>
-// </head>
-// <body>
-//     <div class='header'>
-//         <img src='wwwroot/images/logo.png' alt='System Logo' />
-//         <h1>Physiotech</h1>
-//         <h3>Physiotherapy & Rehabilitation Governance Platform</h3>
-//     </div>
-
-//     <h2>Medical Report: {medicalCase?.Name ?? "N/A"}</h2>
-//     <p><b>Description:</b> {medicalCase?.Description ?? "N/A"}</p>
-//     <p><b>Created At:</b> {medicalCase?.CreatedAt:yyyy-MM-dd}</p>
-//     <p><b>Case ID:</b> #{medicalCase?.Id}</p>
-
-//     <div class='info-section'>
-//         <div class='info-box'>
-//             <h3>Doctor Information</h3>
-//             <p><b>Name:</b> Dr. {medicalCase?.Doctor?.User?.FirstName} {medicalCase?.Doctor?.User?.LastName}</p>
-//             <p><b>Email:</b> {medicalCase?.Doctor?.User?.Email}</p>
-//             <p><b>Specialty:</b> {medicalCase?.Doctor?.Specialty?.Name ?? "N/A"}</p>
-//         </div>
-
-//         <div class='info-box'>
-//             <h3>Patient Information</h3>
-//             <p><b>Name:</b> {medicalCase?.Patient?.User?.FirstName} {medicalCase?.Patient?.User?.LastName}</p>
-            
-//             <p><b>Birth Date:</b> {medicalCase?.Patient?.BirthDate:yyyy-MM-dd}</p>
-//         </div>
-//     </div>
-// ");
-
-//             var groups = medicalCase.MedicalCaseTests
-//                 .GroupBy(mct => mct.Test.TestGroup.Name)
-//                 .OrderBy(g => g.Key);
-
-//             foreach (var group in groups)
-//             {
-//                 sb.Append($@"
-//     <div class='test-group'>
-//         <h2>Test Group: {group.Key}</h2>
-//     ");
-
-//                 var tests = group.GroupBy(mct => mct.Test.Name);
-
-//                 foreach (var test in tests)
-//                 {
-//                     sb.Append($"<h3>Test: {test.Key}</h3>");
-
-//                     var orderedTests = test.OrderBy(t => t.CreatedAt).ToList();
-
-//                     if (orderedTests.Count > 1)
-//                     {
-//                         // 1. عرض الجدول أولاً
-//                         sb.Append("<table><tr><th>Date</th><th>Result</th></tr>");
-//                         foreach (var t in orderedTests)
-//                         {
-//                             sb.Append($"<tr><td>{t.CreatedAt:yyyy-MM-dd}</td><td>{t.Result}</td></tr>");
-//                         }
-//                         sb.Append("</table>");
-
-//                         // 2. رسم المنحنى بعد الجدول
-//                         var values = orderedTests.Select(t => double.TryParse(t.Result, out var r) ? r : 0).ToList();
-//                         var dates = orderedTests.Select(t => t.CreatedAt.ToString("yyyy-MM-dd")).ToList();
-
-//                         double width = 400;
-//                         double height = 150;
-//                         double padding = 30;
-
-//                         double maxVal = values.Max();
-//                         double minVal = values.Min();
-
-//                         var points = values.Select((val, i) => {
-//                             double x = padding + i * (width - 2 * padding) / (values.Count - 1);
-//                             double y = height - padding - ((val - minVal) / (maxVal - minVal + 0.01)) * (height - 2 * padding);
-//                             return $"{x},{y}";
-//                         });
-
-//                         sb.Append($@"
-// <svg width='{width}' height='{height}'>
-//     <polyline fill='none' stroke='#26a69a' stroke-width='2' points='{string.Join(" ", points)}' />
-// ");
-
-//                         for (int i = 0; i < points.Count(); i++)
-//                         {
-//                             var coords = points.ElementAt(i).Split(',');
-//                             sb.Append($@"<circle cx='{coords[0]}' cy='{coords[1]}' r='3' fill='#004d40' />");
-//                             sb.Append($@"<text x='{coords[0]}' y='{Convert.ToDouble(coords[1]) - 5}' text-anchor='middle'>{values[i]}</text>");
-//                             sb.Append($@"<text x='{coords[0]}' y='{height - padding + 15}' text-anchor='middle'>{dates[i]}</text>");
-//                         }
-
-//                         sb.Append("</svg>");
-//                     }
-//                     else
-//                     {
-//                         var single = orderedTests.First();
-//                         sb.Append($"<p><b>Date:</b> {single.CreatedAt:yyyy-MM-dd} — <b>Result:</b> {single.Result}</p>");
-//                     }
-//                 }
-
-//                 sb.Append("</div>");
-//             }
-
-//             sb.Append($@"
-//     <div class='footer'>
-//         <p>Generated on {DateTime.Now:yyyy-MM-dd HH:mm}</p>
-//         <p>Report generated upon request by user #{medicalCase.PatientId}</p>
-//     </div>
-// </body>
-// </html>
-// ");
-
-//             byte[] pdfBytes = _pdfPrintService.GeneratePdf(new Helpers.HttpUser(HttpContext),sb.ToString(), $"Medical Report - {medicalCase.Name}");
-//             return File(pdfBytes, "application/pdf", $"MedicalReport_{medicalCase.Id}.pdf");
-//         }
 
 
     }

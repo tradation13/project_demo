@@ -6,9 +6,6 @@ namespace IPTS.Areas.Admin.ViewsModels
     {
         public int? Id { get; set; }
         
-        // [Required(ErrorMessage = "Identity Number is required")]
-        // [StringLength(50, ErrorMessage = "Identity Number cannot exceed 50 characters")]
-        // [Display(Name = "Identity Number")]
         public string IdentityNumber { get; set; } = string.Empty;
         
         [Required(ErrorMessage = "Birth Date is required")]

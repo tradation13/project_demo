@@ -104,6 +104,20 @@ namespace IPTS.ViewModels
         public string EndTime { get; set; } = string.Empty;
     }
 
+    public class PatientAppointmentEditViewModel
+    {
+        public int Id { get; set; }
+        public int DoctorId { get; set; }
+        public string DoctorName { get; set; } = string.Empty;
+        public DateTime ScheduledDate { get; set; }
+        public int SlotIndex { get; set; }
+        public string Time { get; set; } = string.Empty;
+        public string Notes { get; set; } = string.Empty;
+        public IFormFile? PrescriptionFile { get; set; }
+        public string? ExistingPrescriptionFileName { get; set; }
+        public bool RemovePrescription { get; set; }
+    }
+
     public class PatientSearchViewModel
     {
         public string SearchTerm { get; set; } = string.Empty; // Identity, Phone, or Email

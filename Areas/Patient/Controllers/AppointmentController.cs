@@ -214,10 +214,133 @@ namespace IPTS.Areas.Patient.Controllers
             return View("AppointmentDetails", vm);
         }
 
-        [HttpGet("Edit")]
-        public IActionResult Edit()
+        [HttpGet("edit/{id:int}")]
+        public async Task<IActionResult> Edit(int id, [FromQuery] DateTime? date)
         {
-            TempData["WarningMessage"] = _locService.GetSystem("Warn_BookingFailedContactClinic");
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var user = await _userService.GetByIdAsync(userId, q => q.Include(u => u.Patient));
+            if (user?.Patient == null)
+                return Unauthorized();
+
+            var appointment = await _appointmentService.GetByIdAsync(id, a => a
+                .Include(x => x.Doctor).ThenInclude(d => d!.User)
+            );
+
+            if (appointment == null || appointment.PatientId != user.Patient.Id)
+                return Unauthorized();
+
+            var isPast = appointment.ScheduledTime <= DateTime.UtcNow;
+            if (appointment.Status != AppointmentStatus.Pending || isPast)
+            {
+                TempData["WarningMessage"] = _locService.GetSystem("Warn_BookingFailedContactClinic");
+                return RedirectToAction(nameof(Appointments));
+            }
+
+            var selectedDate = (date ?? appointment.ScheduledTime).Date;
+            var timeSlots = await _appointmentService.GetAvailableTimeSlotsAsync(selectedDate, appointment.DoctorId);
+            var isOriginalDate = selectedDate == appointment.ScheduledTime.Date;
+            var selectedSlotIndex = isOriginalDate ? appointment.StartSlotIndex : -1;
+            var selectedTime = isOriginalDate
+                ? selectedDate.AddMinutes(appointment.StartSlotIndex * 20).ToString("HH:mm")
+                : string.Empty;
+
+            var model = new PatientAppointmentEditViewModel
+            {
+                Id = appointment.Id,
+                DoctorId = appointment.DoctorId,
+                DoctorName = $"{appointment.Doctor?.User?.FirstName} {appointment.Doctor?.User?.LastName}".Trim(),
+                ScheduledDate = selectedDate,
+                SlotIndex = selectedSlotIndex,
+                Time = selectedTime,
+                Notes = appointment.Notes ?? string.Empty,
+                ExistingPrescriptionFileName = appointment.PrescriptionFileName
+            };
+
+            ViewBag.TimeSlots = timeSlots;
+            return View(model);
+        }
+
+        [HttpPost("edit/{id:int}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, PatientAppointmentEditViewModel model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var user = await _userService.GetByIdAsync(userId, q => q.Include(u => u.Patient));
+            if (user?.Patient == null)
+                return Unauthorized();
+
+            var appointment = await _appointmentService.GetByIdAsync(id, a => a
+                .Include(x => x.Doctor).ThenInclude(d => d!.User)
+            );
+
+            if (appointment == null || appointment.PatientId != user.Patient.Id)
+                return Unauthorized();
+
+            var isPast = appointment.ScheduledTime <= DateTime.UtcNow;
+            if (appointment.Status != AppointmentStatus.Pending || isPast)
+            {
+                TempData["WarningMessage"] = _locService.GetSystem("Warn_BookingFailedContactClinic");
+                return RedirectToAction(nameof(Appointments));
+            }
+
+            if (model.ScheduledDate == default || model.SlotIndex < 0)
+            {
+                TempData["ErrorMessage"] = _locService.GetSystem("Warn_SelectValidTimeSlot");
+                return RedirectToAction(nameof(Edit), new { id });
+            }
+
+            var scheduledDateUtc = DateTime.SpecifyKind(model.ScheduledDate.Date, DateTimeKind.Utc);
+            var isAvailable = await _appointmentService.IsSlotAvailableAsync(scheduledDateUtc, appointment.DoctorId, model.SlotIndex);
+            if (!isAvailable)
+            {
+                TempData["ErrorMessage"] = _locService.GetSystem("Error_SlotNoLongerAvailable");
+                return RedirectToAction(nameof(Edit), new { id });
+            }
+
+            if (model.PrescriptionFile != null && model.PrescriptionFile.Length > 0)
+            {
+                var (isValid, errorMessage) = _fileService.ValidatePrescriptionFile(model.PrescriptionFile);
+                if (!isValid)
+                {
+                    TempData["ErrorMessage"] = errorMessage;
+                    return RedirectToAction(nameof(Edit), new { id });
+                }
+
+                if (!string.IsNullOrWhiteSpace(appointment.PrescriptionFileName))
+                {
+                    await _fileService.DeletePrescriptionFileAsync(appointment.PrescriptionFileName);
+                }
+
+                appointment.PrescriptionFileName = await _fileService.SavePrescriptionFileAsync(model.PrescriptionFile);
+                if (string.IsNullOrWhiteSpace(appointment.PrescriptionFileName))
+                {
+                    TempData["ErrorMessage"] = _locService.GetSystem("Error_AppointmentBookingFailed");
+                    return RedirectToAction(nameof(Edit), new { id });
+                }
+            }
+            else if (model.RemovePrescription && !string.IsNullOrWhiteSpace(appointment.PrescriptionFileName))
+            {
+                await _fileService.DeletePrescriptionFileAsync(appointment.PrescriptionFileName);
+                appointment.PrescriptionFileName = null;
+            }
+
+            appointment.ScheduledTime = DateTime.SpecifyKind(
+                scheduledDateUtc.AddMinutes(model.SlotIndex * 20),
+                DateTimeKind.Utc
+            );
+            appointment.StartSlotIndex = model.SlotIndex;
+            appointment.EndSlotIndex = model.SlotIndex;
+            appointment.Notes = model.Notes ?? string.Empty;
+
+            await _dbContext.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = _locService.GetSystem("Msg_AppointmentUpdateSuccess");
             return RedirectToAction(nameof(Appointments));
         }
 

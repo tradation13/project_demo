@@ -87,7 +87,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
 {
     try
     {
-        // 1. التأكد من إدخال معلومة واحدة على الأقل
+      
         if (string.IsNullOrWhiteSpace(SearchName) &&
             string.IsNullOrWhiteSpace(PhoneNumber) &&
             string.IsNullOrWhiteSpace(Email))
@@ -98,14 +98,13 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
 
         IPTS.Models.Entites.Patient? patient = null;
 
-        // 2. البحث الذكي (استخدام السيرفيس الجديدة)
-        // نبحث أولاً بالاسم إذا تم اختياره من القائمة أو كتابته
+      
         var patients = await _appointmentService.SearchPatientsAsync(SearchName ?? PhoneNumber ?? Email ?? "");
         
-        // إذا وجدنا نتائج، نأخذ أول مريض (الأكثر مطابقة)
+       
         patient = patients.FirstOrDefault();
 
-        // 3. إذا لم نجد مريضاً بالمطابقة العامة، نجرب البحث المباشر بالهاتف أو الإيميل كخطة بديلة
+       
         if (patient == null && !string.IsNullOrWhiteSpace(PhoneNumber))
         {
             patient = await _appointmentService.SearchPatientByPhoneAsync(PhoneNumber);
@@ -116,7 +115,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
             patient = await _appointmentService.SearchPatientByEmailAsync(Email);
         }
 
-        // 4. في حال لم يتم العثور على أي مريض
+        
         if (patient == null)
         {
             TempData["WarningMessage"] = _locService.GetSystem("Msg_NotFoundCreateNew");
@@ -126,8 +125,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
             return RedirectToAction("CreatePatient");
         }
 
-        // 5. تم العثور على المريض -> التوجه لجدولة الموعد
-        // نضمن تحميل بيانات الـ User لتجنب الـ Null في الاسم
+      
         var patientName = patient.User != null 
             ? $"{patient.User.FirstName} {patient.User.LastName}".Trim() 
             : _locService.GetSystem("Label_Unknown");
@@ -209,7 +207,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
             return View(model);
         }
 
-                // Create the patient using UserService
+                
                 var registerModel = new RegisterViewModel
                 {
                     UserName = model.UserName,
@@ -222,12 +220,12 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
                     UserTypeName = "patient",
                     Patient = new PatientRegisterViewModel
                     {
-                        // IdentityNumber = model.IdentityNumber,
+                       
                         BirthDate = model.BirthDate
                     }
                 };
 
-                // Use UserService to create the patient
+               
                 var result = await _userService.RegisterAsync(registerModel);
                 
                 if (result.Succeeded)
@@ -336,28 +334,28 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
 
                 model.DoctorId = doctor.Id;
                 
-                // Ensure the scheduled date is in UTC format
+               
                 if (model.ScheduledDate.Kind != DateTimeKind.Utc)
                 {
                     model.ScheduledDate = DateTime.SpecifyKind(model.ScheduledDate, DateTimeKind.Utc);
                 }
 
-                // --- 2. الجزء المضاف: معالجة رفع الملف كما فعلنا عند المريض ---
+                
         if (model.PrescriptionFile != null && model.PrescriptionFile.Length > 0)
         {
-            // حفظ الملف باستخدام الـ FileService
+            
             var fileName = await _fileService.SavePrescriptionFileAsync(model.PrescriptionFile);
             
-            // تخزين اسم الملف في الـ ViewModel ليتم تمريره للسيرفيس
+            
             model.PrescriptionFileName = fileName;
         }
         // -------------------------------------------------------
                 
-                // Calculate total slots and duration
+                
                 var totalSlots = model.TotalSlots;
                 var totalDuration = model.TotalDurationMinutes;
                 
-                // Log the appointment data for debugging
+                
                 LogHelper.LogWithContext(
                     $"Creating appointment: Start={model.StartSlotIndex}, End={model.EndSlotIndex}, " +
                     $"Time={model.StartTime}-{model.EndTime}, Duration={totalDuration}min, Patient={model.PatientId}",
@@ -367,7 +365,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
                     LogEventLevel.Information
                 );
                 
-                // Create a list of slot indices for the service
+                
                 var slotIndices = Enumerable.Range(model.StartSlotIndex, totalSlots).ToList();
                 
                 var result = await _appointmentService.CreateAppointmentWithSlotsAsync(model, slotIndices);
@@ -417,7 +415,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
 });
                 }
 
-                // Ensure the date is in UTC format for PostgreSQL
+                
                 var utcDate = DateTime.SpecifyKind(date, DateTimeKind.Utc);
                 var timeSlots = await _appointmentService.GetAvailableTimeSlotsAsync(utcDate, doctor.Id);
                 return Json(new { success = true, timeSlots });
@@ -443,7 +441,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
         {
             try
             {
-                // Verify that the appointment belongs to the current doctor
+               
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.UserId == userId);
                 
@@ -483,7 +481,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
         {
             try
             {
-                // Verify that the appointment belongs to the current doctor
+               
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.UserId == userId);
                 
@@ -529,7 +527,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
                     return View(model);
                 }
 
-                // Verify that the appointment belongs to the current doctor
+                
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.UserId == userId);
                 
@@ -538,7 +536,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
                     return NotFound(_locService.GetSystem("Error_DoctorProfileNotFound"));
                 }
 
-                // استخدام BaseService.UpdateAsync مباشرة
+                
                 var result = await _appointmentService.UpdateAsync<AppointmentEditViewModel>(id, model);
                 if (result == null) return NotFound();
 
@@ -572,7 +570,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
         {
             try
             {
-                // Verify that the appointment belongs to the current doctor
+                
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.UserId == userId);
                 
@@ -623,8 +621,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
                 .Include(a => a.Patient).ThenInclude(p => p.User)
                 .Where(a => a.DoctorId == doctor.Id && a.Status == AppointmentStatus.Pending);
 
-            //if (!string.IsNullOrEmpty(priority))
-            //    query = query.Where(a => a. == priority);
+           
 
             var appointments = await query
                 .OrderByDescending(a => a.ScheduledTime)
@@ -637,21 +634,21 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
         [HttpGet]
         public async Task<IActionResult> AcceptRequest(int id)
         {
-            // جلب بيانات الموعد والمريض
+            
             var appointment = await _appointmentService.GetAppointmentByIdAsync(id);
             if (appointment == null) return NotFound();
 
-            // جلب كل الـ Slots المتاحة في نفس اليوم للطبيب
+           
             var slots = await _appointmentService.GetAvailableTimeSlotsAsync(appointment.ScheduledTime.Date, appointment.DoctorId);
 
-            // ViewModel يحتوي على بيانات الموعد والـ Slots
+            
             var vm = new AcceptAppointmentViewModel
             {
                 AppointmentId = id,
                 PatientName = appointment.PatientName,
                 ScheduledDate = appointment.ScheduledTime.Date,
                 AvailableSlots = slots,
-                SelectedSlots = new List<int> { appointment.StartSlotIndex } // افتراضي: نفس خانة الحجز
+                SelectedSlots = new List<int> { appointment.StartSlotIndex } 
             };
 
             return View(vm);
@@ -663,12 +660,12 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
             if (model.SelectedSlots == null || !model.SelectedSlots.Any())
             {
                 ModelState.AddModelError("", _locService.GetSystem("Val_RequiredTimeSlot"));
-                // إعادة تحميل الـ Slots
+               
                 model.AvailableSlots = await _appointmentService.GetAvailableTimeSlotsAsync(model.ScheduledDate, model.DoctorId);
                 return View(model);
             }
 
-            // تحديث حالة الموعد وتعديل الـ Slots
+           
             var updated = await _appointmentService.ConfirmAndUpdateSlotsAsync(model.AppointmentId, model.SelectedSlots);
 
             if (updated)
@@ -731,7 +728,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
                     if (content == null)
                         return NotFound();
 
-                    // Prefer inline display when possible so browser opens in a new tab
+                    
                     if (!string.IsNullOrWhiteSpace(fileName))
                     {
                         Response.Headers["Content-Disposition"] = $"inline; filename=\"{fileName}\"";
@@ -759,7 +756,7 @@ public async Task<IActionResult> GetPatientSuggestions(string term)
     
     var result = patients.Select(p => new {
         id = p.Id,
-        // دمج الاسم الأول والأخير من جدول الـ User
+        
         name = p.User != null ? $"{p.User.FirstName} {p.User.LastName}" : "Unknown", 
         phone = p.User?.PhoneNumber ?? "",
         email = p.User?.Email ?? ""

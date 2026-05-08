@@ -1,6 +1,7 @@
 ﻿@using IPTS.ViewModels
 @using iText.Layout.Element
 @model DoctorScheduleViewModel
+@inject IWebHostEnvironment WebHostEnvironment
 @{
     Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
     ViewData["Title"] = @SharedLocalizer["Shared_Available"] + " " + @SharedLocalizer["Appt_Header"];
@@ -14,6 +15,8 @@
         </div>
         return;
     }
+
+    var doctorItem = doctor!;
 }
 
 <section class="py-10" aria-label="@SharedLocalizer["Shared_Available"] @SharedLocalizer["Appt_Header"]">
@@ -24,9 +27,22 @@
             <header class="p-6">
                 <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
                     <div class="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-gray-100">
-                        @if (!string.IsNullOrWhiteSpace(doctor?.PhotoUrl))
+                        @{ 
+                            var doctorPhotoUrl = doctor?.PhotoUrl?.Trim();
+                            var doctorPhotoExists = false;
+
+                            if (!string.IsNullOrWhiteSpace(doctorPhotoUrl))
+                            {
+                                var safeDoctorPhotoUrl = System.IO.Path.GetFileName(doctorPhotoUrl);
+                                var doctorPhotoPath = System.IO.Path.Combine(WebHostEnvironment.WebRootPath, "InternalStorage", "DoctorPhotos", safeDoctorPhotoUrl);
+                                doctorPhotoExists = System.IO.File.Exists(doctorPhotoPath);
+                                doctorPhotoUrl = safeDoctorPhotoUrl;
+                            }
+                        }
+
+                        @if (doctorPhotoExists)
                         {
-                            <img src="/InternalStorage/DoctorPhotos/@doctor.PhotoUrl" alt="@doctor.FullName" class="h-full w-full object-cover" />
+                            <img src="/InternalStorage/DoctorPhotos/@doctorPhotoUrl" alt="@doctorItem.FullName" class="h-full w-full object-cover" />
                         }
                         else
                         {
@@ -93,7 +109,7 @@
 
         <!-- Booking Form -->
 
-          <form action="/patient/Appointment/@doctor.Id/book"
+          <form action="/patient/Appointment/@doctorItem.Id/book"
               method="post"
               enctype="multipart/form-data"
               class="rounded-3xl border border-gray-100 bg-white p-6 shadow-xl">

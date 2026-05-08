@@ -13,14 +13,14 @@ namespace IPTS.Areas.Admin.ViewsModels
         public string? LastName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        //public string UserTypeName { get; set; }
+        
         public EnUserStatus? Status { get; set; } = EnUserStatus.Active;
         public string? Password { get; set; }
         public string? ConfirmPassword { get; set; }
         
         public AdminFormViewModel? Admin {  get; set; }
         public CustomerFormViewModel? Customer { get; set; }
-        public PatientFormViewModel? Patient { get; set; }   // جديد
-        public DoctorFormViewModel? Doctor { get; set; }     // جديد
+        public PatientFormViewModel? Patient { get; set; }   
+        public DoctorFormViewModel? Doctor { get; set; }    
     }
 }

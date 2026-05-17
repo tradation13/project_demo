@@ -10,5 +10,10 @@ namespace IPTS.Areas.Doctor.ViewsModels
         public DateTime ScheduledDate { get; set; }
         public List<AppointmentTimeSlotViewModel> AvailableSlots { get; set; } = new();
         public List<int> SelectedSlots { get; set; } = new();
+        
+        // Patient's original selection
+        public int StartSlotIndex { get; set; }
+        public int EndSlotIndex { get; set; }
+        public int TotalDurationMinutes { get; set; }
     }
 }

@@ -77,42 +77,45 @@
                 {
                     foreach (var s in slots)
                     {
-                        var isSelected = Model.SlotIndex == s.SlotIndex;
+                        var isSelected = Model.SelectedSlotIndices.Contains(s.SlotIndex);
                         var disabled = !s.IsAvailable && !isSelected;
-                        <label class="@(!disabled ? "relative block min-h-[72px] cursor-pointer rounded border-2 p-3 text-center text-sm transition peer-checked:border-blue-700 peer-checked:ring-2 peer-checked:ring-blue-400 bg-green-50 hover:bg-green-100 border-green-300 text-green-800 hover:border-green-400" : "bg-red-50 text-red-700 border-red-300 opacity-75 cursor-not-allowed")">
+                        <label class="@(!disabled ? "relative flex min-h-[72px] cursor-pointer flex-col items-center justify-center rounded border-2 p-3 text-center text-sm transition peer-checked:border-blue-700 peer-checked:ring-2 peer-checked:ring-blue-400 bg-green-50 hover:bg-green-100 border-green-300 text-green-800 hover:border-green-400" : "relative flex min-h-[72px] cursor-not-allowed flex-col items-center justify-center rounded border-2 border-red-300 bg-red-50 p-3 text-center text-sm text-red-700 opacity-75")">
                             @if (disabled)
                             {
-                                <input type="radio"
-                                       name="SlotIndex"
+                                <input type="checkbox"
+                                       name="SelectedSlotIndices"
                                        value="@s.SlotIndex"
                                        data-time="@s.Time"
+                                       data-utc="@s.TimeUtc"
                                        class="peer sr-only"
                                        disabled />
                             }
                             else if (isSelected)
                             {
-                                <input type="radio"
-                                       name="SlotIndex"
+                                <input type="checkbox"
+                                    name="SelectedSlotIndices"
                                        value="@s.SlotIndex"
                                        data-time="@s.Time"
+                                       data-utc="@s.TimeUtc"
                                        class="peer sr-only"
                                        checked />
                             }
                             else
                             {
-                                <input type="radio"
-                                       name="SlotIndex"
+                                <input type="checkbox"
+                                    name="SelectedSlotIndices"
                                        value="@s.SlotIndex"
                                        data-time="@s.Time"
+                                       data-utc="@s.TimeUtc"
                                        class="peer sr-only" />
                             }
 
-                            <div class="mb-1 text-base font-bold peer-checked:text-white">@s.Time</div>
-                            <div class="@(disabled ? "text-xs text-red-500" : "text-green-600") peer-checked:text-white">
+                            <div class="relative z-10 mb-1 text-base font-bold peer-checked:text-white">@s.Time</div>
+                            <div class="relative z-10 @(disabled ? "text-xs text-red-500" : "text-green-600") peer-checked:text-white">
                                 @(disabled ? "Booked" : "Available")
                             </div>
 
-                            <div class="pointer-events-none absolute inset-0 rounded peer-checked:bg-blue-600 peer-checked:shadow-lg"></div>
+                            <div class="pointer-events-none absolute inset-0 z-0 rounded peer-checked:bg-blue-600 peer-checked:shadow-lg"></div>
                         </label>
                     }
                 }
@@ -179,11 +182,23 @@
 </section>
 
 <script>
-    const radios = document.querySelectorAll('input[type="radio"][name="SlotIndex"]');
+    const maxSlots = 4;
+    const slotInputs = document.querySelectorAll('input[type="checkbox"][name="SelectedSlotIndices"]');
     const selectedCount = document.getElementById('selectedCount');
     const totalDuration = document.getElementById('totalDuration');
     const timeRange = document.getElementById('timeRange');
     const hTime = document.getElementById('time');
+    const format24 = (utc) => new Date(utc).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false });
+
+    const getSelected = () => Array.from(slotInputs)
+        .filter(i => i.checked && !i.disabled)
+        .map(i => ({
+            slotIndex: Number(i.value),
+            utc: i.dataset.utc || ''
+        }))
+        .sort((a, b) => a.slotIndex - b.slotIndex);
+
+    const isContiguous = (items) => items.every((item, idx) => idx === 0 || item.slotIndex - items[idx - 1].slotIndex === 1);
 
     function resetSummary() {
         selectedCount.textContent = '0';
@@ -192,19 +207,51 @@
         hTime.value = '';
     }
 
-    function updateSummary(time) {
-        selectedCount.textContent = '1';
-        totalDuration.textContent = '20';
-        timeRange.textContent = time || '-';
-        hTime.value = time || '';
+    function updateSummaryFromSelection() {
+        const selected = getSelected();
+        if (!selected.length) {
+            resetSummary();
+            return;
+        }
+
+        const firstUtc = selected[0].utc;
+        const lastUtc = selected[selected.length - 1].utc;
+        const startLocal = format24(firstUtc);
+        const endDate = new Date(lastUtc);
+        endDate.setMinutes(endDate.getMinutes() + 20);
+        const endLocal = endDate.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false });
+
+        selectedCount.textContent = String(selected.length);
+        totalDuration.textContent = String(selected.length * 20);
+        timeRange.textContent = `${startLocal} - ${endLocal}`;
+        hTime.value = firstUtc;
     }
 
-    function onChangeRadio(e) {
+    function onChangeSlot(e) {
         const input = e.target;
         if (!input || input.disabled) return;
 
-        const time = input.dataset.time || '';
-        updateSummary(time);
+        const utc = input.dataset.utc || '';
+        if (!utc) {
+            input.checked = false;
+            resetSummary();
+            return;
+        }
+
+        const selected = getSelected();
+        if (selected.length > maxSlots) {
+            input.checked = false;
+            updateSummaryFromSelection();
+            return;
+        }
+
+        if (selected.length > 1 && !isContiguous(selected)) {
+            input.checked = false;
+            updateSummaryFromSelection();
+            return;
+        }
+
+        updateSummaryFromSelection();
     }
 
     function updateFileDisplay(input, selectedText) {
@@ -224,12 +271,14 @@
         }
     }
 
-    resetSummary();
+    // Render slot labels in patient's local 24-hour time using UTC source.
+    slotInputs.forEach(r => {
+        const utc = r.dataset.utc;
+        const label = r.closest('label')?.querySelector('.mb-1');
+        if (!utc || !label) return;
+        label.textContent = format24(utc);
+    });
 
-    const checked = document.querySelector('input[type="radio"][name="SlotIndex"]:checked');
-    if (checked && !checked.disabled) {
-        updateSummary(checked.dataset.time || '');
-    }
-
-    radios.forEach(r => r.addEventListener('change', onChangeRadio));
+    updateSummaryFromSelection();
+    slotInputs.forEach(r => r.addEventListener('change', onChangeSlot));
 </script>

@@ -114,13 +114,17 @@
         </thead>
         <tbody>
             @{int x = 0;}
-            @foreach (var appointment in Model)
-            {
+                @foreach (var appointment in Model)
+                {
+                var scheduledUtcIsoStart = DateTime.SpecifyKind(appointment.ScheduledTime, DateTimeKind.Utc).ToString("o");
+                var scheduledUtcIsoEnd = DateTime.SpecifyKind(appointment.ScheduledTime.AddMinutes(appointment.TotalDurationMinutes), DateTimeKind.Utc).ToString("o");
                 <tr class="hover:bg-gray-100">
                     <td class="text-center">@(++x)</td>
                     <td class="text-center">@appointment.PatientName</td>
                     <td class="text-center">@appointment.DoctorName</td>
-                    <td class="text-center">@appointment.ScheduledTime.ToString("MMM dd, yyyy HH:mm")</td>
+                    <td class="text-center">
+                        <span class="appt-datetime" data-utc-start="@scheduledUtcIsoStart" data-utc-end="@scheduledUtcIsoEnd">@appointment.ScheduledTime.ToString("MMM dd, yyyy HH:mm")</span>
+                    </td>
                     <td class="text-center">
     <span class="rounded-full px-2 py-1 text-xs font-medium @(appointment.Status switch 
           {
@@ -170,3 +174,46 @@
         </tbody>
     </table>
 </div>
+
+<script>
+// Format UTC time to user's browser timezone (dynamic)
+const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+function formatUtcTime(date, options = {}) {
+    if (!date || Number.isNaN(date.getTime())) return '';
+    const defaults = {
+        timeZone: browserTimeZone,
+        hour12: false
+    };
+    return new Intl.DateTimeFormat('en-GB', { ...defaults, ...options }).format(date);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.appt-datetime').forEach(el => {
+        const utcStart = el.getAttribute('data-utc-start');
+        const utcEnd = el.getAttribute('data-utc-end');
+        if (!utcStart) return;
+
+        const start = new Date(utcStart);
+        if (!utcEnd) {
+            const datePart = formatUtcTime(start, { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+            el.textContent = datePart;
+            return;
+        }
+
+        const end = new Date(utcEnd);
+
+        // If same day, show date once + time range. Otherwise show full start and end datetimes.
+        if (start.toDateString() === end.toDateString()) {
+            const datePart = formatUtcTime(start, { year: 'numeric', month: 'short', day: '2-digit' });
+            const startTime = formatUtcTime(start, { hour: '2-digit', minute: '2-digit' });
+            const endTime = formatUtcTime(end, { hour: '2-digit', minute: '2-digit' });
+            el.textContent = `${datePart} ${startTime} - ${endTime}`;
+        } else {
+            const startFull = formatUtcTime(start, { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+            const endFull = formatUtcTime(end, { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+            el.textContent = `${startFull} - ${endFull}`;
+        }
+    });
+});
+</script>

@@ -1,5 +1,6 @@
 using IPTS.Models.Entites;
 using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace IPTS.ViewModels
 {
@@ -62,6 +63,9 @@ namespace IPTS.ViewModels
         public string StartTime { get; set; } = string.Empty;
         public string EndTime { get; set; } = string.Empty;
         
+        // UTC ISO string for appointment start time (sent from client)
+        public string Time { get; set; } = string.Empty;
+        
         // Computed properties
         public int TotalSlots => (EndSlotIndex - StartSlotIndex) + 1;
         public int TotalDurationMinutes => TotalSlots * 20;
@@ -75,7 +79,9 @@ namespace IPTS.ViewModels
         public DateTime ScheduledDate { get; set; }
 
         // حقل واحد فقط بواقت يوم
-        public int SlotIndex { get; set; }               // نفس StartSlotIndex
+        public int SlotIndex { get; set; } = -1;         // fallback only
+        [MaxLength(4)]
+        public List<int> SelectedSlotIndices { get; set; } = new();
         public string Time { get; set; } = string.Empty; // مثل StartTime (بصيغة تسلسل مثل "10:20")
 
         public AppointmentStatus Status { get; set; } = AppointmentStatus.Pending;
@@ -110,7 +116,9 @@ namespace IPTS.ViewModels
         public int DoctorId { get; set; }
         public string DoctorName { get; set; } = string.Empty;
         public DateTime ScheduledDate { get; set; }
-        public int SlotIndex { get; set; }
+        public int SlotIndex { get; set; } = -1;
+        [MaxLength(4)]
+        public List<int> SelectedSlotIndices { get; set; } = new();
         public string Time { get; set; } = string.Empty;
         public string Notes { get; set; } = string.Empty;
         public IFormFile? PrescriptionFile { get; set; }
@@ -126,7 +134,10 @@ namespace IPTS.ViewModels
 
     public class AppointmentTimeSlotViewModel
     {
+        // Display label (fallback).
         public string Time { get; set; } = string.Empty;
+        // Official UTC time (ISO 8601) — source of truth for booking.
+        public string TimeUtc { get; set; } = string.Empty;
         public bool IsAvailable { get; set; }
         public bool IsSelected { get; set; }
         public int SlotIndex { get; set; }

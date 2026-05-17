@@ -1,5 +1,6 @@
 using AutoMapper;
 using IPTS.Data;
+using IPTS.Helpers;
 using IPTS.Models.Entites;
 using IPTS.Models.Enums;
 using IPTS.Resources;
@@ -144,9 +145,27 @@ namespace IPTS.Services
 
         public async Task<List<AppointmentTimeSlotViewModel>> GetAvailableTimeSlotsAsync(
     DateTime dateLocal, int doctorId, int slotMinutes = 20,
-    string doctorTimeZoneId = "Europe/Berlin", int leadMinutes = 0)
+    string doctorTimeZoneId = null!, int leadMinutes = 0)
         {
-            var tz = TimeZoneInfo.FindSystemTimeZoneById(doctorTimeZoneId);
+            var resolvedTimeZoneId = string.IsNullOrWhiteSpace(doctorTimeZoneId)
+                ? TimeZoneInfo.Local.Id
+                : doctorTimeZoneId;
+
+            var tz = TimeZoneInfo.FindSystemTimeZoneById(resolvedTimeZoneId);
+
+            DateTime ToClinicUtc(DateTime localDateTime)
+            {
+                var unspecified = DateTime.SpecifyKind(localDateTime, DateTimeKind.Unspecified);
+                var offset = tz.GetUtcOffset(unspecified);
+                return new DateTimeOffset(unspecified, offset).UtcDateTime;
+            }
+
+            LogHelper.LogWithContext(
+                $"GetAvailableTimeSlotsAsync start. doctorId={doctorId}, dateLocal={dateLocal:yyyy-MM-dd}, tz={resolvedTimeZoneId}, slotMinutes={slotMinutes}, leadMinutes={leadMinutes}",
+                string.Empty,
+                "patient",
+                "AppointmentService.GetAvailableTimeSlotsAsync",
+                Serilog.Events.LogEventLevel.Information);
 
             // تاريخ اليوم المطلوب كـ "وقت حائطي" (بدون Kind) ثم ساعات العمل
             var dateWallClock = DateTime.SpecifyKind(dateLocal.Date, DateTimeKind.Unspecified);
@@ -154,14 +173,20 @@ namespace IPTS.Services
             var workEndLocal = dateWallClock.AddHours(18);  // 18:00
 
             // نافذة اليوم بالـ UTC
-            var dayStartUtc = TimeZoneInfo.ConvertTimeToUtc(workStartLocal, tz);
-            var dayEndUtc = TimeZoneInfo.ConvertTimeToUtc(workEndLocal, tz);
+            var dayStartUtc = ToClinicUtc(workStartLocal);
+            var dayEndUtc = ToClinicUtc(workEndLocal);
+            LogHelper.LogWithContext(
+                $"Working window. workStartLocal={workStartLocal:O}, workEndLocal={workEndLocal:O}, dayStartUtc={dayStartUtc:O}, dayEndUtc={dayEndUtc:O}",
+                string.Empty,
+                "patient",
+                "AppointmentService.GetAvailableTimeSlotsAsync",
+                Serilog.Events.LogEventLevel.Debug);
 
             // الآن الحالي في منطقة الطبيب
             var nowLocal = TimeZoneInfo.ConvertTime(DateTime.UtcNow, tz);
 
             // اجلب مواعيد اليوم دفعة واحدة (الممنوعة من الحجز)
-            var activeStatuses = new[] { AppointmentStatus.Confirmed /*, AppointmentStatus.Pending*/ };
+            var activeStatuses = new[] { AppointmentStatus.Confirmed, AppointmentStatus.Pending };
 
             var todaysAppts = await _dbSet
                 .AsNoTracking()
@@ -171,6 +196,13 @@ namespace IPTS.Services
                             && a.ScheduledTime < dayEndUtc)
                 .Select(a => new { a.StartSlotIndex, a.EndSlotIndex })
                 .ToListAsync();
+
+            LogHelper.LogWithContext(
+                $"Occupied appointments loaded. doctorId={doctorId}, count={todaysAppts.Count}",
+                string.Empty,
+                "patient",
+                "AppointmentService.GetAvailableTimeSlotsAsync",
+                Serilog.Events.LogEventLevel.Debug);
 
             // حضّر مصفوفة السلوتس لليوم
             var totalMinutes = (int)(workEndLocal - workStartLocal).TotalMinutes;
@@ -196,9 +228,12 @@ namespace IPTS.Services
                 bool isPastNow = isTodayInDoctorTZ && timeLocal <= nowLocal.AddMinutes(leadMinutes);
                 bool isAvailable = !occupied[slotIndex] && !isPastNow;
 
+                var utcDateTime = ToClinicUtc(timeLocal);
+
                 result.Add(new AppointmentTimeSlotViewModel
                 {
                     Time = timeLocal.ToString("HH:mm"),
+                    TimeUtc = utcDateTime.ToString("o"),
                     IsAvailable = isAvailable,
                     IsSelected = false,
                     SlotIndex = slotIndex
@@ -217,36 +252,69 @@ namespace IPTS.Services
                     return false;
                 }
 
+                // Require UTC ISO string from client (strict, no fallback)
+                if (string.IsNullOrWhiteSpace(model.Time) || !DateTimeOffset.TryParse(model.Time, out var dto))
+                {
+                    LogHelper.LogWithContext(
+                        $"CreateAppointmentWithSlotsAsync invalid UTC input. rawTime='{model.Time}'",
+                        string.Empty,
+                        "doctor",
+                        "AppointmentService.CreateAppointmentWithSlotsAsync",
+                        Serilog.Events.LogEventLevel.Error);
+                    
+                    return false; // invalid request from client — require UTC time
+                }
+
                 // Calculate total duration based on selected slots
                 var totalDuration = selectedSlotIndices.Count * 20; // 20 minutes per slot
                 
-                // Use the start time (first slot) as the appointment start time
+                // Use the UTC DateTime from the parsed ISO string
+                var appointmentStartTime = dto.UtcDateTime;
+                
                 var startSlotIndex = selectedSlotIndices.Min();
-                var appointmentStartTime = DateTime.SpecifyKind(
-                    model.ScheduledDate.AddMinutes(startSlotIndex * 20), 
-                    DateTimeKind.Utc
-                );
+                var endSlotIndex = selectedSlotIndices.Max();
 
                 // Create ONE appointment with the total duration
                 var appointment = new Appointment
                 {
                     PatientId = model.PatientId,
                     DoctorId = model.DoctorId,
-                    ScheduledTime = appointmentStartTime, // Start time of the first selected slot
+                    ScheduledTime = appointmentStartTime, // UTC DateTime
                     Status = AppointmentStatus.Confirmed,
                     Notes = string.IsNullOrWhiteSpace(model.Notes) ? string.Empty : model.Notes,
                     PrescriptionFileName = string.IsNullOrWhiteSpace(model.PrescriptionFileName) ? string.Empty : model.PrescriptionFileName,
                     StartSlotIndex = startSlotIndex,
-                    EndSlotIndex = selectedSlotIndices.Max()
+                    EndSlotIndex = endSlotIndex
                 };
+
+                LogHelper.LogWithContext(
+                    $"CreateAppointmentWithSlotsAsync creating appointment. patientId={model.PatientId}, doctorId={model.DoctorId}, scheduledUtc={appointmentStartTime:O}, slots={startSlotIndex}-{endSlotIndex}",
+                    string.Empty,
+                    "doctor",
+                    "AppointmentService.CreateAppointmentWithSlotsAsync",
+                    Serilog.Events.LogEventLevel.Information);
 
                 await _dbSet.AddAsync(appointment);
                 await _context.SaveChangesAsync();
                 
+                LogHelper.LogWithContext(
+                    $"CreateAppointmentWithSlotsAsync saved. appointmentId={appointment.Id}, scheduledUtc={appointment.ScheduledTime:O}",
+                    string.Empty,
+                    "doctor",
+                    "AppointmentService.CreateAppointmentWithSlotsAsync",
+                    Serilog.Events.LogEventLevel.Information);
+
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                LogHelper.LogWithContext(
+                    $"CreateAppointmentWithSlotsAsync error: {ex.Message}",
+                    string.Empty,
+                    "doctor",
+                    "AppointmentService.CreateAppointmentWithSlotsAsync",
+                    Serilog.Events.LogEventLevel.Error);
+                
                 return false;
                 // In production, you might want to log the exception here
             }
@@ -263,6 +331,51 @@ namespace IPTS.Services
         {
             try
             {
+                var selectedSlots = (model.SelectedSlotIndices ?? new List<int>())
+                    .Distinct()
+                    .OrderBy(x => x)
+                    .ToList();
+
+                if (!selectedSlots.Any() && model.SlotIndex >= 0)
+                {
+                    selectedSlots.Add(model.SlotIndex);
+                }
+
+                if (!selectedSlots.Any() || selectedSlots.Count > 4)
+                {
+                    LogHelper.LogWithContext(
+                        $"CreateSingleSlotAppointmentAsync invalid slot selection count. count={selectedSlots.Count}",
+                        string.Empty,
+                        "patient",
+                        "AppointmentService.CreateSingleSlotAppointmentAsync",
+                        Serilog.Events.LogEventLevel.Warning);
+
+                    return false;
+                }
+
+                var isContiguous = selectedSlots.Zip(selectedSlots.Skip(1), (a, b) => b - a).All(diff => diff == 1);
+                if (!isContiguous)
+                {
+                    LogHelper.LogWithContext(
+                        $"CreateSingleSlotAppointmentAsync non-contiguous slots selected. slots={string.Join(',', selectedSlots)}",
+                        string.Empty,
+                        "patient",
+                        "AppointmentService.CreateSingleSlotAppointmentAsync",
+                        Serilog.Events.LogEventLevel.Warning);
+
+                    return false;
+                }
+
+                var startSlotIndex = selectedSlots.Min();
+                var endSlotIndex = selectedSlots.Max();
+
+                LogHelper.LogWithContext(
+                    $"CreateSingleSlotAppointmentAsync start. patientId={model.PatientId}, doctorId={model.DoctorId}, slots={startSlotIndex}-{endSlotIndex}, rawUtc='{model.Time}'",
+                    string.Empty,
+                    "patient",
+                    "AppointmentService.CreateSingleSlotAppointmentAsync",
+                    Serilog.Events.LogEventLevel.Information);
+
                 string? prescriptionFileName = null;
 
                 // Handle prescription file upload if provided
@@ -277,30 +390,59 @@ namespace IPTS.Services
                         throw new Exception("Failed to save prescription file");
                 }
 
-                // وقت بداية الخانة
-                var startTimeUtc = DateTime.SpecifyKind(
-                    model.ScheduledDate.AddMinutes(model.SlotIndex * 20),
-                    DateTimeKind.Utc
-                );
+                // Expect client to send UTC ISO in model.Time. Reject if missing/invalid.
+                if (string.IsNullOrWhiteSpace(model.Time) || !DateTimeOffset.TryParse(model.Time, out var dto))
+                {
+                    LogHelper.LogWithContext(
+                        $"CreateSingleSlotAppointmentAsync invalid UTC input. rawUtc='{model.Time}'",
+                        string.Empty,
+                        "patient",
+                        "AppointmentService.CreateSingleSlotAppointmentAsync",
+                        Serilog.Events.LogEventLevel.Error);
+
+                    return false; // invalid request from client — require UTC time
+                }
+
+                var appointmentStartUtc = dto.UtcDateTime;
+                LogHelper.LogWithContext(
+                    $"CreateSingleSlotAppointmentAsync parsed UTC. utc={appointmentStartUtc:o}",
+                    string.Empty,
+                    "patient",
+                    "AppointmentService.CreateSingleSlotAppointmentAsync",
+                    Serilog.Events.LogEventLevel.Debug);
 
                 var appointment = new Appointment
                 {
                     PatientId = model.PatientId,
                     DoctorId = model.DoctorId,
-                    ScheduledTime = startTimeUtc,
+                    ScheduledTime = appointmentStartUtc,
                     Status = AppointmentStatus.Pending,
                     Notes = model.Notes ?? string.Empty,
-                    StartSlotIndex = model.SlotIndex,
-                    EndSlotIndex = model.SlotIndex, // نفس الخانة
+                    StartSlotIndex = startSlotIndex,
+                    EndSlotIndex = endSlotIndex,
                     PrescriptionFileName = prescriptionFileName
                 };
 
                 await _dbSet.AddAsync(appointment);
                 await _context.SaveChangesAsync();
+
+                LogHelper.LogWithContext(
+                    $"CreateSingleSlotAppointmentAsync saved. appointmentId={appointment.Id}, scheduledUtc={appointment.ScheduledTime:o}, status={appointment.Status}, slots={appointment.StartSlotIndex}-{appointment.EndSlotIndex}",
+                    string.Empty,
+                    "patient",
+                    "AppointmentService.CreateSingleSlotAppointmentAsync",
+                    Serilog.Events.LogEventLevel.Information);
                 return true;
             }
             catch
             {
+                LogHelper.LogWithContext(
+                    $"CreateSingleSlotAppointmentAsync failed for patientId={model.PatientId}, doctorId={model.DoctorId}, slotIndex={model.SlotIndex}, rawUtc='{model.Time}'",
+                    string.Empty,
+                    "patient",
+                    "AppointmentService.CreateSingleSlotAppointmentAsync",
+                    Serilog.Events.LogEventLevel.Error);
+
                 return false;
             }
         }
@@ -308,14 +450,29 @@ namespace IPTS.Services
         {
             // تأكد أن التاريخ يعامل كيوم فقط (بدون وقت)
             var day = scheduledDate.Date;
+            LogHelper.LogWithContext(
+                $"IsSlotAvailableAsync start. doctorId={doctorId}, day={day:yyyy-MM-dd}, slotIndex={slotIndex}",
+                string.Empty,
+                "patient",
+                "AppointmentService.IsSlotAvailableAsync",
+                Serilog.Events.LogEventLevel.Debug);
 
-            return !await _context.Appointments.AnyAsync(a =>
+            var isAvailable = !await _context.Appointments.AnyAsync(a =>
                 a.DoctorId == doctorId &&
                 a.ScheduledTime.Date == day &&
                 a.StartSlotIndex <= slotIndex &&
                 a.EndSlotIndex >= slotIndex &&
                 a.Status == AppointmentStatus.Confirmed // أو أي حالة لا تعتبر حجز مؤكد
             );
+
+            LogHelper.LogWithContext(
+                $"IsSlotAvailableAsync result. doctorId={doctorId}, day={day:yyyy-MM-dd}, slotIndex={slotIndex}, isAvailable={isAvailable}",
+                string.Empty,
+                "patient",
+                "AppointmentService.IsSlotAvailableAsync",
+                Serilog.Events.LogEventLevel.Debug);
+
+            return isAvailable;
         }
         public async Task CancelOtherPendingAppointmentsAsync(int approvedAppointmentId)
         {
@@ -429,3 +586,5 @@ namespace IPTS.Services
 
     
 }
+
+

@@ -400,7 +400,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTimeSlots(DateTime date)
+        public async Task<IActionResult> GetTimeSlots(DateTime date, string? timeZoneId)
         {
             try
             {
@@ -417,7 +417,8 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
 
                 
                 var utcDate = DateTime.SpecifyKind(date, DateTimeKind.Utc);
-                var timeSlots = await _appointmentService.GetAvailableTimeSlotsAsync(utcDate, doctor.Id);
+                var clinicTimeZoneId = "W. Europe Standard Time";
+                var timeSlots = await _appointmentService.GetAvailableTimeSlotsAsync(utcDate, doctor.Id, doctorTimeZoneId: clinicTimeZoneId);
                 return Json(new { success = true, timeSlots });
             }
             catch (Exception ex)
@@ -639,16 +640,32 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
             if (appointment == null) return NotFound();
 
            
-            var slots = await _appointmentService.GetAvailableTimeSlotsAsync(appointment.ScheduledTime.Date, appointment.DoctorId);
+            var slots = await _appointmentService.GetAvailableTimeSlotsAsync(
+                appointment.ScheduledTime.Date, 
+                appointment.DoctorId,
+                doctorTimeZoneId: "W. Europe Standard Time");
 
-            
+            // Build the range of selected slots from StartSlotIndex to EndSlotIndex
+            var selectedRange = new List<int>();
+            if (appointment.StartSlotIndex >= 0 && appointment.EndSlotIndex >= appointment.StartSlotIndex)
+            {
+                for (int i = appointment.StartSlotIndex; i <= appointment.EndSlotIndex; i++)
+                {
+                    selectedRange.Add(i);
+                }
+            }
+
             var vm = new AcceptAppointmentViewModel
             {
                 AppointmentId = id,
                 PatientName = appointment.PatientName,
                 ScheduledDate = appointment.ScheduledTime.Date,
                 AvailableSlots = slots,
-                SelectedSlots = new List<int> { appointment.StartSlotIndex } 
+                SelectedSlots = selectedRange,
+                StartSlotIndex = appointment.StartSlotIndex,
+                EndSlotIndex = appointment.EndSlotIndex,
+                TotalDurationMinutes = appointment.TotalDurationMinutes,
+                DoctorId = appointment.DoctorId
             };
 
             return View(vm);
@@ -661,7 +678,10 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
             {
                 ModelState.AddModelError("", _locService.GetSystem("Val_RequiredTimeSlot"));
                
-                model.AvailableSlots = await _appointmentService.GetAvailableTimeSlotsAsync(model.ScheduledDate, model.DoctorId);
+                model.AvailableSlots = await _appointmentService.GetAvailableTimeSlotsAsync(
+                    model.ScheduledDate, 
+                    model.DoctorId,
+                    doctorTimeZoneId: "W. Europe Standard Time");
                 return View(model);
             }
 

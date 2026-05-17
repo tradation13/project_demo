@@ -62,7 +62,9 @@
                 </div>
                 <div>
                     <label class="text-sm font-medium text-gray-600">@SharedLocalizer["Appt_ScheduledTime"]:</label>
-                    <p class="text-gray-900">@Model.ScheduledTime.ToString("MMMM dd, yyyy 'at' HH:mm")</p>
+                    @{ var startUtc = DateTime.SpecifyKind(Model.ScheduledTime, DateTimeKind.Utc).ToString("o");
+                       var endUtc = DateTime.SpecifyKind(Model.ScheduledTime.AddMinutes(Model.TotalDurationMinutes), DateTimeKind.Utc).ToString("o"); }
+                    <p class="text-gray-900 appt-datetime" data-utc-start="@startUtc" data-utc-end="@endUtc">@Model.ScheduledTime.ToString("MMMM dd, yyyy 'at' HH:mm")</p>
                 </div>
             </div>
         </div>
@@ -98,3 +100,44 @@
         }
     </div>
 </div>
+
+<script>
+// Format UTC time to user's browser timezone (dynamic)
+const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+function formatUtcTime(date, options = {}) {
+    if (!date || Number.isNaN(date.getTime())) return '';
+    const defaults = {
+        timeZone: browserTimeZone,
+        hour12: false
+    };
+    return new Intl.DateTimeFormat('en-GB', { ...defaults, ...options }).format(date);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.appt-datetime').forEach(el => {
+        const utcStart = el.getAttribute('data-utc-start');
+        const utcEnd = el.getAttribute('data-utc-end');
+        if (!utcStart) return;
+
+        const start = new Date(utcStart);
+        if (!utcEnd) {
+            const formatted = formatUtcTime(start, { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+            el.textContent = formatted;
+            return;
+        }
+
+        const end = new Date(utcEnd);
+        if (start.toDateString() === end.toDateString()) {
+            const datePart = formatUtcTime(start, { year: 'numeric', month: 'long', day: '2-digit' });
+            const startTime = formatUtcTime(start, { hour: '2-digit', minute: '2-digit' });
+            const endTime = formatUtcTime(end, { hour: '2-digit', minute: '2-digit' });
+            el.textContent = `${datePart} at ${startTime} - ${endTime}`;
+        } else {
+            const startFull = formatUtcTime(start, { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+            const endFull = formatUtcTime(end, { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+            el.textContent = `${startFull} - ${endFull}`;
+        }
+    });
+});
+</script>

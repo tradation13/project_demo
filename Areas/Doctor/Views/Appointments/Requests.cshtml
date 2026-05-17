@@ -21,6 +21,7 @@
         <div class="grid gap-6">
             @foreach (var appt in Model)
             {
+                var scheduledUtcIso = DateTime.SpecifyKind(appt.ScheduledTime, DateTimeKind.Utc).ToString("o");
                 <div class="flex flex-col rounded-lg bg-white p-6 shadow md:flex-row md:items-center md:justify-between">
                     <div>
                         <div class="mb-2 flex items-center gap-2">
@@ -30,9 +31,9 @@
                             </span>
                         </div>
                         <div class="mb-1 text-sm text-gray-600">
-                            <span class="font-medium">@SharedLocalizer["Shared_Date"]:</span> @appt.ScheduledTime.ToString("MMMM dd, yyyy")
+                            <span class="font-medium">@SharedLocalizer["Shared_Date"]:</span> <span class="appt-date" data-utc="@scheduledUtcIso">@appt.ScheduledTime.ToString("MMMM dd, yyyy")</span>
                             <span class="mx-2">|</span>
-                            <span class="font-medium">@SharedLocalizer["Shared_Time"]:</span> @appt.ScheduledTime.ToString("HH:mm")
+                            <span class="font-medium">@SharedLocalizer["Shared_Time"]:</span> <span class="appt-time" data-utc="@scheduledUtcIso">@appt.ScheduledTime.ToString("HH:mm")</span>
                         </div>
                         <div class="text-xs text-gray-500">
                             @SharedLocalizer["Req_Duration"]: @appt.TotalDurationMinutes @SharedLocalizer["Shared_Min"]
@@ -68,3 +69,37 @@
         </div>
     }
 </div>
+
+<script>
+// Format UTC time to user's browser timezone (dynamic)
+const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+function formatUtcTime(date, options = {}) {
+    if (!date || Number.isNaN(date.getTime())) return '';
+    const defaults = {
+        timeZone: browserTimeZone,
+        hour12: false
+    };
+    return new Intl.DateTimeFormat('en-GB', { ...defaults, ...options }).format(date);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-utc]').forEach(el => {
+        const utc = el.getAttribute('data-utc');
+        if (!utc) return;
+        const d = new Date(utc);
+        if (el.classList.contains('appt-date')) {
+            el.textContent = formatUtcTime(d, {
+                year: 'numeric',
+                month: 'long',
+                day: '2-digit'
+            });
+        } else if (el.classList.contains('appt-time')) {
+            el.textContent = formatUtcTime(d, {
+                hour: '2-digit',
+                minute: '2-digit',
+            });
+        }
+    });
+});
+</script>

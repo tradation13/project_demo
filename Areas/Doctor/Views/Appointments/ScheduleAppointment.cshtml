@@ -165,6 +165,7 @@
          <input type="hidden" id="endSlotIndex" name="EndSlotIndex" value="" />
          <input type="hidden" id="startTime" name="StartTime" value="" />
          <input type="hidden" id="endTime" name="EndTime" value="" />
+         <input type="hidden" id="time" name="Time" value="" />
          
          <div class="flex justify-end space-x-3">
              <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })" 
@@ -206,6 +207,21 @@
 <script>
 
 // Prescription file upload handling
+    // Format UTC time to user's browser timezone (dynamic)
+    const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    
+    function formatUtcTime(utcValue) {
+        if (!utcValue) return '';
+        const date = new Date(utcValue);
+        if (Number.isNaN(date.getTime())) return '';
+        return new Intl.DateTimeFormat('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+            timeZone: browserTimeZone  // Use browser timezone, not hardcoded
+        }).format(date);
+    }
+
 function togglePrescriptionUpload(show) {
     const uploadSection = document.getElementById('prescriptionUploadSection');
     const fileInput = document.getElementById('PrescriptionFile');
@@ -247,6 +263,7 @@ function loadTimeSlots(date) {
         showNoDateMessage();
         return;
     }
+    const clinicTimeZone = 'W. Europe Standard Time';
     
     // Show loading state
     const container = document.getElementById('timeSlotsContainer');
@@ -257,7 +274,7 @@ function loadTimeSlots(date) {
                  </div>
     `;
     
-    fetch(`/doctor/appointments/gettimeslots?date=${date}`)
+    fetch(`/doctor/appointments/gettimeslots?date=${encodeURIComponent(date)}&timeZoneId=${encodeURIComponent(clinicTimeZone)}`)
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -297,6 +314,9 @@ function displayTimeSlots(timeSlots) {
                 : 'bg-red-50 text-red-700 border-red-300 cursor-not-allowed opacity-75'
         }`;
         
+        // Store UTC in data attribute for later retrieval
+        slotElement.setAttribute('data-utc', slot.timeUtc || '');
+        
         if (slot.isAvailable) {
             slotElement.onclick = () => toggleSlot(slot);
             slotElement.title = `@SharedLocalizer["Appt_Sched_ClickSelect"] ${slot.time}`;
@@ -304,9 +324,9 @@ function displayTimeSlots(timeSlots) {
             slotElement.title = `${slot.time} - @SharedLocalizer["Shared_NotAvailable"]`;
         }
         
-        // Ensure text is clearly visible
+        // Ensure text is clearly visible. Render UTC as data attribute and keep server text as fallback.
         slotElement.innerHTML = `
-            <div class="mb-1 text-lg font-bold">${slot.time}</div>
+            <div class="mb-1 text-lg font-bold" data-utc="${slot.timeUtc}">${slot.time}</div>
             <div class="text-xs ${slot.isAvailable ? 'text-green-600' : 'text-red-500'}">
                 ${slot.isAvailable ? '@SharedLocalizer["Shared_Available"]' : '@SharedLocalizer["Shared_Booked"]'}
             </div>
@@ -317,6 +337,15 @@ function displayTimeSlots(timeSlots) {
     
     updateSelectionDisplay();
     updateSlotVisuals();
+    // Localize any rendered slot labels to the viewer's timezone
+    document.querySelectorAll('#timeSlotsContainer [data-utc]').forEach(el => {
+        const utc = el.getAttribute('data-utc');
+        if (!utc) return;
+            const formatted = formatUtcTime(utc);
+            if (formatted) {
+                el.textContent = formatted;
+            }
+    });
 }
 
 function showNoDateMessage() {
@@ -493,6 +522,7 @@ function updateSelectionDisplay() {
         document.getElementById('endSlotIndex').value = '';
         document.getElementById('startTime').value = '';
         document.getElementById('endTime').value = '';
+        document.getElementById('time').value = '';
         
         // Hide debug info
         document.getElementById('debugInfo').style.display = 'none';
@@ -512,6 +542,9 @@ function updateSelectionDisplay() {
     const startTime = selectedSlots[0].time;
     const endTime = selectedSlots[selectedSlots.length - 1].time;
     
+    // Get UTC ISO from first selected slot (will use TimeUtc property)
+    const startUtcIso = selectedSlots[0].timeUtc || '';
+    
     // Update display
     document.getElementById('selectedCount').textContent = totalSlots;
     document.getElementById('totalDuration').textContent = totalDuration;
@@ -522,20 +555,14 @@ function updateSelectionDisplay() {
     document.getElementById('endSlotIndex').value = endIndex;
     document.getElementById('startTime').value = startTime;
     document.getElementById('endTime').value = endTime;
+    document.getElementById('time').value = startUtcIso;
     
     // Update debug info
     document.getElementById('debugStartIndex').textContent = startIndex;
     document.getElementById('debugEndIndex').textContent = endIndex;
     document.getElementById('debugStartTime').textContent = startTime;
     document.getElementById('debugEndTime').textContent = endTime;
-    document.getElementById('debugInfo').style.display = 'none'; //تذكر
-    
-    console.log('Hidden inputs updated:', {
-        startSlotIndex: startIndex,
-        endSlotIndex: endIndex,
-        startTime: startTime,
-        endTime: endTime
-    });
+    document.getElementById('debugInfo').style.display = 'none';
     
     // Update debug hidden input values
     document.getElementById('debugHiddenStartIndex').textContent = startIndex;
@@ -550,30 +577,13 @@ function testFormData() {
     const startTime = document.getElementById('startTime').value;
     const endTime = document.getElementById('endTime').value;
     
-    console.log('=== FORM DATA TEST ===');
-    console.log('Hidden Input Values:', {
-        startSlotIndex: startSlotIndex,
-        endSlotIndex: endSlotIndex,
-        startTime: startTime,
-        endTime: endTime
-    });
-    
-    console.log('Selected Slots:', selectedSlots);
-    
     if (selectedSlots.length > 0) {
         const sortedSlots = selectedSlots.sort((a, b) => a.slotIndex - b.slotIndex);
-        console.log('Sorted Slots:', sortedSlots);
-        console.log('First Slot:', sortedSlots[0]);
-        console.log('Last Slot:', sortedSlots[sortedSlots.length - 1]);
     }
     
     // Test form submission simulation
     const form = document.querySelector('form');
     const formData = new FormData(form);
-    console.log('FormData entries:');
-    for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-    }
 }
 
 function updateSubmitButton() {
@@ -591,9 +601,6 @@ function updateSubmitButton() {
 
 // Form submit validation
 document.querySelector('form').addEventListener('submit', function(e) {
-    console.log('Form submit event triggered');
-    console.log('Selected slots:', selectedSlots);
-    
     if (selectedSlots.length === 0) {
         e.preventDefault();
         alert('@SharedLocalizer["Validation_SelectAtLeastOneSlot"]');
@@ -614,26 +621,11 @@ document.querySelector('form').addEventListener('submit', function(e) {
     const endTime = document.getElementById('endTime').value;
     
     console.log('Hidden input values before submit:', {
-        startSlotIndex: startSlotIndex,
-        endSlotIndex: endSlotIndex,
-        startTime: startTime,
-        endTime: endTime
-    });
-    
     if (!startSlotIndex || !endSlotIndex || !startTime || !endTime) {
         e.preventDefault();
         alert('@SharedLocalizer["Error_MissingSlotData"]');
         return;
     }
-    
-    console.log('Form validation passed, submitting with data:', {
-        startSlotIndex: startSlotIndex,
-        endSlotIndex: endSlotIndex,
-        startTime: startTime,
-        endTime: endTime,
-        totalSlots: selectedSlots.length,
-        totalDuration: selectedSlots.length * 20
-    });
 });
 
 function areSlotsConsecutive() {

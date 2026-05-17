@@ -4,38 +4,207 @@
     ViewData["Title"] = "Confirm Appointment";
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
-<h2 class="mb-4 text-xl font-bold">@SharedLocalizer["Appt_Confirm_Title"] @Model.PatientName</h2>
-<form asp-action="AcceptRequest" method="post">
-    <input type="hidden" asp-for="AppointmentId" />
-    <input type="hidden" asp-for="DoctorId" />
-    <input type="hidden" asp-for="ScheduledDate" />
-    <div class="mb-4">
-        <label class="mb-2 block font-medium">@SharedLocalizer["Appt_Confirm_SelectSlots"]</label>
-        <div class="grid grid-cols-2 gap-2 md:grid-cols-4">
-            @foreach (var slot in Model.AvailableSlots)
-            {
-                <label class="block">
-                    <input type="checkbox" name="SelectedSlots" value="@slot.SlotIndex"
-                    @(Model.SelectedSlots.Contains(slot.SlotIndex) ? "checked" : "")
-                    @(slot.IsAvailable || Model.SelectedSlots.Contains(slot.SlotIndex) ? "" : "disabled") />
-                    <span class="ml-2">@slot.Time (@(slot.IsAvailable ? @SharedLocalizer["Shared_Available"] : @SharedLocalizer["Shared_Booked"]))</span>
-                </label>
-            }
-        </div>
-    </div>
-   <div class="mt-6 flex gap-3">
-    <button type="button" onclick="history.back()" class="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 transition-all hover:bg-gray-50 active:scale-95">
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        @SharedLocalizer["Shared_Cancel"]
-    </button>
 
-    <button type="submit" class="flex items-center gap-2 rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-green-700 hover:shadow-md active:scale-95">
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-        </svg>
-        @SharedLocalizer["Appt_Confirm_BtnSubmit"]
-    </button>
+<div class="mx-auto max-w-3xl rounded-lg bg-white p-6 shadow">
+    <h2 class="mb-2 text-2xl font-bold">@SharedLocalizer["Appt_Confirm_Title"] <span class="text-primary">@Model.PatientName</span></h2>
+    
+    <!-- Patient's Original Selection Summary -->
+    @if (Model.StartSlotIndex >= 0 && Model.EndSlotIndex >= Model.StartSlotIndex)
+    {
+        var patientSlotStart = Model.AvailableSlots.FirstOrDefault(s => s.SlotIndex == Model.StartSlotIndex);
+        var patientSlotEnd = Model.AvailableSlots.FirstOrDefault(s => s.SlotIndex == Model.EndSlotIndex);
+        
+        <div class="mb-6 rounded-lg border-l-4 border-blue-500 bg-blue-50 p-4">
+            <h4 class="mb-1 font-semibold text-blue-900">@SharedLocalizer["Appt_PatientSelected"]</h4>
+            @if (patientSlotStart != null && patientSlotEnd != null)
+            {
+                <p class="text-lg font-medium text-blue-800">
+                    <strong><span data-utc="@patientSlotStart.TimeUtc">@patientSlotStart.Time</span></strong> @SharedLocalizer["Appt_TimeRangeSeparator"] <strong><span data-utc="@patientSlotEnd.TimeUtc">@patientSlotEnd.Time</span></strong>
+                    <span class="ml-4 text-sm text-blue-700">(@Model.TotalDurationMinutes @SharedLocalizer["Shared_Minutes"])</span>
+                </p>
+            }
+            <p class="mt-2 text-sm text-blue-700">
+                <svg class="mr-1 inline h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zm-11-1a1 1 0 11-2 0 1 1 0 012 0zM8 7a1 1 0 11-2 0 1 1 0 012 0zm5-1a1 1 0 110-2 1 1 0 010 2z" clip-rule="evenodd" />
+                </svg>
+                @SharedLocalizer["Appt_PatientSelectInfo"]
+            </p>
+        </div>
+    }
+
+    <form asp-action="AcceptRequest" method="post">
+        <input type="hidden" asp-for="AppointmentId" />
+        <input type="hidden" asp-for="DoctorId" />
+        <input type="hidden" asp-for="ScheduledDate" />
+        <input type="hidden" asp-for="StartSlotIndex" />
+        <input type="hidden" asp-for="EndSlotIndex" />
+        <input type="hidden" asp-for="TotalDurationMinutes" />
+        
+        <div class="mb-4">
+            <label class="mb-3 block text-lg font-semibold">@SharedLocalizer["Appt_Confirm_SelectSlots"]</label>
+            
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="mb-4 rounded border border-red-400 bg-red-100 p-3 text-red-700">
+                            <strong>@SharedLocalizer["Error"]:</strong> @Html.ValidationMessage("")
+                </div>
+            }
+            
+            <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                @foreach (var slot in Model.AvailableSlots)
+                {
+                    var isPatientSelected = Model.SelectedSlots.Contains(slot.SlotIndex);
+                    var isDisabled = !slot.IsAvailable && !isPatientSelected;
+
+                    <label class="flex cursor-pointer items-center rounded-lg border-2 p-3 transition-all @(isPatientSelected ? "border-primary bg-primary/10" : isDisabled ? "border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed" : "border-gray-200 hover:border-gray-300")">
+                        <input type="checkbox" 
+                               name="SelectedSlots" 
+                               value="@slot.SlotIndex"
+                               @(isPatientSelected ? "checked" : "")
+                               @(isDisabled ? "disabled" : "") 
+                               class="h-4 w-4" />
+                        <span class="ml-2 font-medium" data-utc="@slot.TimeUtc">@slot.Time</span>
+                        <span class="ml-2 text-xs font-semibold @(slot.IsAvailable ? "text-green-700" : "text-red-700")">
+                            @(slot.IsAvailable ? SharedLocalizer["Shared_Available"] : SharedLocalizer["Shared_Booked"])
+                        </span>
+                        @if (isPatientSelected)
+                        {
+                            <span class="ml-auto">
+                                <svg class="h-4 w-4 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                        }
+                    </label>
+                }
+            </div>
+        </div>
+
+        <!-- Selection Summary -->
+        <div id="selectionSummary" class="mb-6 rounded-lg bg-gray-50 p-4">
+            <p class="text-sm text-gray-700">
+                <strong>@SharedLocalizer["Appt_SelectedTimeSlots"]</strong> 
+                <span id="selectedSummary" class="ml-2 font-medium text-primary">@SharedLocalizer["Appt_NoSlotsSelected"]</span>
+            </p>
+        </div>
+        
+        <div class="mt-6 flex gap-3">
+            <button type="button" onclick="history.back()" class="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 transition-all hover:bg-gray-50 active:scale-95">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                @SharedLocalizer["Shared_Cancel"]
+            </button>
+
+            <button type="submit" id="confirmBtn" disabled class="flex items-center gap-2 rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-green-700 hover:shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                @SharedLocalizer["Appt_Confirm_BtnSubmit"]
+            </button>
+        </div>
+    </form>
 </div>
-</form>
+
+<script>
+    const slots = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.AvailableSlots.Select(s => new { SlotIndex = s.SlotIndex, TimeUtc = s.TimeUtc }).ToList()));
+    const noSlotsText = "@SharedLocalizer["Appt_NoSlotsSelected"]";
+    const minutesText = "@SharedLocalizer["Shared_Minutes"]";
+    const rangeSeparator = "@SharedLocalizer["Appt_TimeRangeSeparator"]";
+    const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const confirmBtn = document.getElementById('confirmBtn');
+
+    function formatUtcTime(utcValue) {
+        if (!utcValue) return '';
+
+        const date = new Date(utcValue);
+        if (Number.isNaN(date.getTime())) return '';
+
+        return new Intl.DateTimeFormat('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+            timeZone: browserTimeZone
+        }).format(date);
+    }
+    
+    function updateSubmitButtonState() {
+        const checkboxes = document.querySelectorAll('input[name="SelectedSlots"]:checked');
+        const selectedCount = checkboxes.length;
+        
+        if (selectedCount === 0) {
+            confirmBtn.disabled = true;
+            confirmBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+            confirmBtn.disabled = false;
+            confirmBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    }
+    
+    function localizeSlotTimes() {
+        document.querySelectorAll('[data-utc]').forEach(el => {
+            const utc = el.getAttribute('data-utc');
+            if (!utc) return;
+            const localized = formatUtcTime(utc);
+            if (localized) {
+                el.textContent = localized;
+            }
+        });
+    }
+
+    function updateSummary() {
+        const checkboxes = document.querySelectorAll('input[name="SelectedSlots"]:checked');
+        const selectedIndices = Array.from(checkboxes).map(cb => parseInt(cb.value)).sort((a, b) => a - b);
+        const summaryEl = document.getElementById('selectedSummary');
+        
+        updateSubmitButtonState();
+        
+        if (selectedIndices.length === 0) {
+            summaryEl.textContent = noSlotsText;
+            summaryEl.classList.add('text-gray-500');
+            summaryEl.classList.remove('text-primary');
+            return;
+        }
+        
+        // Get times for first and last selected
+        const firstIdx = selectedIndices[0];
+        const lastIdx = selectedIndices[selectedIndices.length - 1];
+        const firstSlot = slots.find(s => s.SlotIndex === firstIdx);
+        const lastSlot = slots.find(s => s.SlotIndex === lastIdx);
+        
+        if (firstSlot && lastSlot) {
+            const duration = (selectedIndices.length * 20);
+            const firstTimeStr = formatUtcTime(firstSlot.TimeUtc) || firstSlot.Time;
+            const lastTimeStr = formatUtcTime(lastSlot.TimeUtc) || lastSlot.Time;
+            summaryEl.textContent = `${firstTimeStr} ${rangeSeparator} ${lastTimeStr} (${duration} ${minutesText})`;
+            summaryEl.classList.remove('text-gray-500');
+            summaryEl.classList.add('text-primary');
+        }
+    }
+    
+    // Ensure localization and summary update run after DOM is ready,
+    // and re-run on pageshow (back/forward) or short timeout to catch late DOM changes.
+    (function() {
+        function init() {
+            localizeSlotTimes();
+            updateSummary();
+
+            // Reattach change listeners (avoid duplicate by removing first)
+            document.querySelectorAll('input[name="SelectedSlots"]').forEach(checkbox => {
+                try { checkbox.removeEventListener('change', updateSummary); } catch(e) {}
+                checkbox.addEventListener('change', updateSummary);
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        window.addEventListener('pageshow', init);
+
+        // Fallback retry in case some elements render a bit later
+        setTimeout(init, 200);
+    })();
+</script>

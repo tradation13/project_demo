@@ -9,7 +9,7 @@
 <section class="bg-white py-16">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div class="mb-10 space-y-2">
-            <p class="text-sm font-semibold uppercase tracking-wide text-primary-600">@SharedLocalizer["Contact_GetInTouch"]</p>
+            <p class="text-sm font-bold uppercase tracking-wide text-primary-600">@SharedLocalizer["Contact_GetInTouch"]</p>
             <h1 class="text-4xl font-bold text-gray-900">@SharedLocalizer["Contact_Header"]</h1>
             <p class="text-lg text-gray-700">@SharedLocalizer["Contact_SubHeader"]</p>
         </div>
@@ -38,22 +38,22 @@
                 <form asp-action="Contact" method="post" class="space-y-4" novalidate>
                     @Html.AntiForgeryToken()
                     <div>
-                        <label asp-for="Name" class="mb-1 block text-sm font-semibold text-gray-800">@SharedLocalizer["Contact_Label_Name"]</label>
+                        <label asp-for="Name" class="mb-1 block text-sm font-bold text-gray-800">@SharedLocalizer["Contact_Label_Name"]</label>
                         <input asp-for="Name" class="w-full rounded-lg border border-gray-200 px-4 py-3 focus:border-primary-500 focus:ring-primary-200" />
                     </div>
                     <div>
-                        <label asp-for="Email" class="mb-1 block text-sm font-semibold text-gray-800">@SharedLocalizer["Shared_Email"]</label>
+                        <label asp-for="Email" class="mb-1 block text-sm font-bold text-gray-800">@SharedLocalizer["Shared_Email"]</label>
                         <input asp-for="Email" class="w-full rounded-lg border border-gray-200 px-4 py-3 focus:border-primary-500 focus:ring-primary-200" />
                     </div>
                     <div>
-                        <label asp-for="Phone" class="mb-1 block text-sm font-semibold text-gray-800">@SharedLocalizer["Shared_Phone"]</label>
+                        <label asp-for="Phone" class="mb-1 block text-sm font-bold text-gray-800">@SharedLocalizer["Shared_Phone"]</label>
                         <input asp-for="Phone" class="w-full rounded-lg border border-gray-200 px-4 py-3 focus:border-primary-500 focus:ring-primary-200" />
                     </div>
                     <div>
-                        <label asp-for="Message" class="mb-1 block text-sm font-semibold text-gray-800">@SharedLocalizer["Contact_Label_Message"]</label>
+                        <label asp-for="Message" class="mb-1 block text-sm font-bold text-gray-800">@SharedLocalizer["Contact_Label_Message"]</label>
                         <textarea asp-for="Message" rows="5" class="w-full rounded-lg border border-gray-200 px-4 py-3 focus:border-primary-500 focus:ring-primary-200"></textarea>
                     </div>
-                    <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-700">
+                    <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-6 py-3 font-bold text-white transition-colors hover:bg-primary-700">
                         <i class="fas fa-paper-plane"></i>
                         @SharedLocalizer["Contact_Btn_Send"]
                     </button>
@@ -66,7 +66,7 @@
                         <i class="fas fa-map-pin"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-semibold text-gray-500">@SharedLocalizer["Shared_Address"]</p>
+                        <p class="text-sm font-bold text-gray-500">@SharedLocalizer["Shared_Address"]</p>
                         <p class="text-base text-primary-600">Venloer Straße 305, 50823 Köln-Ehrenfeld</p>
                     </div>
                 </div>
@@ -76,8 +76,8 @@
                         <i class="fas fa-phone"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-semibold text-gray-500">@SharedLocalizer["Shared_Phone"]</p>
-                        <a href="tel:0172 8758302" class="font-semibold text-primary-600 hover:text-primary-700">0172 8758302</a>
+                        <p class="text-sm font-bold text-gray-500">@SharedLocalizer["Shared_Phone"]</p>
+                        <a href="tel:0172 8758302" class="font-bold text-primary-600 hover:text-primary-700">0172 8758302</a>
                     </div>
                 </div>
 
@@ -86,8 +86,8 @@
                         <i class="fas fa-envelope"></i>
                     </div>
                     <div>
-                        <p class="text-sm font-semibold text-gray-500">@SharedLocalizer["Shared_Email"]</p>
-                        <a href="mailto:kurtogluahmet18@gmail.com" class="font-semibold text-primary-600 hover:text-primary-700">kurtogluahmet18@gmail.com</a>
+                        <p class="text-sm font-bold text-gray-500">@SharedLocalizer["Shared_Email"]</p>
+                        <a href="mailto:kurtogluahmet18@gmail.com" class="font-bold text-primary-600 hover:text-primary-700">kurtogluahmet18@gmail.com</a>
                     </div>
                 </div>
 

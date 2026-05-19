@@ -1,4 +1,4 @@
-﻿@model IPTS.Areas.Admin.ViewsModels.TestGroupViewModel
+@model IPTS.Areas.Admin.ViewsModels.TestGroupViewModel
 
 @{
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
@@ -15,7 +15,7 @@
         <div class="card-body">
             <div class="flex flex-wrap gap-4">
                 <div class="min-w-[200px] flex-1">
-                    <label asp-for="Name" class="block text-sm font-medium text-gray-700"></label>
+                    <label asp-for="Name" class="block text-sm font-normal text-gray-700"></label>
                     <input asp-for="Name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                     <span asp-validation-for="Name" class="text-sm text-red-500"></span>
                 </div>

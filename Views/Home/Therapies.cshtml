@@ -37,7 +37,7 @@
             @if (Model.Count == 0)
             {
                 <div class="col-span-full py-12 text-center">
-                    <h3 class="mb-2 text-lg font-medium text-gray-900">@SharedLocalizer["Therapies_NoFound"]</h3>
+                    <h3 class="mb-2 text-lg font-bold text-gray-900">@SharedLocalizer["Therapies_NoFound"]</h3>
                     <p class="mb-6 text-gray-600">@SharedLocalizer["Therapies_NoFound_Desc"]</p>
                     <a href="/Home/Therapies" class="rounded-lg bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700">
                         @SharedLocalizer["Therapies_ClearFilters"]
@@ -81,21 +81,21 @@
                                          class="h-24 w-24 rounded-full object-cover" />
                                 }
                             </div>
-                            <h3 class="mb-2 text-xl font-semibold text-gray-900">@(doctorItem.FullName ?? SharedLocalizer["Shared_NotAvailable"])</h3>
+                            <h3 class="mb-2 text-xl font-bold text-gray-900">@(doctorItem.FullName ?? SharedLocalizer["Shared_NotAvailable"])</h3>
                             
-                            <p class="mb-2 font-medium text-blue-600">
+                            <p class="mb-2 font-normal text-blue-600">
                                 @(SharedLocalizer[doctorItem.Specialty ?? "N/A"])
                             </p>
 
                             <a href="@Url.Action("Index","Profile", new { id = doctorItem.UserId })"
-                               class="bg-primary-50 mb-2 inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-primary-600 transition-colors hover:bg-primary-100">
+                               class="bg-primary-50 mb-2 inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-bold text-primary-600 transition-colors hover:bg-primary-100">
                                 @SharedLocalizer["Therapies_ViewProfile"]
                             </a>
                             <a asp-area="patient"
                                asp-controller="Appointment"
                                asp-action="Index"
                                asp-route-Id="@doctorItem.UserId"
-                               class="inline-flex w-full items-center justify-center rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-700">
+                               class="inline-flex w-full items-center justify-center rounded-lg bg-primary-600 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-primary-700">
                                 @SharedLocalizer["Therapies_BookNow"]
                             </a>
                         </div>

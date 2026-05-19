@@ -1,11 +1,11 @@
-﻿@model List<IdentityRole>
+@model List<IdentityRole>
 @{
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
     ViewData["Title"] = SharedLocalizer["Roles"];
 }
 <div class="custom-scrollbar mb-12 overflow-x-scroll rounded-lg bg-white px-8 py-6">
     <div class="mb-4 flex items-center justify-between">
-        <h4 class="text-xl font-semibold">@SharedLocalizer["Roles"]</h4>
+        <h4 class="text-xl font-bold">@SharedLocalizer["Roles"]</h4>
         <a href="@Url.Action("Create")" class="rounded bg-primary px-4 py-1 text-sm text-white transition duration-150 hover:bg-primary-dark">@SharedLocalizer["Shared_Add_New"]</a>
     </div>
     <table class="my-8 w-full whitespace-nowrap">

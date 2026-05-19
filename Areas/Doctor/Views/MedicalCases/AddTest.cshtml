@@ -1,4 +1,4 @@
-﻿@model IPTS.ViewModels.MedicalCaseTestViewModel
+@model IPTS.ViewModels.MedicalCaseTestViewModel
 @{
     var patient = ViewBag.Patient as IPTS.Models.Entites.Patient;
     var tests = ViewBag.Tests as List<IPTS.Models.Entites.Test> ?? new List<IPTS.Models.Entites.Test>();
@@ -16,7 +16,7 @@
 
     <!-- حقل البحث -->
     <div class="relative mb-4">
-        <label class="mb-1 block font-semibold">@SharedLocalizer["AddTest_SearchLabel"]</label>
+        <label class="mb-1 block font-bold">@SharedLocalizer["AddTest_SearchLabel"]</label>
         <input type="text" id="testSearch" placeholder="@searchPlaceholder"
                class="w-full rounded border px-3 py-2" autocomplete="off" />
 
@@ -43,12 +43,12 @@
     <span asp-validation-for="TestName" class="text-sm text-red-500"></span>
 
     <div class="mb-4">
-        <label asp-for="Result" class="mb-1 block font-semibold">@SharedLocalizer["Shared_Result"] @SharedLocalizer["Shared_Optional"]</label>
+        <label asp-for="Result" class="mb-1 block font-bold">@SharedLocalizer["Shared_Result"] @SharedLocalizer["Shared_Optional"]</label>
         <input asp-for="Result" class="w-full rounded border px-3 py-2" />
     </div>
 
     <div class="mb-4">
-        <label class="mb-1 block font-semibold">@SharedLocalizer["MedCase_Create_Date"]</label>
+        <label class="mb-1 block font-bold">@SharedLocalizer["MedCase_Create_Date"]</label>
         <input asp-for="CreatedAt" type="date" class="w-full rounded border px-3 py-2"
                value="@DateTime.Now.ToString("yyyy-MM-dd")" />
     </div>

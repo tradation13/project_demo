@@ -21,14 +21,14 @@
           class="my-8 space-y-6 text-sm">
         <input asp-for="ReturnUrl" type="hidden" />  
 
-       <div class="mb-6"> <label asp-for="UsernameOrEmail" class="ml-1 block font-medium text-gray-700">@SharedLocalizer["Login_Label_UserEmail"]</label>
+    <div class="mb-6"> <label asp-for="UsernameOrEmail" class="ml-1 block font-normal text-gray-700">@SharedLocalizer["Login_Label_UserEmail"]</label>
     <input asp-for="UsernameOrEmail"
            class="mt-2 w-full rounded-xl border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none transition-all focus:border-primary focus:ring-1 focus:ring-primary/20"
            placeholder="Leo@gmail.com" />
     <span asp-validation-for="UsernameOrEmail" class="mt-1 block text-xs text-red-500"></span>
 </div>
 
-<div class="mb-6"> <label asp-for="Password" class="ml-1 block font-medium text-gray-700">@SharedLocalizer["Shared_Password"]</label>
+<div class="mb-6"> <label asp-for="Password" class="ml-1 block font-normal text-gray-700">@SharedLocalizer["Shared_Password"]</label>
     <div x-data="{ show: false }" class="relative mt-2 flex items-center">
         <input :type=" show ? 'text': 'password' "
                asp-for="Password"

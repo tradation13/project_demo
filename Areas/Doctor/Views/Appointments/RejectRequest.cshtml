@@ -1,4 +1,4 @@
-﻿@using IPTS.Areas.Doctor.ViewsModels
+@using IPTS.Areas.Doctor.ViewsModels
 @model RejectAppointmentViewModel
 @{
     ViewData["Title"] = "Reject Appointment";
@@ -9,19 +9,19 @@
     <input type="hidden" asp-for="AppointmentId" />
     <input type="hidden" asp-for="PatientEmail" />
     <div class="mb-4">
-        <label asp-for="RejectReason" class="mb-2 block font-medium">@SharedLocalizer["Appt_Reject_ReasonLabel"]</label>
+        <label asp-for="RejectReason" class="mb-2 block font-normal">@SharedLocalizer["Appt_Reject_ReasonLabel"]</label>
         <textarea asp-for="RejectReason" class="w-full rounded border p-2" rows="4"></textarea>
         <span asp-validation-for="RejectReason" class="text-red-500"></span>
     </div>
    <div class="mt-6 flex gap-3">
-    <button type="button" onclick="history.back()" class="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 transition-all hover:bg-gray-50 active:scale-95">
+    <button type="button" onclick="history.back()" class="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-normal text-gray-700 transition-all hover:bg-gray-50 active:scale-95">
         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
         @SharedLocalizer["Shared_Cancel"]
     </button>
 
-    <button type="submit" class="flex items-center gap-2 rounded-lg bg-red-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-red-700 hover:shadow-md active:scale-95">
+    <button type="submit" class="flex items-center gap-2 rounded-lg bg-red-600 px-5 py-2.5 text-sm font-normal text-white transition-all hover:bg-red-700 hover:shadow-md active:scale-95">
         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>

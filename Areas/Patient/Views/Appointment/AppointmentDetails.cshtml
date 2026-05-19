@@ -1,4 +1,4 @@
-﻿@model AppointmentViewModel
+@model AppointmentViewModel
 @using System.Globalization
 @{
     ViewData["Title"] = "Appointment Details";
@@ -96,7 +96,7 @@
                         var badgeText = "";
                         var badgeClass = BadgeClass(Model, out badgeText);
                  }
-                    <span class="@badgeClass inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold">
+                    <span class="@badgeClass inline-flex items-center rounded-full px-3 py-1 text-xs font-bold">
                         <i class="fa-solid fa-circle mr-1 text-[8px]"></i> @badgeText
                     </span>
                 </div>
@@ -116,15 +116,15 @@
         <!-- Actions -->
         <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <a asp-action="Appointments"
-               class="inline-flex w-full items-center justify-center rounded-xl border border-slate-300 bg-slate-100 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-slate-200 sm:w-auto">
+               class="inline-flex w-full items-center justify-center rounded-xl border border-slate-300 bg-slate-100 px-4 py-2 text-sm font-normal text-gray-700 shadow-sm transition hover:bg-slate-200 sm:w-auto">
                 <i class="fa-solid fa-arrow-left mr-2"></i> @SharedLocalizer["Search_BackToAppointments"]
             </a>
 
             @* Future examples:
-            <a asp-action="Reschedule" asp-route-id="@Model.Id" class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow transition hover:bg-blue-700">
+            <a asp-action="Reschedule" asp-route-id="@Model.Id" class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-normal text-white shadow transition hover:bg-blue-700">
                 <i class="fa-regular fa-calendar mr-2"></i> Reschedule
             </a>
-            <a asp-action="Cancel" asp-route-id="@Model.Id" class="inline-flex items-center rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white shadow transition hover:bg-red-700">
+            <a asp-action="Cancel" asp-route-id="@Model.Id" class="inline-flex items-center rounded-md bg-red-600 px-4 py-2 text-sm font-normal text-white shadow transition hover:bg-red-700">
                 <i class="fa-regular fa-circle-xmark mr-2"></i> Cancel Appointment
             </a>
             *@

@@ -6,7 +6,7 @@
 
 <div class="rounded-lg bg-white px-8 py-6">
     <div class="mb-4 flex items-center justify-between">
-        <h4 class="text-xl font-semibold">@SharedLocalizer["Shared_Edit"] @SharedLocalizer["Shared_Appointment"]</h4>
+        <h4 class="text-xl font-bold">@SharedLocalizer["Shared_Edit"] @SharedLocalizer["Shared_Appointment"]</h4>
         <a href="@Url.Action("Index", "Appointments", new { area = "doctor" })"
            class="rounded bg-gray-500 px-4 py-1 text-sm text-white transition duration-150 hover:bg-gray-600">
             @SharedLocalizer["Shared_Back"]
@@ -18,25 +18,25 @@
         
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
-                <label asp-for="PatientId" class="mb-2 block text-sm font-medium text-gray-700">@SharedLocalizer["Shared_Patient"] @SharedLocalizer["Shared_ID"]</label>
+                <label asp-for="PatientId" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Shared_Patient"] @SharedLocalizer["Shared_ID"]</label>
                 <input asp-for="PatientId" type="number" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary" />
                 <span asp-validation-for="PatientId" class="text-sm text-red-500"></span>
             </div>
 
             <div>
-                <label asp-for="DoctorId" class="mb-2 block text-sm font-medium text-gray-700">@SharedLocalizer["Therapies_Doctor"] @SharedLocalizer["Shared_ID"]</label>
+                <label asp-for="DoctorId" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Therapies_Doctor"] @SharedLocalizer["Shared_ID"]</label>
                 <input asp-for="DoctorId" type="number" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary" />
                 <span asp-validation-for="DoctorId" class="text-sm text-red-500"></span>
             </div>
 
             <div>
-                <label asp-for="ScheduledTime" class="mb-2 block text-sm font-medium text-gray-700">@SharedLocalizer["Appt_ScheduledTime"]</label>
+                <label asp-for="ScheduledTime" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Appt_ScheduledTime"]</label>
                 <input asp-for="ScheduledTime" type="datetime-local" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary" />
                 <span asp-validation-for="ScheduledTime" class="text-sm text-red-500"></span>
             </div>
 
             <div>
-                <label asp-for="Status" class="mb-2 block text-sm font-medium text-gray-700">@SharedLocalizer["Appt_Status"]</label>
+                <label asp-for="Status" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Appt_Status"]</label>
                 <select asp-for="Status" asp-items="Html.GetEnumSelectList<AppointmentStatus>()" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary">
                 </select>
                 <span asp-validation-for="Status" class="text-sm text-red-500"></span>

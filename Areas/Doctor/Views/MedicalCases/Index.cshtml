@@ -1,4 +1,4 @@
-﻿@model List<IPTS.Models.Entites.MedicalCase>
+@model List<IPTS.Models.Entites.MedicalCase>
 @{
     var patient = ViewBag.Patient as IPTS.Models.Entites.Patient;
     ViewData["Title"] = "Medical Cases";
@@ -9,11 +9,11 @@
 <div class="mb-6 rounded bg-white p-4 shadow">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between">
         <div>
-            @* <div class="font-semibold">@SharedLocalizer["Shared_Identity_Number"]:</div>
+            @* <div class="font-bold">@SharedLocalizer["Shared_Identity_Number"]:</div>
             <div class="text-gray-700">@patient?.IdentityNumber</div> *@
-            <div class="mt-2 font-semibold">@SharedLocalizer["Shared_Phone"]:</div>
+            <div class="mt-2 font-bold">@SharedLocalizer["Shared_Phone"]:</div>
             <div class="text-gray-700">@patient?.User?.PhoneNumber</div>
-            <div class="mt-2 font-semibold">@SharedLocalizer["Shared_Email"]:</div>
+            <div class="mt-2 font-bold">@SharedLocalizer["Shared_Email"]:</div>
             <div class="text-gray-700">@patient?.User?.Email</div>
         </div>
         <div class="mt-4 md:mt-0">
@@ -66,7 +66,7 @@ else
        asp-route-fileName="@latestReport.ReportUrl" 
        target="_blank" 
        style="background-color: #0d9488 !important; color: white !important;"
-       class="inline-flex items-center gap-2 rounded-md bg-[#0d9488] px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[#0f766e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0d9488] active:scale-95">
+       class="inline-flex items-center gap-2 rounded-md bg-[#0d9488] px-4 py-2 text-sm font-bold text-white shadow-sm transition-all hover:bg-[#0f766e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0d9488] active:scale-95">
        
        @* أيقونة العين باستخدام SVG متوافق مع Tailwind *@
        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

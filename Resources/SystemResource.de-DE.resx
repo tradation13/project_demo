@@ -126,15 +126,15 @@
     <comment/>
   </data>
   <data name="Auth_EmailNotVerified" xml:space="preserve">
-    <value>Sie mأ¼ssen zuerst Ihre E-Mail bestأ¤tigen</value>
+    <value>Sie müssen zuerst Ihre E-Mail bestätigen</value>
     <comment/>
   </data>
   <data name="Auth_PasswordChanged" xml:space="preserve">
-    <value>Das Passwort wurde erfolgreich geأ¤ndert</value>
+    <value>Das Passwort wurde erfolgreich geändert</value>
     <comment/>
   </data>
   <data name="Email_ResetTitle" xml:space="preserve">
-    <value>Passwort zurأ¼cksetzen</value>
+    <value>Passwort zurücksetzen</value>
     <comment/>
   </data>
   <data name="Email_Hello" xml:space="preserve">
@@ -142,7 +142,7 @@
     <comment/>
   </data>
   <data name="Email_ResetRequest" xml:space="preserve">
-    <value>Sie haben das Zurأ¼cksetzen Ihres Passworts beantragt</value>
+    <value>Sie haben das Zurücksetzen Ihres Passworts beantragt</value>
     <comment/>
   </data>
   <data name="Email_ResetInstruction" xml:space="preserve">
@@ -150,7 +150,7 @@
     <comment/>
   </data>
   <data name="Email_ResetButton" xml:space="preserve">
-    <value>Passwort zurأ¼cksetzen</value>
+    <value>Passwort zurücksetzen</value>
     <comment/>
   </data>
   <data name="Email_IgnoreRequest" xml:space="preserve">
@@ -158,7 +158,7 @@
     <comment/>
   </data>
   <data name="Email_CheckInbox" xml:space="preserve">
-    <value>Eine Bestأ¤tigungs-E-Mail wurde gesendet. Bitte prأ¼fen Sie Ihren Posteingang</value>
+    <value>Eine Bestätigungs-E-Mail wurde gesendet. Bitte prüfen Sie Ihren Posteingang</value>
     <comment/>
   </data>
   <data name="User_NotFound" xml:space="preserve">
@@ -166,35 +166,35 @@
     <comment/>
   </data>
   <data name="Auth_EmailAlreadyVerified" xml:space="preserve">
-    <value>Ihre E-Mail ist bereits bestأ¤tigt. Sie kأ¶nnen sich jetzt anmelden</value>
+    <value>Ihre E-Mail ist bereits bestätigt. Sie können sich jetzt anmelden</value>
     <comment/>
   </data>
   <data name="Email_VerifyTitle" xml:space="preserve">
-    <value>E-Mail-Bestأ¤tigung</value>
+    <value>E-Mail-Bestätigung</value>
     <comment/>
   </data>
   <data name="Email_VerifyInstruction" xml:space="preserve">
-    <value>Klicken Sie auf diesen Link, um Ihre E-Mail zu bestأ¤tigen</value>
+    <value>Klicken Sie auf diesen Link, um Ihre E-Mail zu bestätigen</value>
     <comment/>
   </data>
   <data name="Email_VerifyButton" xml:space="preserve">
-    <value>E-Mail bestأ¤tigen</value>
+    <value>E-Mail bestätigen</value>
     <comment/>
   </data>
   <data name="Auth_VerifySuccess" xml:space="preserve">
-    <value>E-Mail erfolgreich bestأ¤tigt! Sie kأ¶nnen sich jetzt anmelden</value>
+    <value>E-Mail erfolgreich bestätigt! Sie können sich jetzt anmelden</value>
     <comment/>
   </data>
   <data name="Auth_VerifyFailed" xml:space="preserve">
-    <value>E-Mail-Bestأ¤tigung fehlgeschlagen</value>
+    <value>E-Mail-Bestätigung fehlgeschlagen</value>
     <comment/>
   </data>
   <data name="Auth_ResendSuccess" xml:space="preserve">
-    <value>Bestأ¤tigungs-E-Mail erneut gesendet</value>
+    <value>Bestätigungs-E-Mail erneut gesendet</value>
     <comment/>
   </data>
   <data name="Auth_EmailVerifiedStatus" xml:space="preserve">
-    <value>E-Mail wurde bestأ¤tigt</value>
+    <value>E-Mail wurde bestätigt</value>
     <comment/>
   </data>
   <data name="Label_Name" xml:space="preserve">
@@ -226,7 +226,7 @@
     <comment/>
   </data>
   <data name="Status_ErrorGeneral" xml:space="preserve">
-    <value>Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es spأ¤ter noch einmal.</value>
+    <value>Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es später noch einmal.</value>
     <comment/>
   </data>
   <data name="Msg_CreateSuccess" xml:space="preserve">
@@ -238,7 +238,7 @@
     <comment/>
   </data>
   <data name="Msg_ErrorSave" xml:space="preserve">
-    <value>Fehler beim Speichern. Bitte prأ¼fen Sie, ob die Daten bereits existieren.</value>
+    <value>Fehler beim Speichern. Bitte prüfen Sie, ob die Daten bereits existieren.</value>
     <comment/>
   </data>
   <data name="Msg_ErrorResetLink" xml:space="preserve">
@@ -250,7 +250,7 @@
     <comment/>
   </data>
   <data name="Msg_DeleteSuccess" xml:space="preserve">
-    <value>Erfolgreich gelأ¶scht.</value>
+    <value>Erfolgreich gelöscht.</value>
     <comment/>
   </data>
   <data name="Msg_SearchCriteriaRequired" xml:space="preserve">
@@ -258,7 +258,7 @@
     <comment/>
   </data>
   <data name="Msg_NotFoundCreateNew" xml:space="preserve">
-    <value>Kein passender Datensatz gefunden. Sie kأ¶nnen einen neuen erstellen.</value>
+    <value>Kein passender Datensatz gefunden. Sie können einen neuen erstellen.</value>
     <comment/>
   </data>
   <data name="Label_Unknown" xml:space="preserve">
@@ -298,7 +298,7 @@
     <comment/>
   </data>
   <data name="Msg_PatientCreatedScheduleInfo" xml:space="preserve">
-    <value>Patient erfolgreich erstellt! Sie kأ¶nnen nun nach ihm/ihr suchen, um einen Termin zu vereinbaren.</value>
+    <value>Patient erfolgreich erstellt! Sie können nun nach ihm/ihr suchen, um einen Termin zu vereinbaren.</value>
     <comment/>
   </data>
   <data name="Error_CreatePatient" xml:space="preserve">
@@ -306,7 +306,7 @@
     <comment/>
   </data>
   <data name="Msg_NoPatientSelected" xml:space="preserve">
-    <value>Kein Patient ausgewأ¤hlt. Bitte suchen Sie zuerst nach einem Patienten.</value>
+    <value>Kein Patient ausgewählt. Bitte suchen Sie zuerst nach einem Patienten.</value>
     <comment/>
   </data>
   <data name="Error_DoctorProfileNotFound" xml:space="preserve">
@@ -314,19 +314,19 @@
     <comment/>
   </data>
   <data name="Msg_SelectAppointmentSlot" xml:space="preserve">
-    <value>Wأ¤hlen Sie Datum und Uhrzeit fأ¼r den Termin aus.</value>
+    <value>Wählen Sie Datum und Uhrzeit für den Termin aus.</value>
     <comment/>
   </data>
   <data name="Msg_RequiredFieldsMissing" xml:space="preserve">
-    <value>Bitte fأ¼llen Sie alle Pflichtfelder aus.</value>
+    <value>Bitte füllen Sie alle Pflichtfelder aus.</value>
     <comment/>
   </data>
   <data name="Msg_InvalidTimeSlots" xml:space="preserve">
-    <value>Bitte wأ¤hlen Sie gأ¼ltige Zeitfenster aus.</value>
+    <value>Bitte wählen Sie gültige Zeitfenster aus.</value>
     <comment/>
   </data>
   <data name="Msg_AppointmentCreateSuccessDetails" xml:space="preserve">
-    <value>Termin erfolgreich erstellt! Dauer: {0} Minuten ({1} - {2}). Ein Termin wurde fأ¼r alle ausgewأ¤hlten Zeitfenster erstellt.</value>
+    <value>Termin erfolgreich erstellt! Dauer: {0} Minuten ({1} - {2}). Ein Termin wurde für alle ausgewählten Zeitfenster erstellt.</value>
     <comment/>
   </data>
   <data name="Error_AppointmentCreateFailed" xml:space="preserve">
@@ -342,23 +342,23 @@
     <comment/>
   </data>
   <data name="Msg_AppointmentDeleteSuccess" xml:space="preserve">
-    <value>Termin erfolgreich gelأ¶scht.</value>
+    <value>Termin erfolgreich gelöscht.</value>
     <comment/>
   </data>
   <data name="Val_RequiredTimeSlot" xml:space="preserve">
-    <value>Bitte wأ¤hlen Sie mindestens ein Zeitfenster aus.</value>
+    <value>Bitte wählen Sie mindestens ein Zeitfenster aus.</value>
     <comment/>
   </data>
   <data name="Msg_AppointmentConfirmedSlotsUpdated" xml:space="preserve">
-    <value>Termin bestأ¤tigt und Zeitfenster erfolgreich aktualisiert.</value>
+    <value>Termin bestätigt und Zeitfenster erfolgreich aktualisiert.</value>
     <comment/>
   </data>
   <data name="Error_AppointmentConfirmationFailed" xml:space="preserve">
-    <value>Die Terminbestأ¤tigung ist fehlgeschlagen. Bitte versuchen Sie es erneut.</value>
+    <value>Die Terminbestätigung ist fehlgeschlagen. Bitte versuchen Sie es erneut.</value>
     <comment/>
   </data>
   <data name="Val_RejectionReasonRequired" xml:space="preserve">
-    <value>Bitte geben Sie einen Grund fأ¼r die Ablehnung an.</value>
+    <value>Bitte geben Sie einen Grund für die Ablehnung an.</value>
     <comment/>
   </data>
   <data name="Msg_AppointmentRejectedSuccess" xml:space="preserve">
@@ -370,15 +370,15 @@
     <comment/>
   </data>
   <data name="Msg_AlreadyHasAppointmentRedirect" xml:space="preserve">
-    <value>Sie haben bereits einen vorherigen Termin bei Dr. {0}. Sie wurden zu Ihrer Terminأ¼bersicht weitergeleitet.</value>
+    <value>Sie haben bereits einen vorherigen Termin bei Dr. {0}. Sie wurden zu Ihrer Terminübersicht weitergeleitet.</value>
     <comment/>
   </data>
   <data name="Warn_FillRequiredFields" xml:space="preserve">
-    <value>Bitte fأ¼llen Sie alle Pflichtfelder aus.</value>
+    <value>Bitte füllen Sie alle Pflichtfelder aus.</value>
     <comment/>
   </data>
   <data name="Warn_SelectValidTimeSlot" xml:space="preserve">
-    <value>Bitte wأ¤hlen Sie ein gأ¼ltiges Zeitfenster aus.</value>
+    <value>Bitte wählen Sie ein gültiges Zeitfenster aus.</value>
     <comment/>
   </data>
   <data name="Error_PatientProfileNotFound" xml:space="preserve">
@@ -386,15 +386,15 @@
     <comment/>
   </data>
   <data name="Error_SlotNoLongerAvailable" xml:space="preserve">
-    <value>Das ausgewأ¤hlte Zeitfenster ist nicht mehr verfأ¼gbar.</value>
+    <value>Das ausgewählte Zeitfenster ist nicht mehr verfügbar.</value>
     <comment/>
   </data>
   <data name="Error_AlreadyHasPendingAppointment" xml:space="preserve">
-    <value>Sie haben bereits eine ausstehende Terminanfrage fأ¼r dieses Zeitfenster bei diesem Arzt.</value>
+    <value>Sie haben bereits eine ausstehende Terminanfrage für dieses Zeitfenster bei diesem Arzt.</value>
     <comment/>
   </data>
   <data name="Msg_AppointmentBookedWithDuration" xml:space="preserve">
-    <value>Termin fأ¼r {0} gebucht (20 Minuten).</value>
+    <value>Termin für {0} gebucht (20 Minuten).</value>
     <comment/>
   </data>
   <data name="Warn_BookingFailedContactClinic" xml:space="preserve">
@@ -402,11 +402,11 @@
     <comment/>
   </data>
   <data name="Email_Subject_AppointmentRejected" xml:space="preserve">
-    <value>Terminabsage â€“ Ihr Termin wurde abgelehnt</value>
+    <value>Terminabsage – Ihr Termin wurde abgelehnt</value>
     <comment/>
   </data>
   <data name="Email_Body_AppointmentRejected" xml:space="preserve">
-    <value>Sehr geehrte(r) {0},&lt;br/&gt;&lt;br/&gt;Ihre Terminanfrage wurde aus folgendem Grund abgelehnt:&lt;br/&gt;&lt;b&gt;{1}&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Bei Fragen wenden Sie sich bitte an die Klinik.&lt;br/&gt;&lt;br/&gt;Mit freundlichen Grأ¼أںen.</value>
+    <value>Sehr geehrte(r) {0},&lt;br/&gt;&lt;br/&gt;Ihre Terminanfrage wurde aus folgendem Grund abgelehnt:&lt;br/&gt;&lt;b&gt;{1}&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Bei Fragen wenden Sie sich bitte an die Klinik.&lt;br/&gt;&lt;br/&gt;Mit freundlichen Grüßen.</value>
     <comment/>
   </data>
   <data name="Label_Report" xml:space="preserve">
@@ -418,7 +418,7 @@
     <comment/>
   </data>
   <data name="Error_DefaultRoleNotSet" xml:space="preserve">
-    <value>Die Standardrollen-ID fأ¼r diesen Benutzertyp ist nicht festgelegt.</value>
+    <value>Die Standardrollen-ID für diesen Benutzertyp ist nicht festgelegt.</value>
     <comment/>
   </data>
   <data name="Error_DefaultRoleNotFound" xml:space="preserve">
@@ -442,7 +442,7 @@
     <comment/>
   </data>
   <data name="Error_UnsupportedUserType" xml:space="preserve">
-    <value>Nicht unterstأ¼tzter Benutzertyp.</value>
+    <value>Nicht unterstützter Benutzertyp.</value>
     <comment/>
   </data>
   <data name="Error_UserNotFound" xml:space="preserve">
@@ -466,11 +466,11 @@
     <comment/>
   </data>
   <data name="Email_Subject_Confirm" xml:space="preserve">
-    <value>Bestأ¤tigen Sie Ihre E-Mail</value>
+    <value>Bestätigen Sie Ihre E-Mail</value>
     <comment/>
   </data>
   <data name="Email_Body_Confirm" xml:space="preserve">
-    <value>&lt;p&gt;Willkommen!&lt;/p&gt;&lt;p&gt;Bitte bestأ¤tigen Sie Ihre E-Mail, indem Sie auf den untenstehenden Link klicken:&lt;/p&gt;&lt;p&gt;&lt;a href='{0}'&gt;E-Mail bestأ¤tigen&lt;/a&gt;&lt;/p&gt;</value>
+    <value>&lt;p&gt;Willkommen!&lt;/p&gt;&lt;p&gt;Bitte bestätigen Sie Ihre E-Mail, indem Sie auf den untenstehenden Link klicken:&lt;/p&gt;&lt;p&gt;&lt;a href='{0}'&gt;E-Mail bestätigen&lt;/a&gt;&lt;/p&gt;</value>
     <comment/>
   </data>
   <data name="Code_RegistrationFailed" xml:space="preserve">
@@ -498,7 +498,7 @@
     <comment/>
   </data>
   <data name="Email_Welcome_Body" xml:space="preserve">
-    <value>    &lt;div style='font-family: Segoe UI, sans-serif; line-height: 1.6;'&gt;        &lt;h2 style='color: #007bff;'&gt;Willkommen bei PhysioTech&lt;/h2&gt;        &lt;p&gt;Sehr geehrte(r) {0} {1},&lt;/p&gt;        &lt;p&gt;Ihr medizinisches Profil wurde erfolgreich von &lt;strong&gt;Dr. {2}&lt;/strong&gt; erstellt.&lt;/p&gt;        &lt;div style='background-color: #f4f4f4; padding: 20px; border-left: 5px solid #007bff; margin: 20px 0;'&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Login-Portal:&lt;/strong&gt; &lt;a href='{3}'&gt;{3}&lt;/a&gt;&lt;/p&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Benutzername:&lt;/strong&gt; {4}&lt;/p&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Temporأ¤res Passwort:&lt;/strong&gt; &lt;code style='background: #eee; padding: 2px 5px;'&gt;{5}&lt;/code&gt;&lt;/p&gt;        &lt;/div&gt;        &lt;p style='color: #d9534f;'&gt;&lt;strong&gt;Hinweis:&lt;/strong&gt; Bitte ändern Sie Ihr Passwort nach dem ersten Login.&lt;/p&gt;        &lt;br&gt;        &lt;p&gt;Mit freundlichen Grأ¼أںen,&lt;br&gt;Ihr PhysioTech Management Team&lt;/p&gt;    &lt;/div&gt;</value>
+    <value>    &lt;div style='font-family: Segoe UI, sans-serif; line-height: 1.6;'&gt;        &lt;h2 style='color: #007bff;'&gt;Willkommen bei PhysioTech&lt;/h2&gt;        &lt;p&gt;Sehr geehrte(r) {0} {1},&lt;/p&gt;        &lt;p&gt;Ihr medizinisches Profil wurde erfolgreich von &lt;strong&gt;Dr. {2}&lt;/strong&gt; erstellt.&lt;/p&gt;        &lt;div style='background-color: #f4f4f4; padding: 20px; border-left: 5px solid #007bff; margin: 20px 0;'&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Login-Portal:&lt;/strong&gt; &lt;a href='{3}'&gt;{3}&lt;/a&gt;&lt;/p&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Benutzername:&lt;/strong&gt; {4}&lt;/p&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Temporäres Passwort:&lt;/strong&gt; &lt;code style='background: #eee; padding: 2px 5px;'&gt;{5}&lt;/code&gt;&lt;/p&gt;        &lt;/div&gt;        &lt;p style='color: #d9534f;'&gt;&lt;strong&gt;Hinweis:&lt;/strong&gt; Bitte ändern Sie Ihr Passwort nach dem ersten Login.&lt;/p&gt;        &lt;br&gt;        &lt;p&gt;Mit freundlichen Grüßen,&lt;br&gt;Ihr PhysioTech Management Team&lt;/p&gt;    &lt;/div&gt;</value>
     <comment/>
   </data>
   <data name="UsernameRequired" xml:space="preserve">
@@ -506,11 +506,11 @@
     <comment/>
   </data>
   <data name="UsernameMaxLength" xml:space="preserve">
-    <value>Der Benutzername darf 50 Zeichen nicht أ¼berschreiten</value>
+    <value>Der Benutzername darf 50 Zeichen nicht überschreiten</value>
     <comment/>
   </data>
   <data name="InvalidId" xml:space="preserve">
-    <value>Ungأ¼ltige Kennung</value>
+    <value>Ungültige Kennung</value>
     <comment/>
   </data>
   <data name="PatientNameRequired" xml:space="preserve">
@@ -518,7 +518,7 @@
     <comment/>
   </data>
   <data name="PatientNameMaxLength" xml:space="preserve">
-    <value>Der Name des Patienten darf 150 Zeichen nicht أ¼berschreiten</value>
+    <value>Der Name des Patienten darf 150 Zeichen nicht überschreiten</value>
     <comment/>
   </data>
   <data name="IdentityRequired" xml:space="preserve">
@@ -526,11 +526,11 @@
     <comment/>
   </data>
   <data name="IdentityMaxLength" xml:space="preserve">
-    <value>Die Personalausweisnummer darf 50 Zeichen nicht أ¼berschreiten</value>
+    <value>Die Personalausweisnummer darf 50 Zeichen nicht überschreiten</value>
     <comment/>
   </data>
   <data name="InvalidDoctorId" xml:space="preserve">
-    <value>Ungأ¼ltige Arztnummer</value>
+    <value>Ungültige Arztnummer</value>
     <comment/>
   </data>
   <data name="ScheduledTimeRequired" xml:space="preserve">
@@ -538,7 +538,7 @@
     <comment/>
   </data>
   <data name="NotesMaxLength" xml:space="preserve">
-    <value>Notizen dأ¼rfen 2000 Zeichen nicht أ¼berschreiten</value>
+    <value>Notizen dürfen 2000 Zeichen nicht überschreiten</value>
     <comment/>
   </data>
   <data name="SpecialtyRequired" xml:space="preserve">
@@ -554,7 +554,7 @@
     <comment/>
   </data>
   <data name="SelectedDateRequired" xml:space="preserve">
-    <value>Ausgewأ¤hltes Datum ist erforderlich</value>
+    <value>Ausgewähltes Datum ist erforderlich</value>
     <comment/>
   </data>
   <data name="UserIdRequired" xml:space="preserve">
@@ -562,15 +562,15 @@
     <comment/>
   </data>
   <data name="FullNameRequired" xml:space="preserve">
-    <value>Vollstأ¤ndiger Name ist erforderlich</value>
+    <value>Vollständiger Name ist erforderlich</value>
     <comment/>
   </data>
   <data name="FullNameMaxLength" xml:space="preserve">
-    <value>Vollstأ¤ndiger Name darf 200 Zeichen nicht أ¼berschreiten</value>
+    <value>Vollständiger Name darf 200 Zeichen nicht überschreiten</value>
     <comment/>
   </data>
   <data name="InvalidRating" xml:space="preserve">
-    <value>Ungأ¼ltige Bewertung</value>
+    <value>Ungültige Bewertung</value>
     <comment/>
   </data>
   <data name="UsernameOrEmailRequired" xml:space="preserve">
@@ -578,11 +578,11 @@
     <comment/>
   </data>
   <data name="InvalidTestId" xml:space="preserve">
-    <value>Ungأ¼ltige Test-ID</value>
+    <value>Ungültige Test-ID</value>
     <comment/>
   </data>
   <data name="InvalidMedicalCaseId" xml:space="preserve">
-    <value>Ungأ¼ltige Fall-ID</value>
+    <value>Ungültige Fall-ID</value>
     <comment/>
   </data>
   <data name="TestNameRequired" xml:space="preserve">
@@ -610,11 +610,11 @@
     <comment/>
   </data>
   <data name="NameMaxLength" xml:space="preserve">
-    <value>Name darf 100 Zeichen nicht أ¼berschreiten</value>
+    <value>Name darf 100 Zeichen nicht überschreiten</value>
     <comment/>
   </data>
   <data name="PhoneMaxLength" xml:space="preserve">
-    <value>Telefonnummer darf 30 Zeichen nicht أ¼berschreiten</value>
+    <value>Telefonnummer darf 30 Zeichen nicht überschreiten</value>
     <comment/>
   </data>
   <data name="MessageRequired" xml:space="preserve">
@@ -622,7 +622,7 @@
     <comment/>
   </data>
   <data name="MessageMaxLength" xml:space="preserve">
-    <value>Nachricht darf 2000 Zeichen nicht أ¼berschreiten</value>
+    <value>Nachricht darf 2000 Zeichen nicht überschreiten</value>
     <comment/>
   </data>
   <data name="TimeRequired" xml:space="preserve">
@@ -630,7 +630,7 @@
     <comment/>
   </data>
   <data name="InvalidSlotIndex" xml:space="preserve">
-    <value>Ungأ¼ltiger Slot-Index</value>
+    <value>Ungültiger Slot-Index</value>
     <comment/>
   </data>
   <data name="StartTimeRequired" xml:space="preserve">
@@ -642,7 +642,7 @@
     <comment/>
   </data>
   <data name="InvalidEmailFormat" xml:space="preserve">
-    <value>Bitte geben Sie eine gأ¼ltige E-Mail-Adresse ein</value>
+    <value>Bitte geben Sie eine gültige E-Mail-Adresse ein</value>
     <comment/>
   </data>
   <data name="PhoneRequired" xml:space="preserve">
@@ -650,7 +650,7 @@
     <comment/>
   </data>
   <data name="InvalidPhoneFormat" xml:space="preserve">
-    <value>Bitte geben Sie eine gأ¼ltige Telefonnummer ein</value>
+    <value>Bitte geben Sie eine gültige Telefonnummer ein</value>
     <comment/>
   </data>
   <data name="FirstNameRequired" xml:space="preserve">
@@ -658,7 +658,7 @@
     <comment/>
   </data>
   <data name="FirstNameMaxLength" xml:space="preserve">
-    <value>Der Vorname darf 50 Zeichen nicht أ¼berschreiten</value>
+    <value>Der Vorname darf 50 Zeichen nicht überschreiten</value>
     <comment/>
   </data>
   <data name="LastNameRequired" xml:space="preserve">
@@ -666,7 +666,7 @@
     <comment/>
   </data>
   <data name="LastNameMaxLength" xml:space="preserve">
-    <value>Der Nachname darf 50 Zeichen nicht أ¼berschreiten</value>
+    <value>Der Nachname darf 50 Zeichen nicht überschreiten</value>
     <comment/>
   </data>
   <data name="PasswordRequired" xml:space="preserve">
@@ -678,11 +678,11 @@
     <comment/>
   </data>
   <data name="ConfirmPasswordRequired" xml:space="preserve">
-    <value>Bitte bestأ¤tigen Sie Ihr Passwort</value>
+    <value>Bitte bestätigen Sie Ihr Passwort</value>
     <comment/>
   </data>
   <data name="PasswordsDoNotMatch" xml:space="preserve">
-    <value>Passwأ¶rter stimmen nicht أ¼berein</value>
+    <value>Passwörter stimmen nicht überein</value>
     <comment/>
   </data>
   <data name="UserTypeRequired" xml:space="preserve">

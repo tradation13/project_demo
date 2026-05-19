@@ -1,4 +1,4 @@
-﻿@model EditAdminViewModel
+@model EditAdminViewModel
 
 @{
     ViewData["Title"] = SharedLocalizer["Users_EditAdmin"];
@@ -10,25 +10,25 @@
 
     <form asp-action="EditAdmin" asp-route-id="@Model.Id" method="post" class="space-y-4">
         <div class="flex flex-col">
-            <label asp-for="UserName" class="mb-1 font-medium">@SharedLocalizer["Shared_UserName"]</label>
+            <label asp-for="UserName" class="mb-1 font-normal">@SharedLocalizer["Shared_UserName"]</label>
             <input asp-for="UserName" class="rounded border-gray-300 py-1 focus:outline-none focus:ring-0" placeholder=@SharedLocalizer["Patient_Placeholder_User"] />
             <span asp-validation-for="UserName" class="text-sm text-red-500"></span>
         </div>
 
         <div class="flex flex-col">
-            <label asp-for="Email" class="mb-1 font-medium">@SharedLocalizer["Shared_Email"]</label>
+            <label asp-for="Email" class="mb-1 font-normal">@SharedLocalizer["Shared_Email"]</label>
             <input asp-for="Email" class="rounded border-gray-300 py-1 focus:outline-none focus:ring-0" placeholder=@SharedLocalizer["Search_PlaceholderEmail"] />
             <span asp-validation-for="Email" class="text-sm text-red-500"></span>
         </div>
 
         <div class="flex flex-col">
-            <label asp-for="PhoneNumber" class="mb-1 font-medium">@SharedLocalizer["Shared_PhoneNumber"]</label>
+            <label asp-for="PhoneNumber" class="mb-1 font-normal">@SharedLocalizer["Shared_PhoneNumber"]</label>
             <input asp-for="PhoneNumber" class="rounded border-gray-300 py-1 focus:outline-none focus:ring-0" placeholder=@SharedLocalizer["Search_PlaceholderPhone"] />
             <span asp-validation-for="PhoneNumber" class="text-sm text-red-500"></span>
         </div>
 
         <div class="flex flex-col">
-            <label asp-for="Status" class="mb-1 font-medium">@SharedLocalizer["Appt_Status"]</label>
+            <label asp-for="Status" class="mb-1 font-normal">@SharedLocalizer["Appt_Status"]</label>
             <select asp-for="Status" class="rounded border-gray-300 py-1 focus:outline-none focus:ring-0">
                 <option value="0">@SharedLocalizer["Status_Active"]</option>
                 <option value="1">@SharedLocalizer["Status_Inactive"]</option>

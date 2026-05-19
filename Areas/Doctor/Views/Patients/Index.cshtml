@@ -1,4 +1,4 @@
-﻿@model List<IPTS.Models.Entites.Patient>
+@model List<IPTS.Models.Entites.Patient>
 @{
     ViewData["Title"] = "My Patients";
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
@@ -20,7 +20,7 @@
             <div class="mb-2 text-yellow-400">
                 <i class="fas fa-user-slash fa-3x"></i>
             </div>
-            <p class="font-medium text-yellow-800">@SharedLocalizer["Pat_NoPatients"]</p>
+            <p class="font-normal text-yellow-800">@SharedLocalizer["Pat_NoPatients"]</p>
         </div>
     }
     else
@@ -40,7 +40,7 @@
                     {
                         <tr class="transition-colors hover:bg-slate-50/50">
                             <td class="whitespace-nowrap px-6 py-4">
-                                <div class="font-semibold text-slate-700">@($"{p.User?.FirstName} {p.User?.LastName}")</div>
+                                <div class="font-bold text-slate-700">@($"{p.User?.FirstName} {p.User?.LastName}")</div>
                             </td>
                             @* <td class="whitespace-nowrap px-6 py-4">
                                 <span class="rounded-full bg-slate-100 px-3 py-1 font-mono text-xs text-slate-600">@p.IdentityNumber</span>

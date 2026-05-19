@@ -1,4 +1,4 @@
-﻿@model List<IPTS.Areas.Admin.ViewsModels.TestViewModel>
+@model List<IPTS.Areas.Admin.ViewsModels.TestViewModel>
 @{
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
     ViewBag.Title = @SharedLocalizer["Tests_List"];
@@ -6,7 +6,7 @@
 
 <div x-data="{ filter: false }" class="custom-scrollbar overflow-x-scroll rounded-lg bg-white px-8 py-6">
     <div class="mb-4 flex items-center justify-between">
-        <h4 class="text-xl font-semibold">@SharedLocalizer["Tests"]</h4>
+        <h4 class="text-xl font-bold">@SharedLocalizer["Tests"]</h4>
         <a href="@Url.Action("Create")"
            class="rounded bg-primary px-4 py-1 text-sm text-white transition duration-150 hover:bg-primary-dark">
             @SharedLocalizer["Shared_Add_New"]

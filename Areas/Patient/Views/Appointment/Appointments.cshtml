@@ -1,4 +1,4 @@
-﻿@model List<IPTS.ViewModels.AppointmentViewModel>
+@model List<IPTS.ViewModels.AppointmentViewModel>
 @using IPTS.Models.Entites
 @{
     ViewData["Title"] = "My Appointments";
@@ -40,7 +40,7 @@
         </h2>
 
         <a href="/home/therapies"
-           class="inline-flex items-center justify-center rounded-2xl border border-green-500 bg-green-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700">
+           class="inline-flex items-center justify-center rounded-2xl border border-green-500 bg-green-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-green-700">
             <i class="fa-solid fa-plus mr-2"></i> @SharedLocalizer["Appt_New"]
         </a>
 
@@ -92,7 +92,7 @@
                 <article class="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm transition hover:shadow-md sm:p-6">
                     <div class="flex flex-col gap-4">
                         <div class="flex flex-wrap items-center gap-2">
-                            <h3 class="text-lg font-semibold text-slate-800">@appt.DoctorName</h3>
+                            <h3 class="text-lg font-bold text-slate-800">@appt.DoctorName</h3>
 
                             <span class="@badgeClass rounded-full px-3 py-1 text-xs font-bold">
                                 @badgeText
@@ -108,29 +108,29 @@
 
                             <div class="grid grid-cols-1 gap-2 text-sm text-gray-600 sm:grid-cols-2 lg:grid-cols-3">
                             <div>
-                                <span class="font-medium text-slate-700">@SharedLocalizer["Shared_Date"]:</span>
+                                <span class="font-normal text-slate-700">@SharedLocalizer["Shared_Date"]:</span>
                                 <span class="appt-date" data-utc="@scheduledUtcIso">@appt.ScheduledTime.ToString("MMMM dd, yyyy")</span>
                             </div>
                             <div>
-                                <span class="font-medium text-slate-700">@SharedLocalizer["Shared_Time"]:</span>
+                                <span class="font-normal text-slate-700">@SharedLocalizer["Shared_Time"]:</span>
                                 <span class="appt-time" data-utc="@scheduledUtcIso">@appt.ScheduledTime.ToString("HH:mm")</span>
                             </div>
                             <div>
-                                <span class="font-medium text-slate-700">@SharedLocalizer["Req_Duration"]:</span> @appt.TotalDurationMinutes @SharedLocalizer["Shared_Min"]
+                                <span class="font-normal text-slate-700">@SharedLocalizer["Req_Duration"]:</span> @appt.TotalDurationMinutes @SharedLocalizer["Shared_Min"]
                             </div>
                         </div>
 
                         @if (!string.IsNullOrWhiteSpace(appt.Notes))
                         {
                             <div class="rounded-2xl bg-slate-50 px-3 py-2 text-sm text-gray-700">
-                                <span class="font-medium text-slate-800">@SharedLocalizer["Shared_Notes"]:</span> @appt.Notes
+                                <span class="font-normal text-slate-800">@SharedLocalizer["Shared_Notes"]:</span> @appt.Notes
                             </div>
                         }
 
                         @if (!string.IsNullOrWhiteSpace(appt.PrescriptionFileName))
                         {
                             <div class="text-sm">
-                                <span class="font-medium text-slate-800">@SharedLocalizer["Shared_Prescription"]:</span>
+                                <span class="font-normal text-slate-800">@SharedLocalizer["Shared_Prescription"]:</span>
                                 <a href="@Url.Action("DownloadPrescription", "Appointment", new { area = "Patient", id = appt.Id })" target="_blank" rel="noopener noreferrer" class="ml-1 inline-flex items-center gap-1 rounded-xl bg-blue-100 px-2.5 py-1 text-blue-700 transition hover:bg-blue-200">
                                     <img src="~/images/logo.png" class="h-4 w-4" alt="logo" /> @appt.PrescriptionDisplayName
                                 </a>
@@ -139,7 +139,7 @@
 
                         <div class="mt-1 grid grid-cols-1 gap-2 sm:flex sm:flex-wrap sm:justify-start lg:justify-end">
                             <a href="@Url.Action("my-appointments", "Appointment", new { area = "Patient", id = appt.Id })"
-                               class="inline-flex h-10 w-full items-center justify-center rounded-xl border border-blue-500 bg-blue-600 px-4 text-center text-sm font-semibold text-white transition hover:bg-blue-700 sm:w-auto sm:min-w-[140px]">
+                               class="inline-flex h-10 w-full items-center justify-center rounded-xl border border-blue-500 bg-blue-600 px-4 text-center text-sm font-bold text-white transition hover:bg-blue-700 sm:w-auto sm:min-w-[140px]">
                                 @SharedLocalizer["Shared_Details"]
                             </a>
 
@@ -147,7 +147,7 @@
                             @if (appt.Status == AppointmentStatus.Pending && !isPast)
                             {
                                 <a href="@Url.Action("Edit", "Appointment", new { area = "Patient", id = appt.Id })"
-                                   class="inline-flex h-10 w-full items-center justify-center rounded-xl border border-yellow-500 bg-yellow-500 px-4 text-center text-sm font-semibold text-white transition hover:bg-yellow-600 sm:w-auto sm:min-w-[140px]">
+                                   class="inline-flex h-10 w-full items-center justify-center rounded-xl border border-yellow-500 bg-yellow-500 px-4 text-center text-sm font-bold text-white transition hover:bg-yellow-600 sm:w-auto sm:min-w-[140px]">
                                     @SharedLocalizer["Shared_Edit"]
                                 </a>
                             }

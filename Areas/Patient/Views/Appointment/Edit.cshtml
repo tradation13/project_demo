@@ -25,7 +25,7 @@
 
         <!-- التغيير هنا: استخدمنا sm:ms-auto بدلاً من sm:ml-auto -->
         <a href="@Url.Action("Appointments", "Appointment", new { area = "Patient" })"
-           class="sm:ms-auto inline-flex h-10 items-center justify-center rounded-xl border border-gray-300 bg-gray-100 px-4 text-sm font-semibold text-gray-700 transition hover:bg-gray-200">
+           class="sm:ms-auto inline-flex h-10 items-center justify-center rounded-xl border border-gray-300 bg-gray-100 px-4 text-sm font-bold text-gray-700 transition hover:bg-gray-200">
             @SharedLocalizer["Shared_Back"]
         </a>
     </div>
@@ -35,7 +35,7 @@
             <form method="get" class="p-5 sm:p-6">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-[minmax(220px,1fr)_auto] md:items-end">
                     <div>
-                        <label for="date" class="mb-2 block text-sm font-medium text-gray-700">@SharedLocalizer["Shared_Date"]</label>
+                        <label for="date" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Shared_Date"]</label>
                         <input id="date" name="date" type="date"
                                value="@Model.ScheduledDate.ToString("yyyy-MM-dd")"
                                min="@DateTime.Today.ToString("yyyy-MM-dd")"
@@ -62,7 +62,7 @@
             <input type="hidden" asp-for="Time" id="time" />
 
             <div class="mb-4">
-                <h5 class="font-semibold text-gray-800">@SharedLocalizer["Appt_Booking_Title"]</h5>
+                <h5 class="font-bold text-gray-800">@SharedLocalizer["Appt_Booking_Title"]</h5>
             </div>
 
             <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
@@ -122,13 +122,13 @@
             </div>
 
             <div class="mt-4 grid grid-cols-2 gap-4 rounded-lg bg-gray-50 p-4 text-sm text-gray-700 md:grid-cols-4">
-                <div><span class="font-medium">@SharedLocalizer["Appt_Selected"]:</span> <span id="selectedCount" class="font-bold text-blue-600">0</span></div>
-                <div><span class="font-medium">@SharedLocalizer["Req_Duration"]:</span> <span id="totalDuration" class="font-bold text-green-600">0</span> @SharedLocalizer["Shared_Minutes"]</div>
-                <div class="col-span-2 md:col-span-2"><span class="font-medium">@SharedLocalizer["Shared_Time"]:</span> <span id="timeRange" class="font-bold text-purple-600">-</span></div>
+                <div><span class="font-normal">@SharedLocalizer["Appt_Selected"]:</span> <span id="selectedCount" class="font-bold text-blue-600">0</span></div>
+                <div><span class="font-normal">@SharedLocalizer["Req_Duration"]:</span> <span id="totalDuration" class="font-bold text-green-600">0</span> @SharedLocalizer["Shared_Minutes"]</div>
+                <div class="col-span-2 md:col-span-2"><span class="font-normal">@SharedLocalizer["Shared_Time"]:</span> <span id="timeRange" class="font-bold text-purple-600">-</span></div>
             </div>
 
             <div class="mt-6">
-                <label asp-for="Notes" class="mb-2 block text-sm font-medium text-gray-700">@SharedLocalizer["Shared_Notes"]</label>
+                <label asp-for="Notes" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Shared_Notes"]</label>
                 <textarea asp-for="Notes" rows="3"
                           class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-600"
                           placeholder="@SharedLocalizer["Shared_Optional"]"></textarea>
@@ -154,9 +154,9 @@
                     <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 text-blue-700">
                         <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
                     </div>
-                    <p class="text-sm font-semibold text-blue-700">@SharedLocalizer["ClickToUploadOrDragAndDrop"]</p>
+                    <p class="text-sm font-bold text-blue-700">@SharedLocalizer["ClickToUploadOrDragAndDrop"]</p>
                     <p class="text-xs text-slate-500">@SharedLocalizer["FileFormatAndSizeLimit"]</p>
-                    <span class="mt-4 inline-flex rounded-lg border border-blue-300 bg-blue-600 px-4 py-2 text-xs font-semibold text-white">
+                    <span class="mt-4 inline-flex rounded-lg border border-blue-300 bg-blue-600 px-4 py-2 text-xs font-bold text-white">
                         @SharedLocalizer["UploadMedicalPrescription"]
                     </span>
                     <input asp-for="PrescriptionFile" id="PrescriptionFile" type="file" class="hidden"

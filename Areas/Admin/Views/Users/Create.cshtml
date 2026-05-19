@@ -1,4 +1,4 @@
-﻿@model UserFormViewModel
+@model UserFormViewModel
 
 @{
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
@@ -12,29 +12,29 @@
         <div class="card-body">
             <div class="flex flex-wrap gap-4">
                 <div class="min-w-[200px] flex-1">
-                    <label asp-for="UserName" class="block text-sm font-medium text-gray-700"></label>
+                    <label asp-for="UserName" class="block text-sm font-normal text-gray-700"></label>
                     <input asp-for="UserName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                     <span asp-validation-for="UserName" class="text-sm text-red-500"></span>
                 </div>
                 <div class="min-w-[200px] flex-1">
-                    <label asp-for="Email" class="block text-sm font-medium text-gray-700"></label>
+                    <label asp-for="Email" class="block text-sm font-normal text-gray-700"></label>
                     <input asp-for="Email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                     <span asp-validation-for="Email" class="text-sm text-red-500"></span>
                 </div>
                 <div class="min-w-[200px] flex-1">
-                    <label asp-for="PhoneNumber" class="block text-sm font-medium text-gray-700"></label>
+                    <label asp-for="PhoneNumber" class="block text-sm font-normal text-gray-700"></label>
                     <input asp-for="PhoneNumber" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                     <span asp-validation-for="PhoneNumber" class="text-sm text-red-500"></span>
                 </div>
             </div>
             <div class="mt-4 flex gap-4">
                 <div class="min-w-[200px] flex-1">
-                    <label asp-for="Password" class="block text-sm font-medium text-gray-700"></label>
+                    <label asp-for="Password" class="block text-sm font-normal text-gray-700"></label>
                     <input asp-for="Password" type="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                     <span asp-validation-for="Password" class="text-sm text-red-500"></span>
                 </div>
                 <div class="min-w-[200px] flex-1">
-                    <label asp-for="ConfirmPassword" class="block text-sm font-medium text-gray-700"></label>
+                    <label asp-for="ConfirmPassword" class="block text-sm font-normal text-gray-700"></label>
                     <input asp-for="ConfirmPassword" type="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                     <span asp-validation-for="ConfirmPassword" class="text-sm text-red-500"></span>
                 </div>
@@ -56,12 +56,12 @@
                 <div class="card-body">
                     <div class="flex gap-4">
                         <div class="min-w-[200px] flex-1">
-                            <label asp-for="Customer.FirstName" class="block text-sm font-medium text-gray-700"></label>
+                            <label asp-for="Customer.FirstName" class="block text-sm font-normal text-gray-700"></label>
                             <input asp-for="Customer.FirstName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                             <span asp-validation-for="Customer.FirstName" class="text-sm text-red-500"></span>
                         </div>
                         <div class="min-w-[200px] flex-1">
-                            <label asp-for="Customer.LastName" class="block text-sm font-medium text-gray-700"></label>
+                            <label asp-for="Customer.LastName" class="block text-sm font-normal text-gray-700"></label>
                             <input asp-for="Customer.LastName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                             <span asp-validation-for="Customer.LastName" class="text-sm text-red-500"></span>
                         </div>

@@ -1,11 +1,11 @@
-﻿@model List<UserType>
+@model List<UserType>
 @{
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 
 }
 <div class="custom-scrollbar mb-12 overflow-x-scroll rounded-lg bg-white px-8 py-6">
     <div class="mb-4 flex items-center justify-between">
-        <h4 class="text-xl font-semibold">@SharedLocalizer["UserTypes_Title"]</h4>
+        <h4 class="text-xl font-bold">@SharedLocalizer["UserTypes_Title"]</h4>
         <a href="@Url.Action("Create")"
            class="rounded bg-primary px-4 py-1 text-sm text-white transition duration-150 hover:bg-primary-dark">
             @SharedLocalizer["Shared_Add_New"]

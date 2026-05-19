@@ -1,4 +1,4 @@
-﻿@using System.Data
+@using System.Data
 @model List<IPTS.Areas.Admin.ViewsModels.TestGroupViewModel>
 @{
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
@@ -7,7 +7,7 @@
 
 <div x-data="{ filter: false }" class="custom-scrollbar overflow-x-scroll rounded-lg bg-white px-8 py-6">
     <div class="mb-4 flex items-center justify-between">
-        <h4 class="text-xl font-semibold">@SharedLocalizer["TestGroups"]</h4>
+        <h4 class="text-xl font-bold">@SharedLocalizer["TestGroups"]</h4>
         <a href="@Url.Action("Create")"
            class="rounded bg-primary px-4 py-1 text-sm text-white transition duration-150 hover:bg-primary-dark">
             @SharedLocalizer["Shared_Add_New"]

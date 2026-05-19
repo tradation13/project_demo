@@ -40,7 +40,7 @@
         <nav class="p-4 pb-10">
             @foreach (var group in SidebarProvider.GetSidebarItems(User, Loc))
             {
-                <h3 class="mb-2 mt-6 px-4 text-[10px] font-extrabold uppercase tracking-widest text-gray-400">@group.Title</h3>
+                <h3 class="mb-2 mt-6 px-4 text-[10px] font-bold uppercase tracking-widest text-gray-400">@group.Title</h3>
 
                 @foreach (var item in group.Items)
                 {
@@ -55,7 +55,7 @@
                             else { <i class="fa-solid fa-@item.Icon text-lg"></i> }
                         </span>
 
-                        <span class="ml-3 text-sm font-semibold">
+                        <span class="ml-3 text-sm font-bold">
                             @item.Title 
                         </span>
                     </a>
@@ -65,7 +65,7 @@
             <div class="mt-10 border-t border-gray-50 pt-6">
                 <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post">
                     <button type="submit"
-                            class="flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 py-3 text-sm font-black text-white transition-all duration-300 hover:bg-red-700 hover:shadow-[0_8px_20px_-6px_rgba(220,38,38,0.5)] active:scale-95" hover:shadow-red-200">
+                            class="flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-red-700 hover:shadow-[0_8px_20px_-6px_rgba(220,38,38,0.5)] active:scale-95" hover:shadow-red-200">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         @SharedLocalizer["Shared_Logout"]
                     </button>

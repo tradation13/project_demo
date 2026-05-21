@@ -79,7 +79,7 @@ private string GetHtmlTemplate(string content, string contentId)
                     
                     <p style='margin: 5px 0;'>
                         <span style='color: {primaryColor}; font-size: 18px;'>🌐</span> 
-                        <a href='https://physiotech.it.com/' style='color: #666; text-decoration: none;'>physiotech.it.com</a>
+                        <a href='https://physiotech-ehrenfeld.de/' style='color: #666; text-decoration: none;'>physiotech.it.com</a>
                     </p>
                 </div>
             </div>

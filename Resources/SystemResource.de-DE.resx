@@ -306,7 +306,7 @@
     <comment/>
   </data>
   <data name="Msg_NoPatientSelected" xml:space="preserve">
-    <value>Kein Patient ausgewählt. Bitte suchen Sie zuerst nach einem Patienten.</value>
+    <value>Kein Patient ausgew?hlt. Bitte suchen Sie zuerst nach einem Patienten.</value>
     <comment/>
   </data>
   <data name="Error_DoctorProfileNotFound" xml:space="preserve">
@@ -342,19 +342,19 @@
     <comment/>
   </data>
   <data name="Msg_AppointmentDeleteSuccess" xml:space="preserve">
-    <value>Termin erfolgreich gelöscht.</value>
+    <value>Termin erfolgreich gel?scht.</value>
     <comment/>
   </data>
   <data name="Val_RequiredTimeSlot" xml:space="preserve">
-    <value>Bitte wählen Sie mindestens ein Zeitfenster aus.</value>
+    <value>Bitte w?hlen Sie mindestens ein Zeitfenster aus.</value>
     <comment/>
   </data>
   <data name="Msg_AppointmentConfirmedSlotsUpdated" xml:space="preserve">
-    <value>Termin bestätigt und Zeitfenster erfolgreich aktualisiert.</value>
+    <value>Termin best?tigt und Zeitfenster erfolgreich aktualisiert.</value>
     <comment/>
   </data>
   <data name="Error_AppointmentConfirmationFailed" xml:space="preserve">
-    <value>Die Terminbestätigung ist fehlgeschlagen. Bitte versuchen Sie es erneut.</value>
+    <value>Die Terminbest?tigung ist fehlgeschlagen. Bitte versuchen Sie es erneut.</value>
     <comment/>
   </data>
   <data name="Val_RejectionReasonRequired" xml:space="preserve">
@@ -536,6 +536,9 @@
   <data name="ScheduledTimeRequired" xml:space="preserve">
     <value>Terminzeit ist erforderlich</value>
     <comment/>
+  </data>  <data name="ScheduledDateRequired" xml:space="preserve">
+    <value>Geplantes Datum ist erforderlich</value>
+    <comment/>
   </data>
   <data name="NotesMaxLength" xml:space="preserve">
     <value>Notizen dürfen 2000 Zeichen nicht überschreiten</value>
@@ -578,7 +581,11 @@
     <comment/>
   </data>
   <data name="InvalidTestId" xml:space="preserve">
-    <value>Ungültige Test-ID</value>
+      <value>Ungültiger Slot-Index</value>
+    <comment/>
+  </data>
+  <data name="InvalidBirthDate" xml:space="preserve">
+    <value>Geburtsdatum muss gültig und in der Vergangenheit liegen</value>
     <comment/>
   </data>
   <data name="InvalidMedicalCaseId" xml:space="preserve">
@@ -591,6 +598,10 @@
   </data>
   <data name="BirthDateRequired" xml:space="preserve">
     <value>Geburtsdatum ist erforderlich</value>
+    <comment/>
+  </data>
+  <data name="BirthDateInvalid" xml:space="preserve">
+    <value>Geburtsdatum muss in der Vergangenheit liegen</value>
     <comment/>
   </data>
   <data name="SearchTermRequired" xml:space="preserve">
@@ -629,8 +640,30 @@
     <value>Zeit ist erforderlich</value>
     <comment/>
   </data>
-  <data name="InvalidSlotIndex" xml:space="preserve">
+  <data name="TimeSlotRequired" xml:space="preserve">
+    <value>Zeitfenster ist erforderlich</value>
+    <comment/>
+  </data>
+  <data name="TimestampRequired" xml:space="preserve">
+    <value>Zeitstempel ist erforderlich</value>
+    <comment/>
+  </data>  <data name="DoctorNameRequired" xml:space="preserve">
+    <value>Name des Arztes ist erforderlich</value>
+    <comment/>
+  </data>
+  <data name="DoctorNameMaxLength" xml:space="preserve">
+    <value>Name des Arztes darf 150 Zeichen nicht überschreiten</value>
+    <comment/>
+  </data>
+  <data name="DoctorPhotoImageOnly" xml:space="preserve">
+    <value>Nur Bilddateien sind für Arztfotos zulässig</value>
+    <comment/>
+  </data>  <data name="InvalidSlotIndex" xml:space="preserve">
     <value>Ungültiger Slot-Index</value>
+    <comment/>
+  </data>
+  <data name="InvalidSlotRange" xml:space="preserve">
+    <value>End-Slot muss größer als oder gleich Start-Slot sein</value>
     <comment/>
   </data>
   <data name="StartTimeRequired" xml:space="preserve">
@@ -668,8 +701,10 @@
   <data name="LastNameMaxLength" xml:space="preserve">
     <value>Der Nachname darf 50 Zeichen nicht überschreiten</value>
     <comment/>
-  </data>
-  <data name="PasswordRequired" xml:space="preserve">
+  </data>  <data name="LevelRequired" xml:space="preserve">
+    <value>Protokollebene ist erforderlich</value>
+    <comment/>
+  </data>  <data name="PasswordRequired" xml:space="preserve">
     <value>Passwort ist erforderlich</value>
     <comment/>
   </data>
@@ -679,6 +714,10 @@
   </data>
   <data name="ConfirmPasswordRequired" xml:space="preserve">
     <value>Bitte bestätigen Sie Ihr Passwort</value>
+    <comment/>
+  </data>
+  <data name="CreatedAtRequired" xml:space="preserve">
+    <value>Erstellungsdatum ist erforderlich</value>
     <comment/>
   </data>
   <data name="PasswordsDoNotMatch" xml:space="preserve">
@@ -763,6 +802,33 @@
   <data name="Result" xml:space="preserve">
     <value>Ergebnis</value>
   </data>
+  <data name="Highest" xml:space="preserve">
+    <value>Höchster Wert</value>
+  </data>
+  <data name="Lowest" xml:space="preserve">
+    <value>Niedrigster Wert</value>
+  </data>
+  <data name="Average" xml:space="preserve">
+    <value>Durchschnitt</value>
+  </data>
+  <data name="OverallProgress" xml:space="preserve">
+    <value>Gesamtfortschritt</value>
+  </data>
+  <data name="By" xml:space="preserve">
+    <value>um</value>
+  </data>
+  <data name="SinceFirstTest" xml:space="preserve">
+    <value>Seit dem ersten Test</value>
+  </data>
+  <data name="Increased" xml:space="preserve">
+    <value>Gestiegen</value>
+  </data>
+  <data name="Decreased" xml:space="preserve">
+    <value>Gesunken</value>
+  </data>
+  <data name="Stable" xml:space="preserve">
+    <value>Stabil</value>
+  </data>
   <data name="TestGroup" xml:space="preserve">
     <value>Testgruppe</value>
   </data>
@@ -796,6 +862,12 @@
   <data name="Weight" xml:space="preserve">
     <value>Gewicht</value>
   </data>
+  <data name="Unit_Cm" xml:space="preserve">
+    <value>cm</value>
+  </data>
+  <data name="Unit_Kg" xml:space="preserve">
+    <value>kg</value>
+  </data>
   <data name="BloodGroup" xml:space="preserve">
     <value>Blutgruppe</value>
   </data>
@@ -813,5 +885,77 @@
   </data>
   <data name="No" xml:space="preserve">
     <value>Nein</value>
+  </data>  <data name="AdditionalPatientInfo" xml:space="preserve">
+    <value>Zusätzliche Patienteninformationen</value>
   </data>
-  </root>
+  <data name="InvalidUsernameFormat" xml:space="preserve">
+    <value>Benutzername darf nur Buchstaben, Ziffern und Unterstriche enthalten</value>
+    <comment/>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Test</value>
+    <comment/>
+  </data>
+  <data name="InjuryHistory" xml:space="preserve">
+    <value>Verletzungsgeschichte</value>
+    <comment/>
+  </data>
+  <data name="Medications" xml:space="preserve">
+    <value>Medikationen</value>
+    <comment/>
+  </data>
+  <data name="FunctionalAbility" xml:space="preserve">
+    <value>Funktionsfähigkeit</value>
+    <comment/>
+  </data>
+  <data name="PersonalGoals" xml:space="preserve">
+    <value>Persönliche Ziele</value>
+    <comment/>
+  </data>
+  <data name="Error_InvalidOrMissingTime" xml:space="preserve">
+    <value>Ungültige oder fehlende Zeit. Bitte wählen Sie ein gültiges Zeitfenster aus.</value>
+    <comment/>
+  </data>
+  <data name="Error_CannotDeleteConfirmedAppointment" xml:space="preserve">
+    <value>Bestätigter Termin kann nicht gelöscht werden. Nur ausstehende Termine können gelöscht werden.</value>
+    <comment/>
+  </data>
+  <data name="Msg_AppointmentDeletedSuccessfully" xml:space="preserve">
+    <value>Termin erfolgreich gelöscht.</value>
+    <comment/>
+  </data>  
+  <data name="Error_AppointmentBookingFailed" xml:space="preserve">
+    <value>Terminbuchung fehlgeschlagen. Bitte versuchen Sie es erneut.</value>
+    <comment/>
+  </data>
+  <data name="IdentityMustBeNumbers" xml:space="preserve">
+    <value>Personalausweisnummer darf nur Ziffern enthalten</value>
+    <comment/>
+  </data>
+  <data name="InvalidPatientId" xml:space="preserve">
+    <value>Ungültige Patientenkennung</value>
+    <comment/>
+  </data>
+  <data name="Users_DoctorPhoto" xml:space="preserve">
+    <value>Arztfoto</value>
+    <comment/>
+  </data>
+  <data name="Users_SelectSpecialty" xml:space="preserve">
+    <value>Fachrichtung auswählen</value>
+    <comment/>
+  </data>
+  <data name="Users_NoSpecialties" xml:space="preserve">
+    <value>Keine Fachrichtungen verfügbar</value>
+    <comment/>
+  </data>
+  <data name="Users_DoctorInformation" xml:space="preserve">
+    <value>Arzteninformation</value>
+    <comment/>
+  </data>
+</root>
+
+
+
+
+
+

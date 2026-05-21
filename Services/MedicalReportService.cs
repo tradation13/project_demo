@@ -19,12 +19,54 @@ namespace IPTS.Services
             _httpClient = httpClient;
             _apiKey = configuration["OpenAI:ApiKey"];
         }
+
+        private static bool IsGerman(string lang) => lang.StartsWith("de", StringComparison.OrdinalIgnoreCase);
+
+        private static string FormatBloodGroup(string? bloodGroup)
+        {
+            return bloodGroup switch
+            {
+                "APositive" => "A+",
+                "ANegative" => "A-",
+                "BPositive" => "B+",
+                "BNegative" => "B-",
+                "OPositive" => "O+",
+                "ONegative" => "O-",
+                "ABPositive" => "AB+",
+                "ABNegative" => "AB-",
+                _ => bloodGroup ?? string.Empty
+            };
+        }
+
+        private static string FormatActivityLevel(string? activityLevel, string lang)
+        {
+            return activityLevel switch
+            {
+                "Sedentary" => IsGerman(lang) ? "Sitzend" : "Sedentary",
+                "Moderate" => IsGerman(lang) ? "Mäßig" : "Moderate",
+                "Active" => IsGerman(lang) ? "Aktiv" : "Active",
+                "Professional" => IsGerman(lang) ? "Leistungssportler" : "Professional",
+                _ => activityLevel ?? string.Empty
+            };
+        }
+
 public async Task<string> GenerateHtmlReport(MedicalCase medicalCase, string lang = "en")
 {
     // 1. طلب تحليل الذكاء الاصطناعي أولاً
     string aiAnalysis = await GetAiAnalysisAsync(medicalCase, lang);
 
 string generalAnalysis = ExtractGeneralAnalysis(aiAnalysis);
+
+if (lang.StartsWith("de", StringComparison.OrdinalIgnoreCase))
+{
+    generalAnalysis = generalAnalysis
+        .Replace("Clinical Explanation:", "Klinische Erklärung:")
+        .Replace("Immediate Physiotherapy Recommendations:", "Sofortige physiotherapeutische Empfehlungen:")
+        .Replace("Precautions:", "Vorsichtsmaßnahmen:")
+        .Replace("Estimated Recovery Timeline:", "Geschätzter Erholungsverlauf:")
+        .Replace("Risk Assessment:", "Risikobewertung:")
+        .Replace("Red Flags:", "Warnzeichen:");
+}
 
 var testAnalyses = ExtractTestAnalyses(aiAnalysis);
 
@@ -251,15 +293,14 @@ sb.Append($@"
             <h3>{_loc.GetSystem("PhysicalMeasurements")}</h3>
             {(medicalCase.Height.HasValue ? $"<p><strong>{_loc.GetSystem("Height")}:</strong> {medicalCase.Height} cm</p>" : "")}
             {(medicalCase.Weight.HasValue ? $"<p><strong>{_loc.GetSystem("Weight")}:</strong> {medicalCase.Weight} kg</p>" : "")}
-            {(medicalCase.BloodGroup != null ? $"<p><strong>{_loc.GetSystem("BloodGroup")}:</strong> {medicalCase.BloodGroup}</p>" : "")}
+            {(medicalCase.BloodGroup != null ? $"<p><strong>{_loc.GetSystem("BloodGroup")}:</strong> {FormatBloodGroup(medicalCase.BloodGroup.ToString())}</p>" : "")}
         </div>" : "")}
-
         {(medicalCase.IsSmoker.HasValue || medicalCase.HasChronicDisease.HasValue || medicalCase.ActivityLevel != null ? $@"
         <div class='info-box'>
             <h3>{_loc.GetSystem("HealthHistory")}</h3>
             {(medicalCase.IsSmoker.HasValue ? $"<p><strong>{_loc.GetSystem("IsSmoker")}:</strong> {(medicalCase.IsSmoker == true ? _loc.GetSystem("Yes") : _loc.GetSystem("No"))}</p>" : "")}
             {(medicalCase.HasChronicDisease.HasValue ? $"<p><strong>{_loc.GetSystem("ChronicDiseases")}:</strong> {(medicalCase.HasChronicDisease == true ? _loc.GetSystem("Yes") : _loc.GetSystem("No"))}</p>" : "")}
-            {(medicalCase.ActivityLevel != null ? $"<p><strong>{_loc.GetSystem("ActivityLevel")}:</strong> {medicalCase.ActivityLevel}</p>" : "")}
+            {(medicalCase.ActivityLevel != null ? $"<p><strong>{_loc.GetSystem("ActivityLevel")}:</strong> {FormatActivityLevel(medicalCase.ActivityLevel.ToString(), lang)}</p>" : "")}
         </div>" : "")}
     </div>
 
@@ -297,7 +338,7 @@ var testName = test.Key.Trim();
 
 if (testAnalyses.ContainsKey(testName))
 {
-    AppendTestAnalysisBox(sb, testAnalyses[testName]);
+                        AppendTestAnalysisBox(sb, testAnalyses[testName], lang);
 }
                         var orderedTests = test.OrderBy(t => t.CreatedAt).ToList();
                         
@@ -320,7 +361,7 @@ private async Task<string> GetAiAnalysisAsync(MedicalCase medicalCase, string la
         Console.WriteLine("\n--- [HUGGING FACE ROUTER REQUEST START] ---");
         
         // 1. تحديد اسم اللغة بالكامل لإرشاد الموديل بدقة
-        string targetLanguageName = lang.ToLower() == "de" ? "German" : "English";
+        string targetLanguageName = lang.StartsWith("de", StringComparison.OrdinalIgnoreCase) ? "German" : "English";
         // 1. الرابط الجديد من الـ curl
         var url = "https://api.openai.com/v1/chat/completions";
         
@@ -423,7 +464,7 @@ Please provide:
 
 
 
-Please provide the response using this structure:
+Please provide the response using this structure :
 
 GENERAL_CLINICAL_ANALYSIS
 
@@ -546,20 +587,20 @@ private void AppendTestVisuals(StringBuilder sb, List<MedicalCaseTest> tests)
         double diff = lastVal - firstVal;
         double percent = (firstVal != 0) ? (diff / firstVal) * 100 : 0;
         
-        string statusText = diff > 0 ? "Increased" : (diff < 0 ? "Decreased" : "Stable");
+        string statusText = diff > 0 ? _loc.GetSystem("Increased") : (diff < 0 ? _loc.GetSystem("Decreased") : _loc.GetSystem("Stable"));
         string statusColor = diff > 0 ? "#2e7d32" : (diff < 0 ? "#c62828" : "#1565c0");
         string arrow = diff > 0 ? "↑" : (diff < 0 ? "↓" : "↔");
 
         sb.Append($@"
             <div style='background:#fcfcfc; border:1px solid #eee; padding:15px; border-radius:12px; margin-bottom:25px; font-family:sans-serif; display:flex; align-items:center; justify-content:space-between;'>
                 <div>
-                    <div style='font-size:12px; color:#7f8c8d; font-weight:bold; text-transform:uppercase;'>Overall Progress</div>
+                    <div style='font-size:12px; color:#7f8c8d; font-weight:bold; text-transform:uppercase;'>{_loc.GetSystem("OverallProgress")}</div>
                     <div style='font-size:18px; font-weight:bold; color:#2c3e50; margin-top:5px;'>
-                        {statusText} by <span style='color:{statusColor};'>{Math.Abs(percent).ToString("F1", inv)}%</span> {arrow}
+                        {statusText} {_loc.GetSystem("By")} <span style='color:{statusColor};'>{Math.Abs(percent).ToString("F1", inv)}%</span> {arrow}
                     </div>
                 </div>
                 <div style='text-align:right;'>
-                    <div style='font-size:11px; color:#95a5a6;'>Since first test ({tests.First().CreatedAt:yyyy-MM-dd})</div>
+                    <div style='font-size:11px; color:#95a5a6;'>{_loc.GetSystem("SinceFirstTest")} ({tests.First().CreatedAt:yyyy-MM-dd})</div>
                 </div>
             </div>");
 
@@ -683,7 +724,7 @@ private Dictionary<string, string> ExtractTestAnalyses(string aiText)
 }
 
 
-private void AppendTestAnalysisBox(StringBuilder sb, string analysis)
+private void AppendTestAnalysisBox(StringBuilder sb, string analysis, string lang)
 {
     sb.Append($@"
     <div style='
@@ -699,7 +740,7 @@ private void AppendTestAnalysisBox(StringBuilder sb, string analysis)
         box-shadow:0 4px 12px rgba(0,0,0,0.04);
     '>
         <div style='font-weight:bold; font-size:15px; margin-bottom:8px; color:#00695c;'>
-            Clinical AI Analysis
+            {(lang.StartsWith("de", StringComparison.OrdinalIgnoreCase) ? "KI-Klinikanalyse" : "Clinical AI Analysis")}
         </div>
         <div style='font-size:14px;'>
             {analysis.Replace("\n","<br/>")}

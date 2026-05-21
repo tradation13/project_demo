@@ -2,6 +2,8 @@
 @model AppointmentViewModel
 @{
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+    var nowUtc = DateTime.UtcNow;
+    var isPast = DateTime.SpecifyKind(Model.ScheduledTime, DateTimeKind.Utc) <= nowUtc;
 }
 
 <div class="rounded-lg bg-white px-8 py-6">
@@ -59,6 +61,12 @@
                          "bg-red-100 text-red-800")">
     @SharedLocalizer[$"Status_{Model.Status}"]
 </span>
+                    @if (isPast && Model.Status == AppointmentStatus.Pending)
+                    {
+                        <span class="ml-2 rounded-full px-2 py-1 text-xs bg-orange-100 text-orange-800">
+                            @SharedLocalizer["Appt_Status_Expired"]
+                        </span>
+                    }
                 </div>
                 <div>
                     <label class="text-sm font-normal text-gray-600">@SharedLocalizer["Appt_ScheduledTime"]:</label>

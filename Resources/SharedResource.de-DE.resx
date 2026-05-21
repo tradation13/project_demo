@@ -415,6 +415,10 @@
     <value>Keine Therapeuten gefunden</value>
     <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
   </data>
+  <data name="Therapies_NoFound_Desc" xml:space="preserve">
+    <value>Keine Therapeuten entsprechen Ihren Suchkriterien. Bitte versuchen Sie, Ihre Filter oder Suchbegriffe anzupassen.</value>
+    <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
+  </data>
   <data name="Therapies_ViewProfile" xml:space="preserve">
     <value>Profil anzeigen</value>
     <comment>VIiews -&gt; Home -&gt;  Therapies</comment>
@@ -446,6 +450,14 @@
   <data name="Login_RememberMe" xml:space="preserve">
     <value>Angemeldet bleiben</value>
     <comment>VIiews -&gt; Auth -&gt;  Login</comment>
+  </data>
+  <data name="Login_SignUp_Title" xml:space="preserve">
+    <value>Registrieren</value>
+    <comment>VIiews -&gt; Auth -&gt;  Login</comment>
+  </data>
+  <data name="Forgot_Placeholder_Email" xml:space="preserve">
+    <value>Geben Sie Ihre E-Mail-Adresse ein</value>
+    <comment>VIiews -&gt; Auth -&gt;  ForgotPassword</comment>
   </data>
   <data name="ForgotPass_Desc" xml:space="preserve">
     <value>Kein Problem. Geben Sie Ihre E-Mail-Adresse ein, und wir senden Ihnen einen Link zum Zurücksetzen Ihres Passworts.</value>
@@ -1932,7 +1944,7 @@
 
   <data name="Shared_View_Latest_Report" xml:space="preserve">
     <value>Letzten Bericht anzeigen</value>
-    <comment>Button zum Anzeigen des letzten Berichts fأ¼r einen medizinischen Fall</comment>
+    <comment>Button zum Anzeigen des letzten Berichts für einen medizinischen Fall</comment>
   </data>
 
   
@@ -2198,7 +2210,7 @@
     <comment>Shared</comment>
   </data>
   <!-- <data name="Shared_Identity_Number" xml:space="preserve">
-    <value>Identitأ¤tsnummer</value>
+    <value>Identitätsnummer</value>
     <comment>Shared</comment>
   </data> -->
   <data name="Shared_EmailAddress" xml:space="preserve">
@@ -2239,6 +2251,10 @@
   </data>
   <data name="Shared_LastName" xml:space="preserve">
     <value>Nachname</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_OpenMenu" xml:space="preserve">
+    <value>Menü öffnen</value>
     <comment>Shared</comment>
   </data>
   <data name="Shared_Settings" xml:space="preserve">

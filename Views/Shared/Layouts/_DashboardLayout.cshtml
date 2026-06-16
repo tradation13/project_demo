@@ -2,12 +2,19 @@
     Layout = "~/Views/Shared/Layouts/_MainLayout.cshtml";
 }
 
-<partial name="Dashboard/_DashboardTopbar" />
-<partial name="Dashboard/_SidebarMenu" />
+<div class="min-h-screen lg:grid lg:grid-cols-[16rem_minmax(0,1fr)]">
+    <div class="lg:row-span-2">
+        <partial name="Dashboard/_SidebarMenu" />
+    </div>
 
-<div class="flex w-full flex-col lg:pl-64"> 
-    <div class="h-full bg-gray-100 p-8">
-        @RenderBody()
+    <div class="min-w-0 lg:col-start-2 lg:flex lg:min-h-screen lg:flex-col">
+        <div class="shrink-0">
+            <partial name="Dashboard/_DashboardTopbar" />
+        </div>
+
+        <div class="min-h-0 flex-1 bg-gray-100 p-8">
+            @RenderBody()
+        </div>
     </div>
 </div>
 

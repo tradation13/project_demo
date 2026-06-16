@@ -84,6 +84,7 @@ namespace IPTS.Controllers
 
                 ViewBag.HasDashboard = currentUser.UserType?.HasDashboard ?? false;
             }
+            ViewBag.UserName = user.UserName;
             if (model.Doctor != null)
                 ViewBag.Specialties = await _specialtyService.GetAllAsync();
 
@@ -104,12 +105,18 @@ namespace IPTS.Controllers
 
             if (!ModelState.IsValid)
 {
+                var user = await _userService.GetByIdAsync<string>(
+                    id,
+                    u => u.Include(x => x.UserType));
+
     if (!string.IsNullOrEmpty(currentUserId))
     {
         var currentUser = await _userService.GetByIdAsync(currentUserId,
             u => u.Include(x => x.UserType));
         ViewBag.HasDashboard = currentUser.UserType?.HasDashboard ?? false;
     }
+
+                ViewBag.UserName = user.UserName;
 
     if (model.Doctor != null)
         ViewBag.Specialties = await _specialtyService.GetAllAsync();

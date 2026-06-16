@@ -620,7 +620,6 @@ document.querySelector('form').addEventListener('submit', function(e) {
     const startTime = document.getElementById('startTime').value;
     const endTime = document.getElementById('endTime').value;
     
-    console.log('Hidden input values before submit:', {
     if (!startSlotIndex || !endSlotIndex || !startTime || !endTime) {
         e.preventDefault();
         alert('@SharedLocalizer["Error_MissingSlotData"]');

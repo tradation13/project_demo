@@ -3,6 +3,17 @@
 @{
     ViewData["Title"] = "Reject Appointment";
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+
+    var backUrl = Context.Request.Query["returnUrl"].ToString();
+    if (string.IsNullOrWhiteSpace(backUrl))
+    {
+        backUrl = Context.Request.Headers["Referer"].ToString();
+    }
+
+    if (string.IsNullOrWhiteSpace(backUrl) || !Url.IsLocalUrl(backUrl))
+    {
+        backUrl = Url.Action("Index", "Appointments", new { area = "Doctor" }) ?? "/Doctor/Appointments";
+    }
 }
 <h2 class="mb-4 text-xl font-bold">@SharedLocalizer["Appt_Reject_Title"] @Model.PatientName</h2>
 <form asp-action="RejectRequest" method="post">
@@ -14,12 +25,12 @@
         <span asp-validation-for="RejectReason" class="text-red-500"></span>
     </div>
    <div class="mt-6 flex gap-3">
-    <button type="button" onclick="history.back()" class="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-normal text-gray-700 transition-all hover:bg-gray-50 active:scale-95">
+    <a href="@backUrl" class="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-normal text-gray-700 transition-all hover:bg-gray-50 active:scale-95">
         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
         @SharedLocalizer["Shared_Cancel"]
-    </button>
+    </a>
 
     <button type="submit" class="flex items-center gap-2 rounded-lg bg-red-600 px-5 py-2.5 text-sm font-normal text-white transition-all hover:bg-red-700 hover:shadow-md active:scale-95">
         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

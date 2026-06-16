@@ -19,6 +19,8 @@
 
         // Convenience
         public DateTime? NextAppointmentUtc { get; set; }
+        // Latest pending appointment requests (up to 3)
+        public List<IPTS.ViewModels.AppointmentViewModel> LatestPendingRequests { get; set; } = new();
     }
 
 }

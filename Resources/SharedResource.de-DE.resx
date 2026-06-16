@@ -472,7 +472,7 @@
     <comment>VIiews -&gt; Auth -&gt;  ForgotPasswordConfirmation</comment>
   </data>
   <data name="Reg_Header" xml:space="preserve">
-    <value>Patienten-Registrierungsformular</value>
+    <value>Registrieren, um Ihr Konto zu erstellen und Ihren Gesundheitsweg mit uns zu beginnen!</value>
     <comment>VIiews -&gt; Auth -&gt;  Register</comment>
   </data>
   <data name="Reg_Placeholder_User" xml:space="preserve">
@@ -1043,6 +1043,14 @@
     <value>Therapeut-Dashboard</value>
     <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
   </data>
+  <data name="Dash_NextAppointment" xml:space="preserve">
+    <value>Nächster Termin</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_ViewAppointments" xml:space="preserve">
+    <value>Termine anzeigen</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
   <data name="Dash_TotalAppts" xml:space="preserve">
     <value>Gesamttermine</value>
     <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
@@ -1053,6 +1061,18 @@
   </data>
   <data name="Dash_UpcomingDesc" xml:space="preserve">
     <value>Nächste Sitzungen in der Warteschlange</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_PendingRequestsShort" xml:space="preserve">
+    <value>Ausstehende Anfragen</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_LastMonth" xml:space="preserve">
+    <value>Letzter Monat</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_AppointmentsBreakdown" xml:space="preserve">
+    <value>Terminübersicht</value>
     <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
   </data>
   <data name="Dash_CompletedMonth" xml:space="preserve">
@@ -1119,6 +1139,10 @@
     <value>Status</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
   </data>
+  <data name="Appt_Status_Select" xml:space="preserve">
+    <value>Status auswählen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
   <data name="Appt_FromDate" xml:space="preserve">
     <value>Von Datum</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
@@ -1129,6 +1153,18 @@
   </data>
   <data name="Appt_FilterBtn" xml:space="preserve">
     <value>Filtern</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_ClearFilters" xml:space="preserve">
+    <value>Zurücksetzen</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_ShowingLatest" xml:space="preserve">
+    <value>Zeigt die neuesten {0} Termine an</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_ShowingEntries" xml:space="preserve">
+    <value>Zeige {0} bis {1} von {2} Einträgen</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
   </data>
   <data name="Appt_ScheduledTime" xml:space="preserve">
@@ -1852,7 +1888,7 @@
   <value>Medizinische Verschreibung hochladen</value>
 </data>
 <data name="ClickToUploadOrDragAndDrop" xml:space="preserve">
-  <value>Zum Hochladen klicken oder Drag &amp; Drop</value>
+  <value>Zum Hochladen klicken</value>
 </data>
 <data name="FileFormatAndSizeLimit" xml:space="preserve">
   <value>PNG, JPG oder PDF (MAX. 5MB)</value>
@@ -1936,6 +1972,15 @@
     <value>Fachgebiet auswählen</value>
   </data>
 
+  <data name="ResetPass_PasswordStrength" xml:space="preserve">
+    <value>Mindestens 8 Zeichen, einschließlich Großbuchstaben, einer Zahl und eines Sonderzeichens.</value>
+    <comment>Reset Password Page - Label for password strength indicator</comment>
+  </data>
+
+   <data name="Appt_ActiveMembers" xml:space="preserve">
+    <value>Aktive Mitglieder</value>
+    <comment>Dashboard - Active Members Card</comment>
+  </data>
 
  <data name="Shared_Browse" xml:space="preserve">
     <value>Durchsuchen</value>

@@ -34,7 +34,7 @@
                             if (!string.IsNullOrWhiteSpace(doctorPhotoUrl))
                             {
                                 var safeDoctorPhotoUrl = System.IO.Path.GetFileName(doctorPhotoUrl);
-                                var doctorPhotoPath = System.IO.Path.Combine(WebHostEnvironment.WebRootPath, "InternalStorage", "DoctorPhotos", safeDoctorPhotoUrl);
+                                var doctorPhotoPath = System.IO.Path.Combine(WebHostEnvironment.ContentRootPath, "InternalStorage", "DoctorPhotos", safeDoctorPhotoUrl);
                                 doctorPhotoExists = System.IO.File.Exists(doctorPhotoPath);
                                 doctorPhotoUrl = safeDoctorPhotoUrl;
                             }

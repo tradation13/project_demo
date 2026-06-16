@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @{
     ViewData["Title"] = SharedLocalizer["Privacy_Title"];
-    Layout = "~/Views/Shared/Layouts/_MainLayout.cshtml";
+    Layout = "~/Views/Shared/Layouts/_AuthLayout.cshtml";
 
     var returnUrl = Context.Request.Query["returnUrl"].ToString();
     if (string.IsNullOrWhiteSpace(returnUrl))

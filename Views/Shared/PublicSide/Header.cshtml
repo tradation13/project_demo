@@ -7,7 +7,7 @@
                     class="h-12 w-auto transition-transform hover:scale-105 sm:h-14 md:h-24 lg:h-28">
             </a>
 
-           <nav class="hidden items-center gap-2 md:flex">
+           <nav class="hidden items-center gap-2 min-[1000px]:flex">
     
     <div class="flex items-center gap-1">
         <a asp-controller="Home" asp-area="" asp-action="Index" 
@@ -160,7 +160,7 @@
         </div>
 
         <!-- Mobile Navigation -->
-        <div id="mobile-menu" class="hidden border-t border-gray-200 py-4 md:hidden">
+        <div id="mobile-menu" class="hidden border-t border-gray-200 py-4 min-[1000px]:hidden">
             <div class="flex flex-col space-y-2">
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="px-3 py-2 text-base font-bold text-gray-600 transition-colors hover:text-green-600">
                     @SharedLocalizer["Shared_Home"]
@@ -228,7 +228,7 @@
         display: none;
     }
 
-    @@media (min-width: 768px) {
+    @@media (min-width: 1000px) {
         .guest-desktop-join {
             display: inline-flex;
         }
@@ -251,7 +251,7 @@
         }
     }
 
-    @@media (max-width: 767.98px) {
+    @@media (max-width: 999.98px) {
         .mobile-only-trigger {
             display: inline-flex;
         }

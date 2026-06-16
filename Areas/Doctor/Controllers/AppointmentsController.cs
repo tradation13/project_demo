@@ -1,6 +1,7 @@
 using AutoMapper;
 using IPTS.Data;
 using IPTS.Models.Entites;
+using IPTS.Models.Enums;
 using IPTS.Services;
 using IPTS.ViewModels;
 using IPTS.Services;
@@ -28,13 +29,52 @@ namespace IPTS.Areas.Doctor.Controllers
         private readonly IdentityErrorTranslator _identityErrorTranslator = identityErrorTranslator;
         private readonly IFileService _fileService = fileService;
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, string? patientName = null, string? status = null, string? fromDate = null, string? toDate = null)
         {
             try
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
                 var appointments = await _appointmentService.GetAppointmentsForDoctorAsync(userId);
+
+                // Apply filters in-memory on the mapped viewmodels
+                if (!string.IsNullOrWhiteSpace(patientName))
+                {
+                    appointments = appointments.Where(a => !string.IsNullOrWhiteSpace(a.PatientName) && a.PatientName.Contains(patientName, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+
+                if (!string.IsNullOrWhiteSpace(status))
+                {
+                    if (Enum.TryParse<AppointmentStatus>(status, true, out var st))
+                    {
+                        appointments = appointments.Where(a => a.Status == st).ToList();
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(fromDate) && DateTime.TryParse(fromDate, out var fromDt))
+                {
+                    appointments = appointments.Where(a => a.ScheduledTime.Date >= fromDt.Date).ToList();
+                }
+
+                if (!string.IsNullOrWhiteSpace(toDate) && DateTime.TryParse(toDate, out var toDt))
+                {
+                    appointments = appointments.Where(a => a.ScheduledTime.Date <= toDt.Date).ToList();
+                }
+
+                const int pageSize = 10;
+                var total = appointments?.Count ?? 0;
+                var paged = appointments.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+                var viewModel = new IPTS.Areas.Doctor.ViewsModels.AppointmentListViewModel
+                {
+                    Items = paged,
+                    Page = page,
+                    PageSize = pageSize,
+                    TotalCount = total,
+                    PatientName = patientName,
+                    Status = status,
+                    FromDate = fromDate,
+                    ToDate = toDate
+                };
 
                 // Log important action  
                 LogHelper.LogWithContext(
@@ -45,7 +85,7 @@ namespace IPTS.Areas.Doctor.Controllers
                     LogEventLevel.Information
                 );
 
-                return View(appointments);
+                return View(viewModel);
             }
             catch (Exception ex)
             {

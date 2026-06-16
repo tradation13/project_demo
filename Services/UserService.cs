@@ -190,13 +190,15 @@ namespace IPTS.Services
                     user.EmailConfirmed = false;
                 }
 
+                var existingDoctorPhoto = user.Doctor?.PhotoUrl;
+
                 _mapper.Map(model, user);
 
                 // حماية PhotoUrl من المسح إذا لم يتم رفع صورة جديدة
                 if (user.Doctor != null)
                 {
                     IFormFile? photoFile = null;
-                    string? oldPhoto = user.Doctor.PhotoUrl;
+                    string? oldPhoto = existingDoctorPhoto;
                     if (model is UserFormViewModel userForm && userForm.Doctor != null)
                         photoFile = userForm.Doctor.PhotoFile;
                     else if (model is UserProfileViewModel profileForm && profileForm.Doctor != null)
@@ -213,7 +215,7 @@ namespace IPTS.Services
                 if (user.Doctor != null)
                 {
                     IFormFile? photoFile = null;
-                    string? oldPhoto = user.Doctor.PhotoUrl;
+                    string? oldPhoto = existingDoctorPhoto;
                     if (model is UserFormViewModel userForm && userForm.Doctor != null)
                         photoFile = userForm.Doctor.PhotoFile;
                     else if (model is UserProfileViewModel profileForm && profileForm.Doctor != null)
@@ -225,7 +227,8 @@ namespace IPTS.Services
                         // حذف الصورة القديمة من InternalStorage إذا كانت موجودة
                         if (!string.IsNullOrWhiteSpace(oldPhoto))
                         {
-                            var oldPath = Path.Combine(_webHostEnvironment.ContentRootPath, "InternalStorage", "DoctorPhotos", oldPhoto);
+                            var oldPhotoFileName = Path.GetFileName(oldPhoto);
+                            var oldPath = Path.Combine(_webHostEnvironment.ContentRootPath, "InternalStorage", "DoctorPhotos", oldPhotoFileName);
                             if (File.Exists(oldPath))
                             {
                                 try
@@ -321,9 +324,9 @@ namespace IPTS.Services
 
                 var user = new AppUser
                 {
-                    UserName = model.UserName,
-                    LastName=model.LastName,
-                    FirstName=model.FirstName,
+                    UserName = string.IsNullOrWhiteSpace(model.UserName) ? model.Email : model.UserName,
+                    LastName = model.LastName,
+                    FirstName = model.FirstName,
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,
                     Status = userStatus

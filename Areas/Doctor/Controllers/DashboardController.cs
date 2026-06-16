@@ -38,7 +38,10 @@ namespace IPTS.Areas.Doctor.Controllers
             var startOfMonth = new DateTime(now.Year, now.Month, 1, 0, 0, 0, DateTimeKind.Utc);
             var sevenDaysAgo = now.Date.AddDays(-6); 
             
-            var apptsQ = await _appointmentService.GetAllAsync(q => q.Where(a => a.DoctorId == doctor.Id));
+            // Get mapped appointment viewmodels for this doctor (includes patient info)
+            var appointments = await _appointmentService.GetAppointmentsForDoctorAsync(userId);
+
+            var apptsQ = appointments; // keep previous naming for some calculations below
 
            
             var totalAppointmentsTask = apptsQ.Count;
@@ -64,12 +67,11 @@ namespace IPTS.Areas.Doctor.Controllers
            
             var monthTotalTask = apptsQ.Count(a => a.ScheduledTime >= startOfMonth);
           
-            var nextAppointmentTask = apptsQ
-                .Where(a => a.ScheduledTime >= now &&
-                            (a.Status == AppointmentStatus.Confirmed))
+            // Next confirmed future appointment (if any)
+            var nextAppt = apptsQ
+                .Where(a => a.Status == AppointmentStatus.Confirmed && a.ScheduledTime > DateTime.UtcNow)
                 .OrderBy(a => a.ScheduledTime)
-                .Select(a => a.ScheduledTime)
-                .FirstOrDefault() > DateTime.UtcNow;
+                .FirstOrDefault();
 
            
             var last7daysCountsTask = apptsQ
@@ -106,7 +108,12 @@ namespace IPTS.Areas.Doctor.Controllers
                 TestsOrderedThisMonth = testsThisMonthTask,
                 CompletionRateThisMonthPercent = Math.Round(completionRate, 1),
                 AvgAppointmentsPerDayLast7Days = Math.Round(avgPerDay, 2),
-                NextAppointmentUtc = null
+                NextAppointmentUtc = nextAppt?.ScheduledTime,
+                LatestPendingRequests = appointments
+                    .Where(a => a.Status == AppointmentStatus.Pending)
+                    .OrderByDescending(a => a.ScheduledTime)
+                    .Take(3)
+                    .ToList()
             };
 
 

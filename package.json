@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.11",
     "autoprefixer": "^10.4.24",
     "eslint": "^9.38.0",
     "postcss": "^8.5.6",

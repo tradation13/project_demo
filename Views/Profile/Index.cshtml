@@ -18,7 +18,49 @@
 <div class="mx-auto max-w-5xl px-4 pb-8 sm:px-6 sm:pb-12 lg:px-8">
     <section class="mb-10 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
         <h2 class="mb-6 text-2xl font-bold tracking-tight text-slate-800 sm:text-3xl">@SharedLocalizer["Profile_Title"]</h2>
+@* زر التعديل يظهر فقط إذا المستخدم يملك صلاحية التعديل وعلى وضع العرض وليس التعديل *@
+    @* Doctor header: show avatar, full name and username at top-right *@
+        @if (Model.Doctor != null)
+        {
+            var doctorPhotoUrl = Model.Doctor.PhotoUrl?.Trim();
+            var doctorPhotoExists = false;
 
+            if (!string.IsNullOrWhiteSpace(doctorPhotoUrl))
+            {
+                var safeDoctorPhotoUrl = System.IO.Path.GetFileName(doctorPhotoUrl);
+                var doctorPhotoPath = System.IO.Path.Combine(WebHostEnvironment.ContentRootPath, "InternalStorage", "DoctorPhotos", safeDoctorPhotoUrl);
+                doctorPhotoExists = System.IO.File.Exists(doctorPhotoPath);
+                doctorPhotoUrl = safeDoctorPhotoUrl;
+            }
+
+            <div class="mb-6 flex justify-start">
+                <div class="flex items-center gap-4">
+                    <div class="flex-shrink-0">
+                            @if (doctorPhotoExists)
+                            {
+                                <img src="/InternalStorage/DoctorPhotos/@doctorPhotoUrl" alt="Doctor Photo" class="h-20 w-20 rounded-full border border-slate-200 object-cover shadow-sm transition-transform duration-300 hover:scale-105" />
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-user-doctor text-primary-dark" style="font-size:48px;"></i>
+                            }
+                    </div>
+                    <div class="text-left">
+                        <div class="text-lg font-bold text-slate-800">@($"{Model.FirstName} {Model.LastName}")</div>
+                        <div class="text-sm text-slate-500">@ViewBag.UserName</div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                function showHeaderFileName(input) {
+                    const label = document.getElementById('headerFileNameDisplay');
+                    if (input.files && input.files[0]) {
+                        label.textContent = "📎 " + input.files[0].name;
+                    }
+                }
+            </script>
+                        @* Upload UI shown in header, actual inputs moved into the form below so they post correctly *@
+        }
     @if (canEdit && !isEditMode)
     {
         <div class="mb-6 text-right">
@@ -32,7 +74,7 @@
     <form asp-action="Edit" asp-controller="Profile" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="mb-4 rounded-2xl border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
         <div class="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2">
-             @if (!isEditMode)
+             @if (!isEditMode && Model.Doctor == null)
                 {
             <div>
                 <label class="mb-1.5 block text-sm font-bold text-slate-700">@SharedLocalizer["Shared_UserName"]</label>
@@ -131,56 +173,22 @@
             if (!string.IsNullOrWhiteSpace(doctorPhotoUrl))
             {
                 var safeDoctorPhotoUrl = System.IO.Path.GetFileName(doctorPhotoUrl);
-                var doctorPhotoPath = System.IO.Path.Combine(WebHostEnvironment.WebRootPath, "InternalStorage", "DoctorPhotos", safeDoctorPhotoUrl);
+                var doctorPhotoPath = System.IO.Path.Combine(WebHostEnvironment.ContentRootPath, "InternalStorage", "DoctorPhotos", safeDoctorPhotoUrl);
                 doctorPhotoExists = System.IO.File.Exists(doctorPhotoPath);
                 doctorPhotoUrl = safeDoctorPhotoUrl;
             }
 
-            <div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
-                <label class="mb-1.5 block text-sm font-bold text-slate-700">@SharedLocalizer["Profile_Photo"]</label>
-                <div class="flex items-center gap-6">
-                    <input type="hidden" asp-for="Doctor.PhotoUrl" />
-                    @if (doctorPhotoExists)
-                    {
-                        <img src="/InternalStorage/DoctorPhotos/@doctorPhotoUrl" alt="Doctor Photo" class="h-24 w-24 rounded-full object-cover border" />
-                    }
-                    else
-                    {
-                        <i class="fa-solid fa-user-doctor text-primary-dark" style="font-size: 80px;"></i>
-                    }
-                  @if (isEditMode)
-{
-    <div class="mt-4 flex flex-col items-center sm:items-start">
-        @* زر الرفع المخصص *@
-        <label for="doctorPhoto" class="group relative flex cursor-pointer items-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-4 py-2 text-sm font-bold text-primary transition-all hover:bg-primary hover:text-white active:scale-95">
-            <i class="fa-solid fa-camera transition-transform group-hover:rotate-12"></i>
-            <span>@SharedLocalizer["Profile_ChangePhoto"]</span>
-            
-            @* الـ Input مخفي تماماً *@
-            <input asp-for="Doctor.PhotoFile" id="doctorPhoto" type="file" accept="image/*" class="hidden" onchange="showFileName(this)" />
-        </label>
-
-        @* مكان لعرض اسم الملف المختار ليطمئن المستخدم *@
-        <span id="fileNameDisplay" class="mt-2 text-xs text-slate-400"></span>
-        
-        @* رسالة التحقق *@
-        <span asp-validation-for="Doctor.PhotoFile" class="text-xs text-red-500"></span>
-    </div>
-
-    @* Script بسيط جداً لتحديث اسم الملف عند الاختيار *@
-    <script>
-        function showFileName(input) {
-            const label = document.getElementById('fileNameDisplay');
-            if (input.files && input.files[0]) {
-                label.textContent = "📎 " + input.files[0].name;
-            }
-        }
-    </script>
-}
-                </div>
-            </div>
             @if(isEditMode){
                 <div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+                    <label class="mb-1.5 block text-sm font-bold text-slate-700">@SharedLocalizer["Profile_Photo"]</label>
+                    <label for="doctorPhoto" class="group inline-flex cursor-pointer items-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-4 py-2 text-sm font-bold text-primary transition-all hover:bg-primary hover:text-white active:scale-95">
+                        <i class="fa-solid fa-camera transition-transform group-hover:rotate-12"></i>
+                        <span>@SharedLocalizer["Profile_ChangePhoto"]</span>
+                    </label>
+                    <input asp-for="Doctor.PhotoFile" id="doctorPhoto" type="file" accept="image/*" class="hidden" onchange="showFileName(this)" />
+                    <span id="fileNameDisplay" class="mt-2 block text-xs text-slate-400"></span>
+                    <span asp-validation-for="Doctor.PhotoFile" class="text-xs text-red-500"></span>
+
                     <label asp-for="Doctor.SpecialtyId" class="mb-1.5 block text-sm font-bold text-slate-700">@SharedLocalizer["Profile_Specialty"]</label>
                     <select asp-for="Doctor.SpecialtyId" class="mt-1 block w-full rounded-2xl border border-slate-300 bg-white px-4 py-2.5 shadow-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20">
                         <option value="">@SharedLocalizer["Profile_SelectSpecialty"]</option>
@@ -193,6 +201,14 @@
                         }
                     </select>
                     <span asp-validation-for="Doctor.SpecialtyId" class="text-sm text-red-500"></span>
+                    <script>
+                        function showFileName(input) {
+                            const label = document.getElementById('fileNameDisplay');
+                            if (input.files && input.files[0]) {
+                                label.textContent = "📎 " + input.files[0].name;
+                            }
+                        }
+                    </script>
                 </div>
             }else{
                 @if (ViewBag.Specialties is List<Specialty> specialties){

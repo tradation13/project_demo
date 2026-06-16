@@ -1,10 +1,28 @@
 @{
     ViewData["Title"] = SharedLocalizer["Shared_AboutPhysoTech"];
     Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
+
+    var backUrl = Context.Request.Query["returnUrl"].ToString();
+    if (string.IsNullOrWhiteSpace(backUrl))
+    {
+        backUrl = Context.Request.Headers["Referer"].ToString();
+    }
+
+    if (string.IsNullOrWhiteSpace(backUrl) || !Url.IsLocalUrl(backUrl))
+    {
+        backUrl = Url.Action("Index", "Home") ?? "/";
+    }
 }
 
 <section class="bg-white py-16">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-8 sm:mb-10">
+            <a href="@backUrl" class="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-bold text-gray-700 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:text-primary sm:w-auto sm:justify-start">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>@SharedLocalizer["Shared_Back"]</span>
+            </a>
+        </div>
+
         <div class="mb-16 grid items-center gap-12 lg:grid-cols-2">
             <div class="space-y-6">
                 <div class="flex items-center gap-3">

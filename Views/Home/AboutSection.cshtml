@@ -1,47 +1,118 @@
-@* About PhysoTech Section *@
-<section id="about" class="bg-white py-3">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="grid items-center gap-12 lg:grid-cols-2">
-            <div class="flex items-center justify-center">
-               <div class="relative flex w-full items-center justify-center lg:justify-end">
-    <img src="/images/home/about.png" 
-         alt="PhysoTech Logo" 
-         class="h-auto w-full min-w-[300px] max-w-[550px] transform drop-shadow-2xl transition-all duration-500 hover:scale-105" 
-         loading="lazy" />
-    
-    <div class="absolute -z-10 h-72 w-72 rounded-full bg-primary/10 opacity-50 blur-3xl"></div>
-</div>
+@* About PhysioTech Section *@
+<section id="about" class="about-section relative overflow-hidden bg-gray-50/60 py-16 lg:py-24 flex items-center min-h-[90vh]">
+    <div class="about-bg absolute inset-0 pointer-events-none overflow-hidden">
+        <i class="about-float fa-solid fa-heart-pulse absolute left-6 top-16 text-6xl text-emerald-500/10"></i>
+        <i class="about-float about-float-delay-1 fa-solid fa-heart-pulse absolute left-[18%] top-[62%] text-4xl text-emerald-500/8"></i>
+        <i class="about-float about-float-delay-2 fa-solid fa-heart-pulse absolute right-[22%] top-[14%] text-5xl text-emerald-500/8"></i>
+
+        <i class="about-float about-float-delay-1 fa-solid fa-hospital absolute right-8 top-24 text-7xl text-emerald-500/10"></i>
+        <i class="about-float about-float-delay-2 fa-solid fa-hospital absolute left-[42%] top-[18%] text-5xl text-emerald-500/8"></i>
+        <i class="about-float fa-solid fa-hospital absolute right-[12%] bottom-[18%] text-4xl text-emerald-500/8"></i>
+
+        <i class="about-float about-float-delay-2 fa-solid fa-shield-halved absolute left-1/2 bottom-10 text-7xl text-emerald-500/10"></i>
+        <i class="about-float fa-solid fa-shield-halved absolute left-[8%] bottom-[14%] text-5xl text-emerald-500/8"></i>
+        <i class="about-float about-float-delay-1 fa-solid fa-shield-halved absolute right-[40%] top-[58%] text-4xl text-emerald-500/8"></i>
+
+        <div class="absolute left-[8%] top-[18%] h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl"></div>
+        <div class="absolute right-[10%] bottom-[12%] h-80 w-80 rounded-full bg-emerald-400/10 blur-3xl"></div>
+        <div class="absolute left-[36%] bottom-[24%] h-56 w-56 rounded-full bg-white/40 blur-3xl"></div>
+    </div>
+
+    <div class="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+            <div class="flex w-full items-center justify-center order-1 lg:order-1">
+                <div class="relative flex w-full items-center justify-center rounded-[2rem] border border-white/60 bg-white/60 p-3 shadow-[0_20px_70px_rgba(16,185,129,0.08)] backdrop-blur-sm lg:p-6">
+                    <div class="absolute -z-10 h-72 w-72 rounded-full bg-emerald-500/10 opacity-60 blur-3xl"></div>
+
+                    <img src="/images/home/about.png"
+                        alt="PhysioTech Presentation"
+                        class="h-auto w-full max-w-[760px] rounded-2xl border border-gray-100 shadow-xl transform transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl"
+                         loading="lazy" />
+                </div>
             </div>
 
-            <div class="space-y-6">
-                <div class="mb-4 flex items-center gap-3">
-                    <i class="fas fa-dna text-3xl text-primary-600"></i>
-                    <h2 class="text-4xl font-bold text-gray-900">@SharedLocalizer["Shared_AboutPhysoTech"]</h2>
+            <div class="space-y-8 order-2 lg:order-2 lg:pl-6">
+                <div class="flex items-center gap-4">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 shadow-sm ring-1 ring-emerald-100">
+                        <i class="fas fa-hourglass-half text-2xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                        @SharedLocalizer["Shared_AboutPhysoTech"]
+                    </h2>
                 </div>
 
-                <p class="text-lg leading-relaxed text-gray-700">
-                    @SharedLocalizer["About_Brief"]
-                </p>
+                <div class="space-y-5 text-lg leading-relaxed text-gray-600">
+                    <p>
+                        @SharedLocalizer["About_Brief"]
+                    </p>
 
-                <p class="text-lg leading-relaxed text-gray-700">
-                          @SharedLocalizer["About_PoweredBy"] <span class="font-bold text-primary-600">@SharedLocalizer["System_FullTitle"]</span>
-                          <a href="@Url.Action("About", "Home")"
-                       class="ml-1 inline-flex items-center font-normal text-primary-600 transition-colors hover:text-primary-700">
-                        <span class="border-b border-primary-600 hover:border-primary-700">@SharedLocalizer["About_LinkReadMore"]</span>
-                        <i class="fas fa-arrow-right ml-1 text-sm"></i>
-                    </a>,
-                    @SharedLocalizer["About_Details"]
-                </p>
+                    <p>
+                        @SharedLocalizer["About_PoweredBy"]
+                        <span class="font-semibold text-emerald-600">@SharedLocalizer["System_FullTitle"]</span>
 
-                <div class="pt-6">
+                        <a href="@Url.Action("About", "Home")"
+                           class="ml-1 inline-flex items-center font-medium text-emerald-600 transition-colors hover:text-emerald-700 group">
+                            <span class="border-b border-emerald-600 group-hover:border-emerald-700">@SharedLocalizer["About_LinkReadMore"]</span>
+                            <i class="fas fa-arrow-right ml-1 text-xs transition-transform group-hover:translate-x-1"></i>
+                        </a>,
+                        @SharedLocalizer["About_Details"]
+                    </p>
+                </div>
+
+                <div class="pt-4">
                     <a href="@Url.Action("About", "Home")"
-                       class="inline-flex transform items-center gap-2 rounded-lg bg-primary-600 px-6 py-3 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:bg-primary-700 hover:shadow-xl">
-                        <i class="fas fa-book-open"></i>
+                       class="inline-flex transform items-center gap-2 rounded-lg bg-emerald-600 px-6 py-3.5 font-bold text-white shadow-md shadow-emerald-600/20 transition-all duration-200 hover:scale-[1.03] hover:bg-emerald-700 hover:shadow-lg hover:shadow-emerald-700/30">
+                        <i class="fas fa-columns"></i>
                         @SharedLocalizer["About_BtnMoreUs"]
-                        <i class="fas fa-arrow-right ml-1"></i>
+                        <i class="fas fa-arrow-right ml-1 text-sm"></i>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<style>
+    @@keyframes aboutFloat {
+        0%, 100% {
+            transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+        }
+
+        33% {
+            transform: translate3d(18px, -16px, 0) rotate(6deg) scale(1.04);
+        }
+
+        66% {
+            transform: translate3d(-14px, 12px, 0) rotate(-5deg) scale(0.98);
+        }
+    }
+
+    .about-float {
+        animation: aboutFloat 14s ease-in-out infinite;
+        filter: blur(0.2px);
+    }
+
+    .about-float-delay-1 {
+        animation-duration: 17s;
+        animation-delay: -4s;
+    }
+
+    .about-float-delay-2 {
+        animation-duration: 19s;
+        animation-delay: -8s;
+    }
+
+    .about-bg i {
+        will-change: transform;
+    }
+
+    @@media (max-width: 1023.98px) {
+        .about-section {
+            min-height: auto;
+        }
+
+        .about-bg i {
+            opacity: 0.06;
+        }
+    }
+</style>

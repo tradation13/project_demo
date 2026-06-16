@@ -677,7 +677,7 @@
     <comment>VIiews -&gt; Auth -&gt;  ForgotPasswordConfirmation</comment>
   </data>
   <data name="Reg_Header" xml:space="preserve">
-    <value>Patient Registration Form</value>
+    <value>Sign up to create your account and start your health journey with us!</value>
     <comment>VIiews -&gt; Auth -&gt;  Register</comment>
   </data>
   <data name="Reg_Placeholder_User" xml:space="preserve">
@@ -984,6 +984,14 @@
     <value>Therapist Dashboard</value>
     <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
   </data>
+  <data name="Dash_NextAppointment" xml:space="preserve">
+    <value>Next Appointment</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_ViewAppointments" xml:space="preserve">
+    <value>View Appointments</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
   <data name="Dash_TotalAppts" xml:space="preserve">
     <value>Total Appointments</value>
     <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
@@ -994,6 +1002,18 @@
   </data>
   <data name="Dash_UpcomingDesc" xml:space="preserve">
     <value>Next sessions in queue</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_PendingRequestsShort" xml:space="preserve">
+    <value>Pending requests</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_LastMonth" xml:space="preserve">
+    <value>Last month</value>
+    <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dash_AppointmentsBreakdown" xml:space="preserve">
+    <value>Appointments breakdown</value>
     <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
   </data>
   <data name="Dash_CompletedMonth" xml:space="preserve">
@@ -1028,6 +1048,86 @@
     <value>Avg Appts / Day (7d)</value>
     <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>
   </data>
+  <data name="Dash_SystemOverview" xml:space="preserve">
+    <value>System overview</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Title" xml:space="preserve">
+    <value>Dashboard</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Subtitle" xml:space="preserve">
+    <value>Summary of system statistics</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalPatients" xml:space="preserve">
+    <value>Total Patients</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Patients_Description" xml:space="preserve">
+    <value>Registered patients in the system</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalDoctors" xml:space="preserve">
+    <value>Total Therapists</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Doctors_Description" xml:space="preserve">
+    <value>Therapists and doctors</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalAdmins" xml:space="preserve">
+    <value>Total Admins</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Admins_Description" xml:space="preserve">
+    <value>System administrators</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalCases" xml:space="preserve">
+    <value>Medical Cases</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Cases_Description" xml:space="preserve">
+    <value>Registered cases</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TotalTests" xml:space="preserve">
+    <value>Total Tests</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Tests_Description" xml:space="preserve">
+    <value>Available tests</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TestGroups" xml:space="preserve">
+    <value>Test Groups</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_TestGroups_Description" xml:space="preserve">
+    <value>Multiple groups</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_UserTypes" xml:space="preserve">
+    <value>User Types</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_UserTypes_Types" xml:space="preserve">
+    <value>Patient • Therapist • Admin</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_UserTypes_Description" xml:space="preserve">
+    <value>Main user types</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Info_Title" xml:space="preserve">
+    <value>System Information</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_Info_Description" xml:space="preserve">
+    <value>This summary shows comprehensive statistics of all registered data in the system. Data updates automatically when new records are added or removed.</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
   <data name="Appt_Header" xml:space="preserve">
     <value>Appointments</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
@@ -1060,6 +1160,10 @@
     <value>Status</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
   </data>
+  <data name="Appt_Status_Select" xml:space="preserve">
+    <value>Select status</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
   <data name="Appt_FromDate" xml:space="preserve">
     <value>From Date</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
@@ -1070,6 +1174,18 @@
   </data>
   <data name="Appt_FilterBtn" xml:space="preserve">
     <value>Filter</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_ClearFilters" xml:space="preserve">
+    <value>Clear</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_ShowingLatest" xml:space="preserve">
+    <value>Showing latest {0} appointments</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
+  </data>
+  <data name="Appt_ShowingEntries" xml:space="preserve">
+    <value>Showing {0} to {1} of {2} entries</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; Index</comment>
   </data>
   <data name="Appt_ScheduledTime" xml:space="preserve">
@@ -1641,6 +1757,9 @@
   <data name="Therapies_Doctor" xml:space="preserve">
     <value>Doctor</value>
   </data>
+    <data name="Profile_Photo" xml:space="preserve">
+  <value>Profile Photo</value>
+</data>
   <data name="Shared_Browse" xml:space="preserve">
     <value>Browse</value>
     <comment>General Purpose - Button to open file dialog</comment>
@@ -1649,8 +1768,22 @@
     <value>View Latest Report</value>
     <comment>Button to view the latest report for a medical case</comment>
   </data>
-  
-   <data name="ForgotConf_Header" xml:space="preserve">
+  <data name="System_FullTitle" xml:space="preserve">
+    <value>Physiotech</value>
+    <comment>Views -&gt; Home -&gt; AboutSection</comment>
+  </data>
+  <data name="ClickToUploadOrDragAndDrop" xml:space="preserve">
+  <value>Click to upload</value>
+</data>
+<data name="ResetPass_PasswordStrength" xml:space="preserve">
+    <value>At least 8 characters, include uppercase, number and a special character.</value>
+    <comment>Reset Password Page - Label for password strength indicator</comment>
+  </data>
+  <data name="Appt_ActiveMembers" xml:space="preserve">
+    <value>Active Members</value>
+    <comment>Dashboard - Active Members Card</comment>
+  </data>
+  <data name="ForgotConf_Header" xml:space="preserve">
     <value>Forgot Password Confirmation</value>
     <comment>Shared</comment>
   </data>
@@ -1785,6 +1918,9 @@
   <data name="Shared_Edit" xml:space="preserve">
     <value>Edit</value>
     <comment>Shared</comment>
+  </data>
+   <data name="Profile_SelectSpecialty" xml:space="preserve">
+    <value>Select Specialty</value>
   </data>
   <data name="Shared_Submit" xml:space="preserve">
     <value>Save Settings</value>
@@ -1992,5 +2128,9 @@
   <data name="Appt_TimeRangeSeparator" xml:space="preserve">
     <value>to</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; AcceptRequest</comment>
+  </data>
+  <data name="Profile_ChangePhoto" xml:space="preserve">
+    <value>Change Photo</value>
+    <comment>Profile Page - Button to change profile picture</comment>
   </data>
 </root>

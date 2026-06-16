@@ -3,16 +3,28 @@
 @{
     ViewData["Title"] = SharedLocalizer["Therapies_PageTitle"];
     Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
+
+    var backUrl = Context.Request.Query["returnUrl"].ToString();
+    if (string.IsNullOrWhiteSpace(backUrl))
+    {
+        backUrl = Context.Request.Headers["Referer"].ToString();
+    }
+
+    if (string.IsNullOrWhiteSpace(backUrl) || !Url.IsLocalUrl(backUrl))
+    {
+        backUrl = Url.Action("Index", "Home") ?? "/";
+    }
 }
 
 <div class="min-h-screen bg-gray-50">
-    <section class="bg-gradient-to-br from-blue-50 to-indigo-100 py-16">
+    <section class="bg-gradient-to-br from-emerald-50 to-emerald-100 py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="mb-8 flex items-center space-x-4">
-                <button onclick="window.history.back()"
-                        class="rounded-lg bg-white p-2 text-gray-600 shadow-sm transition-colors hover:text-green-600">
-                     <i class="fas fa-arrow-left"></i>
-                </button>
+                <a href="@backUrl"
+                   class="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-sm font-bold text-gray-700 shadow-sm transition hover:-translate-y-0.5 hover:text-green-600">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>@SharedLocalizer["Shared_Back"]</span>
+                </a>
             </div>
             <div class="text-center">
                 <h1 class="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">
@@ -62,7 +74,7 @@
                     if (!string.IsNullOrWhiteSpace(photoFileName))
                     {
                         var safePhotoFileName = System.IO.Path.GetFileName(photoFileName);
-                        var photoFilePath = System.IO.Path.Combine(WebHostEnvironment.WebRootPath, "InternalStorage", "DoctorPhotos", safePhotoFileName);
+                        var photoFilePath = System.IO.Path.Combine(WebHostEnvironment.ContentRootPath, "InternalStorage", "DoctorPhotos", safePhotoFileName);
                         photoFileExists = System.IO.File.Exists(photoFilePath);
                         photoFileName = safePhotoFileName;
                     }

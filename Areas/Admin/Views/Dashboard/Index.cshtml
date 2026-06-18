@@ -1,174 +1,156 @@
 @model DashboardStatisticsViewModel
-
 @{
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
-<div class="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 p-6">
-    <div class="max-w-7xl mx-auto">
-        <!-- Header Section -->
-        <div class="mb-12">
-            <h1 class="text-4xl font-bold text-[#111827] mb-2">@SharedLocalizer["Dashboard_Title"]</h1>
-            <p class="text-primary-700 text-lg">@SharedLocalizer["Dashboard_Subtitle"]</p>
+<div class="min-h-screen bg-slate-50 p-5 sm:p-7">
+  <div class="w-full">
+
+    <style>
+      @@keyframes fadeInUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+      .animate-fade-up { animation: fadeInUp 540ms cubic-bezier(.2,.85,.25,1) both; }
+    </style>
+
+    <div class="w-full overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-lg shadow-slate-100 animate-fade-up">
+      <div class="bg-gradient-to-r from-primary to-indigo-600 px-6 py-5 text-white rounded-t-3xl">
+        <div class="flex items-center gap-2 mb-0">
+          <span class="w-1.5 h-1.5 rounded-full bg-white/40 inline-block"></span>
+          <span class="text-[11px] font-bold uppercase tracking-widest text-white/90">PhysioTech — System Overview</span>
+        </div>
+        <h1 class="text-[26px] font-extrabold tracking-tight text-white leading-tight">
+          @SharedLocalizer["Dashboard_Title"]
+        </h1>
+        <p class="text-sm text-white/90">@SharedLocalizer["Dashboard_Subtitle"]</p>
+      </div>
+
+      <div class="px-6 py-6">
+
+        <div class="mb-7">
         </div>
 
-        <!-- Statistics Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            <!-- Total Patients Card -->
-            <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-t-4 border-primary-500">
-                <div class="p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-secondary-600 text-sm font-bold mb-2">@SharedLocalizer["Dashboard_TotalPatients"]</p>
-                            <p class="text-4xl font-bold text-primary-600">@Model.TotalPatients</p>
-                        </div>
-                        <div class="bg-primary-100 rounded-full p-4">
-                            <svg class="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-primary-50 px-6 py-3 text-sm text-primary-700 font-normal">
-                    @SharedLocalizer["Dashboard_Patients_Description"]
-                </div>
-            </div>
+        <hr class="border-slate-200 mb-7" />
 
-            <!-- Total Doctors Card -->
-            <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-t-4 border-primary-600">
-                <div class="p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-secondary-600 text-sm font-bold mb-2">@SharedLocalizer["Dashboard_TotalDoctors"]</p>
-                            <p class="text-4xl font-bold text-primary-600">@Model.TotalDoctors</p>
-                        </div>
-                        <div class="bg-primary-100 rounded-full p-4">
-                            <svg class="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M20 0H4c-2.21 0-4 1.79-4 4v12c0 2.21 1.79 4 4 4h14l4 4V4c0-2.21-1.79-4-4-4zm-2 12h-4v4h-4v-4H6V8h4V4h4v4h4v4z"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-primary-50 px-6 py-3 text-sm text-primary-700 font-normal">
-                    @SharedLocalizer["Dashboard_Doctors_Description"]
-                </div>
-            </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 mb-2.5">
 
-            <!-- Total Admins Card -->
-            <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-t-4 border-primary-500">
-                <div class="p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-secondary-600 text-sm font-bold mb-2">@SharedLocalizer["Dashboard_TotalAdmins"]</p>
-                            <p class="text-4xl font-bold text-primary-600">@Model.TotalAdmins</p>
-                        </div>
-                        <div class="bg-primary-100 rounded-full p-4">
-                            <svg class="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-primary-50 px-6 py-3 text-sm text-primary-700 font-normal">
-                    @SharedLocalizer["Dashboard_Admins_Description"]
-                </div>
-            </div>
-
-            <!-- Total Medical Cases Card -->
-            <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-t-4 border-primary-500">
-                <div class="p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-secondary-600 text-sm font-bold mb-2">@SharedLocalizer["Dashboard_TotalCases"]</p>
-                            <p class="text-4xl font-bold text-primary-600">@Model.TotalMedicalCases</p>
-                        </div>
-                        <div class="bg-primary-100 rounded-full p-4">
-                            <svg class="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 9.5h3.5V16h-3.5v-3.5zm0-5H14V7.5h3.5V11zm-5 5H8.5V16H6v-3.5zm0-5h3.5V7.5H6V11z"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-primary-50 px-6 py-3 text-sm text-primary-700 font-normal">
-                    @SharedLocalizer["Dashboard_Cases_Description"]
-                </div>
-            </div>
-
-            <!-- Total Tests Card -->
-            <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-t-4 border-primary-600">
-                <div class="p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-secondary-600 text-sm font-bold mb-2">@SharedLocalizer["Dashboard_TotalTests"]</p>
-                            <p class="text-4xl font-bold text-primary-600">@Model.TotalTests</p>
-                        </div>
-                        <div class="bg-primary-100 rounded-full p-4">
-                            <svg class="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 2H5c-1.1 0-2 .9-2 2v18l7-3 7 3V4c0-1.1-.9-2-2-2z"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-primary-50 px-6 py-3 text-sm text-primary-700 font-normal">
-                    @SharedLocalizer["Dashboard_Tests_Description"]
-                </div>
-            </div>
-
-            <!-- Total Test Groups Card -->
-            <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-t-4 border-primary-500">
-                <div class="p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-secondary-600 text-sm font-bold mb-2">@SharedLocalizer["Dashboard_TestGroups"]</p>
-                            <p class="text-4xl font-bold text-primary-600">@Model.TotalTestGroups</p>
-                        </div>
-                        <div class="bg-primary-100 rounded-full p-4">
-                            <svg class="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-primary-50 px-6 py-3 text-sm text-primary-700 font-normal">
-                    @SharedLocalizer["Dashboard_TestGroups_Description"]
-                </div>
-            </div>
-
-            <!-- Total User Types Card -->
-            <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-t-4 border-primary-500">
-                <div class="p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-secondary-600 text-sm font-bold mb-2">@SharedLocalizer["Dashboard_UserTypes"]</p>
-                            <p class="text-4xl font-bold text-primary-600">@Model.TotalUserTypes</p>
-                            <p class="text-xs text-secondary-500 mt-2">@SharedLocalizer["Dashboard_UserTypes_Types"]</p>
-                        </div>
-                        <div class="bg-primary-100 rounded-full p-4">
-                            <svg class="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-primary-50 px-6 py-3 text-sm text-primary-700 font-normal">
-                    @SharedLocalizer["Dashboard_UserTypes_Description"]
-                </div>
-            </div>
+      @* Patients — Teal *@
+      <div class="bg-white border border-slate-200/80 rounded-[14px] overflow-hidden hover:-translate-y-0.5 hover:border-slate-300 transition-all duration-150">
+        <div class="h-[3px] bg-gradient-to-r from-emerald-500 to-emerald-400"></div>
+        <div class="p-4 pb-3">
+          <div class="w-[34px] h-[34px] rounded-[9px] bg-emerald-50 flex items-center justify-center text-emerald-600 mb-3">
+            <i class="fas fa-users text-sm"></i>
+          </div>
+          <p class="text-[11px] font-semibold uppercase tracking-wide text-emerald-600 mb-1.5">@SharedLocalizer["Dashboard_TotalPatients"]</p>
+          <p class="text-[28px] font-extrabold tracking-tight text-emerald-900 leading-none">@Model.TotalPatients</p>
         </div>
-
-        <!-- Footer Info -->
-        <div class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-primary-500">
-            <div class="flex items-start gap-4">
-                <div class="bg-primary-100 rounded-full p-3 flex-shrink-0">
-                    <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                    </svg>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold text-[#111827] mb-2">@SharedLocalizer["Dashboard_Info_Title"]</h3>
-                    <p class="text-secondary-600">@SharedLocalizer["Dashboard_Info_Description"]</p>
-                </div>
-            </div>
+        <div class="px-4 py-2 border-t border-slate-100 text-[11px] text-slate-400 leading-snug">
+          @SharedLocalizer["Dashboard_Patients_Description"]
         </div>
+      </div>
+
+      @* Doctors — Blue *@
+      <div class="bg-white border border-slate-200/80 rounded-[14px] overflow-hidden hover:-translate-y-0.5 hover:border-slate-300 transition-all duration-150">
+        <div class="h-[3px] bg-gradient-to-r from-blue-500 to-blue-400"></div>
+        <div class="p-4 pb-3">
+          <div class="w-[34px] h-[34px] rounded-[9px] bg-blue-50 flex items-center justify-center text-blue-600 mb-3">
+            <i class="fas fa-user-md text-sm"></i>
+          </div>
+          <p class="text-[11px] font-semibold uppercase tracking-wide text-blue-600 mb-1.5">@SharedLocalizer["Dashboard_TotalDoctors"]</p>
+          <p class="text-[28px] font-extrabold tracking-tight text-blue-900 leading-none">@Model.TotalDoctors</p>
+        </div>
+        <div class="px-4 py-2 border-t border-slate-100 text-[11px] text-slate-400 leading-snug">
+          @SharedLocalizer["Dashboard_Doctors_Description"]
+        </div>
+      </div>
+
+      @* Admins — Purple *@
+      <div class="bg-white border border-slate-200/80 rounded-[14px] overflow-hidden hover:-translate-y-0.5 hover:border-slate-300 transition-all duration-150">
+        <div class="h-[3px] bg-gradient-to-r from-violet-500 to-violet-400"></div>
+        <div class="p-4 pb-3">
+          <div class="w-[34px] h-[34px] rounded-[9px] bg-violet-50 flex items-center justify-center text-violet-600 mb-3">
+            <i class="fas fa-shield-alt text-sm"></i>
+          </div>
+          <p class="text-[11px] font-semibold uppercase tracking-wide text-violet-600 mb-1.5">@SharedLocalizer["Dashboard_TotalAdmins"]</p>
+          <p class="text-[28px] font-extrabold tracking-tight text-violet-900 leading-none">@Model.TotalAdmins</p>
+        </div>
+        <div class="px-4 py-2 border-t border-slate-100 text-[11px] text-slate-400 leading-snug">
+          @SharedLocalizer["Dashboard_Admins_Description"]
+        </div>
+      </div>
+
+      @* Medical Cases — Rose *@
+      <div class="bg-white border border-slate-200/80 rounded-[14px] overflow-hidden hover:-translate-y-0.5 hover:border-slate-300 transition-all duration-150">
+        <div class="h-[3px] bg-gradient-to-r from-rose-500 to-rose-400"></div>
+        <div class="p-4 pb-3">
+          <div class="w-[34px] h-[34px] rounded-[9px] bg-rose-50 flex items-center justify-center text-rose-600 mb-3">
+            <i class="fas fa-file-medical text-sm"></i>
+          </div>
+          <p class="text-[11px] font-semibold uppercase tracking-wide text-rose-600 mb-1.5">@SharedLocalizer["Dashboard_TotalCases"]</p>
+          <p class="text-[28px] font-extrabold tracking-tight text-rose-900 leading-none">@Model.TotalMedicalCases</p>
+        </div>
+        <div class="px-4 py-2 border-t border-slate-100 text-[11px] text-slate-400 leading-snug">
+          @SharedLocalizer["Dashboard_Cases_Description"]
+        </div>
+      </div>
+
+      @* Tests — Amber *@
+      <div class="bg-white border border-slate-200/80 rounded-[14px] overflow-hidden hover:-translate-y-0.5 hover:border-slate-300 transition-all duration-150">
+        <div class="h-[3px] bg-gradient-to-r from-amber-500 to-amber-400"></div>
+        <div class="p-4 pb-3">
+          <div class="w-[34px] h-[34px] rounded-[9px] bg-amber-50 flex items-center justify-center text-amber-600 mb-3">
+            <i class="fas fa-vial text-sm"></i>
+          </div>
+          <p class="text-[11px] font-semibold uppercase tracking-wide text-amber-600 mb-1.5">@SharedLocalizer["Dashboard_TotalTests"]</p>
+          <p class="text-[28px] font-extrabold tracking-tight text-amber-900 leading-none">@Model.TotalTests</p>
+        </div>
+        <div class="px-4 py-2 border-t border-slate-100 text-[11px] text-slate-400 leading-snug">
+          @SharedLocalizer["Dashboard_Tests_Description"]
+        </div>
+      </div>
+
+      @* Test Groups — Sky *@
+      <div class="bg-white border border-slate-200/80 rounded-[14px] overflow-hidden hover:-translate-y-0.5 hover:border-slate-300 transition-all duration-150">
+        <div class="h-[3px] bg-gradient-to-r from-sky-500 to-sky-400"></div>
+        <div class="p-4 pb-3">
+          <div class="w-[34px] h-[34px] rounded-[9px] bg-sky-50 flex items-center justify-center text-sky-600 mb-3">
+            <i class="fas fa-layer-group text-sm"></i>
+          </div>
+          <p class="text-[11px] font-semibold uppercase tracking-wide text-sky-600 mb-1.5">@SharedLocalizer["Dashboard_TestGroups"]</p>
+          <p class="text-[28px] font-extrabold tracking-tight text-sky-900 leading-none">@Model.TotalTestGroups</p>
+        </div>
+        <div class="px-4 py-2 border-t border-slate-100 text-[11px] text-slate-400 leading-snug">
+          @SharedLocalizer["Dashboard_TestGroups_Description"]
+        </div>
+      </div>
+
+      @* User Types — Indigo *@
+      <div class="bg-white border border-slate-200/80 rounded-[14px] overflow-hidden hover:-translate-y-0.5 hover:border-slate-300 transition-all duration-150">
+        <div class="h-[3px] bg-gradient-to-r from-indigo-500 to-indigo-400"></div>
+        <div class="p-4 pb-3">
+          <div class="w-[34px] h-[34px] rounded-[9px] bg-indigo-50 flex items-center justify-center text-indigo-600 mb-3">
+            <i class="fas fa-id-badge text-sm"></i>
+          </div>
+          <p class="text-[11px] font-semibold uppercase tracking-wide text-indigo-600 mb-1.5">@SharedLocalizer["Dashboard_UserTypes"]</p>
+          <p class="text-[28px] font-extrabold tracking-tight text-indigo-900 leading-none">@Model.TotalUserTypes</p>
+          <p class="text-[11px] text-slate-400 mt-1">@SharedLocalizer["Dashboard_UserTypes_Types"]</p>
+        </div>
+        <div class="px-4 py-2 border-t border-slate-100 text-[11px] text-slate-400 leading-snug">
+          @SharedLocalizer["Dashboard_UserTypes_Description"]
+        </div>
+      </div>
+
     </div>
+
+   
+    <div class="bg-white border border-slate-200/80 rounded-[14px] p-4 flex items-start gap-3 mt-2.5">
+      <div class="w-[36px] h-[36px] rounded-[9px] bg-emerald-50 flex items-center justify-center text-emerald-600 flex-shrink-0">
+        <i class="fas fa-info-circle text-sm"></i>
+      </div>
+      <div>
+        <h3 class="text-[13px] font-bold text-slate-800 mb-0.5">@SharedLocalizer["Dashboard_Info_Title"]</h3>
+        <p class="text-[12px] text-slate-500 leading-relaxed">@SharedLocalizer["Dashboard_Info_Description"]</p>
+      </div>
+    </div>
+
+   
+  </div>
 </div>

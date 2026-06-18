@@ -398,7 +398,7 @@
     <comment/>
   </data>
   <data name="Msg_AppointmentBookedWithDuration" xml:space="preserve">
-    <value>Appointment booked for {0} (20 minutes).</value>
+    <value>Appointment booked for {0}.</value>
     <comment/>
   </data>
   <data name="Warn_BookingFailedContactClinic" xml:space="preserve">

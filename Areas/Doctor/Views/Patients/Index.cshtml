@@ -4,19 +4,94 @@
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
+<style>
+    @@keyframes fadeSlideIn {
+        from { opacity: 0; transform: translateY(14px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @@keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @@keyframes popIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to   { opacity: 1; transform: scale(1); }
+    }
+
+    .page-header-anim {
+        animation: fadeInDown 0.4s ease forwards;
+    }
+
+    .table-wrap-anim {
+        animation: popIn 0.45s ease forwards;
+    }
+
+    .patient-row {
+        opacity: 0;
+        animation: fadeSlideIn 0.4s ease forwards;
+        transition: background 0.15s ease;
+    }
+
+    .action-btn-anim {
+        transition: background 0.18s ease, color 0.18s ease,
+                    transform 0.15s ease, box-shadow 0.18s ease;
+    }
+
+    .action-btn-anim:hover {
+        transform: translateY(-2px) scale(1.1);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    }
+
+    .action-btn-anim:active {
+        transform: scale(0.95);
+        box-shadow: none;
+    }
+
+    .add-btn-anim {
+        transition: filter 0.2s ease, transform 0.15s ease;
+    }
+
+    .add-btn-anim:hover {
+        filter: brightness(1.12);
+        transform: translateY(-1px);
+    }
+
+    .add-btn-anim:active {
+        transform: scale(0.97);
+    }
+
+    .avatar-circle {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 500;
+        flex-shrink: 0;
+    }
+
+    .empty-anim {
+        animation: fadeSlideIn 0.5s ease forwards;
+    }
+</style>
+
 <div class="p-6">
-    <div class="mb-6 flex items-center justify-between">
+
+    <div class="page-header-anim mb-6 flex items-center justify-between">
         <h2 class="text-2xl font-bold text-slate-800">@SharedLocalizer["Pat_Header"]</h2>
-        <a asp-action="Create" class="rounded-xl bg-primary px-4 py-2 text-white shadow-lg transition hover:brightness-110">
-            <i class="fas fa-plus mr-2"></i> @SharedLocalizer["Pat_AddNew"]
+        <a asp-action="Create"
+           class="add-btn-anim rounded-xl bg-primary px-4 py-2 text-white shadow-lg inline-flex items-center gap-2">
+            <i class="fas fa-plus"></i> @SharedLocalizer["Pat_AddNew"]
         </a>
     </div>
 
-
-
     @if (!Model.Any())
     {
-        <div class="rounded-xl border-l-4 border-yellow-400 bg-yellow-50 p-8 text-center shadow-sm">
+        <div class="empty-anim rounded-xl border-l-4 border-yellow-400 bg-yellow-50 p-8 text-center shadow-sm">
             <div class="mb-2 text-yellow-400">
                 <i class="fas fa-user-slash fa-3x"></i>
             </div>
@@ -25,47 +100,73 @@
     }
     else
     {
-        <div class="overflow-hidden overflow-x-auto rounded-3xl border border-slate-200 bg-white shadow-xl">
+        <div class="table-wrap-anim overflow-hidden overflow-x-auto rounded-3xl border border-slate-200 bg-white shadow-xl">
             <table class="min-w-full divide-y divide-slate-200">
                 <thead class="bg-slate-50">
                     <tr>
-                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">@SharedLocalizer["Contact_Label_Name"]</th>
-                        @* <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">@SharedLocalizer["Shared_Identity_Number"]</th> *@
-                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">@SharedLocalizer["Shared_Contact_Info"]</th>
-                        <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-slate-500">@SharedLocalizer["Shared_Options"]</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
+                            @SharedLocalizer["Contact_Label_Name"]
+                        </th>
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
+                            @SharedLocalizer["Shared_Contact_Info"]
+                        </th>
+                        <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-slate-500">
+                            @SharedLocalizer["Shared_Options"]
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
+                    @{ int rowIndex = 0; }
                     @foreach (var p in Model)
                     {
-                        <tr class="transition-colors hover:bg-slate-50/50">
+                        var delay = rowIndex * 70;
+                        var initials = $"{p.User?.FirstName?.FirstOrDefault()}{p.User?.LastName?.FirstOrDefault()}".ToUpper();
+                        var avatarColors = new[] {
+                            ("bg-violet-100", "text-violet-700"),
+                            ("bg-pink-100",   "text-pink-700"),
+                            ("bg-emerald-100","text-emerald-700"),
+                            ("bg-amber-100",  "text-amber-700"),
+                            ("bg-sky-100",    "text-sky-700"),
+                        };
+                        var colorPair = avatarColors[rowIndex % avatarColors.Length];
+
+                        <tr class="patient-row hover:bg-slate-50/70"
+                            style="animation-delay: @(delay)ms;">
                             <td class="whitespace-nowrap px-6 py-4">
-                                <div class="font-bold text-slate-700">@($"{p.User?.FirstName} {p.User?.LastName}")</div>
+                                <div class="flex items-center gap-3">
+                                    <div class="avatar-circle @colorPair.Item1 @colorPair.Item2">
+                                        @initials
+                                    </div>
+                                    <div class="font-bold text-slate-700">
+                                        @($"{p.User?.FirstName} {p.User?.LastName}")
+                                    </div>
+                                </div>
                             </td>
-                            @* <td class="whitespace-nowrap px-6 py-4">
-                                <span class="rounded-full bg-slate-100 px-3 py-1 font-mono text-xs text-slate-600">@p.IdentityNumber</span>
-                            </td> *@
                             <td class="px-6 py-4">
                                 <div class="text-sm italic text-slate-600">@p.User?.Email</div>
-                                <div class="text-xs text-slate-400">@p.User?.PhoneNumber</div>
+                                <div class="text-xs text-slate-400 mt-0.5">@p.User?.PhoneNumber</div>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex justify-center gap-3">
                                     <a href="@Url.Action("Index", "Profile", new { area = "", id = p.UserId })"
-                                       title=@SharedLocalizer["Shared_Profile"] class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600 transition-all hover:bg-blue-600 hover:text-white">
+                                       title="@SharedLocalizer["Shared_Profile"]"
+                                       class="action-btn-anim flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white">
                                         <i class="fa fa-user text-sm"></i>
                                     </a>
                                     <a href="@Url.Action("PreviousAppointments", "Patients", new { area = "doctor", patientId = p.Id })"
-                                       title=@SharedLocalizer["Appt_Header"] class="flex h-8 w-8 items-center justify-center rounded-lg bg-green-50 text-green-600 transition-all hover:bg-green-600 hover:text-white">
+                                       title="@SharedLocalizer["Appt_Header"]"
+                                       class="action-btn-anim flex h-8 w-8 items-center justify-center rounded-lg bg-green-50 text-green-600 hover:bg-green-600 hover:text-white">
                                         <i class="fa fa-calendar-alt text-sm"></i>
                                     </a>
                                     <a href="@Url.Action("Index", "MedicalCases", new { area = "doctor", patientId = p.Id })"
-                                       title=@SharedLocalizer["Shared_Medical_Cases"] class="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-50 text-purple-600 transition-all hover:bg-purple-600 hover:text-white">
+                                       title="@SharedLocalizer["Shared_Medical_Cases"]"
+                                       class="action-btn-anim flex h-8 w-8 items-center justify-center rounded-lg bg-purple-50 text-purple-600 hover:bg-purple-600 hover:text-white">
                                         <i class="fa fa-notes-medical text-sm"></i>
                                     </a>
                                 </div>
                             </td>
                         </tr>
+                        rowIndex++;
                     }
                 </tbody>
             </table>

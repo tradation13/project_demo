@@ -1636,6 +1636,10 @@
     <value>No time slots for the selected date.</value>
     <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; Index</comment>
   </data>
+   <data name="Shared_Add_New" xml:space="preserve">
+    <value>Add New</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Roles-&gt; Index</comment>
+  </data>
   <data name="Appt_Selected" xml:space="preserve">
     <value>Selected</value>
     <comment>Areas -&gt; Patient-&gt; Views -&gt; Appointments-&gt; Index</comment>
@@ -1783,9 +1787,54 @@
     <value>Active Members</value>
     <comment>Dashboard - Active Members Card</comment>
   </data>
+  <data name="MedCase_PhysicalVitals_Header" xml:space="preserve">
+  <value>Physical Vitals (Essential for AI Analysis)</value>
+</data>
+
+<data name="MedCase_Weight" xml:space="preserve"><value>Weight (kg)</value></data>
+<data name="MedCase_Height" xml:space="preserve"><value>Height (cm)</value></data>
+<data name="MedCase_Smoker" xml:space="preserve"><value>Smoker?</value></data>
+<data name="MedCase_ChronicDiseases" xml:space="preserve"><value>Chronic Diseases?</value></data>
+
+<data name="MedCase_BloodGroup" xml:space="preserve"><value>Blood Group</value></data>
+<data name="BloodGroup_PositiveGroup" xml:space="preserve"><value>Positive (+)</value></data>
+<data name="BloodGroup_NegativeGroup" xml:space="preserve"><value>Negative (-)</value></data>
+<data name="BloodGroup_APositive" xml:space="preserve"><value>A+</value></data>
+<data name="BloodGroup_ANegative" xml:space="preserve"><value>A-</value></data>
+<data name="BloodGroup_BPositive" xml:space="preserve"><value>B+</value></data>
+<data name="BloodGroup_BNegative" xml:space="preserve"><value>B-</value></data>
+<data name="BloodGroup_OPositive" xml:space="preserve"><value>O+</value></data>
+<data name="BloodGroup_ONegative" xml:space="preserve"><value>O-</value></data>
+<data name="BloodGroup_ABPositive" xml:space="preserve"><value>AB+</value></data>
+<data name="BloodGroup_ABNegative" xml:space="preserve"><value>AB-</value></data>
+
+<data name="MedCase_DominantSide" xml:space="preserve"><value>DOMINANT SIDE</value></data>
+<data name="DominantSide_Right" xml:space="preserve"><value>Right Side</value></data>
+<data name="DominantSide_Left" xml:space="preserve"><value>Left Side</value></data>
+
+<data name="MedCase_ActivityLevel" xml:space="preserve"><value>ACTIVITY LEVEL</value></data>
+<data name="Activity_Sedentary" xml:space="preserve"><value>Sedentary (Little Activity)</value></data>
+<data name="Activity_Moderate" xml:space="preserve"><value>Moderate (Sport 1-3 days/week)</value></data>
+<data name="Activity_Active" xml:space="preserve"><value>Active (Sport 3-5 days/week)</value></data>
+<data name="Activity_Athlete" xml:space="preserve"><value>Athlete</value></data>
+
+<data name="MedCase_InjuryHistory_Label" xml:space="preserve"><value>When did the problem start? Was it sudden or gradual?</value></data>
+<data name="MedCase_InjuryHistory_Placeholder" xml:space="preserve"><value>Example: The problem started after a fall a week ago...</value></data>
+<data name="MedCase_Medications_Label" xml:space="preserve"><value>Medications the patient is taking (if any)</value></data>
+<data name="MedCase_Medications_Placeholder" xml:space="preserve"><value>Example: Paracetamol, blood pressure medications...</value></data>
+<data name="MedCase_FunctionalAbility_Label" xml:space="preserve"><value>How does the injury affect daily life? (Walking, stairs, sleep, work...)</value></data>
+<data name="MedCase_FunctionalAbility_Placeholder" xml:space="preserve"><value>Example: Difficulty climbing stairs or walking for long periods...</value></data>
+<data name="MedCase_PersonalGoals_Label" xml:space="preserve"><value>Patient's personal goals</value></data>
+<data name="MedCase_PersonalGoals_Placeholder" xml:space="preserve"><value>Example: Returning to running, carrying the child pain-free...</value></data>
+
+
   <data name="ForgotConf_Header" xml:space="preserve">
     <value>Forgot Password Confirmation</value>
     <comment>Shared</comment>
+  </data>
+  <data name="Dash_NoPendingRequests" xml:space="preserve">
+    <value>No pending requests</value>
+    <comment>Dashboard - No Pending Requests Message</comment>
   </data>
   <data name="Shared_ResetPassword" xml:space="preserve">
     <value>Reset Password</value>

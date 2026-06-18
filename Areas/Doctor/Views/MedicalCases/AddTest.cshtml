@@ -5,104 +5,211 @@
     var searchPlaceholder = SharedLocalizer["AddTest_SearchPlaceholder"]?.ToString() ?? "Search";
     ViewData["Title"] = SharedLocalizer["MedCase_Det_AddTest"]?.ToString() ?? "Add Test";
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+
+    var firstName = patient?.User?.FirstName ?? "";
+    var lastName = patient?.User?.LastName ?? "";
+    var fullName = $"{firstName} {lastName}".Trim();
+    var initials = $"{(firstName.Length > 0 ? firstName[0].ToString() : "")}{(lastName.Length > 0 ? lastName[0].ToString() : "")}".ToUpper();
+    if (string.IsNullOrWhiteSpace(initials)) { initials = "?"; }
 }
 
-<h2 class="mb-4 text-2xl font-bold">
-    @SharedLocalizer["AddTest_Header"] @($"{patient?.User?.FirstName} {patient?.User?.LastName}")
-</h2>
+<style>
+    @@keyframes fadeSlideUp {
+        from { opacity: 0; transform: translateY(14px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-<form asp-action="AddTest" method="post" class="max-w-lg rounded bg-white p-6 shadow">
-    <input type="hidden" asp-for="MedicalCaseId" />
+    @@keyframes popIn {
+        from { opacity: 0; transform: scale(0.92); }
+        to { opacity: 1; transform: scale(1); }
+    }
 
-    <!-- حقل البحث -->
-    <div class="relative mb-4">
-        <label class="mb-1 block font-bold">@SharedLocalizer["AddTest_SearchLabel"]</label>
-        <input type="text" id="testSearch" placeholder="@searchPlaceholder"
-               class="w-full rounded border px-3 py-2" autocomplete="off" />
+    .animate-fade-slide-up {
+        animation: fadeSlideUp 0.45s ease-out both;
+    }
 
-        <!-- قائمة الاقتراحات -->
-        <ul id="suggestions"
-            class="absolute z-10 mt-1 hidden max-h-48 w-full overflow-y-auto rounded border bg-white shadow">
-            @if (tests != null && tests.Any())
-            {
-                @foreach (var t in tests)
+    .animate-pop-in {
+        animation: popIn 0.18s ease-out both;
+    }
+</style>
+
+<div class=" max-w-xl animate-fade-slide-up">
+
+    <div class="mb-6 flex items-center gap-3">
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-indigo-200 text-base font-bold text-indigo-700">
+            @initials
+        </div>
+        <div>
+            <h2 class="text-xl font-bold leading-tight text-gray-900">@fullName</h2>
+            <p class="text-sm text-gray-400">@SharedLocalizer["AddTest_Header"]</p>
+        </div>
+    </div>
+
+    <form asp-action="AddTest" method="post" class="rounded-xl border border-gray-100 bg-white p-6 shadow-sm sm:p-7">
+        <input type="hidden" asp-for="MedicalCaseId" />
+
+        <div class="relative mb-5">
+            <label class="mb-2 block text-sm font-semibold text-gray-700">@SharedLocalizer["AddTest_SearchLabel"]</label>
+
+            <div class="relative">
+                <span class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-5 w-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </span>
+                <input type="text" id="testSearch" placeholder="@searchPlaceholder"
+                       class="w-full rounded-lg border border-gray-200 bg-white py-2.5 ps-10 pe-3 text-sm text-gray-900 outline-none transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"
+                       autocomplete="off" />
+            </div>
+
+            <ul id="suggestions"
+                class="absolute z-10 mt-2 hidden max-h-56 w-full origin-top scale-95 list-none overflow-y-auto rounded-lg border border-gray-100 bg-white p-1.5 opacity-0 shadow-lg transition-all duration-150">
+                @if (tests != null && tests.Any())
                 {
-                    <li data-id="@t.Id" data-name="@t.Name" data-group="@t.TestGroup?.Name"
-                        class="cursor-pointer px-3 py-2 hover:bg-green-100">
-                        @($"{t.TestGroup?.Name} - {t.Name}")
-                    </li>
+                    @foreach (var t in tests)
+                    {
+                        <li data-id="@t.Id" data-name="@t.Name" data-group="@t.TestGroup?.Name"
+                            class="flex cursor-pointer items-center justify-between gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 transition-all duration-150 hover:scale-[1.02] hover:bg-indigo-50 hover:text-indigo-700">
+                            <span class="truncate">@t.Name</span>
+                            @if (t.TestGroup != null)
+                            {
+                                <span class="shrink-0 rounded-full bg-teal-100 px-2.5 py-0.5 text-xs font-medium text-teal-700">@t.TestGroup.Name</span>
+                            }
+                        </li>
+                    }
                 }
-            }
-        </ul>
-    </div>
+            </ul>
+        </div>
 
-    <!-- الحقول الفعلية -->
-    <input type="hidden" asp-for="TestId" id="selectedTestId" />
-    <input type="hidden" asp-for="TestName" id="selectedTestName" />
-    <span asp-validation-for="TestId" class="text-sm text-red-500"></span>
-    <span asp-validation-for="TestName" class="text-sm text-red-500"></span>
+        <div id="selectedChip" class="mb-5 hidden items-center gap-2 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2 text-sm font-medium text-indigo-700">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-5 w-5 shrink-0">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m9 12.75 1.5 1.5 4.5-4.5m6 1.5a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            <span id="selectedChipText" class="flex-1 truncate"></span>
+            <button type="button" id="clearSelection" aria-label="Clear" class="group rounded-full p-1 text-indigo-400 transition-colors duration-150 hover:bg-indigo-100 hover:text-indigo-600">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 transition-transform duration-200 group-hover:rotate-90">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
 
-    <div class="mb-4">
-        <label asp-for="Result" class="mb-1 block font-bold">@SharedLocalizer["Shared_Result"] @SharedLocalizer["Shared_Optional"]</label>
-        <input asp-for="Result" class="w-full rounded border px-3 py-2" />
-    </div>
+        <input type="hidden" asp-for="TestId" id="selectedTestId" />
+        <input type="hidden" asp-for="TestName" id="selectedTestName" />
+        <span asp-validation-for="TestId" class="mb-3 block text-xs font-medium text-red-800 empty:hidden"></span>
+        <span asp-validation-for="TestName" class="mb-3 block text-xs font-medium text-red-800 empty:hidden"></span>
 
-    <div class="mb-4">
-        <label class="mb-1 block font-bold">@SharedLocalizer["MedCase_Create_Date"]</label>
-        <input asp-for="CreatedAt" type="date" class="w-full rounded border px-3 py-2"
-               value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-    </div>
+        <div class="mb-5">
+            <label asp-for="Result" class="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-700">
+                @SharedLocalizer["Shared_Result"]
+                <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-normal text-gray-500">@SharedLocalizer["Shared_Optional"]</span>
+            </label>
+            <input asp-for="Result" class="w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm text-gray-900 outline-none transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200" />
+        </div>
 
-    <button type="submit"
-            class="rounded bg-green-600 px-6 py-2 font-bold text-white shadow hover:bg-green-700">
-        @SharedLocalizer["MedCase_Det_AddTest"]
-    </button>
-</form>
+        <div class="mb-6">
+            <label class="mb-2 block text-sm font-semibold text-gray-700">@SharedLocalizer["MedCase_Create_Date"]</label>
+            <input asp-for="CreatedAt" type="date"
+                   class="w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm text-gray-900 outline-none transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"
+                   value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        </div>
+
+        <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-lg border border-teal-100 bg-emerald-50 px-6 py-2.5 text-sm font-semibold text-teal-700 transition-all duration-200 hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-teal-100 hover:shadow-md active:translate-y-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            @SharedLocalizer["MedCase_Det_AddTest"]
+        </button>
+    </form>
+</div>
 
 <script>
     const searchInput = document.getElementById("testSearch");
     const suggestionBox = document.getElementById("suggestions");
     const hiddenInput = document.getElementById("selectedTestId");
+    const hiddenNameInput = document.getElementById("selectedTestName");
+    const selectedChip = document.getElementById("selectedChip");
+    const selectedChipText = document.getElementById("selectedChipText");
+    const clearBtn = document.getElementById("clearSelection");
 
-    // عند الكتابة يتم فلترة النتائج
+    function showSuggestions() {
+        suggestionBox.classList.remove("hidden");
+        requestAnimationFrame(function () {
+            suggestionBox.classList.remove("opacity-0", "scale-95");
+            suggestionBox.classList.add("opacity-100", "scale-100");
+        });
+    }
+
+    function hideSuggestions() {
+        suggestionBox.classList.add("opacity-0", "scale-95");
+        suggestionBox.classList.remove("opacity-100", "scale-100");
+        setTimeout(function () {
+            suggestionBox.classList.add("hidden");
+        }, 150);
+    }
+
+    function showChip(text) {
+        selectedChipText.textContent = text;
+        selectedChip.classList.remove("hidden", "animate-pop-in");
+        selectedChip.classList.add("flex");
+        requestAnimationFrame(function () {
+            selectedChip.classList.add("animate-pop-in");
+        });
+    }
+
+    function clearSelection() {
+        hiddenInput.value = "";
+        hiddenNameInput.value = "";
+        selectedChip.classList.add("hidden");
+        selectedChip.classList.remove("flex", "animate-pop-in");
+    }
+
     searchInput.addEventListener("input", function () {
-        const filter = this.value.toLowerCase();
+        const filter = this.value.trim().toLowerCase();
         const items = suggestionBox.getElementsByTagName("li");
         let visibleCount = 0;
 
         for (let item of items) {
-            const text = item.textContent.toLowerCase();
-            if (text.includes(filter) && filter.length > 0) {
-                item.style.display = "";
-                visibleCount++;
-            } else {
-                item.style.display = "none";
-            }
+            const text = ((item.dataset.group || "") + " " + item.dataset.name).toLowerCase();
+            const isMatch = filter.length > 0 && text.includes(filter);
+            item.style.display = isMatch ? "" : "none";
+            if (isMatch) visibleCount++;
         }
 
-        suggestionBox.style.display = visibleCount > 0 ? "block" : "none";
-        hiddenInput.value = ""; // مسح الاختيار عند تعديل البحث
+        if (filter.length > 0 && visibleCount > 0) {
+            showSuggestions();
+        } else {
+            hideSuggestions();
+        }
+
+        clearSelection();
     });
 
-    // عند اختيار عنصر
     suggestionBox.addEventListener("click", function (e) {
         const li = e.target.closest("li");
         if (!li) return;
-        const testName = li.textContent.trim();
-        const testId = li.getAttribute("data-id");
-        const testNameInput = document.getElementById("selectedTestName");
 
-        searchInput.value = testName;
+        const testId = li.dataset.id;
+        const testName = li.dataset.name;
+        const testGroup = li.dataset.group;
+        const displayName = testGroup ? `${testGroup} - ${testName}` : testName;
+
+        searchInput.value = displayName;
         hiddenInput.value = testId;
-        testNameInput.value = testName;
+        hiddenNameInput.value = testName;
 
-        suggestionBox.style.display = "none";
+        showChip(displayName);
+        hideSuggestions();
     });
 
-    // إغلاق القائمة عند فقدان التركيز
+    clearBtn.addEventListener("click", function () {
+        searchInput.value = "";
+        clearSelection();
+        searchInput.focus();
+    });
+
     document.addEventListener("click", function (e) {
         if (!suggestionBox.contains(e.target) && e.target !== searchInput) {
-            suggestionBox.style.display = "none";
+            hideSuggestions();
         }
     });
 </script>

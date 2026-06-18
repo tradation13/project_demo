@@ -6,146 +6,346 @@
     var isPast = DateTime.SpecifyKind(Model.ScheduledTime, DateTimeKind.Utc) <= nowUtc;
 }
 
-<div class="rounded-lg bg-white px-8 py-6">
-    <div class="mb-4 flex items-center justify-between">
-        <h4 class="text-xl font-bold">@SharedLocalizer["Shared_Appointment"] @SharedLocalizer["Shared_Details"]</h4>
-       <div class="flex items-center gap-3">
-    @if (Model.Status == AppointmentStatus.Pending)
-    {
-        <form asp-action="AcceptRequest" asp-controller="Appointments" asp-area="Doctor" method="get" class="inline">
-            <input type="hidden" name="id" value="@Model.Id" />
-            <button type="submit" class="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-normal text-white transition-all hover:bg-green-700 hover:shadow-lg active:scale-95">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                @SharedLocalizer["Shared_Accept"]
-            </button>
-        </form>
-
-        <form asp-action="RejectRequest" asp-controller="Appointments" asp-area="Doctor" method="get" class="inline">
-            <input type="hidden" name="id" value="@Model.Id" />
-            <button type="submit" class="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-normal text-white transition-all hover:bg-red-700 hover:shadow-lg active:scale-95">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-                @SharedLocalizer["Shared_Reject"]
-            </button>
-        </form>
-
-        <div class="mx-1 h-8 w-px bg-gray-200"></div>
+<style>
+    @@keyframes fadeSlideUp {
+        from { opacity: 0; transform: translateY(16px); }
+        to   { opacity: 1; transform: translateY(0);    }
+    }
+    @@keyframes badgePop {
+        0%   { transform: scale(0.7); opacity: 0; }
+        70%  { transform: scale(1.08);             }
+        100% { transform: scale(1);   opacity: 1; }
+    }
+    @@keyframes acceptPulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0);    }
+        50%       { box-shadow: 0 0 0 6px rgba(16,185,129,.15); }
     }
 
-    <a href="@Url.Action("Index", "Appointments", new { area = "doctor" })"
-       class="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-normal text-gray-700 transition-all hover:bg-gray-50 hover:shadow-sm active:scale-95">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        @SharedLocalizer["Shared_Back"]
-    </a>
-</div>
+    .appt-card          { animation: fadeSlideUp .4s ease both; }
+    .appt-grid          { animation: fadeSlideUp .5s .08s ease both; opacity: 0; animation-fill-mode: forwards; }
+    .appt-notes-row     { animation: fadeSlideUp .5s .18s ease both; opacity: 0; animation-fill-mode: forwards; }
+
+    .info-panel {
+        background: #f9fafb;
+        border: 0.5px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 1rem 1.1rem;
+        transition: border-color .2s, transform .2s;
+    }
+    .info-panel:hover { border-color: #d1d5db; transform: translateY(-2px); }
+
+    .info-panel-title {
+        font-size: 11px;
+        font-weight: 500;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        margin-bottom: 14px;
+    }
+
+    .field-label { display: block; font-size: 11px; color: #9ca3af; margin-bottom: 2px; }
+    .field-value { font-size: 14px; color: #111827; margin: 0; }
+
+    .status-badge {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 500;
+        animation: badgePop .4s .45s ease both;
+        opacity: 0;
+        animation-fill-mode: forwards;
+    }
+    .badge-confirmed { background: #d1fae5; color: #065f46; }
+    .badge-pending   { background: #fef3c7; color: #92400e; }
+    .badge-completed { background: #dbeafe; color: #1e40af; }
+    .badge-rejected  { background: #fee2e2; color: #991b1b; }
+    .badge-expired   { background: #ffedd5; color: #9a3412; margin-left: 6px; animation-delay: .6s; }
+
+    .time-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #fff;
+        border: 0.5px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 6px 10px;
+        margin-top: 4px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #111827;
+    }
+    .time-chip svg { width: 14px; height: 14px; color: #6b7280; flex-shrink: 0; }
+
+    .person-chip {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #fff;
+        border: 0.5px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 8px 10px;
+    }
+    .avatar {
+        width: 32px; height: 32px;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 12px; font-weight: 600;
+        flex-shrink: 0;
+    }
+    .avatar-patient { background: #ede9fe; color: #5b21b6; }
+    .avatar-doctor  { background: #dbeafe; color: #1e40af; }
+
+    .person-role { font-size: 10px; color: #9ca3af; margin: 0; }
+    .person-name { font-size: 13px; font-weight: 500; color: #111827; margin: 0; }
+
+    .id-chip {
+        font-family: ui-monospace, monospace;
+        font-size: 12px;
+        background: #fff;
+        border: 0.5px solid #e5e7eb;
+        border-radius: 6px;
+        padding: 2px 8px;
+        color: #6b7280;
+        display: inline-block;
+    }
+
+    .btn-accept {
+        display: inline-flex; align-items: center; gap: 6px;
+        border-radius: 8px; padding: 7px 14px;
+        font-size: 13px; font-weight: 500; cursor: pointer;
+        border: 0.5px solid #6ee7b7;
+        background: #ecfdf5; color: #065f46;
+        transition: background .15s, transform .15s;
+        animation: acceptPulse 2.2s infinite;
+    }
+    .btn-accept:hover { background: #d1fae5; transform: translateY(-1px); }
+    .btn-accept:active { transform: scale(.97); }
+
+    .btn-reject {
+        display: inline-flex; align-items: center; gap: 6px;
+        border-radius: 8px; padding: 7px 14px;
+        font-size: 13px; font-weight: 500; cursor: pointer;
+        border: 0.5px solid #fca5a5;
+        background: #fef2f2; color: #991b1b;
+        transition: background .15s, transform .15s;
+    }
+    .btn-reject:hover { background: #fee2e2; transform: translateY(-1px); }
+    .btn-reject:active { transform: scale(.97); }
+
+    .btn-back {
+        display: inline-flex; align-items: center; gap: 6px;
+        border-radius: 8px; padding: 7px 14px;
+        font-size: 13px; font-weight: 500; cursor: pointer;
+        border: 0.5px solid #d1d5db;
+        background: #fff; color: #374151;
+        transition: background .15s, transform .15s;
+        text-decoration: none;
+    }
+    .btn-back:hover { background: #f9fafb; transform: translateY(-1px); }
+    .btn-back:active { transform: scale(.97); }
+
+    .prescription-link {
+        display: inline-flex; align-items: center; gap: 6px;
+        margin-top: 10px; padding: 6px 12px;
+        border-radius: 8px;
+        background: #eff6ff; border: 0.5px solid #bfdbfe;
+        color: #1d4ed8; font-size: 13px; text-decoration: none;
+        transition: background .15s, transform .15s;
+    }
+    .prescription-link:hover { background: #dbeafe; transform: translateY(-1px); }
+</style>
+
+<div class="rounded-xl bg-white px-8 py-6 shadow-sm appt-card">
+
+    <div class="mb-5 flex items-center justify-between border-b border-gray-100 pb-4">
+        <h4 class="flex items-center gap-2 text-lg font-semibold text-gray-800">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            @SharedLocalizer["Shared_Appointment"] @SharedLocalizer["Shared_Details"]
+        </h4>
+
+        <div class="flex items-center gap-2">
+            @if (Model.Status == AppointmentStatus.Pending)
+            {
+                <form asp-action="AcceptRequest" asp-controller="Appointments" asp-area="Doctor" method="get" class="inline">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn-accept">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        @SharedLocalizer["Shared_Accept"]
+                    </button>
+                </form>
+
+                <form asp-action="RejectRequest" asp-controller="Appointments" asp-area="Doctor" method="get" class="inline">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn-reject">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        @SharedLocalizer["Shared_Reject"]
+                    </button>
+                </form>
+
+                <div class="mx-1 h-7 w-px bg-gray-200"></div>
+            }
+
+            <a href="@Url.Action("Index", "Appointments", new { area = "doctor" })" class="btn-back">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                @SharedLocalizer["Shared_Back"]
+            </a>
+        </div>
     </div>
 
-    <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div class="rounded-lg bg-gray-50 p-4">
-            <h5 class="mb-3 font-bold text-gray-700">@SharedLocalizer["Shared_Appointment"] @SharedLocalizer["Shared_Information"]</h5>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 appt-grid">
+
+        <div class="info-panel">
+            <p class="info-panel-title">
+                <svg xmlns="http://www.w3.org/2000/svg" class="inline h-3 w-3 mr-1 -mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                @SharedLocalizer["Shared_Appointment"] @SharedLocalizer["Shared_Information"]
+            </p>
+
             <div class="space-y-3">
                 <div>
-                    <label class="text-sm font-normal text-gray-600">@SharedLocalizer["Shared_ID"]:</label>
-                    <p class="text-gray-900">@Model.Id</p>
+                    <span class="field-label">@SharedLocalizer["Shared_ID"]</span>
+                    <span class="id-chip">#@Model.Id</span>
                 </div>
+
                 <div>
-                    <label class="text-sm font-normal text-gray-600">@SharedLocalizer["Appt_Status"]:</label>
-                  <span class="@(Model.Status == AppointmentStatus.Confirmed ?"rounded-full px-2 py-1 text-xs bg-green-100 text-green-800" :
-                         Model.Status == AppointmentStatus.Pending ? "bg-yellow-100 text-yellow-800" :
-                         Model.Status == AppointmentStatus.Completed ? "bg-blue-100 text-blue-800" :
-                         "bg-red-100 text-red-800")">
-    @SharedLocalizer[$"Status_{Model.Status}"]
-</span>
-                    @if (isPast && Model.Status == AppointmentStatus.Pending)
-                    {
-                        <span class="ml-2 rounded-full px-2 py-1 text-xs bg-orange-100 text-orange-800">
-                            @SharedLocalizer["Appt_Status_Expired"]
+                    <span class="field-label">@SharedLocalizer["Appt_Status"]</span>
+                    <div class="mt-1">
+                        <span class="status-badge @(Model.Status == AppointmentStatus.Confirmed ? "badge-confirmed" :
+                                                    Model.Status == AppointmentStatus.Pending   ? "badge-pending"   :
+                                                    Model.Status == AppointmentStatus.Completed ? "badge-completed" :
+                                                    "badge-rejected")">
+                            @SharedLocalizer[$"Status_{Model.Status}"]
                         </span>
-                    }
+                        @if (isPast && Model.Status == AppointmentStatus.Pending)
+                        {
+                            <span class="status-badge badge-expired">@SharedLocalizer["Appt_Status_Expired"]</span>
+                        }
+                    </div>
                 </div>
+
                 <div>
-                    <label class="text-sm font-normal text-gray-600">@SharedLocalizer["Appt_ScheduledTime"]:</label>
-                    @{ var startUtc = DateTime.SpecifyKind(Model.ScheduledTime, DateTimeKind.Utc).ToString("o");
-                       var endUtc = DateTime.SpecifyKind(Model.ScheduledTime.AddMinutes(Model.TotalDurationMinutes), DateTimeKind.Utc).ToString("o"); }
-                    <p class="text-gray-900 appt-datetime" data-utc-start="@startUtc" data-utc-end="@endUtc">@Model.ScheduledTime.ToString("MMMM dd, yyyy 'at' HH:mm")</p>
+                    <span class="field-label">@SharedLocalizer["Appt_ScheduledTime"]</span>
+                    @{
+                        var startUtc = DateTime.SpecifyKind(Model.ScheduledTime, DateTimeKind.Utc).ToString("o");
+                        var endUtc   = DateTime.SpecifyKind(Model.ScheduledTime.AddMinutes(Model.TotalDurationMinutes), DateTimeKind.Utc).ToString("o");
+                    }
+                    <div class="time-chip appt-datetime" data-utc-start="@startUtc" data-utc-end="@endUtc">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        @Model.ScheduledTime.ToString("MMMM dd, yyyy 'at' HH:mm")
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="rounded-lg bg-gray-50 p-4">
-            <h5 class="mb-3 font-bold text-gray-700">@SharedLocalizer["Shared_People"] @SharedLocalizer["Shared_Information"]</h5>
-            <div class="space-y-3">
-                <div>
-                    <label class="text-sm font-normal text-gray-600">@SharedLocalizer["Shared_Patient"] @SharedLocalizer["Contact_Label_Name"]:</label>
-                    <p class="text-gray-900">@Model.PatientName</p>
+        <div class="info-panel">
+            <p class="info-panel-title">
+                <svg xmlns="http://www.w3.org/2000/svg" class="inline h-3 w-3 mr-1 -mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                @SharedLocalizer["Shared_People"] @SharedLocalizer["Shared_Information"]
+            </p>
+
+            <div class="grid grid-cols-1 gap-2">
+                <div class="person-chip">
+                    <div class="avatar avatar-patient">
+                        @(Model.PatientName?.Length > 0 ? Model.PatientName.Substring(0, Math.Min(2, Model.PatientName.Length)).ToUpper() : "P")
+                    </div>
+                    <div>
+                        <p class="person-role">@SharedLocalizer["Shared_Patient"]</p>
+                        <p class="person-name">@Model.PatientName</p>
+                    </div>
                 </div>
-                <div>
-                    <label class="text-sm font-normal text-gray-600">@SharedLocalizer["Therapies_Doctor"] @SharedLocalizer["Contact_Label_Name"]:</label>
-                    <p class="text-gray-900">@Model.DoctorName</p>
+
+                <div class="person-chip">
+                    <div class="avatar avatar-doctor">
+                        @(Model.DoctorName?.Length > 0 ? Model.DoctorName.Substring(0, Math.Min(2, Model.DoctorName.Length)).ToUpper() : "DR")
+                    </div>
+                    <div>
+                        <p class="person-role">@SharedLocalizer["Therapies_Doctor"]</p>
+                        <p class="person-name">@Model.DoctorName</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Additional section for notes and prescription -->
-    <div class="mt-6 rounded-lg bg-gray-50 p-4">
-        <h5 class="mb-3 font-bold text-gray-700">@SharedLocalizer["Shared_Notes"]</h5>
-        <p class="text-gray-900">@(string.IsNullOrWhiteSpace(Model.Notes) ? "-" : Model.Notes)</p>
+    <div class="appt-notes-row">
+        <div class="info-panel mt-4">
+            <p class="info-panel-title">
+                <svg xmlns="http://www.w3.org/2000/svg" class="inline h-3 w-3 mr-1 -mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+                @SharedLocalizer["Shared_Notes"]
+            </p>
+            <p class="text-sm text-gray-600 leading-relaxed">
+                @(string.IsNullOrWhiteSpace(Model.Notes) ? "-" : Model.Notes)
+            </p>
 
-        @if (!string.IsNullOrWhiteSpace(Model.PrescriptionFileName))
-        {
-            <div class="mt-4">
-                <span class="font-normal">@SharedLocalizer["Shared_Prescription"]:</span>
-                <a href="@Url.Action("DownloadPrescription", "Appointments", new { id = Model.Id, area = "Doctor" })" target="_blank" rel="noopener noreferrer" class="ml-1 inline-block rounded bg-blue-100 px-2 py-1 text-blue-700 hover:bg-blue-200">
-                    <img src="~/images/logo.png" class="inline-block h-4 w-4" alt="logo" /> @Model.PrescriptionDisplayName
+            @if (!string.IsNullOrWhiteSpace(Model.PrescriptionFileName))
+            {
+                <a href="@Url.Action("DownloadPrescription", "Appointments", new { id = Model.Id, area = "Doctor" })"
+                   target="_blank" rel="noopener noreferrer"
+                   class="prescription-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                    </svg>
+                    @Model.PrescriptionDisplayName
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                    </svg>
                 </a>
-            </div>
-        }
+            }
+        </div>
     </div>
 </div>
 
 <script>
-// Format UTC time to user's browser timezone (dynamic)
-const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-function formatUtcTime(date, options = {}) {
-    if (!date || Number.isNaN(date.getTime())) return '';
-    const defaults = {
-        timeZone: browserTimeZone,
-        hour12: false
-    };
-    return new Intl.DateTimeFormat('en-GB', { ...defaults, ...options }).format(date);
-}
+    function formatUtcTime(date, options) {
+        if (!date || Number.isNaN(date.getTime())) return '';
+        return new Intl.DateTimeFormat('en-GB', {
+            timeZone: browserTimeZone,
+            hour12: false,
+            ...options
+        }).format(date);
+    }
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.appt-datetime').forEach(el => {
-        const utcStart = el.getAttribute('data-utc-start');
-        const utcEnd = el.getAttribute('data-utc-end');
-        if (!utcStart) return;
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.appt-datetime').forEach(el => {
+            const utcStart = el.getAttribute('data-utc-start');
+            const utcEnd   = el.getAttribute('data-utc-end');
+            if (!utcStart) return;
 
-        const start = new Date(utcStart);
-        if (!utcEnd) {
-            const formatted = formatUtcTime(start, { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-            el.textContent = formatted;
-            return;
-        }
+            const start = new Date(utcStart);
+            if (!utcEnd) {
+                el.textContent = formatUtcTime(start, { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                return;
+            }
 
-        const end = new Date(utcEnd);
-        if (start.toDateString() === end.toDateString()) {
-            const datePart = formatUtcTime(start, { year: 'numeric', month: 'long', day: '2-digit' });
-            const startTime = formatUtcTime(start, { hour: '2-digit', minute: '2-digit' });
-            const endTime = formatUtcTime(end, { hour: '2-digit', minute: '2-digit' });
-            el.textContent = `${datePart} at ${startTime} - ${endTime}`;
-        } else {
-            const startFull = formatUtcTime(start, { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-            const endFull = formatUtcTime(end, { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-            el.textContent = `${startFull} - ${endFull}`;
-        }
+            const end = new Date(utcEnd);
+            if (start.toDateString() === end.toDateString()) {
+                const datePart  = formatUtcTime(start, { year: 'numeric', month: 'long', day: '2-digit' });
+                const startTime = formatUtcTime(start, { hour: '2-digit', minute: '2-digit' });
+                const endTime   = formatUtcTime(end,   { hour: '2-digit', minute: '2-digit' });
+                el.textContent = `${datePart} at ${startTime} – ${endTime}`;
+            } else {
+                const startFull = formatUtcTime(start, { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                const endFull   = formatUtcTime(end,   { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                el.textContent = `${startFull} – ${endFull}`;
+            }
+        });
     });
-});
 </script>

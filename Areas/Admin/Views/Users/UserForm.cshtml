@@ -7,202 +7,304 @@
     ViewBag.Title = (isEditMode ? @SharedLocalizer["Shared_Edit"] : @SharedLocalizer["Users_CreateTitle"]) + ViewBag.UserType;
 }
 
-<form asp-action="UserForm" asp-route-id="" method="post" asp-route-UserType="@ViewBag.UserType" enctype="multipart/form-data">
-    @* Hidden Id Field للتعديل لكل المستخدمين *@
-    <input type="hidden" asp-for="Id" />
-
-    <div class="card mb-4">
-        <div class="card-header">
-            <h5>@SharedLocalizer["Users_UserInformation"]</h5>
-        </div>
-        <div class="card-body">
-            <div class="flex flex-wrap gap-4">
-                 @if(!isEditMode){
-                <div class="min-w-[200px] flex-1">
-                    <label asp-for="UserName" class="block text-sm font-normal text-gray-700"></label>
-                    <input asp-for="UserName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                    <span asp-validation-for="UserName" class="text-sm text-red-500"></span>
-                </div>
-                 }
-                <div class="min-w-[200px] flex-1">
-                    <label asp-for="Email" class="block text-sm font-normal text-gray-700"></label>
-                    <input asp-for="Email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                    <span asp-validation-for="Email" class="text-sm text-red-500"></span>
-                </div>
-                <div class="min-w-[200px] flex-1">
-                    <label asp-for="PhoneNumber" class="block text-sm font-normal text-gray-700"></label>
-                    <input asp-for="PhoneNumber" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                    <span asp-validation-for="PhoneNumber" class="text-sm text-red-500"></span>
-                </div>
-            </div> 
-            <div class="card-body">
-            <div class="flex flex-wrap gap-4">
-
-                <div class="min-w-[200px] flex-1">
-                    <label asp-for="FirstName" class="block text-sm font-normal text-gray-700"></label>
-                    <input asp-for="FirstName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                    <span asp-validation-for="FirstName" class="text-sm text-red-500"></span>
-                </div>
-                <div class="min-w-[200px] flex-1">
-                    <label asp-for="LastName" class="block text-sm font-normal text-gray-700"></label>
-                    <input asp-for="LastName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                    <span asp-validation-for="LastName" class="text-sm text-red-500"></span>
-                </div>
-            </div>
-
-        @if(!isEditMode){
-                <div class="mt-4 flex gap-4">
-                    <div class="min-w-[200px] flex-1">
-                        <label asp-for="Password" class="block text-sm font-normal text-gray-700"></label>
-                        <input asp-for="Password" type="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"  />
-                        <span asp-validation-for="Password" class="text-sm text-red-500"></span>
-                    </div>
-                    <div class="min-w-[200px] flex-1">
-                        <label asp-for="ConfirmPassword" class="block text-sm font-normal text-gray-700"></label>
-                        <input asp-for="ConfirmPassword" type="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                        <span asp-validation-for="ConfirmPassword" class="text-sm text-red-500"></span>
-                    </div>
-                </div>
-        }
-            @if (isEditMode)
-            {
-                <div class="mt-4 flex gap-4">
-                    <div class="min-w-[200px] flex-1">
-                        <label asp-for="Status" class="block text-sm font-normal text-gray-700"></label>
-                        <select asp-for="Status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            <option value="0">@SharedLocalizer["Status_Active"]</option>
-                            <option value="1">@SharedLocalizer["Status_Inactive"]</option>
-                        </select>
-                        <span asp-validation-for="Status" class="text-sm text-red-500"></span>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-
-    @* أقسام خاصة بالأنواع *@
-    @switch (ViewBag.UserType?.ToLower())
-    {
-        case "admin":
-            @* Id موجود مسبقًا في Hidden Field *@
-            break;
-
-        case "customer":
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5>@SharedLocalizer["Users_CustomerInformation"]</h5>
-                </div>
-                <div class="card-body flex gap-4">
-                    @* Hidden Id للـ Customer إذا موجود *@
-                    <input type="hidden" asp-for="Customer.Id" />
-
-                    <div class="min-w-[200px] flex-1">
-                        <label asp-for="Customer.FirstName" class="block text-sm font-normal text-gray-700"></label>
-                        <input asp-for="Customer.FirstName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                        <span asp-validation-for="Customer.FirstName" class="text-sm text-red-500"></span>
-                    </div>
-                    <div class="min-w-[200px] flex-1">
-                        <label asp-for="Customer.LastName" class="block text-sm font-normal text-gray-700"></label>
-                        <input asp-for="Customer.LastName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                        <span asp-validation-for="Customer.LastName" class="text-sm text-red-500"></span>
-                    </div>
-                </div>
-            </div>
-            break;
-               case "patient":
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5>@SharedLocalizer["Appt_Sched_PatientInfo"]</h5>
-            </div>
-            <div class="card-body flex gap-4">
-                <div class="min-w-[200px] flex-1">
-                    <label asp-for="Patient.BirthDate" class="block text-sm font-normal text-gray-700">@SharedLocalizer["Shared_Date_Of_Birth"]</label>
-                    <input asp-for="Patient.BirthDate" type="date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                    <span asp-validation-for="Patient.BirthDate" class="text-sm text-red-500"></span>
-                </div>
-            </div>
-        </div>
-        break;
-
-    case "doctor":
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5>@SharedLocalizer["Users_DoctorInformation"]</h5>
-            </div>
-            <div class="card-body flex gap-4">
-                <input type="hidden" asp-for="Doctor.Id" />
-                <div class="min-w-[200px] flex-1">
-                    <label asp-for="Doctor.SpecialtyId" class="block text-sm font-normal text-gray-700"></label>
-                    <select asp-for="Doctor.SpecialtyId" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                        <option value="">@SharedLocalizer["Users_SelectSpecialty"]</option>
-                        @if (ViewBag.Specialties is List<Specialty> specialties && specialties.Any())
-                        {
-                            foreach (var specialty in specialties)
-                            {
-                                <option value="@specialty.Id">@specialty.Name</option>
-                            }
-                        }
-                        else
-                        {
-                            <option value="">@SharedLocalizer["Users_NoSpecialties"]</option>
-                        }
-                    </select>
-                    <span asp-validation-for="Doctor.SpecialtyId" class="text-sm text-red-500"></span>
-                </div>
-                <!-- خانة رفع صورة الطبيب -->
-                <div class="min-w-[200px] flex-1">
-    @* العنوان *@
-    <label asp-for="Doctor.PhotoFile" class="mb-2 block text-sm font-bold text-slate-700">@SharedLocalizer["Users_DoctorPhoto"]</label>
-    
-    @* حاوية الزر المخصص *@
-    <div class="relative">
-        <label for="doctorPhotoUpload" 
-               class="flex cursor-pointer items-center justify-between rounded-2xl border border-slate-300 bg-white px-4 py-2.5 transition-all hover:border-primary hover:bg-slate-50 active:scale-[0.98]">
-            
-            <div class="flex items-center gap-2 overflow-hidden">
-                <i class="fa-solid fa-image text-primary"></i>
-                <span id="fileNameDisplay" class="truncate text-sm text-slate-500">
-                    @SharedLocalizer["Profile_SelectPhoto"]...
-                </span>
-            </div>
-            
-            <span class="rounded-xl bg-primary px-3 py-1 text-xs font-bold text-white shadow-sm">
-                @SharedLocalizer["Shared_Browse"]
-            </span>
-
-            @* الـ Input الأصلي مخفي ولكن مربوط برمجياً *@
-            <input asp-for="Doctor.PhotoFile" 
-                   id="doctorPhotoUpload" 
-                   type="file" 
-                   accept="image/*" 
-                   class="hidden" 
-                   onchange="updatePhotoLabel(this)" />
-        </label>
-    </div>
-
-    @* رسالة التحقق *@
-    <span asp-validation-for="Doctor.PhotoFile" class="mt-1 block text-xs text-red-500"></span>
-</div>
-            </div>
-        </div>
-        break;
+<style>
+    @@keyframes fadeInUp { from { opacity: 0; transform: translateY(24px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @@keyframes floatBlob {
+        0%, 100% { transform: translateY(0) scale(1); }
+        50%      { transform: translateY(-16px) scale(1.05); }
     }
 
-    <div class="mt-6 flex gap-2">
-        <a href="@Url.Action("Index")"
-           class="rounded-lg bg-secondary bg-opacity-20 px-6 py-1.5 text-secondary transition duration-150 hover:bg-opacity-40 hover:shadow-xl">
-            @SharedLocalizer["Shared_Cancel"]
-        </a>
+    .form-card { opacity: 0; animation: fadeInUp 700ms cubic-bezier(.2,.85,.25,1) both; }
+    .form-field { opacity: 0; animation: fadeInUp 600ms cubic-bezier(.2,.85,.25,1) both; }
+    .form-field:nth-of-type(1) { animation-delay: .05s; }
+    .form-field:nth-of-type(2) { animation-delay: .11s; }
+    .form-field:nth-of-type(3) { animation-delay: .17s; }
+    .form-field:nth-of-type(4) { animation-delay: .23s; }
 
-        <button type="submit"
-                class="rounded-lg bg-primary px-6 py-1.5 text-white transition duration-150 hover:bg-primary-dark hover:shadow-xl">
-            @(isEditMode ? @SharedLocalizer["Profile_SaveBtn"] : @SharedLocalizer["Users_CreateTitle"])
-        </button>
+    .blob { filter: blur(60px); animation: floatBlob 11s ease-in-out infinite; }
+
+    .btn-shine { position: relative; overflow: hidden; isolation: isolate; }
+    .btn-shine::after {
+        content: "";
+        position: absolute;
+        top: 0; left: -75%;
+        width: 50%; height: 100%;
+        background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.45) 50%, rgba(255,255,255,0) 100%);
+        transform: skewX(-20deg);
+        transition: left .6s ease;
+    }
+    .btn-shine:hover::after { left: 125%; }
+
+    @@media (prefers-reduced-motion: reduce) {
+        .form-card, .form-field, .blob, .btn-shine::after {
+            animation: none !important;
+            transition: none !important;
+        }
+    }
+</style>
+
+<div class="relative overflow-hidden px-4 py-8 sm:px-6 lg:px-8">
+    <div class="blob pointer-events-none absolute -left-20 -top-20 h-72 w-72 rounded-full bg-primary/10"></div>
+    <div class="blob pointer-events-none absolute -right-16 bottom-0 h-72 w-72 rounded-full bg-indigo-200/30" style="animation-delay:-4s;"></div>
+
+    <div class="relative mx-auto max-w-5xl">
+        <form asp-action="UserForm" asp-route-id="" method="post" asp-route-UserType="@ViewBag.UserType" enctype="multipart/form-data">
+            @* Hidden Id Field للتعديل لكل المستخدمين *@
+            <input type="hidden" asp-for="Id" />
+
+            <div class="flex flex-col gap-6">
+
+                <div class="form-card relative overflow-hidden rounded-[1.75rem] border border-slate-100 bg-white/95 p-5 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.25)] backdrop-blur-sm sm:p-8" style="animation-delay:0s;">
+                    <div class="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-primary via-indigo-400 to-indigo-600"></div>
+
+                    <div class="mb-6 flex items-center gap-3">
+                        <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                            <i class="fa-solid fa-id-card"></i>
+                        </div>
+                        <h5 class="text-lg font-bold text-slate-800 sm:text-xl">@SharedLocalizer["Users_UserInformation"]</h5>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
+                         @if(!isEditMode){
+                        <div class="form-field flex flex-col">
+                            <label asp-for="UserName" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-at pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input asp-for="UserName" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 text-sm outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
+                            </div>
+                            <span asp-validation-for="UserName" class="mt-1.5 text-xs text-red-500"></span>
+                        </div>
+                         }
+                        <div class="form-field flex flex-col">
+                            <label asp-for="Email" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-envelope pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input asp-for="Email" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 text-sm outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
+                            </div>
+                            <span asp-validation-for="Email" class="mt-1.5 text-xs text-red-500"></span>
+                        </div>
+                        <div class="form-field flex flex-col">
+                            <label asp-for="PhoneNumber" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-phone pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input asp-for="PhoneNumber" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 text-sm outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
+                            </div>
+                            <span asp-validation-for="PhoneNumber" class="mt-1.5 text-xs text-red-500"></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+                        <div class="form-field flex flex-col">
+                            <label asp-for="FirstName" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-user pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input asp-for="FirstName" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 text-sm outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
+                            </div>
+                            <span asp-validation-for="FirstName" class="mt-1.5 text-xs text-red-500"></span>
+                        </div>
+                        <div class="form-field flex flex-col">
+                            <label asp-for="LastName" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-id-badge pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input asp-for="LastName" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 text-sm outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
+                            </div>
+                            <span asp-validation-for="LastName" class="mt-1.5 text-xs text-red-500"></span>
+                        </div>
+                    </div>
+
+                    @if(!isEditMode){
+                    <div class="mt-4 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+                        <div class="form-field flex flex-col">
+                            <label asp-for="Password" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-lock pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input asp-for="Password" type="password" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 text-sm outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
+                            </div>
+                            <span asp-validation-for="Password" class="mt-1.5 text-xs text-red-500"></span>
+                        </div>
+                        <div class="form-field flex flex-col">
+                            <label asp-for="ConfirmPassword" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-lock pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input asp-for="ConfirmPassword" type="password" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 text-sm outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
+                            </div>
+                            <span asp-validation-for="ConfirmPassword" class="mt-1.5 text-xs text-red-500"></span>
+                        </div>
+                    </div>
+                    }
+                    @if (isEditMode)
+                    {
+                        <div class="mt-4 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+                            <div class="form-field flex flex-col">
+                                <label asp-for="Status" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-toggle-on pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                    <select asp-for="Status" class="block w-full appearance-none rounded-2xl border border-slate-300 bg-white px-4 py-2.5 pl-11 pr-10 text-sm outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10">
+                                        <option value="0">@SharedLocalizer["Status_Active"]</option>
+                                        <option value="1">@SharedLocalizer["Status_Inactive"]</option>
+                                    </select>
+                                    <i class="fa-solid fa-chevron-down pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                                </div>
+                                <span asp-validation-for="Status" class="mt-1.5 text-xs text-red-500"></span>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                @* أقسام خاصة بالأنواع *@
+                @switch (ViewBag.UserType?.ToLower())
+                {
+                    case "admin":
+                        @* Id موجود مسبقًا في Hidden Field *@
+                        break;
+
+                    case "customer":
+                        <div class="form-card relative overflow-hidden rounded-[1.75rem] border border-slate-100 bg-white/95 p-5 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.25)] backdrop-blur-sm sm:p-8" style="animation-delay:.08s;">
+                            <div class="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-primary via-indigo-400 to-indigo-600"></div>
+                            <div class="mb-6 flex items-center gap-3">
+                                <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                                    <i class="fa-solid fa-address-card"></i>
+                                </div>
+                                <h5 class="text-lg font-bold text-slate-800 sm:text-xl">@SharedLocalizer["Users_CustomerInformation"]</h5>
+                            </div>
+
+                            @* Hidden Id للـ Customer إذا موجود *@
+                            <input type="hidden" asp-for="Customer.Id" />
+
+                            <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+                                <div class="form-field flex flex-col">
+                                    <label asp-for="Customer.FirstName" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                                    <div class="relative">
+                                        <i class="fa-solid fa-user pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                        <input asp-for="Customer.FirstName" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 text-sm outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
+                                    </div>
+                                    <span asp-validation-for="Customer.FirstName" class="mt-1.5 text-xs text-red-500"></span>
+                                </div>
+                                <div class="form-field flex flex-col">
+                                    <label asp-for="Customer.LastName" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                                    <div class="relative">
+                                        <i class="fa-solid fa-id-badge pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                        <input asp-for="Customer.LastName" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 text-sm outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
+                                    </div>
+                                    <span asp-validation-for="Customer.LastName" class="mt-1.5 text-xs text-red-500"></span>
+                                </div>
+                            </div>
+                        </div>
+                        break;
+
+                    case "patient":
+                        <div class="form-card relative overflow-hidden rounded-[1.75rem] border border-slate-100 bg-white/95 p-5 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.25)] backdrop-blur-sm sm:p-8" style="animation-delay:.08s;">
+                            <div class="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-primary via-indigo-400 to-indigo-600"></div>
+                            <div class="mb-6 flex items-center gap-3">
+                                <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                                    <i class="fa-solid fa-user-injured"></i>
+                                </div>
+                                <h5 class="text-lg font-bold text-slate-800 sm:text-xl">@SharedLocalizer["Appt_Sched_PatientInfo"]</h5>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+                                <div class="form-field flex flex-col">
+                                    <label asp-for="Patient.BirthDate" class="mb-1.5 text-sm font-bold text-slate-700">@SharedLocalizer["Shared_Date_Of_Birth"]</label>
+                                    <div class="relative">
+                                        <i class="fa-solid fa-calendar-days pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                        <input asp-for="Patient.BirthDate" type="date" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 text-sm outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
+                                    </div>
+                                    <span asp-validation-for="Patient.BirthDate" class="mt-1.5 text-xs text-red-500"></span>
+                                </div>
+                            </div>
+                        </div>
+                        break;
+
+                    case "doctor":
+                        <div class="form-card relative overflow-hidden rounded-[1.75rem] border border-slate-100 bg-white/95 p-5 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.25)] backdrop-blur-sm sm:p-8" style="animation-delay:.08s;">
+                            <div class="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-primary via-indigo-400 to-indigo-600"></div>
+                            <div class="mb-6 flex items-center gap-3">
+                                <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                                    <i class="fa-solid fa-user-doctor"></i>
+                                </div>
+                                <h5 class="text-lg font-bold text-slate-800 sm:text-xl">@SharedLocalizer["Users_DoctorInformation"]</h5>
+                            </div>
+
+                            <input type="hidden" asp-for="Doctor.Id" />
+                            <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+                                <div class="form-field flex flex-col">
+                                    <label asp-for="Doctor.SpecialtyId" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                                    <div class="relative">
+                                        <i class="fa-solid fa-stethoscope pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                        <select asp-for="Doctor.SpecialtyId" class="block w-full appearance-none rounded-2xl border border-slate-300 bg-white px-4 py-2.5 pl-11 pr-10 text-sm outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10">
+                                            <option value="">@SharedLocalizer["Users_SelectSpecialty"]</option>
+                                            @if (ViewBag.Specialties is List<Specialty> specialties && specialties.Any())
+                                            {
+                                                foreach (var specialty in specialties)
+                                                {
+                                                    <option value="@specialty.Id">@specialty.Name</option>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <option value="">@SharedLocalizer["Users_NoSpecialties"]</option>
+                                            }
+                                        </select>
+                                        <i class="fa-solid fa-chevron-down pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                                    </div>
+                                    <span asp-validation-for="Doctor.SpecialtyId" class="mt-1.5 text-xs text-red-500"></span>
+                                </div>
+                                <!-- خانة رفع صورة الطبيب -->
+                                <div class="form-field flex flex-col">
+                                    @* العنوان *@
+                                    <label asp-for="Doctor.PhotoFile" class="mb-1.5 text-sm font-bold text-slate-700">@SharedLocalizer["Users_DoctorPhoto"]</label>
+
+                                    @* حاوية الزر المخصص *@
+                                    <div class="relative">
+                                        <label for="doctorPhotoUpload"
+                                               class="flex cursor-pointer items-center justify-between rounded-2xl border border-slate-300 bg-white px-4 py-2.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-slate-50 active:scale-[0.98]">
+
+                                            <div class="flex items-center gap-2 overflow-hidden">
+                                                <i class="fa-solid fa-image text-primary"></i>
+                                                <span id="fileNameDisplay" class="truncate text-sm text-slate-500">
+                                                    @SharedLocalizer["Profile_SelectPhoto"]...
+                                                </span>
+                                            </div>
+
+                                            <span class="btn-shine rounded-xl bg-gradient-to-r from-primary to-indigo-600 px-3 py-1 text-xs font-bold text-white shadow-sm">
+                                                @SharedLocalizer["Shared_Browse"]
+                                            </span>
+
+                                            @* الـ Input الأصلي مخفي ولكن مربوط برمجياً *@
+                                            <input asp-for="Doctor.PhotoFile"
+                                                   id="doctorPhotoUpload"
+                                                   type="file"
+                                                   accept="image/*"
+                                                   class="hidden"
+                                                   onchange="updatePhotoLabel(this)" />
+                                        </label>
+                                    </div>
+
+                                    @* رسالة التحقق *@
+                                    <span asp-validation-for="Doctor.PhotoFile" class="mt-1 block text-xs text-red-500"></span>
+                                </div>
+                            </div>
+                        </div>
+                        break;
+                }
+            </div>
+
+            <div class="mt-8 flex gap-3">
+                <a href="@Url.Action("Index")"
+                   class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-slate-100 px-6 py-2.5 font-bold text-slate-800 transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-200 active:scale-95">
+                    <i class="fa-solid fa-xmark"></i> @SharedLocalizer["Shared_Cancel"]
+                </a>
+
+                <button type="submit"
+                        class="btn-shine inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 px-6 py-2.5 font-bold text-white shadow-lg shadow-primary/25 transition-all duration-200 hover:-translate-y-0.5 active:scale-95">
+                    <i class="fa-solid fa-check"></i> @(isEditMode ? @SharedLocalizer["Profile_SaveBtn"] : @SharedLocalizer["Users_CreateTitle"])
+                </button>
+            </div>
+
+            <div asp-validation-summary="All" class="mt-4 rounded-2xl border border-red-200 bg-red-50 p-3 text-sm text-red-500"></div>
+        </form>
     </div>
-
-    <div asp-validation-summary="All" class="mb-4 text-sm text-red-500"></div>
-</form>
-
+</div>
 
 @* Script بسيط لتحديث النص عند اختيار الصورة *@
 <script>

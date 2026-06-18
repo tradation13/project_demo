@@ -5,53 +5,78 @@
     ViewData["Title"] = SharedLocalizer["TestGroups"];
 }
 
-<div x-data="{ filter: false }" class="custom-scrollbar overflow-x-scroll rounded-lg bg-white px-8 py-6">
-    <div class="mb-4 flex items-center justify-between">
-        <h4 class="text-xl font-bold">@SharedLocalizer["TestGroups"]</h4>
+<style>
+    @@keyframes fadeSlideUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-slide-up {
+        animation: fadeSlideUp 0.4s ease-out both;
+    }
+</style>
+
+<div x-data="{ filter: false }" class="custom-scrollbar overflow-x-auto rounded-2xl border border-slate-100 bg-white px-8 py-7 shadow-sm shadow-slate-100">
+
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <i class="fas fa-layer-group"></i>
+            </span>
+            <h4 class="text-xl font-bold text-slate-800">@SharedLocalizer["TestGroups"]</h4>
+        </div>
         <a href="@Url.Action("Create")"
-           class="rounded bg-primary px-4 py-1 text-sm text-white transition duration-150 hover:bg-primary-dark">
+           class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+            <i class="fas fa-plus text-xs"></i>
             @SharedLocalizer["Shared_Add_New"]
         </a>
     </div>
 
-    <table class="mb-8 w-full whitespace-nowrap">
-        <thead class="bg-primary font-bold text-white">
-            <tr>
-                <th>#</th>
-                <th>@SharedLocalizer["Contact_Label_Name"]</th>
-                <th class="text-center">@SharedLocalizer["Appt_Actions"]</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                int i = 0;
-            }
-            @foreach (var group in Model)
-            {
-                <tr class="hover:bg-gray-100">
-                    <td class="text-center">@(++i)</td>
-                    <td class="text-center">@group.Name</td>
-                    <td class="flex items-center justify-center space-x-2 py-3 pl-2 text-center">
-                        <!-- Edit -->
-                        <a href="@Url.Action("Edit", new { id = group.Id })">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500 hover:text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                            </svg>
-                        </a>
-
-                        <!-- Delete -->
-                        <form asp-action="Delete" asp-route-id="@group.Id" method="post" onsubmit="return confirm('@SharedLocalizer["Msg_ConfirmDeleteGroup"]');" class="inline">
-                            <button type="submit">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4
-                                            a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </button>
-                        </form>
-                    </td>
+    <div class="overflow-hidden rounded-2xl border border-slate-100">
+        <table class="w-full whitespace-nowrap text-sm">
+            <thead class="bg-gradient-to-r from-primary to-indigo-600 text-white">
+                <tr>
+                    <th class="px-4 py-3 font-semibold">#</th>
+                    <th class="px-4 py-3 font-semibold">@SharedLocalizer["Contact_Label_Name"]</th>
+                    <th class="px-4 py-3 text-center font-semibold">@SharedLocalizer["Appt_Actions"]</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                @{
+                    int i = 0;
+                }
+                @foreach (var group in Model)
+                {
+                    i++;
+
+                    <tr class="animate-fade-slide-up transition-colors hover:bg-slate-50" style="animation-delay:@(i * 35)ms">
+                        <td class="px-4 py-3 text-center text-slate-400">@i</td>
+                        <td class="px-4 py-3 text-center font-medium text-slate-700">@group.Name</td>
+                        <td class="px-4 py-3">
+                            <div class="flex items-center justify-center gap-1.5">
+                                <!-- Edit -->
+                                <a href="@Url.Action("Edit", new { id = group.Id })"
+                                   class="inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-yellow-50">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                    </svg>
+                                </a>
+
+                                <!-- Delete -->
+                                <form asp-action="Delete" asp-route-id="@group.Id" method="post" onsubmit="return confirm('@SharedLocalizer["Msg_ConfirmDeleteGroup"]');" class="inline">
+                                    <button type="submit" class="inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-red-50">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4
+                                                    a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

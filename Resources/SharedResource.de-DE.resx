@@ -1992,6 +1992,11 @@
     <comment>Button zum Anzeigen des letzten Berichts für einen medizinischen Fall</comment>
   </data>
 
+  <data name="Dash_NoPendingRequests" xml:space="preserve">
+    <value>Keine ausstehenden Anfragen</value>
+    <comment>Dashboard - No Pending Requests Message</comment>
+  </data>
+
   
   <data name="Shared_Controller" xml:space="preserve">
     <value>Controller</value>

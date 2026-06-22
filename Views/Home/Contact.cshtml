@@ -15,18 +15,29 @@
     }
 }
 
+<section class="cf-section relative overflow-hidden bg-white py-16">
 
+    <!-- خلفية عائمة -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+        <i class="cf-float fa-solid fa-envelope absolute left-[4%] top-[10%] text-5xl text-primary-400/10"></i>
+        <i class="cf-float cf-fd1 fa-solid fa-envelope absolute right-[6%] bottom-[20%] text-4xl text-primary-400/10"></i>
+        <i class="cf-float cf-fd2 fa-solid fa-phone absolute left-[22%] bottom-[8%] text-6xl text-primary-400/8"></i>
+        <i class="cf-float cf-fd1 fa-solid fa-map-pin absolute right-[18%] top-[6%] text-5xl text-primary-400/8"></i>
+        <i class="cf-float cf-fd2 fa-solid fa-comment-dots absolute left-[48%] top-[4%] text-4xl text-primary-400/8"></i>
 
-<section class="bg-white py-16">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-8 sm:mb-10">
+        <div class="cf-orb absolute left-[2%] top-[20%] h-64 w-64 rounded-full bg-primary-100/40 blur-3xl"></div>
+        <div class="cf-orb cf-orb2 absolute right-[4%] bottom-[10%] h-72 w-72 rounded-full bg-primary-200/30 blur-3xl"></div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        @* <div class="mb-8 sm:mb-10">
             <a href="@backUrl" class="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-bold text-gray-700 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:text-primary sm:w-auto sm:justify-start">
                 <i class="fa-solid fa-arrow-left"></i>
                 <span>@SharedLocalizer["Shared_Back"]</span>
             </a>
-        </div>
+        </div> *@
 
-        <div class="mb-10 space-y-2">
+        <div class="cf-heading mb-10 space-y-2">
             <p class="text-sm font-bold uppercase tracking-wide text-primary-600">@SharedLocalizer["Contact_GetInTouch"]</p>
             <h1 class="text-4xl font-bold text-gray-900">@SharedLocalizer["Contact_Header"]</h1>
             <p class="text-lg text-gray-700">@SharedLocalizer["Contact_SubHeader"]</p>
@@ -52,36 +63,42 @@
         }
 
         <div class="grid items-start gap-10 lg:grid-cols-2">
-            <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-lg">
+
+            <!-- Form -->
+            <div class="cf-form rounded-2xl border border-gray-100 bg-white p-6 shadow-lg">
                 <form asp-action="Contact" method="post" class="space-y-4" novalidate>
                     @Html.AntiForgeryToken()
-                    <div>
+
+                    <div class="cf-field">
                         <label asp-for="Name" class="mb-1 block text-sm font-bold text-gray-800">@SharedLocalizer["Contact_Label_Name"]</label>
                         <input asp-for="Name" class="w-full rounded-lg border border-gray-200 px-4 py-3 focus:border-primary-500 focus:ring-primary-200" />
                     </div>
-                    <div>
+                    <div class="cf-field cf-field-d1">
                         <label asp-for="Email" class="mb-1 block text-sm font-bold text-gray-800">@SharedLocalizer["Shared_Email"]</label>
                         <input asp-for="Email" class="w-full rounded-lg border border-gray-200 px-4 py-3 focus:border-primary-500 focus:ring-primary-200" />
                     </div>
-                    <div>
+                    <div class="cf-field cf-field-d2">
                         <label asp-for="Phone" class="mb-1 block text-sm font-bold text-gray-800">@SharedLocalizer["Shared_Phone"]</label>
                         <input asp-for="Phone" class="w-full rounded-lg border border-gray-200 px-4 py-3 focus:border-primary-500 focus:ring-primary-200" />
                     </div>
-                    <div>
+                    <div class="cf-field cf-field-d3">
                         <label asp-for="Message" class="mb-1 block text-sm font-bold text-gray-800">@SharedLocalizer["Contact_Label_Message"]</label>
                         <textarea asp-for="Message" rows="5" class="w-full rounded-lg border border-gray-200 px-4 py-3 focus:border-primary-500 focus:ring-primary-200"></textarea>
                     </div>
-                    <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-6 py-3 font-bold text-white transition-colors hover:bg-primary-700">
-                        <i class="fas fa-paper-plane"></i>
+
+                    <button type="submit"
+                            class="cf-btn inline-flex items-center gap-2 rounded-lg bg-primary-600 px-6 py-3 font-bold text-white transition-colors hover:bg-primary-700">
+                        <i class="fas fa-paper-plane cf-plane-icon"></i>
                         @SharedLocalizer["Contact_Btn_Send"]
                     </button>
                 </form>
             </div>
 
+            <!-- Info -->
             <div class="space-y-4">
-                <div class="flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm">
+                <div class="cf-card flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm">
                     <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-100 text-xl text-primary-600">
-                        <i class="fas fa-map-pin"></i>
+                        <i class="fas fa-map-pin cf-icon-bounce"></i>
                     </div>
                     <div>
                         <p class="text-sm font-bold text-gray-500">@SharedLocalizer["Shared_Address"]</p>
@@ -89,9 +106,9 @@
                     </div>
                 </div>
 
-                <div class="flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm">
+                <div class="cf-card cf-card-d1 flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm">
                     <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-100 text-xl text-primary-600">
-                        <i class="fas fa-phone"></i>
+                        <i class="fas fa-phone cf-icon-ring"></i>
                     </div>
                     <div>
                         <p class="text-sm font-bold text-gray-500">@SharedLocalizer["Shared_Phone"]</p>
@@ -99,17 +116,17 @@
                     </div>
                 </div>
 
-                <div class="flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm">
+                <div class="cf-card cf-card-d2 flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm">
                     <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-100 text-xl text-primary-600">
-                        <i class="fas fa-envelope"></i>
+                        <i class="fas fa-envelope cf-icon-shake"></i>
                     </div>
                     <div>
                         <p class="text-sm font-bold text-gray-500">@SharedLocalizer["Shared_Email"]</p>
-                        <a href="mailto:kurtogluahmet18@gmail.com" class="font-bold text-primary-600 hover:text-primary-700">kurtogluahmet18@gmail.com</a>
+                        <a href="mailto:dr.kurtoglu@physiotech-ehrenfeld.de" class="font-bold text-primary-600 hover:text-primary-700">dr.kurtoglu@physiotech-ehrenfeld.de</a>
                     </div>
                 </div>
 
-                <div class="overflow-hidden rounded-2xl border border-gray-200 shadow-md">
+                <div class="cf-map overflow-hidden rounded-2xl border border-gray-200 shadow-md">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2513.844788326759!2d6.9208479!3d50.9450953!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf213dfedc01bd%3A0x633f0f91127667ba!2sVenloer%20Str.%20305%2C%2050823%20K%C3%B6ln%2C%20Germany!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
                         width="100%"
@@ -120,6 +137,137 @@
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
+
+<style>
+    /* ══ Keyframes ══ */
+    @@keyframes cfFloat {
+        0%,100% { transform:translate3d(0,0,0) rotate(0deg) scale(1); }
+        33%      { transform:translate3d(12px,-10px,0) rotate(5deg) scale(1.03); }
+        66%      { transform:translate3d(-9px,8px,0) rotate(-4deg) scale(0.97); }
+    }
+    @@keyframes cfOrb {
+        0%,100% { transform:translate(0,0) scale(1); }
+        50%      { transform:translate(16px,-14px) scale(1.07); }
+    }
+    @@keyframes cfFadeUp {
+        from { opacity:0; transform:translateY(30px); }
+        to   { opacity:1; transform:translateY(0); }
+    }
+    @@keyframes cfFadeLeft {
+        from { opacity:0; transform:translateX(-30px); }
+        to   { opacity:1; transform:translateX(0); }
+    }
+    @@keyframes cfFadeRight {
+        from { opacity:0; transform:translateX(30px); }
+        to   { opacity:1; transform:translateX(0); }
+    }
+    @@keyframes cfFieldIn {
+        from { opacity:0; transform:translateX(-18px); }
+        to   { opacity:1; transform:translateX(0); }
+    }
+    /* دائمة */
+    @@keyframes cfBounce {
+        0%,100% { transform:translateY(0) scale(1); }
+        40%      { transform:translateY(-7px) scale(1.1); }
+        60%      { transform:translateY(-3px) scale(1.05); }
+    }
+    @@keyframes cfRing {
+        0%,100% { transform:rotate(0deg); }
+        15%      { transform:rotate(-18deg); }
+        30%      { transform:rotate(18deg); }
+        45%      { transform:rotate(-10deg); }
+        60%      { transform:rotate(10deg); }
+        75%      { transform:rotate(-5deg); }
+        90%      { transform:rotate(5deg); }
+    }
+    @@keyframes cfShake {
+        0%,100% { transform:translateY(0) rotate(0deg); }
+        25%      { transform:translateY(-3px) rotate(-5deg); }
+        75%      { transform:translateY(-3px) rotate(5deg); }
+    }
+    @@keyframes cfPlane {
+        0%,100% { transform:translate(0,0) rotate(0deg); }
+        50%      { transform:translate(4px,-4px) rotate(-15deg); }
+    }
+
+    /* ══ خلفية ══ */
+    .cf-float { animation:cfFloat 14s ease-in-out infinite; will-change:transform; }
+    .cf-fd1   { animation-duration:17s; animation-delay:-5s; }
+    .cf-fd2   { animation-duration:20s; animation-delay:-9s; }
+    .cf-orb   { animation:cfOrb 13s ease-in-out infinite; }
+    .cf-orb2  { animation-duration:18s; animation-delay:-7s; }
+
+    /* ══ Entrance — مخفية ══ */
+    .cf-heading,
+    .cf-form,
+    .cf-card,
+    .cf-field,
+    .cf-map,
+    .cf-btn { opacity:0; }
+
+    .cf-heading.av { animation:cfFadeUp    0.65s cubic-bezier(.22,1,.36,1) forwards; }
+    .cf-form.av    { animation:cfFadeLeft  0.7s  cubic-bezier(.22,1,.36,1) .1s forwards; }
+    .cf-card.av    { animation:cfFadeRight 0.6s  cubic-bezier(.22,1,.36,1) forwards; }
+    .cf-card-d1.av { animation-delay:.14s; }
+    .cf-card-d2.av { animation-delay:.26s; }
+    .cf-map.av     { animation:cfFadeRight 0.65s cubic-bezier(.22,1,.36,1) .36s forwards; }
+    .cf-field.av   { animation:cfFieldIn  0.5s  cubic-bezier(.22,1,.36,1) forwards; }
+    .cf-field-d1.av { animation-delay:.10s; }
+    .cf-field-d2.av { animation-delay:.20s; }
+    .cf-field-d3.av { animation-delay:.30s; }
+    .cf-btn.av     { animation:cfFadeUp   0.5s  cubic-bezier(.22,1,.36,1) .38s forwards; }
+
+    /* ══ أنيميشن دائمة ══ */
+    .cf-icon-bounce { display:inline-block; animation:cfBounce 2.4s ease-in-out infinite; }
+    .cf-icon-ring   { display:inline-block; animation:cfRing   2.6s ease-in-out infinite; animation-delay:.7s; }
+    .cf-icon-shake  { display:inline-block; animation:cfShake  2.2s ease-in-out infinite; animation-delay:1.3s; }
+    .cf-plane-icon  { display:inline-block; animation:cfPlane  1.8s ease-in-out infinite; }
+
+    /* ══ card hover ══ */
+    .cf-card {
+        transition: opacity .6s ease, transform .6s ease, box-shadow .22s ease !important;
+    }
+    .cf-card:hover {
+        transform: translateY(-3px) translateX(4px) !important;
+        box-shadow: 0 8px 22px rgba(16,185,129,.12) !important;
+        border-color: #bbf7d0 !important;
+    }
+
+    /* ══ map hover ══ */
+    .cf-map iframe {
+        transition: filter .3s ease;
+        filter: saturate(.85);
+    }
+    .cf-map:hover iframe { filter: saturate(1.15); }
+
+    /* ══ input focus glow ══ */
+    .cf-form input:focus,
+    .cf-form textarea:focus {
+        outline: none;
+        border-color: #10b981 !important;
+        box-shadow: 0 0 0 3px rgba(16,185,129,.15) !important;
+        transition: box-shadow .2s ease, border-color .2s ease;
+    }
+</style>
+
+<script>
+(function(){
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                e.target.classList.add('av');
+            } else {
+                e.target.classList.remove('av');
+            }
+        });
+    },{ threshold:0.12 });
+
+    document.querySelectorAll(
+        '.cf-heading,.cf-form,.cf-card,.cf-field,.cf-map,.cf-btn'
+    ).forEach(function(el){ obs.observe(el); });
+})();
+</script>

@@ -9,12 +9,23 @@ namespace IPTS.Services
     {
         private readonly IConfiguration _configuration = configuration;
 
-        public async Task SendEmail(string to, string subject, string bodyContent)
-        {
-            var fromEmail = _configuration["EmailSettings:FromEmail"];
-            var appPassword = _configuration["EmailSettings:AppPassword"];
-            var smtpServer = _configuration["EmailSettings:SmtpServer"];
-            var port = int.Parse(_configuration["EmailSettings:Port"]);
+      public async Task SendEmail(string to, string subject, string bodyContent, string? FromContactSenderEmail = null)
+{
+    bool isContactInquiry = to == _configuration["EmailSettings:Accounts:main:Email"];
+  
+    var fromEmail = _configuration["EmailSettings:Accounts:no-reply:Email"];
+    var appPassword = _configuration["EmailSettings:Accounts:no-reply:Password"];
+    
+    var smtpServer = _configuration["EmailSettings:SmtpServer"];
+    var port = int.Parse(_configuration["EmailSettings:Port"] ?? "587"); 
+
+    
+    if (isContactInquiry)
+    {
+        fromEmail = _configuration["EmailSettings:Accounts:main:Email"];
+        appPassword = _configuration["EmailSettings:Accounts:main:Password"];
+    }
+            
 
             using var client = new SmtpClient(smtpServer, port);
             client.EnableSsl = true;
@@ -25,9 +36,14 @@ namespace IPTS.Services
                 From = new MailAddress(fromEmail, "Physiotech"), // اسم المستوصف للعرض
                 Subject = subject,
                 BodyEncoding = Encoding.UTF8, // لضمان ظهور العربي بشكل صحيح
-                IsBodyHtml = true
+                IsBodyHtml = true,
             };
             mailMessage.To.Add(to);
+
+            if (!string.IsNullOrEmpty(FromContactSenderEmail))
+{
+    mailMessage.ReplyToList.Add(new MailAddress(FromContactSenderEmail));
+}
 
             // --- السحر هنا: دمج الصورة كـ Mime Mails ---
             // 1. تعريف مسار الشعار الحقيقي في مشروعك (تأكد أن هذا المسار صح!)
@@ -35,10 +51,19 @@ namespace IPTS.Services
             LinkedResource inlineLogo = new LinkedResource(logoPath, MediaTypeNames.Image.Png);
             inlineLogo.ContentId = "ClinicLogo"; // هذا هو المعرف الذي سنستخدمه في HTML
 
-            // 2. دمج المحتوى مع القالب (نمرر المحتوى و الـ ContentId)
-            AlternateView avHtml = AlternateView.CreateAlternateViewFromString(GetHtmlTemplate(bodyContent, inlineLogo.ContentId), null, MediaTypeNames.Text.Html);
-            avHtml.LinkedResources.Add(inlineLogo);
-            mailMessage.AlternateViews.Add(avHtml);
+           // بعد
+
+
+if (isContactInquiry)
+{
+    mailMessage.Body = bodyContent;
+}
+else
+{
+    AlternateView avHtml = AlternateView.CreateAlternateViewFromString(GetHtmlTemplate(bodyContent, inlineLogo.ContentId), null, MediaTypeNames.Text.Html);
+    avHtml.LinkedResources.Add(inlineLogo);
+    mailMessage.AlternateViews.Add(avHtml);
+}
 
             await client.SendMailAsync(mailMessage);
         }
@@ -74,12 +99,12 @@ private string GetHtmlTemplate(string content, string contentId)
                     
                     <p style='margin: 5px 0;'>
                         <span style='color: {primaryColor}; font-size: 18px;'>📞</span> 
-                        0172 8758302
+                        01728758302
                     </p>
                     
                     <p style='margin: 5px 0;'>
                         <span style='color: {primaryColor}; font-size: 18px;'>🌐</span> 
-                        <a href='https://physiotech-ehrenfeld.de/' style='color: #666; text-decoration: none;'>physiotech.it.com</a>
+                        <a href='https://physiotech-ehrenfeld.de/' style='color: #666; text-decoration: none;'>physiotech-ehrenfeld.de</a>
                     </p>
                 </div>
             </div>

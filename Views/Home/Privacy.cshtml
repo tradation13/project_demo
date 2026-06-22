@@ -16,24 +16,28 @@
 }
 
 <div class="mx-auto mt-6 max-w-5xl rounded-[2rem] border border-gray-100 bg-gradient-to-b from-white to-gray-50/50 p-5 shadow-[0_24px_65px_-25px_rgba(15,23,42,0.35)] sm:mt-10 sm:p-8 lg:p-10">
-    <div class="mb-8 sm:mb-10">
-        <a href="@returnUrl" class="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-bold text-gray-700 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:text-primary">
+
+    @* <div class="mb-8 sm:mb-10">
+        <a href="@returnUrl"
+           class="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-bold text-gray-700 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:text-primary">
             <i class="fa-solid fa-arrow-left"></i>
             <span>@SharedLocalizer["Shared_Back"]</span>
         </a>
-    </div>
+    </div> *@
 
-    <h1 class="mb-10 border-b border-gray-100 pb-4 text-2xl font-bold tracking-tight text-gray-900 sm:mb-12 sm:text-3xl">@SharedLocalizer["Privacy_Title"]</h1>
+    <h1 class="pp-title mb-10 border-b border-gray-100 pb-4 text-2xl font-bold tracking-tight text-gray-900 sm:mb-12 sm:text-3xl">
+        @SharedLocalizer["Privacy_Title"]
+    </h1>
 
     <div class="space-y-8 text-justify leading-relaxed text-gray-700 sm:space-y-9">
 
-        <section class="rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+        <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
             <h2 class="text-2xl font-bold text-gray-900 mb-3">@SharedLocalizer["Privacy_Section1_Title"]</h2>
             <p class="text-gray-600">@SharedLocalizer["Privacy_Section1_Subtitle"]</p>
             <p>@SharedLocalizer["Privacy_Section1_Overview"]</p>
         </section>
 
-        <section class="rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+        <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
             <h3 class="text-xl font-bold text-gray-800 mb-2">@SharedLocalizer["Privacy_Section1_DataCollectionTitle"]</h3>
             <h4 class="font-bold">@SharedLocalizer["Privacy_Section1_DataCollectionResponsibilityTitle"]</h4>
             <p>@SharedLocalizer["Privacy_Section1_DataCollectionResponsibilityText"]</p>
@@ -48,7 +52,7 @@
             <p>@SharedLocalizer["Privacy_Section1_RightsText"]</p>
         </section>
 
-        <section class="rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+        <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
             <h2 class="text-2xl font-bold text-gray-900 mb-3">@SharedLocalizer["Privacy_Section2_Title"]</h2>
             <h3 class="text-xl font-bold">@SharedLocalizer["Privacy_Section2_Subtitle"]</h3>
             <p>@SharedLocalizer["Privacy_Section2_Content1"]</p>
@@ -56,7 +60,7 @@
             <p>@SharedLocalizer["Privacy_Section2_Content3"]</p>
         </section>
 
-        <section class="rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+        <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
             <h2 class="text-2xl font-bold text-gray-900 mb-3">@SharedLocalizer["Privacy_Section3_Title"]</h2>
             <p>@SharedLocalizer["Privacy_Section3_Text1"]</p>
             <p>@SharedLocalizer["Privacy_Section3_Text2"]</p>
@@ -92,8 +96,9 @@
             <p>@SharedLocalizer["Privacy_Section3_RestrictionText"]</p>
         </section>
 
-        <section class="rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+        <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
             <h2 class="text-2xl font-bold text-gray-900 mb-3">@SharedLocalizer["Privacy_Section4_Title"]</h2>
+
             <h3 class="text-lg font-bold">@SharedLocalizer["Privacy_Section4_CookiesTitle"]</h3>
             <p>@SharedLocalizer["Privacy_Section4_CookiesText1"]</p>
             <p>@SharedLocalizer["Privacy_Section4_CookiesText2"]</p>
@@ -110,8 +115,9 @@
             <p>@SharedLocalizer["Privacy_Section4_NewsletterText"]</p>
         </section>
 
-        <section class="rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+        <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
             <h2 class="text-2xl font-bold text-gray-900 mb-3">@SharedLocalizer["Privacy_Section5_Title"]</h2>
+
             <h3 class="text-lg font-bold">@SharedLocalizer["Privacy_Section5_GoogleFontsTitle"]</h3>
             <p>@SharedLocalizer["Privacy_Section5_GoogleFontsText"]</p>
 
@@ -133,3 +139,106 @@
 
     </div>
 </div>
+
+<style>
+    /* ══ Keyframes ══ */
+    @@keyframes ppFadeUp {
+        from { opacity:0; transform:translateY(28px); }
+        to   { opacity:1; transform:translateY(0); }
+    }
+    @@keyframes ppFadeIn {
+        from { opacity:0; }
+        to   { opacity:1; }
+    }
+    @@keyframes ppSlideIn {
+        from { opacity:0; transform:translateX(-20px); }
+        to   { opacity:1; transform:translateX(0); }
+    }
+    @@keyframes ppAccent {
+        0%,100% { width:32px; opacity:.5; }
+        50%      { width:56px; opacity:1; }
+    }
+
+    /* ══ Title ══ */
+    .pp-title {
+        opacity: 0;
+        animation: ppFadeIn 0.6s cubic-bezier(.22,1,.36,1) .05s forwards;
+        position: relative;
+    }
+    .pp-title::after {
+        content:'';
+        display:block;
+        height:3px;
+        width:40px;
+        background: #10b981;
+        border-radius:2px;
+        margin-top:10px;
+        animation: ppAccent 2.4s ease-in-out infinite;
+    }
+
+    /* ══ Sections — مخفية ══ */
+    .pp-section {
+        opacity: 0;
+        transition: box-shadow .25s ease, border-color .25s ease, transform .25s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* خط جانبي يظهر عند hover */
+    .pp-section::before {
+        content:'';
+        position:absolute;
+        top:0; left:0;
+        width:3px; height:0;
+        background: linear-gradient(to bottom, #10b981, #6ee7b7);
+        border-radius:2px;
+        transition: height .35s ease;
+    }
+    .pp-section:hover::before { height:100%; }
+
+    .pp-section:hover {
+        box-shadow: 0 8px 28px rgba(16,185,129,.10);
+        border-color: #d1fae5;
+        transform: translateX(3px);
+    }
+
+    /* ══ visible state ══ */
+    .pp-section.av {
+        animation: ppFadeUp 0.65s cubic-bezier(.22,1,.36,1) forwards;
+    }
+
+    /* h3/h4 داخل السكشن — خط أخضر خفيف */
+    .pp-section h3,
+    .pp-section h4 {
+        position: relative;
+        padding-right: 10px;
+    }
+    .pp-section h3::before,
+    .pp-section h4::before {
+        content:'';
+        display:inline-block;
+        width:6px; height:6px;
+        background:#10b981;
+        border-radius:50%;
+        margin-left:8px;
+        vertical-align:middle;
+        opacity:.7;
+    }
+</style>
+
+<script>
+(function(){
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                e.target.classList.add('av');
+            } else {
+                e.target.classList.remove('av');
+            }
+        });
+    },{ threshold:0.08 });
+
+    document.querySelectorAll('.pp-section')
+            .forEach(function(el){ obs.observe(el); });
+})();
+</script>

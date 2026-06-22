@@ -13,28 +13,34 @@
         <i class="about-float fa-solid fa-shield-halved absolute left-[8%] bottom-[14%] text-5xl text-emerald-500/8"></i>
         <i class="about-float about-float-delay-1 fa-solid fa-shield-halved absolute right-[40%] top-[58%] text-4xl text-emerald-500/8"></i>
 
-        <div class="absolute left-[8%] top-[18%] h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl"></div>
-        <div class="absolute right-[10%] bottom-[12%] h-80 w-80 rounded-full bg-emerald-400/10 blur-3xl"></div>
-        <div class="absolute left-[36%] bottom-[24%] h-56 w-56 rounded-full bg-white/40 blur-3xl"></div>
+        <div class="about-orb absolute left-[8%] top-[18%] h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl"></div>
+        <div class="about-orb about-orb-2 absolute right-[10%] bottom-[12%] h-80 w-80 rounded-full bg-emerald-400/10 blur-3xl"></div>
+        <div class="about-orb about-orb-3 absolute left-[36%] bottom-[24%] h-56 w-56 rounded-full bg-white/40 blur-3xl"></div>
     </div>
 
     <div class="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-            <div class="flex w-full items-center justify-center order-1 lg:order-1">
+
+            <!-- Image -->
+            <div class="about-img-col flex w-full items-center justify-center order-1 lg:order-1">
                 <div class="relative flex w-full items-center justify-center rounded-[2rem] border border-white/60 bg-white/60 p-3 shadow-[0_20px_70px_rgba(16,185,129,0.08)] backdrop-blur-sm lg:p-6">
                     <div class="absolute -z-10 h-72 w-72 rounded-full bg-emerald-500/10 opacity-60 blur-3xl"></div>
 
+                    <span class="about-corner about-corner-tl"></span>
+                    <span class="about-corner about-corner-br"></span>
+
                     <img src="/images/home/about.png"
-                        alt="PhysioTech Presentation"
-                        class="h-auto w-full max-w-[760px] rounded-2xl border border-gray-100 shadow-xl transform transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl"
+                         alt="PhysioTech Presentation"
+                         class="h-auto w-full max-w-[760px] rounded-2xl border border-gray-100 shadow-xl transform transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl"
                          loading="lazy" />
                 </div>
             </div>
 
-            <div class="space-y-8 order-2 lg:order-2 lg:pl-6">
+            <!-- Text -->
+            <div class="about-text-col space-y-8 order-2 lg:order-2 lg:pl-6">
                 <div class="flex items-center gap-4">
                     <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 shadow-sm ring-1 ring-emerald-100">
-                        <i class="fas fa-hourglass-half text-2xl"></i>
+                        <i class="fas fa-hourglass-half text-2xl about-hourglass"></i>
                     </div>
                     <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                         @SharedLocalizer["Shared_AboutPhysoTech"]
@@ -42,11 +48,11 @@
                 </div>
 
                 <div class="space-y-5 text-lg leading-relaxed text-gray-600">
-                    <p>
+                    <p class="about-para">
                         @SharedLocalizer["About_Brief"]
                     </p>
 
-                    <p>
+                    <p class="about-para about-para-2">
                         @SharedLocalizer["About_PoweredBy"]
                         <span class="font-semibold text-emerald-600">@SharedLocalizer["System_FullTitle"]</span>
 
@@ -61,10 +67,10 @@
 
                 <div class="pt-4">
                     <a href="@Url.Action("About", "Home")"
-                       class="inline-flex transform items-center gap-2 rounded-lg bg-emerald-600 px-6 py-3.5 font-bold text-white shadow-md shadow-emerald-600/20 transition-all duration-200 hover:scale-[1.03] hover:bg-emerald-700 hover:shadow-lg hover:shadow-emerald-700/30">
+                       class="about-btn inline-flex transform items-center gap-2 rounded-lg bg-emerald-600 px-6 py-3.5 font-bold text-white shadow-md shadow-emerald-600/20 transition-all duration-200 hover:scale-[1.03] hover:bg-emerald-700 hover:shadow-lg hover:shadow-emerald-700/30">
                         <i class="fas fa-columns"></i>
                         @SharedLocalizer["About_BtnMoreUs"]
-                        <i class="fas fa-arrow-right ml-1 text-sm"></i>
+                        <i class="fas fa-arrow-right ml-1 text-sm about-btn-arrow"></i>
                     </a>
                 </div>
             </div>
@@ -74,45 +80,100 @@
 
 <style>
     @@keyframes aboutFloat {
-        0%, 100% {
-            transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-        }
-
-        33% {
-            transform: translate3d(18px, -16px, 0) rotate(6deg) scale(1.04);
-        }
-
-        66% {
-            transform: translate3d(-14px, 12px, 0) rotate(-5deg) scale(0.98);
-        }
+        0%, 100% { transform: translate3d(0,0,0) rotate(0deg) scale(1); }
+        33%       { transform: translate3d(18px,-16px,0) rotate(6deg) scale(1.04); }
+        66%       { transform: translate3d(-14px,12px,0) rotate(-5deg) scale(0.98); }
+    }
+    @@keyframes orbDrift {
+        0%, 100% { transform: translate(0,0) scale(1); }
+        50%       { transform: translate(20px,-18px) scale(1.08); }
+    }
+    @@keyframes fadeUp {
+        from { opacity:0; transform:translateY(36px); }
+        to   { opacity:1; transform:translateY(0); }
+    }
+    @@keyframes fadeLeft {
+        from { opacity:0; transform:translateX(-36px); }
+        to   { opacity:1; transform:translateX(0); }
+    }
+    @@keyframes fadeRight {
+        from { opacity:0; transform:translateX(36px); }
+        to   { opacity:1; transform:translateX(0); }
+    }
+    @@keyframes hourglassSpin {
+        0%,100% { transform:rotate(0deg); }
+        45%      { transform:rotate(180deg); }
+        55%      { transform:rotate(180deg); }
+    }
+    @@keyframes btnArrow {
+        0%,100% { transform:translateX(0); }
+        50%      { transform:translateX(5px); }
+    }
+    @@keyframes cornerPulse {
+        0%,100% { opacity:.4; transform:scale(1); }
+        50%      { opacity:.9; transform:scale(1.12); }
     }
 
-    .about-float {
-        animation: aboutFloat 14s ease-in-out infinite;
-        filter: blur(0.2px);
+    .about-float { animation: aboutFloat 14s ease-in-out infinite; filter:blur(0.2px); will-change:transform; }
+    .about-float-delay-1 { animation-duration:17s; animation-delay:-4s; }
+    .about-float-delay-2 { animation-duration:19s; animation-delay:-8s; }
+
+    .about-orb   { animation: orbDrift 12s ease-in-out infinite; }
+    .about-orb-2 { animation-duration:16s; animation-delay:-5s; }
+    .about-orb-3 { animation-duration:20s; animation-delay:-9s; }
+
+    .about-img-col,
+    .about-text-col,
+    .about-para,
+    .about-btn { opacity:0; }
+
+    .about-img-col.av  { animation: fadeLeft  0.75s cubic-bezier(.22,1,.36,1) forwards; }
+    .about-text-col.av { animation: fadeRight 0.75s cubic-bezier(.22,1,.36,1) 0.15s forwards; }
+    .about-para.av     { animation: fadeUp    0.6s  cubic-bezier(.22,1,.36,1) 0.3s  forwards; }
+    .about-para-2.av   { animation-delay:0.45s; }
+    .about-btn.av      { animation: fadeUp    0.6s  cubic-bezier(.22,1,.36,1) 0.5s  forwards; }
+
+    .about-hourglass {
+        display:inline-block;
+        animation: hourglassSpin 3s ease-in-out infinite;
+    }
+    .about-btn-arrow {
+        display:inline-block;
+        animation: btnArrow 1.4s ease-in-out infinite;
     }
 
-    .about-float-delay-1 {
-        animation-duration: 17s;
-        animation-delay: -4s;
+    .about-corner {
+        position:absolute;
+        width:28px; height:28px;
+        border-color:#10b981;
+        border-style:solid;
+        animation: cornerPulse 2.5s ease-in-out infinite;
+        pointer-events:none;
+        z-index:2;
     }
+    .about-corner-tl { top:14px; left:14px; border-width:2px 0 0 2px; border-radius:6px 0 0 0; }
+    .about-corner-br { bottom:14px; right:14px; border-width:0 2px 2px 0; border-radius:0 0 6px 0; animation-delay:1.25s; }
 
-    .about-float-delay-2 {
-        animation-duration: 19s;
-        animation-delay: -8s;
-    }
-
-    .about-bg i {
-        will-change: transform;
-    }
-
-    @@media (max-width: 1023.98px) {
-        .about-section {
-            min-height: auto;
-        }
-
-        .about-bg i {
-            opacity: 0.06;
-        }
+    @@media (max-width:1023.98px) {
+        .about-section { min-height:auto; }
+        .about-bg i    { opacity:.06; }
     }
 </style>
+
+<script>
+(function(){
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                e.target.classList.add('av');
+            } else {
+                e.target.classList.remove('av');
+            }
+        });
+    }, { threshold:0.12 });
+
+    document.querySelectorAll(
+        '.about-img-col, .about-text-col, .about-para, .about-btn'
+    ).forEach(function(el){ obs.observe(el); });
+})();
+</script>

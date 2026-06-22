@@ -3,18 +3,18 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="mb-10 text-center">
             <div class="mb-3 flex items-center justify-center gap-3">
-                <i class="fas fa-map-marker-alt text-3xl text-primary-600"></i>
-                <h2 class="text-4xl font-bold text-gray-900">@SharedLocalizer["Contact_Title"]</h2>
+                <i class="fas fa-map-marker-alt text-3xl text-primary-600 contact-bounce-icon"></i>
+                <h2 class="text-4xl font-bold text-gray-900 contact-animate">@SharedLocalizer["Contact_Title"]</h2>
             </div>
-            <p class="text-lg text-gray-600">@SharedLocalizer["Contact_Subtitle"]</p>
+            <p class="text-lg text-gray-600 contact-animate" style="animation-delay:0.1s">@SharedLocalizer["Contact_Subtitle"]</p>
         </div>
 
         <div class="grid items-start gap-8 lg:grid-cols-2">
             <!-- Contact Details -->
             <div class="space-y-4">
-                <div class="flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm">
+                <div class="contact-card flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm" data-delay="0">
                     <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-100 text-xl text-primary-600">
-                        <i class="fas fa-map-pin"></i>
+                        <i class="fas fa-map-pin contact-icon-float"></i>
                     </div>
                     <div>
                         <p class="text-sm font-bold text-gray-500">@SharedLocalizer["Shared_Address"]</p>
@@ -22,9 +22,9 @@
                     </div>
                 </div>
 
-                <div class="flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm">
+                <div class="contact-card flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm" data-delay="150">
                     <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-100 text-xl text-primary-600">
-                        <i class="fas fa-phone"></i>
+                        <i class="fas fa-phone contact-icon-ring"></i>
                     </div>
                     <div>
                         <p class="text-sm font-bold text-gray-500">@SharedLocalizer["Shared_Phone"]</p>
@@ -32,9 +32,9 @@
                     </div>
                 </div>
 
-                <div class="flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm">
+                <div class="contact-card flex items-start gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4 shadow-sm" data-delay="300">
                     <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-100 text-xl text-primary-600">
-                        <i class="fas fa-envelope"></i>
+                        <i class="fas fa-envelope contact-icon-shake"></i>
                     </div>
                     <div>
                         <p class="text-sm font-bold text-gray-500">@SharedLocalizer["Shared_Email"]</p>
@@ -43,20 +43,137 @@
                 </div>
             </div>
 
-            <!-- Map / Placeholder -->
-           <div class="w-full">
-    <div class="relative overflow-hidden rounded-2xl border border-gray-200 shadow-md">
-        <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2513.844788326759!2d6.9208479!3d50.9450953!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf213dfedc01bd%3A0x633f0f91127667ba!2sVenloer%20Str.%20305%2C%2050823%20K%C3%B6ln%2C%20Germany!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
-            width="100%"
-            height="360"
-            style="border:0;"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-    <p class="mt-3 text-sm text-gray-500">@SharedLocalizer["Contact_Map_Hint"]</p>
-</div>
+            <!-- Map -->
+            <div class="map-wrapper w-full contact-card" data-delay="200">
+                <div class="relative overflow-hidden rounded-2xl border border-gray-200 shadow-md">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2513.844788326759!2d6.9208479!3d50.9450953!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf213dfedc01bd%3A0x633f0f91127667ba!2sVenloer%20Str.%20305%2C%2050823%20K%C3%B6ln%2C%20Germany!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
+                        width="100%"
+                        height="360"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <p class="mt-3 text-sm text-gray-500">@SharedLocalizer["Contact_Map_Hint"]</p>
+            </div>
         </div>
     </div>
 </section>
+
+<style>
+    /* ── Keyframes ── */
+    @@keyframes fadeSlideUp {
+        from { opacity: 0; transform: translateY(32px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    @@keyframes fadeSlideRight {
+        from { opacity: 0; transform: translateX(-32px); }
+        to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* دائم - طفو */
+    @@keyframes floatY {
+        0%, 100% { transform: translateY(0); }
+        50%       { transform: translateY(-5px); }
+    }
+    /* دائم - اهتزاز الهاتف */
+    @@keyframes ringShake {
+        0%, 100% { transform: rotate(0deg); }
+        15%       { transform: rotate(-18deg); }
+        30%       { transform: rotate(18deg); }
+        45%       { transform: rotate(-12deg); }
+        60%       { transform: rotate(12deg); }
+        75%       { transform: rotate(-6deg); }
+        90%       { transform: rotate(6deg); }
+    }
+    /* دائم - نبضة المغلف */
+    @@keyframes shakeLetter {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        25%       { transform: translateY(-3px) rotate(-4deg); }
+        75%       { transform: translateY(-3px) rotate(4deg); }
+    }
+    /* دائم - ارتداد الـ marker */
+    @@keyframes markerBounce {
+        0%, 100% { transform: translateY(0) scale(1); }
+        40%       { transform: translateY(-8px) scale(1.1); }
+        60%       { transform: translateY(-4px) scale(1.05); }
+    }
+
+    /* ── حالة البداية — مخفية حتى يشوفها الـ observer ── */
+    .contact-animate,
+    .contact-card {
+        opacity: 0;
+    }
+
+    /* ── لما يدخل الـ observer يحط هذه الكلاس ── */
+    .contact-animate.is-visible {
+        animation: fadeSlideUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .contact-card.is-visible {
+        animation: fadeSlideRight 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* ── Hover على البطاقة ── */
+    .contact-card {
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        will-change: transform;
+    }
+    .contact-card:hover {
+        transform: translateY(-4px) translateX(4px);
+        box-shadow: 0 10px 28px rgba(0,0,0,0.10);
+        border-color: #bbf7d0;
+    }
+
+    /* ── أنيميشن دائمة على الأيقونات ── */
+    .contact-icon-float {
+        display: inline-block;
+        animation: floatY 2.8s ease-in-out infinite;
+    }
+    .contact-icon-ring {
+        display: inline-block;
+        animation: ringShake 2.5s ease-in-out infinite;
+        animation-delay: 0.8s;
+    }
+    .contact-icon-shake {
+        display: inline-block;
+        animation: shakeLetter 2.2s ease-in-out infinite;
+        animation-delay: 1.4s;
+    }
+    .contact-bounce-icon {
+        display: inline-block;
+        animation: markerBounce 2s ease-in-out infinite;
+    }
+
+    /* ── Map hover ── */
+    .map-wrapper iframe {
+        transition: filter 0.35s ease;
+        filter: saturate(0.85);
+    }
+    .map-wrapper:hover iframe {
+        filter: saturate(1.15);
+    }
+</style>
+
+<script>
+    (function () {
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    var el = entry.target;
+                    var delay = el.dataset.delay || 0;
+                    setTimeout(function () {
+                        el.classList.add('is-visible');
+                    }, parseInt(delay));
+                } else {
+                    // يشيل الكلاس عشان تتكرر الأنيميشن كل ما يرجع
+                    entry.target.classList.remove('is-visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.contact-animate, .contact-card').forEach(function (el) {
+            observer.observe(el);
+        });
+    })();
+</script>

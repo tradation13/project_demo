@@ -528,50 +528,42 @@
     <value>Precision physiotherapy, powered by tech</value>
     <comment>VIiews -&gt; Home -&gt;  About</comment>
   </data>
-  <data name="PageAbout_IntroPara" xml:space="preserve">
-    <value>PhysioTech is a physiotherapy clinic dedicated to faster recovery and smarter care. We blend expert practitioners with digital workflows so every assessment, session, and follow-up is coordinated and measurable.</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
+ <data name="PageAbout_IntroPara" xml:space="preserve">
+  <value>PhysioTech is a specialized physiotherapy clinic dedicated to delivering advanced therapeutic care and accelerating your recovery. Our team of expert practitioners provides comprehensive, hands-on treatments designed around your unique needs, ensuring dedicated support through every assessment, therapy session, and step toward lasting wellness.</value>
+  <comment>Views -> Home -> About</comment>
+</data>
   <data name="PageAbout_IPTSPara" xml:space="preserve">
-    <value>The clinic relies on Physiotech as its digital engine to manage bookings, medical cases, and progress tracking, allowing our team to focus fully on hands-on treatment and personalized care plans.</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
+  <value>In our clinic, the patient always comes first. Thanks to our highly efficient organization and streamlined workflows, we guarantee a seamless experience from booking to documentation. This allows our care team to focus entirely on what matters most: your hands-on treatment and personalized therapy plans.</value>
+  <comment>Views -> Home -> About</comment>
+</data>
   <data name="PageAbout_PhysiotechPara" xml:space="preserve">
     <value>The clinic runs on Physiotech as our digital engine—handling booking, cases, and progress tracking—so our team stays focused on delivering hands-on treatment and personalized plans.</value>
     <comment>VIiews -&gt; Home -&gt;  About</comment>
   </data>
-  <data name="PageAbout_Card1_Title" xml:space="preserve">
-    <value>Clinical excellence</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_Card1_Desc" xml:space="preserve">
-    <value>Manual therapy, exercise therapy, and spine care backed by protocols.</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_Card2_Title" xml:space="preserve">
-    <value>Patient experience</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_Card2_Desc" xml:space="preserve">
-    <value>Online booking, progress updates, and guided home programs keep patients engaged.</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
+ <data name="PageAbout_Card1_Title" xml:space="preserve">
+  <value>Clinical Excellence</value>
+</data>
+<data name="PageAbout_Card1_Desc" xml:space="preserve">
+  <value>Advanced manual therapy, tailored exercise programs, and specialized spine care delivered under the highest medical standards.</value>
+</data>
+ <data name="PageAbout_Card2_Title" xml:space="preserve">
+  <value>Premium Patient Experience</value>
+</data>
+<data name="PageAbout_Card2_Desc" xml:space="preserve">
+  <value>From flexible online scheduling to guided home exercise programs, we ensure your therapeutic journey is seamless, comfortable, and fully supported.</value>
+</data>
   <data name="PageAbout_Card3_Title" xml:space="preserve">
-    <value>Data-driven care</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_Card3_Desc" xml:space="preserve">
-    <value>Physiotech dashboards surface adherence, ROM gains, and recovery velocity.</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_Card4_Title" xml:space="preserve">
-    <value>Team-ready</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_Card4_Desc" xml:space="preserve">
-    <value>Therapists, admins, and patients stay aligned with role-based access.</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
+  <value>Smart Recovery Reports</value>
+</data>
+<data name="PageAbout_Card3_Desc" xml:space="preserve">
+  <value>Our specialists use smart diagnostic insights to precisely track your range of motion (ROM) gains, adherence, and exact recovery velocity at every stage.</value>
+</data>
+ <data name="PageAbout_Card4_Title" xml:space="preserve">
+  <value>Continuous Specialist Care</value>
+</data>
+<data name="PageAbout_Card4_Desc" xml:space="preserve">
+  <value>Our therapists and medical administrators work in perfect harmony, keeping your entire care team fully aligned around your daily progress and health goals.</value>
+</data>
   <data name="Contact_GetInTouch" xml:space="preserve">
     <value>Get in touch</value>
     <comment>VIiews -&gt; Home -&gt;  Contact</comment>
@@ -1827,6 +1819,31 @@
 <data name="MedCase_PersonalGoals_Label" xml:space="preserve"><value>Patient's personal goals</value></data>
 <data name="MedCase_PersonalGoals_Placeholder" xml:space="preserve"><value>Example: Returning to running, carrying the child pain-free...</value></data>
 
+<data name="Reg_PrivacyModal_Title" xml:space="preserve">
+  <value>Privacy Notice</value>
+  <comment>Registration Page - Modal Title</comment>
+</data>
+<data name="Reg_PrivacyModal_Message" xml:space="preserve">
+  <value>Please read and accept our Privacy Policy and Terms of Service to proceed with your registration.</value>
+  <comment>Registration Page - Modal Body Message</comment>
+</data>
+<data name="Shared_GotIt" xml:space="preserve">
+  <value>Got it</value>
+  <comment>General Purpose - Confirmation Button</comment>
+</data>
+
+  <data name="Shared_AI_Powered" xml:space="preserve">
+    <value>AI-Powered</value>
+    <comment>HerorSection</comment>
+  </data>
+  <data name="Shared_SmartTracking" xml:space="preserve">
+    <value>Smart Tracking</value>
+    <comment>HerorSection</comment>
+  </data>
+  <data name="Shared_ExpertCare" xml:space="preserve">
+    <value>Expert Care</value>
+    <comment>HerorSection</comment>
+  </data>
 
   <data name="ForgotConf_Header" xml:space="preserve">
     <value>Forgot Password Confirmation</value>

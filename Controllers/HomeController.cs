@@ -57,7 +57,7 @@ namespace IPTS.Controllers
 
             try
             {
-                await _emailService.SendEmail("physiotech7@gmail.com", subject, body);
+                await _emailService.SendEmail("dr.kurtoglu@physiotech-ehrenfeld.de", subject, body, model.Email);
                 TempData["ContactSuccess"] = _locService.GetSystem("Status_SuccessSent");
                 return RedirectToAction(nameof(Contact));
             }

@@ -327,46 +327,38 @@
     <value>Präzisions-Physiotherapie, unterstützt durch Technik</value>
     <comment>VIiews -&gt; Home -&gt;  About</comment>
   </data>
-  <data name="PageAbout_IntroPara" xml:space="preserve">
-    <value>PhysioTech ist eine Klinik für Physiotherapie, die sich einer schnelleren Genesung und einer intelligenteren Betreuung widmet. Wir verbinden erfahrene Therapeuten mit digitalen Workflows, sodass jede Beurteilung, jede Sitzung und jede Nachbetreuung koordiniert und messbar ist.</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_IPTSPara" xml:space="preserve">
-    <value>Die Klinik nutzt Physiotech als digitalen Motor zur Verwaltung von Buchungen, medizinischen Fällen und der Fortschrittskontrolle, damit sich unser Team voll auf die praktische Behandlung und personalisierte Therapiepläne konzentrieren kann.</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_Card1_Title" xml:space="preserve">
-    <value>Klinische Exzellenz</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_Card1_Desc" xml:space="preserve">
-    <value>Manuelle Therapie, Bewegungstherapie und Wirbelsäulenpflege, gestützt auf Protokolle.</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_Card2_Title" xml:space="preserve">
-    <value>Patientenerfahrung</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_Card2_Desc" xml:space="preserve">
-    <value>Online-Buchung, Fortschritts-Updates und angeleitete Heimprogramme binden die Patienten ein.</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_Card3_Title" xml:space="preserve">
-    <value>Datengesteuerte Pflege</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_Card3_Desc" xml:space="preserve">
-    <value>Physiotech-Dashboards zeigen Adhärenz, ROM-Fortschritte und die Genesungsgeschwindigkeit an.</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_Card4_Title" xml:space="preserve">
-    <value>Team-bereit</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
-  <data name="PageAbout_Card4_Desc" xml:space="preserve">
-    <value>Therapeuten, Admins und Patienten bleiben durch rollenbasierten Zugriff aufeinander abgestimmt.</value>
-    <comment>VIiews -&gt; Home -&gt;  About</comment>
-  </data>
+ <data name="PageAbout_IntroPara" xml:space="preserve">
+  <value>PhysioTech ist eine spezialisierte Praxis für Physiotherapie, die sich einer fortschrittlichen therapeutischen Versorgung und Ihrer schnellen Genesung widmet. Unser erfahrenes Therapeutenteam bietet umfassende, individuelle Behandlungen, die exakt auf Ihre Bedürfnisse zugeschnitten sind – für eine persönliche Betreuung bei jeder Untersuchung, Therapieeinheit und auf Ihrem gesamten Weg zu dauerhafter Gesundheit.</value>
+  <comment>Views -> Home -> About</comment>
+</data>
+ <data name="PageAbout_IPTSPara" xml:space="preserve">
+  <value>In unserer Praxis steht der Mensch im Mittelpunkt. Durch unsere hocheffiziente Organisation und optimierte Abläufe garantieren wir Ihnen eine reibungslose Betreuung von der Terminvergabe bis zur Dokumentation. So kann sich unser Therapeutenteam voll und ganz auf das Wichtigste konzentrieren: Ihre persönliche Behandlung und die Erstellung maßgeschneiderter Therapiepläne.</value>
+  <comment>Views -> Home -> About</comment>
+</data>
+ <data name="PageAbout_Card1_Title" xml:space="preserve">
+  <value>Medizinische Exzellenz</value>
+</data>
+<data name="PageAbout_Card1_Desc" xml:space="preserve">
+  <value>Fortgeschrittene manuelle Therapie, maßgeschneiderte Bewegungstherapie und spezialisierte Wirbelsäulenpflege unter höchsten medizinischen Standards.</value>
+</data>
+ <data name="PageAbout_Card2_Title" xml:space="preserve">
+  <value>Erstklassige Patientenerfahrung</value>
+</data>
+<data name="PageAbout_Card2_Desc" xml:space="preserve">
+  <value>Von der flexiblen Online-Terminbuchung bis hin zu begleiteten Heimtrainingsprogrammen sorgen wir dafür, dass Ihre Therapiereise nahtlos, komfortabel und bestmöglich unterstützt verläuft.</value>
+</data>
+ <data name="PageAbout_Card3_Title" xml:space="preserve">
+  <value>Intelligente Genesungsberichte</value>
+</data>
+<data name="PageAbout_Card3_Desc" xml:space="preserve">
+  <value>Unsere Spezialisten nutzen intelligente Diagnoseberichte, um Ihre Fortschritte bei der Gelenkbeweglichkeit (ROM) und Ihre exakte Genesungsgeschwindigkeit in jeder Phase präzise zu verfolgen.</value>
+</data>
+ <data name="PageAbout_Card4_Title" xml:space="preserve">
+  <value>Kontinuierliche Fachbetreuung</value>
+</data>
+<data name="PageAbout_Card4_Desc" xml:space="preserve">
+  <value>Unsere Therapeuten und die medizinische Verwaltung arbeiten in perfekter Harmonie zusammen, sodass Ihr gesamtes Betreuungsteam stets optimal auf Ihre täglichen Fortschritte und Gesundheitsziele abgestimmt ist.</value>
+</data>
   <data name="Contact_GetInTouch" xml:space="preserve">
     <value>Kontakt aufnehmen</value>
     <comment>VIiews -&gt; Home -&gt;  Contact</comment>
@@ -1995,6 +1987,19 @@
   <data name="Dash_NoPendingRequests" xml:space="preserve">
     <value>Keine ausstehenden Anfragen</value>
     <comment>Dashboard - No Pending Requests Message</comment>
+  </data>
+
+    <data name="Shared_AI_Powered" xml:space="preserve">
+    <value>KI-gestützt</value>
+    <comment>HerorSection</comment>
+  </data>
+  <data name="Shared_SmartTracking" xml:space="preserve">
+    <value>Intelligente Verfolgung</value>
+    <comment>HerorSection</comment>
+  </data>
+  <data name="Shared_ExpertCare" xml:space="preserve">
+    <value>Fachkundige Betreuung</value>
+    <comment>HerorSection</comment>
   </data>
 
   

@@ -2001,7 +2001,14 @@
     <value>Fachkundige Betreuung</value>
     <comment>HerorSection</comment>
   </data>
-
+<data name="Shared_Working_Hours" xml:space="preserve">
+  <value>Arbeitszeiten</value>
+  <comment>LocationSection</comment>
+</data>
+<data name="Shared_Opening_Hours_Details" xml:space="preserve">
+  <value>Montag - Donnerstag: 08:00 - 18:00 | Freitag: 08:00 - 13:00</value>
+  <comment>LocationSection</comment>
+</data>
   
   <data name="Shared_Controller" xml:space="preserve">
     <value>Controller</value>

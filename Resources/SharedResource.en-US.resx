@@ -1844,6 +1844,14 @@
     <value>Expert Care</value>
     <comment>HerorSection</comment>
   </data>
+  <data name="Shared_Working_Hours" xml:space="preserve">
+  <value>Working Hours</value>
+  <comment>LocationSection</comment>
+</data>
+<data name="Shared_Opening_Hours_Details" xml:space="preserve">
+  <value>Monday - Thursday: 08:00 - 18:00 | Friday: 08:00 - 13:00</value>
+  <comment>LocationSection</comment>
+</data>
 
   <data name="ForgotConf_Header" xml:space="preserve">
     <value>Forgot Password Confirmation</value>

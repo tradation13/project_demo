@@ -42,6 +42,12 @@
             <h1 class="text-4xl font-bold text-gray-900">@SharedLocalizer["Contact_Header"]</h1>
             <p class="text-lg text-gray-700">@SharedLocalizer["Contact_SubHeader"]</p>
         </div>
+        <div class="flex items-center gap-2 py-2 cf-heading space-y-2">
+    <i class="fa-solid fa-business-time contact-icon-shake text-gray-900"></i>
+    <p class="font-bold text-gray-900">
+        @SharedLocalizer["Shared_Opening_Hours_Details"]
+    </p>
+</div>
 
         @if (TempData["ContactSuccess"] != null)
         {
@@ -102,7 +108,7 @@
                     </div>
                     <div>
                         <p class="text-sm font-bold text-gray-500">@SharedLocalizer["Shared_Address"]</p>
-                        <p class="text-base text-primary-600">Venloer Straße 305, 50823 Köln-Ehrenfeld</p>
+                        <p class="font-bold text-primary-600 hover:text-primary-700">Venloer Straße 305, 50823 Köln-Ehrenfeld</p>
                     </div>
                 </div>
 

@@ -1,0 +1,465 @@
+@*
+   PhysioTech — Blogs Section
+   Multi-language: EN / DE based on ViewBag.Lang or CultureInfo
+   Self-contained Partial — no @section needed
+*@
+
+@{
+    var lang = (string)(ViewBag.Lang ?? System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
+    bool isDE = lang?.ToLower() == "de";
+
+    var t_eyebrow  = isDE ? "NEUESTE BEITRÄGE"                    : "LATEST UPDATES";
+    var t_title1   = isDE ? "PhysioTech"                          : "PhysioTech";
+    var t_title2   = isDE ? " Einblicke"                          : " Insights";
+    var t_subtitle = isDE ? "Bleiben Sie informiert — moderne Technik, intelligente Pflege und spezialisiertes Fachwissen aus unserer Klinik."
+                          : "Stay informed with the latest from our clinic — modern technology, intelligent care, and specialized expertise.";
+
+    // Article 1
+    var a1_tag     = isDE ? "Technologie"   : "Technology";
+    var a1_date    = isDE ? "15. Juni 2026" : "June 15, 2026";
+    var a1_title   = isDE ? "Modernste Physiotherapiegeräte sind bei PhysioTech angekommen"
+                          : "Next-Gen Physiotherapy Equipment Arrives at PhysioTech";
+    var a1_excerpt = isDE ? "Wir freuen uns, den Einsatz fortschrittlicher medizinischer Pakete bekanntzugeben — darunter hochpräzise Stoßwellentherapie und Klasse-IV-Therapielaser zur schnellen klinischen Genesung."
+                          : "We are thrilled to announce the deployment of advanced medical packages, featuring high-precision shockwave therapy and class-IV therapeutic lasers designed to accelerate clinical recovery.";
+
+    // Article 2
+    var a2_tag     = isDE ? "KI-Integration" : "AI Integration";
+    var a2_date    = isDE ? "10. Juni 2026"  : "June 10, 2026";
+    var a2_title   = isDE ? "Wie KI unsere klinische Diagnostik und Patientenverfolgung verändert"
+                          : "How AI is Transforming Clinical Diagnostics & Patient Tracking";
+    var a2_excerpt = isDE ? "Bei PhysioTech haben wir datengesteuerte Bewegungsanalyseintelligenz direkt mit digitalen Patientenakten integriert, um maßgeschneiderte Pflegepläne mit beispielloser Präzision zu erstellen."
+                          : "At PhysioTech, we've integrated data-driven motion analysis intelligence with digital patient files to produce tailored care plans with unprecedented precision and adaptive metrics.";
+
+    // Article 3
+    var a3_tag     = isDE ? "Unser Team"    : "Our Team";
+    var a3_date    = isDE ? "1. Juni 2026"  : "June 1, 2026";
+    var a3_title   = isDE ? "Lernen Sie unser Team kennen — globale Expertise für Ihre Gesundheit"
+                          : "Meet Our Specialists — Global Expertise Dedicated to Your Health";
+    var a3_excerpt = isDE ? "Unser medizinisches Team besteht aus international zertifizierten Spezialisten mit über einem Jahrzehnt klinischer Erfahrung in Neurologie, Orthopädie und sportlicher Rehabilitation."
+                          : "Our team consists of internationally certified specialists with over a decade of hands-on clinical experience in neurological, orthopedic, and sports rehabilitation fields.";
+
+    var t_read     = isDE ? "Artikel lesen" : "Read Article";
+    var t_viewall  = isDE ? "Alle Artikel anzeigen" : "View All Articles";
+}
+
+<style>
+.blogs-section {
+    padding: 100px 0 90px;
+    background: #f4fbf7;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* ── Header ── */
+.blogs-header {
+    text-align: center;
+    margin-bottom: 64px;
+    padding: 0 20px;
+}
+
+.blogs-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #1a9e50;
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.blogs-eyebrow::before,
+.blogs-eyebrow::after {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 1.5px;
+    background: #1a9e50;
+    opacity: 0.45;
+    border-radius: 2px;
+}
+
+.blogs-title {
+    font-family: 'Inter', 'Montserrat', 'Segoe UI', sans-serif;
+    font-size: clamp(32px, 4.5vw, 54px);
+    font-weight: 800;
+    color: #0d1e14; /* لون داكن عميق وغني */
+    margin: 0 0 18px;
+    line-height: 1.1;
+    letter-spacing: -0.04em; /* تضييق المسافات يمنح الخط طابعاً عصرياً وفخماً */
+    text-transform: capitalize;
+}
+
+.blogs-hl { color: #1a9e50; }
+
+.blogs-subtitle {
+    font-size: 16.5px;
+    color: #5a7a65;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.75;
+}
+
+/* ── Grid ── */
+.blogs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 13px;
+    width: 100%;
+    padding: 0 48px;
+    box-sizing: border-box;
+}
+
+/* ── Card ── */
+.blog-card {
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid #e0f2e9;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1),
+                box-shadow  0.4s ease;
+    will-change: transform;
+}
+
+.blog-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    transition: border-color 0.35s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.blog-card:hover { transform: translateY(-12px) scale(1.015); box-shadow: 0 32px 64px rgba(26,158,80,0.13), 0 8px 24px rgba(0,0,0,0.04); }
+@* .blog-card:hover::after { border-color: #2ecc71; }
+.blog-card.featured { border-color: #2ecc71; box-shadow: 0 4px 28px rgba(46,204,113,0.10); } *@
+
+/* ── Image ── */
+.blog-img-wrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
+    background: linear-gradient(135deg, #e8f8f0, #c5f0d8);
+}
+
+.blog-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.7s cubic-bezier(0.25,0.8,0.25,1);
+}
+
+.blog-card:hover .blog-img { transform: scale(1.08); }
+
+.blog-img-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+}
+
+.blog-img-placeholder i { font-size: 52px; color: #1a9e50; opacity: 0.3; }
+
+/* ── Tag ── */
+.blog-tag {
+    position: absolute;
+    top: 14px; left: 14px;
+    z-index: 2;
+    background: #1a9e50;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 5px 13px;
+    border-radius: 100px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.blog-tag.ai-tag   { background: #064e36; }
+.blog-tag.team-tag { background: #1a4d8e; }
+
+/* ── Body ── */
+.blog-body {
+    padding: 24px 26px 26px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* ── Meta ── */
+.blog-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #7a9e87;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.blog-meta i { font-size: 13px; color: #1a9e50; }
+
+/* ── Title ── */
+.blog-card-title {
+    font-size: 16.5px;
+    font-weight: 700;
+    color: #0f1f15;
+    margin: 0 0 10px;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+}
+
+/* ── Excerpt ── */
+.blog-excerpt {
+    font-size: 13.5px;
+    color: #5a7a65;
+    line-height: 1.8;
+    margin: 0 0 20px;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ── Read More ── */
+.blog-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #1a9e50;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: auto;
+    align-self: flex-start;
+    padding: 7px 16px 7px 12px;
+    border-radius: 100px;
+    background: #f0faf4;
+    border: 1px solid #c5f0d8;
+    letter-spacing: 0.02em;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, gap 0.3s ease;
+}
+
+.blog-read-more i { font-size: 14px; transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+.blog-read-more:hover { background: #1a9e50; color: #fff; border-color: #1a9e50; gap: 8px; }
+.blog-read-more:hover i { transform: translateX(4px); }
+
+/* ══════════════════════════════
+   VIEW ALL BUTTON — احترافي
+══════════════════════════════ */
+.blogs-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 56px;
+}
+
+.blogs-all-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #0f1f15;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 16px 36px;
+    border-radius: 100px;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1),
+                box-shadow 0.35s ease;
+    box-shadow: 0 4px 20px rgba(15,31,21,0.18);
+}
+
+/* shine sweep */
+.blogs-all-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.18), transparent);
+    transition: left 0.55s ease;
+}
+
+.blogs-all-btn:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 16px 40px rgba(15,31,21,0.22); }
+.blogs-all-btn:hover::before { left: 130%; }
+
+.blogs-all-btn .btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    flex-shrink: 0;
+    transition: background 0.3s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.blogs-all-btn:hover .btn-icon { background: rgba(255,255,255,0.22); transform: rotate(-8deg) scale(1.15); }
+.blogs-all-btn .btn-icon i { font-size: 17px; }
+
+/* count badge */
+.blogs-all-btn .btn-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a9e50;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 100px;
+    letter-spacing: 0;
+    transition: background 0.3s ease;
+}
+
+.blogs-all-btn:hover .btn-badge { background: #2ecc71; }
+
+/* ══════════════════════════════
+   ANIMATIONS
+══════════════════════════════ */
+.banim-ey   { opacity:0; transform:scaleX(0.5) translateY(10px); transition:opacity .6s ease, transform .6s cubic-bezier(0.22,1,0.36,1); }
+.banim-h    { opacity:0; transform:translateY(36px);              transition:opacity .75s cubic-bezier(0.22,1,0.36,1), transform .75s cubic-bezier(0.22,1,0.36,1); }
+.banim-card { opacity:0; transform:translateY(56px) scale(0.97);  transition:opacity .7s cubic-bezier(0.22,1,0.36,1), transform .7s cubic-bezier(0.22,1,0.36,1); }
+.banim-foot { opacity:0; transform:translateY(20px);              transition:opacity .6s ease, transform .6s ease; }
+
+.banim-ey.bv,
+.banim-h.bv,
+.banim-card.bv,
+.banim-foot.bv { opacity:1; transform:none; }
+
+/* ── Responsive ── */
+@@media (max-width: 960px) {
+    .blogs-grid { grid-template-columns:1fr 1fr; padding:0 28px; gap:12px; }
+}
+@@media (max-width: 600px) {
+    .blogs-section { padding:64px 0 56px; }
+    .blogs-grid    { grid-template-columns:1fr; padding:0 18px; gap:10px; }
+    .blogs-title   { font-size:28px; }
+}
+@@media (prefers-reduced-motion:reduce) {
+    .banim-ey,.banim-h,.banim-card,.banim-foot,
+    .blog-card,.blog-img,.blog-read-more,.blogs-all-btn {
+        transition:none!important; transform:none!important; opacity:1!important;
+    }
+}
+</style>
+
+<section class="blogs-section" id="blogs">
+
+    <div class="blogs-header">
+        <div class="blogs-eyebrow banim-ey">@t_eyebrow</div>
+        <h2 class="blogs-title banim-h"><span class="blogs-hl">@t_title1</span>@t_title2</h2>
+        <p class="blogs-subtitle banim-h" style="transition-delay:.1s">@t_subtitle</p>
+    </div>
+
+    <div class="blogs-grid">
+
+        <article class="blog-card banim-card" data-bd="0">
+            <div class="blog-img-wrap">
+                <img src="~/images/blog-devices.png" alt="@a1_title" class="blog-img" loading="lazy"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                <div class="blog-img-placeholder" style="display:none">
+                    <i class="ti ti-device-heart-monitor" aria-hidden="true"></i>
+                </div>
+                <span class="blog-tag">@a1_tag</span>
+            </div>
+            <div class="blog-body">
+                <div class="blog-meta">
+                    <i class="ti ti-calendar-event" aria-hidden="true"></i>
+                    <time datetime="2026-06-15">@a1_date</time>
+                </div>
+                <h3 class="blog-card-title">@a1_title</h3>
+                <p class="blog-excerpt">@a1_excerpt</p>
+                
+            </div>
+        </article>
+
+        <article class="blog-card featured banim-card" data-bd="130">
+            <div class="blog-img-wrap">
+                <img src="~/images/blog-ai.png" alt="@a2_title" class="blog-img" loading="lazy"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                <div class="blog-img-placeholder" style="display:none">
+                    <i class="ti ti-cpu" aria-hidden="true"></i>
+                </div>
+                <span class="blog-tag ai-tag">@a2_tag</span>
+            </div>
+            <div class="blog-body">
+                <div class="blog-meta">
+                    <i class="ti ti-calendar-event" aria-hidden="true"></i>
+                    <time datetime="2026-06-10">@a2_date</time>
+                </div>
+                <h3 class="blog-card-title">@a2_title</h3>
+                <p class="blog-excerpt">@a2_excerpt</p>
+                
+            </div>
+        </article>
+
+        <article class="blog-card banim-card" data-bd="260">
+            <div class="blog-img-wrap">
+                <img src="~/images/blog-team.png" alt="@a3_title" class="blog-img" loading="lazy"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                <div class="blog-img-placeholder" style="display:none">
+                    <i class="ti ti-users" aria-hidden="true"></i>
+                </div>
+                <span class="blog-tag team-tag">@a3_tag</span>
+            </div>
+            <div class="blog-body">
+                <div class="blog-meta">
+                    <i class="ti ti-calendar-event" aria-hidden="true"></i>
+                    <time datetime="2026-06-01">@a3_date</time>
+                </div>
+                <h3 class="blog-card-title">@a3_title</h3>
+                <p class="blog-excerpt">@a3_excerpt</p>
+               
+            </div>
+        </article>
+
+    </div>
+
+  <div class="blogs-footer banim-foot" data-bd="360">
+    <a asp-controller="Home" asp-action="Treatments" class="blogs-all-btn">
+
+        @t_viewall
+    </a>
+</div>
+
+</section>
+
+<script>
+(function () {
+    var IO = window.IntersectionObserver;
+    if (!IO) {
+        document.querySelectorAll('.banim-ey,.banim-h,.banim-card,.banim-foot')
+            .forEach(function(el){ el.classList.add('bv'); });
+        return;
+    }
+    function watch(sel, margin) {
+        var obs = new IO(function(entries){
+            entries.forEach(function(e){
+                if (!e.isIntersecting) return;
+                var el = e.target;
+                var d  = parseInt(el.getAttribute('data-bd')||'0',10);
+                setTimeout(function(){ el.classList.add('bv'); }, d);
+                obs.unobserve(el);
+            });
+        },{ threshold:0.12, rootMargin: margin||'0px' });
+        document.querySelectorAll(sel).forEach(function(el){ obs.observe(el); });
+    }
+    watch('.banim-ey',  '-30px');
+    watch('.banim-h',   '-30px');
+    watch('.banim-card','-10px');
+    watch('.banim-foot','0px');
+})();
+</script>

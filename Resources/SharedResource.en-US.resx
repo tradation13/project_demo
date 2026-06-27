@@ -1853,6 +1853,11 @@
   <comment>LocationSection</comment>
 </data>
 
+<data name="Shared_Treatments" xml:space="preserve">
+    <value>Treatments</value>
+    <comment>for_header_footer</comment>
+  </data>
+
   <data name="ForgotConf_Header" xml:space="preserve">
     <value>Forgot Password Confirmation</value>
     <comment>Shared</comment>

@@ -38,6 +38,12 @@ namespace IPTS.Controllers
             return View(new ContactFormViewModel());
         }
 
+         [HttpGet]
+        public IActionResult Treatments()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Contact(ContactFormViewModel model)

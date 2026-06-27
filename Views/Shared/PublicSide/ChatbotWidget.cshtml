@@ -1,0 +1,363 @@
+@* ─── Chatbot Coming-Soon Widget (Partial) ─── *@
+
+@{
+    var lang = (string)(ViewBag.Lang ?? System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
+    bool isDE = lang?.ToLower() == "de";
+
+    var chatName        = isDE ? "PhysioTech Assistent" : "PhysioTech Assistant";
+    var chatStatus      = isDE ? "Demnächst verfügbar" : "Coming soon";
+    var chatTitle       = isDE ? "KI-Assistent kommt bald!" : "AI Assistant coming soon!";
+    var chatSub         = isDE ? "Intelligente Unterstützung für Ihre Fragen zur Physiotherapie." : "Smart support for your physiotherapy questions.";
+    var chatPlaceholder = isDE ? "Gib deine Nachricht ein…" : "Type your message…";
+    var chatOpenChat    = isDE ? "Chat öffnen" : "Open chat";
+    var chatClose       = isDE ? "Schließen" : "Close";
+    var chatExpand      = isDE ? "Vergrößern" : "Expand";
+    var chatCollapse    = isDE ? "Verkleinern" : "Collapse";
+    var chatBadge       = isDE ? "Demnächst verfügbar" : "Coming soon";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css" />
+
+<style>
+  .fab-area {
+    position: fixed;
+    bottom: 1.75rem;
+    right: 1.75rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+  }
+
+  .chat-panel {
+    display: none;
+    flex-direction: column;
+    width: 320px;
+    border-radius: 16px;
+    border: 0.5px solid #d1d5db;
+    background: #ffffff;
+    overflow: hidden;
+    transform-origin: bottom right;
+    animation: cb-pop .3s cubic-bezier(.22,1,.36,1) forwards;
+    box-shadow: 0 12px 40px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.08);
+  }
+  .chat-panel.open { display: flex; }
+
+  @@keyframes cb-pop {
+    from { opacity: 0; transform: scale(.88) translateY(10px); }
+    to   { opacity: 1; transform: scale(1)   translateY(0); }
+  }
+
+  .cp-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    background: #1a7a4a;
+  }
+  .cp-avatar {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.15);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+  .cp-info { flex: 1; }
+  .cp-name  { font-size: 13px; font-weight: 500; color: #fff; }
+  .cp-status { font-size: 11px; color: rgba(255,255,255,.7); margin-top: 1px; }
+  .cp-close {
+    background: none; border: none; cursor: pointer;
+    color: rgba(255,255,255,.7);
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s;
+    font-size: 15px;
+  }
+  .cp-close:hover { background: rgba(255,255,255,.15); color: #fff; }
+
+  .cp-expand {
+    background: none; border: none; cursor: pointer;
+    color: rgba(255,255,255,.7);
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s;
+    font-size: 15px;
+    margin-right: 6px;
+  }
+  .cp-expand:hover { background: rgba(255,255,255,.15); color: #fff; }
+
+  .cp-body {
+    padding: 20px 18px 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+    background: #f9fafb;
+  }
+
+  /* حاوية المحتوى العلوي لمنع تباعدها */
+  .cp-content-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+  }
+
+  .ai-orb-wrap { position: relative; display: inline-block; }
+  .ai-orb {
+    width: 64px; height: 64px;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #2dbe72, #1a7a4a);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ai-orb i { font-size: 28px; color: #fff; }
+  .orb-ring {
+    position: absolute; inset: -4px;
+    border-radius: 22px;
+    border: 1.5px dashed rgba(45,190,114,.4);
+    animation: cb-spin 8s linear infinite;
+  }
+  @@keyframes cb-spin { to { transform: rotate(360deg); } }
+
+  .cs-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    background: rgba(26,122,74,.08);
+    border: 0.5px solid rgba(26,122,74,.25);
+  }
+  .badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #1a7a4a;
+    animation: cb-blink 1.8s ease-in-out infinite;
+  }
+  @@keyframes cb-blink {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%      { opacity:.4; transform:scale(.7); }
+  }
+  .badge-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #1a7a4a;
+  }
+
+  .cp-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.3;
+    margin: 0;
+  }
+  .cp-sub {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.6;
+    max-width: 230px;
+    margin: 0;
+  }
+
+  .fake-input {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 9px 12px;
+    opacity: .45;
+    pointer-events: none;
+    margin-top: auto; /* دفع الحقل للأسفل دائماً */
+  }
+  .fake-input span {
+    flex: 1;
+    font-size: 12px;
+    color: #9ca3af;
+    text-align: right;
+  }
+  .fake-input i { font-size: 14px; color: #9ca3af; flex-shrink: 0; }
+
+  .fab-btn {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    border: none;
+    background: #1a7a4a;
+    color: #fff;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    transition: transform .25s cubic-bezier(.34,1.56,.64,1), background .2s;
+    flex-shrink: 0;
+    box-shadow: 0 8px 24px rgba(26,122,74,.4), 0 2px 6px rgba(0,0,0,.12);
+  }
+  .fab-btn:hover { transform: scale(1.08) ; background: #15663e; }
+  .fab-btn i { font-size: 24px; }
+  .fab-btn.open i.ic-chat { display: none; }
+  .fab-btn:not(.open) i.ic-x { display: none; }
+
+  .fab-btn::before {
+    content: '';
+    position: absolute;
+    bottom: -6px; right: 10px;
+    width: 12px; height: 12px;
+    background: #1a7a4a;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+  .fab-btn.open::before { display: none; }
+
+  .notif-dot {
+    position: absolute;
+    top: -3px; right: -3px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: #f59e0b;
+    border: 2px solid #fff;
+  }
+
+  .chat-panel.expanded {
+    width: min(92vw, 92vh, 780px);
+    height: min(92vw, 92vh, 780px);
+  }
+
+  .chat-panel.expanded .cp-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* تغيير التوزيع ليبدأ من الأعلى بشكل طبيعي */
+    overflow-y: auto;
+    min-height: 0;
+    gap: 24px; /* مسافة متناسقة وجذابة في الوضع الكبير */
+  }
+
+  .chat-panel.expanded .fab-btn {
+    right: 0;
+  }
+
+  .ai-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 0.5px solid #d1d5db;
+    border-radius: 9999px;
+    padding: 4px 10px 4px 7px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+  .chip-icon {
+    width: 18px; height: 18px;
+    border-radius: 6px;
+    background: #1a7a4a;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .chip-icon i { font-size: 11px; color: #fff; }
+  .ai-chip span { font-size: 11px; font-weight: 500; color: #4b5563; }
+</style>
+
+<div class="fab-area">
+
+  <div class="chat-panel" id="cbPanel" role="dialog" aria-modal="true" aria-label="@chatName">
+    <div class="cp-head">
+      <div class="cp-avatar">🩺</div>
+      <div class="cp-info">
+        <div class="cp-name" id="cbName">@chatName</div>
+        <div class="cp-status" id="cbStatus">@chatStatus</div>
+      </div>
+      <button type="button" class="cp-expand" id="cbExpand" aria-label="@chatExpand">
+        <i class="ti ti-maximize"></i>
+      </button>
+      <button type="button" class="cp-close" id="cbClose" aria-label="@chatClose">
+        <i class="ti ti-x"></i>
+      </button>
+    </div>
+
+    <div class="cp-body">
+      <div class="cp-content-top">
+        <div class="ai-orb-wrap">
+          <div class="ai-orb">
+            <i class="ti ti-robot" aria-hidden="true"></i>
+          </div>
+          <div class="orb-ring"></div>
+        </div>
+
+        <div class="cs-badge">
+          <div class="badge-dot"></div>
+          <span class="badge-label">@chatBadge</span>
+        </div>
+
+        <p class="cp-title" id="cbTitle">@chatTitle</p>
+        <p class="cp-sub" id="cbSub">@chatSub</p>
+      </div>
+
+      <div class="fake-input" aria-hidden="true">
+        <span id="cbFakeInput">@chatPlaceholder</span>
+        <i class="ti ti-send" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:relative; display:inline-block;">
+    <button type="button" class="fab-btn" id="cbToggle" aria-label="@chatOpenChat" aria-expanded="false" aria-controls="cbPanel">
+      <i class="ti ti-stethoscope ic-chat" aria-hidden="true"></i>
+      <i class="ti ti-x ic-x" aria-hidden="true"></i>
+    </button>
+    <div class="notif-dot" id="cbNotif"></div>
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const panel    = document.getElementById('cbPanel');
+    const expandEl = document.getElementById('cbExpand');
+    const toggle   = document.getElementById('cbToggle');
+    const closeEl  = document.getElementById('cbClose');
+    const notif    = document.getElementById('cbNotif');
+    const chip     = document.getElementById('cbChip');
+
+    function openPanel() {
+      panel.classList.add('open');
+      toggle.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      if (notif) notif.style.display = 'none';
+      if (chip) chip.style.display = 'none';
+    }
+    
+    function closePanel() {
+      panel.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      if (chip) chip.style.display = 'flex';
+    }
+
+    if (toggle) {
+      toggle.addEventListener('click', () =>
+        panel.classList.contains('open') ? closePanel() : openPanel()
+      );
+    }
+    if (expandEl) {
+      expandEl.addEventListener('click', function () {
+        const expanded = panel.classList.toggle('expanded');
+        this.setAttribute('aria-label', expanded ? '@chatCollapse' : '@chatExpand');
+        this.querySelector('i').className = expanded ? 'ti ti-minimize' : 'ti ti-maximize';
+      });
+    }
+    if (closeEl) {
+      closeEl.addEventListener('click', closePanel);
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && panel.classList.contains('open')) closePanel();
+    });
+  });
+</script>

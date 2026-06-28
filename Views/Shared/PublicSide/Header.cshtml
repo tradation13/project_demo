@@ -1,295 +1,826 @@
-﻿<header class="sticky top-0 z-50 bg-gray-50 shadow-sm transition-colors">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex h-16 items-center justify-between lg:h-20">
-            <!-- Logo -->
-            <a asp-controller="Home" asp-area="" asp-action="Index" class="flex shrink-0 items-center space-x-2">
-                <img src="/images/logo.svg" alt="ipts Logo"
-                    class="h-12 w-auto transition-transform hover:scale-105 sm:h-14 md:h-24 lg:h-28">
-            </a>
+﻿@using Microsoft.AspNetCore.Localization
+@using Microsoft.Extensions.Localization
 
-           <nav class="hidden items-center gap-2 min-[1000px]:flex">
-    
-    <div class="flex items-center gap-1">
-        <a asp-controller="Home" asp-area="" asp-action="Index" 
-           class="group relative whitespace-nowrap px-4 py-2 text-sm font-bold text-gray-700 transition-colors hover:text-green-600">
-            @SharedLocalizer["Shared_Home"]
-            <span class="absolute inset-x-4 bottom-1 h-0.5 scale-x-0 bg-green-600 transition-transform duration-300 group-hover:scale-x-100"></span>
+@{
+    var currentCulture = Context.Features.Get<IRequestCultureFeature>()?.RequestCulture.Culture.Name;
+    var targetCulture  = currentCulture == "de-DE" ? "en-US" : "de-DE";
+    var toggleLabel    = currentCulture == "de-DE" ? "EN" : "DE";
+    var languageLabel  = SharedLocalizer["Language"].Value;
+    if (currentCulture?.StartsWith("de") == true &&
+        string.Equals(languageLabel, "Language", StringComparison.OrdinalIgnoreCase))
+        languageLabel = "Sprache";
+}
+
+<style>
+/* ══════════════════════════════════════════════════════
+   HEADER — PhysioTech
+══════════════════════════════════════════════════════ */
+
+/* base */
+.pt-header {
+    position: sticky;
+    top: 0;
+    z-index: 9000;
+    width: 100%;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    transition: background .35s ease, box-shadow .35s ease, backdrop-filter .35s ease;
+}
+
+/* transparent → frosted on scroll */
+.pt-header.scrolled {
+    background: rgba(255,255,255,.82);
+    backdrop-filter: blur(20px) saturate(1.6);
+    -webkit-backdrop-filter: blur(20px) saturate(1.6);
+    box-shadow: 0 1px 0 rgba(0,0,0,.06), 0 4px 24px rgba(0,0,0,.04);
+}
+.pt-header:not(.scrolled) {
+    background: #fff;
+    box-shadow: 0 1px 0 rgba(0,0,0,.07);
+}
+
+.pt-header__inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* ── Logo ── */
+.pt-logo img {
+    height: 90px;
+    width: auto;
+    transition: transform .25s cubic-bezier(.34,1.56,.64,1), opacity .2s;
+}
+.pt-logo:hover img { transform: scale(1.06); }
+
+/* ── Desktop nav ── */
+.pt-nav {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+}
+
+.pt-nav__link {
+    position: relative;
+    padding: .45rem .85rem;
+    font-size: .84rem;
+    font-weight: 600;
+    color: #374151;
+    text-decoration: none;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: color .2s, background .2s;
+    outline: none;
+}
+.pt-nav__link:hover { color: #16a34a; background: #f0fdf4; }
+.pt-nav__link:focus-visible {
+    outline: 2px solid #16a34a;
+    outline-offset: 2px;
+}
+
+/* active indicator bar */
+.pt-nav__link::after {
+    content: '';
+    position: absolute;
+    inset-x: .6rem;
+    bottom: 4px;
+    height: 2px;
+    border-radius: 9999px;
+    background: #16a34a;
+    transform: scaleX(0);
+    transition: transform .25s cubic-bezier(.22,1,.36,1);
+}
+.pt-nav__link.is-active { color: #16a34a; }
+.pt-nav__link.is-active::after,
+.pt-nav__link:hover::after { transform: scaleX(1); }
+
+/* dashboard pill */
+.pt-nav__dash {
+    margin-left: .25rem;
+    padding: .45rem 1rem;
+    font-size: .82rem;
+    font-weight: 700;
+    color: #15803d;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: background .2s, color .2s, border-color .2s, transform .2s;
+    white-space: nowrap;
+}
+.pt-nav__dash:hover {
+    background: #16a34a;
+    color: #fff;
+    border-color: #16a34a;
+    transform: translateY(-1px);
+}
+
+/* ── Divider ── */
+.pt-divider {
+    width: 1px; height: 24px;
+    background: #e5e7eb;
+    margin: 0 .5rem;
+    flex-shrink: 0;
+}
+
+/* ── Language toggle ── */
+.pt-lang {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .4rem .85rem .4rem .5rem;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    font-size: .78rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-decoration: none;
+    transition: border-color .2s, color .2s, box-shadow .2s, transform .2s;
+    white-space: nowrap;
+}
+.pt-lang:hover {
+    border-color: #16a34a;
+    color: #15803d;
+    box-shadow: 0 2px 8px rgba(22,163,74,.15);
+    transform: translateY(-1px);
+}
+.pt-lang__icon {
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 7px;
+    background: #f9fafb;
+    color: #9ca3af;
+    transition: background .2s, color .2s;
+}
+.pt-lang:hover .pt-lang__icon { background: #dcfce7; color: #16a34a; }
+
+/* ── Right controls ── */
+.pt-controls {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-shrink: 0;
+}
+
+/* theme btn */
+.pt-theme-btn {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    color: #6b7280;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background .2s, color .2s, border-color .2s;
+    flex-shrink: 0;
+}
+.pt-theme-btn:hover { background: #f0fdf4; color: #16a34a; border-color: #bbf7d0; }
+
+/* join btn */
+.pt-join-btn {
+    padding: .45rem 1.1rem;
+    border-radius: 9px;
+    font-size: .84rem;
+    font-weight: 700;
+    color: #fff;
+    background: #16a34a;
+    text-decoration: none;
+    transition: background .2s, transform .2s, box-shadow .2s;
+    white-space: nowrap;
+}
+.pt-join-btn:hover {
+    background: #15803d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(22,163,74,.35);
+}
+
+/* ── User dropdown ── */
+.pt-user {
+    position: relative;
+}
+.pt-user__trigger {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .4rem .75rem .4rem .5rem;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    font-size: .84rem;
+    font-weight: 600;
+    color: #374151;
+    cursor: pointer;
+    transition: border-color .2s, box-shadow .2s;
+    max-width: 200px;
+}
+.pt-user__trigger:hover { border-color: #16a34a; }
+.pt-user__trigger.open { border-color: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,.12); }
+.pt-user__avatar {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg,#4ade80,#16a34a);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 13px;
+    flex-shrink: 0;
+}
+.pt-user__name { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pt-user__chevron { color: #9ca3af; transition: transform .25s; flex-shrink: 0; }
+.pt-user__trigger.open .pt-user__chevron { transform: rotate(180deg); }
+
+.pt-user__panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 220px;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    box-shadow: 0 16px 48px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
+    overflow: hidden;
+    transform-origin: top right;
+    transform: scale(.94) translateY(-6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .25s cubic-bezier(.22,1,.36,1), opacity .2s;
+}
+.pt-user__panel.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+
+.pt-user__panel-header {
+    padding: .85rem 1rem .7rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+.pt-user__panel-name { font-weight: 700; font-size: .85rem; color: #111827; }
+.pt-user__panel-role { font-size: .72rem; color: #9ca3af; margin-top: 2px; }
+
+.pt-user__panel a,
+.pt-user__panel button {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    width: 100%;
+    padding: .55rem 1rem;
+    font-size: .83rem;
+    font-weight: 600;
+    color: #374151;
+    background: none;
+    border: none;
+    text-decoration: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+}
+.pt-user__panel a:hover { background: #f9fafb; color: #16a34a; }
+.pt-user__panel .pt-logout { color: #dc2626; }
+.pt-user__panel .pt-logout:hover { background: #fef2f2; color: #b91c1c; }
+.pt-user__panel-sep { height: 1px; background: #f3f4f6; margin: .35rem 0; }
+.pt-user__panel i { width: 16px; text-align: center; }
+
+/* ── Hamburger ── */
+.pt-hamburger {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    color: #374151;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background .2s, border-color .2s, color .2s;
+    flex-shrink: 0;
+}
+.pt-hamburger:hover { background: #f0fdf4; border-color: #bbf7d0; color: #16a34a; }
+.ham-line {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.ham-line span {
+    display: block;
+    width: 18px; height: 2px;
+    border-radius: 9999px;
+    background: currentColor;
+    transition: transform .3s, opacity .3s, width .3s;
+    transform-origin: center;
+}
+.pt-hamburger.open .ham-line span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.pt-hamburger.open .ham-line span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.pt-hamburger.open .ham-line span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ══════════════════════════════════════════════════════
+   MOBILE DRAWER
+══════════════════════════════════════════════════════ */
+.pt-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 8999;
+    background: rgba(0,0,0,.35);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s;
+}
+.pt-drawer-overlay.open { opacity: 1; pointer-events: all; }
+
+.pt-drawer {
+    position: fixed;
+    top: 0; right: 0;
+    z-index: 9000;
+    height: 100%;
+    width: min(340px, 88vw);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform .35s cubic-bezier(.22,1,.36,1);
+    box-shadow: -20px 0 60px rgba(0,0,0,.12);
+}
+.pt-drawer.open { transform: translateX(0); }
+
+.pt-drawer__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+.pt-drawer__logo img { height: 40px; width: auto; }
+.pt-drawer__close {
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    color: #6b7280;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background .2s, color .2s;
+}
+.pt-drawer__close:hover { background: #fee2e2; color: #dc2626; border-color: #fecaca; }
+
+/* user card inside drawer */
+.pt-drawer__user {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: 1rem 1.25rem;
+    background: #f9fafb;
+    border-bottom: 1px solid #f3f4f6;
+}
+.pt-drawer__avatar {
+    width: 40px; height: 40px;
+    border-radius: 11px;
+    background: linear-gradient(135deg,#4ade80,#16a34a);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 18px;
+    flex-shrink: 0;
+}
+.pt-drawer__uname { font-weight: 700; font-size: .88rem; color: #111827; }
+.pt-drawer__urole { font-size: .72rem; color: #9ca3af; }
+
+.pt-drawer__nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: .75rem 0;
+}
+.pt-drawer__nav a {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .7rem 1.25rem;
+    font-size: .9rem;
+    font-weight: 600;
+    color: #374151;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: background .15s, color .15s, border-color .15s;
+}
+.pt-drawer__nav a:hover,
+.pt-drawer__nav a.is-active {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-left-color: #16a34a;
+}
+.pt-drawer__nav a i { width: 18px; text-align: center; color: inherit; }
+.pt-drawer__sep {
+    height: 1px;
+    background: #f3f4f6;
+    margin: .5rem 1.25rem;
+}
+
+.pt-drawer__foot {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid #f3f4f6;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+.pt-drawer__lang {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .55rem .85rem;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    font-size: .82rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-decoration: none;
+    transition: background .15s, border-color .15s, color .15s;
+}
+.pt-drawer__lang:hover { background: #f0fdf4; border-color: #bbf7d0; color: #16a34a; }
+
+.pt-drawer__join {
+    display: block;
+    text-align: center;
+    padding: .7rem;
+    border-radius: 10px;
+    background: #16a34a;
+    color: #fff;
+    font-size: .88rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background .2s;
+}
+.pt-drawer__join:hover { background: #15803d; }
+
+.pt-drawer__logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    padding: .6rem;
+    border-radius: 10px;
+    border: 1px solid #fecaca;
+    background: #fff;
+    color: #dc2626;
+    font-size: .84rem;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    transition: background .15s;
+}
+.pt-drawer__logout:hover { background: #fef2f2; }
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════ */
+@@media (max-width: 1099px) {
+    .pt-nav, .pt-divider, .pt-lang,
+    .pt-join-btn, .pt-user { display: none !important; }
+    .pt-hamburger { display: flex; }
+}
+@@media (min-width: 1100px) {
+    .pt-hamburger { display: none !important; }
+}
+</style>
+
+@* ── Overlay ─────────────────────────────────────────────────────────────── *@
+<div class="pt-drawer-overlay" id="ptOverlay" onclick="ptCloseDrawer()" aria-hidden="true"></div>
+
+@* ── Mobile Drawer ───────────────────────────────────────────────────────── *@
+<div class="pt-drawer" id="ptDrawer" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="pt-drawer__head">
+        <a class="pt-drawer__logo" asp-controller="Home" asp-area="" asp-action="Index">
+            <img src="/images/logo.svg" alt="Logo" />
         </a>
-
-        <a asp-controller="Home" asp-area="" asp-action="About" 
-           class="group relative whitespace-nowrap px-4 py-2 text-sm font-bold text-gray-700 transition-colors hover:text-green-600">
-            @SharedLocalizer["About"]
-            <span class="absolute inset-x-4 bottom-1 h-0.5 scale-x-0 bg-green-600 transition-transform duration-300 group-hover:scale-x-100"></span>
-        </a>
-
-        <a asp-controller="Home" asp-area="" asp-action="Contact" 
-           class="group relative whitespace-nowrap px-4 py-2 text-sm font-bold text-gray-700 transition-colors hover:text-green-600">
-            @SharedLocalizer["Contact"]
-            <span class="absolute inset-x-4 bottom-1 h-0.5 scale-x-0 bg-green-600 transition-transform duration-300 group-hover:scale-x-100"></span>
-        </a>
-
-          <a asp-controller="Home" asp-area="" asp-action="Treatments" 
-           class="group relative whitespace-nowrap px-4 py-2 text-sm font-bold text-gray-700 transition-colors hover:text-green-600">
-           @SharedLocalizer["Shared_Treatments"]
-            <span class="absolute inset-x-4 bottom-1 h-0.5 scale-x-0 bg-green-600 transition-transform duration-300 group-hover:scale-x-100"></span>
-        </a>
-
-        <a asp-controller="Home" asp-area="" asp-action="Therapies" 
-           class="group relative whitespace-nowrap px-4 py-2 text-sm font-bold text-gray-700 transition-colors hover:text-green-600">
-            @SharedLocalizer["Therapies"]
-            <span class="absolute inset-x-4 bottom-1 h-0.5 scale-x-0 bg-green-600 transition-transform duration-300 group-hover:scale-x-100"></span>
-        </a>
-
-        @if (User.IsInRole("doctor") || User.IsInRole("admin"))
-        {
-            var area = User.IsInRole("admin") ? "Admin" : "Doctor";
-            <a asp-area="@area" asp-controller="Dashboard" asp-action="Index" 
-               class="ml-2 rounded-full bg-green-50 px-4 py-2 text-sm font-bold text-green-700 ring-1 ring-inset ring-green-600/20 transition-all hover:bg-green-600 hover:text-white">
-                @SharedLocalizer["Dashboard"]
-            </a>
-        }
+        <button class="pt-drawer__close" onclick="ptCloseDrawer()" aria-label="Close">
+            <i class="ti ti-x" aria-hidden="true"></i>
+        </button>
     </div>
 
-    <div class="mx-2 h-6 w-px bg-gray-200"></div>
-
-    @{
-        var currentCulture = Context.Features.Get<IRequestCultureFeature>()?.RequestCulture.Culture.Name;
-        var targetCulture = currentCulture == "de-DE" ? "en-US" : "de-DE";
-        var toggleLabel = currentCulture == "de-DE" ? "EN" : "DE";
-        var languageLabel = SharedLocalizer["Language"].Value;
-
-        // Fallback: if de culture falls back to key text, force German label.
-        if (currentCulture?.StartsWith("de") == true && string.Equals(languageLabel, "Language", StringComparison.OrdinalIgnoreCase))
-        {
-            languageLabel = "Sprache";
-        }
-    }
-
-    <a asp-area="" 
-   asp-controller="Home" 
-   asp-action="SetLanguage" 
-   asp-route-culture="@targetCulture" 
-   asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)"
-   class="group flex items-center gap-2 rounded-xl border border-gray-100 bg-white p-1.5 pr-3 shadow-sm transition-all hover:border-green-600 hover:shadow-md">
-        
-        <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-gray-50 text-gray-500 transition-colors group-hover:bg-green-50 group-hover:text-green-600">
-            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 0 1 6.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5c.13 3.74-.93 7.607-3.751 10.5M4.5 9c1.94 1.44 4.5 2.5 7.5 3" />
-            </svg>
-        </div>
-        
-        <span class="text-[11px] font-bold uppercase tracking-tighter text-gray-400 group-hover:text-green-700">@toggleLabel</span>
-    </a>
-</nav>
-
-            <!-- Right Side Controls -->
-            <div class="ml-2 flex shrink-0 items-center gap-1 sm:gap-3">
-                <!-- Theme Toggle -->
-                <button id="theme-toggle"
-                        class="p-2 text-gray-600 transition-colors hover:text-green-600">
-                    <i data-lucide="moon" id="theme-icon" class="h-5 w-5"></i>
-                </button>
-
-                
-
-                @if (User?.Identity?.IsAuthenticated != true)
-                {
-                    <!-- Auth Button (Join) -->
-                    <a asp-controller="Auth" asp-action="Login"
-                       class="guest-desktop-join rounded-lg px-4 py-2 text-base font-bold text-green-600 transition-colors hover:text-green-700">
-                        @SharedLocalizer["Join"]
-                    </a>
-                }
-                else
-                {
-                    <!-- Desktop User Menu -->
-                    <div class="desktop-user-menu relative ml-2">
-                        <input id="desktop-user-menu-toggle" type="checkbox" class="desktop-user-menu-toggle sr-only" />
-                        <label for="desktop-user-menu-toggle"
-                               class="desktop-user-menu-button inline-flex max-w-[200px] cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-bold text-gray-700 shadow-sm transition-colors hover:border-green-600 hover:text-green-700">
-                            <i class="fas fa-user-circle text-lg"></i>
-                            <span class="truncate">@User.Identity?.Name</span>
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </label>
-
-                        <div id="desktop-user-menu-panel" class="hidden absolute right-0 z-50 mt-2 w-56 rounded-lg border border-gray-100 bg-white py-2 shadow-lg">
-                            <a asp-area="" asp-controller="Profile" asp-action="Index" class="block px-4 py-2 text-sm font-bold text-gray-700 transition-colors hover:bg-gray-100 hover:text-green-700">@SharedLocalizer["Shared_Profile"]</a>
-                            @if (User.IsInRole("doctor"))
-                            {
-                                <a asp-area="Doctor" asp-controller="Dashboard" asp-action="Index" class="block px-4 py-2 text-sm font-bold text-gray-700 transition-colors hover:bg-gray-100 hover:text-green-700">@SharedLocalizer["Dashboard"]</a>
-                            }
-                            @if (User.IsInRole("admin"))
-                            {
-                                <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="block px-4 py-2 text-sm font-bold text-gray-700 transition-colors hover:bg-gray-100 hover:text-green-700">@SharedLocalizer["Dashboard"]</a>
-                            }
-                            @if (User.IsInRole("patient"))
-                            {
-                                <a asp-area="Patient" asp-controller="Panel" asp-action="Index" class="block px-4 py-2 text-sm font-bold text-gray-700 transition-colors hover:bg-gray-100 hover:text-green-700">@SharedLocalizer["Panel"]</a>
-                                <a asp-area="Patient" asp-controller="Appointment" asp-action="Appointments" class="block px-4 py-2 text-sm font-bold text-gray-700 transition-colors hover:bg-gray-100 hover:text-green-700">@SharedLocalizer["MyAppointments"]</a>
-                                <a asp-area="Patient" asp-controller="MedicalCases" asp-action="Index" class="block px-4 py-2 text-sm font-bold text-gray-700 transition-colors hover:bg-gray-100 hover:text-green-700">@SharedLocalizer["Shared_Medical_Cases"]</a>
-                            }
-                            <div class="my-1 border-t border-gray-100"></div>
-                            <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post">
-                                <button type="submit" class="block w-full px-4 py-2 text-left text-sm font-bold text-red-600 transition-colors hover:bg-red-50 hover:text-red-700">@SharedLocalizer["Shared_Logout"]</button>
-                            </form>
-                        </div>
-                    </div>
-                }
-
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-button"
-                    class="mobile-only-trigger inline-flex items-center justify-center text-gray-700 transition-colors hover:text-green-600 @(User?.Identity?.IsAuthenticated == true ? "rounded-md border border-gray-200 p-2 hover:border-green-600" : "guest-mobile-menu-trigger gap-1 px-2 py-1.5 font-bold")">
-                    @if (User?.Identity?.IsAuthenticated == true)
-                    {
-                        var userDisplayName = string.IsNullOrWhiteSpace(User.Identity?.Name)
-                            ? SharedLocalizer["Shared_Profile"].Value
-                            : User.Identity.Name;
-                        <span class="flex items-center gap-1.5 leading-tight">
-                            <i class="fas fa-user-circle text-base text-gray-600"></i>
-                            <span class="max-w-[120px] truncate text-sm font-bold text-gray-700">@userDisplayName</span>
-                            <svg class="h-3.5 w-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </span>
-                    }
-                    else
-                    {
-                        <span class="text-sm font-bold text-green-700">@SharedLocalizer["Join"]</span>
-                        <svg class="h-3.5 w-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    }
-                </button>
+    @if (User?.Identity?.IsAuthenticated == true)
+    {
+        <div class="pt-drawer__user">
+            <div class="pt-drawer__avatar">
+                <i class="fas fa-user-circle" aria-hidden="true"></i>
+            </div>
+            <div>
+                <div class="pt-drawer__uname">@User.Identity?.Name</div>
+                <div class="pt-drawer__urole">
+                    @if (User.IsInRole("admin"))        { <text>Admin</text> }
+                    else if (User.IsInRole("doctor"))   { <text>Doctor</text> }
+                    else                               { <text>Patient</text> }
+                </div>
             </div>
         </div>
+    }
 
-        <!-- Mobile Navigation -->
-        <div id="mobile-menu" class="hidden border-t border-gray-200 py-4 min-[1000px]:hidden">
-            <div class="flex flex-col space-y-2">
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="px-3 py-2 text-base font-bold text-gray-600 transition-colors hover:text-green-600">
-                    @SharedLocalizer["Shared_Home"]
+    <nav class="pt-drawer__nav" aria-label="Mobile navigation">
+        <a asp-controller="Home" asp-area="" asp-action="Index">
+            <i class="ti ti-home" aria-hidden="true"></i> @SharedLocalizer["Shared_Home"]
+        </a>
+        <a asp-controller="Home" asp-area="" asp-action="About">
+            <i class="ti ti-info-circle" aria-hidden="true"></i> @SharedLocalizer["About"]
+        </a>
+        <a asp-controller="Home" asp-area="" asp-action="OurProjects">
+            <i class="ti ti-building" aria-hidden="true"></i> @SharedLocalizer["Shared_OurProjects"]
+        </a>
+        <a asp-controller="Home" asp-area="" asp-action="Treatments">
+            <i class="ti ti-stethoscope" aria-hidden="true"></i> @SharedLocalizer["Shared_Treatments"]
+        </a>
+        <a asp-controller="Home" asp-area="" asp-action="Therapies">
+            <i class="ti ti-heart-rate-monitor" aria-hidden="true"></i> @SharedLocalizer["Therapies"]
+        </a>
+        <a asp-controller="Home" asp-area="" asp-action="Contact">
+            <i class="ti ti-mail" aria-hidden="true"></i> @SharedLocalizer["Contact"]
+        </a>
+
+        @if (User?.Identity?.IsAuthenticated == true)
+        {
+            <div class="pt-drawer__sep"></div>
+            <a asp-area="" asp-controller="Profile" asp-action="Index">
+                <i class="ti ti-user-circle" aria-hidden="true"></i> @SharedLocalizer["Shared_Profile"]
+            </a>
+            @if (User.IsInRole("doctor"))
+            {
+                <a asp-area="Doctor" asp-controller="Dashboard" asp-action="Index">
+                    <i class="ti ti-layout-dashboard" aria-hidden="true"></i> @SharedLocalizer["Dashboard"]
                 </a>
-                <a asp-area="" asp-controller="Home" asp-action="About" class="px-3 py-2 text-base font-bold text-gray-600 transition-colors hover:text-green-600">
-                    @SharedLocalizer["About"]
+            }
+            @if (User.IsInRole("admin"))
+            {
+                <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                    <i class="ti ti-layout-dashboard" aria-hidden="true"></i> @SharedLocalizer["Dashboard"]
                 </a>
-                <a asp-area="" asp-controller="Home" asp-action="Contact" class="px-3 py-2 text-base font-bold text-gray-600 transition-colors hover:text-green-600">
-                    @SharedLocalizer["Contact"]
+            }
+            @if (User.IsInRole("patient"))
+            {
+                <a asp-area="Patient" asp-controller="Panel" asp-action="Index">
+                    <i class="ti ti-layout-sidebar" aria-hidden="true"></i> @SharedLocalizer["Panel"]
                 </a>
-                <a asp-area="" asp-controller="Home" asp-action="Treatments" class="px-3 py-2 text-base font-bold text-gray-600 transition-colors hover:text-green-600">
-                    @SharedLocalizer["Shared_Treatments"]
+                <a asp-area="Patient" asp-controller="Appointment" asp-action="Appointments">
+                    <i class="ti ti-calendar" aria-hidden="true"></i> @SharedLocalizer["MyAppointments"]
                 </a>
-                <a asp-area="" asp-controller="Home" asp-action="Therapies" class="px-3 py-2 text-base font-bold text-gray-600 transition-colors hover:text-green-600">
-                    @SharedLocalizer["Therapies"]
+                <a asp-area="Patient" asp-controller="MedicalCases" asp-action="Index">
+                    <i class="ti ti-clipboard-list" aria-hidden="true"></i> @SharedLocalizer["Shared_Medical_Cases"]
                 </a>
-                <a asp-area="" 
-                   asp-controller="Home" 
-                   asp-action="SetLanguage" 
-                   asp-route-culture="@targetCulture" 
-                   asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)"
-                   class="px-3 py-2 text-base font-bold text-gray-600 transition-colors hover:text-green-600">
-                    @languageLabel (@toggleLabel)
+            }
+        }
+    </nav>
+
+    <div class="pt-drawer__foot">
+        <a class="pt-drawer__lang"
+           asp-area="" asp-controller="Home" asp-action="SetLanguage"
+           asp-route-culture="@targetCulture"
+           asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)">
+            <i class="ti ti-world" aria-hidden="true"></i>
+            @languageLabel (@toggleLabel)
+        </a>
+
+        @if (User?.Identity?.IsAuthenticated != true)
+        {
+            <a class="pt-drawer__join" asp-controller="Auth" asp-action="Login">
+                @SharedLocalizer["Join"]
+            </a>
+        }
+        else
+        {
+            <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post">
+                <button type="submit" class="pt-drawer__logout">
+                    <i class="ti ti-logout" aria-hidden="true"></i>
+                    @SharedLocalizer["Shared_Logout"]
+                </button>
+            </form>
+        }
+    </div>
+</div>
+
+@* ── Header ───────────────────────────────────────────────────────────────── *@
+<header class="pt-header" id="ptHeader">
+    <div class="pt-header__inner">
+
+        @* Logo *@
+        <a class="pt-logo" asp-controller="Home" asp-area="" asp-action="Index" aria-label="Home">
+            <img src="/images/logo.svg" alt="PhysioTech Logo" />
+        </a>
+
+        @* Desktop Nav *@
+        <nav class="pt-nav" aria-label="Main navigation">
+            <a class="pt-nav__link" asp-controller="Home" asp-area="" asp-action="Index">
+                @SharedLocalizer["Shared_Home"]
+            </a>
+            <a class="pt-nav__link" asp-controller="Home" asp-area="" asp-action="About">
+                @SharedLocalizer["About"]
+            </a>
+            <a class="pt-nav__link" asp-controller="Home" asp-area="" asp-action="OurProjects">
+                @SharedLocalizer["Shared_OurProjects"]
+            </a>
+            <a class="pt-nav__link" asp-controller="Home" asp-area="" asp-action="Treatments">
+                @SharedLocalizer["Shared_Treatments"]
+            </a>
+            <a class="pt-nav__link" asp-controller="Home" asp-area="" asp-action="Therapies">
+                @SharedLocalizer["Therapies"]
+            </a>
+            <a class="pt-nav__link" asp-controller="Home" asp-area="" asp-action="Contact">
+                @SharedLocalizer["Contact"]
+            </a>
+
+            @if (User.IsInRole("doctor") || User.IsInRole("admin"))
+            {
+                var dashArea = User.IsInRole("admin") ? "Admin" : "Doctor";
+                <a class="pt-nav__dash"
+                   asp-area="@dashArea" asp-controller="Dashboard" asp-action="Index">
+                    <i class="ti ti-layout-dashboard" style="font-size:.85rem;vertical-align:-.1em" aria-hidden="true"></i>
+                    @SharedLocalizer["Dashboard"]
                 </a>
-                @if (User?.Identity?.IsAuthenticated != true)
-                {
-                    <div class="border-t border-gray-200 pt-3">
-                        <a asp-area="" asp-controller="Auth" asp-action="Login"
-                           class="block px-3 py-2 text-center text-base font-bold text-green-600 transition-colors hover:text-green-700">
-                            @SharedLocalizer["Join"]
+            }
+        </nav>
+
+        @* Right controls *@
+        <div class="pt-controls">
+
+            @* Language *@
+            <a class="pt-lang"
+               asp-area="" asp-controller="Home" asp-action="SetLanguage"
+               asp-route-culture="@targetCulture"
+               asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)"
+               aria-label="Switch language to @toggleLabel">
+                <div class="pt-lang__icon">
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5c.13 3.74-.93 7.607-3.751 10.5M4.5 9c1.94 1.44 4.5 2.5 7.5 3" />
+                    </svg>
+                </div>
+                <span>@toggleLabel</span>
+            </a>
+
+            @* Theme *@
+            
+
+            @if (User?.Identity?.IsAuthenticated != true)
+            {
+                <a class="pt-join-btn" asp-controller="Auth" asp-action="Login">
+                    @SharedLocalizer["Join"]
+                </a>
+            }
+            else
+            {
+                @* User dropdown *@
+                <div class="pt-user" id="ptUserMenu">
+                    <button class="pt-user__trigger" id="ptUserTrigger"
+                            aria-haspopup="true" aria-expanded="false" aria-controls="ptUserPanel">
+                        <div class="pt-user__avatar">
+                            <i class="fas fa-user" aria-hidden="true"></i>
+                        </div>
+                        <span class="pt-user__name">@User.Identity?.Name</span>
+                        <svg class="pt-user__chevron h-4 w-4" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+
+                    <div class="pt-user__panel" id="ptUserPanel" role="menu">
+                        <div class="pt-user__panel-header">
+                            <div class="pt-user__panel-name">@User.Identity?.Name</div>
+                            <div class="pt-user__panel-role">
+                                @if (User.IsInRole("admin"))       { <text>Administrator</text> }
+                                else if (User.IsInRole("doctor"))  { <text>Doctor</text> }
+                                else                              { <text>Patient</text> }
+                            </div>
+                        </div>
+
+                        <a asp-area="" asp-controller="Profile" asp-action="Index" role="menuitem">
+                            <i class="ti ti-user-circle" aria-hidden="true"></i>
+                            @SharedLocalizer["Shared_Profile"]
                         </a>
-                    </div>
-                }
-                @if (User?.Identity?.IsAuthenticated == true)
-                {
-                    <div class="space-y-3 border-t border-gray-200 pt-4">
-                        <a asp-area="" asp-controller="Profile" asp-action="Index" class="block px-3 py-2 text-center text-base font-bold text-gray-600 hover:bg-gray-100">@SharedLocalizer["Shared_Profile"]</a>
+
                         @if (User.IsInRole("doctor"))
                         {
-                            <a asp-area="Doctor" asp-controller="Dashboard" asp-action="Index" class="block px-3 py-2 text-center text-base font-bold text-gray-600 hover:bg-gray-100">@SharedLocalizer["Dashboard"]</a>
+                            <a asp-area="Doctor" asp-controller="Dashboard" asp-action="Index" role="menuitem">
+                                <i class="ti ti-layout-dashboard" aria-hidden="true"></i>
+                                @SharedLocalizer["Dashboard"]
+                            </a>
                         }
                         @if (User.IsInRole("admin"))
                         {
-                            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="block px-3 py-2 text-center text-base font-bold text-gray-600 hover:bg-gray-100">@SharedLocalizer["Dashboard"]</a>
+                            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" role="menuitem">
+                                <i class="ti ti-layout-dashboard" aria-hidden="true"></i>
+                                @SharedLocalizer["Dashboard"]
+                            </a>
                         }
                         @if (User.IsInRole("patient"))
                         {
-                            <a asp-area="Patient" asp-controller="Panel" asp-action="Index" class="block px-3 py-2 text-center text-base font-bold text-gray-600 hover:bg-gray-100">@SharedLocalizer["Panel"]</a>
-                            <a asp-area="Patient" asp-controller="Appointment" asp-action="Appointments" class="block px-3 py-2 text-center text-base font-bold text-gray-600 hover:bg-gray-100">@SharedLocalizer["MyAppointments"]</a>
-                            <a asp-area="Patient" asp-controller="MedicalCases" asp-action="Index" class="block px-3 py-2 text-center text-base font-bold text-gray-600 hover:bg-gray-100">@SharedLocalizer["Shared_Medical_Cases"]</a>
+                            <a asp-area="Patient" asp-controller="Panel" asp-action="Index" role="menuitem">
+                                <i class="ti ti-layout-sidebar" aria-hidden="true"></i>
+                                @SharedLocalizer["Panel"]
+                            </a>
+                            <a asp-area="Patient" asp-controller="Appointment" asp-action="Appointments" role="menuitem">
+                                <i class="ti ti-calendar" aria-hidden="true"></i>
+                                @SharedLocalizer["MyAppointments"]
+                            </a>
+                            <a asp-area="Patient" asp-controller="MedicalCases" asp-action="Index" role="menuitem">
+                                <i class="ti ti-clipboard-list" aria-hidden="true"></i>
+                                @SharedLocalizer["Shared_Medical_Cases"]
+                            </a>
                         }
-                        <form asp-area="" asp-controller="Auth" asp-action="Logout"  method="post">
-                            <button type="submit" class="w-full px-3 py-2 text-center text-red-600 hover:bg-gray-100">@SharedLocalizer["Shared_Logout"]</button>
+
+                        <div class="pt-user__panel-sep" role="separator"></div>
+                        <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post">
+                            <button type="submit" class="pt-logout" role="menuitem">
+                                <i class="ti ti-logout" aria-hidden="true"></i>
+                                @SharedLocalizer["Shared_Logout"]
+                            </button>
                         </form>
                     </div>
-                }
-            </div>
+                </div>
+            }
+
+            @* Hamburger *@
+            <button class="pt-hamburger" id="ptHamburger"
+                    onclick="ptToggleDrawer()" aria-label="Open menu" aria-expanded="false">
+                <div class="ham-line">
+                    <span></span><span></span><span></span>
+                </div>
+            </button>
         </div>
+
     </div>
 </header>
 
-<style>
-    .guest-desktop-join {
-        display: none;
-    }
+@* ── Scripts ─────────────────────────────────────────────────────────────── *@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css" />
 
-    .desktop-user-menu {
-        display: none;
-    }
+<script>
+(function () {
 
-    @@media (min-width: 1000px) {
-        .guest-desktop-join {
-            display: inline-flex;
-        }
+  /* ── Scroll frosted ── */
+  const header = document.getElementById('ptHeader');
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 10);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
-        .desktop-user-menu {
-            display: block;
-        }
+  /* ── Active link ── */
+  const path = window.location.pathname;
+  document.querySelectorAll('.pt-nav__link, .pt-drawer__nav a').forEach(a => {
+    const href = a.getAttribute('href');
+    if (href && (path === href || (href !== '/' && path.startsWith(href))))
+      a.classList.add('is-active');
+  });
 
-        .desktop-user-menu-toggle:checked ~ #desktop-user-menu-panel {
-            display: block;
-        }
+  /* ── User dropdown ── */
+  const trigger = document.getElementById('ptUserTrigger');
+  const panel   = document.getElementById('ptUserPanel');
+  if (trigger && panel) {
+    trigger.addEventListener('click', e => {
+      e.stopPropagation();
+      const open = trigger.classList.toggle('open');
+      panel.classList.toggle('open', open);
+      trigger.setAttribute('aria-expanded', open);
+    });
+    document.addEventListener('click', e => {
+      if (!e.target.closest('#ptUserMenu')) {
+        trigger.classList.remove('open');
+        panel.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        trigger.classList.remove('open');
+        panel.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.focus();
+      }
+    });
+  }
 
-        .desktop-user-menu-toggle:checked + .desktop-user-menu-button {
-            border-color: rgb(22 163 74);
-            color: rgb(21 128 61);
-        }
+  /* ── Mobile drawer ── */
+  const drawer   = document.getElementById('ptDrawer');
+  const overlay  = document.getElementById('ptOverlay');
+  const hamburger = document.getElementById('ptHamburger');
 
-        .mobile-only-trigger {
-            display: none;
-        }
-    }
+  window.ptToggleDrawer = function () {
+    const opening = !drawer.classList.contains('open');
+    drawer.classList.toggle('open', opening);
+    overlay.classList.toggle('open', opening);
+    hamburger.classList.toggle('open', opening);
+    hamburger.setAttribute('aria-expanded', opening);
+    document.body.style.overflow = opening ? 'hidden' : '';
+  };
 
-    @@media (max-width: 999.98px) {
-        .mobile-only-trigger {
-            display: inline-flex;
-        }
+  window.ptCloseDrawer = function () {
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  };
 
-        .guest-mobile-menu-trigger {
-            display: inline-flex;
-        }
-    }
-</style>
+  /* close on Escape */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) ptCloseDrawer();
+  });
 
-<script src="/js/header.js"></script>
-<script> 
-    function highlightActiveLink() { 
-        const currentPath = window.location.pathname; 
-        document.querySelectorAll('nav a').forEach(link => { 
-            if (link.getAttribute('href') === currentPath) { 
-                link.classList.add('text-green-600', 'border-b-2', 'border-green-600');
-                link.classList.remove('text-gray-600', 'dark:text-gray-300');
-            } else { 
-                link.classList.remove('text-green-600', 'border-b-2', 'border-green-600');
-                link.classList.add('text-gray-600', 'dark:text-gray-300');
-            } 
-        }); 
-    } 
-    document.addEventListener('DOMContentLoaded', function () { 
-        highlightActiveLink(); 
-        lucide.createIcons(); 
-    }); 
-    window.addEventListener('popstate', highlightActiveLink); 
+  /* ── Lucide icons ── */
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.lucide) lucide.createIcons();
+  });
 
-    
+})();
 </script>

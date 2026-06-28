@@ -2014,6 +2014,11 @@
     <value>Behandlung</value>
     <comment>for_header_footer</comment>
   </data>
+
+  <data name="Shared_OurProjects" xml:space="preserve">
+    <value>Unsere Projekte</value>
+    <comment>for_header_footer</comment>
+  </data>
   
   <data name="Shared_Controller" xml:space="preserve">
     <value>Controller</value>

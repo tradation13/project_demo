@@ -1,0 +1,758 @@
+@{
+    ViewData["Title"] = "Our Projects";
+    Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
+
+    var lang = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isDE = lang == "de";
+
+    // ── Page ──────────────────────────────────────────────────────────────────
+    var page_eyebrow = isDE ? "Unsere Projekte"        : "Our Projects";
+    var page_title   = isDE ? "Innovationen, die die\nPhysiotherapie neu gestalten"
+                            : "Innovations Reshaping\nPhysiotherapy";
+    var page_sub     = isDE ? "Vier Flaggschiff-Plattformen, die Patienten, Therapeuten und modernste Technologie miteinander verbinden."
+                            : "Four flagship platforms connecting patients, therapists, and cutting-edge technology.";
+
+    // ── Project 1 – IPTS ──────────────────────────────────────────────────────
+    var p1_tag     = isDE ? "Tracking-System"      : "Tracking System";
+    var p1_title   = isDE ? "IPTS"                 : "IPTS";
+    var p1_sub     = isDE ? "Intelligentes Patienten-Tracking-System"
+                          : "Intelligent Patient Tracking System";
+    var p1_desc    = isDE ? "IPTS zentralisiert den gesamten Patientenlebenszyklus — von der Erstanmeldung bis zur Entlassung — in einer einzigen adaptiven Plattform. Echtzeit-Dashboards, KI-gestützte Fortschrittsvorhersagen und automatische Benachrichtigungen ermöglichen es Therapeuten, mehr Patienten mit größerer Präzision zu betreuen."
+                          : "IPTS centralises the entire patient lifecycle — from first registration to discharge — inside one adaptive platform. Real-time dashboards, AI-driven progress predictions, and automated alerts empower therapists to manage more patients with greater precision and less administrative burden.";
+    var p1_stats   = new[] {
+        isDE ? ("98%", "Datenpräzision")  : ("98%", "Data Accuracy"),
+        isDE ? ("3×",  "Schnellere Berichte") : ("3×", "Faster Reports"),
+        isDE ? ("60%", "Weniger Papierkram")  : ("60%", "Less Paperwork"),
+    };
+    var p1_imgs = new[] {
+        ("/images/IPTS1.png", isDE ? "Klinisches Dashboard" : "Clinical Dashboard"),
+        ("/images/IPTS2.png", isDE ? "Patientenakte" : "Patient Record"),
+        ("/images/IPTS3.png", isDE ? "Fortschritts-Tracking" : "Progress Tracking"),
+        ("/images/IPTS4.png", isDE ? "Analytik-Ansicht" : "Analytics View"),
+    };
+
+    // ── Project 2 – Healytics Motion ──────────────────────────────────────────
+    var p2_tag   = isDE ? "VR-Therapie"  : "VR Therapy";
+    var p2_title = isDE ? "Healytics Motion" : "Healytics Motion";
+    var p2_sub   = isDE ? "KI-gestütztes VR-Therapieprogramm"
+                        : "AI-Powered VR Rehabilitation Program";
+    var p2_desc  = isDE ? "Healytics Motion kombiniert immersive Virtual-Reality-Umgebungen mit präziser Bewegungsanalyse-KI. Patienten führen geführte Rehabilitationsübungen durch, während das System Gelenk­winkel, Muskelaktivierung und Kompensations­muster in Echtzeit erfasst und den Therapieplan dynamisch anpasst."
+                        : "Healytics Motion blends immersive virtual-reality environments with precision motion-analysis AI. Patients complete guided rehabilitation exercises while the system captures joint angles, muscle activation, and compensation patterns in real time — dynamically adjusting the therapy plan after every session.";
+    var p2_stats = new[] {
+        isDE ? ("40%", "Schnellere Genesung") : ("40%", "Faster Recovery"),
+        isDE ? ("92%", "Patienten­zufriedenheit") : ("92%", "Patient Satisfaction"),
+        isDE ? ("200+", "Übungen-Bibliothek")  : ("200+", "Exercise Library"),
+    };
+    var p2_imgs = new[] {
+        ("https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=800&q=80", isDE ? "VR-Headset" : "VR Headset"),
+        ("https://images.unsplash.com/photo-1617802690992-15d93263d3a9?w=800&q=80", isDE ? "Bewegungs-Tracking" : "Motion Tracking"),
+        ("https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80", isDE ? "Therapiesitzung" : "Therapy Session"),
+        ("https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80", isDE ? "Analyse-Bericht" : "Analysis Report"),
+    };
+
+    // ── Project 3 – Yoga VR ───────────────────────────────────────────────────
+    var p3_tag   = isDE ? "VR-Yoga"   : "VR Yoga";
+    var p3_title = isDE ? "Yoga VR"   : "Yoga VR";
+    var p3_sub   = isDE ? "VR-gestützte Atemübungs- & Yoga-Plattform"
+                        : "VR-Powered Breathing & Yoga Exercise Platform";
+    var p3_desc  = isDE ? "Yoga VR transportiert Nutzer in ruhige, atmosphärische Umgebungen und leitet sie durch atemgesteuerte Yoga-Sequenzen. Biometrische Sensoren überwachen Herzfrequenz­variabilität und Atemrhythmus, während ein adaptiver KI-Coach die Intensität in Echtzeit personalisiert."
+                        : "Yoga VR transports users into serene, atmospheric environments and guides them through breath-synchronised yoga sequences. Biometric sensors monitor heart-rate variability and breathing rhythm, while an adaptive AI coach personalises intensity in real time for every unique body and wellness goal.";
+    var p3_stats = new[] {
+        isDE ? ("85%", "Stressreduktion")       : ("85%", "Stress Reduction"),
+        isDE ? ("12+", "Virtuelle Umgebungen")  : ("12+", "Virtual Environments"),
+        isDE ? ("Daily", "KI-Personalisierung") : ("Daily", "AI Personalisation"),
+    };
+    var p3_imgs = new[] {
+        ("https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&q=80", isDE ? "Yoga-Pose" : "Yoga Pose"),
+        ("https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=800&q=80", isDE ? "Meditationsszene" : "Meditation Scene"),
+        ("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80", isDE ? "Atemübung" : "Breathing Exercise"),
+        ("https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=800&q=80", isDE ? "Virtuelle Natur" : "Virtual Nature"),
+    };
+
+    // ── Project 4 – Fitness AI ────────────────────────────────────────────────
+    var p4_tag   = isDE ? "KI-Fitness"  : "AI Fitness";
+    var p4_title = isDE ? "Fitness AI"  : "Fitness AI";
+    var p4_sub   = isDE ? "KI-gestützte Online-Fitnessübungsplattform"
+                        : "AI-Powered Online Fitness Training Platform";
+    var p4_desc  = isDE ? "Fitness AI macht professionelles Personal Training für alle zugänglich. Die Plattform analysiert Körperhaltung per Kamera, erstellt wöchentliche Trainingspläne basierend auf Zielen und Erholungs­daten und passt die Last dynamisch an, um Überlastungs­verletzungen zu verhindern."
+                        : "Fitness AI makes professional personal training accessible to everyone. The platform analyses posture via camera, builds weekly training plans based on goals and recovery data, and dynamically adjusts load to prevent overuse injuries — bridging the gap between physiotherapy and everyday fitness.";
+    var p4_stats = new[] {
+        isDE ? ("500+", "Übungen")          : ("500+", "Exercises"),
+        isDE ? ("Live", "KI-Form-Check")    : ("Live", "AI Form Check"),
+        isDE ? ("78%", "Verletzungs­prävention") : ("78%", "Injury Prevention"),
+    };
+    var p4_imgs = new[] {
+        ("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80", isDE ? "Fitness-Training" : "Fitness Training"),
+        ("https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=80", isDE ? "KI-Analyse" : "AI Analysis"),
+        ("https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80", isDE ? "Trainingsplan" : "Training Plan"),
+        ("https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=800&q=80", isDE ? "Fortschritts-Chart" : "Progress Chart"),
+    };
+
+    // Bundle all projects
+    var projects = new[] {
+        new {
+            id = "ipts", accent = "#1a7a4a", accentLight = "#dcfce7",
+            tag = p1_tag, title = p1_title, sub = p1_sub, desc = p1_desc,
+            stats = p1_stats, imgs = p1_imgs,
+            icon = "ti-activity-heartbeat"
+        },
+        new {
+            id = "healytics", accent = "#1d4ed8", accentLight = "#dbeafe",
+            tag = p2_tag, title = p2_title, sub = p2_sub, desc = p2_desc,
+            stats = p2_stats, imgs = p2_imgs,
+            icon = "ti-vr"
+        },
+        new {
+            id = "yoga", accent = "#7c3aed", accentLight = "#ede9fe",
+            tag = p3_tag, title = p3_title, sub = p3_sub, desc = p3_desc,
+            stats = p3_stats, imgs = p3_imgs,
+            icon = "ti-yin-yang"
+        },
+        new {
+            id = "fitness", accent = "#dc2626", accentLight = "#fee2e2",
+            tag = p4_tag, title = p4_title, sub = p4_sub, desc = p4_desc,
+            stats = p4_stats, imgs = p4_imgs,
+            icon = "ti-barbell"
+        },
+    };
+
+    var btn_gallery = isDE ? "Galerie ansehen" : "View Gallery";
+    var btn_close   = isDE ? "Schließen"       : "Close";
+    var lbl_gallery = isDE ? "Projektbilder"   : "Project Images";
+}
+
+@* ─── Styles ─────────────────────────────────────────────────────────────── *@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css" />
+
+<style>
+  /* ── Reset helpers ── */
+  .op-page *, .op-page *::before, .op-page *::after { box-sizing: border-box; }
+  .op-page { font-family: 'Segoe UI', system-ui, sans-serif; }
+
+  /* ── Hero ── */
+  .op-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 7rem 1.5rem 5rem;
+    background: #0f172a;
+    text-align: center;
+  }
+  .op-hero__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(26,122,74,.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26,122,74,.07) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+  }
+  .op-hero__glow {
+    position: absolute;
+    top: -120px; left: 50%;
+    transform: translateX(-50%);
+    width: 700px; height: 400px;
+    background: radial-gradient(ellipse, rgba(26,122,74,.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .op-hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .35rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(26,122,74,.4);
+    background: rgba(26,122,74,.1);
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #4ade80;
+    margin-bottom: 1.5rem;
+  }
+  .op-hero__title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.15;
+    white-space: pre-line;
+    margin-bottom: 1.25rem;
+    letter-spacing: -.02em;
+  }
+  .op-hero__title span { color: #4ade80; }
+  .op-hero__sub {
+    font-size: 1rem;
+    color: #94a3b8;
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+  .op-hero__scroll {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .4rem;
+  }
+  .op-hero__scroll span {
+    font-size: .68rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #475569;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, #4ade80, transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @@keyframes scrollPulse {
+    0%,100% { opacity: .3; transform: scaleY(.6); }
+    50%      { opacity: 1;  transform: scaleY(1); }
+  }
+
+  /* ── Projects list ── */
+  .op-list {
+    padding: 5rem 1.5rem;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── Project card ── */
+  .op-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(48px);
+    transition: opacity .65s ease, transform .65s ease;
+  }
+  .op-card.visible { opacity: 1; transform: translateY(0); }
+  .op-card:nth-child(even) .op-card__info { order: 2; }
+  .op-card:nth-child(even) .op-card__visual { order: 1; }
+
+  /* Info side */
+  .op-card__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .3rem .85rem;
+    border-radius: 9999px;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .op-card__number {
+    font-size: 5rem;
+    font-weight: 900;
+    line-height: 1;
+    opacity: .06;
+    color: #0f172a;
+    margin-bottom: -.5rem;
+    letter-spacing: -.04em;
+  }
+  .op-card__title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -.02em;
+    line-height: 1.1;
+    margin-bottom: .35rem;
+  }
+  .op-card__sub {
+    font-size: .85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .op-card__desc {
+    font-size: .9rem;
+    color: #475569;
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Stats row */
+  .op-card__stats {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+  }
+  .stat-item { display: flex; flex-direction: column; gap: .15rem; }
+  .stat-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -.02em;
+  }
+  .stat-label { font-size: .72rem; color: #64748b; font-weight: 500; }
+
+  /* Gallery button */
+  .op-card__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .65rem 1.4rem;
+    border-radius: 10px;
+    border: none;
+    font-size: .85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s;
+    color: #fff;
+  }
+  .op-card__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  }
+
+  /* Visual side – filmstrip */
+  .op-card__visual {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    cursor: pointer;
+    background: #e2e8f0;
+  }
+  .filmstrip {
+    display: flex;
+    height: 100%;
+    transition: transform .6s cubic-bezier(.22,1,.36,1);
+  }
+  .filmstrip img {
+    min-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+    display: block;
+  }
+  .op-card__visual:hover .filmstrip { transform: translateX(-25%); }
+
+  /* filmstrip dots */
+  .film-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+  }
+  .film-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.5);
+    cursor: pointer;
+    transition: background .2s, transform .2s;
+  }
+  .film-dot.active { background: #fff; transform: scale(1.3); }
+
+  /* img label overlay */
+  .film-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 2rem 1rem .75rem;
+    background: linear-gradient(to top, rgba(0,0,0,.65), transparent);
+    color: #fff;
+    font-size: .78rem;
+    font-weight: 500;
+    text-align: center;
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .op-card__visual:hover .film-label { opacity: 1; }
+
+  /* ── Lightbox / Gallery modal ── */
+  .op-gallery-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0,0,0,.9);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  .op-gallery-modal.active { display: flex; }
+
+  .gallery-inner {
+    position: relative;
+    max-width: 900px;
+    width: 100%;
+    animation: galPop .3s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  @@keyframes galPop {
+    from { opacity:0; transform: scale(.92); }
+    to   { opacity:1; transform: scale(1); }
+  }
+  .gallery-main {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 16/10;
+    background: #1e293b;
+  }
+  .gallery-main img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity .35s;
+  }
+  .gallery-main img.fade { opacity: 0; }
+  .gallery-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 2.5rem 1.25rem .9rem;
+    background: linear-gradient(to top, rgba(0,0,0,.75), transparent);
+    color: #fff;
+    font-size: .88rem;
+    font-weight: 500;
+  }
+  .gallery-nav {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.15);
+    color: #fff;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background .2s;
+    backdrop-filter: blur(4px);
+  }
+  .gallery-nav:hover { background: rgba(255,255,255,.25); }
+  .gallery-nav.prev { left: -20px; }
+  .gallery-nav.next { right: -20px; }
+
+  .gallery-thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .gallery-thumb {
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color .2s, transform .2s;
+  }
+  .gallery-thumb.active { border-color: #4ade80; transform: scale(1.03); }
+  .gallery-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .gallery-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .gallery-title { color: #fff; font-weight: 700; font-size: 1rem; }
+  .gallery-close {
+    background: rgba(255,255,255,.1);
+    border: none; color: #fff;
+    width: 36px; height: 36px;
+    border-radius: 9999px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 18px;
+    transition: background .2s;
+  }
+  .gallery-close:hover { background: rgba(255,255,255,.25); }
+
+  /* ── Responsive ── */
+  @@media (max-width: 768px) {
+    .op-card {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+    }
+    .op-card:nth-child(even) .op-card__info  { order: 1; }
+    .op-card:nth-child(even) .op-card__visual { order: 2; }
+    .op-card__number { font-size: 3.5rem; }
+    .op-card__title  { font-size: 1.5rem; }
+    .op-list { gap: 4rem; padding: 3rem 1rem; }
+    .gallery-nav.prev { left: 4px; }
+    .gallery-nav.next { right: 4px; }
+    .gallery-thumbs { grid-template-columns: repeat(4,1fr); gap: 6px; }
+  }
+
+  @@media (prefers-reduced-motion: reduce) {
+    .op-card { transition: none; opacity: 1; transform: none; }
+    .filmstrip { transition: none; }
+    .scroll-line { animation: none; }
+  }
+</style>
+
+<div class="op-page">
+
+  @* ── Hero ───────────────────────────────────────────────────────────────── *@
+  <section class="op-hero">
+    <div class="op-hero__grid" aria-hidden="true"></div>
+    <div class="op-hero__glow"  aria-hidden="true"></div>
+
+    <div class="op-hero__eyebrow">
+      <i class="ti ti-sparkles" aria-hidden="true"></i>
+      @page_eyebrow
+    </div>
+
+    <h1 class="op-hero__title">
+      @Html.Raw(page_title.Replace("\n", "<br><span>").Replace("Reshaping", "Reshaping</span>").Replace("neu gestalten", "neu <span>gestalten</span>"))
+    </h1>
+
+    <p class="op-hero__sub">@page_sub</p>
+
+    <div class="op-hero__scroll" aria-hidden="true">
+      <div class="scroll-line"></div>
+      <span>scroll</span>
+    </div>
+  </section>
+
+  @* ── Project list ────────────────────────────────────────────────────────── *@
+  <section class="op-list" aria-label="@page_eyebrow">
+    @for (int i = 0; i < projects.Length; i++)
+    {
+      var p = projects[i];
+      var num = (i + 1).ToString("D2");
+      <article class="op-card" id="card-@p.id">
+
+        @* Info *@
+        <div class="op-card__info">
+          <div class="op-card__tag"
+               style="background:@p.accentLight; color:@p.accent;">
+            <i class="ti @p.icon" aria-hidden="true"></i>
+            @p.tag
+          </div>
+          <div class="op-card__number" aria-hidden="true">@num</div>
+          <h2 class="op-card__title">@p.title</h2>
+          <p  class="op-card__sub" style="color:@p.accent">@p.sub</p>
+          <p  class="op-card__desc">@p.desc</p>
+
+          <div class="op-card__stats">
+            @foreach (var s in p.stats)
+            {
+              <div class="stat-item">
+                <span class="stat-value" style="color:@p.accent">@s.Item1</span>
+                <span class="stat-label">@s.Item2</span>
+              </div>
+            }
+          </div>
+
+          <button type="button"
+                  class="op-card__btn"
+                  style="background:@p.accent"
+                  onclick="openGallery('@p.id')"
+                  aria-haspopup="dialog"
+                  aria-controls="gallery-@p.id">
+            <i class="ti ti-photo" aria-hidden="true"></i>
+            @btn_gallery
+          </button>
+        </div>
+
+        @* Visual / filmstrip *@
+        <div class="op-card__visual"
+             onclick="openGallery('@p.id')"
+             role="button"
+             tabindex="0"
+             aria-label="@lbl_gallery – @p.title"
+             onkeydown="if(event.key==='Enter')openGallery('@p.id')">
+          <div class="filmstrip" id="strip-@p.id">
+            @foreach (var img in p.imgs)
+            {
+              <img src="@img.Item1"
+                   alt="@img.Item2"
+                   loading="lazy" />
+            }
+          </div>
+          <div class="film-label" id="label-@p.id">@p.imgs[0].Item2</div>
+          <div class="film-dots" id="dots-@p.id">
+            @for (int d = 0; d < p.imgs.Length; d++)
+            {
+              <button type="button"
+                      class="film-dot @(d == 0 ? "active" : "")"
+                      onclick="event.stopPropagation(); setFrame('@p.id', @d)"
+                      aria-label="Image @(d+1)">
+              </button>
+            }
+          </div>
+        </div>
+
+      </article>
+    }
+  </section>
+
+</div>
+
+@* ── Gallery modals ───────────────────────────────────────────────────────────── *@
+@for (int i = 0; i < projects.Length; i++)
+{
+  var p = projects[i];
+  <div class="op-gallery-modal"
+       id="gallery-@p.id"
+       role="dialog"
+       aria-modal="true"
+       aria-label="@lbl_gallery – @p.title"
+       onclick="if(event.target===this)closeGallery('@p.id')">
+    <div class="gallery-inner">
+
+      <div class="gallery-header">
+        <div class="gallery-title">
+          <i class="ti @p.icon" style="color:@p.accent; margin-right:.4rem" aria-hidden="true"></i>
+          @p.title
+        </div>
+        <button type="button"
+                class="gallery-close"
+                onclick="closeGallery('@p.id')"
+                aria-label="@btn_close">
+          <i class="ti ti-x" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="gallery-main" id="gmain-@p.id">
+        <img id="gimg-@p.id"
+             src="@p.imgs[0].Item1"
+             alt="@p.imgs[0].Item2" />
+        <div class="gallery-caption" id="gcap-@p.id">@p.imgs[0].Item2</div>
+        <button type="button" class="gallery-nav prev"
+                onclick="galNav('@p.id', -1)" aria-label="Previous">
+          <i class="ti ti-chevron-left" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="gallery-nav next"
+                onclick="galNav('@p.id', 1)" aria-label="Next">
+          <i class="ti ti-chevron-right" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="gallery-thumbs">
+        @for (int t = 0; t < p.imgs.Length; t++)
+        {
+          var idx = t;
+          <div class="gallery-thumb @(t == 0 ? "active" : "")"
+               id="gthumb-@(p.id)-@idx"
+               onclick="galSet('@p.id', @idx)"
+               role="button"
+               tabindex="0"
+               aria-label="@p.imgs[t].Item2">
+            <img src="@p.imgs[t].Item1" alt="@p.imgs[t].Item2" loading="lazy" />
+          </div>
+        }
+      </div>
+
+    </div>
+  </div>
+}
+
+@* ── Scripts ──────────────────────────────────────────────────────────────────── *@
+<script>
+(function () {
+
+  /* ── Scroll-reveal ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.op-card').forEach(c => observer.observe(c));
+
+  /* ── Gallery state ── */
+  const state = {};
+
+  const imgs = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+    projects.ToDictionary(
+      p => p.id,
+      p => p.imgs.Select(img => new { src = img.Item1, alt = img.Item2 }).ToArray()
+    )
+  ));
+
+  function galSet(id, idx) {
+    if (!state[id]) state[id] = 0;
+    state[id] = idx;
+    const imgData = imgs[id];
+
+    /* main image */
+    const el = document.getElementById('gimg-' + id);
+    el.classList.add('fade');
+    setTimeout(() => {
+      el.src = imgData[idx].src;
+      el.alt = imgData[idx].alt;
+      el.classList.remove('fade');
+    }, 200);
+
+    /* caption */
+    document.getElementById('gcap-' + id).textContent = imgData[idx].alt;
+
+    /* thumbs */
+    imgData.forEach((_, i) => {
+      const t = document.getElementById('gthumb-' + id + '-' + i);
+      if (t) t.classList.toggle('active', i === idx);
+    });
+  }
+
+  function galNav(id, dir) {
+    const len = imgs[id].length;
+    const cur = state[id] || 0;
+    galSet(id, (cur + dir + len) % len);
+  }
+
+  function openGallery(id) {
+    state[id] = 0;
+    galSet(id, 0);
+    const modal = document.getElementById('gallery-' + id);
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeGallery(id) {
+    document.getElementById('gallery-' + id).classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  /* keyboard nav inside gallery */
+  document.addEventListener('keydown', e => {
+    const open = document.querySelector('.op-gallery-modal.active');
+    if (!open) return;
+    const id = open.id.replace('gallery-', '');
+    if (e.key === 'ArrowRight') galNav(id,  1);
+    if (e.key === 'ArrowLeft')  galNav(id, -1);
+    if (e.key === 'Escape')     closeGallery(id);
+  });
+
+  /* ── Filmstrip dot nav ── */
+  function setFrame(id, idx) {
+    const strip = document.getElementById('strip-' + id);
+    const label = document.getElementById('label-' + id);
+    const dots  = document.querySelectorAll('#dots-' + id + ' .film-dot');
+    strip.style.transform = 'translateX(-' + (idx * 25) + '%)';
+    strip.style.transition = 'transform .5s cubic-bezier(.22,1,.36,1)';
+    label.textContent = imgs[id][idx].alt;
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  }
+
+  /* auto-cycle filmstrip on hover out */
+  document.querySelectorAll('.op-card__visual').forEach(vis => {
+    vis.addEventListener('mouseleave', () => {
+      const strip = vis.querySelector('.filmstrip');
+      if (strip) { strip.style.transform = ''; strip.style.transition = ''; }
+    });
+  });
+
+  /* expose to global */
+  window.openGallery  = openGallery;
+  window.closeGallery = closeGallery;
+  window.galNav       = galNav;
+  window.galSet       = galSet;
+  window.setFrame     = setFrame;
+
+})();
+</script>

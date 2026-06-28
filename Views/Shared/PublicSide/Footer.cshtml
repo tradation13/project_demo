@@ -1,95 +1,260 @@
-﻿<footer class="bg-gray-900 py-8 text-white">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <!-- Main Content -->
-        <div class="mb-6 grid gap-8 md:grid-cols-3">
-            <!-- Logo Section -->
-            <div>
-                <img src="/images/logo.svg" alt="IPTS Logo" class="mb-3 h-16 w-auto brightness-110 filter">
-                <p class="text-sm leading-relaxed text-secondary-light">
-                    @SharedLocalizer["SystemDescription"]
-                </p>
+﻿@using Microsoft.AspNetCore.Localization
+
+<style>
+.pt-footer {
+    background: #0b1110;
+    color: #f8fafc;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+/* top green glow line */
+.pt-footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #16a34a, #4ade80, #16a34a, transparent);
+}
+
+/* subtle grid bg */
+.pt-footer__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(22,163,74,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(22,163,74,.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+    pointer-events: none;
+}
+
+.pt-footer__inner {
+    position: relative;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 2rem;
+}
+
+/* ── Top row ── */
+.pt-footer__top {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+/* Brand col */
+.pt-footer__brand {}
+.pt-footer__logo { height: 56px; width: auto; margin-bottom: 1rem; filter: brightness(1.1); }
+.pt-footer__tagline {
+    font-size: .85rem;
+    color: #f8fafc;
+    line-height: 1.75;
+    max-width: 280px;
+    margin-bottom: 1.5rem;
+}
+
+/* social row */
+.pt-footer__socials {
+    display: flex;
+    gap: .6rem;
+}
+.pt-social {
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    border: 1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.08);
+    color: #ffffff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background .2s, color .2s, border-color .2s, transform .2s;
+}
+.pt-social:hover {
+    background: rgba(22,163,74,.2);
+    border-color: rgba(22,163,74,.45);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* column headers */
+.pt-footer__col-title {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #f8fafc;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+.pt-footer__col-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,.12);
+}
+
+/* links */
+.pt-footer__links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .5rem; }
+.pt-footer__links a {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    font-size: .84rem;
+    color: #f8fafc;
+    text-decoration: none;
+    transition: color .2s, gap .2s;
+}
+.pt-footer__links a:hover { color: #ffffff; gap: .85rem; }
+.pt-footer__links a i { font-size: 10px; color: #4ade80; transition: transform .2s; }
+.pt-footer__links a:hover i { transform: translateX(2px); }
+
+/* contact items */
+.pt-footer__contact { display: flex; flex-direction: column; gap: .85rem; }
+.pt-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+    font-size: .84rem;
+    color: #f8fafc;
+}
+.pt-contact-item a { color: #f8fafc; text-decoration: none; transition: color .2s; }
+.pt-contact-item a:hover { color: #ffffff; }
+.pt-contact-icon {
+    width: 30px; height: 30px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: rgba(22,163,74,.1);
+    border: 1px solid rgba(22,163,74,.2);
+    display: flex; align-items: center; justify-content: center;
+    color: #4ade80;
+    font-size: 13px;
+    margin-top: 1px;
+}
+
+/* ── Bottom bar ── */
+.pt-footer__bottom {
+    border-top: 1px solid rgba(255,255,255,.12);
+    padding-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.pt-footer__copy {
+    font-size: .78rem;
+    color: #f1f5f9;
+}
+.pt-footer__copy span { color: #4ade80; }
+
+.pt-footer__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .3rem .75rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(22,163,74,.2);
+    background: rgba(22,163,74,.06);
+    font-size: .7rem;
+    font-weight: 600;
+    color: #4ade80;
+    letter-spacing: .06em;
+}
+.pt-footer__badge i { font-size: 10px; }
+
+/* ── Responsive ── */
+@@media (max-width: 900px) {
+    .pt-footer__top {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+    .pt-footer__brand { grid-column: 1 / -1; }
+}
+@@media (max-width: 560px) {
+    .pt-footer__top { grid-template-columns: 1fr; }
+    .pt-footer__brand { grid-column: auto; }
+    .pt-footer__bottom { flex-direction: column; text-align: center; }
+}
+</style>
+
+<footer class="pt-footer" aria-label="Site footer">
+    <div class="pt-footer__grid" aria-hidden="true"></div>
+
+    <div class="pt-footer__inner">
+        <div class="pt-footer__top">
+
+            @* ── Brand ── *@
+            <div class="pt-footer__brand">
+                <img src="/images/logo.svg" alt="PhysioTech Logo" class="pt-footer__logo" />
+                <p class="pt-footer__tagline">@SharedLocalizer["SystemDescription"]</p>
+                <div class="pt-footer__socials">
+                    <a href="#" class="pt-social" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+                    </a>
+                    <a href="#" class="pt-social" aria-label="Instagram">
+                        <i class="fab fa-instagram" aria-hidden="true"></i>
+                    </a>
+                    <a href="#" class="pt-social" aria-label="Facebook">
+                        <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                    </a>
+                    <a href="#" class="pt-social" aria-label="YouTube">
+                        <i class="fab fa-youtube" aria-hidden="true"></i>
+                    </a>
+                </div>
             </div>
 
-            <!-- Quick Links -->
+            @* ── Quick Links ── *@
             <div>
-                <h3 class="mb-4 flex items-center gap-2 text-lg font-bold text-white">
-                    <i class="fas fa-link text-primary-500"></i>
+                <div class="pt-footer__col-title">
                     @SharedLocalizer["QuickLinks"]
-                </h3>
-                <ul class="space-y-2">
-                    <li>
-                        <a href="@Url.Action("Index", "Home", new { area = "" })" 
-                           class="flex items-center gap-2 text-secondary-light transition-colors duration-200 hover:text-primary-500">
-                            <i class="fas fa-chevron-right text-xs"></i>
-                             @SharedLocalizer["Shared_Home"]
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("About", "Home", new { area = "" })" 
-                           class="flex items-center gap-2 text-secondary-light transition-colors duration-200 hover:text-primary-500">
-                            <i class="fas fa-chevron-right text-xs"></i>
-                            @SharedLocalizer["About"]
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Therapies", "Home", new { area = "" })" 
-                           class="flex items-center gap-2 text-secondary-light transition-colors duration-200 hover:text-primary-500">
-                            <i class="fas fa-chevron-right text-xs"></i>
-                            @SharedLocalizer["Therapies"] 
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Contact", "Home", new { area = "" })" 
-                           class="flex items-center gap-2 text-secondary-light transition-colors duration-200 hover:text-primary-500">
-                            <i class="fas fa-chevron-right text-xs"></i>
-                            @SharedLocalizer["Contact"] 
-                        </a>
-                    </li>
-                     <li>
-                        <a href="@Url.Action("Treatments", "Home", new { area = "" })" 
-                           class="flex items-center gap-2 text-secondary-light transition-colors duration-200 hover:text-primary-500">
-                            <i class="fas fa-chevron-right text-xs"></i>
-                            @SharedLocalizer["Shared_Treatments"] 
-                        </a>
-                    </li>
+                </div>
+                <ul class="pt-footer__links">
+                    <li><a href="@Url.Action("Index",    "Home", new { area = "" })"><i class="fas fa-chevron-right" aria-hidden="true"></i>@SharedLocalizer["Shared_Home"]</a></li>
+                    <li><a href="@Url.Action("About",    "Home", new { area = "" })"><i class="fas fa-chevron-right" aria-hidden="true"></i>@SharedLocalizer["About"]</a></li>
+                    <li><a href="@Url.Action("OurProjects","Home", new { area = "" })"><i class="fas fa-chevron-right" aria-hidden="true"></i>@SharedLocalizer["Shared_OurProjects"]</a></li>
+                    <li><a href="@Url.Action("Therapies","Home", new { area = "" })"><i class="fas fa-chevron-right" aria-hidden="true"></i>@SharedLocalizer["Therapies"]</a></li>
+                    <li><a href="@Url.Action("Treatments","Home", new { area = "" })"><i class="fas fa-chevron-right" aria-hidden="true"></i>@SharedLocalizer["Shared_Treatments"]</a></li>
+                    <li><a href="@Url.Action("Contact",  "Home", new { area = "" })"><i class="fas fa-chevron-right" aria-hidden="true"></i>@SharedLocalizer["Contact"]</a></li>
                 </ul>
             </div>
 
-            <!-- Contact Info -->
+            @* ── Contact ── *@
             <div>
-                <h3 class="mb-4 flex items-center gap-2 text-lg font-bold text-white">
-                    <i class="fas fa-info-circle text-primary-500"></i>
-                    @SharedLocalizer["Contact"] 
-                </h3>
-                <div class="space-y-3">
-                    <div class="flex items-center gap-2">
-                        <i class="fas fa-phone w-5 text-primary-500"></i>
-                        <a href="tel:0172 8758302" class="text-secondary-light transition-colors hover:text-primary-500">
-                            0172 8758302
-                        </a>
+                <div class="pt-footer__col-title">
+                    @SharedLocalizer["Contact"]
+                </div>
+                <div class="pt-footer__contact">
+                    <div class="pt-contact-item">
+                        <div class="pt-contact-icon"><i class="fas fa-phone" aria-hidden="true"></i></div>
+                        <a href="tel:01728758302">0172 8758302</a>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <i class="fas fa-envelope w-5 text-primary-500"></i>
-                        <a href="mailto:dr.kurtoglu@physiotech-ehrenfeld.de" class="text-secondary-light transition-colors hover:text-primary-500">
-                            dr.kurtoglu@physiotech-ehrenfeld.de
-                        </a>
+                    <div class="pt-contact-item">
+                        <div class="pt-contact-icon"><i class="fas fa-envelope" aria-hidden="true"></i></div>
+                        <a href="mailto:dr.kurtoglu@physiotech-ehrenfeld.de"
+                           style="word-break:break-all;">dr.kurtoglu@physiotech-ehrenfeld.de</a>
                     </div>
-                    <div class="flex items-start gap-2">
-                        <i class="fas fa-map-marker-alt mt-1 w-5 text-primary-500"></i>
-                        <p class="text-sm text-secondary-light">
-                            Venloer Straße 305, 50823 Köln-Ehrenfeld
-
-                        </p>
+                    <div class="pt-contact-item">
+                        <div class="pt-contact-icon"><i class="fas fa-map-marker-alt" aria-hidden="true"></i></div>
+                        <span>Venloer Straße 305,<br>50823 Köln-Ehrenfeld</span>
+                    </div>
+                    <div class="pt-contact-item">
+                        <div class="pt-contact-icon"><i class="fas fa-clock" aria-hidden="true"></i></div>
+                        <span>@SharedLocalizer["Shared_Opening_Hours_Details"]</span>
                     </div>
                 </div>
             </div>
+
         </div>
 
-        <!-- Divider -->
-        <div class="border-t border-gray-800 pt-4">
-            <div class="text-center text-sm text-secondary-light">
-                <p>&copy; @(DateTime.Now.Year) @SharedLocalizer["CopyRight"]</p>
-            </div>
+        @* ── Bottom bar ── *@
+        <div class="pt-footer__bottom">
+            <p class="pt-footer__copy">
+                &copy; @DateTime.Now.Year <span>PhysioTech</span> — @SharedLocalizer["CopyRight"]
+            </p>
         </div>
     </div>
 </footer>

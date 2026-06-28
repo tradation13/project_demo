@@ -26,7 +26,8 @@ namespace IPTS.Validators.Doctor
 
             RuleFor(x => x.PhoneNumber)
                 .NotEmpty().WithMessage(localizer.GetSystem("PhoneRequired"))
-                .Matches(@"^(009665|9665|\+9665|05|5)([0-9]{8})$").WithMessage(localizer.GetSystem("InvalidPhoneFormat"));
+               .Must(x => x != null && !x.Any(char.IsLetter))
+.WithMessage(localizer.GetSystem("InvalidPhoneFormat"));
 
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage(localizer.GetSystem("EmailRequired"))

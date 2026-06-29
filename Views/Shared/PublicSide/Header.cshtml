@@ -65,6 +65,9 @@
 }
 
 .pt-nav__link {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
     position: relative;
     padding: .45rem .85rem;
     font-size: .84rem;
@@ -75,6 +78,14 @@
     white-space: nowrap;
     transition: color .2s, background .2s;
     outline: none;
+}
+.pt-nav__link i {
+    font-size: 1rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2rem;
 }
 .pt-nav__link:hover { color: #16a34a; background: #f0fdf4; }
 .pt-nav__link:focus-visible {
@@ -603,21 +614,27 @@
         @* Desktop Nav *@
         <nav class="pt-nav" aria-label="Main navigation">
             <a class="pt-nav__link" asp-controller="Home" asp-area="" asp-action="Index">
+                <i class="ti ti-home" aria-hidden="true"></i>
                 @SharedLocalizer["Shared_Home"]
             </a>
             <a class="pt-nav__link" asp-controller="Home" asp-area="" asp-action="About">
+                <i class="ti ti-info-circle" aria-hidden="true"></i>
                 @SharedLocalizer["About"]
             </a>
             <a class="pt-nav__link" asp-controller="Home" asp-area="" asp-action="OurProjects">
+                <i class="ti ti-building" aria-hidden="true"></i>
                 @SharedLocalizer["Shared_OurProjects"]
             </a>
             <a class="pt-nav__link" asp-controller="Home" asp-area="" asp-action="Treatments">
+                <i class="ti ti-stethoscope" aria-hidden="true"></i>
                 @SharedLocalizer["Shared_Treatments"]
             </a>
             <a class="pt-nav__link" asp-controller="Home" asp-area="" asp-action="Therapies">
+                <i class="ti ti-heart-rate-monitor" aria-hidden="true"></i>
                 @SharedLocalizer["Therapies"]
             </a>
             <a class="pt-nav__link" asp-controller="Home" asp-area="" asp-action="Contact">
+                <i class="ti ti-mail" aria-hidden="true"></i>
                 @SharedLocalizer["Contact"]
             </a>
 

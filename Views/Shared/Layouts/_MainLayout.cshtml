@@ -1,13 +1,44 @@
-﻿@using Org.BouncyCastle.Asn1.Cms
+﻿@using Microsoft.AspNetCore.Localization
 <!DOCTYPE html>
 
-<html lang="en"> @*to change the directtion of the sidbar*@
+@{
+    var currentCulture = Context.Features.Get<IRequestCultureFeature>()?.RequestCulture.Culture.Name ?? "en-US";
+    var titleValue = ViewData["Title"] as string;
+    var title = !string.IsNullOrWhiteSpace(titleValue) ? $"{titleValue} - PhysioTech" : "PhysioTech";
+    var description = ViewData["Description"] as string ?? SharedLocalizer["SystemDescription"].Value ?? "PhysioTech offers advanced physiotherapy and smart digital care for your recovery.";
+    var currentRequest = Context.Request;
+    var canonicalUrl = ViewData["CanonicalUrl"] as string ?? string.Concat(currentRequest.Scheme, "://", currentRequest.Host, currentRequest.Path, currentRequest.QueryString);
+    var baseUrl = string.Concat(currentRequest.Scheme, "://", currentRequest.Host.Value.TrimEnd('/'));
+    var ogImage = ViewData["OgImage"] as string ?? $"{baseUrl}/images/og-image.png";
+    var alternateEn = $"{baseUrl}{currentRequest.Path}{currentRequest.QueryString}{(currentRequest.QueryString.HasValue ? "&" : "?")}culture=en-US";
+    var alternateDe = $"{baseUrl}{currentRequest.Path}{currentRequest.QueryString}{(currentRequest.QueryString.HasValue ? "&" : "?")}culture=de-DE";
+}
+
+<html lang="@currentCulture"> @*to change the direction of the sidebar*@
 
     
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Physiotech</title>
+    <title>@title</title>
+    <meta name="description" content="@description" />
+    <meta name="keywords" content="PhysioTech, physiotherapy, digital health, AI physiotherapy, patient care, rehabilitation" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="@canonicalUrl" />
+    <link rel="alternate" hreflang="en-US" href="@alternateEn" />
+    <link rel="alternate" hreflang="de-DE" href="@alternateDe" />
+    <meta itemprop="name" content="@title" />
+    <meta itemprop="description" content="@description" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@(ViewData["OgTitle"] as string ?? title)" />
+    <meta property="og:description" content="@(ViewData["OgDescription"] as string ?? description)" />
+    <meta property="og:url" content="@canonicalUrl" />
+    <meta property="og:image" content="@ogImage" />
+    <meta property="og:locale" content="@currentCulture" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@(ViewData["TwitterTitle"] as string ?? title)" />
+    <meta name="twitter:description" content="@(ViewData["TwitterDescription"] as string ?? description)" />
+    <meta name="twitter:image" content="@ogImage" />
 
     @* Icon Set *@
     <!-- Favicon base -->

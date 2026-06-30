@@ -148,9 +148,49 @@ app.UseStaticFiles(new StaticFileOptions
             // 4. إعداد اللغات (Middleware)
 var supportedCultures = new[] { "en-US", "de-DE"};
 var localizationOptions = new RequestLocalizationOptions()
-    .SetDefaultCulture(supportedCultures[1])
+    .SetDefaultCulture(supportedCultures[0])
     .AddSupportedCultures(supportedCultures)
     .AddSupportedUICultures(supportedCultures);
+
+app.Use(async (context, next) =>
+{
+    var path = context.Request.Path.Value ?? "/";
+    var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
+    
+    if (segments.Length > 0)
+    {
+        var lastSegment = segments[^1];
+        string? culture = null;
+
+        if (string.Equals(lastSegment, "de", StringComparison.OrdinalIgnoreCase))
+        {
+            culture = "de-DE";
+        }
+        else if (string.Equals(lastSegment, "en", StringComparison.OrdinalIgnoreCase))
+        {
+            culture = "en-US";
+        }
+
+        if (culture != null)
+        {
+            // حفظ الكوكي فوراً في الـ Response
+            context.Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), Path = "/" });
+
+            // **الحل السحري للطلب الأول**: نقوم بحقن القيمة مباشرة في الـ Request من خلال الـ Query أو الكوكيز للطلب الحالي
+            context.Request.Headers["Cookie"] = $"{CookieRequestCultureProvider.DefaultCookieName}={CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture))}";
+
+            // تنظيف الرابط داخلياً
+            context.Request.Path = segments.Length == 1
+                ? "/"
+                : new PathString($"/{string.Join('/', segments[..^1])}");
+        }
+    }
+
+    await next();
+});
 
 app.UseRequestLocalization(localizationOptions);
 

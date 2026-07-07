@@ -20,9 +20,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@title</title>
-    <meta name="description" content="@description" />
-    <meta name="keywords" content="PhysioTech, physiotherapy, digital health, AI physiotherapy, patient care, rehabilitation" />
+    @* <title>@title</title> *@
+    <title>Physiotech Ehrenfeld</title>
+    @* <meta name="description" content="@description" /> *@
+    <meta name="description" content="PhysioTech bietet fortschrittliche Physiotherapie und digitale Behandlungsberichte für eine schnellere Genesung. Buchen Sie jetzt Ihren Termin." />
+    @* <meta name="keywords" content="PhysioTech, physiotherapy, digital health, AI physiotherapy, patient care, rehabilitation" /> *@
+    <meta name="keywords" content="Physiotherapie, Rehabilitation, PhysioTech Ehrenfeld, digitaler Therapiebericht, Physiotherapeut" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="@canonicalUrl" />
     <link rel="alternate" hreflang="en-US" href="@alternateEn" />
@@ -39,6 +42,38 @@
     <meta name="twitter:title" content="@(ViewData["TwitterTitle"] as string ?? title)" />
     <meta name="twitter:description" content="@(ViewData["TwitterDescription"] as string ?? description)" />
     <meta name="twitter:image" content="@ogImage" />
+
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@@type": "LocalBusiness",
+      "name": "Physiotech Ehrenfeld",
+      "image": "https://physiotech-ehrenfeld.de/images/logo.svg",
+      "telephone": "+49 172 8758302",
+      "email": "dr.kurtoglu@physiotech-ehrenfeld.de",
+      "address": {
+        "@@type": "PostalAddress",
+        "streetAddress": "Venloer Straße 305",
+        "addressLocality": "Köln",
+        "postalCode": "50823",
+        "addressCountry": "DE"
+      },
+      "openingHoursSpecification": [
+        {
+          "@@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"],
+          "opens": "08:00",
+          "closes": "18:00"
+        },
+        {
+          "@@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Friday",
+          "opens": "08:00",
+          "closes": "13:00"
+        }
+      ]
+    }
+    </script>
 
     @* Icon Set *@
     <!-- Favicon base -->

@@ -896,6 +896,46 @@
     <value>Test</value>
     <comment/>
   </data>
+  <data name="Blog_TitleRequired" xml:space="preserve">
+    <value>Titel ist erforderlich.</value>
+    <comment>Validation - Blog posts</comment>
+  </data>
+  <data name="Blog_ShortRequired" xml:space="preserve">
+    <value>Kurzbeschreibung ist erforderlich.</value>
+    <comment>Validation - Blog posts</comment>
+  </data>
+  <data name="Blog_LongRequired" xml:space="preserve">
+    <value>Langbeschreibung ist erforderlich.</value>
+    <comment>Validation - Blog posts</comment>
+  </data>
+  <data name="Blog_ImageRequired" xml:space="preserve">
+    <value>Für einen neuen Blogbeitrag wird mindestens ein Bild benötigt.</value>
+    <comment>Validation - Blog posts</comment>
+  </data>
+  <data name="Blog_Create_Success" xml:space="preserve">
+    <value>Blogbeitrag wurde erfolgreich erstellt.</value>
+    <comment>Controller - Blog posts</comment>
+  </data>
+  <data name="Blog_Update_Success" xml:space="preserve">
+    <value>Blogbeitrag wurde erfolgreich aktualisiert.</value>
+    <comment>Controller - Blog posts</comment>
+  </data>
+  <data name="Blog_Delete_Success" xml:space="preserve">
+    <value>Blogbeitrag wurde erfolgreich gelöscht.</value>
+    <comment>Controller - Blog posts</comment>
+  </data>
+  <data name="Blog_Delete_NotFound" xml:space="preserve">
+    <value>Blogbeitrag wurde nicht gefunden.</value>
+    <comment>Controller - Blog posts</comment>
+  </data>
+  <data name="Blog_Image_Delete_Success" xml:space="preserve">
+    <value>Bild wurde erfolgreich gelöscht.</value>
+    <comment>Controller - Blog posts</comment>
+  </data>
+  <data name="Blog_Image_Delete_Failed" xml:space="preserve">
+    <value>Bild konnte nicht gelöscht werden.</value>
+    <comment>Controller - Blog posts</comment>
+  </data>
   <data name="InjuryHistory" xml:space="preserve">
     <value>Verletzungsgeschichte</value>
     <comment/>

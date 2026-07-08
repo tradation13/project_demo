@@ -118,6 +118,7 @@ builder.Services.AddControllersWithViews()
             builder.Services.AddScoped<SystemService>();
             builder.Services.AddScoped<SpecialtyService>();
             builder.Services.AddScoped<AppointmentService>();
+            builder.Services.AddScoped<BlogPostService>();
             
             // Register FileService for prescription file handling
             builder.Services.AddScoped<IFileService, FileService>();

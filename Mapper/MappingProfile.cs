@@ -189,6 +189,19 @@ namespace IPTS.Mapper
                             : src.CreatedAt.ToUniversalTime()
                     ));
 
+            CreateMap<BlogPost, BlogPostViewModel>()
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images))
+                .ForMember(dest => dest.MainImagePath, opt => opt.MapFrom(src => src.MainImagePath))
+                .ReverseMap()
+                .ForMember(dest => dest.Images, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedByUser, opt => opt.Ignore())
+                .ForMember(dest => dest.MainImagePath, opt => opt.MapFrom(src => src.MainImagePath));
+
+            CreateMap<BlogPostImage, BlogPostImageViewModel>()
+                .ForMember(dest => dest.Url, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.FileName) ? string.Empty : $"/InternalStorage/BlogsImages/{src.FileName}"))
+                .ReverseMap()
+                .ForMember(dest => dest.BlogPost, opt => opt.Ignore());
+
         }
     }
 }

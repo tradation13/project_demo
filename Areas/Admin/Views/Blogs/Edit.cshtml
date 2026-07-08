@@ -1,0 +1,166 @@
+@model IPTS.Areas.Admin.ViewsModels.BlogPostViewModel
+@{
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+    ViewData["Title"] = SharedLocalizer["BlogPosts_Edit"];
+}
+
+<div class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+    <h2 class="mb-6 text-xl font-bold text-slate-800">@SharedLocalizer["BlogPosts_Edit"]</h2>
+
+    <form asp-action="Edit" method="post" enctype="multipart/form-data" class="space-y-6">
+        <input asp-for="Id" type="hidden" />
+        <div asp-validation-summary="All" class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"></div>
+        <div class="grid gap-6 md:grid-cols-2">
+            <div>
+                <label asp-for="Title" class="mb-2 block text-sm font-semibold text-slate-700">@SharedLocalizer["Title"]</label>
+                <input asp-for="Title" class="w-full rounded-xl border border-slate-200 px-4 py-2.5" />
+                <span asp-validation-for="Title" class="text-sm text-red-600"></span>
+            </div>
+            <div>
+                <label asp-for="PostType" class="mb-2 block text-sm font-semibold text-slate-700">@SharedLocalizer["Post_type"]</label>
+                <select asp-for="PostType" class="w-full rounded-xl border border-slate-200 px-4 py-2.5">
+                    @foreach (var valObj in Enum.GetValues(typeof(IPTS.Models.Enums.EnBlogPostType)))
+                    {
+                        var val = (IPTS.Models.Enums.EnBlogPostType)valObj;
+                        var intVal = Convert.ToInt32(val);
+                        var isSelected = (Model != null && Model.PostType == val);
+                        <option value="@intVal" selected="@(isSelected ? "selected" : null)">@SharedLocalizer["BlogPostType_" + val.ToString()]</option>
+                    }
+                </select>
+            </div>
+           <div>
+    <label asp-for="PublishedAt" class="mb-2 block text-sm font-semibold text-slate-700">@SharedLocalizer["Published_at"]</label>
+    <input asp-for="PublishedAt" type="date" class="w-full rounded-xl border border-slate-200 px-4 py-2.5" />
+</div>
+            <div>
+                <label asp-for="ShortDescription" class="mb-2 block text-sm font-semibold text-slate-700">@SharedLocalizer["Short_description"]</label>
+                <textarea asp-for="ShortDescription" rows="3" class="w-full rounded-xl border border-slate-200 px-4 py-2.5"></textarea>
+                <span asp-validation-for="ShortDescription" class="text-sm text-red-600"></span>
+            </div>
+            <div>
+                <label asp-for="LongDescription" class="mb-2 block text-sm font-semibold text-slate-700">@SharedLocalizer["Long_description"]</label>
+                <textarea asp-for="LongDescription" rows="8" class="w-full rounded-xl border border-slate-200 px-4 py-2.5"></textarea>
+                <span asp-validation-for="LongDescription" class="text-sm text-red-600"></span>
+            </div>
+        </div>
+
+        <div class="rounded-xl border border-dashed border-slate-300 p-4">
+            <label class="mb-2 block text-sm font-semibold text-slate-700">@SharedLocalizer["BlogPosts_Images"]</label>
+
+            <div id="blogDropzone" class="flex items-center justify-between gap-4 rounded-md border border-dashed border-slate-200 bg-white p-4 text-sm text-slate-600">
+                <div id="blogDropzoneLabel" class="flex-1">
+                    <div class="mb-2 font-medium text-slate-700">@SharedLocalizer["Dropzone_Tip_Title"]</div>
+                    <div class="text-xs text-slate-500">@SharedLocalizer["Dropzone_Tip_Sub"]</div>
+                </div>
+                <button type="button" id="blogPickFilesBtn" class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">@SharedLocalizer["ChooseFiles"]</button>
+            </div>
+
+
+            <input asp-for="Files" type="file" multiple accept=".jpg,.jpeg,.png,.webp" class="hidden" id="blogFilesInput" />
+            <span asp-validation-for="Files" class="mt-2 block text-sm text-red-600"></span>
+
+            <div id="blogFilesErrors" class="mt-3 text-sm text-red-600"></div
+>
+
+            <div id="blogFilesPreview" class="mt-4 grid gap-3 md:grid-cols-3"></div>
+        </div>
+
+        <script>
+            (function(){
+                const input = document.getElementById('blogFilesInput');
+                const dropzone = document.getElementById('blogDropzone');
+                const pickBtn = document.getElementById('blogPickFilesBtn');
+                const preview = document.getElementById('blogFilesPreview');
+                const errorsEl = document.getElementById('blogFilesErrors');
+
+                const maxFileSize = 5 * 1024 * 1024; // 5MB - matches server
+                const allowedExt = ['.jpg','.jpeg','.png','.webp'];
+
+                function validateFile(file){
+                    const name = file.name || '';
+                    const ext = name.slice(name.lastIndexOf('.')).toLowerCase();
+                    if(!allowedExt.includes(ext)) return `Invalid extension: ${name}`;
+                    if(file.size > maxFileSize) return `File too large: ${name}`;
+                    return null;
+                }
+
+                function renderPreview(files){
+                    preview.innerHTML = '';
+                    Array.from(files).forEach(f => {
+                        const ext = f.name.slice(f.name.lastIndexOf('.')).toLowerCase();
+                        const container = document.createElement('div');
+                        container.className = 'rounded-xl border border-slate-200 p-3';
+                        if(['.jpg','.jpeg','.png','.webp'].includes(ext)){
+                            const img = document.createElement('img');
+                            img.className = 'mb-3 h-32 w-full rounded-lg object-cover';
+                            img.alt = f.name;
+                            const reader = new FileReader();
+                            reader.onload = e => { img.src = e.target.result; };
+                            reader.readAsDataURL(f);
+                            container.appendChild(img);
+                        } else {
+                            const name = document.createElement('div');
+                            name.textContent = f.name;
+                            container.appendChild(name);
+                        }
+                        preview.appendChild(container);
+                    });
+                }
+
+                function setInputFiles(files){
+                    const dt = new DataTransfer();
+                    files.forEach(f => dt.items.add(f));
+                    input.files = dt.files;
+                }
+
+                function handleFiles(files){
+                    const arr = Array.from(files);
+                    const errors = [];
+                    const valid = [];
+                    arr.forEach(f => {
+                        const v = validateFile(f);
+                        if(v) errors.push(v); else valid.push(f);
+                    });
+                    errorsEl.innerHTML = errors.map(e=>`<div>${e}</div>`).join('');
+                    renderPreview(valid);
+                    setInputFiles(valid);
+                }
+
+                pickBtn.addEventListener('click', () => input.click());
+
+                input.addEventListener('change', (e)=> handleFiles(e.target.files || []));
+
+                ['dragenter','dragover'].forEach(ev => dropzone.addEventListener(ev, evn => { evn.preventDefault(); dropzone.classList.add('bg-slate-50'); }));
+                ['dragleave','drop'].forEach(ev => dropzone.addEventListener(ev, evn => { evn.preventDefault(); dropzone.classList.remove('bg-slate-50'); }));
+
+                dropzone.addEventListener('drop', ev => {
+                    const dt = ev.dataTransfer;
+                    if(!dt) return;
+                    handleFiles(dt.files || []);
+                });
+            })();
+        </script>
+
+        <div class="flex gap-3">
+            <button type="submit" class="rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white">@SharedLocalizer["Shared_Save"]</button>
+            <a asp-action="Index" class="rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700">@SharedLocalizer["Shared_Cancel"]</a>
+        </div>
+    </form>
+
+    @if (Model.Images.Any())
+    {
+        <div class="mt-6 grid gap-4 md:grid-cols-3">
+            @foreach (var image in Model.Images)
+            {
+                <div class="rounded-xl border border-slate-200 p-3">
+                    <img src="@image.Url" class="mb-3 h-32 w-full rounded-lg object-cover" />
+                    <form asp-action="DeleteImage" method="post" class="inline">
+                        <input type="hidden" name="imageId" value="@image.Id" />
+                        <input type="hidden" name="blogPostId" value="@Model.Id" />
+                        <button type="submit" class="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">@SharedLocalizer["Shared_Delete"]</button>
+                    </form>
+                </div>
+            }
+        </div>
+    }
+</div>

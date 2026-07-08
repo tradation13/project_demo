@@ -4,6 +4,8 @@
    Self-contained Partial — no @section needed
 *@
 
+@inject IPTS.Services.BlogPostService BlogPostService
+
 @{
     var lang = (string)(ViewBag.Lang ?? System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
     bool isDE = lang?.ToLower() == "de";
@@ -14,29 +16,50 @@
     var t_subtitle = isDE ? "Bleiben Sie informiert — moderne Technik, intelligente Pflege und spezialisiertes Fachwissen aus unserer Klinik."
                           : "Stay informed with the latest from our clinic — modern technology, intelligent care, and specialized expertise.";
 
-    // Article 1
-    var a1_tag     = isDE ? "Technologie"   : "Technology";
-    var a1_date    = isDE ? "15. Juni 2026" : "June 15, 2026";
-    var a1_title   = isDE ? "Modernste Physiotherapiegeräte sind bei PhysioTech angekommen"
-                          : "Next-Gen Physiotherapy Equipment Arrives at PhysioTech";
-    var a1_excerpt = isDE ? "Wir freuen uns, den Einsatz fortschrittlicher medizinischer Pakete bekanntzugeben — darunter hochpräzise Stoßwellentherapie und Klasse-IV-Therapielaser zur schnellen klinischen Genesung."
-                          : "We are thrilled to announce the deployment of advanced medical packages, featuring high-precision shockwave therapy and class-IV therapeutic lasers designed to accelerate clinical recovery.";
+    var posts = (await BlogPostService.GetAllAsync(true))
+        .Where(x => x.IsPublished)
+        .Select(x =>
+        {
+            var articleImages = (x.Images ?? Enumerable.Empty<IPTS.Models.Entites.BlogPostImage>())
+                .Where(i => !string.IsNullOrWhiteSpace(i.FileName))
+                .Select(i => $"/InternalStorage/BlogsImages/{i.FileName}")
+                .ToList();
 
-    // Article 2
-    var a2_tag     = isDE ? "KI-Integration" : "AI Integration";
-    var a2_date    = isDE ? "10. Juni 2026"  : "June 10, 2026";
-    var a2_title   = isDE ? "Wie KI unsere klinische Diagnostik und Patientenverfolgung verändert"
-                          : "How AI is Transforming Clinical Diagnostics & Patient Tracking";
-    var a2_excerpt = isDE ? "Bei PhysioTech haben wir datengesteuerte Bewegungsanalyseintelligenz direkt mit digitalen Patientenakten integriert, um maßgeschneiderte Pflegepläne mit beispielloser Präzision zu erstellen."
-                          : "At PhysioTech, we've integrated data-driven motion analysis intelligence with digital patient files to produce tailored care plans with unprecedented precision and adaptive metrics.";
+            var preferredMainImage = string.IsNullOrWhiteSpace(x.MainImagePath)
+                ? null
+                : (x.MainImagePath.StartsWith("/InternalStorage/BlogsImages/", StringComparison.OrdinalIgnoreCase)
+                    ? x.MainImagePath
+                    : $"/InternalStorage/BlogsImages/{x.MainImagePath}");
 
-    // Article 3
-    var a3_tag     = isDE ? "Unser Team"    : "Our Team";
-    var a3_date    = isDE ? "1. Juni 2026"  : "June 1, 2026";
-    var a3_title   = isDE ? "Lernen Sie unser Team kennen — globale Expertise für Ihre Gesundheit"
-                          : "Meet Our Specialists — Global Expertise Dedicated to Your Health";
-    var a3_excerpt = isDE ? "Unser medizinisches Team besteht aus international zertifizierten Spezialisten mit über einem Jahrzehnt klinischer Erfahrung in Neurologie, Orthopädie und sportlicher Rehabilitation."
-                          : "Our team consists of internationally certified specialists with over a decade of hands-on clinical experience in neurological, orthopedic, and sports rehabilitation fields.";
+            var mainImageUrl = articleImages.Contains(preferredMainImage, StringComparer.OrdinalIgnoreCase)
+                ? preferredMainImage
+                : articleImages.FirstOrDefault() ?? "/images/blog-devices.png";
+
+            return new
+            {
+                Id = x.Id,
+                Tag = x.PostType switch
+                {
+                    IPTS.Models.Enums.EnBlogPostType.Team => isDE ? "Unser Team" : "Our Team",
+                    IPTS.Models.Enums.EnBlogPostType.News => isDE ? "Neuigkeiten" : "News",
+                    IPTS.Models.Enums.EnBlogPostType.Technology => isDE ? "Technologie" : "Technology",
+                    IPTS.Models.Enums.EnBlogPostType.Offers => isDE ? "Angebote" : "Offers",
+                    IPTS.Models.Enums.EnBlogPostType.Services => isDE ? "Dienstleistungen" : "Services",
+                    IPTS.Models.Enums.EnBlogPostType.Training => isDE ? "Training" : "Training",
+                    IPTS.Models.Enums.EnBlogPostType.Health => isDE ? "Gesundheit" : "Health",
+                    _ => isDE ? "Aktualisierung" : "Update"
+                },
+                Date = x.PublishedAt.ToString(isDE ? "dd.MM.yyyy" : "MMMM dd, yyyy"),
+                Title = string.IsNullOrWhiteSpace(x.Title) ? (isDE ? "Neuer Beitrag" : "New article") : x.Title,
+                Excerpt = string.IsNullOrWhiteSpace(x.ShortDescription) ? (string.IsNullOrWhiteSpace(x.LongDescription) ? "" : x.LongDescription) : x.ShortDescription,
+                ImageUrl = mainImageUrl,
+                Url = Url.Action("Treatments", "Home", new { articleId = x.Id }),
+                PublishedAt = x.PublishedAt
+            };
+        })
+        .OrderByDescending(x => x.PublishedAt)
+        .Take(3)
+        .ToList();
 
     var t_read     = isDE ? "Artikel lesen" : "Read Article";
     var t_viewall  = isDE ? "Alle Artikel anzeigen" : "View All Articles";
@@ -343,88 +366,35 @@
     </div>
 
     <div class="blogs-grid">
-
-        <article class="blog-card banim-card" data-bd="0">
-            <a class="blog-card-link" href="@Url.Action("Treatments", "Home", new { articleId = 13 })" aria-label="@a1_title">
-                <div class="blog-img-wrap">
-                    <img src="~/images/blog-devices.png" alt="@a1_title" class="blog-img" loading="lazy"
-                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-                    <div class="blog-img-placeholder" style="display:none">
-                        <i class="ti ti-device-heart-monitor" aria-hidden="true"></i>
+        @foreach (var post in posts)
+        {
+            <article class="blog-card banim-card" data-bd="0">
+                <a class="blog-card-link" href="@post.Url" aria-label="@post.Title">
+                    <div class="blog-img-wrap">
+                        <img src="@post.ImageUrl" alt="@post.Title" class="blog-img" loading="lazy"
+                             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                        <div class="blog-img-placeholder" style="display:none">
+                            <i class="ti ti-news" aria-hidden="true"></i>
+                        </div>
+                        <span class="blog-tag">@post.Tag</span>
                     </div>
-                    <span class="blog-tag">@a1_tag</span>
-                </div>
-                <div class="blog-body">
-                    <div class="blog-meta">
-                        <i class="ti ti-calendar-event" aria-hidden="true"></i>
-                        <time datetime="2026-06-15">@a1_date</time>
+                    <div class="blog-body">
+                        <div class="blog-meta">
+                            <i class="ti ti-calendar-event" aria-hidden="true"></i>
+                            <time datetime="@post.Date">@post.Date</time>
+                        </div>
+                        <h3 class="blog-card-title">@post.Title</h3>
+                        <p class="blog-excerpt">@post.Excerpt</p>
+                        <span class="blog-read-more">
+                            <span>@t_read</span>
+                            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M7 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
                     </div>
-                    <h3 class="blog-card-title">@a1_title</h3>
-                    <p class="blog-excerpt">@a1_excerpt</p>
-                    <span class="blog-read-more">
-                        <span>@t_read</span>
-                        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M7 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </span>
-                </div>
-            </a>
-        </article>
-
-        <article class="blog-card featured banim-card" data-bd="130">
-            <a class="blog-card-link" href="@Url.Action("Treatments", "Home", new { articleId = 14 })" aria-label="@a2_title">
-                <div class="blog-img-wrap">
-                    <img src="~/images/blog-ai.png" alt="@a2_title" class="blog-img" loading="lazy"
-                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-                    <div class="blog-img-placeholder" style="display:none">
-                        <i class="ti ti-cpu" aria-hidden="true"></i>
-                    </div>
-                    <span class="blog-tag ai-tag">@a2_tag</span>
-                </div>
-                <div class="blog-body">
-                    <div class="blog-meta">
-                        <i class="ti ti-calendar-event" aria-hidden="true"></i>
-                        <time datetime="2026-06-10">@a2_date</time>
-                    </div>
-                    <h3 class="blog-card-title">@a2_title</h3>
-                    <p class="blog-excerpt">@a2_excerpt</p>
-                    <span class="blog-read-more">
-                        <span>@t_read</span>
-                        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M7 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </span>
-                </div>
-            </a>
-        </article>
-
-        <article class="blog-card banim-card" data-bd="260">
-            <a class="blog-card-link" href="@Url.Action("Treatments", "Home", new { articleId = 15 })" aria-label="@a3_title">
-                <div class="blog-img-wrap">
-                    <img src="~/images/blog-team.png" alt="@a3_title" class="blog-img" loading="lazy"
-                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-                    <div class="blog-img-placeholder" style="display:none">
-                        <i class="ti ti-users" aria-hidden="true"></i>
-                    </div>
-                    <span class="blog-tag team-tag">@a3_tag</span>
-                </div>
-                <div class="blog-body">
-                    <div class="blog-meta">
-                        <i class="ti ti-calendar-event" aria-hidden="true"></i>
-                        <time datetime="2026-06-01">@a3_date</time>
-                    </div>
-                    <h3 class="blog-card-title">@a3_title</h3>
-                    <p class="blog-excerpt">@a3_excerpt</p>
-                    <span class="blog-read-more">
-                        <span>@t_read</span>
-                        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M7 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </span>
-                </div>
-            </a>
-        </article>
-
+                </a>
+            </article>
+        }
     </div>
 
   <div class="blogs-footer banim-foot" data-bd="360">

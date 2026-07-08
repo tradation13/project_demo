@@ -121,6 +121,90 @@
     <value>Startseite</value>
     <comment>VIiews -&gt; Shared -&gt; PublicSide</comment>
   </data>
+  <data name="BlogPosts" xml:space="preserve">
+    <value>Blog-Beiträge</value>
+    <comment>Views -&gt; Admin -&gt; Blogs</comment>
+  </data>
+  <data name="BlogPosts_Description" xml:space="preserve">
+    <value>Verwalten Sie Blog-Beiträge, Kategorien und Bilder.</value>
+    <comment>Views -&gt; Admin -&gt; Blogs</comment>
+  </data>
+  <data name="BlogPosts_New" xml:space="preserve">
+    <value>Blog-Beitrag erstellen</value>
+    <comment>Views -&gt; Admin -&gt; Blogs</comment>
+  </data>
+  <data name="BlogPosts_Edit" xml:space="preserve">
+    <value>Blog-Beitrag bearbeiten</value>
+    <comment>Views -&gt; Admin -&gt; Blogs</comment>
+  </data>
+  <data name="BlogPosts_Images" xml:space="preserve">
+    <value>Bilder</value>
+    <comment>Views -&gt; Admin -&gt; Blogs</comment>
+  </data>
+  <data name="Post_type" xml:space="preserve">
+    <value>Beitragstyp</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Titel</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+  <data name="Published_at" xml:space="preserve">
+    <value>Veröffentlicht am</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+  <data name="Short_description" xml:space="preserve">
+    <value>Kurzbeschreibung</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+  <data name="Long_description" xml:space="preserve">
+    <value>Ausführliche Beschreibung</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+   <data name="BlogPostType_Team" xml:space="preserve">
+    <value>Team</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+    <data name="BlogPostType_News" xml:space="preserve">
+    <value>News</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+    <data name="BlogPostType_Technology" xml:space="preserve">
+    <value>Technologie</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+   <data name="BlogPostType_Services" xml:space="preserve">
+    <value>Services</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+   <data name="BlogPostType_Offers" xml:space="preserve">
+    <value>Angebote</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+   <data name="BlogPostType_Training" xml:space="preserve">
+    <value>Training</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+  <data name="BlogPostType_Update" xml:space="preserve">
+    <value>Aktualisierung</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+  <data name="BlogPostType_Health" xml:space="preserve">
+    <value>Gesundheit</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+   <data name="Dropzone_Tip_Title" xml:space="preserve">
+    <value>Dateien hierher ziehen und ablegen</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+   <data name="Dropzone_Tip_Sub" xml:space="preserve">
+    <value>Unterstützte Dateitypen: JPG, PNG, GIF</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
+  <data name="ChooseFiles" xml:space="preserve">
+    <value>Dateien auswählen</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
   <data name="Reg_PrivacyConsent" xml:space="preserve">
     <value>Ich stimme der Datenschutzrichtlinie und den Bedingungen zu</value>
   </data>
@@ -1888,6 +1972,15 @@
 <data name="FileSelected" xml:space="preserve">
   <value>Ausgewählt</value>
 </data>
+<data name="Dropzone_Tip_Title" xml:space="preserve">
+  <value>Dateien hier ablegen oder zum Auswählen klicken</value>
+</data>
+<data name="Dropzone_Tip_Sub" xml:space="preserve">
+  <value>Unterstützte Formate: JPG, PNG, WEBP. Max. Größe: 5 MB.</value>
+</data>
+<data name="ChooseFiles" xml:space="preserve">
+  <value>Dateien auswählen</value>
+</data>
   <data name="MedCase_PhysicalVitals_Header" xml:space="preserve">
   <value>Physische Vitalwerte (Essentiell für KI-Analyse)</value>
 </data>
@@ -2069,6 +2162,15 @@
     <value>Gelöscht</value>
     <comment>Shared</comment>
   </data>
+  <data name="Shared_Active" xml:space="preserve">
+    <value>Aktiv</value>
+    <comment>Shared</comment>
+  </data>
+   <data name="Shared_Inactive" xml:space="preserve">
+    <value>Inaktiv</value>
+    <comment>Shared</comment>
+  </data>
+  
   <data name="Status_Unknown" xml:space="preserve">
     <value>Unbekannt</value>
     <comment>Shared</comment>
@@ -2464,5 +2566,89 @@
   <data name="Appt_TimeRangeSeparator" xml:space="preserve">
     <value>bis</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; AcceptRequest</comment>
+  </data>
+  <data name="Blog_Page_Title" xml:space="preserve">
+    <value>Blog</value>
+  </data>
+  <data name="Blog_Hero_Eyebrow" xml:space="preserve">
+    <value>Unser Wissen für dich</value>
+  </data>
+  <data name="Blog_Hero_Subtitle" xml:space="preserve">
+    <value>Tipps, Team-Einblicke und die neuesten Nachrichten rund um Physiotherapie und Bewegung.</value>
+  </data>
+  <data name="Blog_Filter_All" xml:space="preserve">
+    <value>Alle</value>
+  </data>
+  <data name="Blog_Filter_ByCategory" xml:space="preserve">
+    <value>Artikel nach Kategorie filtern</value>
+  </data>
+  <data name="Blog_ReadMore" xml:space="preserve">
+    <value>Weiterlesen</value>
+  </data>
+  <data name="Blog_NoResults" xml:space="preserve">
+    <value>Keine Artikel in dieser Kategorie.</value>
+  </data>
+  <data name="Blog_Modal_Close" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+  <data name="Blog_Modal_Previous" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="Blog_Modal_Next" xml:space="preserve">
+    <value>Weiter</value>
+  </data>
+  <data name="Blog_Category_Team" xml:space="preserve">
+    <value>Team</value>
+  </data>
+  <data name="Blog_Category_News" xml:space="preserve">
+    <value>Nachrichten</value>
+  </data>
+  <data name="Blog_Category_Technology" xml:space="preserve">
+    <value>Technologie</value>
+  </data>
+  <data name="Blog_Category_Offers" xml:space="preserve">
+    <value>Angebote</value>
+  </data>
+  <data name="Blog_Category_Services" xml:space="preserve">
+    <value>Dienstleistungen</value>
+  </data>
+  <data name="Blog_Category_Training" xml:space="preserve">
+    <value>Training</value>
+  </data>
+  <data name="Blog_Category_Health" xml:space="preserve">
+    <value>Gesundheit</value>
+  </data>
+  <data name="Blog_Category_Update" xml:space="preserve">
+    <value>Aktualisierung</value>
+  </data>
+  <data name="Blog_TitleRequired" xml:space="preserve">
+    <value>Der Titel ist erforderlich.</value>
+  </data>
+  <data name="Blog_ShortRequired" xml:space="preserve">
+    <value>Die Kurzbeschreibung ist erforderlich.</value>
+  </data>
+  <data name="Blog_LongRequired" xml:space="preserve">
+    <value>Die Langbeschreibung ist erforderlich.</value>
+  </data>
+  <data name="Blog_ImageRequired" xml:space="preserve">
+    <value>Bitte laden Sie mindestens ein Bild für den Blogbeitrag hoch.</value>
+  </data>
+  <data name="Blog_Create_Success" xml:space="preserve">
+    <value>Blogbeitrag erfolgreich erstellt.</value>
+  </data>
+  <data name="Blog_Update_Success" xml:space="preserve">
+    <value>Blogbeitrag erfolgreich aktualisiert.</value>
+  </data>
+  <data name="Blog_Delete_Success" xml:space="preserve">
+    <value>Blogbeitrag erfolgreich gelöscht.</value>
+  </data>
+  <data name="Blog_Delete_NotFound" xml:space="preserve">
+    <value>Blogbeitrag wurde nicht gefunden.</value>
+  </data>
+  <data name="Blog_Image_Delete_Success" xml:space="preserve">
+    <value>Bild erfolgreich entfernt.</value>
+  </data>
+  <data name="Blog_Image_Delete_Failed" xml:space="preserve">
+    <value>Bild konnte nicht entfernt werden.</value>
   </data>
 </root>

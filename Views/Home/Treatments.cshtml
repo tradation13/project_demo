@@ -1,258 +1,60 @@
+@using IPTS.ViewModels
+@inject IPTS.Services.BlogPostService BlogPostService
+
 @{
-    ViewData["Title"] = "Blog";
+    ViewData["Title"] = SharedLocalizer["Blog_Page_Title"].Value;
     Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
+    var currentLang = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.StartsWith("en", StringComparison.OrdinalIgnoreCase) ? "en" : "de";
 
-    var articles = new[]
-    {
-        new {
-            Id         = 1,
-            Slug       = "meet-the-team-markus",
-            Category   = "Team",
-            ImageUrl   = "https://picsum.photos/id/1011/1200/800",
-            TitleDe    = "Meet the Team: Markus – Hürth",
-            TitleEn    = "Meet the Team: Markus – Hürth",
-            ExcerptDe  = "Lern Markus kennen – unseren Physiotherapeuten in Hürth. Erfahre mehr über seine Leidenschaft für Bewegung und Gesundheit.",
-            ExcerptEn  = "Get to know Markus – our physiotherapist in Hürth. Learn about his passion for movement and health.",
-            PublishedAt = new DateTime(2026, 6, 3),
-            BodyDe     = "Markus ist seit über 8 Jahren als Physiotherapeut tätig und hat sich auf manuelle Therapie und Sportrehabilitation spezialisiert. In unserer Praxis in Hürth betreut er täglich Patienten mit verschiedensten Beschwerden – von Rückenschmerzen bis hin zu postoperativer Rehabilitation.\n\nSeine Leidenschaft für Bewegung begann schon früh: Als aktiver Sportler verstand er schnell, wie wichtig eine gezielte physiotherapeutische Begleitung für Leistung und Gesundheit ist. Dieses Verständnis bringt er heute in jede Behandlung ein.\n\nMarkus legt großen Wert auf eine individuelle Betreuung. Jeder Patient ist anders – und genau das macht seinen Beruf so spannend. Mit Empathie, Fachwissen und modernsten Therapiemethoden hilft er seinen Patienten, schnell und nachhaltig wieder fit zu werden.",
-            BodyEn     = "Markus has been working as a physiotherapist for over 8 years, specialising in manual therapy and sports rehabilitation. At our practice in Hürth, he treats patients daily with a wide range of complaints – from back pain to post-operative rehabilitation.\n\nHis passion for movement started early: as an active athlete, he quickly understood how important targeted physiotherapeutic support is for performance and health. He brings this understanding to every treatment today.\n\nMarkus places great emphasis on individual care. Every patient is different – and that is precisely what makes his job so exciting. With empathy, expertise and the latest therapy methods, he helps his patients to get fit again quickly and sustainably.",
-            Images     = new[] { "https://picsum.photos/id/1011/1200/800", "https://picsum.photos/id/1012/1200/800", "https://picsum.photos/id/1013/1200/800" }
-        },
-        new {
-            Id         = 2,
-            Slug       = "sommer-waerme-koerper",
-            Category   = "Gesundheit",
-            ImageUrl   = "https://picsum.photos/id/1018/1200/800",
-            TitleDe    = "Endlich Sommer: So wirkt Wärme auf unseren Körper",
-            TitleEn    = "Finally Summer: How Heat Affects Our Body",
-            ExcerptDe  = "Hohe Temperaturen beeinflussen unser Wohlbefinden und unsere Leistungsfähigkeit. Wir erklären, was im Körper passiert.",
-            ExcerptEn  = "High temperatures affect our well-being and performance. We explain what happens in the body.",
-            PublishedAt = new DateTime(2026, 5, 21),
-            BodyDe     = "Wenn die Temperaturen steigen, reagiert unser Körper mit einer Reihe von Anpassungsmechanismen. Das Herzkreislaufsystem arbeitet auf Hochtouren, um die Körperkerntemperatur stabil zu halten. Die Blutgefäße weiten sich, die Durchblutung der Haut nimmt zu und die Schweißproduktion steigt an.\n\nDiese Prozesse kosten Energie und können bei unzureichender Flüssigkeitszufuhr zu Erschöpfung, Schwindel oder sogar einem Hitzschlag führen. Besonders Menschen mit Kreislaufproblemen oder ältere Personen sind gefährdet.\n\nAus physiotherapeutischer Sicht bietet die Wärme jedoch auch Vorteile: Muskeln werden lockerer, Gelenke beweglicher und Schmerzen lassen oft nach. Wärme fördert die Durchblutung und kann gezielt zur Behandlung von Verspannungen und chronischen Beschwerden eingesetzt werden.",
-            BodyEn     = "When temperatures rise, our body responds with a series of adaptive mechanisms. The cardiovascular system works at full capacity to keep the core body temperature stable. Blood vessels dilate, blood flow to the skin increases and sweat production rises.\n\nThese processes consume energy and can lead to exhaustion, dizziness or even heat stroke if fluid intake is insufficient. People with circulatory problems or the elderly are particularly at risk.\n\nFrom a physiotherapeutic perspective, however, heat also offers benefits: muscles become looser, joints more mobile and pain often subsides. Heat promotes blood circulation and can be used specifically to treat tension and chronic complaints.",
-            Images     = new[] { "https://picsum.photos/id/1018/1200/800", "https://picsum.photos/id/1019/1200/800" }
-        },
-        new {
-            Id         = 3,
-            Slug       = "meet-the-team-lars",
-            Category   = "Team",
-            ImageUrl   = "https://picsum.photos/id/1020/1200/800",
-            TitleDe    = "Meet the Team: Lars – Aachener Straße",
-            TitleEn    = "Meet the Team: Lars – Aachener Straße",
-            ExcerptDe  = "Lars ist unser Experte für Sportphysiotherapie. Lern ihn und seinen Ansatz zur Rehabilitation kennen.",
-            ExcerptEn  = "Lars is our expert in sports physiotherapy. Learn about him and his approach to rehabilitation.",
-            PublishedAt = new DateTime(2026, 4, 22),
-            BodyDe     = "Lars bringt eine einzigartige Kombination aus sportlicher Erfahrung und physiotherapeutischem Fachwissen mit. Als ehemaliger Leistungssportler kennt er die Anforderungen des Hochleistungssports aus eigener Erfahrung.\n\nIn unserer Praxis an der Aachener Straße spezialisiert er sich auf die Behandlung von Sportverletzungen, Überlastungssyndromen und die Rückkehr in den Sport nach Operationen. Sein ganzheitlicher Ansatz berücksichtigt nicht nur die körperliche, sondern auch die mentale Komponente der Rehabilitation.\n\nMit modernsten Diagnose- und Therapiemethoden entwickelt Lars individuelle Behandlungspläne, die auf die spezifischen Bedürfnisse und Ziele jedes Sportlers zugeschnitten sind.",
-            BodyEn     = "Lars brings a unique combination of sporting experience and physiotherapeutic expertise. As a former competitive athlete, he knows the demands of high-performance sport from personal experience.\n\nAt our practice on Aachener Straße, he specialises in treating sports injuries, overuse syndromes and the return to sport after operations. His holistic approach considers not only the physical but also the mental component of rehabilitation.\n\nUsing the latest diagnostic and therapy methods, Lars develops individual treatment plans tailored to the specific needs and goals of each athlete.",
-            Images     = new[] { "https://picsum.photos/id/1020/1200/800", "https://picsum.photos/id/1021/1200/800" }
-        },
-        new {
-            Id         = 4,
-            Slug       = "gratis-physio-behandlung",
-            Category   = "Angebote",
-            ImageUrl   = "https://picsum.photos/id/1024/1200/800",
-            TitleDe    = "Gratis Physio Behandlung – So geht's",
-            TitleEn    = "Free Physio Treatment – Here's How",
-            ExcerptDe  = "Wusstest du, dass du unter bestimmten Bedingungen kostenlose Physiotherapie erhalten kannst? Alle Infos hier.",
-            ExcerptEn  = "Did you know that under certain conditions you can receive free physiotherapy? All the info right here.",
-            PublishedAt = new DateTime(2026, 3, 27),
-            BodyDe     = "Viele Menschen wissen nicht, dass sie unter bestimmten Voraussetzungen Anspruch auf kostenlose physiotherapeutische Behandlungen haben. Gesetzlich Versicherte können mit einem Rezept vom Arzt Physiotherapie auf Kassenkosten in Anspruch nehmen.\n\nDie Krankenkasse übernimmt in der Regel die Kosten vollständig, wenn eine medizinische Notwendigkeit besteht. Dazu benötigst du lediglich eine ärztliche Verordnung. Sprich deinen Hausarzt oder Facharzt darauf an – bei Rückenschmerzen, Gelenkproblemen oder nach Operationen ist dies häufig möglich.\n\nIn unseren Praxen arbeiten wir mit allen gesetzlichen und den meisten privaten Krankenkassen zusammen. Unser Team hilft dir gerne dabei, alle nötigen Formalitäten zu erledigen, damit du schnell und unkompliziert mit deiner Behandlung beginnen kannst.",
-            BodyEn     = "Many people do not know that under certain conditions they are entitled to free physiotherapy treatments. Those with statutory health insurance can use physiotherapy at the expense of their health insurance fund with a prescription from a doctor.\n\nThe health insurance fund generally covers the costs in full when there is a medical necessity. All you need is a medical prescription. Talk to your GP or specialist about this – for back pain, joint problems or after operations, this is often possible.\n\nIn our practices, we work with all statutory and most private health insurance companies. Our team is happy to help you with all the necessary formalities so that you can start your treatment quickly and easily.",
-            Images     = new[] { "https://picsum.photos/id/1024/1200/800", "https://picsum.photos/id/1025/1200/800" }
-        },
-        new {
-            Id         = 5,
-            Slug       = "rueckenschmerzen-tipps",
-            Category   = "Gesundheit",
-            ImageUrl   = "https://picsum.photos/id/1031/1200/800",
-            TitleDe    = "Rückenschmerzen: 5 Tipps für den Alltag",
-            TitleEn    = "Back Pain: 5 Everyday Tips",
-            ExcerptDe  = "Rückenschmerzen sind weit verbreitet. Mit diesen einfachen Übungen und Verhaltensänderungen schaffst du Erleichterung.",
-            ExcerptEn  = "Back pain is widespread. These simple exercises and behavioural changes can bring lasting relief.",
-            PublishedAt = new DateTime(2026, 3, 10),
-            BodyDe     = "Rückenschmerzen gehören zu den häufigsten Beschwerden überhaupt. Fast jeder Mensch leidet mindestens einmal im Leben darunter. Die gute Nachricht: Mit einfachen Maßnahmen im Alltag lassen sich viele Rückenbeschwerden deutlich lindern oder sogar vermeiden.\n\n1. Bewegung statt Schonung: Früher wurde bei Rückenschmerzen absolute Bettruhe empfohlen. Heute wissen wir: Leichte Bewegung ist besser. Kurze Spaziergänge und sanfte Dehnübungen helfen, die Muskeln zu lockern.\n\n2. Ergonomischer Arbeitsplatz: Achte auf eine aufrechte Sitzhaltung und stelle Bildschirm und Stuhl optimal ein. Ein verstellbarer Schreibtisch, der auch im Stehen genutzt werden kann, ist ideal.\n\n3. Kräftigung der Rumpfmuskulatur: Eine starke Kern- und Rückenmuskulatur ist der beste Schutz gegen Rückenschmerzen. Übungen wie Planks, Brücken oder Vogel-Hund sind sehr effektiv.\n\n4. Stressreduktion: Psychischer Stress kann Rückenschmerzen verstärken. Entspannungstechniken wie Yoga oder Meditation können helfen.\n\n5. Professionelle Hilfe: Wenn Schmerzen länger als zwei Wochen anhalten, solltest du einen Physiotherapeuten aufsuchen.",
-            BodyEn     = "Back pain is one of the most common complaints of all. Almost everyone suffers from it at least once in their life. The good news: simple measures in everyday life can significantly reduce or even prevent many back complaints.\n\n1. Movement instead of rest: In the past, complete bed rest was recommended for back pain. Today we know: gentle movement is better. Short walks and gentle stretching exercises help to loosen the muscles.\n\n2. Ergonomic workplace: Pay attention to an upright sitting posture and set up your screen and chair optimally. An adjustable desk that can also be used standing is ideal.\n\n3. Strengthening the core muscles: Strong core and back muscles are the best protection against back pain. Exercises such as planks, bridges or bird-dogs are very effective.\n\n4. Stress reduction: Psychological stress can intensify back pain. Relaxation techniques such as yoga or meditation can help.\n\n5. Professional help: If pain persists for more than two weeks, you should see a physiotherapist.",
-            Images     = new[] { "https://picsum.photos/id/1031/1200/800", "https://picsum.photos/id/1032/1200/800" }
-        },
-        new {
-            Id         = 6,
-            Slug       = "dehnen-vor-training",
-            Category   = "Training",
-            ImageUrl   = "https://picsum.photos/id/1035/1200/800",
-            TitleDe    = "Dehnen vor dem Training – sinnvoll oder nicht?",
-            TitleEn    = "Stretching Before Training – Useful or Not?",
-            ExcerptDe  = "Statisches Dehnen vor dem Sport kann die Leistung mindern. Was die Wissenschaft wirklich empfiehlt.",
-            ExcerptEn  = "Static stretching before sport can reduce performance. Here's what science actually recommends.",
-            PublishedAt = new DateTime(2026, 2, 18),
-            BodyDe     = "Jahrelang galt es als selbstverständlich: Vor dem Sport dehnen, um Verletzungen vorzubeugen. Doch die aktuelle Forschung zeigt ein differenzierteres Bild. Statisches Dehnen vor dem Training kann die Muskelkraft und -leistung kurzfristig sogar reduzieren.\n\nWarum ist das so? Beim statischen Dehnen werden die Muskeln in eine verlängerte Position gebracht und dort gehalten. Dies kann die neuromuskuläre Aktivierung vorübergehend verringern und die Explosivkraft mindern – genau das, was man vor intensivem Sport nicht möchte.\n\nWas empfehlen Experten stattdessen? Ein dynamisches Aufwärmprogramm ist wesentlich sinnvoller. Dabei werden die Muskeln durch funktionelle Bewegungen aktiviert, die dem Training ähneln. Kniebeugen, Ausfallschritte, Armkreisen oder leichtes Joggen bereiten den Körper optimal vor.\n\nStatisches Dehnen hat durchaus seinen Platz – aber nach dem Training, wenn die Muskeln warm sind und die Verlängerung der Muskulatur im Vordergrund steht.",
-            BodyEn     = "For years it was taken for granted: stretch before sport to prevent injuries. But current research paints a more differentiated picture. Static stretching before training can even briefly reduce muscle strength and performance.\n\nWhy is that? With static stretching, the muscles are brought into an extended position and held there. This can temporarily reduce neuromuscular activation and reduce explosive power – exactly what you do not want before intense sport.\n\nWhat do experts recommend instead? A dynamic warm-up programme is far more sensible. The muscles are activated through functional movements similar to the training. Squats, lunges, arm circles or light jogging optimally prepare the body.\n\nStatic stretching certainly has its place – but after training, when the muscles are warm and lengthening the musculature is the priority.",
-            Images     = new[] { "https://picsum.photos/id/1035/1200/800", "https://picsum.photos/id/1036/1200/800" }
-        },
-        new {
-            Id         = 7,
-            Slug       = "neue-praxis-ehrenfeld",
-            Category   = "News",
-            ImageUrl   = "https://picsum.photos/id/1026/1200/800",
-            TitleDe    = "Neue Praxis in Ehrenfeld eröffnet!",
-            TitleEn    = "New Studio Opens in Ehrenfeld!",
-            ExcerptDe  = "Wir wachsen! Unser neuestes Studio in Köln-Ehrenfeld ist ab sofort geöffnet – komm uns besuchen.",
-            ExcerptEn  = "We're growing! Our newest studio in Cologne-Ehrenfeld is now open – come pay us a visit.",
-            PublishedAt = new DateTime(2026, 2, 1),
-            BodyDe     = "Wir freuen uns, die Eröffnung unserer neuen Praxis in Köln-Ehrenfeld bekanntzugeben! Nach monatelanger Planung und Vorbereitung öffnen wir unsere Türen für alle Patienten aus Ehrenfeld und den umliegenden Stadtteilen.\n\nDie neue Praxis ist modern ausgestattet und bietet alle Leistungen, die ihr bereits von unseren anderen Standorten kennt: manuelle Therapie, Sportphysiotherapie, Elektrotherapie, Ultraschall und vieles mehr. Unser erfahrenes Team freut sich darauf, euch kennenzulernen.\n\nIhr findet uns in der Venloer Straße – direkt an der U-Bahn-Haltestelle Venloer Straße/Gürtel. Parkplätze sind in der Nähe vorhanden. Vereinbart noch heute euren ersten Termin – wir freuen uns auf euch!",
-            BodyEn     = "We are delighted to announce the opening of our new practice in Cologne-Ehrenfeld! After months of planning and preparation, we are opening our doors to all patients from Ehrenfeld and the surrounding districts.\n\nThe new practice is modern and offers all the services you already know from our other locations: manual therapy, sports physiotherapy, electrotherapy, ultrasound and much more. Our experienced team looks forward to getting to know you.\n\nYou can find us on Venloer Straße – right next to the Venloer Straße/Gürtel underground station. Parking is available nearby. Book your first appointment today – we look forward to seeing you!",
-            Images     = new[] { "https://picsum.photos/id/1026/1200/800", "https://picsum.photos/id/1027/1200/800", "https://picsum.photos/id/1028/1200/800" }
-        },
-        new {
-            Id         = 8,
-            Slug       = "faszientraining-erklaert",
-            Category   = "Training",
-            ImageUrl   = "https://picsum.photos/id/1029/1200/800",
-            TitleDe    = "Faszientraining: Was steckt dahinter?",
-            TitleEn    = "Fascia Training: What's It All About?",
-            ExcerptDe  = "Faszien sind das Bindegewebe unseres Körpers. Gezieltes Training kann Schmerzen lindern und die Mobilität steigern.",
-            ExcerptEn  = "Fascia is our body's connective tissue. Targeted training can relieve pain and improve mobility.",
-            PublishedAt = new DateTime(2026, 1, 14),
-            BodyDe     = "Faszien – das Bindegewebe, das unseren gesamten Körper durchzieht – rücken immer mehr in den Fokus der modernen Physiotherapie und des Fitnesstrainings. Lange Zeit wurden sie kaum beachtet, doch heute wissen wir: Gesunde Faszien sind entscheidend für Beweglichkeit, Kraftübertragung und Schmerzfreiheit.\n\nFaszien umhüllen Muskeln, Organe und Knochen und bilden ein dreidimensionales Netzwerk im gesamten Körper. Durch Bewegungsmangel, einseitige Belastung oder Verletzungen können sie verkleben und verhärten – was zu Schmerzen und eingeschränkter Beweglichkeit führt.\n\nFaszientraining zielt darauf ab, dieses Gewebe zu mobilisieren und zu regenerieren. Typische Methoden sind das Rollen mit der Faszienrolle, gezielte Dehn- und Federbewegungen sowie myofasziale Techniken in der Physiotherapie. Regelmäßiges Faszientraining kann Schmerzen lindern, die Beweglichkeit verbessern und die Regeneration nach dem Sport beschleunigen.",
-            BodyEn     = "Fascia – the connective tissue that runs throughout our entire body – is increasingly coming into focus in modern physiotherapy and fitness training. For a long time they were barely noticed, but today we know: healthy fascia is crucial for mobility, power transmission and freedom from pain.\n\nFascia envelops muscles, organs and bones and forms a three-dimensional network throughout the body. Through lack of movement, one-sided strain or injuries, they can become matted and hardened – leading to pain and restricted mobility.\n\nFascia training aims to mobilise and regenerate this tissue. Typical methods include rolling with a foam roller, targeted stretching and bouncing movements as well as myofascial techniques in physiotherapy. Regular fascia training can relieve pain, improve mobility and speed up recovery after sport.",
-            Images     = new[] { "https://picsum.photos/id/1029/1200/800", "https://picsum.photos/id/1030/1200/800" }
-        },
-        new {
-            Id         = 9,
-            Slug       = "meet-the-team-anna",
-            Category   = "Team",
-            ImageUrl   = "https://picsum.photos/id/1032/1200/800",
-            TitleDe    = "Meet the Team: Anna – Köln Mitte",
-            TitleEn    = "Meet the Team: Anna – Cologne City Centre",
-            ExcerptDe  = "Anna bringt jahrelange Erfahrung in der manuellen Therapie mit. Lern sie und ihre Philosophie kennen.",
-            ExcerptEn  = "Anna brings years of experience in manual therapy. Learn about her and her philosophy.",
-            PublishedAt = new DateTime(2025, 12, 20),
-            BodyDe     = "Anna ist seit mehr als einem Jahrzehnt in der Physiotherapie tätig und hat sich auf manuelle Therapie und Neurologie spezialisiert. In unserem Standort in Köln Mitte ist sie für viele Patienten eine unverzichtbare Ansprechpartnerin.\n\nIhre Philosophie: Der Mensch als Ganzes steht im Mittelpunkt. Anna behandelt nicht nur Symptome, sondern sucht stets nach den Ursachen von Beschwerden. Dabei bezieht sie auch psychosoziale Faktoren in ihre Beurteilung ein.\n\nNeben ihrer klinischen Tätigkeit engagiert sich Anna regelmäßig in der Ausbildung junger Physiotherapeuten und hält Vorträge zu aktuellen Themen der manuellen Therapie. Ihr Wissen und ihre Erfahrung kommen täglich unseren Patienten zugute.",
-            BodyEn     = "Anna has been working in physiotherapy for more than a decade and has specialised in manual therapy and neurology. At our location in Cologne city centre, she is an indispensable contact for many patients.\n\nHer philosophy: the person as a whole is at the centre. Anna does not just treat symptoms but always looks for the causes of complaints. She also includes psychosocial factors in her assessment.\n\nIn addition to her clinical work, Anna regularly contributes to the training of young physiotherapists and gives lectures on current topics in manual therapy. Her knowledge and experience benefit our patients every day.",
-            Images     = new[] { "https://picsum.photos/id/1032/1200/800", "https://picsum.photos/id/1033/1200/800" }
-        },
-        new {
-            Id         = 10,
-            Slug       = "ernaehrung-und-regeneration",
-            Category   = "Gesundheit",
-            ImageUrl   = "https://picsum.photos/id/1034/1200/800",
-            TitleDe    = "Ernährung & Regeneration: Was dein Körper braucht",
-            TitleEn    = "Nutrition & Recovery: What Your Body Needs",
-            ExcerptDe  = "Die richtige Ernährung nach dem Training beschleunigt die Erholung und beugt Verletzungen vor.",
-            ExcerptEn  = "The right nutrition after training speeds up recovery and helps prevent injuries.",
-            PublishedAt = new DateTime(2025, 12, 5),
-            BodyDe     = "Was du nach dem Training isst, hat einen enormen Einfluss auf deine Regeneration. Die richtigen Nährstoffe zur richtigen Zeit können die Erholung deutlich beschleunigen und das Verletzungsrisiko senken.\n\nProteine sind das A und O der Regeneration. Sie liefern die Bausteine für die Reparatur und den Aufbau von Muskelgewebe. Gute Quellen sind mageres Fleisch, Fisch, Eier, Hülsenfrüchte und Milchprodukte. Experten empfehlen 20–40 g Protein innerhalb von zwei Stunden nach dem Training.\n\nKohlenhydrate sind ebenfalls wichtig – sie füllen die geleerten Glykogenspeicher wieder auf und liefern Energie für die Regenerationsprozesse. Vollkornprodukte, Kartoffeln, Reis oder Obst sind gute Quellen.\n\nDarüber hinaus spielen Mikronährstoffe wie Magnesium, Zink und Vitamin C eine wichtige Rolle. Magnesium ist an über 300 Enzymreaktionen beteiligt und wichtig für die Muskelentspannung. Ausreichend Wasser zu trinken ist selbstverständlich ebenfalls essenziell.",
-            BodyEn     = "What you eat after training has an enormous influence on your recovery. The right nutrients at the right time can significantly speed up recovery and reduce the risk of injury.\n\nProteins are the be-all and end-all of recovery. They provide the building blocks for the repair and building of muscle tissue. Good sources are lean meat, fish, eggs, pulses and dairy products. Experts recommend 20–40 g of protein within two hours of training.\n\nCarbohydrates are also important – they replenish depleted glycogen stores and provide energy for the recovery processes. Wholegrain products, potatoes, rice or fruit are good sources.\n\nIn addition, micronutrients such as magnesium, zinc and vitamin C play an important role. Magnesium is involved in over 300 enzyme reactions and is important for muscle relaxation. Drinking sufficient water is of course also essential.",
-            Images     = new[] { "https://picsum.photos/id/1034/1200/800", "https://picsum.photos/id/1035/1200/800" }
-        },
-        new {
-            Id         = 11,
-            Slug       = "knieschmerzen-ursachen",
-            Category   = "Gesundheit",
-            ImageUrl   = "https://picsum.photos/id/1036/1200/800",
-            TitleDe    = "Knieschmerzen: Ursachen & was du tun kannst",
-            TitleEn    = "Knee Pain: Causes & What You Can Do",
-            ExcerptDe  = "Knieschmerzen können viele Ursachen haben. Wir erklären die häufigsten und zeigen, wie Physiotherapie helfen kann.",
-            ExcerptEn  = "Knee pain can have many causes. We explain the most common ones and how physiotherapy can help.",
-            PublishedAt = new DateTime(2025, 11, 18),
-            BodyDe     = "Das Knie ist eines der komplexesten Gelenke unseres Körpers und gleichzeitig eines der am häufigsten betroffenen bei Schmerzen und Verletzungen. Die Ursachen können vielfältig sein: von akuten Verletzungen wie Bänderrissen oder Meniskusschäden bis hin zu chronischen Erkrankungen wie Arthrose.\n\nHäufige Ursachen für Knieschmerzen sind Überlastung durch Sport oder Beruf, Fehlstellungen der Beinachse, Muskelschwäche oder -ungleichgewichte, Entzündungen der Schleimbeutel oder Sehnen sowie degenerative Veränderungen im Alter.\n\nPhysiotherapie kann bei vielen dieser Ursachen effektiv helfen. Durch gezielte Kräftigungs- und Mobilisationsübungen werden die umgebenden Muskeln gestärkt, die Stabilität des Gelenks verbessert und die Schmerzen gelindert. Manuelle Therapietechniken können verklebte Strukturen lösen und die Beweglichkeit wiederherstellen.",
-            BodyEn     = "The knee is one of the most complex joints in our body and at the same time one of the most frequently affected by pain and injuries. The causes can be varied: from acute injuries such as ligament tears or meniscus damage to chronic conditions such as arthrosis.\n\nCommon causes of knee pain include overload through sport or work, misalignment of the leg axis, muscle weakness or imbalances, inflammation of the bursae or tendons, and degenerative changes with age.\n\nPhysiotherapy can effectively help with many of these causes. Through targeted strengthening and mobilisation exercises, the surrounding muscles are strengthened, the stability of the joint is improved and the pain is relieved. Manual therapy techniques can release matted structures and restore mobility.",
-            Images     = new[] { "https://picsum.photos/id/1036/1200/800", "https://picsum.photos/id/1037/1200/800" }
-        },
-        new {
-            Id         = 12,
-            Slug       = "herbstaktion-2025",
-            Category   = "Angebote",
-            ImageUrl   = "https://picsum.photos/id/1038/1200/800",
-            TitleDe    = "Herbstaktion 2025 – Jetzt Termin sichern",
-            TitleEn    = "Autumn Offer 2025 – Book Your Appointment Now",
-            ExcerptDe  = "Nutze unsere Herbstaktion und spare 20 % auf deine erste Behandlung. Nur für kurze Zeit verfügbar!",
-            ExcerptEn  = "Take advantage of our autumn offer and save 20 % on your first treatment. Available for a limited time only!",
-            PublishedAt = new DateTime(2025, 10, 30),
-            BodyDe     = "Der Herbst ist da – und mit ihm unsere exklusive Herbstaktion 2025! Für eine begrenzte Zeit bieten wir 20 % Rabatt auf deine erste Physiotherapie-Behandlung in allen unseren Praxen.\n\nDieses Angebot gilt für Neupatienten, die noch keine Behandlung bei uns erhalten haben. Du kannst zwischen allen Therapieformen wählen: manuelle Therapie, Sportphysiotherapie, Elektrotherapie oder Ultraschallbehandlung.\n\nWie kannst du von der Aktion profitieren? Ganz einfach: Vereinbare noch heute einen Termin online oder ruf uns direkt an. Teile uns bei der Buchung das Stichwort ‚Herbstaktion2025‘ mit und dein Rabatt wird automatisch berücksichtigt.\n\nDas Angebot gilt bis zum 30. November 2025 und ist nicht mit anderen Aktionen kombinierbar. Sichere dir jetzt deinen Termin – wir freuen uns auf dich!",
-            BodyEn     = "Autumn is here – and with it our exclusive Autumn Offer 2025! For a limited time, we are offering 20% off your first physiotherapy treatment at all of our practices.\n\nThis offer is valid for new patients who have not yet received treatment from us. You can choose from all therapy types: manual therapy, sports physiotherapy, electrotherapy or ultrasound treatment.\n\nHow can you benefit from the offer? Simple: book an appointment online today or call us directly. Mention the keyword 'HerbstAktion2025' when booking and your discount will be applied automatically.\n\nThe offer is valid until 30 November 2025 and cannot be combined with other offers. Book your appointment now – we look forward to seeing you!",
-            Images     = new[] { "https://picsum.photos/id/1038/1200/800", "https://picsum.photos/id/1039/1200/800" }
-        },
-        new {
-            Id         = 13,
-            Slug       = "modern-physio-equipment",
-            Category   = "Technology",
-            ImageUrl   = "/images/blog-devices.png",
-            TitleDe    = "Modernste Physiotherapiegeräte bei PhysioTech",
-            TitleEn    = "Next-Gen Physiotherapy Equipment at PhysioTech",
-            ExcerptDe  = "Erfahre, wie neue medizinische Geräte bei uns die Behandlung schneller, präziser und angenehmer machen.",
-            ExcerptEn  = "Discover how advanced medical equipment at our clinic makes treatment faster, more precise and more comfortable.",
-            PublishedAt = new DateTime(2026, 6, 15),
-            BodyDe     = @"Bei PhysioTech setzen wir auf moderne Medizin- und Trainingsgeräte, die den Therapieprozess gezielt unterstützen. Unsere neuen Systeme kombinieren präzise Steuerung, sanfte Druckwellen und intelligente Sensorik, damit jede Einheit optimal auf den Patienten abgestimmt ist.
+    var articles = (await BlogPostService.GetAllAsync(true))
+        .Where(x => x.IsPublished)
+        .Select(x =>
+        {
+            var articleImages = (x.Images ?? Enumerable.Empty<IPTS.Models.Entites.BlogPostImage>())
+                .Where(i => !string.IsNullOrWhiteSpace(i.FileName))
+                .Select(i => $"/InternalStorage/BlogsImages/{i.FileName}")
+                .ToList();
 
-Das bedeutet für dich: weniger Wartezeit, bessere Messbarkeit und eine ruhige Behandlung, die gleichzeitig höchstwirksam ist. Vom Biomechanik-Analysegerät bis zur digitalen Reha-Liege – unsere Räume sind so gestaltet, dass sich Bewegung sicher und motivierend anfühlt.
+            var preferredMainImage = string.IsNullOrWhiteSpace(x.MainImagePath)
+                ? null
+                : (x.MainImagePath.StartsWith("/InternalStorage/BlogsImages/", StringComparison.OrdinalIgnoreCase)
+                    ? x.MainImagePath
+                    : $"/InternalStorage/BlogsImages/{x.MainImagePath}");
 
-Besonders sinnvoll ist die Kombination aus klassischer manueller Therapie und digitaler Unterstützung. Während unsere Expertinnen und Experten die genaue Ursache deiner Beschwerden ermitteln, liefern die Geräte sofortige Rückmeldung über Haltung, Belastung und Fortschritt.
+            var mainImageUrl = articleImages.Contains(preferredMainImage, StringComparer.OrdinalIgnoreCase)
+                ? (preferredMainImage ?? "/images/blog-devices.png")
+                : (articleImages.FirstOrDefault() ?? "/images/blog-devices.png");
 
-Unser Team begleitet dich bei jedem Schritt. Wir erklären dir die Technik, geben klare Empfehlungen und passen das Programm laufend an deine Bedürfnisse an. So wird Rehabilitation nicht nur wirksam, sondern auch nachvollziehbar.",
-            BodyEn     = @"At PhysioTech, we rely on modern medical and training devices that actively support the therapy process. Our new systems combine precise control, gentle pressure waves and intelligent sensors so that every session is optimally tailored to the patient.
+            return new PublicBlogPostViewModel
+            {
+                Id = x.Id,
+                Slug = x.Slug,
+                Category = x.PostType switch
+                {
+                    IPTS.Models.Enums.EnBlogPostType.Team => SharedLocalizer["Blog_Category_Team"].Value,
+                    IPTS.Models.Enums.EnBlogPostType.News => SharedLocalizer["Blog_Category_News"].Value,
+                    IPTS.Models.Enums.EnBlogPostType.Technology => SharedLocalizer["Blog_Category_Technology"].Value,
+                    IPTS.Models.Enums.EnBlogPostType.Offers => SharedLocalizer["Blog_Category_Offers"].Value,
+                    IPTS.Models.Enums.EnBlogPostType.Services => SharedLocalizer["Blog_Category_Services"].Value,
+                    IPTS.Models.Enums.EnBlogPostType.Training => SharedLocalizer["Blog_Category_Training"].Value,
+                    IPTS.Models.Enums.EnBlogPostType.Health => SharedLocalizer["Blog_Category_Health"].Value,
+                    _ => SharedLocalizer["Blog_Category_Update"].Value
+                },
+                TitleDe = x.Title,
+                TitleEn = x.Title,
+                ExcerptDe = string.IsNullOrWhiteSpace(x.ShortDescription) ? x.LongDescription : x.ShortDescription,
+                ExcerptEn = string.IsNullOrWhiteSpace(x.ShortDescription) ? x.LongDescription : x.ShortDescription,
+                BodyDe = x.LongDescription,
+                BodyEn = x.LongDescription,
+                PublishedAt = x.PublishedAt,
+                ImageUrl = mainImageUrl,
+                Images = articleImages
+            };
+        })
+        .OrderByDescending(x => x.PublishedAt)
+        .ToList();
 
-For you, this means less waiting, better measurability and a calm treatment that is also highly effective. From biomechanical analysis equipment to our digital rehab lounge, our rooms are designed to make movement feel safe and motivating.
-
-The combination of classical manual therapy and digital support is particularly valuable. While our specialists identify the exact cause of your complaints, the equipment provides instant feedback on posture, load and progress.
-
-Our team guides you every step of the way. We explain the technology, provide clear recommendations and continuously adapt the programme to your needs. That way, rehabilitation becomes not only effective but also easy to understand.",
-            Images     = new[] { "/images/blog-devices.png" }
-        },
-        new {
-            Id         = 14,
-            Slug       = "ai-clinical-insights",
-            Category   = "Technology",
-            ImageUrl   = "/images/blog-ai.png",
-            TitleDe    = "KI-gestützte Diagnostik in unserer Klinik",
-            TitleEn    = "AI-Powered Diagnostics in Our Clinic",
-            ExcerptDe  = "Wie künstliche Intelligenz uns hilft, Behandlungspläne schneller und individueller zu erstellen.",
-            ExcerptEn  = "How artificial intelligence helps us create treatment plans faster and more individually.",
-            PublishedAt = new DateTime(2026, 6, 10),
-            BodyDe     = @"Unsere Praxis ist Teil einer neuen Generation medizinischer Einrichtungen, die Künstliche Intelligenz nicht als Ersatz, sondern als Unterstützung nutzt. KI wertet Bewegungsdaten, Bilder und Befunde aus, damit wir noch gezielter therapieren können.
-
-Durch intelligente Mustererkennung lassen sich Unregelmäßigkeiten früh erkennen – etwa subtile Haltungsfehler, Muskelasymmetrien oder Belastungsunterschiede. Diese Erkenntnisse fließen direkt in den Behandlungsplan ein.
-
-Die Entscheidung bleibt immer menschlich: Unsere Expertinnen und Experten prüfen die Vorschläge, erklären sie und wählen die beste Kombination aus manueller Therapie, gezieltem Training und schonenden Geräten.
-
-Für dich bedeutet das: Mehr Transparenz, bessere Fortschrittskontrolle und ein Behandlungsweg, der sich an deinen Zielen orientiert. KI macht Therapie nicht komplizierter – sie macht sie präziser.",
-            BodyEn     = @"Our clinic is part of a new generation of medical facilities that use artificial intelligence not as a replacement, but as support. AI analyses movement data, images and findings so that we can treat even more precisely.
-
-Through intelligent pattern recognition, subtle imbalances can be detected early – for example posture deviations, muscle asymmetries or loading differences. These insights flow directly into the treatment plan.
-
-The decision remains human at all times: our specialists review the proposals, explain them and choose the best combination of manual therapy, targeted training and gentle devices.
-
-For you, this means more transparency, better progress tracking and a treatment path that is aligned with your goals. AI does not make therapy more complicated – it makes it more precise.",
-            Images     = new[] { "/images/blog-ai.png" }
-        },
-        new {
-            Id         = 15,
-            Slug       = "meet-our-team",
-            Category   = "Team",
-            ImageUrl   = "/images/blog-team.png",
-            TitleDe    = "Unser Team stellt sich vor",
-            TitleEn    = "Meet Our Team",
-            ExcerptDe  = "Lerne die Expertinnen und Experten kennen, die hinter deinen Therapien bei PhysioTech stehen.",
-            ExcerptEn  = "Meet the experts behind your therapy at PhysioTech.",
-            PublishedAt = new DateTime(2026, 6, 1),
-            BodyDe     = @"Bei PhysioTech arbeiten Physiotherapeutinnen und Physiotherapeuten, die nicht nur technisch versiert sind, sondern auch zuhören. Unser Team vereint Fachwissen aus der manuellen Therapie, Sportrehabilitation und neurologisch orientierten Behandlung.
-
-Jeder Patient erhält ein individuelles Programm. Wir nehmen uns Zeit für deine Geschichte, untersuchen deine Bewegungsmuster und erklären die Schritte, die wir gemeinsam gehen.
-
-Ob es um Schmerzreduktion, Leistungssteigerung oder Wiedereinstieg nach Verletzungen geht – unser Team arbeitet eng zusammen. Wir kombinieren Erfahrung mit neugierigem Blick auf neue Behandlungsmöglichkeiten.
-
-Vertrauen entsteht bei uns durch klare Kommunikation und gute Ergebnisse. Deshalb ist es uns wichtig, dass du nicht nur therapierst wirst, sondern verstehst, warum wir was tun.",
-            BodyEn     = @"At PhysioTech, our physiotherapists are not only technically skilled but also attentive listeners. Our team brings together expertise from manual therapy, sports rehabilitation and neuro-oriented treatment.
-
-Every patient receives an individual programme. We take the time to hear your story, examine your movement patterns and explain each step we take together.
-
-Whether it is pain reduction, performance improvement or return to activity after an injury, our team works closely together. We combine experience with a curious view of new treatment possibilities.
-
-Trust is built through clear communication and good results. That is why it is important to us that you are not only treated, but also understand why we do what we do.",
-            Images     = new[] { "/images/blog-team.png" }
-        }
-    };
-
-    var categories = articles.Select(a => a.Category).Distinct().ToList();
+    var categories = articles.Select(a => a.Category).Where(c => !string.IsNullOrWhiteSpace(c)).Distinct().OrderBy(c => c).ToList();
 }
 
 @* ─── Serialize articles to JSON for the modal ─── *@
@@ -270,35 +72,22 @@ Trust is built through clear communication and good results. That is why it is i
 </script>
 
 <script>
-    const i18n = {
-        de: {
-            hero_eyebrow : "Unser Wissen für dich",
-            hero_title   : "Blog",
-            hero_sub     : "Tipps, Team-Einblicke & aktuelle News rund um Physiotherapie und Bewegung.",
-            filter_all   : "Alle",
-            read_more    : "Weiterlesen",
-            no_results   : "Keine Artikel in dieser Kategorie.",
-            close        : "Schließen",
-            prev         : "Zurück",
-            next         : "Weiter",
-        },
-        en: {
-            hero_eyebrow : "Our knowledge for you",
-            hero_title   : "Blog",
-            hero_sub     : "Tips, team insights & the latest news on physiotherapy and movement.",
-            filter_all   : "All",
-            read_more    : "Read more",
-            no_results   : "No articles in this category.",
-            close        : "Close",
-            prev         : "Previous",
-            next         : "Next",
-        }
+    const t = {
+        hero_eyebrow : @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["Blog_Hero_Eyebrow"].Value)),
+        hero_title   : @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["Blog_Page_Title"].Value)),
+        hero_sub     : @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["Blog_Hero_Subtitle"].Value)),
+        filter_all   : @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["Blog_Filter_All"].Value)),
+        filter_aria  : @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["Blog_Filter_ByCategory"].Value)),
+        read_more    : @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["Blog_ReadMore"].Value)),
+        no_results   : @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["Blog_NoResults"].Value)),
+        close        : @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["Blog_Modal_Close"].Value)),
+        prev         : @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["Blog_Modal_Previous"].Value)),
+        next         : @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["Blog_Modal_Next"].Value))
     };
 
     const urlParams = new URLSearchParams(window.location.search);
     const initialArticleId = parseInt(urlParams.get("articleId"), 10);
-    const lang = (navigator.language || "de").startsWith("en") ? "en" : "de";
-    const t    = i18n[lang];
+    const lang = '@currentLang';
 
     document.addEventListener("DOMContentLoaded", () => {
 
@@ -330,6 +119,7 @@ Trust is built through clear communication and good results. That is why it is i
         };
 
         filterBtns.forEach(btn => btn.addEventListener("click", () => applyFilter(btn.dataset.cat)));
+        document.querySelector('.blog-filter-scroll').setAttribute('aria-label', t.filter_aria);
         document.querySelector('.filter-btn[data-cat="all"] span').textContent = t.filter_all;
         document.querySelectorAll(".read-more-label").forEach(el => el.textContent = t.read_more);
         document.getElementById("no-results-text").textContent = t.no_results;
@@ -367,7 +157,7 @@ Trust is built through clear communication and good results. That is why it is i
             const article = ARTICLES_DATA.find(a => a.id === id);
             if (!article) return;
 
-            currentImages = article.images && article.images.length ? article.images : ["https://picsum.photos/1200/800"];
+            currentImages = article.images && article.images.length ? article.images : ["/images/blog-devices.png"];
 
             modalBadge.textContent  = article.category;
             modalDate.textContent   = article.publishedAt;
@@ -385,7 +175,7 @@ Trust is built through clear communication and good results. That is why it is i
                 const btn = document.createElement("button");
                 btn.type      = "button";
                 btn.className = "modal-thumb" + (i === 0 ? " modal-thumb--active" : "");
-                btn.innerHTML = `<img src="${src}" alt="" onerror="this.src='https://picsum.photos/1200/800'" />`;
+                btn.innerHTML = `<img src="${src}" alt="" onerror="this.src='/images/blog-devices.png'" />`;
                 btn.addEventListener("click", () => setImage(i));
                 modalThumbsC.appendChild(btn);
             });
@@ -420,6 +210,9 @@ Trust is built through clear communication and good results. That is why it is i
             });
         });
 
+        modalClose.setAttribute("aria-label", t.close);
+        modalPrev.setAttribute("aria-label", t.prev);
+        modalNext.setAttribute("aria-label", t.next);
         modalClose.addEventListener("click", closeModal);
         overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
         document.addEventListener("keydown", (e) => {
@@ -440,18 +233,18 @@ Trust is built through clear communication and good results. That is why it is i
 
 <section class="blog-hero relative overflow-hidden">
     <div class="blog-hero__bg absolute inset-0">
-        <img src="https://picsum.photos/id/1040/1600/900"
+        <img src="/images/blog-devices.png"
              alt="Blog hero"
              class="w-full h-full object-cover object-center"
-             onerror="this.style.display='none'" />
+             onerror="this.src='/images/blog-devices.png'" />
         <div class="absolute inset-0 blog-hero__overlay"></div>
     </div>
     <div class="blog-hero__accent" aria-hidden="true"></div>
     <div class="relative z-10 container mx-auto px-6 flex flex-col justify-end h-full pb-16 pt-32">
-        <p class="blog-hero__eyebrow" data-i18n="hero_eyebrow">Unser Wissen für dich</p>
-        <h1 class="blog-hero__title" data-i18n="hero_title">Blog</h1>
+        <p class="blog-hero__eyebrow" data-i18n="hero_eyebrow">@SharedLocalizer["Blog_Hero_Eyebrow"].Value</p>
+        <h1 class="blog-hero__title" data-i18n="hero_title">@SharedLocalizer["Blog_Page_Title"].Value</h1>
         <p class="blog-hero__sub" data-i18n="hero_sub">
-            Tipps, Team-Einblicke & aktuelle News rund um Physiotherapie und Bewegung.
+            @SharedLocalizer["Blog_Hero_Subtitle"].Value
         </p>
     </div>
 </section>
@@ -459,9 +252,9 @@ Trust is built through clear communication and good results. That is why it is i
 <div class="blog-filter-wrap sticky top-0 z-30">
     <div class="container mx-auto px-6">
         <div class="blog-filter-inner">
-            <div class="blog-filter-scroll" role="tablist" aria-label="Filter articles by category">
+            <div class="blog-filter-scroll" role="tablist" aria-label="@SharedLocalizer["Blog_Filter_ByCategory"].Value">
                 <button class="filter-btn filter-btn--active" data-cat="all" role="tab" aria-selected="true">
-                    <span>Alle</span>
+                    <span>@SharedLocalizer["Blog_Filter_All"].Value</span>
                 </button>
                 @foreach (var cat in categories)
                 {
@@ -480,14 +273,14 @@ Trust is built through clear communication and good results. That is why it is i
             @foreach (var a in articles)
             {
                 <article class="article-card" data-cat="@a.Category">
-                    <div class="article-card__inner group" data-id="@a.Id" role="button" tabindex="0" aria-label="@a.TitleDe">
+                    <div class="article-card__inner group" data-id="@a.Id" role="button" tabindex="0" aria-label="@(currentLang == "en" ? a.TitleEn : a.TitleDe)">
 
                         <div class="article-card__img-wrap">
                             <img src="@a.ImageUrl"
-                                 alt="@a.TitleDe"
+                                 alt="@(currentLang == "en" ? a.TitleEn : a.TitleDe)"
                                  class="article-card__img"
                                  loading="lazy"
-                                 onerror="this.src='https://picsum.photos/1200/800'" />
+                                 onerror="this.src='/images/blog-devices.png'" />
                             <div class="article-card__img-overlay"></div>
                             <span class="article-card__badge">@a.Category</span>
                         </div>
@@ -505,7 +298,7 @@ Trust is built through clear communication and good results. That is why it is i
 
                             <div class="article-card__footer">
                                 <button type="button" class="article-card__readmore" data-id="@a.Id">
-                                    <span class="read-more-label">Weiterlesen</span>
+                                    <span class="read-more-label">@SharedLocalizer["Blog_ReadMore"].Value</span>
                                     <svg class="article-card__arrow" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
@@ -524,7 +317,7 @@ Trust is built through clear communication and good results. That is why it is i
                 <circle cx="18" cy="20" r="2" fill="currentColor"/>
                 <circle cx="30" cy="20" r="2" fill="currentColor"/>
             </svg>
-            <p id="no-results-text">Keine Artikel in dieser Kategorie.</p>
+            <p id="no-results-text">@SharedLocalizer["Blog_NoResults"].Value</p>
         </div>
     </div>
 </section>
@@ -614,8 +407,32 @@ Trust is built through clear communication and good results. That is why it is i
     .article-card__badge { position: absolute; top: .85rem; left: .85rem; padding: .25rem .75rem; border-radius: 9999px; font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: var(--brand-green); color: #fff; }
     .article-card__body { display: flex; flex-direction: column; flex: 1; padding: 1.35rem 1.4rem 1.3rem; }
     .article-card__date { font-size: .75rem; font-weight: 500; color: #a1a1aa; margin-bottom: .5rem; letter-spacing: .03em; }
-    .article-card__title { font-size: 1.05rem; font-weight: 700; color: #18181b; line-height: 1.35; margin-bottom: .6rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .article-card__excerpt { font-size: .875rem; color: #71717a; line-height: 1.6; flex: 1; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 1.1rem; }
+    .article-card__title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #18181b;
+    line-height: 1.35;
+    margin-bottom: .6rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+    .article-card__excerpt {
+    font-size: .875rem;
+    color: #71717a;
+    line-height: 1.6;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 1.1rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
     .article-card__footer { border-top: 1px solid #f4f4f5; padding-top: 1rem; }
     .article-card__readmore { display: inline-flex; align-items: center; gap: .35rem; font-size: .82rem; font-weight: 600; color: var(--brand-green-dk); background: none; border: none; cursor: pointer; padding: 0; transition: gap var(--transition); }
     .article-card__inner:hover .article-card__readmore { gap: .6rem; }
@@ -821,20 +638,24 @@ Trust is built through clear communication and good results. That is why it is i
     }
 
     .modal-title {
-        font-size: clamp(1.2rem, 2.5vw, 1.65rem);
-        font-weight: 800;
-        color: #0f0f0f;
-        line-height: 1.25;
-        margin: 0 0 1.25rem;
-        letter-spacing: -.02em;
-    }
+    font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+    font-weight: 800;
+    color: #0f0f0f;
+    line-height: 1.25;
+    margin: 0 0 1.25rem;
+    letter-spacing: -.02em;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
 
     .modal-body p {
-        font-size: .95rem;
-        color: #3f3f46;
-        line-height: 1.8;
-        margin: 0 0 1rem;
-    }
+    font-size: .95rem;
+    color: #3f3f46;
+    line-height: 1.8;
+    margin: 0 0 1rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
     .modal-body p:last-child { margin-bottom: 0; }
 
     /* ── Responsive ── */

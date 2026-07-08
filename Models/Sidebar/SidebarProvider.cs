@@ -50,59 +50,69 @@ namespace IPTS.Models.Sidebar
                         }
                     ]
                 },
-                new()
-                {
-                    Title = _loc["UserManagement"],
-                    Items =
-                    [
-                        new()
-                        {
-                            Title = _loc["Users"],
-                            Icon = "users",
-                            Action = "Index",
-                            Controller = "Users",
-                            Area = "admin",
-                            Roles = ["admin"]
-                        },
-                        new()
-                        {
-                            Title = _loc["Roles"],
-                            Icon = "user-shield",
-                            Action = "Index",
-                            Controller = "Roles",
-                            Area = "admin",
-                            Roles = ["admin"]
-                        },
-                        new()
-                        {
-                            Title = _loc["Permissions"],
-                            Icon = "key",
-                            Action = "Index",
-                            Controller = "Permissions",
-                            Area = "admin",
-                            Roles = ["admin"]
-                        },
-                        new()
-                        {
-                            Title = _loc["UserTypes"],
-                            Icon = "id-badge",
-                            Action = "Index",
-                            Controller = "UsersTypes",
-                            Area = "admin",
-                            Roles = ["admin"]
-                        },
-                        new()
-                        {
-                            Title = _loc["Policies"],
-                            Icon = "clipboard-check",
-                            Action = "Index",
-                            Controller = "Policies",
-                            Area = "admin",
-                            Roles = ["admin"]
-                        }
-                    ],
-                    Roles = ["*"]
-                },
+				new()
+				{
+					Title = _loc["UserManagement"],
+					Items =
+					[
+						new()
+						{
+							Title = _loc["Users"],
+							Icon = "users",
+							Action = "Index",
+							Controller = "Users",
+							Area = "admin",
+							Roles = ["admin"]
+						},
+						new()
+						{
+							Title = _loc["Roles"],
+							Icon = "user-shield",
+							Action = "Index",
+							Controller = "Roles",
+							Area = "admin",
+							Roles = ["admin"]
+						},
+						new()
+						{
+							Title = _loc["Permissions"],
+							Icon = "key",
+							Action = "Index",
+							Controller = "Permissions",
+							Area = "admin",
+							Roles = ["admin"]
+						},
+						new()
+						{
+							Title = _loc["UserTypes"],
+							Icon = "id-badge",
+							Action = "Index",
+							Controller = "UsersTypes",
+							Area = "admin",
+							Roles = ["admin"]
+						},
+						new()
+						{
+							Title = _loc["Policies"],
+							Icon = "clipboard-check",
+							Action = "Index",
+							Controller = "Policies",
+							Area = "admin",
+							Roles = ["admin"]
+						},
+						// Blogs menu item - visible only to admin
+						new()
+						{
+							Title = _loc["BlogPosts"],
+							Icon = "newspaper",
+							Action = "Index",
+							Controller = "Blogs",
+							Area = "admin",
+							Roles = ["admin"]
+						}
+					],
+					Roles = ["*"]
+				},
                 new ()
                 {
                     Title = _loc["TestsManagement"],

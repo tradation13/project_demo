@@ -877,6 +877,46 @@
     <value>Zus?tzliche Patienteninformationen Zusأ¤tzliche Patienteninformationen</value>
     <comment/>
   </data>
+  <data name="Blog_TitleRequired" xml:space="preserve">
+    <value>Title is required.</value>
+    <comment>Validation - Blog posts</comment>
+  </data>
+  <data name="Blog_ShortRequired" xml:space="preserve">
+    <value>Short description is required.</value>
+    <comment>Validation - Blog posts</comment>
+  </data>
+  <data name="Blog_LongRequired" xml:space="preserve">
+    <value>Long description is required.</value>
+    <comment>Validation - Blog posts</comment>
+  </data>
+  <data name="Blog_ImageRequired" xml:space="preserve">
+    <value>At least one image is required for a new blog post.</value>
+    <comment>Validation - Blog posts</comment>
+  </data>
+  <data name="Blog_Create_Success" xml:space="preserve">
+    <value>Blog post created successfully.</value>
+    <comment>Controller - Blog posts</comment>
+  </data>
+  <data name="Blog_Update_Success" xml:space="preserve">
+    <value>Blog post updated successfully.</value>
+    <comment>Controller - Blog posts</comment>
+  </data>
+  <data name="Blog_Delete_Success" xml:space="preserve">
+    <value>Blog post deleted successfully.</value>
+    <comment>Controller - Blog posts</comment>
+  </data>
+  <data name="Blog_Delete_NotFound" xml:space="preserve">
+    <value>Blog post was not found.</value>
+    <comment>Controller - Blog posts</comment>
+  </data>
+  <data name="Blog_Image_Delete_Success" xml:space="preserve">
+    <value>Image deleted successfully.</value>
+    <comment>Controller - Blog posts</comment>
+  </data>
+  <data name="Blog_Image_Delete_Failed" xml:space="preserve">
+    <value>Image could not be deleted.</value>
+    <comment>Controller - Blog posts</comment>
+  </data>
 </root>
 
 

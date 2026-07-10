@@ -4,60 +4,58 @@
     ViewData["Title"] = SharedLocalizer["Shared_Details"];
 }
 
-<div class="mx-auto max-w-5xl">
-    <div class="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm">
+<div class="rounded-2xl border border-slate-100 bg-white px-8 py-7 shadow-sm shadow-slate-100">
 
-        <!-- Header -->
-        <div class="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 bg-gradient-to-l from-sky-50 to-emerald-50 px-6 py-5">
-            <div class="min-w-0 flex-1">
-                <h2 class="break-words text-xl font-bold text-slate-800">@Model.Title</h2>
-                <span class="mt-1 inline-flex items-center gap-1 text-xs font-medium text-emerald-700">
-                    <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
+    <div class="mb-6 flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 pb-5">
+        <div class="flex min-w-0 flex-1 items-start gap-3">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <i class="fas fa-newspaper"></i>
+            </span>
+            <div class="min-w-0">
+                <h4 class="break-words text-xl font-bold text-slate-800">@Model.Title</h4>
+                <span class="mt-1 inline-flex items-center gap-1.5 text-xs font-medium text-slate-500">
+                    <i class="fas fa-calendar-days text-primary"></i>
                     @Model.PublishedAt.ToString("yyyy-MM-dd")
                 </span>
             </div>
-            <a asp-action="Index"
-               class="shrink-0 rounded-xl border border-sky-200 bg-white px-4 py-2 text-sm font-semibold text-sky-700 transition hover:bg-sky-50">
-                @SharedLocalizer["Shared_Back"]
-            </a>
+        </div>
+        <a asp-action="Index"
+           class="inline-flex shrink-0 items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-200 hover:bg-slate-50">
+            <i class="fas fa-arrow-left text-xs"></i> @SharedLocalizer["Shared_Back"]
+        </a>
+    </div>
+
+    <div class="space-y-6">
+        <div class="min-w-0 rounded-xl border border-slate-100 bg-slate-50/70 p-4">
+            <p class="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                @SharedLocalizer["MedCase_Create_Desc"]
+            </p>
+            <p class="whitespace-pre-line break-words text-sm leading-relaxed text-slate-700">@Model.ShortDescription</p>
         </div>
 
-        <!-- Content -->
-        <div class="space-y-6 px-6 py-6">
+        <div class="min-w-0 rounded-xl border border-primary/10 bg-primary/5 p-4">
+            <p class="mb-1.5 text-xs font-semibold uppercase tracking-wide text-primary">
+                @SharedLocalizer["Shared_Details"]
+            </p>
+            <p class="whitespace-pre-line break-words text-sm leading-relaxed text-slate-700">@Model.LongDescription</p>
+        </div>
 
-            <div class="min-w-0 rounded-xl border border-sky-100 bg-sky-50/40 p-4">
-                <p class="mb-1 text-xs font-semibold uppercase tracking-wide text-sky-700">
-                    @SharedLocalizer["MedCase_Create_Desc"]
+        @if (Model.Images.Any())
+        {
+            <div>
+                <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    @SharedLocalizer["BlogPosts_Images"]
                 </p>
-                <p class="whitespace-pre-line break-words text-sm leading-relaxed text-slate-700">@Model.ShortDescription</p>
-            </div>
-
-            <div class="min-w-0 rounded-xl border border-emerald-100 bg-emerald-50/40 p-4">
-                <p class="mb-1 text-xs font-semibold uppercase tracking-wide text-emerald-700">
-                    @SharedLocalizer["Shared_Details"]
-                </p>
-                <p class="whitespace-pre-line break-words text-sm leading-relaxed text-slate-700">@Model.LongDescription</p>
-            </div>
-
-            @if (Model.Images.Any())
-            {
-                <div>
-                    <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                        @SharedLocalizer["BlogPosts_Images"]
-                    </p>
-                    <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-                        @foreach (var image in Model.Images)
-                        {
-                            <div class="group overflow-hidden rounded-xl border border-slate-100">
-                                <img src="@image.Url"
-                                     class="h-40 w-full object-cover transition duration-300 group-hover:scale-105" />
-                            </div>
-                        }
-                    </div>
+                <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+                    @foreach (var image in Model.Images)
+                    {
+                        <div class="group overflow-hidden rounded-xl border border-slate-100">
+                            <img src="@image.Url"
+                                 class="h-40 w-full object-cover transition duration-300 group-hover:scale-105" />
+                        </div>
+                    }
                 </div>
-            }
-        </div>
+            </div>
+        }
     </div>
 </div>

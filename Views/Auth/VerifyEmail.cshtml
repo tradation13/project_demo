@@ -3,24 +3,37 @@
     ViewData["Title"] = SharedLocalizer["Verify_PageTitle"];
 }
 
-<h2 class="text-center text-2xl font-bold tracking-wide text-gray-800">
-    @SharedLocalizer["Verify_Header"]
-</h2>
+<div class="auth-ui-card auth-ui-pad relative mx-auto w-full max-w-md overflow-hidden rounded-[2rem] border border-white/70 bg-white/85 p-8 shadow-[0_24px_80px_rgba(15,23,42,0.12)] backdrop-blur-xl sm:p-10">
+    <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-[2rem]">
+        <div class="auth-ui-orb auth-ui-orb-a absolute -left-10 -top-10 h-32 w-32 rounded-full bg-emerald-500/10 blur-3xl"></div>
+        <div class="auth-ui-orb auth-ui-orb-b absolute -bottom-12 -right-8 h-36 w-36 rounded-full bg-blue-500/10 blur-3xl"></div>
+    </div>
 
-<p class="mt-2 text-center text-sm text-gray-600">
-    @SharedLocalizer["Verify_Description"]
-</p>
+    <div class="relative z-10 text-center">
+        <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-blue-600 text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/60">
+            <i class="fas fa-envelope-circle-check text-lg" aria-hidden="true"></i>
+        </div>
+        <h2 class="auth-ui-title text-3xl font-extrabold tracking-tight sm:text-[2rem]">
+            @SharedLocalizer["Verify_Header"]
+        </h2>
+        <p class="mt-3 text-sm leading-6 text-slate-500 sm:text-[0.95rem]">
+            @SharedLocalizer["Verify_Description"]
+        </p>
 
-<div class="items-center justify-between sm:flex flex-col">
-    <form asp-action="ResendVerificationEmail" method="post" class="my-8 text-sm">
-        <button class="w-full rounded-lg bg-primary px-8 py-2 uppercase text-gray-100 transition duration-150 hover:bg-primary-dark hover:shadow-xl sm:w-auto">
-            @SharedLocalizer["Verify_ResendBtn"]
-        </button>
-    </form>
+        <form asp-action="ResendVerificationEmail" method="post" class="mt-8">
+            <button type="submit"
+                    class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-600 to-emerald-500 px-8 py-3.5 font-semibold text-white shadow-lg shadow-emerald-600/20 transition-all duration-200 hover:-translate-y-0.5 hover:from-emerald-700 hover:to-emerald-600 hover:shadow-xl hover:shadow-emerald-700/25">
+                <i class="fas fa-paper-plane text-xs" aria-hidden="true"></i>
+                @SharedLocalizer["Verify_ResendBtn"]
+            </button>
+        </form>
 
-    <form asp-action="Logout" method="post" class="flex items-center justify-center">
-        <button class="text-sm text-gray-600 underline hover:text-gray-800" title="@SharedLocalizer["Shared_Logout"]">
-            @SharedLocalizer["Shared_Logout"]
-        </button>
-    </form>
+        <form asp-action="Logout" method="post" class="mt-5">
+            <button type="submit"
+                    class="text-sm font-medium text-slate-500 underline-offset-2 transition-colors hover:text-slate-800 hover:underline"
+                    title="@SharedLocalizer["Shared_Logout"]">
+                @SharedLocalizer["Shared_Logout"]
+            </button>
+        </form>
+    </div>
 </div>

@@ -7,331 +7,508 @@
         : "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
     bool isEditMode = ViewBag.IsEditMode ?? false;
     bool canEdit = ViewBag.CanEdit ?? false;
+
+    // Profile subject identity — set by ProfileController (not only Model.Admin)
+    var profileKind = (ViewBag.ProfileKind as string)?.ToLowerInvariant()
+        ?? (Model.Doctor != null ? "doctor"
+            : Model.Admin != null ? "admin"
+            : "patient");
+    var isDoctorProfile = profileKind == "doctor";
+    var isAdminProfile = profileKind == "admin";
+    var isPatientProfile = !isDoctorProfile && !isAdminProfile;
+
+    if (isDoctorProfile)
+    {
+        ViewBag.LoadPractitionerCss = true;
+    }
+
+    var displayName = $"{Model.FirstName} {Model.LastName}".Trim();
+    if (string.IsNullOrWhiteSpace(displayName))
+    {
+        displayName = ViewBag.UserName as string ?? SharedLocalizer["Profile_Title"].Value;
+    }
+    var avatarLetter = !string.IsNullOrEmpty(displayName) ? displayName.Substring(0, 1).ToUpper() : "?";
+    var avatarInitials = displayName.Length > 0
+        ? string.Join("", displayName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(n => n[0].ToString().ToUpper()))
+        : "?";
+
+    string? doctorPhotoUrl = null;
+    var doctorPhotoExists = false;
+    if (Model.Doctor != null && !string.IsNullOrWhiteSpace(Model.Doctor.PhotoUrl))
+    {
+        doctorPhotoUrl = System.IO.Path.GetFileName(Model.Doctor.PhotoUrl.Trim());
+        var doctorPhotoPath = System.IO.Path.Combine(WebHostEnvironment.ContentRootPath, "InternalStorage", "DoctorPhotos", doctorPhotoUrl);
+        doctorPhotoExists = System.IO.File.Exists(doctorPhotoPath);
+    }
+
+    // —— Design tokens by role ——
+    string pageWrap;
+    string card;
+    string btnPrimary;
+    string btnSecondary;
+    string labelCls;
+    string inputEdit;
+    string inputReadonly;
+    string sectionCard;
+    string sectionIcon;
+    string sectionTitle;
+    string fieldIcon;
+    string titleCls;
+    string subtitleCls;
+    string eyebrowCls;
+    string borderCls;
+
+    if (isDoctorProfile)
+    {
+        pageWrap = "prac-page space-y-6 w-full";
+        card = "header-card prac-header-card p-5 sm:p-7";
+        btnPrimary = "btn-add-test";
+        btnSecondary = "btn-prac-secondary";
+        labelCls = "prac-label";
+        inputEdit = "prac-input";
+        inputReadonly = "prac-input bg-gray-50";
+        sectionCard = "rounded-xl border border-gray-200 bg-gray-50 p-4 sm:p-5";
+        sectionIcon = "flex h-9 w-9 items-center justify-center rounded-full bg-violet-100 text-violet-800";
+        sectionTitle = "text-base font-semibold text-gray-800";
+        fieldIcon = "pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-gray-400";
+        titleCls = "truncate text-xl font-semibold text-gray-900";
+        subtitleCls = "truncate text-sm text-gray-500";
+        eyebrowCls = "text-xs font-semibold uppercase tracking-wide text-gray-400";
+        borderCls = "border-gray-100";
+    }
+    else if (isAdminProfile)
+    {
+        // AdminDesign — distinct from patient (indigo gradient, page header, slate shell)
+        pageWrap = "w-full animate-fade-slide-up";
+        card = "rounded-2xl border border-slate-100 bg-white px-5 py-6 shadow-sm shadow-slate-100 sm:px-8 sm:py-7";
+        btnPrimary = "inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg sm:w-auto";
+        btnSecondary = "inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-200 hover:bg-slate-50 sm:w-auto";
+        labelCls = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400";
+        inputEdit = "w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10";
+        inputReadonly = "w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-600";
+        sectionCard = "rounded-2xl border border-slate-100 bg-slate-50/70 p-4 sm:p-5";
+        sectionIcon = "flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600";
+        sectionTitle = "text-sm font-bold text-slate-800 sm:text-base";
+        fieldIcon = "pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-slate-300";
+        titleCls = "text-xl font-bold text-slate-800";
+        subtitleCls = "truncate text-sm text-slate-500";
+        eyebrowCls = "text-xs font-semibold uppercase tracking-wide text-slate-400";
+        borderCls = "border-slate-100";
+    }
+    else
+    {
+        // Patient — keep current design
+        pageWrap = "mx-auto w-full max-w-4xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8";
+        card = "rounded-2xl border border-slate-100 bg-white px-4 py-5 shadow-sm shadow-slate-100 sm:px-6 sm:py-7 lg:px-8";
+        btnPrimary = "inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-primary-dark px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg sm:w-auto";
+        btnSecondary = "inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-200 hover:bg-slate-50 sm:w-auto";
+        labelCls = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400";
+        inputEdit = "w-full rounded-lg border border-slate-200 bg-white py-2.5 ps-9 pe-3 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10";
+        inputReadonly = "w-full rounded-lg border border-slate-200 bg-slate-50 py-2.5 ps-9 pe-3 text-sm text-slate-600";
+        sectionCard = "rounded-2xl border border-slate-100 bg-slate-50/70 p-4 sm:p-5";
+        sectionIcon = "flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary";
+        sectionTitle = "text-sm font-bold text-slate-800 sm:text-base";
+        fieldIcon = "pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-slate-300";
+        titleCls = "truncate text-xl font-bold text-slate-800 sm:text-2xl";
+        subtitleCls = "truncate text-sm text-slate-500";
+        eyebrowCls = "text-xs font-semibold uppercase tracking-wide text-slate-400";
+        borderCls = "border-slate-100";
+    }
+
+    var useIconInputs = isDoctorProfile || isPatientProfile;
+    var inputWithIconEdit = isDoctorProfile
+        ? "prac-input with-icon"
+        : isAdminProfile
+            ? inputEdit + " ps-9"
+            : inputEdit;
+    var inputWithIconReadonly = isDoctorProfile
+        ? "prac-input with-icon bg-gray-50"
+        : isAdminProfile
+            ? inputReadonly + " ps-9"
+            : inputReadonly;
 }
 
-<style>
-    @@keyframes fadeInUp { from { opacity: 0; transform: translateY(24px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
-    @@keyframes ringPulse {
-        0%   { box-shadow: 0 0 0 0 rgba(16,185,129,0.35); }
-        70%  { box-shadow: 0 0 0 14px rgba(16,185,129,0); }
-        100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
-    }
-    @@keyframes floatBlob {
-        0%, 100% { transform: translateY(0) scale(1); }
-        50%      { transform: translateY(-16px) scale(1.05); }
-    }
-
-    .profile-card { animation: fadeInUp 750ms cubic-bezier(.2,.85,.25,1) both; }
-    .fade-up { opacity: 0; animation: fadeInUp 650ms cubic-bezier(.2,.85,.25,1) both; }
-    .profile-field { opacity: 0; animation: fadeInUp 600ms cubic-bezier(.2,.85,.25,1) both; }
-    .profile-field:nth-of-type(1) { animation-delay: .05s; }
-    .profile-field:nth-of-type(2) { animation-delay: .12s; }
-    .profile-field:nth-of-type(3) { animation-delay: .19s; }
-    .profile-field:nth-of-type(4) { animation-delay: .26s; }
-    .profile-field:nth-of-type(5) { animation-delay: .33s; }
-
-    .avatar-ring { animation: ringPulse 2.6s ease-out infinite; }
-    .blob { filter: blur(60px); animation: floatBlob 11s ease-in-out infinite; }
-
-    .btn-shine { position: relative; overflow: hidden; isolation: isolate; }
-    .btn-shine::after {
-        content: "";
-        position: absolute;
-        top: 0; left: -75%;
-        width: 50%; height: 100%;
-        background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.45) 50%, rgba(255,255,255,0) 100%);
-        transform: skewX(-20deg);
-        transition: left .6s ease;
-    }
-    .btn-shine:hover::after { left: 125%; }
-
-    @@media (prefers-reduced-motion: reduce) {
-        .profile-card, .fade-up, .profile-field, .avatar-ring, .blob, .btn-shine::after {
-            animation: none !important;
-            transition: none !important;
-        }
-    }
-</style>
-
-<div class="relative">
-    @* <div class="mb-4 px-4 pt-4 sm:mb-6 sm:px-6 lg:px-8">
-        <a href="javascript:history.back()" class="inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-4 py-2 text-sm font-normal text-green-700 transition-all duration-200 hover:-translate-x-0.5 hover:border-green-300 hover:bg-green-100">
-            ← @SharedLocalizer["Shared_Back"]
-        </a>
-    </div> *@
-
-    <div class="relative mx-auto max-w-5xl px-4 pb-8 sm:px-6 sm:pb-12 lg:px-8 pt-6">
-        <section class="profile-card relative overflow-hidden rounded-[1.75rem] border border-slate-100 bg-white/95 p-5 backdrop-blur-sm sm:p-8">
-            <div class="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-primary via-emerald-400 to-primary-dark"></div>
-
-            <h2 class="mb-6 text-2xl font-bold tracking-tight text-slate-800 sm:text-3xl">@SharedLocalizer["Profile_Title"]</h2>
-@* زر التعديل يظهر فقط إذا المستخدم يملك صلاحية التعديل وعلى وضع العرض وليس التعديل *@
-    @* Doctor header: show avatar, full name and username at top-right *@
-        @if (Model.Doctor != null)
-        {
-            var doctorPhotoUrl = Model.Doctor.PhotoUrl?.Trim();
-            var doctorPhotoExists = false;
-
-            if (!string.IsNullOrWhiteSpace(doctorPhotoUrl))
-            {
-                var safeDoctorPhotoUrl = System.IO.Path.GetFileName(doctorPhotoUrl);
-                var doctorPhotoPath = System.IO.Path.Combine(WebHostEnvironment.ContentRootPath, "InternalStorage", "DoctorPhotos", safeDoctorPhotoUrl);
-                doctorPhotoExists = System.IO.File.Exists(doctorPhotoPath);
-                doctorPhotoUrl = safeDoctorPhotoUrl;
-            }
-
-            <div class="fade-up mb-6 flex justify-start" style="animation-delay:.05s;">
-                <div class="flex items-center gap-4">
-                    <div class="relative flex-shrink-0">
-                        <span class="avatar-ring absolute inset-0 rounded-full"></span>
-                            @if (doctorPhotoExists)
-                            {
-                                <img src="/InternalStorage/DoctorPhotos/@doctorPhotoUrl" alt="Doctor Photo" class="relative h-20 w-20 rounded-full border-2 border-white object-cover shadow-md transition-transform duration-500 hover:scale-105" />
-                            }
-                            else
-                            {
-                                <div class="relative flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
-                                    <i class="fa-solid fa-user-doctor text-primary-dark" style="font-size:34px;"></i>
-                                </div>
-                            }
-                    </div>
-                    <div class="text-left">
-                        <div class="text-lg font-bold text-slate-800">@($"{Model.FirstName} {Model.LastName}")</div>
-                        <div class="text-sm text-slate-500">@ViewBag.UserName</div>
-                    </div>
-                </div>
-            </div>
-            <script>
-                function showHeaderFileName(input) {
-                    const label = document.getElementById('headerFileNameDisplay');
-                    if (input.files && input.files[0]) {
-                        label.textContent = "📎 " + input.files[0].name;
-                    }
-                }
-            </script>
-                        @* Upload UI shown in header, actual inputs moved into the form below so they post correctly *@
-        }
-    @if (canEdit && !isEditMode)
+<div class="@pageWrap">
+    @if (isAdminProfile)
     {
-        <div class="fade-up mb-6 text-right" style="animation-delay:.05s;">
-            <a asp-action="Edit" asp-route-id="@Model.Id"
-               class="btn-shine inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-primary to-primary-dark px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all duration-200 hover:-translate-y-0.5 active:scale-95">
-                <i class="fa-solid fa-pen mr-1"></i> @SharedLocalizer["Profile_EditBtn"]
-            </a>
+        @* AdminDesign page header — same pattern as EditAdmin *@
+        <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex min-w-0 items-center gap-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <i class="fas fa-user-shield"></i>
+                </span>
+                <div class="min-w-0">
+                    <h4 class="@titleCls">@SharedLocalizer["Profile_Title"]</h4>
+                    <p class="@subtitleCls">@displayName@(ViewBag.UserName != null ? $" · {ViewBag.UserName}" : "")</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 rounded-lg bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-600">
+                    <i class="fas fa-shield-halved text-[10px]"></i>
+                    @SharedLocalizer["Shared_Admin"]
+                </span>
+                @if (canEdit && !isEditMode)
+                {
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="@btnPrimary">
+                        <i class="fas fa-pen text-xs"></i>
+                        @SharedLocalizer["Profile_EditBtn"]
+                    </a>
+                }
+            </div>
         </div>
     }
 
-    <form asp-action="Edit" asp-controller="Profile" method="post" enctype="multipart/form-data">
-        <div asp-validation-summary="ModelOnly" class="mb-4 rounded-2xl border border-red-200 bg-red-50 p-3 text-sm text-red-600"></div>
-        <div class="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2">
-             @if (!isEditMode && Model.Doctor == null)
-                {
-            <div class="profile-field">
-                <label class="mb-1.5 block text-sm font-bold text-slate-700">@SharedLocalizer["Shared_UserName"]</label>
-                <div class="relative">
-                    <i class="fa-solid fa-at pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input value="@ViewBag.UserName" disabled class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 pl-11 text-slate-700" />
-                </div>
-            </div>
-                }
-            <div class="profile-field">
-                <label asp-for="Email" class="mb-1.5 block text-sm font-bold text-slate-700">@SharedLocalizer["Shared_Email"]</label>
-                @if (isEditMode)
-                {
-                    <div class="relative">
-                        <i class="fa-solid fa-envelope pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input asp-for="Email" type="email" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
-                    </div>
-                    <span asp-validation-for="Email" class="mt-1.5 block text-xs text-red-500"></span>
-                }
-                else
-                {
-                    <div class="relative">
-                        <i class="fa-solid fa-envelope pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input asp-for="Email" type="email" disabled class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 pl-11 text-slate-700" />
-                    </div>
-                }
+    <div class="@card">
 
-            </div>
-            <div class="profile-field">
-                <label asp-for="FirstName" class="mb-1.5 block text-sm font-bold text-slate-700">@SharedLocalizer["Shared_FirstName"]</label>
-                @if (isEditMode)
-                {
-                    <div class="relative">
-                        <i class="fa-solid fa-user pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input asp-for="FirstName" type="text" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
-                    </div>
-                    <span asp-validation-for="FirstName" class="mt-1.5 block text-xs text-red-500"></span>
-                }
-                else
-                {
-                    <div class="relative">
-                        <i class="fa-solid fa-user pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input asp-for="FirstName" type="text" disabled class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 pl-11 text-slate-700" />
-                    </div>
-                }
-
-            </div>
-            <div class="profile-field">
-                <label asp-for="LastName" class="mb-1.5 block text-sm font-bold text-slate-700">@SharedLocalizer["Shared_LastName"]</label>
-                @if (isEditMode)
-                {
-                    <div class="relative">
-                        <i class="fa-solid fa-id-badge pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input asp-for="LastName" type="text" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
-                    </div>
-                    <span asp-validation-for="LastName" class="mt-1.5 block text-xs text-red-500"></span>
-                }
-                else
-                {
-                    <div class="relative">
-                        <i class="fa-solid fa-id-badge pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input asp-for="LastName" type="text" disabled class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 pl-11 text-slate-700" />
-                    </div>
-                }
-
-            </div>
-
-            <div class="profile-field">
-                <label asp-for="PhoneNumber" class="mb-1.5 block text-sm font-bold text-slate-700">@SharedLocalizer["Shared_Phone"]</label>
-                @if (isEditMode)
-                {
-                    <div class="relative">
-                        <i class="fa-solid fa-phone pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input asp-for="PhoneNumber" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
-                    </div>
-                    <span asp-validation-for="PhoneNumber" class="mt-1.5 block text-xs text-red-500"></span>
-                }
-                else
-                {
-                    <div class="relative">
-                        <i class="fa-solid fa-phone pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="text" value="@(Model.PhoneNumber ?? SharedLocalizer["Profile_NotAvailable"].Value)" disabled class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 pl-11 text-slate-700" />
-                    </div>
-                }
-            </div>
-
-        </div>
-
-        @if (Model.Admin != null)
+        @if (!isAdminProfile)
         {
-            <div class="fade-up mt-8 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 shadow-sm sm:p-5" style="animation-delay:.4s;">
-                <div class="mb-4 flex items-center gap-2">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary"><i class="fa-solid fa-user-shield"></i></span>
-                    <h3 class="text-lg font-bold text-slate-800 sm:text-xl">@SharedLocalizer["Profile_AdminDetails"]</h3>
-                </div>
-                <div class="mb-1">
-                    <label asp-for="Admin.Id" class="mb-1.5 block text-sm font-bold text-slate-700">@SharedLocalizer["Shared_Admin"] @SharedLocalizer["Shared_ID"]</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-shield-halved pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="text" asp-for="Admin.Id" readonly class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 pl-11 text-slate-700" />
+            <div class="mb-6 flex flex-col gap-4 border-b @borderCls pb-6 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex min-w-0 items-center gap-3 sm:gap-4">
+                    @if (doctorPhotoExists)
+                    {
+                        <img src="/InternalStorage/DoctorPhotos/@doctorPhotoUrl"
+                             alt="@displayName"
+                             class="@(isDoctorProfile
+                                 ? "h-12 w-12 shrink-0 rounded-full object-cover ring-2 ring-violet-100 sm:h-[52px] sm:w-[52px]"
+                                 : "h-14 w-14 shrink-0 rounded-full border-2 border-white object-cover shadow-sm sm:h-16 sm:w-16")" />
+                    }
+                    else if (isDoctorProfile)
+                    {
+                        <div class="avatar-lg">@avatarInitials</div>
+                    }
+                    else
+                    {
+                        <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary/10 text-lg font-bold text-primary sm:h-16 sm:w-16 sm:text-xl">
+                            @avatarLetter
+                        </span>
+                    }
+                    <div class="min-w-0">
+                        <p class="@eyebrowCls">@SharedLocalizer["Profile_Title"]</p>
+                        <h2 class="@titleCls">@displayName</h2>
+                        @if (ViewBag.UserName != null)
+                        {
+                            <p class="@subtitleCls">@ViewBag.UserName</p>
+                        }
                     </div>
                 </div>
+
+                @if (canEdit && !isEditMode)
+                {
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="@btnPrimary">
+                        @if (isDoctorProfile)
+                        {
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            </svg>
+                        }
+                        else
+                        {
+                            <i class="fas fa-pen text-xs"></i>
+                        }
+                        @SharedLocalizer["Profile_EditBtn"]
+                    </a>
+                }
             </div>
         }
 
-        @if (Model.Patient != null)
-        {
-            <div class="fade-up mt-8 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 shadow-sm sm:p-5" style="animation-delay:.42s;">
-                <div class="mb-4 flex items-center gap-2">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary"><i class="fa-solid fa-notes-medical"></i></span>
-                    <h3 class="text-lg font-bold text-slate-800 sm:text-xl">@SharedLocalizer["Profile_PatientDetails"]</h3>
-                </div>
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    @* <div>
-                        <label class="mb-1 block text-sm font-normal">@SharedLocalizer["Shared_Identity_Number"]</label>
-                        <input type="text" value="@(Model.Patient.IdentityNumber ?? SharedLocalizer["Profile_NotAvailable"].Value)" readonly 
-                               class="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-gray-700" />
-                    </div> *@
+        <form asp-action="Edit" asp-controller="Profile" method="post" enctype="multipart/form-data" class="space-y-6">
+            <div asp-validation-summary="ModelOnly"
+                 class="@(isDoctorProfile
+                     ? "rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+                     : "rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600")"></div>
+
+            <div class="grid grid-cols-1 gap-4 @(isAdminProfile ? "md:grid-cols-2" : "sm:grid-cols-2")">
+                @if (!isEditMode && Model.Doctor == null)
+                {
                     <div>
-                           <label class="mb-1.5 block text-sm font-bold text-slate-700">@SharedLocalizer["Shared_Date_Of_Birth"]</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-cake-candles pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" value="@Model.Patient.BirthDate.ToShortDateString()" readonly 
-                                   class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 pl-11 text-slate-700" />
+                        <label class="@labelCls">@SharedLocalizer["Shared_UserName"]</label>
+                        @if (useIconInputs || isAdminProfile)
+                        {
+                            <div class="relative">
+                                <span class="@fieldIcon"><i class="fas fa-at text-xs"></i></span>
+                                <input value="@ViewBag.UserName" disabled class="@inputWithIconReadonly" />
+                            </div>
+                        }
+                        else
+                        {
+                            <input value="@ViewBag.UserName" disabled class="@inputReadonly" />
+                        }
+                    </div>
+                }
+
+                <div>
+                    <label asp-for="Email" class="@labelCls">@SharedLocalizer["Shared_Email"]</label>
+                    <div class="relative">
+                        @if (useIconInputs || isAdminProfile)
+                        {
+                            <span class="@fieldIcon"><i class="fas fa-envelope text-xs"></i></span>
+                        }
+                        @if (isEditMode)
+                        {
+                            <input asp-for="Email" type="email" class="@(useIconInputs || isAdminProfile ? inputWithIconEdit : inputEdit)" />
+                        }
+                        else
+                        {
+                            <input asp-for="Email" type="email" disabled class="@(useIconInputs || isAdminProfile ? inputWithIconReadonly : inputReadonly)" />
+                        }
+                    </div>
+                    @if (isEditMode)
+                    {
+                        <span asp-validation-for="Email" class="mt-1.5 block text-xs text-red-500"></span>
+                    }
+                </div>
+
+                <div>
+                    <label asp-for="FirstName" class="@labelCls">@SharedLocalizer["Shared_FirstName"]</label>
+                    <div class="relative">
+                        @if (useIconInputs || isAdminProfile)
+                        {
+                            <span class="@fieldIcon"><i class="fas fa-user text-xs"></i></span>
+                        }
+                        @if (isEditMode)
+                        {
+                            <input asp-for="FirstName" type="text" class="@(useIconInputs || isAdminProfile ? inputWithIconEdit : inputEdit)" />
+                        }
+                        else
+                        {
+                            <input asp-for="FirstName" type="text" disabled class="@(useIconInputs || isAdminProfile ? inputWithIconReadonly : inputReadonly)" />
+                        }
+                    </div>
+                    @if (isEditMode)
+                    {
+                        <span asp-validation-for="FirstName" class="mt-1.5 block text-xs text-red-500"></span>
+                    }
+                </div>
+
+                <div>
+                    <label asp-for="LastName" class="@labelCls">@SharedLocalizer["Shared_LastName"]</label>
+                    <div class="relative">
+                        @if (useIconInputs || isAdminProfile)
+                        {
+                            <span class="@fieldIcon"><i class="fas fa-id-badge text-xs"></i></span>
+                        }
+                        @if (isEditMode)
+                        {
+                            <input asp-for="LastName" type="text" class="@(useIconInputs || isAdminProfile ? inputWithIconEdit : inputEdit)" />
+                        }
+                        else
+                        {
+                            <input asp-for="LastName" type="text" disabled class="@(useIconInputs || isAdminProfile ? inputWithIconReadonly : inputReadonly)" />
+                        }
+                    </div>
+                    @if (isEditMode)
+                    {
+                        <span asp-validation-for="LastName" class="mt-1.5 block text-xs text-red-500"></span>
+                    }
+                </div>
+
+                <div>
+                    <label asp-for="PhoneNumber" class="@labelCls">@SharedLocalizer["Shared_Phone"]</label>
+                    <div class="relative">
+                        @if (useIconInputs || isAdminProfile)
+                        {
+                            <span class="@fieldIcon"><i class="fas fa-phone text-xs"></i></span>
+                        }
+                        @if (isEditMode)
+                        {
+                            <input asp-for="PhoneNumber" class="@(useIconInputs || isAdminProfile ? inputWithIconEdit : inputEdit)" />
+                        }
+                        else
+                        {
+                            <input type="text" value="@(Model.PhoneNumber ?? SharedLocalizer["Profile_NotAvailable"].Value)" disabled
+                                   class="@(useIconInputs || isAdminProfile ? inputWithIconReadonly : inputReadonly)" />
+                        }
+                    </div>
+                    @if (isEditMode)
+                    {
+                        <span asp-validation-for="PhoneNumber" class="mt-1.5 block text-xs text-red-500"></span>
+                    }
+                </div>
+            </div>
+
+            @if (isAdminProfile)
+            {
+                <div class="@sectionCard">
+                    <div class="mb-4 flex items-center gap-2">
+                        <span class="@sectionIcon"><i class="fas fa-user-shield"></i></span>
+                        <h3 class="@sectionTitle">@SharedLocalizer["Profile_AdminDetails"]</h3>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        @if (Model.Admin != null)
+                        {
+                            <div>
+                                <label asp-for="Admin.Id" class="@labelCls">@SharedLocalizer["Shared_Admin"] @SharedLocalizer["Shared_ID"]</label>
+                                <div class="relative">
+                                    <span class="@fieldIcon"><i class="fas fa-shield-halved text-xs"></i></span>
+                                    <input type="text" asp-for="Admin.Id" readonly class="@inputWithIconReadonly" />
+                                </div>
+                            </div>
+                        }
+                        <div>
+                            <label class="@labelCls">@SharedLocalizer["Shared_UserName"]</label>
+                            <div class="relative">
+                                <span class="@fieldIcon"><i class="fas fa-at text-xs"></i></span>
+                                <input type="text" value="@ViewBag.UserName" readonly class="@inputWithIconReadonly" />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
-        @if (Model.Doctor != null)
-        {
-            var doctorPhotoUrl = Model.Doctor.PhotoUrl?.Trim();
-            var doctorPhotoExists = false;
-
-            if (!string.IsNullOrWhiteSpace(doctorPhotoUrl))
+            }
+            else if (Model.Admin != null)
             {
-                var safeDoctorPhotoUrl = System.IO.Path.GetFileName(doctorPhotoUrl);
-                var doctorPhotoPath = System.IO.Path.Combine(WebHostEnvironment.ContentRootPath, "InternalStorage", "DoctorPhotos", safeDoctorPhotoUrl);
-                doctorPhotoExists = System.IO.File.Exists(doctorPhotoPath);
-                doctorPhotoUrl = safeDoctorPhotoUrl;
+                <div class="@sectionCard">
+                    <div class="mb-4 flex items-center gap-2">
+                        <span class="@sectionIcon"><i class="fas fa-user-shield"></i></span>
+                        <h3 class="@sectionTitle">@SharedLocalizer["Profile_AdminDetails"]</h3>
+                    </div>
+                    <div>
+                        <label asp-for="Admin.Id" class="@labelCls">@SharedLocalizer["Shared_Admin"] @SharedLocalizer["Shared_ID"]</label>
+                        <div class="relative">
+                            <span class="@fieldIcon"><i class="fas fa-shield-halved text-xs"></i></span>
+                            <input type="text" asp-for="Admin.Id" readonly class="@inputWithIconReadonly" />
+                        </div>
+                    </div>
+                </div>
             }
 
-            @if(isEditMode){
-                <div class="fade-up mt-8 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 shadow-sm sm:p-5" style="animation-delay:.44s;">
-                    <label class="mb-1.5 block text-sm font-bold text-slate-700">@SharedLocalizer["Profile_Photo"]</label>
-                    <label for="doctorPhoto" class="group inline-flex cursor-pointer items-center gap-2 rounded-2xl border border-primary/30 bg-primary/5 px-4 py-2 text-sm font-bold text-primary shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary hover:text-white active:scale-95">
-                        <i class="fa-solid fa-camera transition-transform duration-300 group-hover:rotate-12"></i>
-                        <span>@SharedLocalizer["Profile_ChangePhoto"]</span>
-                    </label>
-                    <input asp-for="Doctor.PhotoFile" id="doctorPhoto" type="file" accept="image/*" class="hidden" onchange="showFileName(this)" />
-                    <span id="fileNameDisplay" class="mt-2 block text-xs text-slate-400"></span>
-                    <span asp-validation-for="Doctor.PhotoFile" class="text-xs text-red-500"></span>
+            @if (Model.Patient != null && !isAdminProfile)
+            {
+                <div class="@sectionCard">
+                    <div class="mb-4 flex items-center gap-2">
+                        <span class="@sectionIcon"><i class="fas fa-notes-medical"></i></span>
+                        <h3 class="@sectionTitle">@SharedLocalizer["Profile_PatientDetails"]</h3>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div>
+                            <label class="@labelCls">@SharedLocalizer["Shared_Date_Of_Birth"]</label>
+                            <div class="relative">
+                                <span class="@fieldIcon"><i class="fas fa-cake-candles text-xs"></i></span>
+                                <input type="text" value="@Model.Patient.BirthDate.ToShortDateString()" readonly
+                                       class="@inputWithIconReadonly" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
 
-                    <label asp-for="Doctor.SpecialtyId" class="mb-1.5 mt-4 block text-sm font-bold text-slate-700">@SharedLocalizer["Profile_Specialty"]</label>
-                    <div class="relative mt-1">
-                        <i class="fa-solid fa-stethoscope pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <select asp-for="Doctor.SpecialtyId" class="block w-full appearance-none rounded-2xl border border-slate-300 bg-white px-4 py-2.5 pl-11 pr-10 shadow-sm outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10">
-                            <option value="">@SharedLocalizer["Profile_SelectSpecialty"]</option>
-                            @if (ViewBag.Specialties is List<Specialty> specialties)
+            @if (Model.Doctor != null)
+            {
+                @if (isEditMode)
+                {
+                    <div class="@sectionCard">
+                        <div class="mb-4 flex items-center gap-2">
+                            <span class="@sectionIcon"><i class="fas fa-user-doctor"></i></span>
+                            <h3 class="@sectionTitle">@SharedLocalizer["Users_DoctorInformation"]</h3>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="@labelCls">@SharedLocalizer["Profile_Photo"]</label>
+                            @if (isDoctorProfile)
                             {
-                                foreach (var specialty in specialties)
-                                {
-                                    <option value="@specialty.Id" selected="@(specialty.Id == Model.Doctor.SpecialtyId ? "selected" : String.Empty)">@specialty.Name</option>
+                                <label for="doctorPhoto" class="btn-prac-indigo cursor-pointer">
+                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    <span>@SharedLocalizer["Profile_ChangePhoto"]</span>
+                                </label>
+                            }
+                            else
+                            {
+                                <label for="doctorPhoto"
+                                       class="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-200 hover:border-primary hover:text-primary">
+                                    <i class="fas fa-camera text-primary"></i>
+                                    <span>@SharedLocalizer["Profile_ChangePhoto"]</span>
+                                </label>
+                            }
+                            <input asp-for="Doctor.PhotoFile" id="doctorPhoto" type="file" accept="image/*" class="hidden" onchange="showFileName(this)" />
+                            <span id="fileNameDisplay" class="mt-2 block text-xs @(isDoctorProfile ? "text-gray-400" : "text-slate-400")"></span>
+                            <span asp-validation-for="Doctor.PhotoFile" class="mt-1 block text-xs text-red-500"></span>
+                        </div>
+
+                        <div>
+                            <label asp-for="Doctor.SpecialtyId" class="@labelCls">@SharedLocalizer["Profile_Specialty"]</label>
+                            <div class="relative">
+                                <span class="@fieldIcon"><i class="fas fa-stethoscope text-xs"></i></span>
+                                <select asp-for="Doctor.SpecialtyId"
+                                        class="@(isDoctorProfile
+                                            ? "prac-input with-icon with-icon-end appearance-none"
+                                            : "block w-full appearance-none rounded-lg border border-slate-200 bg-white py-2.5 ps-9 pe-8 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10")">
+                                    <option value="">@SharedLocalizer["Profile_SelectSpecialty"]</option>
+                                    @if (ViewBag.Specialties is List<Specialty> specialties)
+                                    {
+                                        foreach (var specialty in specialties)
+                                        {
+                                            <option value="@specialty.Id" selected="@(specialty.Id == Model.Doctor.SpecialtyId ? "selected" : String.Empty)">@specialty.Name</option>
+                                        }
+                                    }
+                                </select>
+                                <span class="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3 @(isDoctorProfile ? "text-gray-400" : "text-slate-300")">
+                                    <i class="fas fa-chevron-down text-xs"></i>
+                                </span>
+                            </div>
+                            <span asp-validation-for="Doctor.SpecialtyId" class="mt-1.5 block text-xs text-red-500"></span>
+                        </div>
+
+                        <script>
+                            function showFileName(input) {
+                                const label = document.getElementById('fileNameDisplay');
+                                if (input.files && input.files[0]) {
+                                    label.textContent = input.files[0].name;
                                 }
                             }
-                        </select>
-                        <i class="fa-solid fa-chevron-down pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
+                        </script>
                     </div>
-                    <span asp-validation-for="Doctor.SpecialtyId" class="text-sm text-red-500"></span>
-                    <script>
-                        function showFileName(input) {
-                            const label = document.getElementById('fileNameDisplay');
-                            if (input.files && input.files[0]) {
-                                label.textContent = "📎 " + input.files[0].name;
-                            }
-                        }
-                    </script>
-                </div>
-            }else{
-                @if (ViewBag.Specialties is List<Specialty> specialties){
-                 <div class="fade-up mt-8 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 shadow-sm sm:p-5" style="animation-delay:.44s;">
-                    <div class="mb-4 flex items-center gap-2">
-                        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary"><i class="fa-solid fa-stethoscope"></i></span>
-                        <label class="text-sm font-bold text-slate-700">@SharedLocalizer["Profile_Specialty"]</label>
+                }
+                else if (ViewBag.Specialties is List<Specialty> specialties)
+                {
+                    <div class="@sectionCard">
+                        <div class="mb-4 flex items-center gap-2">
+                            <span class="@sectionIcon"><i class="fas fa-stethoscope"></i></span>
+                            <h3 class="@sectionTitle">@SharedLocalizer["Profile_Specialty"]</h3>
+                        </div>
+                        <div class="relative">
+                            <span class="@fieldIcon"><i class="fas fa-stethoscope text-xs"></i></span>
+                            <input type="text"
+                                   value="@(specialties.FirstOrDefault(i => i.Id == Model.Doctor.SpecialtyId)?.Name ?? SharedLocalizer["Profile_NotAvailable"].Value)"
+                                   readonly
+                                   class="@inputWithIconReadonly" />
+                        </div>
                     </div>
-                    <div class="relative">
-                        <i class="fa-solid fa-stethoscope pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="text" value="@(specialties.FirstOrDefault(i => i.Id == Model.Doctor.SpecialtyId)?.Name ?? SharedLocalizer["Profile_NotAvailable"].Value)" readonly class="w-full rounded-2xl border border-slate-300 bg-slate-100 px-4 py-2.5 pl-11 text-slate-700" />
-                    </div>
-                 </div>
-                 }
+                }
             }
-        }
 
-        @if (isEditMode)
-        {
-            <div class="fade-up mt-8 grid grid-cols-1 gap-3 sm:flex sm:gap-4" style="animation-delay:.5s;">
-                <button type="submit" class="btn-shine inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 px-6 py-2.5 font-bold text-white shadow-lg shadow-green-500/25 transition-all duration-200 hover:-translate-y-0.5 active:scale-95">
-                    <i class="fa-solid fa-check"></i> @SharedLocalizer["Profile_SaveBtn"]
-                </button>
-                <a asp-action="Index" asp-route-id="@Model.Id"
-                   class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-slate-100 px-6 py-2.5 font-bold text-slate-800 transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-200 active:scale-95">
-                    <i class="fa-solid fa-xmark"></i> @SharedLocalizer["Shared_Cancel"]
-                </a>
-            </div>
-        }
-    </form>
-    </section>
+            @if (isEditMode)
+            {
+                <div class="flex flex-col-reverse gap-3 border-t @borderCls pt-5 sm:flex-row sm:items-center">
+                    <button type="submit" class="@btnPrimary">
+                        @if (isDoctorProfile)
+                        {
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        }
+                        else
+                        {
+                            <i class="fas fa-check text-xs"></i>
+                        }
+                        @SharedLocalizer["Profile_SaveBtn"]
+                    </button>
+                    <a asp-action="Index" asp-route-id="@Model.Id" class="@btnSecondary">
+                        @if (isDoctorProfile)
+                        {
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        }
+                        else
+                        {
+                            <i class="fas fa-xmark text-xs"></i>
+                        }
+                        @SharedLocalizer["Shared_Cancel"]
+                    </a>
+                </div>
+            }
+        </form>
     </div>
 </div>

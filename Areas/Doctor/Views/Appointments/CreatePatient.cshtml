@@ -2,155 +2,123 @@
 @model PatientCreateViewModel
 @{
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
-    ViewBag.Title = @SharedLocalizer["Patient_Create_Title"];
+    ViewBag.Title = SharedLocalizer["Patient_Create_Title"];
 }
 
-<div class="rounded-lg bg-white px-8 py-6">
-    <div class="mb-4 flex items-center justify-between">
-        <h4 class="text-xl font-bold">@SharedLocalizer["Patient_Create_Title"]</h4>
-        <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })"
-           class="rounded bg-gray-500 px-4 py-1 text-sm text-white transition duration-150 hover:bg-gray-600">
+<div class="prac-page space-y-6 max-w-4xl">
+
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-center gap-3">
+            <div class="avatar-lg">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold text-gray-900 leading-tight">@SharedLocalizer["Patient_Create_Title"]</h2>
+                <p class="text-sm text-gray-500 mt-0.5">@SharedLocalizer["Patient_Guidelines_Title"]</p>
+            </div>
+        </div>
+        <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })" class="btn-prac-secondary">
             @SharedLocalizer["Patient_BackToSearch"]
         </a>
     </div>
 
-    <div class="mb-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
-        <h5 class="mb-2 font-bold text-blue-800">@SharedLocalizer["Patient_Guidelines_Title"]</h5>
-        <ul class="space-y-1 text-sm text-blue-700">
-            @* <li>• <strong>@SharedLocalizer["Shared_Identity_Number"]:</strong> @SharedLocalizer["Patient_Guideline_Identity"]</li> *@
+    <div class="header-card p-4 border-blue-100 bg-blue-50">
+        <ul class="space-y-1 text-sm text-blue-800">
             <li>• <strong>@SharedLocalizer["Patient_Label_BasicInfo"]:</strong> @SharedLocalizer["Patient_Desc_BasicInfo"]</li>
             <li>• <strong>@SharedLocalizer["Patient_Label_AccountAccess"]:</strong> @SharedLocalizer["Patient_Desc_AccountAccess"]</li>
             <li>• <strong>@SharedLocalizer["Shared_Date_Of_Birth"]:</strong> @SharedLocalizer["Patient_Guideline_Medical"]</li>
-            <li>• <strong>@SharedLocalizer["Patient_Label_AfterCreation"]:</strong>@SharedLocalizer["Patient_Desc_AfterCreation"]</li>
+            <li>• <strong>@SharedLocalizer["Patient_Label_AfterCreation"]:</strong> @SharedLocalizer["Patient_Desc_AfterCreation"]</li>
         </ul>
-        <div class="mt-3 rounded border border-yellow-200 bg-yellow-50 p-3 text-xs text-yellow-700">
+        <p class="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
             <strong>@SharedLocalizer["Appt_Sched_Note"]:</strong> @SharedLocalizer["Patient_CreationNote"]
-        </div>
+        </p>
     </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="mb-4 rounded border border-green-400 bg-green-100 p-4 text-green-700">
-            @TempData["SuccessMessage"]
-        </div>
+        <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">@TempData["SuccessMessage"]</div>
     }
     @if (TempData["WarningMessage"] != null)
     {
-        <div class="mb-4 rounded border border-yellow-400 bg-yellow-100 p-4 text-yellow-700">
-            @TempData["WarningMessage"]
-        </div>
+        <div class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">@TempData["WarningMessage"]</div>
     }
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="mb-4 rounded border border-red-400 bg-red-100 p-4 text-red-700">
-            @TempData["ErrorMessage"]
-        </div>
+        <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">@TempData["ErrorMessage"]</div>
     }
     @if (TempData["InfoMessage"] != null)
     {
-        <div class="mb-4 rounded border border-blue-400 bg-blue-100 p-4 text-blue-700">
-            @TempData["InfoMessage"]
-        </div>
+        <div class="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800">@TempData["InfoMessage"]</div>
     }
 
-    <form asp-action="CreatePatient" method="post" class="mt-8">
-        <div class="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
-            @* <div>
-                <label asp-for="IdentityNumber" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Shared_Identity_Number"] *</label>
-                <input asp-for="IdentityNumber" type="text" 
-                       class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
-                       placeholder="@SharedLocalizer["Reg_Placeholder_ID"]" />
-                <span asp-validation-for="IdentityNumber" class="text-sm text-red-500"></span>
-            </div> *@
-
-            <div>
-                <label asp-for="FirstName" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Shared_FirstName"] *</label>
-                <input asp-for="FirstName" type="text" 
-                       class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
-                       placeholder=@SharedLocalizer["Reg_Placeholder_FirstName"] />
-                <span asp-validation-for="FirstName" class="text-sm text-red-500"></span>
+    <div class="header-card prac-header-card p-5 sm:p-7">
+        <form asp-action="CreatePatient" method="post">
+            <div class="mb-6 grid grid-cols-1 gap-5 md:grid-cols-2">
+                <div>
+                    <label asp-for="FirstName" class="prac-label">@SharedLocalizer["Shared_FirstName"] *</label>
+                    <input asp-for="FirstName" type="text" class="prac-input" placeholder=@SharedLocalizer["Reg_Placeholder_FirstName"] />
+                    <span asp-validation-for="FirstName" class="mt-1 block text-xs text-red-700"></span>
+                </div>
+                <div>
+                    <label asp-for="LastName" class="prac-label">@SharedLocalizer["Shared_LastName"] *</label>
+                    <input asp-for="LastName" type="text" class="prac-input" placeholder=@SharedLocalizer["Reg_Placeholder_LastName"] />
+                    <span asp-validation-for="LastName" class="mt-1 block text-xs text-red-700"></span>
+                </div>
+                <div>
+                    <label asp-for="PhoneNumber" class="prac-label">@SharedLocalizer["Shared_Phone"] *</label>
+                    <input asp-for="PhoneNumber" type="tel" class="prac-input" placeholder=@SharedLocalizer["Search_PlaceholderPhone"] />
+                    <span asp-validation-for="PhoneNumber" class="mt-1 block text-xs text-red-700"></span>
+                </div>
+                <div>
+                    <label asp-for="Email" class="prac-label">@SharedLocalizer["Shared_Email"] *</label>
+                    <input asp-for="Email" type="email" class="prac-input" placeholder=@SharedLocalizer["Shared_EnterYourEmail"] />
+                    <span asp-validation-for="Email" class="mt-1 block text-xs text-red-700"></span>
+                </div>
+                <div>
+                    <label asp-for="BirthDate" class="prac-label">@SharedLocalizer["Shared_Date_Of_Birth"] *</label>
+                    <input asp-for="BirthDate" type="date" class="prac-input" />
+                    <span asp-validation-for="BirthDate" class="mt-1 block text-xs text-red-700"></span>
+                </div>
             </div>
 
-            <div>
-                <label asp-for="LastName" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Shared_LastName"] *</label>
-                <input asp-for="LastName" type="text" 
-                       class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-transparent"
-                       placeholder=@SharedLocalizer["Reg_Placeholder_LastName"] />
-                <span asp-validation-for="LastName" class="text-sm text-red-500"></span>
+            <div class="group-divider mb-5">
+                <div class="group-divider-line"></div>
+                <span class="group-label">@SharedLocalizer["Patient_Label_AccountAccess"]</span>
+                <div class="group-divider-line"></div>
             </div>
 
-            <div>
-                <label asp-for="PhoneNumber" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Shared_Phone"] *</label>
-                <input asp-for="PhoneNumber" type="tel" 
-                       class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
-                       placeholder=@SharedLocalizer["Search_PlaceholderPhone"] />
-                <span asp-validation-for="PhoneNumber" class="text-sm text-red-500"></span>
+            <div class="mb-6 grid grid-cols-1 gap-5 md:grid-cols-2">
+                <div>
+                    <label asp-for="UserName" class="prac-label">@SharedLocalizer["Shared_UserName"] *</label>
+                    <input asp-for="UserName" type="text" class="prac-input" placeholder=@SharedLocalizer["Patient_Placeholder_User"] />
+                    <span asp-validation-for="UserName" class="mt-1 block text-xs text-red-700"></span>
+                </div>
+                <div>
+                    <label asp-for="Password" class="prac-label">@SharedLocalizer["Shared_Password"] *</label>
+                    <input asp-for="Password" type="password" class="prac-input" placeholder=@SharedLocalizer["Patient_Placeholder_Pass"] />
+                    <span asp-validation-for="Password" class="mt-1 block text-xs text-red-700"></span>
+                </div>
+                <div>
+                    <label asp-for="ConfirmPassword" class="prac-label">@SharedLocalizer["Shared_ConfirmPassword"] *</label>
+                    <input asp-for="ConfirmPassword" type="password" class="prac-input" placeholder=@SharedLocalizer["Shared_ConfirmPassword"] />
+                    <span asp-validation-for="ConfirmPassword" class="mt-1 block text-xs text-red-700"></span>
+                </div>
             </div>
 
-            <div>
-                <label asp-for="Email" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Shared_Email"] *</label>
-                <input asp-for="Email" type="email" 
-                       class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
-                       placeholder=@SharedLocalizer["Shared_EnterYourEmail"] />
-                <span asp-validation-for="Email" class="text-sm text-red-500"></span>
+            <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })" class="btn-prac-secondary">
+                    @SharedLocalizer["Shared_Cancel"]
+                </a>
+                <button type="submit" class="btn-add-test">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    @SharedLocalizer["Patient_BtnCreate"]
+                </button>
             </div>
-
-            <div>
-                <label asp-for="BirthDate" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Shared_Date_Of_Birth"] *</label>
-                <input asp-for="BirthDate" type="date" 
-                       class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary" />
-                <span asp-validation-for="BirthDate" class="text-sm text-red-500"></span>
-            </div>
-        </div>
-
-        <div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div>
-                <label asp-for="UserName" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Shared_UserName"] *</label>
-                <input asp-for="UserName" type="text" 
-                       class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
-                       placeholder=@SharedLocalizer["Patient_Placeholder_User"] />
-                <span asp-validation-for="UserName" class="text-sm text-red-500"></span>
-            </div>
-
-            <div>
-                <label asp-for="Password" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Shared_Password"] *</label>
-                <input asp-for="Password" type="password" 
-                       class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
-                       placeholder=@SharedLocalizer["Patient_Placeholder_Pass"] />
-                <span asp-validation-for="Password" class="text-sm text-red-500"></span>
-            </div>
-
-            <div>
-                <label asp-for="ConfirmPassword" class="mb-2 block text-sm font-normal text-gray-700">@SharedLocalizer["Shared_ConfirmPassword"] *</label>
-                <input asp-for="ConfirmPassword" type="password" 
-                       class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
-                       placeholder=@SharedLocalizer["Shared_ConfirmPassword"] />
-                <span asp-validation-for="ConfirmPassword" class="text-sm text-red-500"></span>
-            </div>
-        </div>
-
-
-
-        <div class="flex justify-end space-x-3">
-            <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })" 
-               class="rounded-md bg-gray-500 px-6 py-2 text-white transition duration-150 hover:bg-gray-600">
-               @SharedLocalizer["Shared_Cancel"]
-            </a>
-            <button type="submit" class="rounded-md bg-primary px-6 py-2 text-white transition duration-150 hover:bg-primary-dark">
-                <i class="fas fa-user-plus mr-2"></i>@SharedLocalizer["Patient_BtnCreate"]
-            </button>
-        </div>
-    </form>
-
-    <!-- Validation Summary -->
-    <div asp-validation-summary="All" class="mt-4 text-sm text-red-500"></div>
-
-    <!-- Success Message -->
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="mt-4 rounded border border-green-400 bg-green-100 p-4 text-green-700">
-            <i class="fas fa-check-circle mr-2"></i>@TempData["SuccessMessage"]
-        </div>
-    }
+        </form>
+        <div asp-validation-summary="All" class="mt-4 text-sm text-red-700"></div>
+    </div>
 </div>
-

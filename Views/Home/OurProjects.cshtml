@@ -88,7 +88,7 @@
         ("https://images.unsplash.com/photo-1517649763962-0c623066013b?w=800&q=80", isDE ? "Fitness-Training (ohne Frauen)" : "Fitness Training (No Women)"),
    
         ("https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=80", isDE ? "KI-Analyse" : "AI Analysis"),
-        ("https://images.unsplash.com/photo-1579758629938-03608cc85959?w=800&q=80", isDE ? "Mann trainiert mit Kurzhantel" : "Man training with dumbbell"),
+        ("https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800&q=80", isDE ? "Mann trainiert mit Kurzhantel" : "Man training with dumbbell"),
    
         ("https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=800&q=80", isDE ? "Fortschritts-Chart" : "Progress Chart"),
     };
@@ -316,61 +316,88 @@
     box-shadow: 0 8px 24px rgba(0,0,0,.18);
   }
 
-  /* Visual side – filmstrip */
+  /* Visual side – one image, split into 4 */
   .op-card__visual {
     position: relative;
     border-radius: 20px;
     overflow: hidden;
-    aspect-ratio: 4/3;
+    background: #0f172a;
+    box-shadow: 0 12px 40px rgba(15, 23, 42, .12);
+  }
+  .img-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1px;
+    aspect-ratio: 4 / 3;
+    background: rgba(255, 255, 255, .35);
+  }
+  .img-grid__cell {
+    position: relative;
+    overflow: hidden;
     cursor: pointer;
-    background: #e2e8f0;
+    border: none;
+    padding: 0;
+    background: #1e293b;
+    min-height: 0;
   }
-  .filmstrip {
-    display: flex;
-    height: 100%;
-    transition: transform .6s cubic-bezier(.22,1,.36,1);
-  }
-  .filmstrip img {
-    min-width: 100%;
+  .img-grid__cell img {
+    width: 100%;
     height: 100%;
     object-fit: cover;
-    flex-shrink: 0;
     display: block;
+    transition: transform .45s cubic-bezier(.22,1,.36,1), filter .3s;
   }
-  .op-card__visual:hover .filmstrip { transform: translateX(-25%); }
-
-  /* filmstrip dots */
-  .film-dots {
+  .img-grid__cell:hover img {
+    transform: scale(1.08);
+    filter: brightness(1.05);
+  }
+  .img-grid__cell::after {
+    content: '';
     position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
+    inset: 0;
+    background: rgba(15, 23, 42, 0);
+    transition: background .25s;
+    pointer-events: none;
+  }
+  .img-grid__cell:hover::after {
+    background: rgba(15, 23, 42, .22);
+  }
+  .img-grid__zoom {
+    position: absolute;
+    inset: 0;
     display: flex;
-    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.5rem;
+    opacity: 0;
+    transition: opacity .25s;
+    pointer-events: none;
+    z-index: 1;
+    text-shadow: 0 2px 8px rgba(0,0,0,.4);
   }
-  .film-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.5);
-    cursor: pointer;
-    transition: background .2s, transform .2s;
+  .img-grid__cell:hover .img-grid__zoom {
+    opacity: 1;
   }
-  .film-dot.active { background: #fff; transform: scale(1.3); }
-
-  /* img label overlay */
-  .film-label {
+  .img-grid__label {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    padding: 2rem 1rem .75rem;
-    background: linear-gradient(to top, rgba(0,0,0,.65), transparent);
+    padding: 1.75rem .6rem .5rem;
+    background: linear-gradient(to top, rgba(0,0,0,.75), transparent);
     color: #fff;
-    font-size: .78rem;
+    font-size: .7rem;
     font-weight: 500;
     text-align: center;
     opacity: 0;
-    transition: opacity .3s;
+    transition: opacity .25s;
+    z-index: 1;
+    pointer-events: none;
+    line-height: 1.3;
   }
-  .op-card__visual:hover .film-label { opacity: 1; }
+  .img-grid__cell:hover .img-grid__label {
+    opacity: 1;
+  }
 
   /* ── Lightbox / Gallery modal ── */
   .op-gallery-modal {
@@ -492,7 +519,7 @@
 
   @@media (prefers-reduced-motion: reduce) {
     .op-card { transition: none; opacity: 1; transform: none; }
-    .filmstrip { transition: none; }
+    .img-grid__cell img { transition: none; }
     .scroll-line { animation: none; }
   }
 </style>
@@ -562,29 +589,25 @@
           </button>
         </div>
 
-        @* Visual / filmstrip *@
-        <div class="op-card__visual"
-             onclick="openGallery('@p.id')"
-             role="button"
-             tabindex="0"
-             aria-label="@lbl_gallery – @p.title"
-             onkeydown="if(event.key==='Enter')openGallery('@p.id')">
-          <div class="filmstrip" id="strip-@p.id">
-            @foreach (var img in p.imgs)
+        @* Visual / 2×2 image grid *@
+        <div class="op-card__visual" aria-label="@lbl_gallery – @p.title">
+          <div class="img-grid">
+            @for (int g = 0; g < p.imgs.Length; g++)
             {
-              <img src="@img.Item1"
-                   alt="@img.Item2"
-                   loading="lazy" />
-            }
-          </div>
-          <div class="film-label" id="label-@p.id">@p.imgs[0].Item2</div>
-          <div class="film-dots" id="dots-@p.id">
-            @for (int d = 0; d < p.imgs.Length; d++)
-            {
+              var img = p.imgs[g];
               <button type="button"
-                      class="film-dot @(d == 0 ? "active" : "")"
-                      onclick="event.stopPropagation(); setFrame('@p.id', @d)"
-                      aria-label="Image @(d+1)">
+                      class="img-grid__cell"
+                      onclick="openGallery('@p.id', @g)"
+                      aria-label="@img.Item2"
+                      aria-haspopup="dialog"
+                      aria-controls="gallery-@p.id">
+                <img src="@img.Item1"
+                     alt="@img.Item2"
+                     loading="lazy" />
+                <span class="img-grid__zoom" aria-hidden="true">
+                  <i class="ti ti-zoom-in"></i>
+                </span>
+                <span class="img-grid__label">@img.Item2</span>
               </button>
             }
           </div>
@@ -710,9 +733,10 @@
     galSet(id, (cur + dir + len) % len);
   }
 
-  function openGallery(id) {
-    state[id] = 0;
-    galSet(id, 0);
+  function openGallery(id, idx) {
+    const start = (typeof idx === 'number' && idx >= 0) ? idx : 0;
+    state[id] = start;
+    galSet(id, start);
     const modal = document.getElementById('gallery-' + id);
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -733,31 +757,11 @@
     if (e.key === 'Escape')     closeGallery(id);
   });
 
-  /* ── Filmstrip dot nav ── */
-  function setFrame(id, idx) {
-    const strip = document.getElementById('strip-' + id);
-    const label = document.getElementById('label-' + id);
-    const dots  = document.querySelectorAll('#dots-' + id + ' .film-dot');
-    strip.style.transform = 'translateX(-' + (idx * 25) + '%)';
-    strip.style.transition = 'transform .5s cubic-bezier(.22,1,.36,1)';
-    label.textContent = imgs[id][idx].alt;
-    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-  }
-
-  /* auto-cycle filmstrip on hover out */
-  document.querySelectorAll('.op-card__visual').forEach(vis => {
-    vis.addEventListener('mouseleave', () => {
-      const strip = vis.querySelector('.filmstrip');
-      if (strip) { strip.style.transform = ''; strip.style.transition = ''; }
-    });
-  });
-
   /* expose to global */
   window.openGallery  = openGallery;
   window.closeGallery = closeGallery;
   window.galNav       = galNav;
   window.galSet       = galSet;
-  window.setFrame     = setFrame;
 
 })();
 </script>

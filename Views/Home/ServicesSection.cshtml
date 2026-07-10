@@ -51,6 +51,12 @@
         box-shadow: 0 6px 20px rgba(16, 185, 129, 0.10);
     }
 
+    .service-card__header {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
     /* ── Icon bubble ── */
     .service-card__icon {
         width: 48px;
@@ -77,7 +83,7 @@
         font-size: 15px;
         font-weight: 700;
         color: #111827;
-        margin: 0 0 4px;
+        margin: 0;
     }
 
     .service-card__desc {
@@ -86,6 +92,27 @@
         line-height: 1.65;
         margin: 0;
         flex: 1;
+    }
+
+    /* Small screens: icon + title on one row */
+    @@media (max-width: 767px) {
+        .service-card__header {
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .service-card__icon {
+            width: 40px;
+            height: 40px;
+            font-size: 17px;
+            border-radius: 12px;
+        }
+
+        .service-card__title {
+            font-size: 14px;
+            line-height: 1.35;
+        }
     }
 
     /* ── CTA card: gradient matching PhysioTech green→teal palette ── */
@@ -163,13 +190,13 @@
             @foreach (var card in serviceCards)
             {
                 <article class="service-card @(card.IsCta ? "service-card--cta" : "")">
-                    <div class="service-card__icon">
-                        <i class="@card.Icon"></i>
-                    </div>
-                    <div>
+                    <div class="service-card__header">
+                        <div class="service-card__icon">
+                            <i class="@card.Icon"></i>
+                        </div>
                         <h3 class="service-card__title">@SharedLocalizer[card.TitleKey]</h3>
-                        <p class="service-card__desc">@SharedLocalizer[card.DescKey]</p>
                     </div>
+                    <p class="service-card__desc">@SharedLocalizer[card.DescKey]</p>
                     @if (card.IsCta)
                     {
                         <a asp-controller="Home"

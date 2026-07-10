@@ -4,11 +4,20 @@
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
-<div class="rounded-lg bg-white px-8 py-6">
-    <div class="mb-4 flex items-center justify-between">
-        <h4 class="text-xl font-bold">@SharedLocalizer["Appt_Sched_Title"]</h4>
-        <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })"
-           class="rounded bg-gray-500 px-4 py-1 text-sm text-white transition duration-150 hover:bg-gray-600">
+<div class="prac-page header-card px-5 py-5 sm:px-8 sm:py-6">
+    <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-center gap-3">
+            <div class="avatar-lg">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold text-gray-900 leading-tight">@SharedLocalizer["Appt_Sched_Title"]</h2>
+                <p class="text-sm text-gray-500 mt-0.5">@SharedLocalizer["Shared_Appointment"]</p>
+            </div>
+        </div>
+        <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })" class="btn-prac-secondary">
             @SharedLocalizer["Appt_Sched_Back"]
         </a>
     </div>
@@ -74,9 +83,9 @@
                          <br><span class="font-normal text-blue-600">@SharedLocalizer["Appt_Sched_Note"]:</span> @SharedLocalizer["Appt_Sched_NonConsecutiveAlert"].
                      </p>
                 </div>
-                <button type="button" onclick="loadTimeSlots(document.getElementById('ScheduledDate').value)" 
-                        class="rounded-md bg-blue-600 px-4 py-2 text-white transition duration-150 hover:bg-blue-700">
-                    <i class="fas fa-sync-alt mr-2"></i>@SharedLocalizer["Appt_Sched_Refresh"]
+                <button type="button" onclick="loadTimeSlots(document.getElementById('ScheduledDate').value)"
+                        class="btn-prac-indigo">
+                    <i class="fas fa-sync-alt"></i>@SharedLocalizer["Appt_Sched_Refresh"]
                 </button>
             </div>
             
@@ -167,15 +176,15 @@
          <input type="hidden" id="endTime" name="EndTime" value="" />
          <input type="hidden" id="time" name="Time" value="" />
          
-         <div class="flex justify-end space-x-3">
-             <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })" 
-                class="rounded-md bg-gray-500 px-6 py-2 text-white transition duration-150 hover:bg-gray-600">
+         <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+             <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })"
+                class="btn-prac-secondary">
                 @SharedLocalizer["Shared_Cancel"]
              </a>
-             <button type="submit" id="submitBtn" disabled
-                     class="rounded-md bg-primary px-6 py-2 text-white transition duration-150 hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50">
-                 @SharedLocalizer["Appt_Sched_CreateBtn"]
-             </button>
+            <button type="submit" id="submitBtn" disabled
+                     class="btn-add-test disabled:cursor-not-allowed disabled:opacity-50">
+                @SharedLocalizer["Appt_Sched_CreateBtn"]
+            </button>
          </div>
 
 

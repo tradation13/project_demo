@@ -1,0 +1,234 @@
+# دليل الهوية البصرية الموحّد — لوحة تحكم الأدمن فقط (IPTS)
+
+> ⚠️ **نطاق هذا الدليل: Admin Panel فقط.**
+> هذا الدليل يُطبَّق حصرياً على الصفحات التي يستخدمها الأدمن (Users, Doctors, Appointments, Logs, Settings, Reports... إلخ داخل `Areas/Admin` أو أي كنترولر خاص بالأدمن).
+> لا تطبّقه على واجهات باقي الأدوار (Patient Portal, Doctor Portal, صفحات المرضى، إلخ) — تلك الواجهات قد يكون لها هوية بصرية مختلفة تماماً حسب جمهورها.
+
+هذا الدليل مبني على تحليل صفحة "Users" (وهي صفحة أدمن) ومُعمَّم بحيث يصير **مرجع تصميم ثابت** تطبّقه على أي صفحة أدمن جديدة (Doctors, Appointments, Logs, Settings... إلخ) عشان كل صفحات الأدمن تطلع متناسقة بنفس الروح.
+
+---
+
+## 1. إعداد Tailwind Config (الأساس الذي تُبنى عليه كل الصفحات)
+
+```js
+// tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          DEFAULT: '#22C55E',   // PhysioTech brand green (مطابق لـ tailwind.config.js)
+          dark: '#16A34A',
+        },
+      },
+      borderRadius: {
+        '2xl': '1rem',
+      },
+      keyframes: {
+        fadeSlideUp: {
+          from: { opacity: 0, transform: 'translateY(10px)' },
+          to:   { opacity: 1, transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        'fade-slide-up': 'fadeSlideUp 0.4s ease-out both',
+      },
+    },
+  },
+}
+```
+
+> **قاعدة ذهبية:** أي لون جديد يحتاجه أي صفحة (نجاح/تحذير/خطر) لازم يُبنى من نفس نظام الشفافية (`-50` كخلفية، `-500/600` كنص، وليس ألوان صريحة عشوائية).
+
+---
+
+## 2. نظام الألوان الموحّد (Design Tokens)
+
+### ألوان محايدة (تُستخدم في كل صفحة بدون استثناء)
+| الاستخدام | الفئة |
+|---|---|
+| خلفية الصفحة/الكارد | `bg-white` |
+| حدود الكروت | `border border-slate-100` |
+| خلفية أقسام ثانوية (فلاتر، لوحات فرعية) | `bg-slate-50/70` |
+| نص أساسي (عناوين) | `text-slate-800` |
+| نص ثانوي | `text-slate-500` / `text-slate-600` |
+| نص خافت (تسميات، أرقام صفوف) | `text-slate-400` |
+| حدود الحقول | `border-slate-200` |
+
+### لون العلامة (Primary) — نفس الاستخدام بكل الصفحات
+- الأزرار الرئيسية: `bg-gradient-to-r from-primary to-indigo-600`
+- التركيز على الحقول: `focus:border-primary focus:ring-4 focus:ring-primary/10`
+- أيقونة عنوان الصفحة: `bg-primary/10 text-primary`
+- رأس الجدول: `bg-gradient-to-r from-primary to-indigo-600 text-white`
+
+### ألوان دلالية ثابتة (Semantic Colors) — استخدمها بنفس المعنى في كل الصفحات
+| المعنى | خلفية فاتحة | نص/أيقونة |
+|---|---|---|
+| نجاح / نشط / موافق | `bg-green-50` | `text-green-600` |
+| تحذير / معلّق / تعديل | `bg-yellow-50` | `text-yellow-500` |
+| خطر / حذف / ملغي | `bg-red-50` | `text-red-500` |
+| معلومة / رابط / إجراء ثانوي | `bg-blue-50` | `text-blue-500` |
+| محايد / نوع تصنيفي | `bg-slate-100` | `text-slate-600` |
+
+> **قاعدة:** لا تخترع ألوان جديدة لحالات جديدة — طابق أقرب حالة دلالية من الجدول أعلاه (مثلاً "Shipped" = أزرق معلومة، "Canceled" = أحمر خطر).
+
+### لوحة الأفاتار الدوّارة (ثابتة في كل مكان يوجد فيه أفاتار حرف)
+```js
+const avatarPalette = [
+  "bg-indigo-50 text-indigo-600",
+  "bg-teal-50 text-teal-600",
+  "bg-amber-50 text-amber-600",
+  "bg-rose-50 text-rose-600",
+  "bg-sky-50 text-sky-600",
+];
+```
+
+---
+
+## 3. الطباعة الموحّدة (Typography Scale)
+
+| المستوى | الفئة | الاستخدام |
+|---|---|---|
+| H1 (عنوان الصفحة) | `text-xl font-bold text-slate-800` | كل عنوان صفحة (Users, Doctors, Appointments...) |
+| H2 (عنوان قسم فرعي) | `text-sm font-bold text-slate-600` | عناوين لوحات الفلاتر، الأقسام الداخلية |
+| Label | `text-xs font-semibold uppercase tracking-wide text-slate-400` | كل تسمية فوق حقل إدخال |
+| Body | `text-sm` | كل نصوص الجداول والفورمات |
+| Button text | `text-sm font-semibold` | نص كل الأزرار |
+
+---
+
+## 4. مكتبة المكوّنات القابلة لإعادة الاستخدام (Component Recipes)
+
+انسخ هذه الأنماط حرفياً في أي صفحة أدمن جديدة — لا تعيد اختراعها.
+
+### أ) رأس الصفحة (Page Header) — يظهر أعلى كل صفحة أدمن
+```html
+<div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <i class="fas fa-{icon}"></i>
+        </span>
+        <h4 class="text-xl font-bold text-slate-800">@SharedLocalizer["PageTitle"]</h4>
+    </div>
+    <a class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+        <i class="fas fa-plus text-xs"></i> @SharedLocalizer["Shared_Add_New"]
+    </a>
+</div>
+```
+
+### ب) الكارد الرئيسي الحاوي (Container)
+```html
+<div class="custom-scrollbar overflow-x-auto rounded-2xl border border-slate-100 bg-white px-8 py-7 shadow-sm shadow-slate-100">
+  <!-- المحتوى -->
+</div>
+```
+
+### ج) لوحة الفلاتر القابلة للطي (Alpine.js)
+```html
+<div x-data="{ filter: false }">
+  <div x-show="filter" x-collapse.duration.300ms class="overflow-hidden">
+    <div class="mb-6 rounded-2xl border border-slate-100 bg-slate-50/70 p-6">
+      <!-- حقول الفلترة بنفس شبكة grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 -->
+    </div>
+  </div>
+</div>
+```
+
+### د) حقل إدخال مع أيقونة
+```html
+<div class="relative">
+    <span class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-slate-300">
+        <i class="fas fa-{icon} text-xs"></i>
+    </span>
+    <input class="w-full rounded-lg border border-slate-200 bg-white py-2 ps-9 pe-3 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10">
+</div>
+```
+
+### هـ) الجدول القياسي (Data Table)
+```html
+<div class="w-full overflow-auto rounded-2xl border border-slate-100">
+<table class="mb-0 w-full whitespace-nowrap text-sm">
+    <thead class="bg-gradient-to-r from-primary to-indigo-600 text-white sticky top-0 z-10">
+        <tr><th class="px-4 py-3 font-semibold">...</th></tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100">
+        <!-- كل صف: -->
+        <tr class="animate-fade-slide-up transition-colors hover:bg-slate-50" style="animation-delay:{index*35}ms">
+            <td class="px-4 py-3 text-center">...</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+```
+
+### و) شارة (Badge) — للحالة أو التصنيف
+```html
+<span class="inline-flex rounded-full bg-{semantic}-50 px-3 py-1 text-xs font-semibold text-{semantic}-600">
+    @status
+</span>
+```
+
+### ز) أفاتار حرف
+```html
+<span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold @avatarTone">
+    @firstLetter
+</span>
+```
+
+### ح) أزرار إجراءات الصف (View / Edit / Delete / Custom)
+```html
+<a class="inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-primary/10">
+    <svg class="h-4 w-4 text-primary" ...>...</svg> <!-- View -->
+</a>
+<a class="inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-yellow-50">
+    <svg class="h-4 w-4 text-yellow-500" ...>...</svg> <!-- Edit -->
+</a>
+<form onsubmit="return confirm('@SharedLocalizer[\"Msg_AreYouSure\"]');">
+    <button class="inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-red-50">
+        <svg class="h-4 w-4 text-red-500" ...>...</svg> <!-- Delete -->
+    </button>
+</form>
+```
+
+---
+
+## 5. الحركة (Animation) — نفس القاعدة بكل جدول جديد
+
+```css
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-slide-up { animation: fadeSlideUp 0.4s ease-out both; }
+```
++ تأخير متدرّج لكل صف: `style="animation-delay:@(x * 35)ms"`
+
+---
+
+## 6. قواعد ثابتة (Do's & Don'ts) لأي صفحة أدمن جديدة
+
+✅ **افعل:**
+- استخدم `rounded-2xl` للحاويات الكبيرة، `rounded-lg` للحقول، `rounded-full` للشارات والأزرار الدائرية — بدون استثناء.
+- كل لون ثانوي (غير primary) يُستخدم بخلفية باهتة (`-50`) ونص غامق (`-500/600`) فقط.
+- استخدم `ps-/pe-/start-/end-` بدل `pl-/pr-/left-/right-` (دعم RTL).
+- أضف `confirm()` على أي عملية حذف أو إجراء حساس.
+- استخدم `hover:-translate-y-0.5` + تكبير الظل كتفاعل موحّد لكل الأزرار الرئيسية.
+
+🚫 **لا تفعل:**
+- لا تستخدم ألوان صريحة قوية (`bg-red-600` مثلاً) كخلفية — فقط كنص/أيقونة.
+- لا تكسر شبكة الفلاتر (`grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4`) — حافظ عليها بكل صفحة فيها فلاتر.
+- لا تضيف ظلال قوية بدون سبب (`shadow-2xl` ممنوع) — الحد الأقصى `shadow-lg` عند hover فقط.
+- لا تستخدم أيقونات مختلطة (Font Awesome + Heroicons SVG) بدون نظام — الأيقونات العامة FA، أيقونات إجراءات الجدول SVG مخصص.
+
+---
+
+## 7. تشيك ليست سريع قبل تسليم أي **صفحة أدمن** جديدة
+*(هذه القائمة لصفحات الأدمن حصراً — لا تُطبَّق على صفحات باقي المستخدمين)*
+
+- [ ] رأس الصفحة يتبع نفس نمط "أيقونة + عنوان + زر إضافة"
+- [ ] الحاوية الرئيسية `rounded-2xl border border-slate-100 bg-white shadow-sm shadow-slate-100`
+- [ ] الجدول له رأس متدرّج + صفوف بحركة fade-slide-up متدرّجة
+- [ ] كل شارة حالة تستخدم لون دلالي من الجدول الموحّد
+- [ ] أزرار الإجراءات دائرية 8×8 بنفس ألوان (view=primary, edit=yellow, delete=red)
+- [ ] الفلاتر (إن وجدت) قابلة للطي عبر Alpine.js بنفس المدة (300ms)
+- [ ] كل النصوص تدعم RTL (start/end)

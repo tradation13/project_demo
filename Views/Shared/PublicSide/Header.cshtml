@@ -482,9 +482,25 @@
    RESPONSIVE
 ══════════════════════════════════════════════════════ */
 @@media (max-width: 1099px) {
-    .pt-nav, .pt-divider, .pt-lang,
+    .pt-nav, .pt-divider,
     .pt-join-btn, .pt-user { display: none !important; }
     .pt-hamburger { display: flex; }
+
+    /* Compact language toggle in mobile header */
+    .pt-lang {
+        padding: .35rem .65rem .35rem .4rem;
+        gap: .35rem;
+        font-size: .75rem;
+    }
+    .pt-lang__icon {
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+    }
+    .pt-lang__icon svg {
+        width: 12px;
+        height: 12px;
+    }
 }
 @@media (min-width: 1100px) {
     .pt-hamburger { display: none !important; }
@@ -582,14 +598,6 @@
     </nav>
 
     <div class="pt-drawer__foot">
-        <a class="pt-drawer__lang"
-           asp-area="" asp-controller="Home" asp-action="SetLanguage"
-           asp-route-culture="@targetCulture"
-           asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)">
-            <i class="ti ti-world" aria-hidden="true"></i>
-            @languageLabel (@toggleLabel)
-        </a>
-
         @if (User?.Identity?.IsAuthenticated != true)
         {
             <a class="pt-drawer__join" asp-controller="Auth" asp-action="Login">

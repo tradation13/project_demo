@@ -251,20 +251,19 @@
         align-items: center;
         gap: 0.5rem;
         padding: 0.6rem 1.4rem;
-        border: none;
-        border-radius: 10px;
-        background: linear-gradient(135deg, #22c55e, #16a34a);
-        color: #fff;
+        border: 1px solid #6ee7b7;
+        border-radius: 8px;
+        background: #ecfdf5;
+        color: #065f46;
         font-size: 0.875rem;
-        font-weight: 600;
+        font-weight: 500;
         cursor: pointer;
-        transition: filter 0.2s, box-shadow 0.2s, transform 0.15s;
-        box-shadow: 0 2px 8px rgba(22,163,74,0.25);
+        transition: background 0.15s, transform 0.15s;
     }
 
     .btn-confirm:hover:not(:disabled) {
-        filter: brightness(1.06);
-        box-shadow: 0 4px 16px rgba(22,163,74,0.35);
+        background: #d1fae5;
+        transform: translateY(-1px);
     }
 
     .btn-confirm:active:not(:disabled) { transform: scale(0.97); }
@@ -272,8 +271,6 @@
     .btn-confirm:disabled {
         opacity: 0.45;
         cursor: not-allowed;
-        filter: none;
-        box-shadow: none;
     }
 
     @@media (max-width: 640px) {
@@ -284,7 +281,7 @@
     }
 </style>
 
-<div class="confirm-wrapper">
+<div class="prac-page confirm-wrapper">
     <div class="confirm-card">
 
         <div class="confirm-icon-wrap">

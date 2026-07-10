@@ -5,18 +5,7 @@
     string[] avatarPalette = { "bg-indigo-50 text-indigo-600", "bg-teal-50 text-teal-600", "bg-amber-50 text-amber-600", "bg-rose-50 text-rose-600", "bg-sky-50 text-sky-600" };
 }
 
-<style>
-    @@keyframes fadeSlideUp {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .animate-fade-slide-up {
-        animation: fadeSlideUp 0.4s ease-out both;
-    }
-</style>
-
-<div x-data="{ filter: false }" class="custom-scrollbar overflow-x-auto rounded-2xl border border-slate-100 bg-white px-8 py-7 shadow-sm shadow-slate-100">
+<div class="custom-scrollbar overflow-x-auto rounded-2xl border border-slate-100 bg-white px-8 py-7 shadow-sm shadow-slate-100">
 
     <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center gap-3">
@@ -30,96 +19,6 @@
             <i class="fas fa-plus text-xs"></i>
             @SharedLocalizer["Shared_Add_New"]
         </a>
-    </div>
-
-    <div x-show="filter" x-collapse.duration.300ms class="overflow-hidden">
-        <div class="mb-6 rounded-2xl border border-slate-100 bg-slate-50/70 p-6">
-            <h5 class="mb-4 flex items-center gap-2 text-sm font-bold text-slate-600">
-                <i class="fas fa-filter text-primary"></i>
-                @SharedLocalizer["Appt_FilterResults"]
-            </h5>
-            <form class="space-y-5">
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    <div class="relative">
-                        <span class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-slate-300">
-                            <i class="fas fa-hashtag text-xs"></i>
-                        </span>
-                        <input type="text"
-                               name="order_id"
-                               class="w-full rounded-lg border border-slate-200 bg-white py-2 ps-9 pe-3 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
-                               placeholder=@SharedLocalizer["Users_OrderID"]>
-                    </div>
-                    <div class="relative">
-                        <span class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-slate-300">
-                            <i class="fas fa-user text-xs"></i>
-                        </span>
-                        <input type="text"
-                               name="customer_name"
-                               class="w-full rounded-lg border border-slate-200 bg-white py-2 ps-9 pe-3 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
-                               placeholder=@SharedLocalizer["Users_CustomerName"]>
-                    </div>
-                    <div class="w-full">
-                        <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400">@SharedLocalizer["Appt_Status"]</label>
-                        <select class="w-full rounded-lg border border-slate-200 bg-white py-2 px-3 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10">
-                            <option></option>
-                            <option>@SharedLocalizer["Status_Pending"]</option>
-                            <option>@SharedLocalizer["Status_Shipped"]</option>
-                            <option>@SharedLocalizer["Status_Paid"]</option>
-                            <option>@SharedLocalizer["Status_Canceled"]</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    <div class="relative">
-                        <span class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-slate-300">
-                            <i class="fas fa-sack-dollar text-xs"></i>
-                        </span>
-                        <input type="number"
-                               name="min_price"
-                               class="w-full rounded-lg border border-slate-200 bg-white py-2 ps-9 pe-3 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
-                               placeholder=@SharedLocalizer["Users_MinPrice"]>
-                    </div>
-                    <div class="relative">
-                        <span class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-slate-300">
-                            <i class="fas fa-sack-dollar text-xs"></i>
-                        </span>
-                        <input type="number"
-                               name="max_price"
-                               class="w-full rounded-lg border border-slate-200 bg-white py-2 ps-9 pe-3 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
-                               placeholder=@SharedLocalizer["Users_MaxPrice"]>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    <div>
-                        <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400">@SharedLocalizer["Appt_From"] @SharedLocalizer["Shared_Date"]</label>
-                        <div class="relative">
-                            <span class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-slate-300">
-                                <i class="fas fa-calendar-days text-xs"></i>
-                            </span>
-                            <input type="date"
-                                   name="from_date"
-                                   class="w-full rounded-lg border border-slate-200 bg-white py-2 ps-9 pe-3 text-sm text-slate-600 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400">@SharedLocalizer["Appt_To"] @SharedLocalizer["Shared_Date"]</label>
-                        <div class="relative">
-                            <span class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-slate-300">
-                                <i class="fas fa-calendar-days text-xs"></i>
-                            </span>
-                            <input type="date"
-                                   name="to_date"
-                                   class="w-full rounded-lg border border-slate-200 bg-white py-2 ps-9 pe-3 text-sm text-slate-600 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10">
-                        </div>
-                    </div>
-                </div>
-
-                <button class="inline-flex items-center gap-2 rounded-lg bg-primary px-8 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-lg">
-                    <i class="fas fa-magnifying-glass text-xs"></i>
-                    @SharedLocalizer["Logs_Btn_Filter"]
-                </button>
-            </form>
-        </div>
     </div>
 
     <div class="w-full overflow-auto rounded-2xl border border-slate-100">

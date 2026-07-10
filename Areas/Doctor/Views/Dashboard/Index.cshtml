@@ -2,147 +2,151 @@
 
 @{
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
-    ViewData["Title"] = @SharedLocalizer["Dash_DoctorHeader"];
-    string nextAppt = Model.NextAppointmentUtc.HasValue
+    ViewData["Title"] = SharedLocalizer["Dash_DoctorHeader"];
+    var nextAppt = Model.NextAppointmentUtc.HasValue
         ? Model.NextAppointmentUtc.Value.ToLocalTime().ToString("ddd, dd MMM yyyy - HH:mm")
         : "—";
+    var pct = (int)Math.Round(Model.CompletionRateThisMonthPercent);
+    var circumference = 2 * Math.PI * 36;
+    var offset = circumference * (1 - pct / 100.0);
+    var max = new[] { Model.TotalAppointments, Model.UpcomingAppointments, Model.CompletedThisMonth, Model.CancelledThisMonth }.Max();
+    if (max == 0) { max = 1; }
 }
 
+<div class="prac-page space-y-6">
 
-
-<div class="mx-auto max-w-7xl space-y-6 py-8">
-    <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-bold">@SharedLocalizer["Dash_DoctorHeader"]</h1>
-@*         <div class="text-sm text-gray-500">Next Appointment: <span class="font-normal text-gray-700">@nextAppt</span></div>
- *@    </div>
-
-    <!-- KPI Grid -->
-    <div class="rounded-2xl bg-white p-4 shadow-sm">
-        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-       <a href="@Url.Action("Index", "Appointments", new { area = "Doctor" })" class="block transition-all hover:opacity-95">
-    @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
-        new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(
-            @SharedLocalizer["Dash_TotalAppts"], 
-            Model.TotalAppointments.ToString("N0"), 
-            null, 
-            "fa-solid fa-calendar-check", 
-            "bg-emerald-50 text-emerald-600"
-        ))
-</a>
-        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
-                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(@SharedLocalizer["Dash_Upcoming"], Model.UpcomingAppointments.ToString("N0"), @SharedLocalizer["Dash_UpcomingDesc"], "fa-solid fa-calendar-plus", "bg-emerald-50 text-emerald-600"))
-        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
-                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(@SharedLocalizer["Dash_CompletedMonth"], Model.CompletedThisMonth.ToString("N0"), null, "fa-solid fa-clipboard-check", "bg-indigo-50 text-indigo-600"))
-        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
-                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(@SharedLocalizer["Dash_CancelledMonth"], Model.CancelledThisMonth.ToString("N0"), null, "fa-solid fa-ban", "bg-rose-50 text-rose-600"))
-        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
-                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(@SharedLocalizer["Dash_UniquePatients"], Model.UniquePatientsAllTime.ToString("N0"), null, "fa-solid fa-user-group", "bg-amber-50 text-amber-600"))
-        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
-                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(@SharedLocalizer["Dash_ActiveCases"], Model.ActiveMedicalCases.ToString("N0"), null, "fa-solid fa-file-medical", "bg-sky-50 text-sky-600"))
-        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
-                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(@SharedLocalizer["Dash_TestsMonth"], Model.TestsOrderedThisMonth.ToString("N0"), null, "fa-solid fa-vials", "bg-fuchsia-50 text-fuchsia-600"))
-        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
-                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(@SharedLocalizer["Dash_CompletionRate"], $"{Model.CompletionRateThisMonthPercent:0.0}%", @SharedLocalizer["Dash_RateDesc"], "fa-solid fa-percent", "bg-teal-50 text-teal-600"))
-        @* Moved AvgAppts card into the KPI group so it appears with other summaries *@
-        @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
-                 new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(@SharedLocalizer["Dash_AvgAppts7d"], $"{Model.AvgAppointmentsPerDayLast7Days:0.00}", null, "fa-solid fa-clock", "bg-lime-50 text-lime-600"))
+    <div class="flex items-center gap-3">
+        <div class="avatar-lg">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+        </div>
+        <div>
+            <h2 class="text-xl font-semibold text-gray-900 leading-tight">@SharedLocalizer["Dash_DoctorHeader"]</h2>
+            <p class="text-sm text-gray-500 mt-0.5">@SharedLocalizer["Dash_NextAppointment"]: @nextAppt</p>
         </div>
     </div>
 
-    <!-- Enhanced Row: mini chart, progress ring, next appt -->
-    <div class="grid grid-cols-1 gap-5 lg:grid-cols-3 mt-4">
-        <!-- Mini bars: appointments breakdown -->
-        <div class="rounded-lg bg-white/80 p-4 shadow-sm">
-            <div class="flex items-center justify-between mb-3">
-                <h3 class="text-sm font-semibold text-gray-700">@SharedLocalizer["Dash_AppointmentsBreakdown"]</h3>
-                <span class="text-xs text-gray-500">@SharedLocalizer["Dash_LastMonth"]</span>
-            </div>
-            <div class="space-y-3">
-                @{ 
-                    var max = new[] { Model.TotalAppointments, Model.UpcomingAppointments, Model.CompletedThisMonth, Model.CancelledThisMonth }.Max();
-                    if (max == 0) { max = 1; }
-                }
-                <div class="text-xs text-gray-600">@SharedLocalizer["Dash_TotalAppts"] <span class="font-medium text-gray-800">@Model.TotalAppointments</span></div>
-                <div class="w-full bg-gray-100 h-3 rounded overflow-hidden">
-                    <div class="h-3 rounded bg-emerald-400" style="width:@(100.0 * Model.TotalAppointments / max)%"></div>
-                </div>
-
-                <div class="text-xs text-gray-600">@SharedLocalizer["Dash_Upcoming"] <span class="font-medium text-gray-800">@Model.UpcomingAppointments</span></div>
-                <div class="w-full bg-gray-100 h-3 rounded overflow-hidden">
-                    <div class="h-3 rounded bg-amber-400" style="width:@(100.0 * Model.UpcomingAppointments / max)%"></div>
-                </div>
-
-                <div class="text-xs text-gray-600">@SharedLocalizer["Dash_CompletedMonth"] <span class="font-medium text-gray-800">@Model.CompletedThisMonth</span></div>
-                <div class="w-full bg-gray-100 h-3 rounded overflow-hidden">
-                    <div class="h-3 rounded bg-indigo-400" style="width:@(100.0 * Model.CompletedThisMonth / max)%"></div>
-                </div>
-
-                <div class="text-xs text-gray-600">@SharedLocalizer["Dash_CancelledMonth"] <span class="font-medium text-gray-800">@Model.CancelledThisMonth</span></div>
-                <div class="w-full bg-gray-100 h-3 rounded overflow-hidden">
-                    <div class="h-3 rounded bg-rose-400" style="width:@(100.0 * Model.CancelledThisMonth / max)%"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Completion rate: SVG progress ring -->
-        <div class="rounded-lg bg-white/80 p-6 shadow-sm flex items-center justify-center">
-            <div class="text-center">
-                @{ var pct = (int)Math.Round(Model.CompletionRateThisMonthPercent); var circumference = 2 * Math.PI * 36; var offset = circumference * (1 - pct / 100.0); }
-                <svg width="110" height="110" viewBox="0 0 100 100" class="mx-auto">
-                    <defs>
-                        <linearGradient id="g1" x1="0%" x2="100%">
-                            <stop offset="0%" stop-color="#06b6d4" />
-                            <stop offset="100%" stop-color="#06d6a0" />
-                        </linearGradient>
-                    </defs>
-                    <circle cx="50" cy="50" r="36" stroke="#e6eef8" stroke-width="12" fill="none" />
-                    <circle cx="50" cy="50" r="36" stroke="url(#g1)" stroke-width="12" fill="none"
-                        stroke-dasharray="@circumference" stroke-dashoffset="@offset" stroke-linecap="round" transform="rotate(-90 50 50)" />
-                    <text x="50" y="54" font-size="18" text-anchor="middle" class="text-gray-800 font-semibold">@pct%</text>
+    <div class="prac-header-card">
+        <div class="group-divider mb-4">
+            <div class="group-divider-line"></div>
+            <span class="group-label">
+                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
                 </svg>
-                <div class="mt-3 text-sm text-gray-600">@SharedLocalizer["Dash_CompletionRate"]</div>
-                <div class="text-xs text-gray-500 mt-1">@SharedLocalizer["Dash_RateDesc"]</div>
-            </div>
+                KPI
+            </span>
+            <div class="group-divider-line"></div>
         </div>
 
-        <!-- Next appointment + pending requests -->
-        <div class="rounded-lg bg-white/80 p-4 shadow-sm">
-            <div>
-                <div class="flex items-center justify-between">
-                    <h3 class="text-sm font-semibold text-gray-700">@SharedLocalizer["Dash_NextAppointment"]</h3>
-                    <a href="@Url.Action("Index", "Appointments", new { area = "Doctor" })" class="text-sm text-blue-600 hover:underline">
-                        @SharedLocalizer["Dash_ViewAppointments"]
-                    </a>
-                </div>
-
-                <div class="mt-2 text-sm text-gray-600">@(
-                    Model.NextAppointmentUtc.HasValue 
-                    ? Model.NextAppointmentUtc.Value.ToLocalTime().ToString("ddd, dd MMM yyyy - HH:mm") 
-                    : "—")
-                </div>
-
-                <div class="mt-4">
-                    <div class="text-xs text-gray-500 mb-2">@SharedLocalizer["Dash_PendingRequestsShort"]</div>
-                    @if (Model.LatestPendingRequests != null && Model.LatestPendingRequests.Any())
-                    {
-                        <ul class="space-y-2">
-                            @foreach (var req in Model.LatestPendingRequests)
-                            {
-                                <li class="flex items-center justify-between">
-                                    <div class="text-sm text-gray-700">@req.PatientName</div>
-                                    <div class="text-xs px-2 py-0.5 rounded-full @(req.Status == IPTS.Models.Entites.AppointmentStatus.Pending ? "bg-amber-100 text-amber-800" : "bg-gray-100 text-gray-700")">@req.StatusDisplay</div>
-                                </li>
-                            }
-                        </ul>
-                    }
-                    else
-                    {
-                        <div class="text-sm text-gray-500">@SharedLocalizer["Dash_NoPendingRequests"]</div>
-                    }
-                </div>
-            </div>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <a href="@Url.Action("Index", "Appointments", new { area = "Doctor" })" class="block">
+                @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                    new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(
+                        SharedLocalizer["Dash_TotalAppts"],
+                        Model.TotalAppointments.ToString("N0"),
+                        null,
+                        "fa-solid fa-calendar-check",
+                        "bg-emerald-50 text-emerald-700"))
+            </a>
+            @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(SharedLocalizer["Dash_Upcoming"], Model.UpcomingAppointments.ToString("N0"), SharedLocalizer["Dash_UpcomingDesc"], "fa-solid fa-calendar-plus", "bg-amber-50 text-amber-700"))
+            @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(SharedLocalizer["Dash_CompletedMonth"], Model.CompletedThisMonth.ToString("N0"), null, "fa-solid fa-clipboard-check", "bg-indigo-50 text-indigo-700"))
+            @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(SharedLocalizer["Dash_CancelledMonth"], Model.CancelledThisMonth.ToString("N0"), null, "fa-solid fa-ban", "bg-red-50 text-red-700"))
+            @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(SharedLocalizer["Dash_UniquePatients"], Model.UniquePatientsAllTime.ToString("N0"), null, "fa-solid fa-user-group", "bg-violet-50 text-violet-700"))
+            @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(SharedLocalizer["Dash_ActiveCases"], Model.ActiveMedicalCases.ToString("N0"), null, "fa-solid fa-file-medical", "bg-sky-50 text-sky-700"))
+            @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(SharedLocalizer["Dash_TestsMonth"], Model.TestsOrderedThisMonth.ToString("N0"), null, "fa-solid fa-vials", "bg-teal-50 text-teal-700"))
+            @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(SharedLocalizer["Dash_CompletionRate"], $"{Model.CompletionRateThisMonthPercent:0.0}%", SharedLocalizer["Dash_RateDesc"], "fa-solid fa-percent", "bg-emerald-50 text-emerald-700"))
+            @await Html.PartialAsync("~/Areas/Doctor/Views/_StatCard.cshtml",
+                new IPTS.Areas.Doctor.ViewsModels.StatCardViewModel(SharedLocalizer["Dash_AvgAppts7d"], $"{Model.AvgAppointmentsPerDayLast7Days:0.00}", null, "fa-solid fa-clock", "bg-gray-100 text-gray-700"))
         </div>
     </div>
 
-    @* AvgAppts card moved into KPI container above to keep summaries grouped together *@
+    <div class="prac-section grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div class="header-card p-5">
+            <p class="prac-label mb-4">@SharedLocalizer["Dash_AppointmentsBreakdown"]</p>
+            <div class="space-y-3">
+                <div>
+                    <div class="flex justify-between text-xs text-gray-600 mb-1">
+                        <span>@SharedLocalizer["Dash_TotalAppts"]</span>
+                        <span class="font-medium text-gray-800">@Model.TotalAppointments</span>
+                    </div>
+                    <div class="w-full bg-gray-100 h-2 rounded overflow-hidden">
+                        <div class="h-2 rounded bg-emerald-400" style="width:@(100.0 * Model.TotalAppointments / max)%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-xs text-gray-600 mb-1">
+                        <span>@SharedLocalizer["Dash_Upcoming"]</span>
+                        <span class="font-medium text-gray-800">@Model.UpcomingAppointments</span>
+                    </div>
+                    <div class="w-full bg-gray-100 h-2 rounded overflow-hidden">
+                        <div class="h-2 rounded bg-amber-400" style="width:@(100.0 * Model.UpcomingAppointments / max)%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-xs text-gray-600 mb-1">
+                        <span>@SharedLocalizer["Dash_CompletedMonth"]</span>
+                        <span class="font-medium text-gray-800">@Model.CompletedThisMonth</span>
+                    </div>
+                    <div class="w-full bg-gray-100 h-2 rounded overflow-hidden">
+                        <div class="h-2 rounded bg-indigo-400" style="width:@(100.0 * Model.CompletedThisMonth / max)%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-xs text-gray-600 mb-1">
+                        <span>@SharedLocalizer["Dash_CancelledMonth"]</span>
+                        <span class="font-medium text-gray-800">@Model.CancelledThisMonth</span>
+                    </div>
+                    <div class="w-full bg-gray-100 h-2 rounded overflow-hidden">
+                        <div class="h-2 rounded bg-rose-400" style="width:@(100.0 * Model.CancelledThisMonth / max)%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-card p-5 flex flex-col items-center justify-center">
+            <svg width="110" height="110" viewBox="0 0 100 100" class="mx-auto">
+                <circle cx="50" cy="50" r="36" stroke="#e5e7eb" stroke-width="10" fill="none" />
+                <circle cx="50" cy="50" r="36" stroke="#0f766e" stroke-width="10" fill="none"
+                    stroke-dasharray="@circumference" stroke-dashoffset="@offset" stroke-linecap="round" transform="rotate(-90 50 50)" />
+                <text x="50" y="54" font-size="16" text-anchor="middle" fill="#111827" font-weight="600">@pct%</text>
+            </svg>
+            <p class="mt-3 text-sm font-medium text-gray-700">@SharedLocalizer["Dash_CompletionRate"]</p>
+            <p class="text-xs text-gray-500 mt-0.5">@SharedLocalizer["Dash_RateDesc"]</p>
+        </div>
+
+        <div class="header-card p-5">
+            <div class="flex items-center justify-between mb-3">
+                <p class="prac-label mb-0">@SharedLocalizer["Dash_NextAppointment"]</p>
+                <a href="@Url.Action("Index", "Appointments", new { area = "Doctor" })" class="btn-prac-indigo text-xs">
+                    @SharedLocalizer["Dash_ViewAppointments"]
+                </a>
+            </div>
+            <p class="text-sm text-gray-700 font-medium mb-4">@nextAppt</p>
+            <p class="prac-label">@SharedLocalizer["Dash_PendingRequestsShort"]</p>
+            @if (Model.LatestPendingRequests != null && Model.LatestPendingRequests.Any())
+            {
+                <ul class="space-y-2 mt-2">
+                    @foreach (var req in Model.LatestPendingRequests)
+                    {
+                        <li class="flex items-center justify-between gap-2 rounded-lg border border-gray-100 bg-gray-50 px-3 py-2">
+                            <span class="text-sm text-gray-800 truncate">@req.PatientName</span>
+                            <span class="status-chip @(req.Status == IPTS.Models.Entites.AppointmentStatus.Pending ? "status-pending" : "result-empty")">@req.StatusDisplay</span>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="text-sm text-gray-500 mt-2">@SharedLocalizer["Dash_NoPendingRequests"]</p>
+            }
+        </div>
+    </div>
 </div>

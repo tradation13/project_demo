@@ -133,20 +133,19 @@
         align-items: center;
         gap: 0.5rem;
         padding: 0.6rem 1.4rem;
-        border: none;
-        border-radius: 10px;
-        background: linear-gradient(135deg, #ef4444, #dc2626);
-        color: #fff;
+        border: 1px solid #fca5a5;
+        border-radius: 8px;
+        background: #fef2f2;
+        color: #991b1b;
         font-size: 0.875rem;
-        font-weight: 600;
+        font-weight: 500;
         cursor: pointer;
-        transition: box-shadow 0.2s, transform 0.15s, filter 0.2s;
-        box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+        transition: background 0.15s, transform 0.15s;
     }
 
     .btn-reject:hover {
-        filter: brightness(1.06);
-        box-shadow: 0 4px 16px rgba(220, 38, 38, 0.35);
+        background: #fee2e2;
+        transform: translateY(-1px);
     }
 
     .btn-reject:active {
@@ -170,7 +169,7 @@
     }
 </style>
 
-<div class="reject-wrapper" style="width: 100%; padding: 1.5rem;">
+<div class="prac-page reject-wrapper" style="width: 100%; padding: 1.5rem;">
 
     <div class="reject-card">
         <div class="reject-icon-wrap">

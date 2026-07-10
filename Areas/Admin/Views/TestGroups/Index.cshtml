@@ -5,18 +5,7 @@
     ViewData["Title"] = SharedLocalizer["TestGroups"];
 }
 
-<style>
-    @@keyframes fadeSlideUp {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .animate-fade-slide-up {
-        animation: fadeSlideUp 0.4s ease-out both;
-    }
-</style>
-
-<div x-data="{ filter: false }" class="custom-scrollbar overflow-x-auto rounded-2xl border border-slate-100 bg-white px-8 py-7 shadow-sm shadow-slate-100">
+<div class="custom-scrollbar overflow-x-auto rounded-2xl border border-slate-100 bg-white px-8 py-7 shadow-sm shadow-slate-100">
 
     <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center gap-3">
@@ -34,7 +23,7 @@
 
     <div class="overflow-hidden rounded-2xl border border-slate-100">
         <table class="w-full whitespace-nowrap text-sm">
-            <thead class="bg-gradient-to-r from-primary to-indigo-600 text-white">
+            <thead class="sticky top-0 z-10 bg-gradient-to-r from-primary to-indigo-600 text-white">
                 <tr>
                     <th class="px-4 py-3 font-semibold">#</th>
                     <th class="px-4 py-3 font-semibold">@SharedLocalizer["Contact_Label_Name"]</th>

@@ -1,17 +1,17 @@
 ﻿@model IPTS.Areas.Doctor.ViewsModels.StatCardViewModel
 
-<div class="rounded-2xl p-4 bg-transparent transition">
-    <div class="flex items-center justify-between h-full">
-        <div class="space-y-1">
-            <div class="text-sm text-gray-500">@Model.Title</div>
-            <div class="text-2xl font-bold tracking-tight">@Model.Value</div>
+<div class="prac-stat h-full">
+    <div class="flex items-center justify-between gap-3 h-full">
+        <div class="space-y-1 min-w-0">
+            <div class="text-xs font-semibold uppercase tracking-wide text-gray-400">@Model.Title</div>
+            <div class="text-2xl font-semibold tracking-tight text-gray-900">@Model.Value</div>
             @if (!string.IsNullOrWhiteSpace(Model.Subtitle))
             {
-                <div class="text-xs text-gray-400">@Model.Subtitle</div>
+                <div class="text-xs text-gray-500">@Model.Subtitle</div>
             }
         </div>
-        <div class="@Model.CardCss rounded-xl p-3">
-            <i class="@Model.IconCss text-xl"></i>
+        <div class="@Model.CardCss rounded-xl p-2.5 flex-shrink-0">
+            <i class="@Model.IconCss text-lg"></i>
         </div>
     </div>
 </div>

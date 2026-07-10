@@ -90,18 +90,77 @@
         animation: authCardUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
     }
 
-    @@keyframes authCardUp {
-        from { opacity: 0; transform: translateY(28px) scale(0.97); }
-        to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
     .auth-card-wrap > * {
+        width: 100%;
         background: rgba(255, 255, 255, 0.92) !important;
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
         border: 1px solid rgba(15, 155, 122, 0.10) !important;
         border-radius: 20px !important;
         box-shadow: 0 8px 40px rgba(15, 155, 122, 0.08), 0 1px 0 rgba(255,255,255,0.8) inset !important;
+    }
+
+    @@keyframes authCardUp {
+        from { opacity: 0; transform: translateY(28px) scale(0.97); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Shared Auth UI identity */
+    @@keyframes authUiFloatA {
+        0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+        50% { transform: translate3d(20px, -18px, 0) scale(1.05); }
+    }
+
+    @@keyframes authUiFloatB {
+        0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+        50% { transform: translate3d(-18px, 16px, 0) scale(0.96); }
+    }
+
+    @@keyframes authUiCardIn {
+        from { opacity: 0; transform: translateY(18px) scale(0.985); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .auth-ui-card {
+        position: relative;
+        animation: authUiCardIn 700ms ease-out both;
+    }
+
+    .auth-ui-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(37, 99, 235, 0.16), rgba(255, 255, 255, 0.35));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+    }
+
+    .auth-ui-title {
+        background: linear-gradient(90deg, #0f172a 0%, #0f766e 45%, #2563eb 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .auth-ui-orb {
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+        will-change: transform;
+    }
+
+    .auth-ui-orb-a { animation: authUiFloatA 9s ease-in-out infinite; }
+    .auth-ui-orb-b { animation: authUiFloatB 11s ease-in-out infinite; }
+
+    .auth-ui-input {
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+
+    @@media (max-width: 639.98px) {
+        .auth-ui-card.auth-ui-pad { padding: 1.25rem; }
     }
 </style>
 
@@ -118,7 +177,7 @@
         <div class="auth-logo-wrap mb-6">
             <img src="/images/logo.svg"
                  alt="Logo"
-                 class="w-36 sm:w-48 h-auto">
+                 class="w-60 sm:w-72 h-auto">
         </div>
 
         <div class="auth-card-wrap">

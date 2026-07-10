@@ -1,276 +1,89 @@
 ﻿@model List<IPTS.Models.Entites.Appointment>
 @{
-    ViewData["Title"] = @SharedLocalizer["PrevAppt_Header"];
+    ViewData["Title"] = SharedLocalizer["PrevAppt_Header"];
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
-<style>
-    .appt-wrapper {
-        width: 100%;
-        padding: 1.5rem;
-        animation: fadeSlideIn 0.4s ease both;
-    }
+<div class="prac-page space-y-6">
 
-    @@keyframes fadeSlideIn {
-        from { opacity: 0; transform: translateY(14px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .appt-header {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: #111827;
-        margin: 0 0 1.5rem;
-    }
-
-    .empty-card {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        background: #fffbeb;
-        border: 1px solid #fde68a;
-        border-left: 4px solid #f59e0b;
-        border-radius: 12px;
-        padding: 1.25rem 1.5rem;
-        animation: fadeSlideIn 0.4s ease both;
-    }
-
-    .empty-card svg { flex-shrink: 0; }
-
-    .empty-card p {
-        margin: 0;
-        color: #92400e;
-        font-size: 0.9rem;
-        font-weight: 500;
-    }
-
-    .appt-table-wrap {
-        background: #fff;
-        border-radius: 16px;
-        border: 1px solid #e5e7eb;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.05);
-        overflow: hidden;
-    }
-
-    .appt-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .appt-table thead {
-        background: #f9fafb;
-        border-bottom: 1.5px solid #e5e7eb;
-    }
-
-    .appt-table thead th {
-        padding: 0.85rem 1.1rem;
-        text-align: left;
-        font-size: 0.78rem;
-        font-weight: 700;
-        color: #6b7280;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        white-space: nowrap;
-    }
-
-    .appt-table tbody tr {
-        border-bottom: 1px solid #f3f4f6;
-        transition: background 0.18s, transform 0.18s;
-        animation: rowIn 0.35s ease both;
-    }
-
-    .appt-table tbody tr:last-child { border-bottom: none; }
-
-    .appt-table tbody tr:hover {
-        background: #f9fafb;
-    }
-
-    @@keyframes rowIn {
-        from { opacity: 0; transform: translateX(-8px); }
-        to   { opacity: 1; transform: translateX(0); }
-    }
-
-    .appt-table tbody tr:nth-child(1)  { animation-delay: 0.05s; }
-    .appt-table tbody tr:nth-child(2)  { animation-delay: 0.10s; }
-    .appt-table tbody tr:nth-child(3)  { animation-delay: 0.15s; }
-    .appt-table tbody tr:nth-child(4)  { animation-delay: 0.20s; }
-    .appt-table tbody tr:nth-child(5)  { animation-delay: 0.25s; }
-    .appt-table tbody tr:nth-child(6)  { animation-delay: 0.30s; }
-    .appt-table tbody tr:nth-child(7)  { animation-delay: 0.35s; }
-    .appt-table tbody tr:nth-child(8)  { animation-delay: 0.40s; }
-    .appt-table tbody tr:nth-child(9)  { animation-delay: 0.45s; }
-    .appt-table tbody tr:nth-child(10) { animation-delay: 0.50s; }
-
-    .appt-table tbody td {
-        padding: 0.9rem 1.1rem;
-        font-size: 0.875rem;
-        color: #374151;
-        vertical-align: middle;
-    }
-
-    .date-cell {
-        font-weight: 600;
-        color: #111827;
-        white-space: nowrap;
-    }
-
-    .time-cell {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        color: #6b7280;
-        white-space: nowrap;
-    }
-
-    .status-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 0.3rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        white-space: nowrap;
-    }
-
-    .status-dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        display: inline-block;
-    }
-
-    .badge-pending  { background: #fef9c3; color: #854d0e; }
-    .badge-pending .status-dot  { background: #ca8a04; animation: pulse-dot 1.5s ease-in-out infinite; }
-
-    .badge-confirmed { background: #dbeafe; color: #1e40af; }
-    .badge-confirmed .status-dot { background: #3b82f6; }
-
-    .badge-completed { background: #dcfce7; color: #14532d; }
-    .badge-completed .status-dot { background: #16a34a; }
-
-    .badge-cancelled { background: #fee2e2; color: #7f1d1d; }
-    .badge-cancelled .status-dot { background: #dc2626; }
-
-    .badge-default { background: #f3f4f6; color: #374151; }
-    .badge-default .status-dot { background: #9ca3af; }
-
-    @@keyframes pulse-dot {
-        0%,100% { opacity: 1; }
-        50%      { opacity: 0.3; }
-    }
-
-    .notes-cell {
-        color: #6b7280;
-        font-style: italic;
-        font-size: 0.82rem;
-        max-width: 260px;
-    }
-
-    .notes-empty {
-        color: #d1d5db;
-        font-style: normal;
-    }
-
-    @@media (max-width: 640px) {
-        .appt-wrapper { padding: 1rem; }
-        .appt-table thead { display: none; }
-        .appt-table tbody tr {
-            display: block;
-            padding: 0.85rem 1rem;
-            border-bottom: 1px solid #f3f4f6;
-        }
-        .appt-table tbody td {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.3rem 0;
-            border: none;
-        }
-        .appt-table tbody td::before {
-            content: attr(data-label);
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            flex-shrink: 0;
-            margin-right: 1rem;
-        }
-        .notes-cell { max-width: 160px; text-align: right; }
-    }
-</style>
-
-<div class="appt-wrapper">
-    <h2 class="appt-header">@SharedLocalizer["PrevAppt_Header"]</h2>
+    <div class="flex items-center gap-3">
+        <div class="avatar-lg">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+        </div>
+        <div>
+            <h2 class="text-xl font-semibold text-gray-900 leading-tight">@SharedLocalizer["PrevAppt_Header"]</h2>
+            <p class="text-sm text-gray-500 mt-0.5">@SharedLocalizer["Appt_Header"]</p>
+        </div>
+    </div>
 
     @if (!Model.Any())
     {
-        <div class="empty-card">
-            <svg width="28" height="28" fill="none" stroke="#f59e0b" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <p>@SharedLocalizer["PrevAppt_NoData"]</p>
+        <div class="empty-state">
+            <span class="empty-icon">📅</span>
+            <p class="empty-text">@SharedLocalizer["PrevAppt_NoData"]</p>
         </div>
     }
     else
     {
-        <div class="appt-table-wrap">
-            <table class="appt-table">
-                <thead>
-                    <tr>
-                        <th>@SharedLocalizer["Shared_Date"]</th>
-                        <th>@SharedLocalizer["Shared_Time"]</th>
-                        <th>@SharedLocalizer["Appt_Status"]</th>
-                        <th>@SharedLocalizer["Shared_Notes"]</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var a in Model)
-                    {
-                        var badgeClass = a.Status.ToString() switch
-                        {
-                            "Pending"   => "badge-pending",
-                            "Confirmed" => "badge-confirmed",
-                            "Completed" => "badge-completed",
-                            "Cancelled" => "badge-cancelled",
-                            _           => "badge-default"
-                        };
+        <div class="prac-section">
+            <div class="group-divider">
+                <div class="group-divider-line"></div>
+                <span class="group-label">
+                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    @SharedLocalizer["PrevAppt_Header"]
+                    <span class="group-count">@Model.Count</span>
+                </span>
+                <div class="group-divider-line"></div>
+            </div>
 
-                        <tr>
-                            <td class="date-cell" data-label="@SharedLocalizer["Shared_Date"]">
-                                @a.ScheduledTime.ToString("yyyy-MM-dd")
-                            </td>
-                            <td data-label="@SharedLocalizer["Shared_Time"]">
-                                <span class="time-cell">
-                                    <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="prac-list">
+                @foreach (var a in Model)
+                {
+                    var badgeClass = a.Status.ToString() switch
+                    {
+                        "Pending" => "status-pending",
+                        "Confirmed" => "status-confirmed",
+                        "Completed" => "status-completed",
+                        "Cancelled" => "status-cancelled",
+                        _ => "result-empty"
+                    };
+
+                    <div class="prac-row">
+                        <div class="prac-row-main">
+                            <div class="prac-row-body">
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <p class="test-name !mb-0">@a.ScheduledTime.ToString("yyyy-MM-dd")</p>
+                                    <span class="status-chip @badgeClass">@SharedLocalizer[$"Status_{a.Status}"]</span>
+                                </div>
+                                <div class="test-date mt-1.5">
+                                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <circle cx="12" cy="12" r="10" stroke-width="2"/>
                                         <path stroke-linecap="round" stroke-width="2" d="M12 6v6l4 2"/>
                                     </svg>
                                     @a.ScheduledTime.ToString("HH:mm")
-                                </span>
-                            </td>
-                            <td data-label="@SharedLocalizer["Appt_Status"]">
-                                <span class="status-badge @badgeClass">
-                                    <span class="status-dot"></span>
-                                    @SharedLocalizer[$"Status_{a.Status}"]
-                                </span>
-                            </td>
-                            <td class="notes-cell" data-label="@SharedLocalizer["Shared_Notes"]">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="prac-row-actions">
+                            <p class="text-sm text-gray-500 leading-relaxed max-w-md text-start md:text-end">
                                 @if (!string.IsNullOrWhiteSpace(a.Notes))
                                 {
                                     @a.Notes
                                 }
                                 else
                                 {
-                                    <span class="notes-empty">—</span>
+                                    <span class="text-gray-300">—</span>
                                 }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                            </p>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
     }
 </div>

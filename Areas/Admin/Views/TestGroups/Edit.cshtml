@@ -1,37 +1,38 @@
 @model IPTS.Areas.Admin.ViewsModels.TestGroupViewModel
-
 @{
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
-    ViewBag.Title =  SharedLocalizer["TestGroups_Edit"];
+    ViewBag.Title = SharedLocalizer["TestGroups_Edit"];
 }
 
-<form asp-action="Edit" method="post" class="w-full overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-lg shadow-slate-100">
-    <input type="hidden" asp-for="Id" />
-
-    <div class="bg-gradient-to-r from-primary to-indigo-600 px-6 py-5 text-white">
-        <h5 class="text-xl font-semibold">@SharedLocalizer["TestGroups_Edit"]</h5>
+<div class="rounded-2xl border border-slate-100 bg-white px-8 py-7 shadow-sm shadow-slate-100">
+    <div class="mb-6 flex items-center gap-3">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <i class="fas fa-layer-group"></i>
+        </span>
+        <h4 class="text-xl font-bold text-slate-800">@SharedLocalizer["TestGroups_Edit"]</h4>
     </div>
 
-    <div class="px-6 py-6">
-        <div class="flex flex-wrap gap-4">
-            <div class="min-w-[200px] flex-1">
-                <label asp-for="Name" class="block text-sm font-semibold text-slate-700"></label>
-                <input asp-for="Name" class="mt-1 block w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition duration-150 focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/10" />
-                <span asp-validation-for="Name" class="text-sm text-red-500"></span>
-            </div>
+    <form asp-action="Edit" method="post" class="space-y-5">
+        <input type="hidden" asp-for="Id" />
+        <div>
+            <label asp-for="Name" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400"></label>
+            <input asp-for="Name"
+                   class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10" />
+            <span asp-validation-for="Name" class="mt-1.5 block text-xs text-red-500"></span>
         </div>
 
-        <div class="mt-6 flex flex-wrap items-center justify-end gap-3">
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+            <button type="submit"
+                    class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+                <i class="fas fa-check text-xs"></i>
+                @SharedLocalizer["Profile_SaveBtn"]
+            </button>
             <a href="@Url.Action("Index")"
-               class="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 px-6 py-3 text-sm font-semibold text-slate-700 transition duration-150 hover:bg-slate-100 hover:shadow-sm">
+               class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-200 hover:bg-slate-50">
                 @SharedLocalizer["Shared_Cancel"]
             </a>
-            <button type="submit"
-                    class="inline-flex items-center justify-center rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-white transition duration-150 hover:bg-primary-dark hover:shadow-sm">
-                 @SharedLocalizer["Profile_SaveBtn"]
-            </button>
         </div>
 
-        <div asp-validation-summary="All" class="mt-6 text-sm text-red-500"></div>
-    </div>
-</form>
+        <div asp-validation-summary="All" class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-500"></div>
+    </form>
+</div>

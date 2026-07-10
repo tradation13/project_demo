@@ -1,150 +1,125 @@
 @model List<IPTS.ViewModels.AppointmentViewModel>
 @using IPTS.Models.Entites
 @{
-    ViewData["Title"] = @SharedLocalizer["Req_Title"];
+    ViewData["Title"] = SharedLocalizer["Req_Title"];
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
-<style>
-    @@keyframes fadeUp {
-        from { opacity: 0; transform: translateY(16px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-    @@keyframes slideIn {
-        from { opacity: 0; transform: translateX(-8px); }
-        to   { opacity: 1; transform: translateX(0); }
-    }
-    @@keyframes pulseDot {
-        0%, 100% { opacity: 1; }
-        50%       { opacity: .35; }
-    }
-    .ar-card        { opacity: 0; animation: fadeUp .4s ease both; }
-    .ar-name-row    { animation: slideIn .4s ease both; }
-    .ar-pulse       { animation: pulseDot 2s ease-in-out infinite; }
-</style>
+<div class="prac-page space-y-6">
 
-<div class="mx-auto max-w-5xl py-7">
-
-  
-    <div class="flex items-center gap-2 mb-4">
-        <span class="ar-pulse inline-block w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-        <span class="text-[11px] font-bold uppercase tracking-widest text-slate-400">PhysioTech — Appointment Requests</span>
-    </div>
-
-  
-    <div class="flex items-center justify-between mb-5">
-        <h2 class="text-[22px] font-extrabold tracking-tight text-slate-900">@SharedLocalizer["Req_PendingHeader"]</h2>
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-center gap-3">
+            <div class="avatar-lg">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold text-gray-900 leading-tight">@SharedLocalizer["Req_PendingHeader"]</h2>
+                <p class="text-sm text-gray-500 mt-0.5">@SharedLocalizer["Req_Title"]</p>
+            </div>
+        </div>
         @if (Model != null && Model.Any())
         {
-            <span class="inline-flex items-center gap-1.5 bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-bold uppercase tracking-wide px-3 py-1.5 rounded-full">
-                <i class="fas fa-clock text-amber-500 text-xs"></i>
+            <span class="status-chip status-pending">
+                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
                 @Model.Count @SharedLocalizer["Req_Title"]
             </span>
         }
     </div>
 
-    <hr class="border-slate-200 mb-5" />
-
     @if (Model == null || !Model.Any())
     {
-        <div class="bg-white border border-amber-200 rounded-[14px] p-5 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-[10px] bg-amber-50 flex items-center justify-center text-amber-500 flex-shrink-0">
-                <i class="fas fa-calendar-times"></i>
-            </div>
-            <div>
-                <p class="text-[13px] font-bold text-slate-800 mb-0.5">@SharedLocalizer["Req_NoPendingFound"]</p>
-                <p class="text-[12px] text-slate-400">ستظهر الطلبات الجديدة هنا فور وصولها</p>
-            </div>
+        <div class="empty-state">
+            <span class="empty-icon">📭</span>
+            <p class="empty-text">@SharedLocalizer["Req_NoPendingFound"]</p>
         </div>
     }
     else
     {
-        <div class="flex flex-col gap-2.5">
-            @{int delay = 0;}
-            @foreach (var appt in Model)
-            {
-                var scheduledUtcIso = DateTime.SpecifyKind(appt.ScheduledTime, DateTimeKind.Utc).ToString("o");
-                var initials = string.Join("", appt.PatientName.Split(' ').Take(2).Select(w => w[0]));
-                <div class="ar-card bg-white border border-slate-200/80 rounded-[14px] overflow-hidden hover:border-slate-300 transition-colors"
-                     style="animation-delay:@(delay * 70)ms">
-                   
-                    <div class="h-[3px] bg-gradient-to-r from-amber-400 to-yellow-300"></div>
+        <div class="prac-section">
+            <div class="group-divider">
+                <div class="group-divider-line"></div>
+                <span class="group-label">
+                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    @SharedLocalizer["Status_Pending"]
+                    <span class="group-count">@Model.Count</span>
+                </span>
+                <div class="group-divider-line"></div>
+            </div>
 
-                    <div class="p-4 sm:p-5">
-                        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div class="prac-list">
+                @foreach (var appt in Model)
+                {
+                    var scheduledUtcIso = DateTime.SpecifyKind(appt.ScheduledTime, DateTimeKind.Utc).ToString("o");
+                    var initials = string.IsNullOrWhiteSpace(appt.PatientName)
+                        ? "P"
+                        : string.Join("", appt.PatientName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(w => w[0].ToString().ToUpper()));
 
-                         
-                            <div class="flex-1 min-w-0">
-                                <div class="ar-name-row flex items-center gap-2.5 mb-3" style="animation-delay:@(delay * 70 + 60)ms">
-                                    <div class="w-[34px] h-[34px] rounded-[9px] bg-amber-50 border border-amber-100 flex items-center justify-center text-[12px] font-extrabold text-amber-700 flex-shrink-0">
-                                        @initials
-                                    </div>
-                                    <span class="text-[15px] font-bold text-slate-900">@appt.PatientName</span>
-                                    <span class="inline-flex items-center gap-1 bg-amber-50 border border-amber-200 text-amber-800 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full">
-                                        <i class="fas fa-clock text-amber-400 text-[10px]"></i>
-                                        @SharedLocalizer["Status_Pending"]
-                                    </span>
+                    <div class="prac-row">
+                        <div class="prac-row-main">
+                            <div class="avatar-sm">@initials</div>
+                            <div class="prac-row-body">
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <p class="test-name !mb-0">@appt.PatientName</p>
+                                    <span class="status-chip status-pending">@SharedLocalizer["Status_Pending"]</span>
                                 </div>
-
-                               
-                                <div class="flex flex-wrap gap-1.5 mb-2">
-                                    <span class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-[12px] text-slate-600">
-                                        <i class="fas fa-calendar-day text-slate-400 text-[11px]"></i>
-                                        <span class="appt-date font-semibold text-slate-800" data-utc="@scheduledUtcIso">@appt.ScheduledTime.ToString("MMMM dd, yyyy")</span>
-                                    </span>
-                                    <span class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-[12px] text-slate-600">
-                                        <i class="fas fa-clock text-slate-400 text-[11px]"></i>
-                                        <span class="appt-time font-semibold text-slate-800" data-utc="@scheduledUtcIso">@appt.ScheduledTime.ToString("HH:mm")</span>
-                                    </span>
-                                    <span class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-[12px] text-slate-600">
-                                        <i class="fas fa-hourglass-half text-slate-400 text-[11px]"></i>
-                                        <span class="font-semibold text-slate-800">@appt.TotalDurationMinutes</span> @SharedLocalizer["Shared_Min"]
-                                    </span>
+                                <div class="test-date mt-1.5">
+                                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    <span class="appt-date" data-utc="@scheduledUtcIso">@appt.ScheduledTime.ToString("MMMM dd, yyyy")</span>
+                                    ·
+                                    <span class="appt-time" data-utc="@scheduledUtcIso">@appt.ScheduledTime.ToString("HH:mm")</span>
+                                    · @appt.TotalDurationMinutes @SharedLocalizer["Shared_Min"]
                                 </div>
 
                                 @if (!string.IsNullOrWhiteSpace(appt.Notes))
                                 {
-                                    <div class="flex items-start gap-2 bg-slate-50 border border-slate-200 rounded-[8px] px-3 py-2 mt-1 text-[12px] text-slate-500 leading-relaxed">
-                                        <i class="fas fa-sticky-note text-slate-300 text-[12px] mt-0.5 flex-shrink-0"></i>
-                                        <span>@appt.Notes</span>
-                                    </div>
+                                    <p class="mt-2 text-xs text-gray-500 leading-relaxed rounded-lg bg-gray-50 border border-gray-100 px-3 py-2">@appt.Notes</p>
                                 }
 
                                 @if (!string.IsNullOrWhiteSpace(appt.PrescriptionFileName))
                                 {
                                     <a href="@Url.Action("DownloadPrescription", "Appointments", new { id = appt.Id, area = "Doctor" })"
-                                       class="inline-flex items-center gap-1.5 mt-2 bg-blue-50 border border-blue-200 text-blue-700 text-[12px] font-medium px-2.5 py-1 rounded-lg hover:bg-blue-100 transition-colors"
+                                       class="btn-prac-indigo mt-2 inline-flex"
                                        target="_blank" rel="noopener noreferrer">
-                                        <i class="fas fa-paperclip text-[11px]"></i>
+                                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
+                                        </svg>
                                         @appt.PrescriptionDisplayName
                                     </a>
                                 }
                             </div>
+                        </div>
 
-                            
-                            <div class="flex sm:flex-col gap-2 flex-shrink-0">
-                                <form asp-action="AcceptRequest" asp-controller="Appointments" asp-area="Doctor" method="get" class="inline">
-                                    <input type="hidden" name="id" value="@appt.Id" />
-                                    <button type="submit"
-                                            class="inline-flex items-center gap-1.5 rounded-[9px] bg-emerald-500 px-4 py-2 text-[12px] font-bold uppercase tracking-wide text-white hover:bg-emerald-600 hover:-translate-y-0.5 active:scale-95 transition-all">
-                                        <i class="fas fa-check text-[11px]"></i>
-                                        @SharedLocalizer["Shared_Accept"]
-                                    </button>
-                                </form>
-                                <form asp-action="RejectRequest" asp-controller="Appointments" asp-area="Doctor" method="get" class="inline">
-                                    <input type="hidden" name="id" value="@appt.Id" />
-                                    <button type="submit"
-                                            class="inline-flex items-center gap-1.5 rounded-[9px] border border-red-200 bg-white px-4 py-2 text-[12px] font-bold uppercase tracking-wide text-red-500 hover:bg-red-50 hover:-translate-y-0.5 active:scale-95 transition-all">
-                                        <i class="fas fa-times text-[11px]"></i>
-                                        @SharedLocalizer["Shared_Reject"]
-                                    </button>
-                                </form>
-                            </div>
+                        <div class="prac-row-actions">
+                            <form asp-action="AcceptRequest" asp-controller="Appointments" asp-area="Doctor" method="get" class="inline">
+                                <input type="hidden" name="id" value="@appt.Id" />
+                                <button type="submit" class="btn-prac-accept">
+                                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    @SharedLocalizer["Shared_Accept"]
+                                </button>
+                            </form>
+                            <form asp-action="RejectRequest" asp-controller="Appointments" asp-area="Doctor" method="get" class="inline">
+                                <input type="hidden" name="id" value="@appt.Id" />
+                                <button type="submit" class="btn-prac-danger">
+                                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                    @SharedLocalizer["Shared_Reject"]
+                                </button>
+                            </form>
                         </div>
                     </div>
-                </div>
-                delay++;
-            }
+                }
+            </div>
         </div>
     }
 </div>

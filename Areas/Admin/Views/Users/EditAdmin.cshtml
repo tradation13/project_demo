@@ -1,50 +1,61 @@
 @model EditAdminViewModel
-
 @{
     ViewData["Title"] = SharedLocalizer["Users_EditAdmin"];
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 }
 
-<div>
-    <h4 class="mb-4 text-xl capitalize">@SharedLocalizer["Users_EditAdmin"]</h4>
+<div class="rounded-2xl border border-slate-100 bg-white px-8 py-7 shadow-sm shadow-slate-100">
+    <div class="mb-6 flex items-center gap-3">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <i class="fas fa-user-gear"></i>
+        </span>
+        <h4 class="text-xl font-bold text-slate-800">@SharedLocalizer["Users_EditAdmin"]</h4>
+    </div>
 
-    <form asp-action="EditAdmin" asp-route-id="@Model.Id" method="post" class="space-y-4">
-        <div class="flex flex-col">
-            <label asp-for="UserName" class="mb-1 font-normal">@SharedLocalizer["Shared_UserName"]</label>
-            <input asp-for="UserName" class="rounded border-gray-300 py-1 focus:outline-none focus:ring-0" placeholder=@SharedLocalizer["Patient_Placeholder_User"] />
-            <span asp-validation-for="UserName" class="text-sm text-red-500"></span>
+    <form asp-action="EditAdmin" asp-route-id="@Model.Id" method="post" class="space-y-5">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div>
+                <label asp-for="UserName" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400">@SharedLocalizer["Shared_UserName"]</label>
+                <input asp-for="UserName"
+                       class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
+                       placeholder="@SharedLocalizer["Patient_Placeholder_User"]" />
+                <span asp-validation-for="UserName" class="mt-1.5 block text-xs text-red-500"></span>
+            </div>
+            <div>
+                <label asp-for="Email" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400">@SharedLocalizer["Shared_Email"]</label>
+                <input asp-for="Email"
+                       class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
+                       placeholder="@SharedLocalizer["Search_PlaceholderEmail"]" />
+                <span asp-validation-for="Email" class="mt-1.5 block text-xs text-red-500"></span>
+            </div>
+            <div>
+                <label asp-for="PhoneNumber" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400">@SharedLocalizer["Shared_PhoneNumber"]</label>
+                <input asp-for="PhoneNumber"
+                       class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
+                       placeholder="@SharedLocalizer["Search_PlaceholderPhone"]" />
+                <span asp-validation-for="PhoneNumber" class="mt-1.5 block text-xs text-red-500"></span>
+            </div>
+            <div>
+                <label asp-for="Status" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400">@SharedLocalizer["Appt_Status"]</label>
+                <select asp-for="Status"
+                        class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10">
+                    <option value="0">@SharedLocalizer["Status_Active"]</option>
+                    <option value="1">@SharedLocalizer["Status_Inactive"]</option>
+                </select>
+                <span asp-validation-for="Status" class="mt-1.5 block text-xs text-red-500"></span>
+            </div>
         </div>
 
-        <div class="flex flex-col">
-            <label asp-for="Email" class="mb-1 font-normal">@SharedLocalizer["Shared_Email"]</label>
-            <input asp-for="Email" class="rounded border-gray-300 py-1 focus:outline-none focus:ring-0" placeholder=@SharedLocalizer["Search_PlaceholderEmail"] />
-            <span asp-validation-for="Email" class="text-sm text-red-500"></span>
-        </div>
-
-        <div class="flex flex-col">
-            <label asp-for="PhoneNumber" class="mb-1 font-normal">@SharedLocalizer["Shared_PhoneNumber"]</label>
-            <input asp-for="PhoneNumber" class="rounded border-gray-300 py-1 focus:outline-none focus:ring-0" placeholder=@SharedLocalizer["Search_PlaceholderPhone"] />
-            <span asp-validation-for="PhoneNumber" class="text-sm text-red-500"></span>
-        </div>
-
-        <div class="flex flex-col">
-            <label asp-for="Status" class="mb-1 font-normal">@SharedLocalizer["Appt_Status"]</label>
-            <select asp-for="Status" class="rounded border-gray-300 py-1 focus:outline-none focus:ring-0">
-                <option value="0">@SharedLocalizer["Status_Active"]</option>
-                <option value="1">@SharedLocalizer["Status_Inactive"]</option>
-            </select>
-            <span asp-validation-for="Status" class="text-sm text-red-500"></span>
-        </div>
-
-        <div class="mt-6 flex gap-2">
-            <a asp-action="Index"
-               class="rounded-lg bg-secondary bg-opacity-20 px-6 py-1.5 text-secondary transition duration-150 hover:bg-opacity-40 hover:shadow-xl">
-                @SharedLocalizer["Shared_Cancel"]
-            </a>
+        <div class="flex flex-wrap items-center gap-3 pt-2">
             <button type="submit"
-                    class="rounded-lg bg-primary px-6 py-1.5 text-white transition duration-150 hover:bg-primary-dark hover:shadow-xl">
+                    class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+                <i class="fas fa-check text-xs"></i>
                 @SharedLocalizer["Profile_SaveBtn"]
             </button>
+            <a asp-action="Index"
+               class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-200 hover:bg-slate-50">
+                @SharedLocalizer["Shared_Cancel"]
+            </a>
         </div>
     </form>
 </div>

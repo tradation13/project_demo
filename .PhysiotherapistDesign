@@ -1,0 +1,293 @@
+# الهوية البصرية — صفحات المعالج (Practitioner Panel)
+
+> ⚠️ **نطاق هذا الدليل:** كل صفحات المعالج بشكل عام — دون تخصيصه لصفحة أو حالة واحدة بعينها.
+> يُطبَّق على أي صفحة يشوفها المعالج مهما كان نوع المحتوى: حالات المرضى، الجلسات، التقييمات، الفحوصات، النتائج، السجلات، الخطط العلاجية، إلخ.
+> الهدف: أن يقدر أي شخص (أو أي AI) يبني صفحة جديدة للمعالج ويطبّق نفس الهوية تلقائياً بدون الرجوع لصورة أو مثال محدد.
+>
+> **مصدر هذا الإصدار:** الدليل الآن مبني على الكود الفعلي المطبّق بالمشروع (Razor View + CSS مضمّن)، وليس تحليل بصري تقريبي. القيم أدناه (hex + px) هي القيم الحقيقية المستخدمة — أي صفحة جديدة يجب أن تلتزم بها حرفياً.
+>
+> لا علاقة له بدليل الأدمن — المعالج له هوية بصرية مختلفة (ألوان، شكل أزرار، بطاقات) تناسب طبيعة عمله (تركيز على البيانات والقياسات والمتابعة، وليس الإدارة).
+
+---
+
+## 1. لوحة الألوان (Colors) — القيم الحقيقية
+
+### الخلفية والكروت
+
+| العنصر | القيمة |
+|---|---|
+| خلفية الصفحة | رمادي فاتح جداً (`bg-gray-50` على مستوى الـ Layout) |
+| خلفية الكروت | `#fff` (white) |
+| حدود الكروت | `border: 1px solid #e5e7eb` (gray-200) |
+| radius كارد الهيدر / كارد الفحص | `rounded-xl` (12px) |
+| radius الأزرار | 6px–8px حسب حجم الزر |
+
+### اللون الأساسي لهوية العنصر (الأفاتار): Violet
+
+⚠️ **تصحيح مهم:** اللون الفعلي المستخدم للأفاتار (دائرة الحروف الأولى) هو **Violet وليس Indigo**.
+
+| الاستخدام | القيمة |
+|---|---|
+| خلفية الأفاتار | `#ede9fe` (violet-100) |
+| نص/حروف الأفاتار | `#5b21b6` (violet-800) |
+| مقاس الأفاتار | 48×48px, `border-radius: 50%`, `font-size: 16px`, `font-weight: 600` |
+
+### لون Indigo — خاص بأزرار "تعديل/تحديث النتيجة" فقط
+
+| الاستخدام | الحالة العادية | الحالة عند الفتح (Cancel) |
+|---|---|---|
+| زر Toggle (Add/Update Result) | `background: #eef2ff` (indigo-50) / `color: #4338ca` (indigo-700) / `border: 1px solid #c7d2fe` (indigo-300) | يتحول تلقائياً إلى أحمر عند الفتح: `background: #fef2f2` / `color: #991b1b` / `border: 1px solid #fca5a5` |
+| روابط التواصل (بريد إلكتروني) | `color: #4f46e5` (indigo-600) | — |
+
+> ملاحظة سلوكية: زر "Add/Update Result" **يبدّل حالته ولونه** عند الضغط عليه (من indigo إلى أحمر) لأنه بهذه اللحظة يعمل كزر "إلغاء/إغلاق الفورم". هذا سلوك (interaction pattern) يجب تكراره في أي عنصر مشابه: أي زر يفتح فورم إدخال inline يتحول شكله ليدل على أنه أصبح زر إلغاء.
+
+### لون Emerald/Green — للإضافة والحفظ (وليس Teal)
+
+⚠️ **تصحيح مهم:** أزرار "الإضافة" و"الحفظ" فعلياً بلون **Emerald وليس Teal**.
+
+| الاستخدام | القيمة |
+|---|---|
+| زر "Add Test" (إضافة عنصر جديد للصفحة) | `background: #ecfdf5` (emerald-50) / `color: #065f46` (emerald-800) / `border: 1px solid #6ee7b7` (emerald-300) |
+| زر "Save" (حفظ داخل الفورم inline) | نفس قيم زر Add تماماً: `background: #ecfdf5` / `color: #065f46` / `border: 1px solid #6ee7b7` |
+
+### لون Teal — محصور فقط بعناوين الأقسام (Section Dividers)
+
+| الاستخدام | القيمة |
+|---|---|
+| نص عنوان القسم + أيقونته | `color: #0f766e` (teal-700) |
+| شارة العدّاد بجانب عنوان القسم | `background: #ccfbf1` (teal-100) / `color: #0f766e` (teal-700) |
+
+### لون الخطر: Red — للحذف
+
+| الاستخدام | القيمة |
+|---|---|
+| زر Delete | `background: #fef2f2` (red-50) / `color: #991b1b` (red-800) / `border: 1px solid #fca5a5` (red-300) |
+
+### لون محايد — للأزرار الثانوية (طباعة/تصدير)
+
+| الاستخدام | القيمة |
+|---|---|
+| زر Print / أزرار ثانوية | `background: #f3f4f6` (gray-100) / `color: #374151` (gray-700) / `border: 1px solid #d1d5db` (gray-300) |
+
+### شارات القيمة/النتيجة (Result Chip) — لها حالتان
+
+| الحالة | القيمة |
+|---|---|
+| نتيجة موجودة (Set) | `background: #dbeafe` (blue-100) / `color: #1e40af` (blue-800) |
+| نتيجة غير موجودة (Empty/Not Set) | `background: #f3f4f6` (gray-100) / `color: #6b7280` (gray-500) |
+
+> كل شارة مصحوبة بأيقونة صغيرة (✓ للحالة الموجودة، ⓘ أو تحذير خفيف للحالة الفارغة) داخل نفس الشارة، وليس بجانبها.
+
+### حالة "لا توجد بيانات" (Empty State) — مكوّن جديد لم يكن موثّقاً سابقاً
+
+| الاستخدام | القيمة |
+|---|---|
+| خلفية الكارد | `background: #fffbeb` (amber-50) |
+| حدود الكارد | `border: 1px solid #fde68a` (amber-200) |
+| نص الحالة | `color: #92400e` (amber-800), `font-weight: 500` |
+| تصميم | كارد كامل بعرض الصفحة، `border-radius: 12px`, أيقونة/إيموجي كبيرة أعلى النص، محتوى وسط الكارد (flex column, centered) |
+
+---
+
+## 2. الفرق الجوهري عن هوية الأدمن
+
+| المعيار | الأدمن | المعالج |
+|---|---|---|
+| نمط الأزرار | Solid/Gradient (خلفية ملوّنة معبّأة) | Outline خفيف (خلفية فاتحة جداً + حدود ملوّنة + نص ملوّن) |
+| لون هوية العنصر (Avatar) | أخضر/تركواز → indigo (تدرّج) | **Violet** |
+| شكل عرض البيانات | جدول تقليدي (rows/thead) | بطاقات (Cards Grid) مجمّعة داخل أقسام (Groups) |
+| الأيقونات | Font Awesome + SVG مختلط | SVG خطي بسيط (stroke-based, لا تعبئة) بحجم صغير (11–16px) |
+
+**الخلاصة:** لا تُستخدم أزرار الأدمن المعبأة بالتدرّج في أي صفحة معالج. كل الأزرار outline بخلفية فاتحة جداً (50/100 shade) ونص/حدود بلون أغمق (600/700/800 shade)، مع حركات hover خفيفة (`translateY(-1px)`) و active (`scale(.97)`).
+
+---
+
+## 3. الطباعة (Typography)
+
+| المستوى | القيمة الفعلية | مثال عام |
+|---|---|---|
+| عنوان الصفحة الرئيسي | `font-size: 20px (text-xl); font-weight: 600; color: #111827` | عنوان الحالة/الجلسة/العنصر الرئيسي |
+| نص فرعي تحت العنوان | `font-size: 14px; color: #6b7280; margin-top: 2px` | نوع الصفحة |
+| Label تصنيفي uppercase | `font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #9ca3af` | PATIENT INFORMATION |
+| اسم العنصر الرئيسي | `font-size: 16px; font-weight: 600; color: #1f2937` | اسم الشخص |
+| صف بيانات التواصل (Meta Row) | `font-size: 13px; color: #6b7280; display:flex; gap:6px` (والرابط بلون indigo-600) | هاتف / بريد |
+| عنوان الكارد الفرعي | `font-size: 14px; font-weight: 600; color: #1f2937` | اسم الفحص/الجلسة/العنصر |
+| تاريخ الكارد | `font-size: 11px; color: #9ca3af; display:flex; gap:4px` | تاريخ الإنشاء |
+| عنوان القسم (Group/Section Label) | `font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: #0f766e` | عنوان أي قسم بيانات |
+
+---
+
+## 4. الحركة والانتقالات (Motion) — مكوّن جديد لم يكن موثّقاً سابقاً
+
+كل صفحة معالج يجب أن تحتوي حركات دخول خفيفة تعطي إحساس "حي" بدون مبالغة:
+
+```css
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes badgePop {
+    0%   { transform: scale(0.7); opacity: 0; }
+    70%  { transform: scale(1.08);             }
+    100% { transform: scale(1);   opacity: 1; }
+}
+@keyframes formSlide {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+```
+
+| العنصر | الحركة |
+|---|---|
+| حاوية الصفحة كاملة | `fadeSlideUp .4s ease both` |
+| كارد الهيدر/المعلومات الرئيسية | `fadeSlideUp .45s .05s ease both` (تأخير بسيط بعد الحاوية) |
+| كل قسم (Group Section) | `fadeSlideUp .45s .1s ease both` |
+| شارة النتيجة (Result Chip) عند ظهورها | `badgePop .35s ease both` |
+| فورم الإدخال Inline عند فتحه | `formSlide .2s ease both` |
+| كارد الفحص/العنصر عند hover | `transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,.07); border-color: #c7d2fe` (انتقال `.2s`) |
+| كل الأزرار عند hover | `translateY(-1px)` مع تغيير خفيف بالخلفية |
+| كل الأزرار عند active/click | `transform: scale(.97)` |
+
+---
+
+## 5. مكوّنات قابلة لإعادة الاستخدام (Practitioner Components)
+
+### أ) رأس الصفحة (Page/Entity Header)
+
+```html
+<div class="flex items-center gap-3">
+    <div class="avatar-lg">AB</div> <!-- bg:#ede9fe color:#5b21b6, 48x48, rounded-full -->
+    <div>
+        <h2 class="text-xl font-semibold text-gray-900">عنوان العنصر الرئيسي</h2>
+        <p class="text-sm text-gray-500 mt-0.5">نوع الصفحة</p>
+    </div>
+</div>
+```
+
+### ب) كارد معلومات العنصر الرئيسي (Primary Info Card)
+
+```html
+<div class="header-card rounded-xl bg-white border border-gray-200 p-5">
+    <div class="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
+        <div class="space-y-1">
+            <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-2">تصنيف المعلومات</p>
+            <p class="text-base font-semibold text-gray-800">اسم العنصر</p>
+            <div class="meta-row"><svg>...</svg> رقم الهاتف</div>
+            <div class="meta-row"><svg>...</svg> <a href="mailto:...">البريد الإلكتروني</a></div>
+        </div>
+        <div class="flex items-center gap-3 flex-wrap">
+            <a class="btn-add-test"><svg>+</svg> إضافة عنصر جديد</a>
+            <a class="btn-print"><svg>🖨</svg> طباعة/تصدير</a> <!-- يظهر فقط إذا وجدت بيانات -->
+        </div>
+    </div>
+</div>
+```
+
+> **قاعدة:** زر الطباعة/التصدير يظهر شرطياً فقط عند وجود بيانات قابلة للطباعة (مثلاً `@if (Model.Items.Count > 0)`). لا يظهر على صفحة فارغة.
+
+### ج) فاصل عنوان القسم مع عدّاد (Group/Section Divider)
+
+```html
+<div class="group-divider">
+    <div class="group-divider-line"></div> <!-- خط رفيع 0.5px بلون #e5e7eb -->
+    <span class="group-label">
+        <svg class="h-3.5 w-3.5">...</svg>
+        عنوان القسم
+        <span class="group-count">5</span> <!-- دائرة 20x20px bg:#ccfbf1 color:#0f766e -->
+    </span>
+    <div class="group-divider-line"></div>
+</div>
+```
+
+> ملاحظة: العناصر داخل نفس الصفحة يجب أن تُجمّع تلقائياً حسب فئتها (Group/Category) وتُرتّب أبجدياً، وكل مجموعة تُعرض بقسم منفصل بهذا الـ Divider.
+
+### د) كارد عنصر متكرر (Item/Result Card)
+
+```html
+<div class="test-card flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-4">
+    <div class="flex items-start justify-between gap-2">
+        <div class="flex-1">
+            <p class="test-name">عنوان العنصر</p>
+            <span class="result-chip result-set">✓ القيمة/النتيجة</span>
+            <!-- أو إذا فارغة: <span class="result-chip result-empty">ⓘ لم تُحدَّد بعد</span> -->
+            <div class="test-date"><svg>📅</svg> تاريخ الإنشاء</div>
+        </div>
+    </div>
+
+    <div class="flex items-center gap-2 flex-wrap">
+        <button type="button" class="btn-toggle" data-target="form-ID">
+            <svg>✏️</svg> إضافة/تحديث النتيجة
+            <!-- عند الضغط: يتحول لون الزر لأحمر والنص إلى "إلغاء" -->
+        </button>
+        <form method="post"><button type="submit" class="btn-delete">🗑 حذف</button></form>
+    </div>
+
+    <!-- فورم مخفي يظهر عند الضغط على btn-toggle -->
+    <form id="form-ID" class="inline-form"> <!-- display:none افتراضياً، flex عند إضافة class="visible" -->
+        <input type="text" class="result-input" placeholder="أدخل النتيجة" />
+        <button type="submit" class="btn-save">حفظ</button>
+    </form>
+</div>
+```
+
+### هـ) حالة "لا توجد بيانات" (Empty State)
+
+```html
+<div class="empty-state">
+    <span class="empty-icon">🧪</span> <!-- إيموجي أو أيقونة كبيرة تمثل نوع المحتوى -->
+    <p class="empty-text">لا توجد عناصر مضافة بعد</p>
+</div>
+```
+
+### و) الشبكة الحاوية للبطاقات (Grid)
+
+```html
+<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <!-- كل كارد عنصر متكرر -->
+</div>
+```
+
+---
+
+## 6. القواعد الثابتة (Do's & Don'ts) لأي صفحة معالج جديدة
+
+### ✅ افعل
+
+- استخدم أزرار **outline خفيف** (خلفية فاتحة 50/100 + حدود ونص بلون أغمق 600/700/800) — بدون تعبئة solid إلا نادراً جداً.
+- استخدم **بطاقات (Cards)** مجمّعة داخل أقسام (Groups) لعرض أي بيانات متكررة، بدل الجداول التقليدية.
+- كل قسم بيانات جديد يُفصل بمكوّن **Group Divider** (خط + عنوان teal + عدّاد).
+- التزم بالألوان الدلالية **بالضبط** كما بالجدول:
+  - **Violet** = أفاتار/هوية العنصر
+  - **Indigo** = زر تعديل/إضافة نتيجة (ويتحول لأحمر عند الفتح كإلغاء)
+  - **Emerald** = إضافة عنصر جديد + حفظ
+  - **Teal** = عناوين الأقسام وعدّاداتها فقط
+  - **Red** = حذف
+  - **Blue** = شارة نتيجة موجودة
+  - **Gray** = شارة نتيجة فارغة + أزرار ثانوية (طباعة)
+  - **Amber** = حالة "لا توجد بيانات"
+- أضف حركات دخول خفيفة (`fadeSlideUp`, `badgePop`, `formSlide`) وhover/active على كل عنصر تفاعلي.
+- اجعل فورم التعديل/الإضافة **inline** داخل نفس الكارد (يظهر عند الضغط) بدل صفحة أو Modal منفصل.
+
+### 🚫 لا تفعل
+
+- لا تستخدم Teal لأزرار الإضافة/الحفظ — هذا خطأ شائع، اللون الصحيح **Emerald**.
+- لا تستخدم Indigo لخلفية الأفاتار — اللون الصحيح **Violet**.
+- لا تستخدم رأس جدول متدرّج (gradient header) أو جداول تقليدية.
+- لا تعبّئ الأزرار بلون صلب (solid).
+- لا تنسَ حالة "لا توجد بيانات" (Empty State) — كل صفحة تعرض قائمة يجب أن يكون لها Empty State بتصميم amber.
+- لا تنسَ الحالتين لشارة النتيجة (موجودة/فارغة) — لا تعرض شارة واحدة فقط.
+
+---
+
+## 7. تشيك ليست سريع لأي صفحة معالج جديدة
+
+- [ ] رأس الصفحة: أفاتار Violet دائري 48px + عنوان `text-xl font-semibold` + نص فرعي رمادي
+- [ ] كارد معلومات أساسية بنمط `rounded-xl border border-gray-200 bg-white p-5`
+- [ ] زر إضافة (Emerald outline) + زر طباعة/تصدير شرطي (Gray outline)
+- [ ] كل قسم بيانات مفصول بـ Group Divider (خط + Teal label + عدّاد)
+- [ ] البيانات المتكررة كبطاقات Grid (`sm:grid-cols-2 lg:grid-cols-3`) وليس جدول
+- [ ] كل كارد فيه: شارة نتيجة (Blue إذا موجودة / Gray إذا فارغة) + تاريخ
+- [ ] زر تعديل (Indigo، يتحول لأحمر عند الفتح) + فورم inline مخفي بجانبه بزر Save (Emerald)
+- [ ] زر حذف (Red outline) بنفس حجم زر التعديل
+- [ ] حالة Empty State جاهزة (Amber) لو ما فيه بيانات
+- [ ] حركات fadeSlideUp/badgePop/formSlide + hover/active مطبّقة على كل العناصر التفاعلية

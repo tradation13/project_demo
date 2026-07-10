@@ -2,285 +2,234 @@
 @model IPTS.Areas.Doctor.ViewsModels.AppointmentListViewModel
 @{
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+    ViewData["Title"] = SharedLocalizer["Appointments"];
 }
 
-<div x-data="{ filter: false }" class="mx-auto w-full rounded-2xl border border-gray-100 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
-    <div class="mb-6 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-            <h3 class="text-lg font-bold text-gray-900">@SharedLocalizer["Appointments"]</h3>
-            <div class="text-sm text-green-500">@SharedLocalizer["Appt_ActiveMembers"]</div>
-        </div>
+<div class="prac-page space-y-6" x-data="{ filter: false }">
 
-        <div class="flex w-full items-center justify-end sm:w-auto">
-            <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })" class="inline-flex items-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-dark">
-                @SharedLocalizer["Appt_AddNew"]
-            </a>
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-center gap-3">
+            <div class="avatar-lg">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold text-gray-900 leading-tight">@SharedLocalizer["Appointments"]</h2>
+                <p class="text-sm text-gray-500 mt-0.5">@SharedLocalizer["Appt_ActiveMembers"]</p>
+            </div>
         </div>
+        <a href="@Url.Action("SearchPatient", "Appointments", new { area = "doctor" })" class="btn-add-test">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            @SharedLocalizer["Appt_AddNew"]
+        </a>
     </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="mb-4 rounded border border-green-400 bg-green-100 p-4 text-green-700">
-            @TempData["SuccessMessage"]
-        </div>
+        <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">@TempData["SuccessMessage"]</div>
     }
     @if (TempData["WarningMessage"] != null)
     {
-        <div class="mb-4 rounded border border-yellow-400 bg-yellow-100 p-4 text-yellow-700">
-            @TempData["WarningMessage"]
-        </div>
+        <div class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">@TempData["WarningMessage"]</div>
     }
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="mb-4 rounded border border-red-400 bg-red-100 p-4 text-red-700">
-            @TempData["ErrorMessage"]
-        </div>
+        <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">@TempData["ErrorMessage"]</div>
     }
     @if (TempData["InfoMessage"] != null)
     {
-        <div class="mb-4 rounded border border-blue-400 bg-blue-100 p-4 text-blue-700">
-            @TempData["InfoMessage"]
-        </div>
+        <div class="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800">@TempData["InfoMessage"]</div>
     }
 
-    <div class="mb-3 mt-8">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <button x-on:click="filter = !filter" class="flex items-center gap-2 text-sm font-semibold text-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01.293.707l-6 6V21l-4-2v-8l-6-6A1 1 0 013 6V4z" />
-                    </svg>
-                    @SharedLocalizer["Appt_Filters"]
-                </button>
-            </div>
-        </div>
+    <div class="header-card prac-header-card p-5">
+        <button type="button" x-on:click="filter = !filter" class="btn-prac-indigo">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01.293.707l-6 6V21l-4-2v-8l-6-6A1 1 0 013 6V4z"/>
+            </svg>
+            @SharedLocalizer["Appt_Filters"]
+        </button>
 
-        <div x-show="filter" x-collapse.duration.300ms class="mt-4">
-            <div class="rounded-lg bg-gray-50/80 px-6 py-5 border border-gray-100">
-                <h5 class="mb-3 text-sm font-semibold text-gray-700">@SharedLocalizer["Appt_FilterResults"]</h5>
+        <div x-show="filter" x-cloak class="mt-4">
+            <div class="prac-filter">
+                <p class="prac-label mb-3">@SharedLocalizer["Appt_FilterResults"]</p>
                 <form method="get" asp-action="Index" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    <input type="text" name="patientName" value="@Model.PatientName" placeholder="@SharedLocalizer["Appt_PatientName"]" class="w-full rounded-2xl border border-gray-200 bg-gray-50/70 px-4 py-3 text-sm placeholder:text-gray-400 focus:border-primary focus:bg-white focus:ring-4 focus:ring-primary/10" />
-
                     <div>
-                        <label class="sr-only">Status</label>
-                        <select name="status" class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm focus:border-primary focus:ring-0">
+                        <label class="prac-label">@SharedLocalizer["Appt_PatientName"]</label>
+                        <input type="text" name="patientName" value="@Model.PatientName" placeholder="@SharedLocalizer["Appt_PatientName"]" class="prac-input" />
+                    </div>
+                    <div>
+                        <label class="prac-label">@SharedLocalizer["Appt_Status"]</label>
+                        <select name="status" class="prac-input">
                             <option value="">@SharedLocalizer["Appt_Status_Select"]</option>
-                            @if (Model.Status == "Pending")
-                            {
-                                <option value="Pending" selected>@SharedLocalizer["Status_Pending"]</option>
-                            }
-                            else
-                            {
-                                <option value="Pending">@SharedLocalizer["Status_Pending"]</option>
-                            }
-
-                            @if (Model.Status == "Confirmed")
-                            {
-                                <option value="Confirmed" selected>@SharedLocalizer["Status_Confirmed"]</option>
-                            }
-                            else
-                            {
-                                <option value="Confirmed">@SharedLocalizer["Status_Confirmed"]</option>
-                            }
-
-                            @if (Model.Status == "Completed")
-                            {
-                                <option value="Completed" selected>@SharedLocalizer["Status_Completed"]</option>
-                            }
-                            else
-                            {
-                                <option value="Completed">@SharedLocalizer["Status_Completed"]</option>
-                            }
-
-                            @if (Model.Status == "Cancelled")
-                            {
-                                <option value="Cancelled" selected>@SharedLocalizer["Status_Cancelled"]</option>
-                            }
-                            else
-                            {
-                                <option value="Cancelled">@SharedLocalizer["Status_Cancelled"]</option>
-                            }
+                            @if (Model.Status == "Pending") { <option value="Pending" selected>@SharedLocalizer["Status_Pending"]</option> } else { <option value="Pending">@SharedLocalizer["Status_Pending"]</option> }
+                            @if (Model.Status == "Confirmed") { <option value="Confirmed" selected>@SharedLocalizer["Status_Confirmed"]</option> } else { <option value="Confirmed">@SharedLocalizer["Status_Confirmed"]</option> }
+                            @if (Model.Status == "Completed") { <option value="Completed" selected>@SharedLocalizer["Status_Completed"]</option> } else { <option value="Completed">@SharedLocalizer["Status_Completed"]</option> }
+                            @if (Model.Status == "Cancelled") { <option value="Cancelled" selected>@SharedLocalizer["Status_Cancelled"]</option> } else { <option value="Cancelled">@SharedLocalizer["Status_Cancelled"]</option> }
                         </select>
                     </div>
-
                     <div>
-                        <label class="block text-xs text-gray-600">@SharedLocalizer["Appt_FromDate"]</label>
-                        <input type="date" name="fromDate" value="@Model.FromDate" class="mt-1 w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm focus:border-primary focus:ring-0" />
+                        <label class="prac-label">@SharedLocalizer["Appt_FromDate"]</label>
+                        <input type="date" name="fromDate" value="@Model.FromDate" class="prac-input" />
                     </div>
-
                     <div>
-                        <label class="block text-xs text-gray-600">@SharedLocalizer["Appt_ToDate"]</label>
-                        <input type="date" name="toDate" value="@Model.ToDate" class="mt-1 w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm focus:border-primary focus:ring-0" />
+                        <label class="prac-label">@SharedLocalizer["Appt_ToDate"]</label>
+                        <input type="date" name="toDate" value="@Model.ToDate" class="prac-input" />
                     </div>
-
-                    <div class="sm:col-span-2 lg:col-span-4 flex items-center gap-3 mt-2">
-                        <button type="submit" class="rounded-2xl bg-primary px-5 py-2 text-sm font-semibold text-white shadow-md hover:bg-primary-dark">@SharedLocalizer["Appt_FilterBtn"]</button>
-                        <a href="@Url.Action("Index")" class="inline-flex items-center text-sm text-gray-600 hover:underline">@SharedLocalizer["Appt_ClearFilters"]</a>
+                    <div class="sm:col-span-2 lg:col-span-4 flex flex-wrap items-center gap-3">
+                        <button type="submit" class="btn-add-test">@SharedLocalizer["Appt_FilterBtn"]</button>
+                        <a href="@Url.Action("Index")" class="btn-prac-secondary">@SharedLocalizer["Appt_ClearFilters"]</a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="overflow-x-auto">
-        <table class="mb-6 w-full table-auto">
-            <thead>
-                <tr class="text-left text-sm text-gray-500">
-                    <th class="px-4 py-3">#</th>
-                    <th class="px-4 py-3">@SharedLocalizer["Appt_PatientName"]</th>
-                    <th class="px-4 py-3">@SharedLocalizer["Appt_ScheduledTime"]</th>
-                    <th class="px-4 py-3">@SharedLocalizer["Appt_Status"]</th>
-                    <th class="px-4 py-3">@SharedLocalizer["Appt_Actions"]</th>
-                </tr>
-            </thead>
-            <tbody class="text-sm text-gray-700">
-            @{int x = (Model.Page - 1) * Model.PageSize;}
+    @if (Model.Items == null || !Model.Items.Any())
+    {
+        <div class="empty-state">
+            <span class="empty-icon">📅</span>
+            <p class="empty-text">@SharedLocalizer["Appointments"]</p>
+        </div>
+    }
+    else
+    {
+        <div class="prac-section">
+            <div class="group-divider">
+                <div class="group-divider-line"></div>
+                <span class="group-label">
+                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    @SharedLocalizer["Appointments"]
+                    <span class="group-count">@Model.TotalCount</span>
+                </span>
+                <div class="group-divider-line"></div>
+            </div>
+
+            <div class="prac-list">
+                @{ int x = (Model.Page - 1) * Model.PageSize; }
                 @foreach (var appointment in Model.Items)
                 {
-                var scheduledUtcIsoStart = DateTime.SpecifyKind(appointment.ScheduledTime, DateTimeKind.Utc).ToString("o");
-                var scheduledUtcIsoEnd = DateTime.SpecifyKind(appointment.ScheduledTime.AddMinutes(appointment.TotalDurationMinutes), DateTimeKind.Utc).ToString("o");
-                var nowUtc = DateTime.UtcNow;
-                var isPast = DateTime.SpecifyKind(appointment.ScheduledTime, DateTimeKind.Utc) <= nowUtc;
+                    var scheduledUtcIsoStart = DateTime.SpecifyKind(appointment.ScheduledTime, DateTimeKind.Utc).ToString("o");
+                    var scheduledUtcIsoEnd = DateTime.SpecifyKind(appointment.ScheduledTime.AddMinutes(appointment.TotalDurationMinutes), DateTimeKind.Utc).ToString("o");
+                    var nowUtc = DateTime.UtcNow;
+                    var isPast = DateTime.SpecifyKind(appointment.ScheduledTime, DateTimeKind.Utc) <= nowUtc;
 
-                string badgeText = string.Empty;
-                string badgeClass = appointment.Status switch
-                {
-                    AppointmentStatus.Confirmed => "bg-green-100 text-green-800",
-                    AppointmentStatus.Pending => "bg-yellow-100 text-yellow-800",
-                    AppointmentStatus.Completed => "bg-blue-100 text-blue-800",
-                    AppointmentStatus.Cancelled => "bg-red-100 text-red-800",
-                    _ => "bg-gray-100 text-gray-800"
-                };
+                    string badgeText;
+                    string badgeClass;
 
-                if (isPast && appointment.Status == AppointmentStatus.Pending)
-                {
-                    badgeText = SharedLocalizer["Appt_Status_Expired"];
-                    badgeClass = "bg-orange-100 text-orange-800";
-                }
-                else if (isPast && appointment.Status == AppointmentStatus.Confirmed)
-                {
-                    badgeText = SharedLocalizer["Dash_CompletedMonth"];
-                    badgeClass = "bg-blue-100 text-blue-800";
-                }
-                else
-                {
-                    badgeText = appointment.Status switch
+                    if (isPast && appointment.Status == AppointmentStatus.Pending)
                     {
-                        AppointmentStatus.Pending => SharedLocalizer["Status_Pending"],
-                        AppointmentStatus.Confirmed => SharedLocalizer["Status_Confirmed"],
-                        AppointmentStatus.Completed => SharedLocalizer["Status_Completed"],
-                        AppointmentStatus.Cancelled => SharedLocalizer["Status_Cancelled"],
-                        _ => appointment.StatusDisplay
-                    };
+                        badgeText = SharedLocalizer["Appt_Status_Expired"];
+                        badgeClass = "status-expired";
+                    }
+                    else if (isPast && appointment.Status == AppointmentStatus.Confirmed)
+                    {
+                        badgeText = SharedLocalizer["Dash_CompletedMonth"];
+                        badgeClass = "status-completed";
+                    }
+                    else
+                    {
+                        badgeClass = appointment.Status switch
+                        {
+                            AppointmentStatus.Confirmed => "status-confirmed",
+                            AppointmentStatus.Pending => "status-pending",
+                            AppointmentStatus.Completed => "status-completed",
+                            AppointmentStatus.Cancelled => "status-cancelled",
+                            _ => "result-empty"
+                        };
+                        badgeText = appointment.Status switch
+                        {
+                            AppointmentStatus.Pending => SharedLocalizer["Status_Pending"],
+                            AppointmentStatus.Confirmed => SharedLocalizer["Status_Confirmed"],
+                            AppointmentStatus.Completed => SharedLocalizer["Status_Completed"],
+                            AppointmentStatus.Cancelled => SharedLocalizer["Status_Cancelled"],
+                            _ => appointment.StatusDisplay
+                        };
+                    }
+
+                    var initials = string.IsNullOrWhiteSpace(appointment.PatientName)
+                        ? "P"
+                        : string.Join("", appointment.PatientName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(w => w[0].ToString().ToUpper()));
+
+                    <div class="prac-row">
+                        <div class="prac-row-main">
+                            <div class="avatar-sm">@initials</div>
+                            <div class="prac-row-body">
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <p class="test-name !mb-0">@appointment.PatientName</p>
+                                    <span class="status-chip @badgeClass">@badgeText</span>
+                                    <span class="text-xs text-gray-400 font-medium">#@(++x)</span>
+                                </div>
+                                <div class="test-date mt-1.5">
+                                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    <span class="appt-datetime" data-utc-start="@scheduledUtcIsoStart" data-utc-end="@scheduledUtcIsoEnd">
+                                        @appointment.ScheduledTime.ToString("MMM dd, yyyy HH:mm")
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="prac-row-actions">
+                            <a asp-controller="Appointments" asp-action="Details" asp-route-id="@appointment.Id" asp-area="doctor"
+                               class="btn-toggle">
+                                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                                @SharedLocalizer["Shared_Details"]
+                            </a>
+                        </div>
+                    </div>
                 }
+            </div>
+        </div>
 
-                <tr class="border-t last:border-b hover:bg-gray-50">
-                    <td class="px-4 py-3 align-middle">@(++x)</td>
-                    <td class="px-4 py-3 align-middle">@appointment.PatientName</td>
-                    @* <td class="text-center">@appointment.DoctorName</td> *@
-                    <td class="px-4 py-3 align-middle">
-                        <span class="appt-datetime" data-utc-start="@scheduledUtcIsoStart" data-utc-end="@scheduledUtcIsoEnd">@appointment.ScheduledTime.ToString("MMM dd, yyyy HH:mm")</span>
-                    </td>
-                    <td class="px-4 py-3 align-middle">
-                        <span class="inline-flex items-center rounded-md px-3 py-1 text-xs font-medium" style="background-color:transparent">
-                            @if(badgeClass.Contains("green") || badgeClass.Contains("Green") || appointment.Status==AppointmentStatus.Confirmed)
-                            {
-                                <span class="inline-block rounded-md bg-green-50 text-green-700 px-2 py-0.5 border border-green-100">@badgeText</span>
-                            }
-                            else if(badgeClass.Contains("red") || appointment.Status==AppointmentStatus.Cancelled)
-                            {
-                                <span class="inline-block rounded-md bg-red-50 text-red-700 px-2 py-0.5 border border-red-100">@badgeText</span>
-                            }
-                            else if(badgeClass.Contains("yellow") || appointment.Status==AppointmentStatus.Pending)
-                            {
-                                <span class="inline-block rounded-md bg-yellow-50 text-yellow-700 px-2 py-0.5 border border-yellow-100">@badgeText</span>
-                            }
-                            else
-                            {
-                                <span class="inline-block rounded-md bg-gray-50 text-gray-700 px-2 py-0.5 border border-gray-100">@badgeText</span>
-                            }
-                        </span>
-                    </td>
-                    <td class="px-4 py-3 align-middle text-center">
-                        <a asp-controller="Appointments" asp-action="Details" asp-route-id="@appointment.Id" asp-area="doctor">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary hover:text-primary-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </a>
-                     @*    <a href="@Url.Action("Edit", "Appointments", new { id = appointment.Id, area = "doctor" })"> *@
-                     @*        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500 hover:text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"> *@
-                     @*            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /> *@
-                     @*        </svg> *@
-                     @*    </a> *@
-
-                     @*    <form asp-action="Delete" asp-controller="Appointments" asp-route-id="@appointment.Id" asp-area="doctor" method="post" onsubmit="return confirm('Are you sure you want to delete this appointment?');" class="inline"> *@
-                     @*        <button type="submit"> *@
-                     @*            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500 hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"> *@
-                     @*                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" *@
-                     @*                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4 *@
-                     @* a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /> *@
-                     @*            </svg> *@
-                     @*        </button> *@
-                     @*    </form> *@
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    </div>
-
-    <div class="mt-4 flex items-center justify-between">
-        @{ 
-            var showingStart = Model.TotalCount == 0 ? 0 : ((Model.Page - 1) * Model.PageSize) + 1;
-            var showingEnd = Model.TotalCount == 0 ? 0 : showingStart + Model.Items.Count - 1;
-        }
-       
-        <nav class="inline-flex items-center space-x-1">
-            @if(Model.Page > 1)
+        <div class="flex flex-wrap items-center justify-center gap-1.5 pt-2">
+            @if (Model.Page > 1)
             {
-                <a class="rounded border border-gray-200 px-2 py-1 text-sm" href="@Url.Action("Index", new { page = Model.Page - 1, patientName = Model.PatientName, status = Model.Status, fromDate = Model.FromDate, toDate = Model.ToDate })">&lt;</a>
+                <a class="prac-page-btn" href="@Url.Action("Index", new { page = Model.Page - 1, patientName = Model.PatientName, status = Model.Status, fromDate = Model.FromDate, toDate = Model.ToDate })">&lt;</a>
             }
             else
             {
-                <span class="rounded border border-gray-200 px-2 py-1 text-sm text-gray-400">&lt;</span>
+                <span class="prac-page-btn disabled">&lt;</span>
             }
 
             @for (int p = 1; p <= Model.TotalPages; p++)
             {
                 if (p == Model.Page)
                 {
-                    <span class="rounded bg-primary px-3 py-1 text-sm text-white">@p</span>
+                    <span class="prac-page-btn active">@p</span>
                 }
                 else
                 {
-                    <a class="rounded border border-gray-200 px-3 py-1 text-sm" href="@Url.Action("Index", new { page = p, patientName = Model.PatientName, status = Model.Status, fromDate = Model.FromDate, toDate = Model.ToDate })">@p</a>
+                    <a class="prac-page-btn" href="@Url.Action("Index", new { page = p, patientName = Model.PatientName, status = Model.Status, fromDate = Model.FromDate, toDate = Model.ToDate })">@p</a>
                 }
             }
 
-            @if(Model.Page < Model.TotalPages)
+            @if (Model.Page < Model.TotalPages)
             {
-                <a class="rounded border border-gray-200 px-2 py-1 text-sm" href="@Url.Action("Index", new { page = Model.Page + 1, patientName = Model.PatientName, status = Model.Status, fromDate = Model.FromDate, toDate = Model.ToDate })">&gt;</a>
+                <a class="prac-page-btn" href="@Url.Action("Index", new { page = Model.Page + 1, patientName = Model.PatientName, status = Model.Status, fromDate = Model.FromDate, toDate = Model.ToDate })">&gt;</a>
             }
             else
             {
-                <span class="rounded border border-gray-200 px-2 py-1 text-sm text-gray-400">&gt;</span>
+                <span class="prac-page-btn disabled">&gt;</span>
             }
-        </nav>
-    </div>
+        </div>
+    }
 </div>
 
 <script>
-// Format UTC time to user's browser timezone (dynamic)
 const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 function formatUtcTime(date, options = {}) {
     if (!date || Number.isNaN(date.getTime())) return '';
-    const defaults = {
-        timeZone: browserTimeZone,
-        hour12: false
-    };
-    return new Intl.DateTimeFormat('en-GB', { ...defaults, ...options }).format(date);
+    return new Intl.DateTimeFormat('en-GB', { timeZone: browserTimeZone, hour12: false, ...options }).format(date);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -291,14 +240,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const start = new Date(utcStart);
         if (!utcEnd) {
-            const datePart = formatUtcTime(start, { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-            el.textContent = datePart;
+            el.textContent = formatUtcTime(start, { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
             return;
         }
 
         const end = new Date(utcEnd);
-
-        // If same day, show date once + time range. Otherwise show full start and end datetimes.
         if (start.toDateString() === end.toDateString()) {
             const datePart = formatUtcTime(start, { year: 'numeric', month: 'short', day: '2-digit' });
             const startTime = formatUtcTime(start, { hour: '2-digit', minute: '2-digit' });

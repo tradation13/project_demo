@@ -85,7 +85,7 @@
 
                 <div class="mt-2 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
                     <div class="form-field flex flex-col">
-                        <label asp-for="Registerable" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                        <label asp-for="Registerable" class="mb-1.5 text-sm font-bold text-slate-700">@SharedLocalizer["UserTypes_Registerable"]</label>
                         <div class="relative">
                             <i class="fa-solid fa-user-plus pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                             <select asp-for="Registerable" class="block w-full appearance-none rounded-2xl border border-slate-300 bg-white px-4 py-2.5 pl-11 pr-10 outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10">
@@ -96,14 +96,14 @@
                         </div>
                     </div>
                     <div class="form-field flex flex-col">
-                        <label asp-for="DefaultController" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                        <label asp-for="DefaultController" class="mb-1.5 text-sm font-bold text-slate-700">@SharedLocalizer["UserTypes_DefaultController"]</label>
                         <div class="relative">
                             <i class="fa-solid fa-sitemap pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                             <input asp-for="DefaultController" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
                         </div>
                     </div>
                     <div class="form-field flex flex-col">
-                        <label asp-for="DefaultAction" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                        <label asp-for="DefaultAction" class="mb-1.5 text-sm font-bold text-slate-700">@SharedLocalizer["UserTypes_DefaultAction"]</label>
                         <div class="relative">
                             <i class="fa-solid fa-bolt pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                             <input asp-for="DefaultAction" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />
@@ -113,7 +113,7 @@
 
                 <div class="mt-2 grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2">
                     <div class="form-field flex flex-col">
-                        <label asp-for="DefaultArea" class="mb-1.5 text-sm font-bold text-slate-700"></label>
+                        <label asp-for="DefaultArea" class="mb-1.5 text-sm font-bold text-slate-700">@SharedLocalizer["UserTypes_DefaultArea"]</label>
                         <div class="relative">
                             <i class="fa-solid fa-layer-group pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                             <input asp-for="DefaultArea" class="w-full rounded-2xl border border-slate-300 px-4 py-2.5 pl-11 outline-none transition-all duration-200 focus:border-primary focus:ring-4 focus:ring-primary/10" />

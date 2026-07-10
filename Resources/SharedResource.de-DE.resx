@@ -2651,4 +2651,56 @@
   <data name="Blog_Image_Delete_Failed" xml:space="preserve">
     <value>Bild konnte nicht entfernt werden.</value>
   </data>
+  <data name="Roles_Edit" xml:space="preserve">
+    <value>Rolle bearbeiten</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Roles -&gt; Edit</comment>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+    <comment>Shared - general status label</comment>
+  </data>
+  <data name="Dashboard_Eyebrow" xml:space="preserve">
+    <value>PhysioTech — Systemübersicht</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard</comment>
+  </data>
+  <data name="Dropzone_InvalidExtension" xml:space="preserve">
+    <value>Ungültige Dateierweiterung: {0}</value>
+    <comment>Blog file upload client validation</comment>
+  </data>
+  <data name="Dropzone_FileTooLarge" xml:space="preserve">
+    <value>Datei zu groß: {0}</value>
+    <comment>Blog file upload client validation</comment>
+  </data>
+  <data name="Error_PatientProfileNotFound" xml:space="preserve">
+    <value>Patientenprofil nicht gefunden.</value>
+    <comment>Areas -&gt; Patient -&gt; Views</comment>
+  </data>
+  <data name="Shared_Select" xml:space="preserve">
+    <value>Auswählen...</value>
+    <comment>Shared dropdown placeholder</comment>
+  </data>
+  <data name="Login_PageTitle" xml:space="preserve">
+    <value>Anmelden</value>
+    <comment>Views -&gt; Auth -&gt; Login</comment>
+  </data>
+  <data name="Reg_PageTitle" xml:space="preserve">
+    <value>Registrieren</value>
+    <comment>Views -&gt; Auth -&gt; Register</comment>
+  </data>
+  <data name="ForgotPass_PageTitle" xml:space="preserve">
+    <value>Passwort vergessen</value>
+    <comment>Views -&gt; Auth -&gt; ForgotPassword</comment>
+  </data>
+  <data name="ForgotConf_PageTitle" xml:space="preserve">
+    <value>Passwort zurücksetzen Bestätigung</value>
+    <comment>Views -&gt; Auth -&gt; ForgotPasswordConfirmation</comment>
+  </data>
+  <data name="Verify_PageTitle" xml:space="preserve">
+    <value>E-Mail-Verifizierung</value>
+    <comment>Views -&gt; Auth -&gt; VerifyEmail</comment>
+  </data>
+  <data name="Therapies_PageTitle" xml:space="preserve">
+    <value>Therapien</value>
+    <comment>Views -&gt; Home -&gt; Therapies</comment>
+  </data>
 </root>

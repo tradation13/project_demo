@@ -874,7 +874,7 @@
     <comment/>
   </data>
   <data name="AdditionalPatientInfo" xml:space="preserve">
-    <value>Zus?tzliche Patienteninformationen Zusأ¤tzliche Patienteninformationen</value>
+    <value>Additional patient information</value>
     <comment/>
   </data>
   <data name="Blog_TitleRequired" xml:space="preserve">
@@ -916,6 +916,206 @@
   <data name="Blog_Image_Delete_Failed" xml:space="preserve">
     <value>Image could not be deleted.</value>
     <comment>Controller - Blog posts</comment>
+  </data>
+  <data name="TestGroupRequired" xml:space="preserve">
+    <value>Test group is required</value>
+    <comment>Validation - Admin tests</comment>
+  </data>
+  <data name="Label_BirthDate" xml:space="preserve">
+    <value>Birth Date</value>
+    <comment>DataAnnotations - patient birth date label</comment>
+  </data>
+  <data name="Error_InvalidOrMissingTime" xml:space="preserve">
+    <value>Invalid or missing time. Please select a valid time slot.</value>
+    <comment>Areas -&gt; Patient -&gt; AppointmentController</comment>
+  </data>
+  <data name="Error_ReportFileNotFound" xml:space="preserve">
+    <value>Report file was not found on the server.</value>
+    <comment>Areas -&gt; Patient / Doctor -&gt; MedicalCasesController</comment>
+  </data>
+  <data name="InvalidUsernameFormat" xml:space="preserve">
+    <value>Username can only contain letters, numbers, and underscores</value>
+    <comment>Validation - Doctor patient registration</comment>
+  </data>
+  <data name="DescriptionRequired" xml:space="preserve">
+    <value>Description is required</value>
+    <comment/>
+  </data>
+  <data name="DescriptionMaxLength" xml:space="preserve">
+    <value>Description must not exceed 2000 characters</value>
+    <comment/>
+  </data>
+  <data name="Error_UserTypeNotRegisterable" xml:space="preserve">
+    <value>This user type is not allowed to register.</value>
+    <comment/>
+  </data>
+  <data name="PlatformTitle" xml:space="preserve">
+    <value>Physiotherapy &amp; Rehabilitation Platform</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="MedicalReport" xml:space="preserve">
+    <value>Medical Report</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="PatientInformation" xml:space="preserve">
+    <value>Patient Information</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="ClinicalDetails" xml:space="preserve">
+    <value>Clinical Details</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="SmartAnalysisTitle" xml:space="preserve">
+    <value>Smart Clinical Analysis</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>Birth Date</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="Doctor" xml:space="preserve">
+    <value>Doctor</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Result</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="TestGroup" xml:space="preserve">
+    <value>Test Group</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="GeneratedOn" xml:space="preserve">
+    <value>Generated on</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="CaseID" xml:space="preserve">
+    <value>Case ID</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="InvalidWeight" xml:space="preserve">
+    <value>Please enter a valid weight (1 - 500 kg).</value>
+    <comment>Validation - patient measurements</comment>
+  </data>
+  <data name="InvalidHeight" xml:space="preserve">
+    <value>Please enter a valid height (30 - 300 cm).</value>
+    <comment>Validation - patient measurements</comment>
+  </data>
+  <data name="PhysicalMeasurements" xml:space="preserve">
+    <value>Physical Measurements</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="HealthHistory" xml:space="preserve">
+    <value>Health History</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Weight</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="BloodGroup" xml:space="preserve">
+    <value>Blood Group</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="IsSmoker" xml:space="preserve">
+    <value>Smoker</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="ChronicDiseases" xml:space="preserve">
+    <value>Chronic Diseases</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="ActivityLevel" xml:space="preserve">
+    <value>Activity Level</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Test</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="InjuryHistory" xml:space="preserve">
+    <value>Injury History</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="Medications" xml:space="preserve">
+    <value>Medications</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="FunctionalAbility" xml:space="preserve">
+    <value>Functional Ability</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="PersonalGoals" xml:space="preserve">
+    <value>Personal Goals</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="LatestResult" xml:space="preserve">
+    <value>Latest Result</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="File_MustBeSelected" xml:space="preserve">
+    <value>A file must be selected.</value>
+    <comment>File validation - prescriptions</comment>
+  </data>
+  <data name="File_SizeExceededWithCurrent" xml:space="preserve">
+    <value>File size must not exceed 5MB. Current size: {0}MB</value>
+    <comment>File validation - prescriptions</comment>
+  </data>
+  <data name="File_UnsupportedTypePrescription" xml:space="preserve">
+    <value>Unsupported file type. Allowed types: JPG, PNG, PDF</value>
+    <comment>File validation - prescriptions</comment>
+  </data>
+  <data name="File_Empty" xml:space="preserve">
+    <value>Empty file</value>
+    <comment>File validation - blog images</comment>
+  </data>
+  <data name="File_TooLarge" xml:space="preserve">
+    <value>File too large</value>
+    <comment>File validation - blog images</comment>
+  </data>
+  <data name="File_InvalidExtension" xml:space="preserve">
+    <value>Invalid extension</value>
+    <comment>File validation - blog images</comment>
+  </data>
+  <data name="Error_SavePrescriptionFailed" xml:space="preserve">
+    <value>Failed to save prescription file</value>
+    <comment>AppointmentService</comment>
+  </data>
+  <data name="AI_NoAnalysisContent" xml:space="preserve">
+    <value>No analysis content returned.</value>
+    <comment>MedicalReportService - AI fallback</comment>
+  </data>
+  <data name="AI_TemporarilyUnavailable" xml:space="preserve">
+    <value>Analysis is temporarily unavailable (AI Provider Busy).</value>
+    <comment>MedicalReportService - AI fallback</comment>
+  </data>
+  <data name="AI_ConnectionFailed" xml:space="preserve">
+    <value>Connection to AI service failed.</value>
+    <comment>MedicalReportService - AI fallback</comment>
   </data>
 </root>
 

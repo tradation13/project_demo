@@ -11,7 +11,7 @@
     if (doctor == null) 
     {
         <div class="py-10 text-center text-red-600">
-            <p>@SharedLocalizer["Error_PatientProfileNotFound"]</p>
+            <p>@SharedLocalizer["Shared_NotAvailable"]</p>
         </div>
         return;
     }
@@ -150,7 +150,7 @@
 
                             <div class="relative z-10 mb-1 text-base font-bold peer-checked:text-white">@s.Time</div>
                             <div class="relative z-10 @(disabled ?"text-xs text-red-500" : "text-green-600") peer-checked:text-white">
-                                @(disabled ? "Booked" : "Available")
+                                @(disabled ? SharedLocalizer["Shared_Booked"] : SharedLocalizer["Shared_Available"])
                             </div>
 
                             <div class="pointer-events-none absolute inset-0 z-0 rounded peer-checked:bg-blue-600 peer-checked:shadow-lg"></div>

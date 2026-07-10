@@ -2,8 +2,8 @@
 @{
     var patient = ViewBag.Patient as IPTS.Models.Entites.Patient;
     var tests = ViewBag.Tests as List<IPTS.Models.Entites.Test> ?? new List<IPTS.Models.Entites.Test>();
-    var searchPlaceholder = SharedLocalizer["AddTest_SearchPlaceholder"]?.ToString() ?? "Search";
-    ViewData["Title"] = SharedLocalizer["MedCase_Det_AddTest"]?.ToString() ?? "Add Test";
+    var searchPlaceholder = SharedLocalizer["AddTest_SearchPlaceholder"].Value;
+    ViewData["Title"] = SharedLocalizer["MedCase_Det_AddTest"].Value;
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 
     var firstName = patient?.User?.FirstName ?? "";

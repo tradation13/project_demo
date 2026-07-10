@@ -1,4 +1,5 @@
 ﻿
+using IPTS.Resources;
 using IPTS.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
@@ -10,6 +11,7 @@ namespace IPTS.Areas.Patient.Controllers
     [Area("patient")]
     [Authorize(Roles = "patient")]
     public class MedicalCasesController(
+    LocService locService,
     MedicalCaseService medicalCaseService,
     MedicalCaseTestService medicalCaseTestService,
     PatientService patientService,
@@ -20,6 +22,7 @@ namespace IPTS.Areas.Patient.Controllers
     ) : Controller
     {
         
+        private readonly LocService _locService = locService;
         private readonly MedicalReportService _medicalReportService = medicalReportService;
     private readonly MedicalCaseService _medicalCaseService = medicalCaseService;
     private readonly MedicalCaseTestService _medicalCaseTestService = medicalCaseTestService;
@@ -56,7 +59,7 @@ namespace IPTS.Areas.Patient.Controllers
             var path = Path.Combine(Directory.GetCurrentDirectory(), "InternalStorage", "MedicalReports", fileName);
 
             // نتحقق هل الملف موجود فعلاً في السيرفر؟
-            if (!System.IO.File.Exists(path)) return NotFound("الملف غير موجود على السيرفر");
+            if (!System.IO.File.Exists(path)) return NotFound(_locService.GetSystem("Error_ReportFileNotFound"));
 
             // قراءة الملف كـ Stream (أفضل للأداء من read all bytes)
             var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);

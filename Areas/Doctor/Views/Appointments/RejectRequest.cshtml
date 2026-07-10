@@ -1,7 +1,7 @@
 @using IPTS.Areas.Doctor.ViewsModels
 @model RejectAppointmentViewModel
 @{
-    ViewData["Title"] = "Reject Appointment";
+    ViewData["Title"] = SharedLocalizer["Appt_Reject_Title"];
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 
     var backUrl = Context.Request.Query["returnUrl"].ToString();

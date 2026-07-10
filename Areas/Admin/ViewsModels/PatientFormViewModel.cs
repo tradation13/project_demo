@@ -8,8 +8,7 @@ namespace IPTS.Areas.Admin.ViewsModels
         
         public string IdentityNumber { get; set; } = string.Empty;
         
-        [Required(ErrorMessage = "Birth Date is required")]
-        [Display(Name = "Birth Date")]
+        [Display(Name = "Label_BirthDate")]
         public DateTime BirthDate { get; set; }
         
         public string? UserId { get; set; }

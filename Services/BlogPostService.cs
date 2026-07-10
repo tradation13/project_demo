@@ -1,5 +1,6 @@
 using IPTS.Data;
 using IPTS.Models.Entites;
+using IPTS.Resources;
 using IPTS.Models.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -11,14 +12,16 @@ namespace IPTS.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _env;
+        private readonly LocService _locService;
         private readonly string _storagePath;
         private readonly string[] _allowedExtensions = [".jpg", ".jpeg", ".png", ".webp"];
         private const long MaxFileSize = 5 * 1024 * 1024;
 
-        public BlogPostService(ApplicationDbContext context, IWebHostEnvironment env)
+        public BlogPostService(ApplicationDbContext context, IWebHostEnvironment env, LocService locService)
         {
             _context = context;
             _env = env;
+            _locService = locService;
             _storagePath = Path.Combine(env.ContentRootPath, "InternalStorage", "BlogsImages");
             if (!Directory.Exists(_storagePath)) Directory.CreateDirectory(_storagePath);
         }
@@ -172,10 +175,10 @@ namespace IPTS.Services
 
         private (bool IsValid, string Error) ValidateImage(IFormFile file)
         {
-            if (file == null || file.Length == 0) return (false, "Empty file");
-            if (file.Length > MaxFileSize) return (false, "File too large");
+            if (file == null || file.Length == 0) return (false, _locService.GetSystem("File_Empty"));
+            if (file.Length > MaxFileSize) return (false, _locService.GetSystem("File_TooLarge"));
             var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
-            return _allowedExtensions.Contains(extension) ? (true, string.Empty) : (false, "Invalid extension");
+            return _allowedExtensions.Contains(extension) ? (true, string.Empty) : (false, _locService.GetSystem("File_InvalidExtension"));
         }
 
         private string CleanFileName(string fileName)

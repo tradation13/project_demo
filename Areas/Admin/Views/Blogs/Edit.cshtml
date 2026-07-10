@@ -75,12 +75,14 @@
 
                 const maxFileSize = 5 * 1024 * 1024; // 5MB - matches server
                 const allowedExt = ['.jpg','.jpeg','.png','.webp'];
+                const msgInvalidExt = @Json.Serialize(SharedLocalizer["Dropzone_InvalidExtension"].Value);
+                const msgTooLarge = @Json.Serialize(SharedLocalizer["Dropzone_FileTooLarge"].Value);
 
                 function validateFile(file){
                     const name = file.name || '';
                     const ext = name.slice(name.lastIndexOf('.')).toLowerCase();
-                    if(!allowedExt.includes(ext)) return `Invalid extension: ${name}`;
-                    if(file.size > maxFileSize) return `File too large: ${name}`;
+                    if(!allowedExt.includes(ext)) return msgInvalidExt.replace('{0}', name);
+                    if(file.size > maxFileSize) return msgTooLarge.replace('{0}', name);
                     return null;
                 }
 

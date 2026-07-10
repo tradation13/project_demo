@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using IPTS.Resources;
 using Microsoft.AspNetCore.Http;
 
 namespace IPTS.Services
@@ -28,12 +29,14 @@ namespace IPTS.Services
 
     public class FileService : IFileService
     {
+        private readonly LocService _locService;
         private readonly string _prescriptionStoragePath;
         private readonly string[] _allowedExtensions = { ".jpg", ".jpeg", ".png", ".pdf" };
         private const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
 
-        public FileService(IWebHostEnvironment env)
+        public FileService(LocService locService, IWebHostEnvironment env)
         {
+            _locService = locService;
             // Create path inside project root
             _prescriptionStoragePath = Path.Combine(
                 env.ContentRootPath,
@@ -51,14 +54,14 @@ namespace IPTS.Services
         public (bool IsValid, string ErrorMessage) ValidatePrescriptionFile(IFormFile file)
         {
             if (file == null || file.Length == 0)
-                return (false, "A file must be selected.");
+                return (false, _locService.GetSystem("File_MustBeSelected"));
 
             if (file.Length > MaxFileSize)
-                return (false, $"File size must not exceed 5MB. Current size: {file.Length / (1024 * 1024)}MB");
+                return (false, string.Format(_locService.GetSystem("File_SizeExceededWithCurrent"), file.Length / (1024 * 1024)));
 
             var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
             if (!_allowedExtensions.Contains(fileExtension))
-                return (false, "Unsupported file type. Allowed types: JPG, PNG, PDF");
+                return (false, _locService.GetSystem("File_UnsupportedTypePrescription"));
 
             return (true, string.Empty);
         }

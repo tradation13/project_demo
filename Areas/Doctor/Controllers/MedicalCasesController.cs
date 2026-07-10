@@ -1,4 +1,5 @@
-﻿using IPTS.Data;
+﻿using IPTS.Resources;
+using IPTS.Data;
 using IPTS.Models.Entites;
 using IPTS.Services;
 using IPTS.ViewModels;
@@ -13,6 +14,7 @@ namespace IPTS.Areas.Doctor.Controllers
     [Area("doctor")]
     [Authorize(Roles = "doctor")]
     public class MedicalCasesController(
+        LocService locService,
         MedicalCaseService medicalCaseService,
         MedicalCaseTestService medicalCaseTestService,
         PatientService patientService,
@@ -22,6 +24,7 @@ namespace IPTS.Areas.Doctor.Controllers
         MedicalReportService medicalReportService,
         ApplicationDbContext context) : Controller
     {
+        private readonly LocService _locService = locService;
         private readonly MedicalReportService _medicalReportService = medicalReportService;
         private readonly MedicalCaseService _medicalCaseService = medicalCaseService;
         private readonly MedicalCaseTestService _medicalCaseTestService = medicalCaseTestService;
@@ -82,7 +85,7 @@ namespace IPTS.Areas.Doctor.Controllers
             var doctor = (await _userService.GetByIdAsync(userId, o => o.Include(q => q.Doctor))).Doctor;
             if (doctor == null)
             {
-                ModelState.AddModelError("", "Doctor profile not found for current user.");
+                ModelState.AddModelError("", _locService.GetSystem("Error_DoctorProfileNotFound"));
                 var patient = await _patientService.GetByIdAsync(model.PatientId, q => q.Include(p => p.User));
                 ViewBag.Patient = patient;
                 return View(model);
@@ -234,7 +237,7 @@ public IActionResult ViewReport(string fileName)
     var path = Path.Combine(Directory.GetCurrentDirectory(), "InternalStorage", "MedicalReports", fileName);
 
  
-    if (!System.IO.File.Exists(path)) return NotFound("الملف غير موجود على السيرفر");
+    if (!System.IO.File.Exists(path)) return NotFound(_locService.GetSystem("Error_ReportFileNotFound"));
 
    
     var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);

@@ -387,7 +387,7 @@ namespace IPTS.Services
 
                     prescriptionFileName = await _fileService.SavePrescriptionFileAsync(model.PrescriptionFile);
                     if (string.IsNullOrEmpty(prescriptionFileName))
-                        throw new Exception("Failed to save prescription file");
+                        throw new Exception(_locService.GetSystem("Error_SavePrescriptionFailed"));
                 }
 
                 // Expect client to send UTC ISO in model.Time. Reject if missing/invalid.

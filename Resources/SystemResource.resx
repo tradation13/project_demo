@@ -125,4 +125,68 @@
     <value>Incorrect password</value>
     <comment/>
   </data>
+  <data name="TestGroupRequired" xml:space="preserve">
+    <value>Test group is required</value>
+    <comment>Validation - Admin tests</comment>
+  </data>
+  <data name="Label_BirthDate" xml:space="preserve">
+    <value>Birth Date</value>
+    <comment>DataAnnotations - patient birth date label</comment>
+  </data>
+  <data name="Error_InvalidOrMissingTime" xml:space="preserve">
+    <value>Invalid or missing time. Please select a valid time slot.</value>
+    <comment>Areas -&gt; Patient -&gt; AppointmentController</comment>
+  </data>
+  <data name="Error_ReportFileNotFound" xml:space="preserve">
+    <value>Report file was not found on the server.</value>
+    <comment>Areas -&gt; Patient / Doctor -&gt; MedicalCasesController</comment>
+  </data>
+  <data name="InvalidUsernameFormat" xml:space="preserve">
+    <value>Username can only contain letters, numbers, and underscores</value>
+    <comment>Validation - Doctor patient registration</comment>
+  </data>
+  <data name="LatestResult" xml:space="preserve">
+    <value>Latest Result</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="File_MustBeSelected" xml:space="preserve">
+    <value>A file must be selected.</value>
+    <comment>File validation - prescriptions</comment>
+  </data>
+  <data name="File_SizeExceededWithCurrent" xml:space="preserve">
+    <value>File size must not exceed 5MB. Current size: {0}MB</value>
+    <comment>File validation - prescriptions</comment>
+  </data>
+  <data name="File_UnsupportedTypePrescription" xml:space="preserve">
+    <value>Unsupported file type. Allowed types: JPG, PNG, PDF</value>
+    <comment>File validation - prescriptions</comment>
+  </data>
+  <data name="File_Empty" xml:space="preserve">
+    <value>Empty file</value>
+    <comment>File validation - blog images</comment>
+  </data>
+  <data name="File_TooLarge" xml:space="preserve">
+    <value>File too large</value>
+    <comment>File validation - blog images</comment>
+  </data>
+  <data name="File_InvalidExtension" xml:space="preserve">
+    <value>Invalid extension</value>
+    <comment>File validation - blog images</comment>
+  </data>
+  <data name="Error_SavePrescriptionFailed" xml:space="preserve">
+    <value>Failed to save prescription file</value>
+    <comment>AppointmentService</comment>
+  </data>
+  <data name="AI_NoAnalysisContent" xml:space="preserve">
+    <value>No analysis content returned.</value>
+    <comment>MedicalReportService - AI fallback</comment>
+  </data>
+  <data name="AI_TemporarilyUnavailable" xml:space="preserve">
+    <value>Analysis is temporarily unavailable (AI Provider Busy).</value>
+    <comment>MedicalReportService - AI fallback</comment>
+  </data>
+  <data name="AI_ConnectionFailed" xml:space="preserve">
+    <value>Connection to AI service failed.</value>
+    <comment>MedicalReportService - AI fallback</comment>
+  </data>
 </root>

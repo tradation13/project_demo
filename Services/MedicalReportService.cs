@@ -548,16 +548,16 @@ int completion = usage.GetProperty("completion_tokens").GetInt32();
 
 Console.WriteLine($"[Cost Monitor] Prompt: {prompt}, Completion: {completion} | Total: {prompt + completion}");
     Console.WriteLine("OpenAI Analysis received successfully!");
-    return aiText?.Trim() ?? "No analysis content returned.";
+    return aiText?.Trim() ?? _loc.GetSystem("AI_NoAnalysisContent");
 }
         
         Console.WriteLine($"API Error: {response.StatusCode} - {responseBody}");
-        return "Analysis is temporarily unavailable (AI Provider Busy).";
+        return _loc.GetSystem("AI_TemporarilyUnavailable");
     }
     catch (Exception ex) 
     {
         Console.WriteLine($"Critical Error: {ex.Message}");
-        return "Connection to AI service failed.";
+        return _loc.GetSystem("AI_ConnectionFailed");
     }
 }
 

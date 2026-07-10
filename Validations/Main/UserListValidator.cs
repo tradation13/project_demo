@@ -10,7 +10,7 @@ namespace IPTS.Validators
         {
             RuleFor(x => x.Id).NotEmpty().WithMessage(x => localizer.GetSystem("UserIdRequired"));
             RuleFor(x => x.UserTypeName).NotEmpty().WithMessage(x => localizer.GetSystem("UserTypeRequired"));
-            RuleFor(x => x.UserName).NotEmpty().WithMessage(x => localizer.GetSystem("UserNameRequired"));
+            RuleFor(x => x.UserName).NotEmpty().WithMessage(x => localizer.GetSystem("UsernameRequired"));
             RuleFor(x => x.Email).NotEmpty().WithMessage(x => localizer.GetSystem("EmailRequired")).EmailAddress().WithMessage(x => localizer.GetSystem("InvalidEmailFormat"));
         }
     }

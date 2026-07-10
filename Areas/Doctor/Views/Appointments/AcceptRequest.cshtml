@@ -1,7 +1,7 @@
 @using IPTS.Areas.Doctor.ViewsModels
 @model AcceptAppointmentViewModel
 @{
-    ViewData["Title"] = "Confirm Appointment";
+    ViewData["Title"] = SharedLocalizer["Appt_Confirm_Title"];
     Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
 
     var backUrl = Context.Request.Query["returnUrl"].ToString();

@@ -760,6 +760,14 @@
     <value>Testgruppe erforderlich</value>
     <comment></comment>
   </data>
+  <data name="Label_BirthDate" xml:space="preserve">
+    <value>Geburtsdatum</value>
+    <comment>DataAnnotations - patient birth date label</comment>
+  </data>
+  <data name="Error_ReportFileNotFound" xml:space="preserve">
+    <value>Berichtsdatei wurde auf dem Server nicht gefunden.</value>
+    <comment>Areas -&gt; Patient -&gt; MedicalCasesController</comment>
+  </data>
   <data name="Error_UserTypeNotRegisterable" xml:space="preserve">
     <value>Dieser Benutzertyp ist nicht zur Registrierung zulässig.</value>
     <comment/>
@@ -951,6 +959,50 @@
   <data name="PersonalGoals" xml:space="preserve">
     <value>Persönliche Ziele</value>
     <comment/>
+  </data>
+  <data name="LatestResult" xml:space="preserve">
+    <value>Letztes Ergebnis</value>
+    <comment>Medical report PDF</comment>
+  </data>
+  <data name="File_MustBeSelected" xml:space="preserve">
+    <value>Es muss eine Datei ausgewählt werden.</value>
+    <comment>File validation - prescriptions</comment>
+  </data>
+  <data name="File_SizeExceededWithCurrent" xml:space="preserve">
+    <value>Die Dateigröße darf 5 MB nicht überschreiten. Aktuelle Größe: {0} MB</value>
+    <comment>File validation - prescriptions</comment>
+  </data>
+  <data name="File_UnsupportedTypePrescription" xml:space="preserve">
+    <value>Nicht unterstützter Dateityp. Erlaubte Typen: JPG, PNG, PDF</value>
+    <comment>File validation - prescriptions</comment>
+  </data>
+  <data name="File_Empty" xml:space="preserve">
+    <value>Leere Datei</value>
+    <comment>File validation - blog images</comment>
+  </data>
+  <data name="File_TooLarge" xml:space="preserve">
+    <value>Datei zu groß</value>
+    <comment>File validation - blog images</comment>
+  </data>
+  <data name="File_InvalidExtension" xml:space="preserve">
+    <value>Ungültige Dateierweiterung</value>
+    <comment>File validation - blog images</comment>
+  </data>
+  <data name="Error_SavePrescriptionFailed" xml:space="preserve">
+    <value>Rezeptdatei konnte nicht gespeichert werden</value>
+    <comment>AppointmentService</comment>
+  </data>
+  <data name="AI_NoAnalysisContent" xml:space="preserve">
+    <value>Kein Analyseinhalt zurückgegeben.</value>
+    <comment>MedicalReportService - AI fallback</comment>
+  </data>
+  <data name="AI_TemporarilyUnavailable" xml:space="preserve">
+    <value>Analyse ist vorübergehend nicht verfügbar (KI-Anbieter ausgelastet).</value>
+    <comment>MedicalReportService - AI fallback</comment>
+  </data>
+  <data name="AI_ConnectionFailed" xml:space="preserve">
+    <value>Verbindung zum KI-Dienst fehlgeschlagen.</value>
+    <comment>MedicalReportService - AI fallback</comment>
   </data>
   <data name="Error_InvalidOrMissingTime" xml:space="preserve">
     <value>Ungültige oder fehlende Zeit. Bitte wählen Sie ein gültiges Zeitfenster aus.</value>

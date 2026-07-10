@@ -111,7 +111,7 @@
                         <label asp-for="DominantSide" class="mb-2 block text-sm font-semibold text-gray-700">@SharedLocalizer["MedCase_DominantSide"]</label>
                         <div class="relative">
                             <select asp-for="DominantSide" asp-items="Html.GetEnumSelectList<EnDominantSide>()" class="w-full appearance-none rounded-lg border border-gray-200 bg-white px-3 py-2.5 pe-9 text-sm text-gray-900 outline-none transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200">
-                                <option value="">@SharedLocalizer["FileSelected"]</option>
+                                <option value="">@SharedLocalizer["Shared_Select"]</option>
                             </select>
                             <span class="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3 text-gray-400">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
@@ -131,7 +131,7 @@
                         </label>
                         <div class="relative">
                             <select asp-for="ActivityLevel" asp-items="Html.GetEnumSelectList<EnActivityLevel>()" class="w-full appearance-none rounded-lg border border-gray-200 bg-white px-3 py-2.5 pe-9 text-sm text-gray-900 outline-none transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200">
-                                <option value="">@SharedLocalizer["FileSelected"]</option>
+                                <option value="">@SharedLocalizer["Shared_Select"]</option>
                             </select>
                             <span class="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3 text-gray-400">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
@@ -151,7 +151,7 @@
                         </label>
 
                         <select asp-for="BloodGroup" id="BloodGroup" class="hidden">
-                            <option value="">@SharedLocalizer["FileSelected"]</option>
+                            <option value="">@SharedLocalizer["Shared_Select"]</option>
                             <optgroup label="@SharedLocalizer["BloodGroup_PositiveGroup"]">
                                 <option value="@((byte)EnBloodGroup.APositive)">@SharedLocalizer["BloodGroup_APositive"]</option>
                                 <option value="@((byte)EnBloodGroup.BPositive)">@SharedLocalizer["BloodGroup_BPositive"]</option>

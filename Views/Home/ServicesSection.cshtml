@@ -1,12 +1,12 @@
 @{
     var serviceCards = new[]
     {
-        new { Icon = "fas fa-hands-helping", Title = "Patient Support", Desc = "Helpful guidance and care coordination for every step.", IsCta = false },
-        new { Icon = "fas fa-running",        Title = "Rehab Sessions",  Desc = "Targeted sessions to restore movement and reduce pain.",  IsCta = false },
-        new { Icon = "fas fa-brain",          Title = "Neuro Therapy",   Desc = "Professional support for recovery and body control.",     IsCta = false },
-        new { Icon = "fas fa-chart-line",     Title = "Progress Tracking", Desc = "Clear reporting to measure improvement over time.",    IsCta = false },
-        new { Icon = "fas fa-heart-pulse",    Title = "Wellness Plans",  Desc = "Personalized plans built around your condition and goals.", IsCta = false },
-        new { Icon = "fas fa-arrow-right",    Title = "Book Now",        Desc = "Start with the right service and move forward today.",   IsCta = true  },
+        new { Icon = "fas fa-hands-helping", TitleKey = "Services_S1_Title", DescKey = "Services_S1_Desc", IsCta = false },
+        new { Icon = "fas fa-bone",          TitleKey = "Services_S2_Title", DescKey = "Services_S2_Desc", IsCta = false },
+        new { Icon = "fas fa-running",       TitleKey = "Services_S3_Title", DescKey = "Services_S3_Desc", IsCta = false },
+        new { Icon = "fas fa-brain",         TitleKey = "Services_S4_Title", DescKey = "Services_S4_Desc", IsCta = false },
+        new { Icon = "fas fa-chart-line",    TitleKey = "Services_S5_Title", DescKey = "Services_S5_Desc", IsCta = false },
+        new { Icon = "fas fa-arrow-right",   TitleKey = "Services_CTA_Title", DescKey = "Services_CTA_Desc", IsCta = true  },
     };
 }
 
@@ -167,8 +167,8 @@
                         <i class="@card.Icon"></i>
                     </div>
                     <div>
-                        <h3 class="service-card__title">@card.Title</h3>
-                        <p class="service-card__desc">@card.Desc</p>
+                        <h3 class="service-card__title">@SharedLocalizer[card.TitleKey]</h3>
+                        <p class="service-card__desc">@SharedLocalizer[card.DescKey]</p>
                     </div>
                     @if (card.IsCta)
                     {

@@ -2405,4 +2405,288 @@
   <data name="Blog_Image_Delete_Failed" xml:space="preserve">
     <value>Image could not be removed.</value>
   </data>
+  <data name="Roles_AddNew" xml:space="preserve">
+    <value>Add New Role</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Roles -&gt; Create</comment>
+  </data>
+  <data name="Roles_Edit" xml:space="preserve">
+    <value>Edit Role</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Roles -&gt; Edit</comment>
+  </data>
+  <data name="Roles_Name" xml:space="preserve">
+    <value>Role Name</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Roles</comment>
+  </data>
+  <data name="TestGroups_AddNew" xml:space="preserve">
+    <value>Add New Test Group</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; TestGroups -&gt; Create</comment>
+  </data>
+  <data name="TestGroups_GroupName" xml:space="preserve">
+    <value>Group Name</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; TestGroups</comment>
+  </data>
+  <data name="TestGroups_Edit" xml:space="preserve">
+    <value>Edit Test Group</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; TestGroups -&gt; Edit</comment>
+  </data>
+  <data name="Tests_AddNew" xml:space="preserve">
+    <value>Add New Test</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Tests -&gt; Create</comment>
+  </data>
+  <data name="Tests_Name" xml:space="preserve">
+    <value>Test Name</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Tests</comment>
+  </data>
+  <data name="Tests_GroupLabel" xml:space="preserve">
+    <value>Test Group</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Tests</comment>
+  </data>
+  <data name="Tests_SelectGroup" xml:space="preserve">
+    <value>Select Group</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Tests</comment>
+  </data>
+  <data name="Tests_Edit" xml:space="preserve">
+    <value>Edit Test</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Tests -&gt; Edit</comment>
+  </data>
+  <data name="Tests_List" xml:space="preserve">
+    <value>Tests List</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Tests -&gt; Index</comment>
+  </data>
+  <data name="Users_CreateTitle" xml:space="preserve">
+    <value>Create</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users</comment>
+  </data>
+  <data name="Users_UserInformation" xml:space="preserve">
+    <value>User Information</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users</comment>
+  </data>
+  <data name="Users_CustomerInformation" xml:space="preserve">
+    <value>Customer Information</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users</comment>
+  </data>
+  <data name="Users_EditAdmin" xml:space="preserve">
+    <value>Edit Admin</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; EditAdmin</comment>
+  </data>
+  <data name="Users_AccountType" xml:space="preserve">
+    <value>Account Type</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="Users_OrderID" xml:space="preserve">
+    <value>Order ID</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="Users_MinPrice" xml:space="preserve">
+    <value>Min Price</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="Users_MaxPrice" xml:space="preserve">
+    <value>Max Price</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="Users_CustomerName" xml:space="preserve">
+    <value>Customer Name</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="UserTypes_EditTitle" xml:space="preserve">
+    <value>Edit User Type</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Edit</comment>
+  </data>
+  <data name="Shared_EnterName" xml:space="preserve">
+    <value>Enter name</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes</comment>
+  </data>
+  <data name="UserTypes_AddNew" xml:space="preserve">
+    <value>Add New User Type</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Create</comment>
+  </data>
+  <data name="UserTypes_HasDashboard" xml:space="preserve">
+    <value>Has Dashboard</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes</comment>
+  </data>
+  <data name="UserTypes_Registerable" xml:space="preserve">
+    <value>Registerable</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes</comment>
+  </data>
+  <data name="UserTypes_DefaultController" xml:space="preserve">
+    <value>Default Controller</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes</comment>
+  </data>
+  <data name="UserTypes_DefaultAction" xml:space="preserve">
+    <value>Default Action</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes</comment>
+  </data>
+  <data name="UserTypes_DefaultArea" xml:space="preserve">
+    <value>Default Area</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes</comment>
+  </data>
+  <data name="UserTypes_DefaultRole" xml:space="preserve">
+    <value>Default Role</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes</comment>
+  </data>
+  <data name="UserTypes_AdminApproval" xml:space="preserve">
+    <value>Requires Admin Approval</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes</comment>
+  </data>
+  <data name="UserTypes_Title" xml:space="preserve">
+    <value>User Types</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Index</comment>
+  </data>
+  <data name="UserTypes_Area" xml:space="preserve">
+    <value>Area</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Index</comment>
+  </data>
+  <data name="UserTypes_AddUser" xml:space="preserve">
+    <value>Add User</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; UsersTypes -&gt; Index</comment>
+  </data>
+  <data name="Msg_ConfirmDelete" xml:space="preserve">
+    <value>Are you sure you want to delete this item?</value>
+    <comment>Messages</comment>
+  </data>
+  <data name="Msg_ConfirmDeleteGroup" xml:space="preserve">
+    <value>Delete this group?</value>
+    <comment>Messages</comment>
+  </data>
+  <data name="Msg_ConfirmDeleteTest" xml:space="preserve">
+    <value>Delete this test?</value>
+    <comment>Messages</comment>
+  </data>
+  <data name="Msg_AreYouSure" xml:space="preserve">
+    <value>Are you sure?</value>
+    <comment>Messages</comment>
+  </data>
+  <data name="Profile_SelectPhoto" xml:space="preserve">
+    <value>Select new profile photo</value>
+    <comment>Profile Page - file input placeholder</comment>
+  </data>
+  <data name="Shared_Controller" xml:space="preserve">
+    <value>Controller</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Shared_Action" xml:space="preserve">
+    <value>Action</value>
+    <comment>Shared</comment>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+    <comment>Shared - general status label</comment>
+  </data>
+  <data name="Dashboard_Eyebrow" xml:space="preserve">
+    <value>PhysioTech — System Overview</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard</comment>
+  </data>
+  <data name="Dropzone_InvalidExtension" xml:space="preserve">
+    <value>Invalid extension: {0}</value>
+    <comment>Blog file upload client validation</comment>
+  </data>
+  <data name="Dropzone_FileTooLarge" xml:space="preserve">
+    <value>File too large: {0}</value>
+    <comment>Blog file upload client validation</comment>
+  </data>
+  <data name="Error_PatientProfileNotFound" xml:space="preserve">
+    <value>Patient profile not found.</value>
+    <comment>Areas -&gt; Patient -&gt; Views</comment>
+  </data>
+  <data name="Error_LoadTimeSlots" xml:space="preserve">
+    <value>Failed to load time slots</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Error_LoadSlotsForDuration" xml:space="preserve">
+    <value>Error loading time slots for appointment duration. Please try again.</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Validation_SelectAtLeastOneSlot" xml:space="preserve">
+    <value>Please select at least one time slot before creating the appointment.</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Validation_ConsecutiveSlotsOnly" xml:space="preserve">
+    <value>Please select only consecutive time slots.</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Error_MissingSlotData" xml:space="preserve">
+    <value>Time slot data is missing. Please refresh the page and try again.</value>
+    <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; ScheduleAppointment</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+    <comment>Views -&gt; Shared -&gt; Alerts</comment>
+  </data>
+  <data name="Shared_Select" xml:space="preserve">
+    <value>Select...</value>
+    <comment>Shared dropdown placeholder</comment>
+  </data>
+  <data name="Login_PageTitle" xml:space="preserve">
+    <value>Login</value>
+    <comment>Views -&gt; Auth -&gt; Login</comment>
+  </data>
+  <data name="Reg_PageTitle" xml:space="preserve">
+    <value>Register</value>
+    <comment>Views -&gt; Auth -&gt; Register</comment>
+  </data>
+  <data name="ForgotPass_PageTitle" xml:space="preserve">
+    <value>Forgot Password</value>
+    <comment>Views -&gt; Auth -&gt; ForgotPassword</comment>
+  </data>
+  <data name="ForgotConf_PageTitle" xml:space="preserve">
+    <value>Password Reset Confirmation</value>
+    <comment>Views -&gt; Auth -&gt; ForgotPasswordConfirmation</comment>
+  </data>
+  <data name="Verify_PageTitle" xml:space="preserve">
+    <value>Email Verification</value>
+    <comment>Views -&gt; Auth -&gt; VerifyEmail</comment>
+  </data>
+  <data name="Therapies_PageTitle" xml:space="preserve">
+    <value>Therapies</value>
+    <comment>Views -&gt; Home -&gt; Therapies</comment>
+  </data>
+  <data name="Auth_SelectAccountTitle" xml:space="preserve">
+    <value>Select Account Type</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_ChooseAccountHeading" xml:space="preserve">
+    <value>Choose Your Account Type</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_ChooseAccountSubheading" xml:space="preserve">
+    <value>Please select the type of account you want to create</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_DoctorAccount" xml:space="preserve">
+    <value>Therapist Account</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_DoctorDescription" xml:space="preserve">
+    <value>For medical professionals to manage patients and appointments</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_PatientAccount" xml:space="preserve">
+    <value>Patient Account</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_PatientDescription" xml:space="preserve">
+    <value>For patients to book appointments and manage their medical records</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_AlreadyHaveAccount" xml:space="preserve">
+    <value>Already have an account?</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Auth_SignInHere" xml:space="preserve">
+    <value>Sign in here</value>
+    <comment>Views -&gt; Auth -&gt; SelectAccountType</comment>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success</value>
+    <comment>Views -&gt; Shared -&gt; Alerts</comment>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+    <comment>Views -&gt; Shared -&gt; Alerts</comment>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Info</value>
+    <comment>Views -&gt; Shared -&gt; Alerts</comment>
+  </data>
 </root>

@@ -57,13 +57,68 @@ namespace IPTS.Services
         }
         public async Task SendRejectionEmailAsync(string toEmail, string patientName, string reason)
         {
+            if (string.IsNullOrWhiteSpace(toEmail))
+            {
+                LogHelper.LogWithContext(
+                    "Skipped rejection email: patient email is empty",
+                    string.Empty,
+                    "doctor",
+                    "AppointmentService.SendRejectionEmailAsync",
+                    Serilog.Events.LogEventLevel.Warning);
+                return;
+            }
+
             var subject = _locService.GetSystem("Email_Subject_AppointmentRejected");
-           var body = string.Format(
-    _locService.GetSystem("Email_Body_AppointmentRejected"), 
-    patientName, 
-    reason
-);
+            var body = string.Format(
+                _locService.GetSystem("Email_Body_AppointmentRejected"),
+                patientName,
+                reason
+            );
+
             await _emailService.SendEmail(toEmail, subject, body);
+
+            LogHelper.LogWithContext(
+                $"Rejection email sent to {toEmail}",
+                string.Empty,
+                "doctor",
+                "AppointmentService.SendRejectionEmailAsync",
+                Serilog.Events.LogEventLevel.Information);
+        }
+
+        public async Task SendAcceptanceEmailAsync(string toEmail, string patientName, DateTime scheduledDate, int startSlotIndex, int endSlotIndex)
+        {
+            if (string.IsNullOrWhiteSpace(toEmail))
+            {
+                LogHelper.LogWithContext(
+                    "Skipped acceptance email: patient email is empty",
+                    string.Empty,
+                    "doctor",
+                    "AppointmentService.SendAcceptanceEmailAsync",
+                    Serilog.Events.LogEventLevel.Warning);
+                return;
+            }
+
+            var startTime = scheduledDate.Date.AddHours(8).AddMinutes(startSlotIndex * 20);
+            var endTime = scheduledDate.Date.AddHours(8).AddMinutes((endSlotIndex + 1) * 20);
+            var dateText = startTime.ToString("dd.MM.yyyy");
+            var timeRange = $"{startTime:HH:mm} – {endTime:HH:mm}";
+
+            var subject = _locService.GetSystem("Email_Subject_AppointmentAccepted");
+            var body = string.Format(
+                _locService.GetSystem("Email_Body_AppointmentAccepted"),
+                patientName,
+                dateText,
+                timeRange
+            );
+
+            await _emailService.SendEmail(toEmail, subject, body);
+
+            LogHelper.LogWithContext(
+                $"Acceptance email sent to {toEmail} for {dateText} {timeRange}",
+                string.Empty,
+                "doctor",
+                "AppointmentService.SendAcceptanceEmailAsync",
+                Serilog.Events.LogEventLevel.Information);
         }
         public async Task<bool> HasPendingAppointmentAsync(int patientId, int doctorId, DateTime scheduledDate, int slotIndex)
         {

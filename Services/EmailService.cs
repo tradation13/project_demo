@@ -74,7 +74,7 @@ private string GetHtmlTemplate(string content, string contentId)
     var primaryColor = "#27ae60"; // الأخضر الجذاب اللي اخترناه
 
     return $@"
-    <div dir='rtl' style='font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 30px;'>
+    <div dir='ltr' style='direction: ltr; font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 30px;'>
         <div style='max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; border-top: 5px solid {primaryColor};'>
             
             <div style='text-align: center; padding: 25px 20px;'>
@@ -82,8 +82,8 @@ private string GetHtmlTemplate(string content, string contentId)
                 <h2 style='color: {primaryColor}; margin-top: 15px; margin-bottom: 0;'>Physiotech</h2>
             </div>
 
-            <div style='padding: 30px 40px; text-align: center; color: #555; line-height: 1.8;'>
-                <div style='background-color: #f9f9f9; padding: 20px; border-radius: 8px;'>
+            <div style='padding: 30px 40px; text-align: left; direction: ltr; color: #555; line-height: 1.8;'>
+                <div style='background-color: #f9f9f9; padding: 20px; border-radius: 8px; direction: ltr; unicode-bidi: plaintext;'>
                     {content}
                 </div>
             </div>
@@ -105,6 +105,11 @@ private string GetHtmlTemplate(string content, string contentId)
                     <p style='margin: 5px 0;'>
                         <span style='color: {primaryColor}; font-size: 18px;'>🌐</span> 
                         <a href='https://physiotech-ehrenfeld.de/' style='color: #666; text-decoration: none;'>physiotech-ehrenfeld.de</a>
+                    </p>
+
+                    <p style='margin: 5px 0;'>
+                        <span style='color: {primaryColor}; font-size: 18px;'>✉️</span> 
+                        <a href='mailto:dr.kurtoglu@physiotech-ehrenfeld.de' style='color: #666; text-decoration: none;'>dr.kurtoglu@physiotech-ehrenfeld.de</a>
                     </p>
                 </div>
             </div>

@@ -211,16 +211,19 @@
                                 </span>
                                 <select asp-for="Doctor.SpecialtyId" class="block w-full appearance-none rounded-lg border border-slate-200 bg-white py-2 ps-9 pe-8 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10">
                                     <option value="">@SharedLocalizer["Users_SelectSpecialty"]</option>
-                                    @if (ViewBag.Specialties is List<Specialty> specialties && specialties.Any())
+                                    @{
+                                        var specialtiesList = ViewBag.Specialties as IEnumerable<Specialty>;
+                                    }
+                                    @if (specialtiesList != null && specialtiesList.Any())
                                     {
-                                        foreach (var specialty in specialties)
+                                        foreach (var specialty in specialtiesList)
                                         {
                                             <option value="@specialty.Id">@specialty.Name</option>
                                         }
                                     }
                                     else
                                     {
-                                        <option value="">@SharedLocalizer["Users_NoSpecialties"]</option>
+                                        <option value="" disabled>@SharedLocalizer["Users_NoSpecialties"]</option>
                                     }
                                 </select>
                                 <span class="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3 text-slate-300">

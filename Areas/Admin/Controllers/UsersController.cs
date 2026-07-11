@@ -102,10 +102,7 @@ namespace IPTS.Areas.Admin.Controllers
                         LogEventLevel.Warning
                     );
                 }
-                if (UserType?.ToLower() == "doctor")
-                {
-                    ViewBag.Specialties = await _specialtyService.GetAllAsync();
-                }
+                await PrepareUserFormViewBagAsync(UserType);
 
                 return View(model);
             }
@@ -137,11 +134,8 @@ namespace IPTS.Areas.Admin.Controllers
                     LogEventLevel.Warning
                 );
 
-
-                if (model.Doctor != null)
-                    ViewBag.Specialties = await _specialtyService.GetAllAsync();
-
-                return View(model);
+                await PrepareUserFormViewBagAsync(UserType);
+                return View("UserForm", model);
             }
 
             try
@@ -182,10 +176,17 @@ namespace IPTS.Areas.Admin.Controllers
                     "UsersController.UserFormAsync",
                     LogEventLevel.Fatal
                 );
-                // throw;
-                // ✅ منع الكراش وإظهار رسالة للمستخدم
-        ModelState.AddModelError(string.Empty, _locService.GetSystem("Msg_ErrorSave"));
-        return View(model);
+                ModelState.AddModelError(string.Empty, _locService.GetSystem("Msg_ErrorSave"));
+                await PrepareUserFormViewBagAsync(UserType);
+                return View("UserForm", model);
+            }
+        }
+
+        private async Task PrepareUserFormViewBagAsync(string? userType)
+        {
+            if (string.Equals(userType, "doctor", StringComparison.OrdinalIgnoreCase))
+            {
+                ViewBag.Specialties = await _specialtyService.GetAllAsync();
             }
         }
 

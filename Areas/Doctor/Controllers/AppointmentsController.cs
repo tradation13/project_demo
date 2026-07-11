@@ -699,6 +699,7 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
             {
                 AppointmentId = id,
                 PatientName = appointment.PatientName,
+                PatientEmail = appointment.PatientEmail,
                 ScheduledDate = appointment.ScheduledTime.Date,
                 AvailableSlots = slots,
                 SelectedSlots = selectedRange,
@@ -731,6 +732,23 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
             if (updated)
             {
                 await _appointmentService.CancelOtherPendingAppointmentsAsync(model.AppointmentId);
+
+                var startSlot = model.SelectedSlots.Min();
+                var endSlot = model.SelectedSlots.Max();
+                await _appointmentService.SendAcceptanceEmailAsync(
+                    model.PatientEmail,
+                    model.PatientName,
+                    model.ScheduledDate,
+                    startSlot,
+                    endSlot);
+
+                LogHelper.LogWithContext(
+                    $"Appointment {model.AppointmentId} accepted; notification email sent to {model.PatientEmail}",
+                    User?.Identity?.Name ?? "Unknown",
+                    "Doctor",
+                    "AppointmentsController.AcceptRequest",
+                    LogEventLevel.Information);
+
                 TempData["SuccessMessage"] = _locService.GetSystem("Msg_AppointmentConfirmedSlotsUpdated");
             }
             else
@@ -765,8 +783,14 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
 
             await _appointmentService.UpdateAppointmentStatusAsync(model.AppointmentId, AppointmentStatus.Cancelled);
 
-            // إرسال الإيميل
             await _appointmentService.SendRejectionEmailAsync(model.PatientEmail, model.PatientName, model.RejectReason);
+
+            LogHelper.LogWithContext(
+                $"Appointment {model.AppointmentId} rejected; notification email sent to {model.PatientEmail}",
+                User?.Identity?.Name ?? "Unknown",
+                "Doctor",
+                "AppointmentsController.RejectRequest",
+                LogEventLevel.Information);
 
             TempData["SuccessMessage"] = _locService.GetSystem("Msg_AppointmentRejectedSuccess");
             return RedirectToAction(nameof(Requests));

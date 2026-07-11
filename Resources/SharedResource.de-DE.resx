@@ -2703,4 +2703,52 @@
     <value>Therapien</value>
     <comment>Views -&gt; Home -&gt; Therapies</comment>
   </data>
+  <data name="MedCase_Det_Highest" xml:space="preserve">
+    <value>Höchster</value>
+    <comment>Patient MedicalCases Details - stats</comment>
+  </data>
+  <data name="MedCase_Det_Lowest" xml:space="preserve">
+    <value>Niedrigster</value>
+    <comment>Patient MedicalCases Details - stats</comment>
+  </data>
+  <data name="MedCase_Det_Average" xml:space="preserve">
+    <value>Durchschnitt</value>
+    <comment>Patient MedicalCases Details - stats</comment>
+  </data>
+  <data name="MedCase_Det_OverallProgress" xml:space="preserve">
+    <value>Gesamtfortschritt</value>
+    <comment>Patient MedicalCases Details - progress</comment>
+  </data>
+  <data name="MedCase_Det_Increased" xml:space="preserve">
+    <value>Gestiegen</value>
+    <comment>Patient MedicalCases Details - progress</comment>
+  </data>
+  <data name="MedCase_Det_Decreased" xml:space="preserve">
+    <value>Gesunken</value>
+    <comment>Patient MedicalCases Details - progress</comment>
+  </data>
+  <data name="MedCase_Det_Stable" xml:space="preserve">
+    <value>Stabil</value>
+    <comment>Patient MedicalCases Details - progress</comment>
+  </data>
+  <data name="MedCase_Det_By" xml:space="preserve">
+    <value>um</value>
+    <comment>Patient MedicalCases Details - progress</comment>
+  </data>
+  <data name="MedCase_Det_SinceFirstTest" xml:space="preserve">
+    <value>Seit dem ersten Test</value>
+    <comment>Patient MedicalCases Details - progress</comment>
+  </data>
+  <data name="MedCase_Det_LatestResult" xml:space="preserve">
+    <value>Aktuelles Ergebnis</value>
+    <comment>Patient MedicalCases Details - single result</comment>
+  </data>
+  <data name="MedCase_Det_Date" xml:space="preserve">
+    <value>Datum</value>
+    <comment>Patient MedicalCases Details - table</comment>
+  </data>
+  <data name="MedCase_Det_ProgressChart" xml:space="preserve">
+    <value>Fortschrittsdiagramm</value>
+    <comment>Patient MedicalCases Details - chart aria</comment>
+  </data>
 </root>

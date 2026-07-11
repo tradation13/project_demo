@@ -12,3 +12,7 @@
     <partial name="PublicSide/Footer" />
     <partial name="PublicSide/ChatbotWidget" />
 </div>
+
+@section Scripts {
+    @await RenderSectionAsync("Scripts", required: false)
+}

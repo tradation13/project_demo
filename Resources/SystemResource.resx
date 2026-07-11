@@ -189,4 +189,12 @@
     <value>Connection to AI service failed.</value>
     <comment>MedicalReportService - AI fallback</comment>
   </data>
+  <data name="AI_DisclaimerTitle" xml:space="preserve">
+    <value>Important Notice</value>
+    <comment>MedicalReportService - AI disclaimer</comment>
+  </data>
+  <data name="AI_DisclaimerText" xml:space="preserve">
+    <value>This report is AI-assisted and intended for informational support only. It is not a medical diagnosis and does not replace professional clinical judgment. Please consult your doctor or therapist for any medical decisions.</value>
+    <comment>MedicalReportService - AI disclaimer</comment>
+  </data>
 </root>

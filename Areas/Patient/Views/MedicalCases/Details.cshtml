@@ -4,12 +4,12 @@
     Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
 
     var patient = ViewBag.Patient as IPTS.Models.Entites.Patient;
+    var chartPayload = new List<object>();
 }
 
 <section class="py-16" aria-label="Medical Case Details">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
-        <!-- Title + Back Button -->
         <div class="mb-12 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
             <a href="@Url.Action("Index", "MedicalCases", new { area = "patient" })"
                class="inline-flex w-fit items-center gap-2 self-start rounded-lg border border-slate-300 bg-slate-100 px-5 py-2.5 font-normal text-slate-700 transition hover:border-slate-400 hover:bg-slate-200 sm:self-auto">
@@ -18,13 +18,11 @@
             <h2 class="w-full text-center text-2xl font-bold leading-tight sm:flex-1 sm:text-3xl">@SharedLocalizer["MedCase_Det_Title"] : @Model.Name</h2>
         </div>
 
-
-        <!-- Tests Section -->
         @if (Model.MedicalCaseTests == null || !Model.MedicalCaseTests.Any())
         {
-                <div class="mx-auto w-1/2 rounded border-l-4 border-yellow-400 bg-yellow-50 p-6 text-center">
-                    <p class="text-yellow-800">@SharedLocalizer["MedCase_Det_NoTests"]</p>
-                </div>
+            <div class="mx-auto w-full max-w-xl rounded border-l-4 border-yellow-400 bg-yellow-50 p-6 text-center">
+                <p class="text-yellow-800">@SharedLocalizer["MedCase_Det_NoTests"]</p>
+            </div>
         }
         else
         {
@@ -35,29 +33,228 @@
 
             foreach (var group in grouped)
             {
-                        <div class="mb-8">
-                            <h3 class="mb-4 border-b border-teal-300 pb-1 text-center text-lg font-bold text-teal-700">@group.Key</h3>
+                var testsByName = group
+                    .GroupBy(t => t.Test.Name)
+                    .OrderBy(t => t.Key);
 
-                            <div class="flex flex-wrap justify-center gap-6">
-                        @foreach (var test in group.OrderBy(t => t.Test.Name))
+                <div class="mb-12">
+                    <h3 class="mb-6 border-b border-teal-300 pb-2 text-center text-lg font-bold text-teal-700">@group.Key</h3>
+
+                    <div class="space-y-8">
+                        @foreach (var testGroup in testsByName)
                         {
-                            var hasResult = !string.IsNullOrWhiteSpace(test.Result);
+                            var ordered = testGroup
+                                .Where(t => !string.IsNullOrWhiteSpace(t.Result))
+                                .OrderBy(t => t.CreatedAt)
+                                .ToList();
 
-                                        <div class="flex w-80 flex-col gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all duration-200 hover:shadow-md">
-                                            <div class="text-center">
-                                                <div class="font-bold text-gray-800">@test.Test.Name</div>
-                                                <div class="mt-1 text-sm text-gray-600">
-                                                    @SharedLocalizer["Shared_Result"]: @(hasResult ? test.Result : @SharedLocalizer["MedCase_Det_NotSet"])
-                                                </div>
-                                                <div class="mt-1 text-xs text-gray-400">
-                                                    @SharedLocalizer["Shared_Added"]: @test.CreatedAt.ToString("yyyy-MM-dd")
-                                                </div>
+                            var pending = testGroup
+                                .Where(t => string.IsNullOrWhiteSpace(t.Result))
+                                .OrderBy(t => t.CreatedAt)
+                                .ToList();
+
+                            var numericValues = ordered
+                                .Select(t => double.TryParse(t.Result, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var v)
+                                    ? (double?)v
+                                    : null)
+                                .Where(v => v.HasValue)
+                                .Select(v => v!.Value)
+                                .ToList();
+
+                            var hasNumericSeries = numericValues.Count >= 1;
+                            var chartId = $"chart-{group.Key.GetHashCode():X}-{testGroup.Key.GetHashCode():X}";
+
+                            <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                                <div class="border-b border-slate-100 bg-gradient-to-r from-teal-50 to-white px-5 py-4">
+                                    <h4 class="text-center text-lg font-bold text-slate-800">@testGroup.Key</h4>
+                                </div>
+
+                                <div class="p-5 sm:p-6">
+                                    @if (!ordered.Any() && pending.Any())
+                                    {
+                                        <div class="rounded-xl bg-slate-50 px-4 py-8 text-center text-slate-500">
+                                            @SharedLocalizer["MedCase_Det_NotSet"]
+                                        </div>
+                                    }
+                                    else if (hasNumericSeries)
+                                    {
+                                        var maxVal = numericValues.Max();
+                                        var minVal = numericValues.Min();
+                                        var avgVal = numericValues.Average();
+
+                                        <div class="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                                            <div class="rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-center">
+                                                <div class="text-[10px] font-bold uppercase tracking-wide text-emerald-700/80">@SharedLocalizer["MedCase_Det_Highest"]</div>
+                                                <div class="mt-1 text-xl font-bold text-emerald-800">@maxVal.ToString("F1")</div>
+                                            </div>
+                                            <div class="rounded-xl border border-rose-100 bg-rose-50 px-4 py-3 text-center">
+                                                <div class="text-[10px] font-bold uppercase tracking-wide text-rose-700/80">@SharedLocalizer["MedCase_Det_Lowest"]</div>
+                                                <div class="mt-1 text-xl font-bold text-rose-800">@minVal.ToString("F1")</div>
+                                            </div>
+                                            <div class="rounded-xl border border-sky-100 bg-sky-50 px-4 py-3 text-center">
+                                                <div class="text-[10px] font-bold uppercase tracking-wide text-sky-700/80">@SharedLocalizer["MedCase_Det_Average"]</div>
+                                                <div class="mt-1 text-xl font-bold text-sky-800">@avgVal.ToString("F1")</div>
                                             </div>
                                         </div>
-                        }
+
+                                        @if (numericValues.Count > 1)
+                                        {
+                                            var firstVal = numericValues.First();
+                                            var lastVal = numericValues.Last();
+                                            var diff = lastVal - firstVal;
+                                            var percent = firstVal != 0 ? (diff / firstVal) * 100 : 0;
+                                            var statusText = diff > 0
+                                                ? SharedLocalizer["MedCase_Det_Increased"].Value
+                                                : (diff < 0 ? SharedLocalizer["MedCase_Det_Decreased"].Value : SharedLocalizer["MedCase_Det_Stable"].Value);
+                                            var statusClass = diff > 0 ? "text-emerald-700" : (diff < 0 ? "text-rose-700" : "text-sky-700");
+                                            var arrow = diff > 0 ? "↑" : (diff < 0 ? "↓" : "↔");
+                                            var firstTestDate = ordered.First().CreatedAt.ToString("yyyy-MM-dd");
+
+                                            chartPayload.Add(new
+                                            {
+                                                id = chartId,
+                                                labels = ordered.Select(t => t.CreatedAt.ToString("MM-dd")).ToList(),
+                                                values = numericValues
+                                            });
+
+                                            <div class="mb-5 flex flex-col gap-2 rounded-xl border border-slate-100 bg-slate-50 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+                                                <div>
+                                                    <div class="text-[11px] font-bold uppercase tracking-wide text-slate-400">@SharedLocalizer["MedCase_Det_OverallProgress"]</div>
+                                                    <div class="mt-1 text-lg font-bold text-slate-800">
+                                                        @statusText @SharedLocalizer["MedCase_Det_By"]
+                                                        <span class="@statusClass">@Math.Abs(percent).ToString("F1")%</span>
+                                                        <span class="@statusClass">@arrow</span>
+                                                    </div>
+                                                </div>
+                                                <div class="text-xs text-slate-400 sm:text-right">
+                                                    @SharedLocalizer["MedCase_Det_SinceFirstTest"] (@firstTestDate)
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-5 h-56 rounded-xl border border-slate-100 bg-white p-3 sm:p-4">
+                                                <canvas id="@chartId" aria-label="@SharedLocalizer["MedCase_Det_ProgressChart"]"></canvas>
+                                            </div>
+
+                                            <div class="overflow-hidden rounded-xl border border-slate-100">
+                                                <table class="w-full text-sm">
+                                                    <thead>
+                                                        <tr class="border-b border-slate-100 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                                                            <th class="px-4 py-3 text-left font-semibold">@SharedLocalizer["MedCase_Det_Date"]</th>
+                                                            <th class="px-4 py-3 text-center font-semibold">@SharedLocalizer["Shared_Result"]</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var t in ordered)
+                                                        {
+                                                            <tr class="border-b border-slate-50 last:border-0">
+                                                                <td class="px-4 py-2.5 text-slate-600">@t.CreatedAt.ToString("yyyy-MM-dd")</td>
+                                                                <td class="px-4 py-2.5 text-center font-bold text-teal-700">@t.Result</td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            var single = ordered.First();
+                                            <div class="rounded-xl bg-teal-50 px-6 py-8 text-center">
+                                                <div class="text-sm font-medium text-teal-700">@SharedLocalizer["MedCase_Det_LatestResult"]</div>
+                                                <div class="mt-2 text-4xl font-bold text-teal-900">@single.Result</div>
+                                                <div class="mt-2 text-sm text-slate-500">
+                                                    <i class="fa-regular fa-calendar mr-1"></i>@single.CreatedAt.ToString("yyyy-MM-dd")
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="overflow-hidden rounded-xl border border-slate-100">
+                                            <table class="w-full text-sm">
+                                                <thead>
+                                                    <tr class="border-b border-slate-100 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                                                        <th class="px-4 py-3 text-left font-semibold">@SharedLocalizer["MedCase_Det_Date"]</th>
+                                                        <th class="px-4 py-3 text-center font-semibold">@SharedLocalizer["Shared_Result"]</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var t in ordered)
+                                                    {
+                                                        <tr class="border-b border-slate-50 last:border-0">
+                                                            <td class="px-4 py-2.5 text-slate-600">@t.CreatedAt.ToString("yyyy-MM-dd")</td>
+                                                            <td class="px-4 py-2.5 text-center font-bold text-teal-700">@t.Result</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    }
+                                </div>
                             </div>
-                        </div>
+                        }
+                    </div>
+                </div>
             }
         }
     </div>
 </section>
+
+@section Scripts {
+    @if (chartPayload.Any())
+    {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+        <script>
+            (function () {
+                const charts = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(chartPayload));
+                charts.forEach(function (item) {
+                    const canvas = document.getElementById(item.id);
+                    if (!canvas || typeof Chart === 'undefined') return;
+
+                    new Chart(canvas, {
+                        type: 'line',
+                        data: {
+                            labels: item.labels,
+                            datasets: [{
+                                data: item.values,
+                                borderColor: '#00695c',
+                                backgroundColor: 'rgba(0, 191, 165, 0.12)',
+                                borderWidth: 3,
+                                pointBackgroundColor: '#fff',
+                                pointBorderColor: '#00796b',
+                                pointBorderWidth: 3,
+                                pointRadius: 5,
+                                pointHoverRadius: 7,
+                                fill: true,
+                                tension: 0.35
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: '#004d40',
+                                    titleColor: '#e0f2f1',
+                                    bodyColor: '#fff',
+                                    padding: 10,
+                                    cornerRadius: 8
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    grid: { display: false },
+                                    ticks: { color: '#94a3b8', font: { size: 11 } }
+                                },
+                                y: {
+                                    grid: { color: '#f1f5f9', drawBorder: false },
+                                    ticks: { color: '#94a3b8', font: { size: 11 } }
+                                }
+                            }
+                        }
+                    });
+                });
+            })();
+        </script>
+    }
+}

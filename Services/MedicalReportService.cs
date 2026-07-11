@@ -242,10 +242,36 @@ sb.Append($@"
         font-weight: 600;
     }}
 
+    /* AI Disclaimer */
+    .ai-disclaimer {{
+        margin-top: 48px;
+        padding: 18px 20px;
+        background: linear-gradient(135deg, #fff8e1 0%, #fff3e0 100%);
+        border: 1px solid #ffe0b2;
+        border-left: 5px solid #ef6c00;
+        border-radius: 10px;
+        page-break-inside: avoid;
+    }}
+
+    .ai-disclaimer-title {{
+        font-weight: 700;
+        font-size: 0.95em;
+        color: #e65100;
+        margin-bottom: 6px;
+        letter-spacing: 0.02em;
+    }}
+
+    .ai-disclaimer p {{
+        margin: 0;
+        font-size: 0.88em;
+        color: #5d4037;
+        line-height: 1.55;
+    }}
+
     /* Footer */
     .footer {{
         border-top: 2px solid #004d40;
-        margin-top: 50px;
+        margin-top: 28px;
         padding-top: 10px;
         font-size: 0.8em;
         color: #777;
@@ -349,8 +375,14 @@ if (testAnalyses.ContainsKey(testName))
                 }
             }
 
-    // الفوتر مع ترجمة "Generated on"
-    sb.Append($@"<div class='footer'>{_loc.GetSystem("GeneratedOn")} {DateTime.Now:yyyy-MM-dd HH:mm}</div></div></body></html>");
+    // تنويه الذكاء الاصطناعي + الفوتر
+    sb.Append($@"
+    <div class='ai-disclaimer'>
+        <div class='ai-disclaimer-title'>{_loc.GetSystem("AI_DisclaimerTitle")}</div>
+        <p>{_loc.GetSystem("AI_DisclaimerText")}</p>
+    </div>
+    <div class='footer'>{_loc.GetSystem("GeneratedOn")} {DateTime.Now:yyyy-MM-dd HH:mm}</div>
+</div></body></html>");
 
     return sb.ToString();
 }

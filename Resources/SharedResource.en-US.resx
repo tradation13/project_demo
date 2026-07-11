@@ -2689,4 +2689,52 @@
     <value>Info</value>
     <comment>Views -&gt; Shared -&gt; Alerts</comment>
   </data>
+  <data name="MedCase_Det_Highest" xml:space="preserve">
+    <value>Highest</value>
+    <comment>Patient MedicalCases Details - stats</comment>
+  </data>
+  <data name="MedCase_Det_Lowest" xml:space="preserve">
+    <value>Lowest</value>
+    <comment>Patient MedicalCases Details - stats</comment>
+  </data>
+  <data name="MedCase_Det_Average" xml:space="preserve">
+    <value>Average</value>
+    <comment>Patient MedicalCases Details - stats</comment>
+  </data>
+  <data name="MedCase_Det_OverallProgress" xml:space="preserve">
+    <value>Overall Progress</value>
+    <comment>Patient MedicalCases Details - progress</comment>
+  </data>
+  <data name="MedCase_Det_Increased" xml:space="preserve">
+    <value>Increased</value>
+    <comment>Patient MedicalCases Details - progress</comment>
+  </data>
+  <data name="MedCase_Det_Decreased" xml:space="preserve">
+    <value>Decreased</value>
+    <comment>Patient MedicalCases Details - progress</comment>
+  </data>
+  <data name="MedCase_Det_Stable" xml:space="preserve">
+    <value>Stable</value>
+    <comment>Patient MedicalCases Details - progress</comment>
+  </data>
+  <data name="MedCase_Det_By" xml:space="preserve">
+    <value>by</value>
+    <comment>Patient MedicalCases Details - progress</comment>
+  </data>
+  <data name="MedCase_Det_SinceFirstTest" xml:space="preserve">
+    <value>Since first test</value>
+    <comment>Patient MedicalCases Details - progress</comment>
+  </data>
+  <data name="MedCase_Det_LatestResult" xml:space="preserve">
+    <value>Latest Result</value>
+    <comment>Patient MedicalCases Details - single result</comment>
+  </data>
+  <data name="MedCase_Det_Date" xml:space="preserve">
+    <value>Date</value>
+    <comment>Patient MedicalCases Details - table</comment>
+  </data>
+  <data name="MedCase_Det_ProgressChart" xml:space="preserve">
+    <value>Progress chart</value>
+    <comment>Patient MedicalCases Details - chart aria</comment>
+  </data>
 </root>

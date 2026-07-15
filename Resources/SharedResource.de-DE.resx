@@ -2076,6 +2076,10 @@
     <value>Letzten Bericht anzeigen</value>
     <comment>Button zum Anzeigen des letzten Berichts für einen medizinischen Fall</comment>
   </data>
+  <data name="Shared_Report_FileNotFound" xml:space="preserve">
+    <value>Berichtsdatei nicht gefunden</value>
+    <comment>Angezeigt, wenn ein Berichtsverlauf existiert, die PDF-Datei aber fehlt</comment>
+  </data>
 
   <data name="Dash_NoPendingRequests" xml:space="preserve">
     <value>Keine ausstehenden Anfragen</value>

@@ -1860,6 +1860,10 @@
     <value>View Latest Report</value>
     <comment>Button to view the latest report for a medical case</comment>
   </data>
+  <data name="Shared_Report_FileNotFound" xml:space="preserve">
+    <value>Report file not found</value>
+    <comment>Shown when latest report history exists but the PDF file is missing</comment>
+  </data>
   <data name="System_FullTitle" xml:space="preserve">
     <value>Physiotech</value>
     <comment>Views -&gt; Home -&gt; AboutSection</comment>

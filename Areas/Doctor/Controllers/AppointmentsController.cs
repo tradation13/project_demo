@@ -407,6 +407,20 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
                 
                 
                 var slotIndices = Enumerable.Range(model.StartSlotIndex, totalSlots).ToList();
+
+                // Strict server-side lock: doctor cannot schedule already pending/confirmed slots
+                var slotsFree = await _appointmentService.AreSlotsAvailableAsync(
+                    string.IsNullOrWhiteSpace(model.Time) || !DateTimeOffset.TryParse(model.Time, out var dto)
+                        ? model.ScheduledDate
+                        : dto.UtcDateTime,
+                    model.DoctorId,
+                    slotIndices);
+
+                if (!slotsFree)
+                {
+                    TempData["ErrorMessage"] = _locService.GetSystem("Error_SlotNoLongerAvailable");
+                    return View(model);
+                }
                 
                 var result = await _appointmentService.CreateAppointmentWithSlotsAsync(model, slotIndices);
 
@@ -577,9 +591,52 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
                     return NotFound(_locService.GetSystem("Error_DoctorProfileNotFound"));
                 }
 
-                
+                var existing = await _appointmentService.GetByIdAsync(id);
+                if (existing == null || existing.DoctorId != doctor.Id)
+                    return NotFound();
+
+                // Preserve slot range so a simple status/time edit cannot wipe booked indices
+                var preservedStartSlot = existing.StartSlotIndex;
+                var preservedEndSlot = existing.EndSlotIndex;
+                var preservedDoctorId = existing.DoctorId;
+                var preservedPatientId = existing.PatientId;
+
+                // If appointment still occupies calendar, new schedule must not collide with others
+                var willOccupySlots = model.Status == AppointmentStatus.Pending
+                    || model.Status == AppointmentStatus.Confirmed;
+
+                if (willOccupySlots)
+                {
+                    var slotIndices = Enumerable
+                        .Range(preservedStartSlot, (preservedEndSlot - preservedStartSlot) + 1)
+                        .ToList();
+
+                    var slotsFree = await _appointmentService.AreSlotsAvailableAsync(
+                        model.ScheduledTime,
+                        preservedDoctorId,
+                        slotIndices,
+                        excludeAppointmentId: id);
+
+                    if (!slotsFree)
+                    {
+                        TempData["ErrorMessage"] = _locService.GetSystem("Error_SlotNoLongerAvailable");
+                        return View(model);
+                    }
+                }
+
                 var result = await _appointmentService.UpdateAsync<AppointmentEditViewModel>(id, model);
                 if (result == null) return NotFound();
+
+                // Re-apply protected fields that the edit form does not manage via slot picker
+                existing = await _appointmentService.GetByIdAsync(id);
+                if (existing != null)
+                {
+                    existing.StartSlotIndex = preservedStartSlot;
+                    existing.EndSlotIndex = preservedEndSlot;
+                    existing.DoctorId = preservedDoctorId;
+                    existing.PatientId = preservedPatientId;
+                    await _context.SaveChangesAsync();
+                }
 
                 LogHelper.LogWithContext(
                     $"Updated appointment {id}",
@@ -683,7 +740,8 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
             var slots = await _appointmentService.GetAvailableTimeSlotsAsync(
                 appointment.ScheduledTime.Date, 
                 appointment.DoctorId,
-                doctorTimeZoneId: "W. Europe Standard Time");
+                doctorTimeZoneId: "W. Europe Standard Time",
+                excludeAppointmentId: appointment.Id);
 
             // Build the range of selected slots from StartSlotIndex to EndSlotIndex
             var selectedRange = new List<int>();
@@ -722,7 +780,8 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
                 model.AvailableSlots = await _appointmentService.GetAvailableTimeSlotsAsync(
                     model.ScheduledDate, 
                     model.DoctorId,
-                    doctorTimeZoneId: "W. Europe Standard Time");
+                    doctorTimeZoneId: "W. Europe Standard Time",
+                    excludeAppointmentId: model.AppointmentId);
                 return View(model);
             }
 

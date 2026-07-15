@@ -78,6 +78,13 @@
                 {
                     var hasFinishedTest = mc.MedicalCaseTests?.Any(t => !string.IsNullOrEmpty(t.Result)) == true;
                     var latestReport = mc.MedicalReportHistories?.OrderByDescending(r => r.CreatedAt).FirstOrDefault();
+                    var latestReportFileExists = latestReport != null
+                        && !string.IsNullOrWhiteSpace(latestReport.ReportUrl)
+                        && System.IO.File.Exists(System.IO.Path.Combine(
+                            Directory.GetCurrentDirectory(),
+                            "InternalStorage",
+                            "MedicalReports",
+                            latestReport.ReportUrl));
                     var testCount = mc.MedicalCaseTests?.Count ?? 0;
 
                     <div class="prac-row">
@@ -129,16 +136,28 @@
 
                             @if (latestReport != null)
                             {
-                                <a asp-action="ViewReport"
-                                   asp-controller="MedicalCases"
-                                   asp-route-fileName="@latestReport.ReportUrl"
-                                   target="_blank"
-                                   class="btn-prac-indigo">
-                                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                    </svg>
-                                    @SharedLocalizer["Shared_View_Latest_Report"]
-                                </a>
+                                if (latestReportFileExists)
+                                {
+                                    <a asp-action="ViewReport"
+                                       asp-controller="MedicalCases"
+                                       asp-route-fileName="@latestReport.ReportUrl"
+                                       target="_blank"
+                                       class="btn-prac-indigo">
+                                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                        </svg>
+                                        @SharedLocalizer["Shared_View_Latest_Report"]
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="result-chip result-empty">
+                                        <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        @SharedLocalizer["Shared_Report_FileNotFound"]
+                                    </span>
+                                }
                             }
 
                             @if (hasFinishedTest)

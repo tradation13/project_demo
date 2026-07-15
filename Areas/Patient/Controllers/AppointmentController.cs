@@ -279,10 +279,16 @@ namespace IPTS.Areas.Patient.Controllers
                 "PatientAppointment.Book",
                 Serilog.Events.LogEventLevel.Information);
 
+            // Display-only: convert UTC booking time to clinic local for the success toast
+            var clinicTz = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
+            var localWhen = TimeZoneInfo.ConvertTimeFromUtc(
+                DateTime.SpecifyKind(dto.UtcDateTime, DateTimeKind.Utc),
+                clinicTz);
+            var friendlyWhen = localWhen.ToString("dd.MM.yyyy HH:mm");
+
             TempData["SuccessMessage"] = string.Format(
-    _locService.GetSystem("Msg_AppointmentBookedWithDuration"), 
-    model.Time
-);
+                _locService.GetSystem("Msg_AppointmentBookedWithDuration"),
+                friendlyWhen);
             return RedirectToAction(
                 "Appointments",
                 "Appointment",                 
@@ -400,7 +406,8 @@ namespace IPTS.Areas.Patient.Controllers
             var timeSlots = await _appointmentService.GetAvailableTimeSlotsAsync(
                 selectedDate,
                 appointment.DoctorId,
-                doctorTimeZoneId: "W. Europe Standard Time");
+                doctorTimeZoneId: "W. Europe Standard Time",
+                excludeAppointmentId: appointment.Id);
             var isOriginalDate = selectedDate == appointment.ScheduledTime.Date;
             var selectedSlotIndex = isOriginalDate ? appointment.StartSlotIndex : -1;
             var selectedSlotIndices = isOriginalDate
@@ -487,7 +494,11 @@ namespace IPTS.Areas.Patient.Controllers
             var scheduledDateUtc = DateTime.SpecifyKind(dto.UtcDateTime.Date, DateTimeKind.Utc);
             foreach (var slot in selectedSlots)
             {
-                var isAvailable = await _appointmentService.IsSlotAvailableAsync(scheduledDateUtc, appointment.DoctorId, slot);
+                var isAvailable = await _appointmentService.IsSlotAvailableAsync(
+                    scheduledDateUtc,
+                    appointment.DoctorId,
+                    slot,
+                    excludeAppointmentId: appointment.Id);
                 if (!isAvailable)
                 {
                     TempData["ErrorMessage"] = _locService.GetSystem("Error_SlotNoLongerAvailable");

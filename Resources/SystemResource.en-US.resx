@@ -133,6 +133,10 @@
     <value>A password was changed successfully</value>
     <comment/>
   </data>
+  <data name="Auth_LockoutTemporary" xml:space="preserve">
+    <value>Account is temporarily locked due to multiple failed attempts. Please try again later.</value>
+    <comment/>
+  </data>
   <data name="Email_ResetTitle" xml:space="preserve">
     <value>Reset your password</value>
     <comment/>

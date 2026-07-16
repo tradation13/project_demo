@@ -1,4 +1,5 @@
 ﻿
+using IPTS.Data;
 using IPTS.Resources;
 using IPTS.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +19,8 @@ namespace IPTS.Areas.Patient.Controllers
     TestService testService,
     PdfPrintService pdfPrintService,
     UserService userService,
-    MedicalReportService medicalReportService
+    MedicalReportService medicalReportService,
+    ApplicationDbContext context
     ) : Controller
     {
         
@@ -30,6 +32,17 @@ namespace IPTS.Areas.Patient.Controllers
     private readonly TestService _testService = testService;
     private readonly PdfPrintService _pdfPrintService = pdfPrintService;
     private readonly UserService _userService = userService;
+    private readonly ApplicationDbContext _context = context;
+
+        private async Task<int?> GetCurrentPatientIdAsync()
+        {
+            var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(currentUserId))
+                return null;
+
+            var patient = (await _userService.GetByIdAsync(currentUserId, q => q.Include(u => u.Patient))).Patient;
+            return patient?.Id;
+        }
 
         public async Task<IActionResult> Index()
         {
@@ -50,26 +63,54 @@ namespace IPTS.Areas.Patient.Controllers
         }
 
 
-         [HttpGet]
-        public IActionResult ViewReport(string fileName)
+        [HttpGet]
+        public async Task<IActionResult> ViewReport(string fileName)
         {
-            if (string.IsNullOrEmpty(fileName)) return NotFound();
+            if (string.IsNullOrWhiteSpace(fileName))
+                return NotFound();
 
-            // نحدد المسار الفيزيائي للمجلد الذي يحتوي التقارير
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "InternalStorage", "MedicalReports", fileName);
+            // منع Path Traversal: نأخذ اسم الملف فقط (بدون ../ أو مسارات)
+            var safeFileName = Path.GetFileName(fileName);
+            if (string.IsNullOrWhiteSpace(safeFileName) || safeFileName != fileName)
+                return NotFound();
 
-            // نتحقق هل الملف موجود فعلاً في السيرفر؟
-            if (!System.IO.File.Exists(path)) return NotFound(_locService.GetSystem("Error_ReportFileNotFound"));
+            var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(currentUserId))
+                return Forbid();
 
-            // قراءة الملف كـ Stream (أفضل للأداء من read all bytes)
-            var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
-            // إرجاع الملف بصيغة PDF ليفتحه المتصفح
+            // Ownership: هل هذا التقرير مسجّل باسم المستخدم الحالي؟
+            var ownsReport = await _context.MedicalReportHistories
+                .AnyAsync(r => r.ReportUrl == safeFileName && r.UserId == currentUserId);
+
+            if (!ownsReport)
+                return NotFound();
+
+            var folderPath = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "InternalStorage",
+                "MedicalReports");
+
+            var path = Path.Combine(folderPath, safeFileName);
+            var fullPath = Path.GetFullPath(path);
+            var fullFolder = Path.GetFullPath(folderPath);
+
+            if (!fullPath.StartsWith(fullFolder, StringComparison.OrdinalIgnoreCase))
+                return NotFound();
+
+            if (!System.IO.File.Exists(fullPath))
+                return NotFound(_locService.GetSystem("Error_ReportFileNotFound"));
+
+            var fileStream = new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
             return File(fileStream, "application/pdf");
         }
 
 [HttpGet]
 public async Task<IActionResult> PrintReport(int id)
 {
+    var currentPatientId = await GetCurrentPatientIdAsync();
+    if (!currentPatientId.HasValue)
+        return Forbid();
+
     // 1. جلب البيانات مع كل الـ Includes الضرورية
     var medicalCase = await _medicalCaseService.GetByIdAsync(
         id,
@@ -84,6 +125,7 @@ public async Task<IActionResult> PrintReport(int id)
     );
 
     if (medicalCase == null) return NotFound();
+    if (medicalCase.PatientId != currentPatientId.Value) return NotFound();
 
   
     var requestCulture = HttpContext.Features.Get<IRequestCultureFeature>();
@@ -304,8 +346,13 @@ return File(pdfBytes, "application/pdf", $"{filePrefix}_Case{medicalCase.Id}_{me
         // }
         public async Task<IActionResult> Details(int id)
         {
+            var currentPatientId = await GetCurrentPatientIdAsync();
+            if (!currentPatientId.HasValue)
+                return Forbid();
+
             var medicalCase = await _medicalCaseService.GetCaseWithTestsAsync(id);
             if (medicalCase == null) return NotFound();
+            if (medicalCase.PatientId != currentPatientId.Value) return NotFound();
 
             var patient = await _patientService.GetByIdAsync(medicalCase.PatientId, q => q.Include(p => p.User));
             ViewBag.Patient = patient;

@@ -133,6 +133,10 @@
     <value>Das Passwort wurde erfolgreich geändert</value>
     <comment/>
   </data>
+  <data name="Auth_LockoutTemporary" xml:space="preserve">
+    <value>Das Konto wurde aufgrund mehrerer fehlgeschlagener Anmeldeversuche vorübergehend gesperrt. Bitte versuchen Sie es später erneut.</value>
+    <comment/>
+  </data>
   <data name="Email_ResetTitle" xml:space="preserve">
     <value>Passwort zurücksetzen</value>
     <comment/>

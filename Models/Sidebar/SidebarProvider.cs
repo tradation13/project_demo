@@ -214,9 +214,9 @@ namespace IPTS.Models.Sidebar
                         {
                             Title = _loc["SystemLogs"],
                             Icon = "file-alt",
-                            Action = "Logs",
-                            Controller = "System",
-                            Area = "",
+                            Action = "Index",
+                            Controller = "Logs",
+                            Area = "admin",
                             Roles = ["admin"]
                         },
                         new()

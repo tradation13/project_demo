@@ -1115,6 +1115,54 @@
     <value>Zeit</value>
     <comment>VIiews -&gt; System -&gt; Logs</comment>
   </data>
+  <data name="Logs_Tab_Logging" xml:space="preserve">
+    <value>Protokollierung</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Tab_Auditing" xml:space="preserve">
+    <value>Revision</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Filter_AllLevels" xml:space="preserve">
+    <value>Alle Stufen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Filter_AllActions" xml:space="preserve">
+    <value>Alle Aktionen</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Filter_From" xml:space="preserve">
+    <value>Von</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Filter_To" xml:space="preserve">
+    <value>Bis</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Placeholder_Actor" xml:space="preserve">
+    <value>Nach Akteur filtern</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Table_Action" xml:space="preserve">
+    <value>Aktion</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Table_Actor" xml:space="preserve">
+    <value>Akteur</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Table_Details" xml:space="preserve">
+    <value>Details</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Table_Ip" xml:space="preserve">
+    <value>IP</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Logs</comment>
+  </data>
+  <data name="Logs_Empty" xml:space="preserve">
+    <value>Keine Einträge gefunden</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Logs</comment>
+  </data>
   <data name="Dash_DoctorHeader" xml:space="preserve">
     <value>Therapeut-Dashboard</value>
     <comment>Views -&gt; Doctor -&gt; Dashboard -&gt; Index</comment>

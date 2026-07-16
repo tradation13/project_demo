@@ -24,7 +24,8 @@ namespace IPTS.Areas.Admin.Controllers
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
         SpecialtyService specialtyService,
-        LocService locService
+        LocService locService,
+        AuditService auditService
         ) : Controller
     {
         private readonly LocService _locService = locService;
@@ -35,6 +36,7 @@ namespace IPTS.Areas.Admin.Controllers
         private readonly IMapper _mapper = mapper;
         private readonly UserService _userService = userService;
         private readonly SpecialtyService _specialtyService = specialtyService;
+        private readonly AuditService _auditService = auditService;
 
         public async Task<IActionResult> Index()
         {
@@ -286,6 +288,16 @@ namespace IPTS.Areas.Admin.Controllers
 
                 user.Status = EnUserStatus.Deleted;
                 await _userManager.UpdateAsync(user);
+
+                await _auditService.WriteAsync(
+                    EnAuditAction.UserDeleted,
+                    $"Admin marked user '{user.UserName}' as deleted",
+                    actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+                    actorUserName: User.Identity?.Name,
+                    targetUserId: user.Id,
+                    entityName: nameof(AppUser),
+                    entityId: user.Id,
+                    ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
 
                 LogHelper.LogWithContext(
                     $"User {id} marked as deleted",

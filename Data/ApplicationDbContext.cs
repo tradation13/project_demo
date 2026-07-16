@@ -21,7 +21,8 @@ namespace IPTS.Data
         public DbSet<BlogPostImage> BlogPostImages { get; set; }
 
         public DbSet<MedicalReportHistory> MedicalReportHistories { get; set; }
-        
+        public DbSet<AuditLog> AuditLogs { get; set; }
+
         //public DbSet<Report> Reports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

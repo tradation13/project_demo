@@ -29,6 +29,7 @@
         </div>
 
         <form asp-controller="auth" asp-action="login" method="post" autocomplete="off" class="space-y-6 text-sm">
+            @Html.AntiForgeryToken()
             <input asp-for="ReturnUrl" type="hidden" />
 
             <div class="space-y-2">

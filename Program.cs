@@ -22,6 +22,9 @@ using System.Data;
 using System.Diagnostics;
 using IPTS.Models.Sidebar;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 namespace IPTS
 {
@@ -78,11 +81,22 @@ builder.Services.AddControllersWithViews()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            builder.Services.Configure<IdentityOptions>(options =>
+            {
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+
+                options.SignIn.RequireConfirmedEmail = true;
+            });
+
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.AccessDeniedPath = "/auth/accessdenied";
                 options.LoginPath = "/auth/login";
                 options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.Lax;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 options.SlidingExpiration = true;
 
@@ -91,6 +105,21 @@ builder.Services.AddControllersWithViews()
 
             builder.Services.AddAuthentication();
             builder.Services.AddAuthorization();
+            builder.Services.AddRateLimiter(options =>
+            {
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+                options.AddPolicy("AuthPolicy", httpContext =>
+                    RateLimitPartition.GetFixedWindowLimiter(
+                        partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown-ip",
+                        factory: _ => new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 5,
+                            Window = TimeSpan.FromMinutes(1),
+                            QueueLimit = 0,
+                            AutoReplenishment = true
+                        }));
+            });
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
             // ✅ تسجيل IdentityErrorTranslator لترجمة أخطاء Identity
@@ -119,6 +148,7 @@ builder.Services.AddControllersWithViews()
             builder.Services.AddScoped<SpecialtyService>();
             builder.Services.AddScoped<AppointmentService>();
             builder.Services.AddScoped<BlogPostService>();
+            builder.Services.AddScoped<AuditService>();
             
             // Register FileService for prescription file handling
             builder.Services.AddScoped<IFileService, FileService>();
@@ -140,11 +170,29 @@ if (!Directory.Exists(internalStoragePath))
 }
 
 // 3. منح تصريح مرور لمجلد InternalStorage
-app.UseStaticFiles(new StaticFileOptions
+// قبل الحماية
+// app.UseStaticFiles(new StaticFileOptions
+// {
+//     FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(internalStoragePath),
+//     RequestPath = "/InternalStorage"
+// });
+
+// بعد الحماية
+var publicStorageFolders = new[] { "BlogsImages", "DoctorPhotos" };
+
+foreach (var folderName in publicStorageFolders)
 {
-    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(internalStoragePath),
-    RequestPath = "/InternalStorage"
-});
+    var folderPath = Path.Combine(internalStoragePath, folderName);
+
+    if(!Directory.Exists(folderPath))
+    Directory.CreateDirectory(folderPath);
+
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(folderPath),
+        RequestPath = $"/InternalStorage/{folderName}"
+    });     
+}
 
             // 4. إعداد اللغات (Middleware)
 var supportedCultures = new[] { "en-US", "de-DE"};
@@ -200,6 +248,7 @@ app.UseRequestLocalization(localizationOptions);
             //app.UseRouting();
 
             app.UseRouting();
+            app.UseRateLimiter();
 
             app.UseAuthentication();
             app.UseAuthorization();

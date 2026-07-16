@@ -10,17 +10,26 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
-using Serilog.Context;
+using Serilog.Events;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace IPTS.Controllers
 {
-    public class AuthController(LocService locService,EmailService emailService, ILogger<AuthController> logger, UserManager<AppUser> userManager, UserService userService, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context, IdentityErrorTranslator identityErrorTranslator) : Controller
+    public class AuthController(
+        LocService locService,
+        EmailService emailService,
+        ILogger<AuthController> logger,
+        UserManager<AppUser> userManager,
+        UserService userService,
+        SignInManager<AppUser> signInManager,
+        RoleManager<IdentityRole> roleManager,
+        ApplicationDbContext context,
+        IdentityErrorTranslator identityErrorTranslator,
+        AuditService auditService) : Controller
     {
 
         private readonly LocService _locService = locService;
@@ -32,6 +41,7 @@ namespace IPTS.Controllers
         private readonly ILogger<AuthController> _logger = logger;
         private readonly ApplicationDbContext _context = context;
         private readonly IdentityErrorTranslator _identityErrorTranslator = identityErrorTranslator;
+        private readonly AuditService _auditService = auditService;
 
         [HttpGet]
         [OutputCache(Duration = 3600)]
@@ -63,9 +73,12 @@ namespace IPTS.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [EnableRateLimiting("AuthPolicy")]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             var returnUrl = model.ReturnUrl;
+            var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
 
             if (!ModelState.IsValid)
                 return View(model);
@@ -74,18 +87,35 @@ namespace IPTS.Controllers
                 ? await _userManager.FindByEmailAsync(model.UsernameOrEmail)
                 : await _userManager.FindByNameAsync(model.UsernameOrEmail);
 
-             if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
-
+            if (user == null)
             {
+                LogHelper.LogWithContext(
+                    $"Failed login for unknown identity '{model.UsernameOrEmail}'",
+                    "Anonymous",
+                    "Guest",
+                    "Auth.Login",
+                    LogEventLevel.Warning);
+
+                await _auditService.WriteAsync(
+                    EnAuditAction.LoginFailed,
+                    $"Failed login for unknown identity '{model.UsernameOrEmail}'",
+                    actorUserName: model.UsernameOrEmail,
+                    ipAddress: ip);
 
                 ModelState.AddModelError(string.Empty, _locService.GetSystem("Auth_InvalidLogin"));
-
                 return View(model);
-
             }
 
             if (user.Status != EnUserStatus.Active)
             {
+                await _auditService.WriteAsync(
+                    EnAuditAction.LoginFailed,
+                    "Login blocked because user is inactive",
+                    actorUserId: user.Id,
+                    actorUserName: user.UserName,
+                    targetUserId: user.Id,
+                    ipAddress: ip);
+
                 ModelState.AddModelError(string.Empty, _locService.GetSystem("Auth_UserInactive"));
                 TempData["ErrorMessage"] = _locService.GetSystem("Auth_UserInactive");
                 return View(model);
@@ -94,11 +124,71 @@ namespace IPTS.Controllers
             if (!user.EmailConfirmed)
             {
                 TempData["WarningMessage"] = _locService.GetSystem("Auth_EmailNotVerified");
-
                 return RedirectToAction("VerifyEmail", new { email = user.Email});
             }
 
-            await _signInManager.SignInAsync(user, isPersistent: model.RememberMe);
+            var signInResult = await _signInManager.PasswordSignInAsync(
+                user.UserName!,
+                model.Password,
+                model.RememberMe,
+                lockoutOnFailure: true);
+
+            if (!signInResult.Succeeded)
+            {
+                if (signInResult.IsLockedOut)
+                {
+                    LogHelper.LogWithContext(
+                        $"Account locked for user '{user.UserName}'",
+                        user.Id,
+                        "Auth",
+                        "Auth.Login",
+                        LogEventLevel.Warning);
+
+                    await _auditService.WriteAsync(
+                        EnAuditAction.AccountLocked,
+                        "Account temporarily locked after failed login attempts",
+                        actorUserId: user.Id,
+                        actorUserName: user.UserName,
+                        targetUserId: user.Id,
+                        ipAddress: ip);
+
+                    ModelState.AddModelError(string.Empty, _locService.GetSystem("Auth_LockoutTemporary"));
+                    return View(model);
+                }
+
+                LogHelper.LogWithContext(
+                    $"Failed login for user '{user.UserName}'",
+                    user.Id,
+                    "Auth",
+                    "Auth.Login",
+                    LogEventLevel.Warning);
+
+                await _auditService.WriteAsync(
+                    EnAuditAction.LoginFailed,
+                    "Invalid password",
+                    actorUserId: user.Id,
+                    actorUserName: user.UserName,
+                    targetUserId: user.Id,
+                    ipAddress: ip);
+
+                ModelState.AddModelError(string.Empty, _locService.GetSystem("Auth_InvalidLogin"));
+                return View(model);
+            }
+
+            LogHelper.LogWithContext(
+                $"Successful login for user '{user.UserName}'",
+                user.Id,
+                "Auth",
+                "Auth.Login",
+                LogEventLevel.Information);
+
+            await _auditService.WriteAsync(
+                EnAuditAction.LoginSuccess,
+                "User signed in successfully",
+                actorUserId: user.Id,
+                actorUserName: user.UserName,
+                targetUserId: user.Id,
+                ipAddress: ip);
 
             var redirectedRoute = GetRedirectedRoute(user);
 
@@ -134,9 +224,28 @@ namespace IPTS.Controllers
             return new RedirectRoute(action, controller, area);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userName = User.Identity?.Name;
+
             await _signInManager.SignOutAsync();
+
+            await _auditService.WriteAsync(
+                EnAuditAction.Logout,
+                "User signed out",
+                actorUserId: userId,
+                actorUserName: userName,
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
+
+            LogHelper.LogWithContext(
+                $"User '{userName}' signed out",
+                userId ?? "Unknown",
+                "Auth",
+                "Auth.Logout",
+                LogEventLevel.Information);
+
             return RedirectToAction("Login", "Auth");
         }
         [HttpGet("ResetPassword")]
@@ -195,6 +304,14 @@ namespace IPTS.Controllers
             var redirectedRoute = GetRedirectedRoute(user);
             TempData["SuccessMessage"] = _locService.GetSystem("Auth_PasswordChanged");
 
+            await _auditService.WriteAsync(
+                EnAuditAction.PasswordChanged,
+                "User changed their password",
+                actorUserId: currentUserId,
+                actorUserName: user.UserName,
+                targetUserId: currentUserId,
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
+
             return RedirectToAction(
                 actionName: redirectedRoute.ActionName,
                 controllerName: redirectedRoute.Controller,
@@ -212,6 +329,7 @@ namespace IPTS.Controllers
         [HttpPost("ForgotPassword")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [EnableRateLimiting("AuthPolicy")]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -230,6 +348,14 @@ namespace IPTS.Controllers
                 $"<p>{_locService.GetSystem("Email_ResetInstruction")}</p>" +
                 $"<p><a href='{resetLink}'>{_locService.GetSystem("Email_ResetButton")}</a></p>" +
                 $"<p>{_locService.GetSystem("Email_IgnoreRequest")}</p>");
+
+            await _auditService.WriteAsync(
+                EnAuditAction.PasswordResetRequested,
+                $"Password reset requested for '{model.Email}'",
+                actorUserId: user.Id,
+                actorUserName: user.UserName,
+                targetUserId: user.Id,
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
 
             return RedirectToAction("ForgotPasswordConfirmation");
         }

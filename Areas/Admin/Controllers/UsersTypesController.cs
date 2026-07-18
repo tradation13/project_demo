@@ -1,4 +1,5 @@
 ﻿using IPTS.Models.Entites;
+using IPTS.Models.Enums;
 using IPTS.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -7,10 +8,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 [Area("admin")]
 [Authorize(Roles = "admin")]
-public class UsersTypesController(UserTypeService userTypeService, RoleManager<IdentityRole> roleManager) : Controller
+public class UsersTypesController(
+    UserTypeService userTypeService,
+    RoleManager<IdentityRole> roleManager,
+    AuditService auditService) : Controller
 {
     private readonly UserTypeService _userTypeService = userTypeService;
     private readonly RoleManager<IdentityRole> _roleManager = roleManager;
+    private readonly AuditService _auditService = auditService;
 
     public async Task<IActionResult> Index()
     {
@@ -36,7 +41,17 @@ public class UsersTypesController(UserTypeService userTypeService, RoleManager<I
             return View(model);
         }
 
-        await _userTypeService.AddAsync(model);
+        var createdUserType = await _userTypeService.AddAsync(model);
+
+        await _auditService.WriteAsync(
+            EnAuditAction.EntityCreated,
+            $"Admin created user type '{createdUserType.Name}'",
+            actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+            actorUserName: User.Identity?.Name,
+            entityName: nameof(UserType),
+            entityId: createdUserType.Id.ToString(),
+            ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
+
         return RedirectToAction("Index");
     }
 
@@ -64,15 +79,37 @@ public class UsersTypesController(UserTypeService userTypeService, RoleManager<I
         if (updated == null)
             return NotFound();
 
+        await _auditService.WriteAsync(
+            EnAuditAction.EntityUpdated,
+            $"Admin updated user type '{updated.Name}'",
+            actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+            actorUserName: User.Identity?.Name,
+            entityName: nameof(UserType),
+            entityId: id.ToString(),
+            ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
+
         return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
+        var userType = await _userTypeService.GetByIdAsync(id);
+        if (userType == null)
+            return NotFound();
+
         var result = await _userTypeService.DeleteAsync(id);
         if (!result)
             return NotFound();
+
+        await _auditService.WriteAsync(
+            EnAuditAction.EntityDeleted,
+            $"Admin deleted user type '{userType.Name}'",
+            actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+            actorUserName: User.Identity?.Name,
+            entityName: nameof(UserType),
+            entityId: id.ToString(),
+            ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
 
         return RedirectToAction(nameof(Index));
     }

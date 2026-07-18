@@ -12,6 +12,10 @@ body {
   flex-direction: column;
 }
 
+[x-cloak] {
+  display: none !important;
+}
+
 /* Tidy green scrollbar */
 * {
   scrollbar-width: thin;

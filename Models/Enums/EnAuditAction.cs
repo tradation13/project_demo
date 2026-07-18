@@ -12,6 +12,9 @@ namespace IPTS.Models.Enums
         PasswordChanged = 8,
         PasswordResetRequested = 9,
         UnauthorizedAccess = 10,
-        RoleChanged = 11
+        RoleChanged = 11,
+        EntityCreated = 12,
+        EntityUpdated = 13,
+        EntityDeleted = 14
     }
 }

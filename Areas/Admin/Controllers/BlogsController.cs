@@ -2,6 +2,7 @@ using AutoMapper;
 using IPTS.Areas.Admin.ViewsModels;
 using IPTS.Data;
 using IPTS.Models.Entites;
+using IPTS.Models.Enums;
 using IPTS.Resources;
 using IPTS.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -12,13 +13,20 @@ namespace IPTS.Areas.Admin.Controllers
 {
     [Area("admin")]
     [Authorize(Roles = "admin")]
-    public class BlogsController(BlogPostService blogPostService, IMapper mapper, ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, LocService locService) : Controller
+    public class BlogsController(
+        BlogPostService blogPostService,
+        IMapper mapper,
+        ApplicationDbContext context,
+        IHttpContextAccessor httpContextAccessor,
+        LocService locService,
+        AuditService auditService) : Controller
     {
         private readonly BlogPostService _blogPostService = blogPostService;
         private readonly IMapper _mapper = mapper;
         private readonly ApplicationDbContext _context = context;
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
         private readonly LocService _locService = locService;
+        private readonly AuditService _auditService = auditService;
 
         public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
@@ -59,6 +67,15 @@ namespace IPTS.Areas.Admin.Controllers
                 await _blogPostService.SaveImagesAsync(created.Id, model.Files);
             }
 
+            await _auditService.WriteAsync(
+                EnAuditAction.EntityCreated,
+                $"Admin created blog post '{created.Title}'",
+                actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+                actorUserName: User.Identity?.Name,
+                entityName: nameof(BlogPost),
+                entityId: created.Id.ToString(),
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
+
             TempData["SuccessMessage"] = _locService.GetSystem("Blog_Create_Success");
             return RedirectToAction(nameof(Index));
         }
@@ -89,6 +106,15 @@ namespace IPTS.Areas.Admin.Controllers
                 await _blogPostService.SaveImagesAsync(post.Id, model.Files);
             }
 
+            await _auditService.WriteAsync(
+                EnAuditAction.EntityUpdated,
+                $"Admin updated blog post '{post.Title}'",
+                actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+                actorUserName: User.Identity?.Name,
+                entityName: nameof(BlogPost),
+                entityId: post.Id.ToString(),
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
+
             TempData["SuccessMessage"] = _locService.GetSystem("Blog_Update_Success");
             return RedirectToAction(nameof(Index));
         }
@@ -97,7 +123,21 @@ namespace IPTS.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
+            var post = await _blogPostService.GetByIdAsync(id);
             var deleted = await _blogPostService.DeleteAsync(id);
+
+            if (deleted)
+            {
+                await _auditService.WriteAsync(
+                    EnAuditAction.EntityDeleted,
+                    $"Admin deleted blog post '{post?.Title ?? id.ToString()}'",
+                    actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+                    actorUserName: User.Identity?.Name,
+                    entityName: nameof(BlogPost),
+                    entityId: id.ToString(),
+                    ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
+            }
+
             TempData[deleted ? "SuccessMessage" : "ErrorMessage"] = deleted ? _locService.GetSystem("Blog_Delete_Success") : _locService.GetSystem("Blog_Delete_NotFound");
             return RedirectToAction(nameof(Index));
         }
@@ -107,6 +147,19 @@ namespace IPTS.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteImage(int imageId, int blogPostId)
         {
             var deleted = await _blogPostService.RemoveImageAsync(imageId);
+
+            if (deleted)
+            {
+                await _auditService.WriteAsync(
+                    EnAuditAction.EntityDeleted,
+                    $"Admin deleted image '{imageId}' from blog post '{blogPostId}'",
+                    actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+                    actorUserName: User.Identity?.Name,
+                    entityName: nameof(BlogPostImage),
+                    entityId: imageId.ToString(),
+                    ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
+            }
+
             TempData[deleted ? "SuccessMessage" : "ErrorMessage"] = deleted ? _locService.GetSystem("Blog_Image_Delete_Success") : _locService.GetSystem("Blog_Image_Delete_Failed");
             return RedirectToAction(nameof(Edit), new { id = blogPostId });
         }

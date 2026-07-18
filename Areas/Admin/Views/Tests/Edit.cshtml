@@ -13,7 +13,7 @@
         <h4 class="text-xl font-bold text-slate-800">@SharedLocalizer["Tests_Edit"]</h4>
     </div>
 
-    <form asp-action="Edit" method="post" class="space-y-5">
+    <form asp-action="Edit" method="post" class="space-y-5" data-confirm>
         <input type="hidden" asp-for="Id" />
 
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">

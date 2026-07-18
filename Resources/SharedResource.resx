@@ -265,6 +265,21 @@
   <data name="Users_AccountType" xml:space="preserve">
     <value>Account Type</value>
   </data>
+  <data name="Users_Tab_Active" xml:space="preserve">
+    <value>Active Users</value>
+  </data>
+  <data name="Users_Tab_Inactive" xml:space="preserve">
+    <value>Inactive Users</value>
+  </data>
+  <data name="Users_Btn_Reactivate" xml:space="preserve">
+    <value>Reactivate</value>
+  </data>
+  <data name="Users_Empty_Active" xml:space="preserve">
+    <value>No active users found.</value>
+  </data>
+  <data name="Users_Empty_Inactive" xml:space="preserve">
+    <value>No inactive users found.</value>
+  </data>
   <data name="Users_OrderID" xml:space="preserve">
     <value>Order ID</value>
   </data>
@@ -328,6 +343,12 @@
   <data name="Msg_AreYouSure" xml:space="preserve">
     <value>Are you sure?</value>
   </data>
+  <data name="Shared_Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Shared_No" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="Profile_SelectPhoto" xml:space="preserve">
     <value>Select new profile photo</value>
   </data>
@@ -389,7 +410,7 @@
     <value>Email Verification</value>
   </data>
   <data name="Therapies_PageTitle" xml:space="preserve">
-    <value>Therapies</value>
+    <value>Therapists</value>
   </data>
   <data name="Success" xml:space="preserve">
     <value>Success</value>

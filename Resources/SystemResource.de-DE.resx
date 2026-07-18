@@ -257,6 +257,10 @@
     <value>Erfolgreich gelöscht.</value>
     <comment/>
   </data>
+  <data name="Msg_ReactivateSuccess" xml:space="preserve">
+    <value>Benutzer erfolgreich reaktiviert.</value>
+    <comment/>
+  </data>
   <data name="Msg_SearchCriteriaRequired" xml:space="preserve">
     <value>Bitte geben Sie mindestens ein Suchkriterium an.</value>
     <comment/>
@@ -1063,6 +1067,18 @@
   <data name="AI_DisclaimerText" xml:space="preserve">
     <value>Dieser Bericht ist KI-gestützt und dient ausschließlich der informativen Unterstützung. Er stellt keine medizinische Diagnose dar und ersetzt nicht die fachliche klinische Beurteilung. Bitte wenden Sie sich für medizinische Entscheidungen an Ihren Arzt oder Therapeuten.</value>
     <comment>MedicalReportService - AI disclaimer</comment>
+  </data>
+  <data name="Label_Website" xml:space="preserve">
+    <value>Website</value>
+    <comment>EmailService - footer label</comment>
+  </data>
+  <data name="Label_Address" xml:space="preserve">
+    <value>Adresse</value>
+    <comment>EmailService - footer label</comment>
+  </data>
+  <data name="Email_Footer_Copyright" xml:space="preserve">
+    <value>© {0} Physiotech. Alle Rechte vorbehalten.</value>
+    <comment>EmailService - footer copyright</comment>
   </data>
 </root>
 

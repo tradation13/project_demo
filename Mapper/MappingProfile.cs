@@ -43,7 +43,10 @@ namespace IPTS.Mapper
 
             CreateMap<Admin, AdminFormViewModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ReverseMap();
+                .ReverseMap()
+                // المفاتيح لا تُحدَّث على الكيان المتتبَّع أثناء التعديل
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.UserId, opt => opt.Ignore());
 
             // -----------------------------
             // Doctor Mapping
@@ -58,6 +61,8 @@ namespace IPTS.Mapper
             CreateMap<Doctor, DoctorFormViewModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ReverseMap()
+                // المفاتيح لا تُحدَّث على الكيان المتتبَّع أثناء التعديل
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.UserId, opt => opt.Ignore());
 
             // -----------------------------
@@ -67,14 +72,20 @@ namespace IPTS.Mapper
             CreateMap<Patient, PatientProfileViewModel>().ReverseMap()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.User, opt => opt.Ignore())
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+                // PostgreSQL timestamptz يتطلب Kind=Utc؛ حقل التاريخ من النموذج يأتي بـ Kind=Unspecified
+                .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => DateTime.SpecifyKind(src.BirthDate, DateTimeKind.Utc)));
                 // .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.IdentityNumber));
 
             CreateMap<Patient, PatientFormViewModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 // .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.IdentityNumber))
                 .ReverseMap()
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
+                // المفاتيح لا تُحدَّث على الكيان المتتبَّع أثناء التعديل (Id مفتاح أساسي و UserId مفتاح أجنبي)
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                // PostgreSQL timestamptz يتطلب Kind=Utc؛ حقل التاريخ من النموذج يأتي بـ Kind=Unspecified
+                .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => DateTime.SpecifyKind(src.BirthDate, DateTimeKind.Utc)));
 
             // -----------------------------
             // UserFormViewModel Mapping

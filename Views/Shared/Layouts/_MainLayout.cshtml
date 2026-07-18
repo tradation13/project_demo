@@ -63,7 +63,7 @@
           "@@type": "OpeningHoursSpecification",
           "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"],
           "opens": "08:00",
-          "closes": "18:00"
+          "closes": "19:00"
         },
         {
           "@@type": "OpeningHoursSpecification",
@@ -125,6 +125,7 @@
 </head>
 <body>
     @await Html.PartialAsync("~/Views/Shared/_Alerts.cshtml")
+    @await Html.PartialAsync("~/Views/Shared/_ConfirmDialog.cshtml")
 
      @RenderBody()
 

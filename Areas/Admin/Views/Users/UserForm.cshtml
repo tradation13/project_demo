@@ -7,7 +7,7 @@
     ViewBag.Title = (isEditMode ? @SharedLocalizer["Shared_Edit"] : @SharedLocalizer["Users_CreateTitle"]) + ViewBag.UserType;
 }
 
-<form asp-action="UserForm" asp-route-id="" method="post" asp-route-UserType="@ViewBag.UserType" enctype="multipart/form-data">
+<form asp-action="UserForm" asp-route-id="" method="post" asp-route-UserType="@ViewBag.UserType" enctype="multipart/form-data" data-confirm="@(isEditMode ? "true" : null)">
     <input type="hidden" asp-for="Id" />
 
     <div class="flex flex-col gap-6">

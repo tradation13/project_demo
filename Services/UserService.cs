@@ -139,7 +139,8 @@ namespace IPTS.Services
                         {
                             UserId = user.Id,
                             // IdentityNumber = model.Patient.IdentityNumber,
-                            BirthDate = model.Patient.BirthDate.ToUniversalTime()
+                            // PostgreSQL timestamptz يتطلب Kind=Utc مع الحفاظ على نفس اليوم المُدخل
+                            BirthDate = DateTime.SpecifyKind(model.Patient.BirthDate, DateTimeKind.Utc)
                         });
                         break;
 
@@ -357,7 +358,8 @@ namespace IPTS.Services
                         {
                             UserId = user.Id,
                             // IdentityNumber = model.Patient.IdentityNumber,
-                            BirthDate = model.Patient.BirthDate.ToUniversalTime()
+                            // PostgreSQL timestamptz يتطلب Kind=Utc مع الحفاظ على نفس اليوم المُدخل
+                            BirthDate = DateTime.SpecifyKind(model.Patient.BirthDate, DateTimeKind.Utc)
                         });
                         break;
 

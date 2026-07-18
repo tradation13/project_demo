@@ -257,7 +257,7 @@ namespace IPTS.Services
             // تاريخ اليوم المطلوب كـ "وقت حائطي" (بدون Kind) ثم ساعات العمل
             var dateWallClock = DateTime.SpecifyKind(dateLocal.Date, DateTimeKind.Unspecified);
             var workStartLocal = dateWallClock.AddHours(8);   // 08:00
-            var workEndLocal = dateWallClock.AddHours(18);  // 18:00
+            var workEndLocal = dateWallClock.AddHours(19);  // 19:00
 
             // نافذة اليوم بالـ UTC
             var dayStartUtc = ToClinicUtc(workStartLocal);
@@ -637,7 +637,7 @@ namespace IPTS.Services
             DateTime dateLocal,
             string doctorTimeZoneId,
             int workStartHour = 8,
-            int workEndHour = 18)
+            int workEndHour = 19)
         {
             var tz = TimeZoneInfo.FindSystemTimeZoneById(doctorTimeZoneId);
             var dateWallClock = DateTime.SpecifyKind(dateLocal.Date, DateTimeKind.Unspecified);

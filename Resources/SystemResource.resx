@@ -197,4 +197,16 @@
     <value>This report is AI-assisted and intended for informational support only. It is not a medical diagnosis and does not replace professional clinical judgment. Please consult your doctor or therapist for any medical decisions.</value>
     <comment>MedicalReportService - AI disclaimer</comment>
   </data>
+  <data name="Label_Website" xml:space="preserve">
+    <value>Website</value>
+    <comment>EmailService - footer label</comment>
+  </data>
+  <data name="Label_Address" xml:space="preserve">
+    <value>Address</value>
+    <comment>EmailService - footer label</comment>
+  </data>
+  <data name="Email_Footer_Copyright" xml:space="preserve">
+    <value>© {0} Physiotech. All rights reserved.</value>
+    <comment>EmailService - footer copyright</comment>
+  </data>
 </root>

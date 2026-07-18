@@ -38,17 +38,23 @@ namespace IPTS.Areas.Admin.Controllers
         private readonly SpecialtyService _specialtyService = specialtyService;
         private readonly AuditService _auditService = auditService;
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string status = "active")
         {
             try
             {
+                var showInactive = string.Equals(status, "inactive", StringComparison.OrdinalIgnoreCase);
+                ViewBag.StatusFilter = showInactive ? "inactive" : "active";
+
                 var users = await _userService
-                    .GetAllAsync<UserListViewModel>(u => u.Include(u => u.UserType).Where(u => u.Status != EnUserStatus.Deleted))
+                    .GetAllAsync<UserListViewModel>(u => u
+                        .Include(u => u.UserType)
+                        .Where(u => showInactive
+                            ? u.Status == EnUserStatus.Deleted
+                            : u.Status != EnUserStatus.Deleted))
                     ?? new List<UserListViewModel>();
 
-                // Log important action
                 LogHelper.LogWithContext(
-                    "Viewed users list",
+                    $"Viewed {(showInactive ? "inactive" : "active")} users list",
                     User?.Identity?.Name ?? "Unknown",
                     "Admin",
                     "UsersController.Index",
@@ -145,6 +151,20 @@ namespace IPTS.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(model.Id))
                 {
                     await _userService.CreateAsync(model, UserType);
+                    var createdUser = string.IsNullOrWhiteSpace(model.UserName)
+                        ? null
+                        : await _userManager.FindByNameAsync(model.UserName);
+
+                    await _auditService.WriteAsync(
+                        EnAuditAction.UserCreated,
+                        $"Admin created {UserType} user '{model.UserName}'",
+                        actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+                        actorUserName: User.Identity?.Name,
+                        targetUserId: createdUser?.Id,
+                        entityName: nameof(AppUser),
+                        entityId: createdUser?.Id,
+                        ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
+
                     LogHelper.LogWithContext(
                         $"Created new user {model.UserName}",
                         User?.Identity?.Name ?? "Unknown",
@@ -157,6 +177,17 @@ namespace IPTS.Areas.Admin.Controllers
                 else
                 {
                     await _userService.UpdateAsync(model, UserType);
+
+                    await _auditService.WriteAsync(
+                        EnAuditAction.UserUpdated,
+                        $"Admin updated {UserType} user '{model.UserName}'",
+                        actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+                        actorUserName: User.Identity?.Name,
+                        targetUserId: model.Id,
+                        entityName: nameof(AppUser),
+                        entityId: model.Id,
+                        ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
+
                     LogHelper.LogWithContext(
                         $"Updated user {model.UserName} (Id: {model.Id})",
                         User?.Identity?.Name ?? "Unknown",
@@ -231,6 +262,16 @@ namespace IPTS.Areas.Admin.Controllers
                     $"<p><a href='{resetLink}'>{_locService.GetSystem("Email_ResetButton")}</a></p>" +
                     $"<p>{_locService.GetSystem("Email_IgnoreRequest")}</p>"
                 );
+
+                await _auditService.WriteAsync(
+                    EnAuditAction.PasswordResetRequested,
+                    $"Admin sent a password reset link to user '{user.UserName}'",
+                    actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+                    actorUserName: User.Identity?.Name,
+                    targetUserId: user.Id,
+                    entityName: nameof(AppUser),
+                    entityId: user.Id,
+                    ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
 
                 LogHelper.LogWithContext(
                     $"Password reset link sent to {model.Email}",
@@ -308,7 +349,7 @@ namespace IPTS.Areas.Admin.Controllers
                 );
 
                 TempData["SuccessMessage"] = _locService.GetSystem("Msg_DeleteSuccess");
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index), new { status = "active" });
             }
             catch (Exception ex)
             {
@@ -317,6 +358,73 @@ namespace IPTS.Areas.Admin.Controllers
                     User?.Identity?.Name ?? "Unknown",
                     "Admin",
                     "UsersController.Delete",
+                    LogEventLevel.Fatal
+                );
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Reactivate(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                LogHelper.LogWithContext(
+                    "Reactivate called with empty Id",
+                    User?.Identity?.Name ?? "Unknown",
+                    "Admin",
+                    "UsersController.Reactivate",
+                    LogEventLevel.Warning
+                );
+                return BadRequest();
+            }
+
+            try
+            {
+                var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+                if (user == null)
+                {
+                    LogHelper.LogWithContext(
+                        $"Reactivate requested for non-existing user Id: {id}",
+                        User?.Identity?.Name ?? "Unknown",
+                        "Admin",
+                        "UsersController.Reactivate",
+                        LogEventLevel.Warning
+                    );
+                    return NotFound();
+                }
+
+                user.Status = EnUserStatus.Active;
+                await _userManager.UpdateAsync(user);
+
+                await _auditService.WriteAsync(
+                    EnAuditAction.UserUpdated,
+                    $"Admin reactivated user '{user.UserName}'",
+                    actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+                    actorUserName: User.Identity?.Name,
+                    targetUserId: user.Id,
+                    entityName: nameof(AppUser),
+                    entityId: user.Id,
+                    ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
+
+                LogHelper.LogWithContext(
+                    $"User {id} reactivated",
+                    User?.Identity?.Name ?? "Unknown",
+                    "Admin",
+                    "UsersController.Reactivate",
+                    LogEventLevel.Warning
+                );
+
+                TempData["SuccessMessage"] = _locService.GetSystem("Msg_ReactivateSuccess");
+                return RedirectToAction(nameof(Index), new { status = "inactive" });
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogWithContext(
+                    $"Error reactivating user {id}: {ex.Message}",
+                    User?.Identity?.Name ?? "Unknown",
+                    "Admin",
+                    "UsersController.Reactivate",
                     LogEventLevel.Fatal
                 );
                 throw;

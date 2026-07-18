@@ -12,7 +12,7 @@
         <h4 class="text-xl font-bold text-slate-800">@SharedLocalizer["BlogPosts_Edit"]</h4>
     </div>
 
-    <form asp-action="Edit" method="post" enctype="multipart/form-data" class="space-y-6">
+    <form asp-action="Edit" method="post" enctype="multipart/form-data" class="space-y-6" data-confirm>
         <input asp-for="Id" type="hidden" />
         <div asp-validation-summary="All" class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-500"></div>
         <div class="grid gap-4 md:grid-cols-2">
@@ -163,7 +163,7 @@
             {
                 <div class="rounded-lg border border-slate-200 p-3">
                     <img src="@image.Url" class="mb-3 h-32 w-full rounded-lg object-cover" />
-                    <form asp-action="DeleteImage" method="post" class="inline">
+                    <form asp-action="DeleteImage" method="post" class="inline" data-confirm>
                         <input type="hidden" name="imageId" value="@image.Id" />
                         <input type="hidden" name="blogPostId" value="@Model.Id" />
                         <button type="submit" class="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-500 transition-colors hover:bg-red-100">

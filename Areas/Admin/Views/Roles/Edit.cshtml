@@ -12,7 +12,7 @@
         <h4 class="text-xl font-bold text-slate-800">@SharedLocalizer["Roles_Edit"]</h4>
     </div>
 
-    <form asp-action="Edit" method="post" class="space-y-5">
+    <form asp-action="Edit" method="post" class="space-y-5" data-confirm>
         <input type="hidden" asp-for="Id" />
         <div>
             <label asp-for="Name" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400"></label>

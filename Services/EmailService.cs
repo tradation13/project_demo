@@ -2,12 +2,14 @@
 using System.Net;
 using System.Net.Mime; // ضروري لدمج الصور
 using System.Text;
+using IPTS.Resources;
 
 namespace IPTS.Services
 {
-    public class EmailService(IConfiguration configuration)
+    public class EmailService(IConfiguration configuration, LocService locService)
     {
         private readonly IConfiguration _configuration = configuration;
+        private readonly LocService _locService = locService;
 
       public async Task SendEmail(string to, string subject, string bodyContent, string? FromContactSenderEmail = null)
 {
@@ -72,6 +74,11 @@ else
 private string GetHtmlTemplate(string content, string contentId)
 {
     var primaryColor = "#27ae60"; // الأخضر الجذاب اللي اخترناه
+    var websiteLabel = _locService.GetSystem("Label_Website");
+    var addressLabel = _locService.GetSystem("Label_Address");
+    var emailLabel = _locService.GetSystem("Label_Email");
+    var phoneLabel = _locService.GetSystem("Label_Phone");
+    var copyrightText = string.Format(_locService.GetSystem("Email_Footer_Copyright"), DateTime.UtcNow.Year);
 
     return $@"
     <div dir='ltr' style='direction: ltr; font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 30px;'>
@@ -88,29 +95,33 @@ private string GetHtmlTemplate(string content, string contentId)
                 </div>
             </div>
 
-            <div style='text-align: center; padding: 25px; border-top: 1px solid #eee; background-color: #ffffff;'>
-               
-                
-                <div style='display: inline-block; text-align: center; font-size: 14px; color: #666;'>
-                    <p style='margin: 5px 0;'>
-                        <span style='color: {primaryColor}; font-size: 18px;'>📍</span> 
-                        Venloer Straße 305, 50823 Köln-Ehrenfeld
-                    </p>
-                    
-                    <p style='margin: 5px 0;'>
-                        <span style='color: {primaryColor}; font-size: 18px;'>📞</span> 
-                        01728758302
-                    </p>
-                    
-                    <p style='margin: 5px 0;'>
-                        <span style='color: {primaryColor}; font-size: 18px;'>🌐</span> 
-                        <a href='https://physiotech-ehrenfeld.de/' style='color: #666; text-decoration: none;'>physiotech-ehrenfeld.de</a>
-                    </p>
-
-                    <p style='margin: 5px 0;'>
-                        <span style='color: {primaryColor}; font-size: 18px;'>✉️</span> 
-                        <a href='mailto:dr.kurtoglu@physiotech-ehrenfeld.de' style='color: #666; text-decoration: none;'>dr.kurtoglu@physiotech-ehrenfeld.de</a>
-                    </p>
+            <div style='padding: 28px 32px 20px; border-top: 1px solid #eee; background-color: #fafafa;'>
+                <table role='presentation' width='100%' cellpadding='0' cellspacing='0' border='0' style='width: 100%; border-collapse: collapse;'>
+                    <tr>
+                        <td width='50%' valign='top' align='left' style='padding: 0 12px 0 0; font-size: 13px; line-height: 1.5;'>
+                            <div style='margin-bottom: 14px;'>
+                                <div style='font-size: 11px; color: #a8a8a8; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px;'>{websiteLabel}</div>
+                                <a href='https://physiotech-ehrenfeld.de/' style='color: {primaryColor}; text-decoration: none; font-weight: 600;'>physiotech-ehrenfeld.de</a>
+                            </div>
+                            <div>
+                                <div style='font-size: 11px; color: #a8a8a8; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px;'>{addressLabel}</div>
+                                <span style='color: #555;'>Venloer Straße 305,<br />50823 Köln-Ehrenfeld</span>
+                            </div>
+                        </td>
+                        <td width='50%' valign='top' align='right' style='padding: 0 0 0 12px; font-size: 13px; line-height: 1.5;'>
+                            <div style='margin-bottom: 14px;'>
+                                <div style='font-size: 11px; color: #a8a8a8; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px;'>{emailLabel}</div>
+                                <a href='mailto:dr.kurtoglu@physiotech-ehrenfeld.de' style='color: {primaryColor}; text-decoration: none; font-weight: 600;'>dr.kurtoglu@physiotech-ehrenfeld.de</a>
+                            </div>
+                            <div>
+                                <div style='font-size: 11px; color: #a8a8a8; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px;'>{phoneLabel}</div>
+                                <a href='tel:+491728758302' style='color: #555; text-decoration: none;'>0172 8758302</a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div style='margin-top: 22px; padding-top: 16px; border-top: 1px solid #eee; text-align: center; font-size: 11px; color: #999; line-height: 1.5;'>
+                    {copyrightText}
                 </div>
             </div>
         </div>

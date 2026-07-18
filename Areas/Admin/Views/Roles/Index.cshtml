@@ -46,7 +46,7 @@
                                     </svg>
                                 </a>
 
-                                <form asp-action="Delete" asp-route-id="@Model[i].Id" method="post" onsubmit="return confirm(`@SharedLocalizer["Msg_ConfirmDelete"]`);" class="inline">
+                                <form asp-action="Delete" asp-route-id="@Model[i].Id" method="post" data-confirm class="inline">
                                     <button type="submit" title=@SharedLocalizer["Shared_Delete"]
                                             class="inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-red-50">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">

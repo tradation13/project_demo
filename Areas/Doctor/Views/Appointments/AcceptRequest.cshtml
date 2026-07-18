@@ -89,7 +89,26 @@
     .confirm-patient {
         font-size: 0.9rem;
         color: #6b7280;
+        margin: 0 0 0.75rem;
+    }
+
+    .appointment-date {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #065f46;
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        border-radius: 10px;
+        padding: 0.55rem 0.9rem;
         margin: 0 0 1.5rem;
+    }
+
+    .appointment-date svg {
+        flex-shrink: 0;
+        color: #059669;
     }
 
     .patient-banner {
@@ -292,6 +311,16 @@
 
         <h2 class="confirm-title">@SharedLocalizer["Appt_Confirm_Title"]</h2>
         <p class="confirm-patient">@Model.PatientName</p>
+
+        <p class="appointment-date">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span>
+                @SharedLocalizer["Appt_Sched_DateLabel"]:
+                @Model.ScheduledDate.ToString("dddd, dd MMMM yyyy")
+            </span>
+        </p>
 
         @if (Model.StartSlotIndex >= 0 && Model.EndSlotIndex >= Model.StartSlotIndex)
         {

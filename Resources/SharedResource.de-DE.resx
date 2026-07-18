@@ -220,7 +220,7 @@
     <comment>VIiews -&gt; Shared -&gt; PublicSide</comment>
   </data>
   <data name="Therapies" xml:space="preserve">
-    <value>Therapien</value>
+    <value>Therapeuten</value>
     <comment>VIiews -&gt; Shared -&gt; PublicSide</comment>
   </data>
   <data name="Dashboard" xml:space="preserve">
@@ -1572,7 +1572,7 @@
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
   </data>
   <data name="Appt_Sched_WorkingHoursRange" xml:space="preserve">
-    <value>08:00 - 18:00 Uhr (Deutsche Zeit)</value>
+    <value>08:00 - 19:00 Uhr (Deutsche Zeit)</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments-&gt; ScheduleAppointment</comment>
   </data>
   <data name="Appt_Sched_NotesPlaceholder" xml:space="preserve">
@@ -1817,6 +1817,26 @@
   </data>
   <data name="Users_AccountType" xml:space="preserve">
     <value>Kontotyp</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="Users_Tab_Active" xml:space="preserve">
+    <value>Aktive Benutzer</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="Users_Tab_Inactive" xml:space="preserve">
+    <value>Inaktive Benutzer</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="Users_Btn_Reactivate" xml:space="preserve">
+    <value>Reaktivieren</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="Users_Empty_Active" xml:space="preserve">
+    <value>Keine aktiven Benutzer gefunden.</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
+  </data>
+  <data name="Users_Empty_Inactive" xml:space="preserve">
+    <value>Keine inaktiven Benutzer gefunden.</value>
     <comment>Areas -&gt; Admin -&gt; Views -&gt; Users -&gt; Index</comment>
   </data>
   <data name="Users_OrderID" xml:space="preserve">
@@ -2151,7 +2171,7 @@
   <comment>LocationSection</comment>
 </data>
 <data name="Shared_Opening_Hours_Details" xml:space="preserve">
-  <value>Montag - Donnerstag: 08:00 - 18:00 | Freitag: 08:00 - 13:00</value>
+  <value>Montag - Donnerstag: 08:00 - 19:00 | Freitag: 08:00 - 13:00</value>
   <comment>LocationSection</comment>
 </data>
 
@@ -2752,7 +2772,7 @@
     <comment>Views -&gt; Auth -&gt; VerifyEmail</comment>
   </data>
   <data name="Therapies_PageTitle" xml:space="preserve">
-    <value>Therapien</value>
+    <value>Therapeuten</value>
     <comment>Views -&gt; Home -&gt; Therapies</comment>
   </data>
   <data name="MedCase_Det_Highest" xml:space="preserve">
@@ -2802,5 +2822,61 @@
   <data name="MedCase_Det_ProgressChart" xml:space="preserve">
     <value>Fortschrittsdiagramm</value>
     <comment>Patient MedicalCases Details - chart aria</comment>
+  </data>
+  <data name="AboutCEO_Title" xml:space="preserve">
+    <value>Über den Klinikleiter</value>
+    <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="AboutCEO_Subtitle" xml:space="preserve">
+    <value>Lernen Sie den Gründer von PhysioTech kennen — Wissenschaft, Technologie und fürsorgliche Behandlung vereint.</value>
+    <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="AboutCEO_Name" xml:space="preserve">
+    <value>Außerordentlicher Professor Dr. Ahmed Kurtoglu</value>
+    <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="AboutCEO_Role" xml:space="preserve">
+    <value>Klinikleiter</value>
+    <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="AboutCEO_Clinic" xml:space="preserve">
+    <value>PhysioTech — Praxis für Physiotherapie</value>
+    <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="AboutCEO_Info_NameLabel" xml:space="preserve">
+    <value>Name</value>
+    <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="AboutCEO_Address_Line1" xml:space="preserve">
+    <value>Venloer Straße 305</value>
+    <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="AboutCEO_Address_Line2" xml:space="preserve">
+    <value>50823 Ehrenfeld, Köln</value>
+    <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="AboutCEO_Scholar_Label" xml:space="preserve">
+    <value>Google Scholar</value>
+    <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="AboutCEO_Scholar_Btn" xml:space="preserve">
+    <value>Forschungsprofil anzeigen</value>
+    <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="AboutCEO_Bio_P1" xml:space="preserve">
+    <value>Außerordentlicher Professor Dr. Ahmed Kurtoglu ist Sportwissenschaftler und Physiotherapeut mit umfassender akademischer und klinischer Erfahrung. Als international aktiver Forscher ist er Autor von mehr als 100 wissenschaftlichen Publikationen, rund 20 Fachbüchern und über 50 Konferenzbeiträgen.</value>
+    <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="AboutCEO_Bio_P2" xml:space="preserve">
+    <value>In mehr als 10 wissenschaftlichen Projekten forscht er zu Themen, die der Patientenversorgung direkt zugutekommen — von den neurologischen Auswirkungen der Massage auf Gehirnwellen (EEG) über die Trainingsbiochemie bis hin zu Anwendungen der virtuellen Realität (VR). Darüber hinaus betreut er als akademischer Berater zahlreiche Bachelor-, Master- und Doktoranden.</value>
+    <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="AboutCEO_Bio_P3" xml:space="preserve">
+    <value>Dr. Kurtoglu strebt danach, moderne Sporttechnologie mit wissenschaftlichem Wissen zu verbinden, und hat in diesem Rahmen an der Entwicklung innovativer VR-basierter Trainings- und Rehabilitationsplattformen mitgewirkt. Durch die Integration intelligenter Patientenüberwachungssysteme und künstlicher Intelligenz für Fitness (FITNESS AI) zielen diese darauf ab, einen sicheren, messbaren und effektiven Heilungsprozess für Patienten zu schaffen.</value>
+    <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="AboutCEO_Bio_P4" xml:space="preserve">
+    <value>Sein interdisziplinärer Ansatz verfolgt das Ziel, wissenschaftliche Forschung direkt in die evidenzbasierte Therapie einfließen zu lassen. So ermöglicht er Behandlungs- und Rehabilitationsprozesse, die individuell auf die Bedürfnisse jedes Einzelnen abgestimmt sind.</value>
+    <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
   </data>
 </root>

@@ -6,15 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 using Serilog.Events;
 using IPTS.Services;
 using Microsoft.EntityFrameworkCore;
+using IPTS.Models.Enums;
 
 namespace IPTS.Areas.Admin.Controllers
 {
     [Area("admin")]
     [Authorize(Roles = "admin")]
-    public class TestsController(TestService testService, TestGroupService testGroupService) : Controller
+    public class TestsController(
+        TestService testService,
+        TestGroupService testGroupService,
+        AuditService auditService) : Controller
     {
         private readonly TestService _testService = testService;
         private readonly TestGroupService _testGroupService = testGroupService;
+        private readonly AuditService _auditService = auditService;
 
         public async Task<IActionResult> Index()
         {
@@ -43,7 +48,16 @@ namespace IPTS.Areas.Admin.Controllers
                 return View(model);
             }
 
-            await _testService.AddAsync(model);
+            var createdTest = await _testService.AddAsync(model);
+
+            await _auditService.WriteAsync(
+                EnAuditAction.EntityCreated,
+                $"Admin created test '{createdTest.Name}'",
+                actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+                actorUserName: User.Identity?.Name,
+                entityName: nameof(Test),
+                entityId: createdTest.Id.ToString(),
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
 
             LogHelper.LogWithContext($"Created test {model.Name}", User?.Identity?.Name ?? "Unknown", "Admin", "TestsController.Create", LogEventLevel.Warning);
 
@@ -75,10 +89,18 @@ namespace IPTS.Areas.Admin.Controllers
                 return View(model);
             }
 
-            if (model.Id != null)
-            {
-                await _testService.UpdateAsync((int)model.Id, model);
-            }
+            var updatedTest = await _testService.UpdateAsync(model.Id, model);
+            if (updatedTest == null)
+                return NotFound();
+
+            await _auditService.WriteAsync(
+                EnAuditAction.EntityUpdated,
+                $"Admin updated test '{updatedTest.Name}'",
+                actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+                actorUserName: User.Identity?.Name,
+                entityName: nameof(Test),
+                entityId: model.Id.ToString(),
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
 
             LogHelper.LogWithContext($"Edited test {model.Name}", User?.Identity?.Name ?? "Unknown", "Admin", "TestsController.Edit", LogEventLevel.Warning);
 
@@ -96,6 +118,15 @@ namespace IPTS.Areas.Admin.Controllers
             }
 
             await _testService.DeleteAsync(id);
+
+            await _auditService.WriteAsync(
+                EnAuditAction.EntityDeleted,
+                $"Admin deleted test '{test.Name}'",
+                actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+                actorUserName: User.Identity?.Name,
+                entityName: nameof(Test),
+                entityId: id.ToString(),
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
 
             LogHelper.LogWithContext($"Deleted test {test.Name}", User?.Identity?.Name ?? "Unknown", "Admin", "TestsController.Delete", LogEventLevel.Warning);
 

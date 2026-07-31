@@ -193,6 +193,10 @@
     <value>Health</value>
     <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
   </data>
+  <data name="BlogPostType_Add" xml:space="preserve">
+    <value>Add</value>
+    <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
+  </data>
    <data name="Dropzone_Tip_Title" xml:space="preserve">
     <value>Drag and Drop files here</value>
     <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
@@ -2426,6 +2430,9 @@
   </data>
   <data name="Blog_Category_Update" xml:space="preserve">
     <value>Update</value>
+  </data>
+  <data name="Blog_Category_Add" xml:space="preserve">
+    <value>Add</value>
   </data>
   <data name="Blog_TitleRequired" xml:space="preserve">
     <value>Title is required.</value>

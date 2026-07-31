@@ -175,6 +175,9 @@
   <data name="Blog_Category_Update" xml:space="preserve">
     <value>Update</value>
   </data>
+  <data name="Blog_Category_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
   <data name="Blog_TitleRequired" xml:space="preserve">
     <value>Title is required.</value>
   </data>

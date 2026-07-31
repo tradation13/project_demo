@@ -9,6 +9,7 @@ namespace IPTS.Models.Enums
         Services = 5,
         Training = 6,
         Health = 7,
-        Update = 8
+        Update = 8,
+        Add = 9
     }
 }

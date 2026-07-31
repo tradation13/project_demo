@@ -1,7 +1,7 @@
 @*
-   PhysioTech — Blogs Section
-   Multi-language: EN / DE based on ViewBag.Lang or CultureInfo
-   Self-contained Partial — no @section needed
+   PhysioTech — Home ads banner (Add posts)
+   Layout: top strip + left static clinic panel + right image slider
+   (Redesigned: matched heights, unified card language, dot navigation)
 *@
 
 @inject IPTS.Services.BlogPostService BlogPostService
@@ -10,14 +10,25 @@
     var lang = (string)(ViewBag.Lang ?? System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
     bool isDE = lang?.ToLower() == "de";
 
-    var t_eyebrow  = isDE ? "NEUESTE BEITRÄGE"                    : "LATEST UPDATES";
-    var t_title1   = isDE ? "PhysioTech"                          : "PhysioTech";
-    var t_title2   = isDE ? " Einblicke"                          : " Insights";
-    var t_subtitle = isDE ? "Bleiben Sie informiert — moderne Technik, intelligente Pflege und spezialisiertes Fachwissen aus unserer Klinik."
-                          : "Stay informed with the latest from our clinic — modern technology, intelligent care, and specialized expertise.";
+    var t_carousel = isDE ? "Aktuelle Anzeigen" : "Current ads";
+    var t_prev = isDE ? "Vorherige Anzeige" : "Previous";
+    var t_next = isDE ? "Nächste Anzeige" : "Next";
+    var t_goto = isDE ? "Zu Anzeige" : "Go to ad";
+    var t_stripLeft = isDE
+        ? "MODERNE THERAPIE. PERSÖNLICHE BETREUUNG."
+        : "SMARTER CARE. PERSONALIZED THERAPY.";
+    var t_stripRight = isDE
+        ? "PHYSIOTECH — BESSERE ERGEBNISSE JEDEN TAG."
+        : "PHYSIOTECH — BETTER RESULTS EVERY DAY.";
+    var t_panelTitle = isDE ? "PhysioTech Klinik" : "PhysioTech Clinic";
+    var t_panelText = isDE
+        ? "Technologiegestützte Physiotherapie für schnellere und präzisere Genesung."
+        : "Technology-driven physiotherapy for faster, more precise recovery.";
+    var t_panelCta = isDE ? "Mehr über uns" : "About us";
+    var t_readMore = isDE ? "Weiterlesen" : "Read more";
+    var aboutUrl = Url.Action("About", "Home");
 
-    var posts = (await BlogPostService.GetAllAsync(true))
-        .Where(x => x.IsPublished)
+    var posts = (await BlogPostService.GetHomeAddPostsAsync(8))
         .Select(x =>
         {
             var articleImages = (x.Images ?? Enumerable.Empty<IPTS.Models.Entites.BlogPostImage>())
@@ -38,397 +49,543 @@
             return new
             {
                 Id = x.Id,
-                Tag = x.PostType switch
-                {
-                    IPTS.Models.Enums.EnBlogPostType.Team => isDE ? "Unser Team" : "Our Team",
-                    IPTS.Models.Enums.EnBlogPostType.News => isDE ? "Neuigkeiten" : "News",
-                    IPTS.Models.Enums.EnBlogPostType.Technology => isDE ? "Technologie" : "Technology",
-                    IPTS.Models.Enums.EnBlogPostType.Offers => isDE ? "Angebote" : "Offers",
-                    IPTS.Models.Enums.EnBlogPostType.Services => isDE ? "Dienstleistungen" : "Services",
-                    IPTS.Models.Enums.EnBlogPostType.Training => isDE ? "Training" : "Training",
-                    IPTS.Models.Enums.EnBlogPostType.Health => isDE ? "Gesundheit" : "Health",
-                    _ => isDE ? "Aktualisierung" : "Update"
-                },
-                Date = x.PublishedAt.ToString(isDE ? "dd.MM.yyyy" : "MMMM dd, yyyy"),
                 Title = string.IsNullOrWhiteSpace(x.Title) ? (isDE ? "Neuer Beitrag" : "New article") : x.Title,
-                Excerpt = string.IsNullOrWhiteSpace(x.ShortDescription) ? (string.IsNullOrWhiteSpace(x.LongDescription) ? "" : x.LongDescription) : x.ShortDescription,
                 ImageUrl = mainImageUrl,
-                Url = Url.Action("Treatments", "Home", new { articleId = x.Id }),
-                PublishedAt = x.PublishedAt
+                Url = Url.Action("Treatments", "Home", new { articleId = x.Id })
             };
         })
-        .OrderByDescending(x => x.PublishedAt)
-        .Take(3)
         .ToList();
 
-    var t_read     = isDE ? "Artikel lesen" : "Read Article";
-    var t_viewall  = isDE ? "Alle Artikel anzeigen" : "View All Articles";
+    if (!posts.Any())
+    {
+        return;
+    }
+
+    var multi = posts.Count > 1;
 }
 
 <style>
-.blogs-section {
-    padding: 70px 0 60px;
-    background: #f4fbf7;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    width: 100%;
-    box-sizing: border-box;
+.pt-ads {
+    --pt-green: #059669;
+    --pt-green-dk: #047857;
+    --pt-ink: #0f172a;
+    --pt-mute: #64748b;
+    --pt-line: #d1fae5;
+    --pt-panel-h: 440px;
+    padding: clamp(2.5rem, 5vw, 4rem) 0;
+    background:
+        radial-gradient(ellipse 70% 50% at 10% 0%, rgba(16, 185, 129, 0.08), transparent 55%),
+        #f8fafc;
+}
+
+.pt-ads__inner {
+    width: min(1180px, calc(100% - 2.5rem));
+    margin: 0 auto;
+}
+
+.pt-ads__frame {
+    border-radius: 10px;
     overflow: hidden;
+    border: 1px solid var(--pt-line);
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
 }
 
-/* ── Header ── */
-.blogs-header {
-    text-align: center;
-    margin-bottom: 64px;
-    padding: 0 20px;
+/* Top strip */
+.pt-ads__strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1.5rem;
+    background: linear-gradient(90deg, #ecfdf5 0%, #f0fdfa 50%, #ecfeff 100%);
+    border-bottom: 1px solid var(--pt-line);
+    min-height: 54px;
 }
 
-.blogs-eyebrow {
+.pt-ads__strip-text {
+    margin: 0;
+    color: var(--pt-green-dk);
+    font-size: 0.8rem;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.35;
+    max-width: 42%;
+}
+
+.pt-ads__strip-mark {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    color: #1a9e50;
-    font-size: 11.5px;
-    font-weight: 800;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-}
-
-.blogs-eyebrow::before,
-.blogs-eyebrow::after {
-    content: '';
-    display: block;
-    width: 36px;
-    height: 1.5px;
-    background: #1a9e50;
-    opacity: 0.45;
-    border-radius: 2px;
-}
-
-.blogs-title {
-    font-family: 'Inter', 'Montserrat', 'Segoe UI', sans-serif;
-    font-size: clamp(32px, 4.5vw, 54px);
-    font-weight: 800;
-    color: #0d1e14; /* لون داكن عميق وغني */
-    margin: 0 0 18px;
-    line-height: 1.1;
-    letter-spacing: -0.04em; /* تضييق المسافات يمنح الخط طابعاً عصرياً وفخماً */
-    text-transform: capitalize;
-}
-
-.blogs-hl { color: #1a9e50; }
-
-.blogs-subtitle {
-    font-size: 16.5px;
-    color: #5a7a65;
-    max-width: 520px;
-    margin: 0 auto;
-    line-height: 1.75;
-}
-
-/* ── Grid ── */
-.blogs-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 13px;
-    width: 100%;
-    max-width: 1340px;
-    margin: 0 auto;
-    padding: 0 28px;
-    box-sizing: border-box;
-}
-
-/* ── Card ── */
-.blog-card {
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
     background: #fff;
-    border-radius: 20px;
-    border: 1px solid #e0f2e9;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1),
-                box-shadow  0.4s ease;
-    will-change: transform;
+    color: var(--pt-green);
+    border: 1px solid var(--pt-line);
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.15);
 }
 
-.blog-card::after {
-    content: '';
+.pt-ads__strip-mark i { font-size: 0.85rem; }
+
+/* Bottom split — equal, fixed height so both sides always match */
+.pt-ads__body {
+    display: grid;
+    grid-template-columns: 0.4fr 0.6fr;
+    align-items: stretch;
+}
+
+/* Shared card visual language: image + gradient shade + text block */
+.pt-ads__static,
+.pt-slider__slide {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    height: var(--pt-panel-h);
+    text-decoration: none;
+    color: #fff;
+    background: #0f172a;
+}
+
+.pt-ads__static {
+    border-right: 1px solid var(--pt-line);
+}
+
+.pt-ads__static-img,
+.pt-ads__static-img img,
+.pt-slider__slide img {
     position: absolute;
     inset: 0;
-    border-radius: 20px;
-    border: 2px solid transparent;
-    transition: border-color 0.35s ease;
-    pointer-events: none;
-    z-index: 1;
+    width: 100%;
+    height: 100%;
 }
 
-.blog-card:hover { transform: translateY(-12px) scale(1.015); box-shadow: 0 32px 64px rgba(26,158,80,0.13), 0 8px 24px rgba(0,0,0,0.04); }
-@* .blog-card:hover::after { border-color: #2ecc71; }
-.blog-card.featured { border-color: #2ecc71; box-shadow: 0 4px 28px rgba(46,204,113,0.10); } *@
-
-/* ── Image ── */
-.blog-img-wrap {
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 5 / 4;
-    max-height: 280px;
-    background: linear-gradient(135deg, #e8f8f0, #c5f0d8);
-}
-
-.blog-img {
-    width: 100%; height: 100%;
+.pt-ads__static-img img,
+.pt-slider__slide img {
     object-fit: cover;
+    object-position: center;
     display: block;
-    transition: transform 0.55s cubic-bezier(0.25,0.8,0.25,1);
+    transition: transform 0.6s ease;
 }
 
-.blog-card:hover .blog-img { transform: scale(1.06); }
-
-.blog-card-link {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-    color: inherit;
-    text-decoration: none;
+.pt-ads__static:hover img,
+.pt-slider__slide:hover img {
+    transform: scale(1.04);
 }
 
-.blog-card-link:focus-visible {
-    outline: 3px solid rgba(74,222,128,.55);
-    outline-offset: 4px;
+.pt-ads__static-shade,
+.pt-slider__shade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.15) 45%, rgba(15, 23, 42, 0.82) 100%);
 }
 
-.blog-body {
-    padding: 20px 22px 22px;
+.pt-ads__static-body,
+.pt-slider__body {
+    position: absolute;
+    inset: auto 0 0 0;
+    z-index: 2;
+    padding: 1.1rem 1.25rem 1.15rem;
 }
 
-.blog-card-title {
-    font-size: 15.5px;
+.pt-ads__static-title,
+.pt-slider__title {
+    margin: 0 0 0.3rem;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
-.blog-excerpt {
-    font-size: 13px;
-    line-height: 1.75;
+.pt-slider__title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.blog-read-more {
+.pt-ads__static-text {
+    margin: 0 0 0.6rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.pt-ads__static-cta,
+.pt-slider__cta {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    color: #1a9e50;
-    font-size: 13px;
+    gap: 0.35rem;
+    color: #a7f3d0;
+    font-size: 0.82rem;
     font-weight: 700;
-    margin-top: 10px;
-    letter-spacing: 0.01em;
 }
 
-.blog-read-more svg {
-    width: 16px;
-    height: 16px;
-    transition: transform 0.35s ease;
+.pt-ads__static-cta svg,
+.pt-slider__cta svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s ease;
 }
 
-.blog-card-link:hover .blog-read-more svg {
+.pt-ads__static:hover .pt-ads__static-cta svg,
+.pt-slider__slide:hover .pt-slider__cta svg {
     transform: translateX(3px);
 }
 
-.blog-img-placeholder i { font-size: 52px; color: #1a9e50; opacity: 0.3; }
-
-/* ── Tag ── */
-.blog-tag {
+/* Small "sponsored/featured" badge on each slide, top-left, for polish */
+.pt-slider__badge {
     position: absolute;
-    top: 14px; left: 14px;
+    top: 0.85rem;
+    left: 0.85rem;
     z-index: 2;
-    background: #1a9e50;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 800;
-    padding: 5px 13px;
-    border-radius: 100px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-}
-
-.blog-tag.ai-tag   { background: #064e36; }
-.blog-tag.team-tag { background: #1a4d8e; }
-
-/* ══════════════════════════════
-   VIEW ALL BUTTON — احترافي
-══════════════════════════════ */
-.blogs-footer {
-    display: flex;
-    justify-content: center;
-    margin-top: 56px;
-}
-
-.blogs-all-btn {
-    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    background: #0f1f15;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 700;
-    padding: 16px 36px;
-    border-radius: 100px;
-    text-decoration: none;
+    padding: 0.28rem 0.65rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--pt-green-dk);
+    font-size: 0.68rem;
+    font-weight: 800;
     letter-spacing: 0.04em;
+    text-transform: uppercase;
+    backdrop-filter: blur(4px);
+}
+
+/* Slider (right) */
+.pt-slider {
+    position: relative;
+    background: #fff;
+    height: var(--pt-panel-h);
+}
+
+.pt-slider__viewport {
+    position: relative;
     overflow: hidden;
-    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1),
-                box-shadow 0.35s ease;
-    box-shadow: 0 4px 20px rgba(15,31,21,0.18);
-}
-
-/* shine sweep */
-.blogs-all-btn::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -75%;
-    width: 50%;
+    width: 100%;
     height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.18), transparent);
-    transition: left 0.55s ease;
 }
 
-.blogs-all-btn:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 16px 40px rgba(15,31,21,0.22); }
-.blogs-all-btn:hover::before { left: 130%; }
-
-.blogs-all-btn .btn-icon {
+.pt-slider__track {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.12);
-    flex-shrink: 0;
-    transition: background 0.3s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    width: 100%;
+    height: 100%;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.blogs-all-btn:hover .btn-icon { background: rgba(255,255,255,0.22); transform: rotate(-8deg) scale(1.15); }
-.blogs-all-btn .btn-icon i { font-size: 17px; }
+.pt-slider__slide {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+}
 
-/* count badge */
-.blogs-all-btn .btn-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #1a9e50;
+.pt-slider__nav {
+    position: absolute;
+    top: 50%;
+    z-index: 4;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    margin-top: -20px;
+    border: 1px solid var(--pt-line);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--pt-ink);
+    cursor: pointer;
+    padding: 0;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.pt-slider:hover .pt-slider__nav,
+.pt-slider:focus-within .pt-slider__nav {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.pt-slider__nav:hover {
+    background: var(--pt-green);
+    border-color: var(--pt-green);
     color: #fff;
-    font-size: 11px;
-    font-weight: 800;
-    min-width: 22px;
-    height: 22px;
-    padding: 0 6px;
-    border-radius: 100px;
-    letter-spacing: 0;
-    transition: background 0.3s ease;
 }
 
-.blogs-all-btn:hover .btn-badge { background: #2ecc71; }
+.pt-slider__nav--prev { left: 12px; }
+.pt-slider__nav--next { right: 12px; }
+.pt-slider__nav svg { width: 16px; height: 16px; }
 
-/* ══════════════════════════════
-   ANIMATIONS
-══════════════════════════════ */
-.banim-ey   { opacity:0; transform:scaleX(0.5) translateY(10px); transition:opacity .6s ease, transform .6s cubic-bezier(0.22,1,0.36,1); }
-.banim-h    { opacity:0; transform:translateY(36px);              transition:opacity .75s cubic-bezier(0.22,1,0.36,1), transform .75s cubic-bezier(0.22,1,0.36,1); }
-.banim-card { opacity:0; transform:translateY(56px) scale(0.97);  transition:opacity .7s cubic-bezier(0.22,1,0.36,1), transform .7s cubic-bezier(0.22,1,0.36,1); }
-.banim-foot { opacity:0; transform:translateY(20px);              transition:opacity .6s ease, transform .6s ease; }
-
-.banim-ey.bv,
-.banim-h.bv,
-.banim-card.bv,
-.banim-foot.bv { opacity:1; transform:none; }
-
-/* ── Responsive ── */
-@@media (max-width: 960px) {
-    .blogs-grid { grid-template-columns:1fr 1fr; padding:0 28px; gap:12px; }
+/* Dot indicators */
+.pt-slider__dots {
+    position: absolute;
+    z-index: 4;
+    bottom: 0.85rem;
+    right: 1.15rem;
+    display: flex;
+    gap: 0.4rem;
 }
-@@media (max-width: 600px) {
-    .blogs-section { padding:64px 0 56px; }
-    .blogs-grid    { grid-template-columns:1fr; padding:0 18px; gap:10px; }
-    .blogs-title   { font-size:28px; }
+
+.pt-slider__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.45);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.2s ease, width 0.2s ease;
 }
-@@media (prefers-reduced-motion:reduce) {
-    .banim-ey,.banim-h,.banim-card,.banim-foot,
-    .blog-card,.blog-img,.blog-read-more,.blogs-all-btn {
-        transition:none!important; transform:none!important; opacity:1!important;
+
+.pt-slider__dot.is-active {
+    background: #a7f3d0;
+    width: 18px;
+    border-radius: 999px;
+}
+
+@@media (max-width: 900px) {
+    .pt-ads {
+        --pt-panel-h: 300px;
+    }
+
+    .pt-ads__body {
+        grid-template-columns: 1fr;
+    }
+
+    .pt-ads__static {
+        border-right: 0;
+        border-bottom: 1px solid var(--pt-line);
+    }
+}
+
+@@media (max-width: 640px) {
+    .pt-ads {
+        --pt-panel-h: 240px;
+    }
+
+    .pt-ads__strip {
+        padding: 0.65rem 0.9rem;
+    }
+
+    .pt-ads__strip-text {
+        font-size: 0.65rem;
+        letter-spacing: 0.04em;
+        max-width: 40%;
+    }
+}
+
+@@media (hover: none) {
+    .pt-slider__nav {
+        opacity: 0.85;
+        visibility: visible;
+        pointer-events: auto;
+    }
+}
+
+@@media (prefers-reduced-motion: reduce) {
+    .pt-slider__track {
+        transition: none !important;
     }
 }
 </style>
 
-<section class="blogs-section" id="blogs">
+<section class="pt-ads" id="blogs" aria-label="@t_carousel">
+    <div class="pt-ads__inner">
+        <div class="pt-ads__frame">
+            <div class="pt-ads__strip">
+                <p class="pt-ads__strip-text">@t_stripLeft</p>
+                <span class="pt-ads__strip-mark" aria-hidden="true">
+                    <i class="fas fa-heart-pulse"></i>
+                </span>
+                <p class="pt-ads__strip-text">@t_stripRight</p>
+            </div>
 
-    <div class="blogs-header">
-        <div class="blogs-eyebrow banim-ey">@t_eyebrow</div>
-        <h2 class="blogs-title banim-h"><span class="blogs-hl">@t_title1</span>@t_title2</h2>
-        <p class="blogs-subtitle banim-h" style="transition-delay:.1s">@t_subtitle</p>
-    </div>
-
-    <div class="blogs-grid">
-        @foreach (var post in posts)
-        {
-            <article class="blog-card banim-card" data-bd="0">
-                <a class="blog-card-link" href="@post.Url" aria-label="@post.Title">
-                    <div class="blog-img-wrap">
-                        <img src="@post.ImageUrl" alt="@post.Title" class="blog-img" loading="lazy"
-                             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-                        <div class="blog-img-placeholder" style="display:none">
-                            <i class="ti ti-news" aria-hidden="true"></i>
-                        </div>
-                        <span class="blog-tag">@post.Tag</span>
+            <div class="pt-ads__body">
+                <a class="pt-ads__static" href="@aboutUrl" aria-label="@t_panelTitle">
+                    <div class="pt-ads__static-img">
+                        <img src="/images/home/AddImage.png" alt="@t_panelTitle" loading="lazy"
+                             onerror="this.src='/images/blog-devices.png'" />
                     </div>
-                    <div class="blog-body">
-                        <div class="blog-meta">
-                            <i class="ti ti-calendar-event" aria-hidden="true"></i>
-                            <time datetime="@post.Date">@post.Date</time>
-                        </div>
-                        <h3 class="blog-card-title">@post.Title</h3>
-                        <p class="blog-excerpt">@post.Excerpt</p>
-                        <span class="blog-read-more">
-                            <span>@t_read</span>
-                            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path d="M7 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <div class="pt-ads__static-shade" aria-hidden="true"></div>
+                    <div class="pt-ads__static-body">
+                        <h3 class="pt-ads__static-title">@t_panelTitle</h3>
+                        <p class="pt-ads__static-text">@t_panelText</p>
+                        <span class="pt-ads__static-cta">
+                            <span>@t_panelCta</span>
+                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                                <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </span>
                     </div>
                 </a>
-            </article>
-        }
+
+                <div class="pt-slider"
+                     data-interval="4000"
+                     data-count="@posts.Count"
+                     aria-roledescription="carousel"
+                     aria-label="@t_carousel">
+                    <div class="pt-slider__viewport">
+                        <div class="pt-slider__track" role="list">
+                            @for (var i = 0; i < posts.Count; i++)
+                            {
+                                var post = posts[i];
+                                <a class="pt-slider__slide@(i == 0 ? " is-active" : "")"
+                                   href="@post.Url"
+                                   role="listitem"
+                                   aria-label="@post.Title"
+                                   aria-hidden="@(i == 0 ? "false" : "true")"
+                                   data-index="@i">
+                                    <img src="@post.ImageUrl" alt="@post.Title" loading="@(i == 0 ? "eager" : "lazy")"
+                                         onerror="this.src='/images/blog-devices.png'" />
+                                    <div class="pt-slider__shade" aria-hidden="true"></div>
+                                    <span class="pt-slider__badge">@t_carousel</span>
+                                    <div class="pt-slider__body">
+                                        <h3 class="pt-slider__title">@post.Title</h3>
+                                        <span class="pt-slider__cta">
+                                            <span>@t_readMore</span>
+                                            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                                                <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    </div>
+
+                    @if (multi)
+                    {
+                        <button type="button" class="pt-slider__nav pt-slider__nav--prev" aria-label="@t_prev">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="pt-slider__nav pt-slider__nav--next" aria-label="@t_next">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <div class="pt-slider__dots" role="tablist">
+                            @for (var i = 0; i < posts.Count; i++)
+                            {
+                                <button type="button" class="pt-slider__dot@(i == 0 ? " is-active" : "")"
+                                        data-index="@i" aria-label="@t_goto @(i + 1)"></button>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
-
-  <div class="blogs-footer banim-foot" data-bd="360">
-    <a asp-controller="Home" asp-action="Treatments" class="blogs-all-btn">
-
-        @t_viewall
-    </a>
-</div>
-
 </section>
 
 <script>
 (function () {
-    var IO = window.IntersectionObserver;
-    if (!IO) {
-        document.querySelectorAll('.banim-ey,.banim-h,.banim-card,.banim-foot')
-            .forEach(function(el){ el.classList.add('bv'); });
-        return;
+    var root = document.querySelector('#blogs .pt-slider');
+    if (!root) return;
+
+    var track = root.querySelector('.pt-slider__track');
+    var slides = Array.prototype.slice.call(root.querySelectorAll('.pt-slider__slide'));
+    var dots = Array.prototype.slice.call(root.querySelectorAll('.pt-slider__dot'));
+    var prevBtn = root.querySelector('.pt-slider__nav--prev');
+    var nextBtn = root.querySelector('.pt-slider__nav--next');
+    var count = slides.length;
+    var index = 0;
+    var timer = null;
+    var interval = parseInt(root.getAttribute('data-interval') || '4000', 10);
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var touching = false;
+    var startX = 0;
+    var deltaX = 0;
+
+    function goTo(next, restart) {
+        if (count <= 1) return;
+        index = (next + count) % count;
+        track.style.transform = 'translate3d(' + (-index * 100) + '%, 0, 0)';
+
+        slides.forEach(function (slide, i) {
+            var active = i === index;
+            slide.classList.toggle('is-active', active);
+            slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+        });
+
+        dots.forEach(function (dot, i) {
+            dot.classList.toggle('is-active', i === index);
+        });
+
+        if (restart !== false) start();
     }
-    function watch(sel, margin) {
-        var obs = new IO(function(entries){
-            entries.forEach(function(e){
-                if (!e.isIntersecting) return;
-                var el = e.target;
-                var d  = parseInt(el.getAttribute('data-bd')||'0',10);
-                setTimeout(function(){ el.classList.add('bv'); }, d);
-                obs.unobserve(el);
-            });
-        },{ threshold:0.12, rootMargin: margin||'0px' });
-        document.querySelectorAll(sel).forEach(function(el){ obs.observe(el); });
+
+    function next() { goTo(index + 1); }
+    function prev() { goTo(index - 1); }
+
+    function start() {
+        stop();
+        if (count <= 1 || reduceMotion) return;
+        timer = setInterval(next, interval);
     }
-    watch('.banim-ey',  '-30px');
-    watch('.banim-h',   '-30px');
-    watch('.banim-card','-10px');
-    watch('.banim-foot','0px');
+
+    function stop() {
+        if (timer) {
+            clearInterval(timer);
+            timer = null;
+        }
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function (e) { e.preventDefault(); prev(); });
+    if (nextBtn) nextBtn.addEventListener('click', function (e) { e.preventDefault(); next(); });
+
+    dots.forEach(function (dot) {
+        dot.addEventListener('click', function () {
+            goTo(parseInt(dot.getAttribute('data-index'), 10));
+        });
+    });
+
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    root.addEventListener('focusin', stop);
+    root.addEventListener('focusout', start);
+
+    root.addEventListener('touchstart', function (e) {
+        if (!e.touches || !e.touches.length) return;
+        touching = true;
+        startX = e.touches[0].clientX;
+        deltaX = 0;
+        stop();
+    }, { passive: true });
+
+    root.addEventListener('touchmove', function (e) {
+        if (!touching || !e.touches || !e.touches.length) return;
+        deltaX = e.touches[0].clientX - startX;
+    }, { passive: true });
+
+    root.addEventListener('touchend', function () {
+        if (!touching) return;
+        touching = false;
+        if (Math.abs(deltaX) > 50) {
+            if (deltaX < 0) next();
+            else prev();
+        } else {
+            start();
+        }
+    });
+
+    document.addEventListener('visibilitychange', function () {
+        if (document.hidden) stop();
+        else start();
+    });
+
+    goTo(0, true);
 })();
 </script>

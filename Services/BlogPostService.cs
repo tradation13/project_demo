@@ -37,6 +37,18 @@ namespace IPTS.Services
             return await query.OrderByDescending(x => x.PublishedAt).ThenByDescending(x => x.Id).ToListAsync();
         }
 
+        public async Task<List<BlogPost>> GetHomeAddPostsAsync(int take = 3)
+        {
+            return await _context.BlogPosts
+                .AsNoTracking()
+                .Include(x => x.Images)
+                .Where(x => x.IsPublished && x.PostType == EnBlogPostType.Add)
+                .OrderByDescending(x => x.PublishedAt)
+                .ThenByDescending(x => x.Id)
+                .Take(take)
+                .ToListAsync();
+        }
+
         public async Task<BlogPost?> GetByIdAsync(int id)
         {
             return await _context.BlogPosts

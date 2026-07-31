@@ -26,6 +26,7 @@
                 <tr>
                     <th class="px-4 py-3 font-semibold">#</th>
                     <th class="px-4 py-3 font-semibold">@SharedLocalizer["Contact_Label_Name"]</th>
+                    <th class="px-4 py-3 font-semibold">@SharedLocalizer["Post_type"]</th>
                     <th class="px-4 py-3 font-semibold">@SharedLocalizer["Shared_Date"]</th>
                     <th class="px-4 py-3 font-semibold">@SharedLocalizer["Status"]</th>
                     <th class="px-4 py-3"></th>
@@ -39,6 +40,11 @@
                     <tr class="animate-fade-slide-up transition-colors hover:bg-slate-50" style="animation-delay:@(x * 35)ms">
                         <td class="px-4 py-3 text-center text-slate-400">@post.Id</td>
                         <td class="px-4 py-3 text-center font-medium text-slate-700">@post.Title</td>
+                        <td class="px-4 py-3 text-center">
+                            <span class="inline-flex rounded-full @(post.PostType == IPTS.Models.Enums.EnBlogPostType.Add ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-600") px-3 py-1 text-xs font-semibold">
+                                @SharedLocalizer["BlogPostType_" + post.PostType.ToString()]
+                            </span>
+                        </td>
                         <td class="px-4 py-3 text-center text-slate-500">@post.PublishedAt.ToString("yyyy-MM-dd")</td>
                         <td class="px-4 py-3 text-center">
                             @if (post.IsPublished)

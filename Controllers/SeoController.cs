@@ -45,6 +45,8 @@ namespace IPTS.Controllers
                 new { Action = "About", Controller = "Home", Priority = "0.8", Frequency = "weekly" },
                 new { Action = "Contact", Controller = "Home", Priority = "0.8", Frequency = "weekly" },
                 new { Action = "Privacy", Controller = "Home", Priority = "0.6", Frequency = "monthly" },
+                new { Action = "Impressum", Controller = "Home", Priority = "0.5", Frequency = "monthly" },
+                new { Action = "Terms", Controller = "Home", Priority = "0.5", Frequency = "monthly" },
                 new { Action = "Treatments", Controller = "Home", Priority = "0.7", Frequency = "weekly" },
                 new { Action = "OurProjects", Controller = "Home", Priority = "0.7", Frequency = "weekly" },
                 new { Action = "Therapies", Controller = "Home", Priority = "0.7", Frequency = "weekly" }

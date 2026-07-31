@@ -700,7 +700,7 @@
     <comment>VIiews -&gt; Home -&gt; Privacy</comment>
   </data>
   <data name="Privacy_Section2_Content1" xml:space="preserve">
-    <value>Diese Website wird von einem externen Anbieter gehostet. Personenbezogene Daten werden auf den Servern des Anbieters gespeichert, z. B. IP-Adressen, Kontaktanfragen sowie Meta- und Kommunikationsdaten.</value>
+    <value>Diese Website wird von einem externen Anbieter in Deutschland gehostet. Personenbezogene Daten werden auf Servern und in Datenbanken in Deutschland gespeichert, z. B. IP-Adressen, Kontaktanfragen sowie Meta- und Kommunikationsdaten.</value>
     <comment>VIiews -&gt; Home -&gt; Privacy</comment>
   </data>
   <data name="Privacy_Section2_Content2" xml:space="preserve">
@@ -2878,5 +2878,153 @@
   <data name="AboutCEO_Bio_P4" xml:space="preserve">
     <value>Sein interdisziplinärer Ansatz verfolgt das Ziel, wissenschaftliche Forschung direkt in die evidenzbasierte Therapie einfließen zu lassen. So ermöglicht er Behandlungs- und Rehabilitationsprozesse, die individuell auf die Bedürfnisse jedes Einzelnen abgestimmt sind.</value>
     <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="Footer_Legal" xml:space="preserve">
+    <value>Rechtliches</value>
+    <comment>Views -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="Footer_Datenschutz" xml:space="preserve">
+    <value>Datenschutz</value>
+    <comment>Views -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="Footer_Impressum" xml:space="preserve">
+    <value>Impressum</value>
+    <comment>Views -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="Footer_Terms" xml:space="preserve">
+    <value>Nutzungsbedingungen</value>
+    <comment>Views -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="Footer_Badge_Db" xml:space="preserve">
+    <value>Datenbank in Deutschland</value>
+    <comment>Views -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="Footer_Badge_Hosting" xml:space="preserve">
+    <value>Hosting in Deutschland</value>
+    <comment>Views -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="Legal_Draft_Title" xml:space="preserve">
+    <value>Entwurf — noch nicht final</value>
+    <comment>Views -&gt; Home -&gt; Legal pages</comment>
+  </data>
+  <data name="Legal_Draft_Text" xml:space="preserve">
+    <value>Diese Seite befindet sich noch in Bearbeitung. Inhalt und Angaben können sich ändern und ersetzen keine endgültige Rechtsberatung.</value>
+    <comment>Views -&gt; Home -&gt; Legal pages</comment>
+  </data>
+  <data name="Legal_Host_Db_Title" xml:space="preserve">
+    <value>Datenbanken in Deutschland</value>
+    <comment>Views -&gt; Home -&gt; Legal pages</comment>
+  </data>
+  <data name="Legal_Host_Db_Text" xml:space="preserve">
+    <value>Ihre personenbezogenen Daten werden in Datenbanken gespeichert, die sich in Deutschland befinden.</value>
+    <comment>Views -&gt; Home -&gt; Legal pages</comment>
+  </data>
+  <data name="Legal_Host_Server_Title" xml:space="preserve">
+    <value>Hosting in Deutschland</value>
+    <comment>Views -&gt; Home -&gt; Legal pages</comment>
+  </data>
+  <data name="Legal_Host_Server_Text" xml:space="preserve">
+    <value>Die Website und die zugehörige Infrastruktur werden auf Servern in Deutschland betrieben.</value>
+    <comment>Views -&gt; Home -&gt; Legal pages</comment>
+  </data>
+  <data name="Legal_Host_Privacy_Extra" xml:space="preserve">
+    <value>Wichtig: Sowohl die Hosting-Server als auch die Datenbanken befinden sich in Deutschland. Die Verarbeitung personenbezogener Daten erfolgt damit innerhalb der Europäischen Union und unterliegt der DSGVO.</value>
+    <comment>Views -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Impressum_Title" xml:space="preserve">
+    <value>Impressum</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Section1_Title" xml:space="preserve">
+    <value>Angaben gemäß § 5 TMG</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Company" xml:space="preserve">
+    <value>PhysioTech</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Address_Line1" xml:space="preserve">
+    <value>Venloer Straße 305</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Address_Line2" xml:space="preserve">
+    <value>50823 Köln-Ehrenfeld</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Section2_Title" xml:space="preserve">
+    <value>Vertreten durch</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Section2_Text" xml:space="preserve">
+    <value>Dr. Ahmed Kurtoglu — Inhaltlich Verantwortlicher gemäß § 18 Abs. 2 MStV.</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Section3_Title" xml:space="preserve">
+    <value>Haftung für Inhalte</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Section3_Text" xml:space="preserve">
+    <value>Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt.</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Section4_Title" xml:space="preserve">
+    <value>Haftung für Links</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Section4_Text" xml:space="preserve">
+    <value>Unser Angebot enthält ggf. Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Hosting_Title" xml:space="preserve">
+    <value>Hosting &amp; Datenspeicherung</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Hosting_Text" xml:space="preserve">
+    <value>Zur Sicherstellung eines datenschutzkonformen Betriebs werden unsere Systeme und Ihre Daten in Deutschland verarbeitet und gespeichert.</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Terms_Title" xml:space="preserve">
+    <value>Nutzungsbedingungen</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section1_Title" xml:space="preserve">
+    <value>1. Geltungsbereich</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section1_Text" xml:space="preserve">
+    <value>Diese Nutzungsbedingungen gelten für die Nutzung der PhysioTech-Website und der damit verbundenen digitalen Dienste. Mit der Nutzung der Plattform erklären Sie sich mit diesen Bedingungen einverstanden.</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section2_Title" xml:space="preserve">
+    <value>2. Leistungen</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section2_Text" xml:space="preserve">
+    <value>PhysioTech stellt Informationen und digitale Funktionen rund um Physiotherapie und verwandte Gesundheitsleistungen bereit. Einzelne Angebote können sich ändern oder erweitert werden.</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section3_Title" xml:space="preserve">
+    <value>3. Nutzerkonto &amp; Verantwortung</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section3_Text" xml:space="preserve">
+    <value>Bei Registrierung sind korrekte Angaben erforderlich. Zugangsdaten sind vertraulich zu behandeln. Sie sind für Aktivitäten unter Ihrem Konto verantwortlich, soweit dies gesetzlich zulässig ist.</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section4_Title" xml:space="preserve">
+    <value>4. Datenschutz</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section4_Text" xml:space="preserve">
+    <value>Informationen zur Verarbeitung personenbezogener Daten finden Sie in unserer Datenschutzerklärung. Hosting und Datenbanken befinden sich in Deutschland.</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section5_Title" xml:space="preserve">
+    <value>5. Schlussbestimmungen</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section5_Text" xml:space="preserve">
+    <value>Es gilt das Recht der Bundesrepublik Deutschland. Sollten einzelne Bestimmungen unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt. Diese Seite wird noch finalisiert.</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
   </data>
 </root>

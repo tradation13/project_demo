@@ -1,147 +1,167 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @{
     ViewData["Title"] = SharedLocalizer["Privacy_Title"];
-    Layout = "~/Views/Shared/Layouts/_AuthLayout.cshtml";
-
-    var returnUrl = Context.Request.Query["returnUrl"].ToString();
-    if (string.IsNullOrWhiteSpace(returnUrl))
-    {
-        returnUrl = Context.Request.Headers["Referer"].ToString();
-    }
-
-    if (string.IsNullOrWhiteSpace(returnUrl) || !Url.IsLocalUrl(returnUrl))
-    {
-        returnUrl = Url.Action("Register", "Auth") ?? "/Auth/Register";
-    }
+    Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
 }
 
-<div class="mx-auto mt-6 max-w-5xl rounded-[2rem] border border-gray-100 bg-gradient-to-b from-white to-gray-50/50 p-5 shadow-[0_24px_65px_-25px_rgba(15,23,42,0.35)] sm:mt-10 sm:p-8 lg:p-10">
-
-    @* <div class="mb-8 sm:mb-10">
-        <a href="@returnUrl"
-           class="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-bold text-gray-700 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:text-primary">
-            <i class="fa-solid fa-arrow-left"></i>
-            <span>@SharedLocalizer["Shared_Back"]</span>
-        </a>
-    </div> *@
-
-    <h1 class="pp-title mb-10 border-b border-gray-100 pb-4 text-2xl font-bold tracking-tight text-gray-900 sm:mb-12 sm:text-3xl">
-        @SharedLocalizer["Privacy_Title"]
-    </h1>
-
-    <div class="space-y-8 text-justify leading-relaxed text-gray-700 sm:space-y-9">
-
-        <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-3">@SharedLocalizer["Privacy_Section1_Title"]</h2>
-            <p class="text-gray-600">@SharedLocalizer["Privacy_Section1_Subtitle"]</p>
-            <p>@SharedLocalizer["Privacy_Section1_Overview"]</p>
-        </section>
-
-        <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">@SharedLocalizer["Privacy_Section1_DataCollectionTitle"]</h3>
-            <h4 class="font-bold">@SharedLocalizer["Privacy_Section1_DataCollectionResponsibilityTitle"]</h4>
-            <p>@SharedLocalizer["Privacy_Section1_DataCollectionResponsibilityText"]</p>
-
-            <h4 class="font-bold mt-4">@SharedLocalizer["Privacy_Section1_HowCollectTitle"]</h4>
-            <p>@SharedLocalizer["Privacy_Section1_HowCollectText"]</p>
-
-            <h4 class="font-bold mt-4">@SharedLocalizer["Privacy_Section1_WhyUseTitle"]</h4>
-            <p>@SharedLocalizer["Privacy_Section1_WhyUseText"]</p>
-
-            <h4 class="font-bold mt-4">@SharedLocalizer["Privacy_Section1_RightsTitle"]</h4>
-            <p>@SharedLocalizer["Privacy_Section1_RightsText"]</p>
-        </section>
-
-        <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-3">@SharedLocalizer["Privacy_Section2_Title"]</h2>
-            <h3 class="text-xl font-bold">@SharedLocalizer["Privacy_Section2_Subtitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section2_Content1"]</p>
-            <p>@SharedLocalizer["Privacy_Section2_Content2"]</p>
-            <p>@SharedLocalizer["Privacy_Section2_Content3"]</p>
-        </section>
-
-        <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-3">@SharedLocalizer["Privacy_Section3_Title"]</h2>
-            <p>@SharedLocalizer["Privacy_Section3_Text1"]</p>
-            <p>@SharedLocalizer["Privacy_Section3_Text2"]</p>
-            <p>@SharedLocalizer["Privacy_Section3_Text3"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section3_ResponsibleTitle"]</h3>
-            <address class="not-italic text-gray-700">
-                @SharedLocalizer["Privacy_Section3_ResponsibleName"]<br />
-                @SharedLocalizer["Privacy_Section3_ResponsibleAddress"]<br />
-                @SharedLocalizer["Privacy_Section3_ResponsiblePhone"]<br />
-                @SharedLocalizer["Privacy_Section3_ResponsibleEmail"]
-            </address>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section3_WithdrawalTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section3_WithdrawalText"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section3_ObjectionTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section3_ObjectionText"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section3_ComplaintTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section3_ComplaintText"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section3_PortabilityTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section3_PortabilityText"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section3_EncryptionTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section3_EncryptionText"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section3_AccessTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section3_AccessText"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section3_RestrictionTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section3_RestrictionText"]</p>
-        </section>
-
-        <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-3">@SharedLocalizer["Privacy_Section4_Title"]</h2>
-
-            <h3 class="text-lg font-bold">@SharedLocalizer["Privacy_Section4_CookiesTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section4_CookiesText1"]</p>
-            <p>@SharedLocalizer["Privacy_Section4_CookiesText2"]</p>
-            <p>@SharedLocalizer["Privacy_Section4_CookiesText3"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section4_LogsTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section4_LogsText1"]</p>
-            <p>@SharedLocalizer["Privacy_Section4_LogsText2"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section4_ContactTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section4_ContactText"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section4_NewsletterTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section4_NewsletterText"]</p>
-        </section>
-
-        <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-3">@SharedLocalizer["Privacy_Section5_Title"]</h2>
-
-            <h3 class="text-lg font-bold">@SharedLocalizer["Privacy_Section5_GoogleFontsTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section5_GoogleFontsText"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section5_GoogleMapsTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section5_GoogleMapsText"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section5_GoogleAnalyticsTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section5_GoogleAnalyticsText"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section5_FacebookPixelTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section5_FacebookPixelText"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section5_ReCaptchaTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section5_ReCaptchaText"]</p>
-
-            <h3 class="text-lg font-bold mt-4">@SharedLocalizer["Privacy_Section5_AnalyticsTitle"]</h3>
-            <p>@SharedLocalizer["Privacy_Section5_AnalyticsText"]</p>
-        </section>
-
+<section class="legal-page relative overflow-hidden bg-gradient-to-b from-white via-emerald-50/30 to-white py-12 sm:py-16">
+    <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div class="absolute -left-20 top-24 h-72 w-72 rounded-full bg-emerald-100/50 blur-3xl"></div>
+        <div class="absolute -right-16 bottom-20 h-80 w-80 rounded-full bg-sky-100/40 blur-3xl"></div>
     </div>
-</div>
+
+    <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+
+        <div class="legal-draft mb-6 flex items-start gap-3 rounded-2xl border border-amber-200/80 bg-amber-50/90 px-4 py-3.5 text-sm text-amber-900 shadow-sm sm:px-5">
+            <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
+                <i class="fa-solid fa-pen-ruler" aria-hidden="true"></i>
+            </span>
+            <div>
+                <p class="font-bold">@SharedLocalizer["Legal_Draft_Title"]</p>
+                <p class="mt-0.5 leading-relaxed text-amber-800/90">@SharedLocalizer["Legal_Draft_Text"]</p>
+            </div>
+        </div>
+
+        <div class="rounded-[2rem] border border-gray-100 bg-gradient-to-b from-white to-gray-50/50 p-5 shadow-[0_24px_65px_-25px_rgba(15,23,42,0.35)] sm:p-8 lg:p-10">
+
+            <h1 class="pp-title mb-8 border-b border-gray-100 pb-4 text-2xl font-bold tracking-tight text-gray-900 sm:mb-10 sm:text-3xl">
+                @SharedLocalizer["Privacy_Title"]
+            </h1>
+
+            <div class="mb-8 grid gap-4 sm:grid-cols-2">
+                <div class="legal-host-card rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-white p-5 shadow-sm">
+                    <div class="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+                        <i class="fa-solid fa-database" aria-hidden="true"></i>
+                    </div>
+                    <h2 class="text-base font-bold text-gray-900">@SharedLocalizer["Legal_Host_Db_Title"]</h2>
+                    <p class="mt-2 text-sm leading-relaxed text-gray-600">@SharedLocalizer["Legal_Host_Db_Text"]</p>
+                </div>
+                <div class="legal-host-card rounded-2xl border border-sky-100 bg-gradient-to-br from-sky-50 to-white p-5 shadow-sm">
+                    <div class="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-sky-100 text-sky-700">
+                        <i class="fa-solid fa-server" aria-hidden="true"></i>
+                    </div>
+                    <h2 class="text-base font-bold text-gray-900">@SharedLocalizer["Legal_Host_Server_Title"]</h2>
+                    <p class="mt-2 text-sm leading-relaxed text-gray-600">@SharedLocalizer["Legal_Host_Server_Text"]</p>
+                </div>
+            </div>
+
+            <div class="space-y-8 text-justify leading-relaxed text-gray-700 sm:space-y-9">
+
+                <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+                    <h2 class="mb-3 text-2xl font-bold text-gray-900">@SharedLocalizer["Privacy_Section1_Title"]</h2>
+                    <p class="text-gray-600">@SharedLocalizer["Privacy_Section1_Subtitle"]</p>
+                    <p>@SharedLocalizer["Privacy_Section1_Overview"]</p>
+                </section>
+
+                <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+                    <h3 class="mb-2 text-xl font-bold text-gray-800">@SharedLocalizer["Privacy_Section1_DataCollectionTitle"]</h3>
+                    <h4 class="font-bold">@SharedLocalizer["Privacy_Section1_DataCollectionResponsibilityTitle"]</h4>
+                    <p>@SharedLocalizer["Privacy_Section1_DataCollectionResponsibilityText"]</p>
+
+                    <h4 class="mt-4 font-bold">@SharedLocalizer["Privacy_Section1_HowCollectTitle"]</h4>
+                    <p>@SharedLocalizer["Privacy_Section1_HowCollectText"]</p>
+
+                    <h4 class="mt-4 font-bold">@SharedLocalizer["Privacy_Section1_WhyUseTitle"]</h4>
+                    <p>@SharedLocalizer["Privacy_Section1_WhyUseText"]</p>
+
+                    <h4 class="mt-4 font-bold">@SharedLocalizer["Privacy_Section1_RightsTitle"]</h4>
+                    <p>@SharedLocalizer["Privacy_Section1_RightsText"]</p>
+                </section>
+
+                <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+                    <h2 class="mb-3 text-2xl font-bold text-gray-900">@SharedLocalizer["Privacy_Section2_Title"]</h2>
+                    <h3 class="text-xl font-bold">@SharedLocalizer["Privacy_Section2_Subtitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section2_Content1"]</p>
+                    <p>@SharedLocalizer["Privacy_Section2_Content2"]</p>
+                    <p>@SharedLocalizer["Privacy_Section2_Content3"]</p>
+                    <p class="mt-3 rounded-xl border border-emerald-100 bg-emerald-50/70 px-4 py-3 text-sm text-emerald-900">
+                        @SharedLocalizer["Legal_Host_Privacy_Extra"]
+                    </p>
+                </section>
+
+                <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+                    <h2 class="mb-3 text-2xl font-bold text-gray-900">@SharedLocalizer["Privacy_Section3_Title"]</h2>
+                    <p>@SharedLocalizer["Privacy_Section3_Text1"]</p>
+                    <p>@SharedLocalizer["Privacy_Section3_Text2"]</p>
+                    <p>@SharedLocalizer["Privacy_Section3_Text3"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section3_ResponsibleTitle"]</h3>
+                    <address class="not-italic text-gray-700">
+                        @SharedLocalizer["Privacy_Section3_ResponsibleName"]<br />
+                        @SharedLocalizer["Privacy_Section3_ResponsibleAddress"]<br />
+                        @SharedLocalizer["Privacy_Section3_ResponsiblePhone"]<br />
+                        @SharedLocalizer["Privacy_Section3_ResponsibleEmail"]
+                    </address>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section3_WithdrawalTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section3_WithdrawalText"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section3_ObjectionTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section3_ObjectionText"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section3_ComplaintTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section3_ComplaintText"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section3_PortabilityTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section3_PortabilityText"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section3_EncryptionTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section3_EncryptionText"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section3_AccessTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section3_AccessText"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section3_RestrictionTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section3_RestrictionText"]</p>
+                </section>
+
+                <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+                    <h2 class="mb-3 text-2xl font-bold text-gray-900">@SharedLocalizer["Privacy_Section4_Title"]</h2>
+
+                    <h3 class="text-lg font-bold">@SharedLocalizer["Privacy_Section4_CookiesTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section4_CookiesText1"]</p>
+                    <p>@SharedLocalizer["Privacy_Section4_CookiesText2"]</p>
+                    <p>@SharedLocalizer["Privacy_Section4_CookiesText3"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section4_LogsTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section4_LogsText1"]</p>
+                    <p>@SharedLocalizer["Privacy_Section4_LogsText2"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section4_ContactTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section4_ContactText"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section4_NewsletterTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section4_NewsletterText"]</p>
+                </section>
+
+                <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+                    <h2 class="mb-3 text-2xl font-bold text-gray-900">@SharedLocalizer["Privacy_Section5_Title"]</h2>
+
+                    <h3 class="text-lg font-bold">@SharedLocalizer["Privacy_Section5_GoogleFontsTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section5_GoogleFontsText"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section5_GoogleMapsTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section5_GoogleMapsText"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section5_GoogleAnalyticsTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section5_GoogleAnalyticsText"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section5_FacebookPixelTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section5_FacebookPixelText"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section5_ReCaptchaTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section5_ReCaptchaText"]</p>
+
+                    <h3 class="mt-4 text-lg font-bold">@SharedLocalizer["Privacy_Section5_AnalyticsTitle"]</h3>
+                    <p>@SharedLocalizer["Privacy_Section5_AnalyticsText"]</p>
+                </section>
+
+            </div>
+        </div>
+    </div>
+</section>
 
 <style>
-    /* ══ Keyframes ══ */
     @@keyframes ppFadeUp {
         from { opacity:0; transform:translateY(28px); }
         to   { opacity:1; transform:translateY(0); }
@@ -150,16 +170,11 @@
         from { opacity:0; }
         to   { opacity:1; }
     }
-    @@keyframes ppSlideIn {
-        from { opacity:0; transform:translateX(-20px); }
-        to   { opacity:1; transform:translateX(0); }
-    }
     @@keyframes ppAccent {
         0%,100% { width:32px; opacity:.5; }
         50%      { width:56px; opacity:1; }
     }
 
-    /* ══ Title ══ */
     .pp-title {
         opacity: 0;
         animation: ppFadeIn 0.6s cubic-bezier(.22,1,.36,1) .05s forwards;
@@ -176,15 +191,12 @@
         animation: ppAccent 2.4s ease-in-out infinite;
     }
 
-    /* ══ Sections — مخفية ══ */
     .pp-section {
         opacity: 0;
         transition: box-shadow .25s ease, border-color .25s ease, transform .25s ease;
         position: relative;
         overflow: hidden;
     }
-
-    /* خط جانبي يظهر عند hover */
     .pp-section::before {
         content:'';
         position:absolute;
@@ -195,19 +207,14 @@
         transition: height .35s ease;
     }
     .pp-section:hover::before { height:100%; }
-
     .pp-section:hover {
         box-shadow: 0 8px 28px rgba(16,185,129,.10);
         border-color: #d1fae5;
         transform: translateX(3px);
     }
-
-    /* ══ visible state ══ */
     .pp-section.av {
         animation: ppFadeUp 0.65s cubic-bezier(.22,1,.36,1) forwards;
     }
-
-    /* h3/h4 داخل السكشن — خط أخضر خفيف */
     .pp-section h3,
     .pp-section h4 {
         position: relative;
@@ -223,6 +230,17 @@
         margin-left:8px;
         vertical-align:middle;
         opacity:.7;
+    }
+
+    .legal-draft {
+        animation: ppFadeIn .5s ease both;
+    }
+    .legal-host-card {
+        opacity: 0;
+        animation: ppFadeUp .65s cubic-bezier(.22,1,.36,1) .15s forwards;
+    }
+    .legal-host-card:nth-child(2) {
+        animation-delay: .28s;
     }
 </style>
 

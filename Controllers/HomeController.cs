@@ -23,7 +23,17 @@ namespace IPTS.Controllers
             return View();
         }
 
-         public IActionResult Privacy()
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult Impressum()
+        {
+            return View();
+        }
+
+        public IActionResult Terms()
         {
             return View();
         }

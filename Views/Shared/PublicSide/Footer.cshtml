@@ -39,8 +39,8 @@
 /* ── Top row ── */
 .pt-footer__top {
     display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr;
-    gap: 3rem;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 2.5rem;
     margin-bottom: 3rem;
 }
 
@@ -151,6 +151,12 @@
 }
 .pt-footer__copy span { color: #4ade80; }
 
+.pt-footer__badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+}
 .pt-footer__badge {
     display: inline-flex;
     align-items: center;
@@ -162,12 +168,12 @@
     font-size: .7rem;
     font-weight: 600;
     color: #4ade80;
-    letter-spacing: .06em;
+    letter-spacing: .04em;
 }
 .pt-footer__badge i { font-size: 10px; }
 
 /* ── Responsive ── */
-@@media (max-width: 900px) {
+@@media (max-width: 1100px) {
     .pt-footer__top {
         grid-template-columns: 1fr 1fr;
         gap: 2rem;
@@ -244,6 +250,30 @@
                 </ul>
             </div>
 
+            @* ── Legal ── *@
+            <div>
+                <div class="pt-footer__col-title">
+                    @SharedLocalizer["Footer_Legal"]
+                </div>
+                <ul class="pt-footer__links">
+                    <li>
+                        <a href="@Url.Action("Privacy", "Home", new { area = "" })">
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>@SharedLocalizer["Footer_Datenschutz"]
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Impressum", "Home", new { area = "" })">
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>@SharedLocalizer["Footer_Impressum"]
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Terms", "Home", new { area = "" })">
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>@SharedLocalizer["Footer_Terms"]
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
             @* ── Contact ── *@
             <div>
                 <div class="pt-footer__col-title">
@@ -277,6 +307,16 @@
             <p class="pt-footer__copy">
                 &copy; @DateTime.Now.Year <span>PhysioTech</span> — @SharedLocalizer["CopyRight"]
             </p>
+            <div class="pt-footer__badges">
+                <span class="pt-footer__badge">
+                    <i class="fas fa-database" aria-hidden="true"></i>
+                    @SharedLocalizer["Footer_Badge_Db"]
+                </span>
+                <span class="pt-footer__badge">
+                    <i class="fas fa-server" aria-hidden="true"></i>
+                    @SharedLocalizer["Footer_Badge_Hosting"]
+                </span>
+            </div>
         </div>
     </div>
 </footer>

@@ -260,7 +260,7 @@
     <value>External hosting</value>
   </data>
   <data name="Privacy_Section2_Content1" xml:space="preserve">
-    <value>This website is hosted by an external provider. Personal data is stored on the provider's servers, e.g. IP addresses, contact requests, meta and communication data.</value>
+    <value>This website is hosted by an external provider in Germany. Personal data is stored on servers and in databases located in Germany, e.g. IP addresses, contact requests, meta and communication data.</value>
   </data>
   <data name="Privacy_Section2_Content2" xml:space="preserve">
     <value>The use of the hoster is for contract performance (Art. 6 para. 1 lit. b GDPR) and in the interest of a secure and efficient online offer (Art. 6 para. 1 lit. f GDPR).</value>
@@ -2864,5 +2864,153 @@
   <data name="AboutCEO_Bio_P4" xml:space="preserve">
     <value>His interdisciplinary approach pursues the goal of letting scientific research flow directly into evidence-based therapy. In this way, he enables treatment and rehabilitation processes that are individually tailored to each person's needs.</value>
     <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
+  </data>
+  <data name="Footer_Legal" xml:space="preserve">
+    <value>Legal</value>
+    <comment>Views -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="Footer_Datenschutz" xml:space="preserve">
+    <value>Privacy Policy</value>
+    <comment>Views -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="Footer_Impressum" xml:space="preserve">
+    <value>Legal Notice</value>
+    <comment>Views -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="Footer_Terms" xml:space="preserve">
+    <value>Terms of Use</value>
+    <comment>Views -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="Footer_Badge_Db" xml:space="preserve">
+    <value>Database in Germany</value>
+    <comment>Views -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="Footer_Badge_Hosting" xml:space="preserve">
+    <value>Hosting in Germany</value>
+    <comment>Views -&gt; Shared -&gt; PublicSide -&gt; Footer</comment>
+  </data>
+  <data name="Legal_Draft_Title" xml:space="preserve">
+    <value>Draft — not yet final</value>
+    <comment>Views -&gt; Home -&gt; Legal pages</comment>
+  </data>
+  <data name="Legal_Draft_Text" xml:space="preserve">
+    <value>This page is still being prepared. Content and details may change and do not replace final legal advice.</value>
+    <comment>Views -&gt; Home -&gt; Legal pages</comment>
+  </data>
+  <data name="Legal_Host_Db_Title" xml:space="preserve">
+    <value>Databases in Germany</value>
+    <comment>Views -&gt; Home -&gt; Legal pages</comment>
+  </data>
+  <data name="Legal_Host_Db_Text" xml:space="preserve">
+    <value>Your personal data is stored in databases located in Germany.</value>
+    <comment>Views -&gt; Home -&gt; Legal pages</comment>
+  </data>
+  <data name="Legal_Host_Server_Title" xml:space="preserve">
+    <value>Hosting in Germany</value>
+    <comment>Views -&gt; Home -&gt; Legal pages</comment>
+  </data>
+  <data name="Legal_Host_Server_Text" xml:space="preserve">
+    <value>The website and related infrastructure run on servers located in Germany.</value>
+    <comment>Views -&gt; Home -&gt; Legal pages</comment>
+  </data>
+  <data name="Legal_Host_Privacy_Extra" xml:space="preserve">
+    <value>Important: Both hosting servers and databases are located in Germany. Personal data is therefore processed within the European Union and subject to the GDPR.</value>
+    <comment>Views -&gt; Home -&gt; Privacy</comment>
+  </data>
+  <data name="Impressum_Title" xml:space="preserve">
+    <value>Legal Notice (Impressum)</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Section1_Title" xml:space="preserve">
+    <value>Information pursuant to § 5 TMG</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Company" xml:space="preserve">
+    <value>PhysioTech</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Address_Line1" xml:space="preserve">
+    <value>Venloer Straße 305</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Address_Line2" xml:space="preserve">
+    <value>50823 Cologne-Ehrenfeld</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Section2_Title" xml:space="preserve">
+    <value>Represented by</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Section2_Text" xml:space="preserve">
+    <value>Dr. Ahmed Kurtoglu — Person responsible for content pursuant to § 18 (2) MStV.</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Section3_Title" xml:space="preserve">
+    <value>Liability for content</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Section3_Text" xml:space="preserve">
+    <value>As a service provider, we are responsible for our own content on these pages in accordance with general laws pursuant to § 7 (1) TMG. According to §§ 8 to 10 TMG, we are not obliged to monitor transmitted or stored third-party information. Obligations to remove or block the use of information under general laws remain unaffected.</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Section4_Title" xml:space="preserve">
+    <value>Liability for links</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Section4_Text" xml:space="preserve">
+    <value>Our offer may contain links to external third-party websites over whose content we have no influence. Therefore, we cannot assume any liability for such external content. The respective provider or operator of the linked pages is always responsible for their content.</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Hosting_Title" xml:space="preserve">
+    <value>Hosting &amp; data storage</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Hosting_Text" xml:space="preserve">
+    <value>To ensure GDPR-compliant operations, our systems and your data are processed and stored in Germany.</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Terms_Title" xml:space="preserve">
+    <value>Terms of Use</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section1_Title" xml:space="preserve">
+    <value>1. Scope</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section1_Text" xml:space="preserve">
+    <value>These terms of use apply to the PhysioTech website and related digital services. By using the platform, you agree to these terms.</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section2_Title" xml:space="preserve">
+    <value>2. Services</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section2_Text" xml:space="preserve">
+    <value>PhysioTech provides information and digital features related to physiotherapy and associated health services. Individual offerings may change or be expanded.</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section3_Title" xml:space="preserve">
+    <value>3. User account &amp; responsibility</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section3_Text" xml:space="preserve">
+    <value>Accurate information is required upon registration. Access credentials must be kept confidential. You are responsible for activities under your account to the extent permitted by law.</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section4_Title" xml:space="preserve">
+    <value>4. Privacy</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section4_Text" xml:space="preserve">
+    <value>Details on personal data processing are set out in our Privacy Policy. Hosting and databases are located in Germany.</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section5_Title" xml:space="preserve">
+    <value>5. Final provisions</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Terms_Section5_Text" xml:space="preserve">
+    <value>The law of the Federal Republic of Germany applies. If individual provisions are invalid, the remaining provisions remain effective. This page is still being finalized.</value>
+    <comment>Views -&gt; Home -&gt; Terms</comment>
   </data>
 </root>

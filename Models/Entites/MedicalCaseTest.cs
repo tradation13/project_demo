@@ -13,8 +13,11 @@
 
         public string? Result { get; set; }
 
+        /// <summary>
+        /// Target/standard value set by the doctor for this test within this case.
+        /// </summary>
+        public decimal? StandardValue { get; set; }
     }
-
 }
 
 

@@ -2830,6 +2830,22 @@
     <value>Fortschrittsdiagramm</value>
     <comment>Patient MedicalCases Details - chart aria</comment>
   </data>
+  <data name="MedCase_Det_StandardValue" xml:space="preserve">
+    <value>Standard / Zielwert</value>
+    <comment>Medical case test standard value label</comment>
+  </data>
+  <data name="MedCase_Det_StandardValueHint" xml:space="preserve">
+    <value>Zielwert, den der Patient bei diesem Test erreichen soll</value>
+    <comment>Medical case test standard value hint</comment>
+  </data>
+  <data name="MedCase_Det_StandardShort" xml:space="preserve">
+    <value>Standard</value>
+    <comment>Short label for standard value</comment>
+  </data>
+  <data name="MedCase_Det_DistanceToTarget" xml:space="preserve">
+    <value>Abstand zum Ziel</value>
+    <comment>Gap between latest result and standard</comment>
+  </data>
   <data name="AboutCEO_Title" xml:space="preserve">
     <value>Über den Klinikleiter</value>
     <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>

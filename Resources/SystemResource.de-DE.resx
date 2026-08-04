@@ -835,6 +835,18 @@
   <data name="Average" xml:space="preserve">
     <value>Durchschnitt</value>
   </data>
+  <data name="StandardValue" xml:space="preserve">
+    <value>Standard / Zielwert</value>
+  </data>
+  <data name="StandardShort" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="DistanceToTarget" xml:space="preserve">
+    <value>Abstand zum Ziel</value>
+  </data>
+  <data name="InvalidStandardValue" xml:space="preserve">
+    <value>Bitte geben Sie einen gültigen Standard-/Zielwert ein.</value>
+  </data>
   <data name="OverallProgress" xml:space="preserve">
     <value>Gesamtfortschritt</value>
   </data>

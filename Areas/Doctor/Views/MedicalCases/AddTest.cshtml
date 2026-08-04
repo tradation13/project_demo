@@ -91,6 +91,17 @@
             <input asp-for="Result" class="prac-input" />
         </div>
 
+        <div class="mb-5">
+            <label asp-for="StandardValue" class="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-700">
+                @SharedLocalizer["MedCase_Det_StandardValue"]
+                <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-normal text-gray-500">@SharedLocalizer["Shared_Optional"]</span>
+            </label>
+            <input asp-for="StandardValue" type="number" step="any" class="prac-input"
+                   placeholder="@SharedLocalizer["MedCase_Det_StandardValueHint"]" />
+            <p class="mt-1.5 text-xs text-gray-500">@SharedLocalizer["MedCase_Det_StandardValueHint"]</p>
+            <span asp-validation-for="StandardValue" class="mt-1 block text-xs font-medium text-red-800 empty:hidden"></span>
+        </div>
+
         <div class="mb-6">
             <label class="mb-2 block text-sm font-semibold text-gray-700">@SharedLocalizer["MedCase_Create_Date"]</label>
             <input asp-for="CreatedAt" type="date"

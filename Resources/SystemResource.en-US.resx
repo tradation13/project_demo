@@ -857,6 +857,22 @@
     <value>Average</value>
     <comment/>
   </data>
+  <data name="StandardValue" xml:space="preserve">
+    <value>Standard / Target</value>
+    <comment/>
+  </data>
+  <data name="StandardShort" xml:space="preserve">
+    <value>Standard</value>
+    <comment/>
+  </data>
+  <data name="DistanceToTarget" xml:space="preserve">
+    <value>Distance to target</value>
+    <comment/>
+  </data>
+  <data name="InvalidStandardValue" xml:space="preserve">
+    <value>Please enter a valid standard/target value.</value>
+    <comment/>
+  </data>
   <data name="OverallProgress" xml:space="preserve">
     <value>Overall Progress</value>
     <comment/>

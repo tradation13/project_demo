@@ -14,6 +14,10 @@ namespace IPTS.Data.Configurations
             builder.Property(mct => mct.Result)
                    .HasMaxLength(500);
 
+            builder.Property(mct => mct.StandardValue)
+                   .HasColumnType("numeric(18,4)")
+                   .IsRequired(false);
+
             builder.HasOne(mct => mct.MedicalCase)
                    .WithMany(mc => mc.MedicalCaseTests)
                    .HasForeignKey(mct => mct.MedicalCaseId)

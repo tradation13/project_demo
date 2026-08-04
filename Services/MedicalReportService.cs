@@ -456,14 +456,14 @@ It should only describe the patient's overall condition, rehabilitation strategy
 TEST_ANALYSIS_START
 TestName: <Exact Test Name>
 
-Normal Reference:
-<describe normal values for age and sex when possible>
+Doctor Standard/Target:
+<use the Standard/Target provided by the doctor when available; do NOT invent a Normal Reference if a doctor Standard exists>
 
 Clinical Interpretation:
-<short explanation>
+<short explanation comparing Result to the doctor Standard/Target when available>
 
 Progress Evaluation:
-<trend explanation>
+<trend explanation and how close/far the patient is from the Standard/Target>
 
 Physiotherapy Focus:
 <specific therapy advice>
@@ -471,6 +471,14 @@ Physiotherapy Focus:
 TEST_ANALYSIS_END";
 
 // 3. بناء الرسالة (User Content) مع دمج البيانات الحيوية والنتائج المخبرية
+var testResultsLines = medicalCase.MedicalCaseTests.Select(t =>
+{
+    var standardPart = t.StandardValue.HasValue
+        ? $" | Standard/Target: {t.StandardValue.Value.ToString(CultureInfo.InvariantCulture)}"
+        : "";
+    return $"{t.Test?.Name}: {t.Result}{standardPart}";
+});
+
 var userContent = $@"
 Please analyze the following medical case and provide the response in {targetLanguageName}:
 - Patient Condition: {medicalCase.Description}
@@ -478,10 +486,12 @@ Please analyze the following medical case and provide the response in {targetLan
 {(vitalsSb.Length > 0 ? "- Patient Physical Info & History:\n" + vitalsSb.ToString() : "")}
 
 - Clinical Test Results (Progress Metrics): 
-  {string.Join(", ", medicalCase.MedicalCaseTests.Select(t => $"{t.Test?.Name}: {t.Result}"))}
+  {string.Join(", ", testResultsLines)}
 
 IMPORTANT INSTRUCTIONS:
 - The 'Result' values are progress measurements (degrees/percentages). 
+- When 'Standard/Target' is provided, treat it as the doctor-defined goal for that test in this case. Compare Result against that Standard/Target and evaluate proximity to the goal.
+- Do NOT invent generic 'Normal Reference' ranges when a Standard/Target is already provided for a test.
 - Compare results across dates to identify the recovery trend (e.g., improvement in Range of Motion or Strength).
 - If 'Has Chronic Diseases' is true, be more cautious with exercise intensity recommendations.
 - Avoid literal English-to-{targetLanguageName} translations of idioms; use professional clinical phrasing.
@@ -527,15 +537,25 @@ For each clinical test listed above, generate a separate analysis block using th
 TEST_ANALYSIS_START
 TestName: <Exact Test Name>
 
-Normal Reference:
-<exact numeric range with units, must be present>
+Doctor Standard/Target:
+<use provided Standard/Target when available; otherwise note that no doctor target was set>
+
+Clinical Interpretation:
+<short explanation comparing Result to Standard/Target when available>
+
+Progress Evaluation:
+<trend and distance to target>
+
+Physiotherapy Focus:
+<specific therapy advice>
 
 TEST_ANALYSIS_END
 
 Important rules:
 - Do NOT repeat test analysis in the general section.
 - Do NOT use Markdown symbols (#, **, -, etc).
-- Only plain structured text.";
+- Only plain structured text.
+- Prefer doctor Standard/Target over invented normal reference ranges.";
        
        // 3. تجهيز الـ JSON المتوافق مع OpenAI
 var requestBody = new
@@ -598,17 +618,32 @@ private void AppendTestVisuals(StringBuilder sb, List<MedicalCaseTest> tests)
     if (tests == null || !tests.Any()) return;
 
     var inv = CultureInfo.InvariantCulture;
-    var values = tests.Select(t => double.TryParse(t.Result, out var r) ? r : 0.0).ToList();
-    
+    var values = tests.Select(t => double.TryParse(t.Result, NumberStyles.Any, inv, out var r)
+        ? r
+        : (double.TryParse(t.Result, NumberStyles.Any, CultureInfo.CurrentCulture, out var r2) ? r2 : 0.0)).ToList();
+
     double maxVal = values.Max();
     double minVal = values.Min();
     double avgVal = values.Average();
+    double? standardValue = tests
+        .Where(t => t.StandardValue.HasValue)
+        .OrderByDescending(t => t.CreatedAt)
+        .Select(t => (double?)t.StandardValue!.Value)
+        .FirstOrDefault();
+
+    if (standardValue.HasValue)
+    {
+        maxVal = Math.Max(maxVal, standardValue.Value);
+        minVal = Math.Min(minVal, standardValue.Value);
+    }
 
     // 1. بطاقات الإحصائيات العلوية
     sb.Append(@"<div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-bottom: 25px; font-family: sans-serif;'>");
-    AppendStatCard(sb, _loc.GetSystem("Highest"), maxVal.ToString("F1", inv), "#e8f5e9", "#2e7d32");
-    AppendStatCard(sb, _loc.GetSystem("Lowest"), minVal.ToString("F1", inv), "#ffebee", "#c62828");
+    AppendStatCard(sb, _loc.GetSystem("Highest"), values.Max().ToString("F1", inv), "#e8f5e9", "#2e7d32");
+    AppendStatCard(sb, _loc.GetSystem("Lowest"), values.Min().ToString("F1", inv), "#ffebee", "#c62828");
     AppendStatCard(sb, _loc.GetSystem("Average"), avgVal.ToString("F1", inv), "#e3f2fd", "#1565c0");
+    if (standardValue.HasValue)
+        AppendStatCard(sb, _loc.GetSystem("StandardValue"), standardValue.Value.ToString("F1", inv), "#fff8e1", "#f57f17");
     sb.Append("</div>");
 
     // 2. قسم مدى التحسن (New: Improvement Summary)
@@ -623,6 +658,13 @@ private void AppendTestVisuals(StringBuilder sb, List<MedicalCaseTest> tests)
         string statusColor = diff > 0 ? "#2e7d32" : (diff < 0 ? "#c62828" : "#1565c0");
         string arrow = diff > 0 ? "↑" : (diff < 0 ? "↓" : "↔");
 
+        string distanceHtml = "";
+        if (standardValue.HasValue)
+        {
+            var gap = Math.Abs(lastVal - standardValue.Value);
+            distanceHtml = $"<div style='font-size:13px; color:#f57f17; margin-top:6px;'>{_loc.GetSystem("DistanceToTarget")}: {gap.ToString("F1", inv)}</div>";
+        }
+
         sb.Append($@"
             <div style='background:#fcfcfc; border:1px solid #eee; padding:15px; border-radius:12px; margin-bottom:25px; font-family:sans-serif; display:flex; align-items:center; justify-content:space-between;'>
                 <div>
@@ -630,6 +672,7 @@ private void AppendTestVisuals(StringBuilder sb, List<MedicalCaseTest> tests)
                     <div style='font-size:18px; font-weight:bold; color:#2c3e50; margin-top:5px;'>
                         {statusText} {_loc.GetSystem("By")} <span style='color:{statusColor};'>{Math.Abs(percent).ToString("F1", inv)}%</span> {arrow}
                     </div>
+                    {distanceHtml}
                 </div>
                 <div style='text-align:right;'>
                     <div style='font-size:11px; color:#95a5a6;'>{_loc.GetSystem("SinceFirstTest")} ({tests.First().CreatedAt:yyyy-MM-dd})</div>
@@ -641,20 +684,33 @@ private void AppendTestVisuals(StringBuilder sb, List<MedicalCaseTest> tests)
         double width = 600; 
         double height = 250;
         double padding = 50;
-        double range = (maxVal - minVal) == 0 ? 1 : (maxVal - minVal);
+        double chartMax = Math.Max(values.Max(), standardValue ?? values.Max());
+        double chartMin = Math.Min(values.Min(), standardValue ?? values.Min());
+        double range = (chartMax - chartMin) == 0 ? 1 : (chartMax - chartMin);
 
         var pointsList = new List<string>();
         for (int i = 0; i < values.Count; i++)
         {
             double x = padding + i * (width - 2 * padding) / (values.Count - 1);
-            double y = height - padding - ((values[i] - minVal) / range) * (height - 2 * padding);
+            double y = height - padding - ((values[i] - chartMin) / range) * (height - 2 * padding);
             pointsList.Add($"{x.ToString(inv)},{y.ToString(inv)}");
+        }
+
+        string standardLineSvg = "";
+        if (standardValue.HasValue)
+        {
+            double sy = height - padding - ((standardValue.Value - chartMin) / range) * (height - 2 * padding);
+            standardLineSvg = $@"
+                <line x1='{padding.ToString(inv)}' y1='{sy.ToString(inv)}' x2='{(width - padding).ToString(inv)}' y2='{sy.ToString(inv)}'
+                      stroke='#f59e0b' stroke-width='2' stroke-dasharray='8,4' />
+                <text x='{(width - padding + 4).ToString(inv)}' y='{(sy + 4).ToString(inv)}' font-size='10' fill='#f57f17' font-weight='bold'>{_loc.GetSystem("StandardShort")}: {standardValue.Value.ToString("F1", inv)}</text>";
         }
 
         sb.Append($@"
             <div style='text-align:center; margin-top:10px; padding:15px; background:#fff; border:1px solid #eee; border-radius:12px; shadow: 0 4px 15px rgba(0,0,0,0.03);'>
                 <svg width='100%' height='{height}' viewBox='0 0 {width} {height}' style='font-family:Arial, sans-serif; overflow:visible;'>
                     <line x1='{padding.ToString(inv)}' y1='{padding.ToString(inv)}' x2='{(width - padding).ToString(inv)}' y2='{padding.ToString(inv)}' stroke='#f5f5f5' stroke-dasharray='5,5'/>
+                    {standardLineSvg}
                     <polyline fill='none' stroke='url(#lineGradient)' stroke-width='4' stroke-linecap='round' stroke-linejoin='round' points='{string.Join(" ", pointsList)}' />
                     <defs>
                         <linearGradient id='lineGradient' x1='0%' y1='0%' x2='100%' y2='0%'>
@@ -694,21 +750,37 @@ private void AppendTestVisuals(StringBuilder sb, List<MedicalCaseTest> tests)
         sb.Append($@"<tr style='background-color:#fcfcfc; border-bottom:1px solid #eee; color:#546e7a; font-size:12px;'>
                         <th style='padding:12px; text-align:left;'>{_loc.GetSystem("Date")}</th>
                         <th style='padding:12px; text-align:center;'>{_loc.GetSystem("Result")}</th>
+                        <th style='padding:12px; text-align:center;'>{_loc.GetSystem("StandardShort")}</th>
                     </tr>");
         foreach (var t in tests) 
         {
+            var stdCell = t.StandardValue.HasValue
+                ? t.StandardValue.Value.ToString("G29", inv)
+                : "—";
             sb.Append($@"<tr style='border-bottom:1px solid #f9f9f9;'>
                          <td style='padding:10px; color:#666;'>{t.CreatedAt:yyyy-MM-dd}</td>
-                         <td style='padding:10px; text-align:center; font-weight:bold; color:#00695c;'>{t.Result}</td></tr>");
+                         <td style='padding:10px; text-align:center; font-weight:bold; color:#00695c;'>{t.Result}</td>
+                         <td style='padding:10px; text-align:center; font-weight:bold; color:#f57f17;'>{stdCell}</td></tr>");
         }
         sb.Append("</table></div>");
     }
     else
     {
         var single = tests.First();
+        string standardBlock = "";
+        if (standardValue.HasValue)
+        {
+            var gap = Math.Abs(values.First() - standardValue.Value);
+            standardBlock = $@"<div style='margin-top:10px; color:#f57f17; font-size:0.95em;'>
+                {_loc.GetSystem("StandardValue")}: <strong>{standardValue.Value.ToString("F1", inv)}</strong>
+                · {_loc.GetSystem("DistanceToTarget")}: <strong>{gap.ToString("F1", inv)}</strong>
+            </div>";
+        }
+
         sb.Append($@"<div style='padding:25px; background:#e0f2f1; border-radius:12px; text-align:center; margin-top:20px;'>
                         <div style='color:#00796b; font-size:1.1em;'>{_loc.GetSystem("LatestResult")}</div>
                         <div style='font-size:2.5em; font-weight:bold; color:#004d40;'>{single.Result}</div>
+                        {standardBlock}
                         <div style='color:#546e7a;'>📅 {single.CreatedAt:yyyy-MM-dd}</div>
                     </div>");
     }

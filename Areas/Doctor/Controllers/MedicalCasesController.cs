@@ -1,5 +1,6 @@
 ﻿using IPTS.Resources;
 using IPTS.Data;
+using IPTS.Helpers;
 using IPTS.Models.Entites;
 using IPTS.Services;
 using IPTS.ViewModels;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Serilog.Events;
 
 namespace IPTS.Areas.Doctor.Controllers
 {
@@ -144,6 +146,12 @@ namespace IPTS.Areas.Doctor.Controllers
             }
 
             await _medicalCaseTestService.AddAsync(model);
+            LogHelper.LogWithContext(
+                $"Added medical case test '{model.TestName}' (StandardValue={model.StandardValue}) to case {model.MedicalCaseId}",
+                User?.Identity?.Name ?? "Unknown",
+                "Doctor",
+                "MedicalCasesController.AddTest",
+                LogEventLevel.Information);
             return RedirectToAction("Details", new { id = model.MedicalCaseId });
         }
 
@@ -155,16 +163,35 @@ namespace IPTS.Areas.Doctor.Controllers
             if (test == null) return NotFound();
             var medicalCaseId = test.MedicalCaseId;
             await _medicalCaseTestService.DeleteAsync(id);
+            LogHelper.LogWithContext(
+                $"Deleted medical case test {id} from case {medicalCaseId}",
+                User?.Identity?.Name ?? "Unknown",
+                "Doctor",
+                "MedicalCasesController.DeleteTest",
+                LogEventLevel.Warning);
             return RedirectToAction("Details", new { id = medicalCaseId });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateTestResult(int id, string result)
+        public async Task<IActionResult> UpdateTestResult(int id, string result, decimal? standardValue)
         {
-            var updated = await _medicalCaseTestService.UpdateTestResultAsync(id, result);
+            if (standardValue.HasValue && (standardValue.Value < -100000m || standardValue.Value > 1000000m))
+            {
+                TempData["Error"] = _locService.GetSystem("InvalidStandardValue");
+                var existing = await _medicalCaseTestService.GetByIdAsync(id);
+                return RedirectToAction("Details", new { id = existing?.MedicalCaseId });
+            }
+
+            var updated = await _medicalCaseTestService.UpdateTestResultAsync(id, result, standardValue);
             if (!updated) return NotFound();
             var test = await _medicalCaseTestService.GetByIdAsync(id);
+            LogHelper.LogWithContext(
+                $"Updated medical case test {id} (Result={result}, StandardValue={standardValue})",
+                User?.Identity?.Name ?? "Unknown",
+                "Doctor",
+                "MedicalCasesController.UpdateTestResult",
+                LogEventLevel.Information);
             return RedirectToAction("Details", new { id = test?.MedicalCaseId });
         }
 [HttpGet]

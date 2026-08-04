@@ -24,12 +24,13 @@ namespace IPTS.Services
         }
 
         // إضافة اختبار (تستخدم AddAsync من BaseService)
-        // تحديث نتيجة اختبار
-        public async Task<bool> UpdateTestResultAsync(int testId, string result)
+        // تحديث نتيجة اختبار والقيمة المعيارية
+        public async Task<bool> UpdateTestResultAsync(int testId, string result, decimal? standardValue)
         {
             var test = await GetByIdAsync<int>(testId);
             if (test == null) return false;
             test.Result = result;
+            test.StandardValue = standardValue;
             _dbSet.Update(test);
             await _context.SaveChangesAsync();
             return true;

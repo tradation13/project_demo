@@ -330,7 +330,15 @@ namespace IPTS.Services
                     FirstName = model.FirstName,
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,
-                    Status = userStatus
+                    Status = userStatus,
+                    AcceptedPrivacyPolicy = model.AcceptPrivacy,
+                    AcceptedTermsOfUse = model.AcceptTerms,
+                    // Product default: chat history enabled for new accounts (user can disable in settings).
+                    ChatHistoryEnabled = true,
+                    AcceptedHealthDataConsent = model.AcceptHealthDataConsent,
+                    HealthDataConsentAcceptedAt = model.AcceptHealthDataConsent
+                        ? DateTime.UtcNow
+                        : null
                 };
 
                 user = await CreateUserAndSetTheDefaultRoleAsync(user, model.Password, model.UserTypeName);

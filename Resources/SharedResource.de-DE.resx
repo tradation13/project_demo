@@ -210,10 +210,13 @@
     <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
   </data>
   <data name="Reg_PrivacyConsent" xml:space="preserve">
-    <value>Ich stimme der Datenschutzrichtlinie und den Bedingungen zu</value>
+    <value>Ich stimme zu:</value>
+  </data>
+  <data name="Reg_TermsConsent" xml:space="preserve">
+    <value>Ich stimme zu:</value>
   </data>
   <data name="Reg_PrivacyConsent_Error" xml:space="preserve">
-    <value>Sie müssen die Datenschutzrichtlinie und die Bedingungen akzeptieren, um sich zu registrieren.</value>
+    <value>Sie müssen die Datenschutzerklärung und die Nutzungsbedingungen akzeptieren, um sich zu registrieren.</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>Über uns</value>
@@ -2109,7 +2112,7 @@
     <comment>Registration Page - Modal Title</comment>
   </data>
   <data name="Reg_PrivacyModal_Message" xml:space="preserve">
-    <value>Bitte lesen und akzeptieren Sie unsere Datenschutzbestimmungen und Nutzungsbedingungen, um mit Ihrer Registrierung fortzufahren.</value>
+    <value>Bitte akzeptieren Sie die Datenschutzerklärung, die Nutzungsbedingungen und die Einwilligung zur Verarbeitung von Gesundheitsdaten, um mit der Registrierung fortzufahren.</value>
     <comment>Registration Page - Modal Body Message</comment>
   </data>
   <data name="Shared_GotIt" xml:space="preserve">
@@ -2117,8 +2120,12 @@
     <comment>General Purpose - Confirmation Button</comment>
   </data>
   <data name="Reg_PrivacyConsent" xml:space="preserve">
-    <value>Ich stimme den Datenschutzbestimmungen und Nutzungsbedingungen zu</value>
-    <comment>Registration Page - Checkbox Label</comment>
+    <value>Ich stimme zu:</value>
+    <comment>Registration Page - Privacy Checkbox Label</comment>
+  </data>
+  <data name="Reg_TermsConsent" xml:space="preserve">
+    <value>Ich stimme zu:</value>
+    <comment>Registration Page - Terms Checkbox Label</comment>
   </data>
 
   <data name="Profile_Photo" xml:space="preserve">
@@ -2623,6 +2630,14 @@
     <value>Diese Zusammenfassung zeigt umfassende Statistiken aller im System registrierten Daten. Die Daten werden automatisch aktualisiert, wenn neue Daten hinzugefügt oder gelöscht werden.</value>
     <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
   </data>
+  <data name="Dashboard_ChatConversations" xml:space="preserve">
+    <value>Chatbot-Gespräche</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
+  <data name="Dashboard_ChatConversations_Description" xml:space="preserve">
+    <value>Gesamtzahl der Gespräche mit mindestens einer Nachricht</value>
+    <comment>Areas -&gt; Admin -&gt; Views -&gt; Dashboard -&gt; Index</comment>
+  </data>
   <data name="Appt_PatientSelected" xml:space="preserve">
     <value>Patient hat ausgewählt:</value>
     <comment>Areas -&gt; Doctor -&gt; Views -&gt; Appointments -&gt; AcceptRequest</comment>
@@ -3012,42 +3027,399 @@
   </data>
   <data name="Terms_Section1_Title" xml:space="preserve">
     <value>1. Geltungsbereich</value>
-    <comment>Views -&gt; Home -&gt; Terms</comment>
+  </data>
+  <data name="Privacy_DS_S1_Title" xml:space="preserve">
+    <value>1. Datenschutz auf einen Blick</value>
+  </data>
+  <data name="Privacy_DS_S1_Subtitle" xml:space="preserve">
+    <value>Allgemeine Hinweise</value>
+  </data>
+  <data name="Privacy_DS_S1_Text" xml:space="preserve">
+    <value>Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie unsere Website besuchen, Termine online vereinbaren oder unsere digitalen Dienste zur Erfassung und Auswertung therapeutischer Leistungs- und Bewegungsparameter nutzen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können. Ausführliche Informationen zum Thema Datenschutz entnehmen Sie unserer unter diesem Text aufgeführten Datenschutzerklärung.</value>
+  </data>
+  <data name="Privacy_DS_S2_Title" xml:space="preserve">
+    <value>2. Verantwortliche Stelle</value>
+  </data>
+  <data name="Privacy_DS_S2_Intro" xml:space="preserve">
+    <value>Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website und in der Praxis ist:</value>
+  </data>
+  <data name="Privacy_DS_S2_Company" xml:space="preserve">
+    <value>PhysioTech Praxis für Physiotherapie</value>
+  </data>
+  <data name="Privacy_DS_S2_Owner" xml:space="preserve">
+    <value>Inhaber: Dr. Ahmet Kurtoğlu</value>
+  </data>
+  <data name="Privacy_DS_S2_Address" xml:space="preserve">
+    <value>Adresse: Venloer Str. 305, 50823 Köln</value>
+  </data>
+  <data name="Privacy_DS_S2_Phone" xml:space="preserve">
+    <value>Telefon: 0172 875 8302</value>
+  </data>
+  <data name="Privacy_DS_S2_Email" xml:space="preserve">
+    <value>E-Mail: dr.kurtoglu@physiotech-ehrenfeld.de</value>
+  </data>
+  <data name="Privacy_DS_S2_Definition" xml:space="preserve">
+    <value>Verantwortliche Stelle ist die natürliche oder juristische Person, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten (z. B. Namen, E-Mail-Adressen, Gesundheitsdaten o. Ä.) entscheidet.</value>
+  </data>
+  <data name="Privacy_DS_S3_Title" xml:space="preserve">
+    <value>3. Datenerfassung und -verarbeitung auf unserer Website</value>
+  </data>
+  <data name="Privacy_DS_S3a_Title" xml:space="preserve">
+    <value>a) Bereitstellung der Website und Server-Log-Dateien</value>
+  </data>
+  <data name="Privacy_DS_S3a_Intro" xml:space="preserve">
+    <value>Beim Aufrufen unserer Website werden durch den auf Ihrem Endgerät zum Einsatz kommenden Browser automatisch Informationen an den Server unserer Website gesendet und temporär in einem sog. Logfile gespeichert:</value>
+  </data>
+  <data name="Privacy_DS_S3a_Item1" xml:space="preserve">
+    <value>IP-Adresse des anfragenden Rechners</value>
+  </data>
+  <data name="Privacy_DS_S3a_Item2" xml:space="preserve">
+    <value>Datum und Uhrzeit des Zugriffs</value>
+  </data>
+  <data name="Privacy_DS_S3a_Item3" xml:space="preserve">
+    <value>Name und URL der abgerufenen Datei</value>
+  </data>
+  <data name="Privacy_DS_S3a_Item4" xml:space="preserve">
+    <value>Verwendeter Browser und Betriebssystem Ihres Rechners</value>
+  </data>
+  <data name="Privacy_DS_S3a_Legal" xml:space="preserve">
+    <value>Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der technischen Stabilität und Sicherheit der Website).</value>
+  </data>
+  <data name="Privacy_DS_S3b_Title" xml:space="preserve">
+    <value>b) Online-Terminvergabe und Patientenerfassung</value>
+  </data>
+  <data name="Privacy_DS_S3b_Text" xml:space="preserve">
+    <value>Im Rahmen der digitalen Terminbuchung und Kontaktaufnahme verarbeiten wir Ihre Stammdaten (Name, Vorname, Geburtsdatum, Kontaktdaten, Krankenkassenstatus) sowie ggf. erste behandlungsrelevante Angaben.</value>
+  </data>
+  <data name="Privacy_DS_S3b_Legal" xml:space="preserve">
+    <value>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung bzw. vorvertragliche Maßnahmen) i. V. m. Art. 9 Abs. 2 lit. h DSGVO und § 22 Abs. 1 Nr. 1 lit. b BDSG.</value>
+  </data>
+  <data name="Privacy_DS_S4_Title" xml:space="preserve">
+    <value>4. Besondere Bestimmungen für Gesundheits- und Leistungsparameter (Digitales Performancetracking)</value>
+  </data>
+  <data name="Privacy_DS_S4_Intro" xml:space="preserve">
+    <value>Im Rahmen unserer physiotherapeutischen Diagnostik, Therapie und Trainingssteuerung erfassen wir neben klassischen Befunddaten auch spezifische Leistungs-, Bewegungs- und Funktionsparameter (z. B. Bewegungsanalysen, Gelenkwinkel, Kraftwerte, motorische Leistungswerte und sensorbasierte Trackingdaten).</value>
+  </data>
+  <data name="Privacy_DS_S4_Purpose" xml:space="preserve">
+    <value>Zweck der Verarbeitung: Quantitative Verlaufsdokumentation, evidenzbasierte Trainingssteuerung, individuelle Anpassung von Rehabilitationsplänen sowie Erfolgskontrolle therapeutischer Maßnahmen.</value>
+  </data>
+  <data name="Privacy_DS_S4_Legal" xml:space="preserve">
+    <value>Rechtsgrundlage: Die Erfassung und digitale Auswertung dieser biometrischen und gesundheitsbezogenen Leistungsparameter erfolgt auf Grundlage Ihrer ausdrücklichen Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO i. V. m. Art. 9 Abs. 2 lit. a DSGVO sowie zur Erfüllung des Behandlungsvertrages gemäß Art. 9 Abs. 2 lit. h DSGVO i. V. m. § 630a ff. BGB.</value>
+  </data>
+  <data name="Privacy_DS_S4_Withdraw" xml:space="preserve">
+    <value>Widerruflichkeit: Eine erteilte Einwilligung zur Erfassung und Verarbeitung digitaler Performanceparameter können Sie jederzeit formlos mit Wirkung für die Zukunft widerrufen. Die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung bleibt davon unberührt.</value>
+  </data>
+  <data name="Privacy_DS_S4_Recipients" xml:space="preserve">
+    <value>Empfänger der Daten: Eine Weitergabe Ihrer Daten erfolgt ausschließlich im gesetzlich zulässigen Rahmen (z. B. Abrechnungsdienstleister gem. Art. 28 DSGVO, gesetzliche/private Kostenträger) oder mit Ihrer gesonderten schriftlichen Einwilligung (z. B. an Ihren behandelnden Arzt).</value>
+  </data>
+  <data name="Privacy_DS_S4_Retention" xml:space="preserve">
+    <value>Speicherdauer: Gemäß § 630f Abs. 3 BGB sind wir gesetzlich verpflichtet, patientenbezogene Behandlungs- und Messdokumentationen für mindestens 10 Jahre nach Abschluss der Behandlung aufzubewahren.</value>
+  </data>
+  <data name="Privacy_DS_S5_Title" xml:space="preserve">
+    <value>5. Ihre Rechte als betroffene Person</value>
+  </data>
+  <data name="Privacy_DS_S5_Intro" xml:space="preserve">
+    <value>Sie haben nach den Vorschriften der DSGVO jederzeit folgende Rechte gegenüber der verantwortlichen Stelle:</value>
+  </data>
+  <data name="Privacy_DS_S5_Item1" xml:space="preserve">
+    <value>Recht auf Auskunft über Ihre gespeicherten Daten und deren Verarbeitung (Art. 15 DSGVO).</value>
+  </data>
+  <data name="Privacy_DS_S5_Item2" xml:space="preserve">
+    <value>Recht auf Berichtigung unrichtiger oder unvollständiger Daten (Art. 16 DSGVO).</value>
+  </data>
+  <data name="Privacy_DS_S5_Item3" xml:space="preserve">
+    <value>Recht auf Löschung Ihrer Daten, soweit keine gesetzlichen Aufbewahrungspflichten entgegenstehen (Art. 17 DSGVO).</value>
+  </data>
+  <data name="Privacy_DS_S5_Item4" xml:space="preserve">
+    <value>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO).</value>
+  </data>
+  <data name="Privacy_DS_S5_Item5" xml:space="preserve">
+    <value>Recht auf Datenübertragbarkeit in einem strukturierten, gängigen Format (Art. 20 DSGVO).</value>
+  </data>
+  <data name="Privacy_DS_S5_Item6" xml:space="preserve">
+    <value>Recht auf Widerspruch gegen die Verarbeitung Ihrer Daten (Art. 21 DSGVO).</value>
+  </data>
+  <data name="Privacy_DS_S5_Item7" xml:space="preserve">
+    <value>Beschwerderecht bei der zuständigen Aufsichtsbehörde: Im Falle datenschutzrechtlicher Verstöße haben Sie das Recht auf Beschwerde bei der zuständigen Aufsichtsbehörde (Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen – LDI NRW, Kavalleriestr. 2-4, 40213 Düsseldorf).</value>
+  </data>
+  <data name="Privacy_DS_S6_Title" xml:space="preserve">
+    <value>6. Datensicherheit (SSL-/TLS-Verschlüsselung)</value>
+  </data>
+  <data name="Privacy_DS_S6_Text" xml:space="preserve">
+    <value>Diese Website nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte, wie z. B. Terminanfragen oder gesundheitsbezogener Parameter, eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von „http://“ auf „https://“ wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.</value>
+  </data>
+  <data name="Reg_HealthConsent_Before" xml:space="preserve">
+    <value>Ich willige ein, dass meine hier eingegebenen personenbezogenen Daten und Gesundheitsdaten zum Zwecke der Terminvereinbarung, Behandlungsdokumentation und Abrechnung gemäß der</value>
+  </data>
+  <data name="Reg_HealthConsent_Link" xml:space="preserve">
+    <value>Datenschutzerklärung</value>
+  </data>
+  <data name="Reg_HealthConsent_After" xml:space="preserve">
+    <value>verarbeitet werden. Diese Einwilligung kann ich jederzeit mit Wirkung für die Zukunft widerrufen.</value>
   </data>
   <data name="Terms_Section1_Text" xml:space="preserve">
-    <value>Diese Nutzungsbedingungen gelten für die Nutzung der PhysioTech-Website und der damit verbundenen digitalen Dienste. Mit der Nutzung der Plattform erklären Sie sich mit diesen Bedingungen einverstanden.</value>
-    <comment>Views -&gt; Home -&gt; Terms</comment>
+    <value>Diese Nutzungsbedingungen gelten für die Nutzung der Website und der digitalen Dienste von PhysioTech (Terminbuchung, Patientenportal, digitale Dokumentations- und Chat-Funktionen). Mit der Nutzung der Website oder der Erstellung eines Kontos akzeptieren Sie diese Bedingungen.</value>
   </data>
   <data name="Terms_Section2_Title" xml:space="preserve">
-    <value>2. Leistungen</value>
-    <comment>Views -&gt; Home -&gt; Terms</comment>
+    <value>2. Konto und Registrierung</value>
   </data>
   <data name="Terms_Section2_Text" xml:space="preserve">
-    <value>PhysioTech stellt Informationen und digitale Funktionen rund um Physiotherapie und verwandte Gesundheitsleistungen bereit. Einzelne Angebote können sich ändern oder erweitert werden.</value>
-    <comment>Views -&gt; Home -&gt; Terms</comment>
+    <value>Sie sind verpflichtet, bei der Registrierung wahrheitsgemäße und aktuelle Angaben zu machen und Ihre Zugangsdaten vertraulich zu behandeln. Sie haften für alle Aktivitäten, die unter Ihrem Konto vorgenommen werden, soweit Sie diese zu vertreten haben. Verdächtige Zugriffe müssen Sie uns unverzüglich mitteilen.</value>
   </data>
   <data name="Terms_Section3_Title" xml:space="preserve">
-    <value>3. Nutzerkonto &amp; Verantwortung</value>
-    <comment>Views -&gt; Home -&gt; Terms</comment>
+    <value>3. Zulässige Nutzung / Missbrauchsverbot</value>
   </data>
   <data name="Terms_Section3_Text" xml:space="preserve">
-    <value>Bei Registrierung sind korrekte Angaben erforderlich. Zugangsdaten sind vertraulich zu behandeln. Sie sind für Aktivitäten unter Ihrem Konto verantwortlich, soweit dies gesetzlich zulässig ist.</value>
-    <comment>Views -&gt; Home -&gt; Terms</comment>
+    <value>Die Plattform darf nur für rechtmäßige Zwecke und im Rahmen des bestimmungsgemäßen Gebrauchs genutzt werden. Insbesondere ist untersagt:</value>
+  </data>
+  <data name="Terms_Section3_Item1" xml:space="preserve">
+    <value>Unbefugter Zugriff, Hacking, Scanning, Brute-Force-Angriffe oder sonstige Sicherheitsverletzungen</value>
+  </data>
+  <data name="Terms_Section3_Item2" xml:space="preserve">
+    <value>Verbreitung von Schadsoftware, Spam oder belästigenden Inhalten</value>
+  </data>
+  <data name="Terms_Section3_Item3" xml:space="preserve">
+    <value>Missbrauch von Funktionen (z. B. falsche Identitäten, unzulässige Datenabfragen)</value>
+  </data>
+  <data name="Terms_Section3_Item4" xml:space="preserve">
+    <value>Störung des Betriebs, Überlastung von Servern oder Umgehung technischer Schutzmaßnahmen</value>
+  </data>
+  <data name="Terms_Section3_Item5" xml:space="preserve">
+    <value>Verletzung von Rechten Dritter oder geltendem Recht</value>
   </data>
   <data name="Terms_Section4_Title" xml:space="preserve">
-    <value>4. Datenschutz</value>
-    <comment>Views -&gt; Home -&gt; Terms</comment>
+    <value>4. Keine Notfallversorgung / medizinischer Hinweis</value>
   </data>
   <data name="Terms_Section4_Text" xml:space="preserve">
-    <value>Informationen zur Verarbeitung personenbezogener Daten finden Sie in unserer Datenschutzerklärung. Hosting und Datenbanken befinden sich in Deutschland.</value>
-    <comment>Views -&gt; Home -&gt; Terms</comment>
+    <value>Die digitalen Dienste ersetzen keine persönliche ärztliche oder therapeutische Behandlung und sind nicht für medizinische Notfälle bestimmt. Bei Notfällen wenden Sie sich bitte an den Notruf oder eine geeignete medizinische Einrichtung. Inhalte des KI-Assistenten dienen nur der allgemeinen Information und stellen keine Diagnose oder Therapieempfehlung dar.</value>
   </data>
   <data name="Terms_Section5_Title" xml:space="preserve">
-    <value>5. Schlussbestimmungen</value>
-    <comment>Views -&gt; Home -&gt; Terms</comment>
+    <value>5. Inhalte und geistiges Eigentum</value>
   </data>
   <data name="Terms_Section5_Text" xml:space="preserve">
-    <value>Es gilt das Recht der Bundesrepublik Deutschland. Sollten einzelne Bestimmungen unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt. Diese Seite wird noch finalisiert.</value>
-    <comment>Views -&gt; Home -&gt; Terms</comment>
+    <value>Texte, Logos, Grafiken, Software und sonstige Inhalte der Website sind urheberrechtlich geschützt. Eine Nutzung über den bestimmungsgemäßen Gebrauch hinaus bedarf unserer vorherigen Zustimmung, soweit gesetzlich nichts anderes erlaubt ist.</value>
+  </data>
+  <data name="Terms_Section6_Title" xml:space="preserve">
+    <value>6. Haftung</value>
+  </data>
+  <data name="Terms_Section6_Text" xml:space="preserve">
+    <value>Wir haften unbeschränkt bei Vorsatz und grober Fahrlässigkeit sowie bei Verletzung von Leben, Körper oder Gesundheit. Bei leicht fahrlässiger Verletzung wesentlicher Vertragspflichten ist die Haftung auf den vorhersehbaren, typischerweise eintretenden Schaden begrenzt. Im Übrigen ist die Haftung ausgeschlossen, soweit gesetzlich zulässig. Für die Verfügbarkeit der Website übernehmen wir keine ununterbrochene Garantie.</value>
+  </data>
+  <data name="Terms_Section7_Title" xml:space="preserve">
+    <value>7. Sperrung und Beendigung</value>
+  </data>
+  <data name="Terms_Section7_Text" xml:space="preserve">
+    <value>Bei Verstößen gegen diese Nutzungsbedingungen oder bei Missbrauchsverdacht können wir den Zugang vorübergehend oder dauerhaft einschränken bzw. sperren. Gesetzliche Ansprüche bleiben unberührt.</value>
+  </data>
+  <data name="Terms_Section8_Title" xml:space="preserve">
+    <value>8. Änderungen und anwendbares Recht</value>
+  </data>
+  <data name="Terms_Section8_Text" xml:space="preserve">
+    <value>Wir können diese Nutzungsbedingungen anpassen, wenn dies erforderlich ist (z. B. bei Gesetzesänderungen oder neuen Funktionen). Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts. Gerichtsstand ist – soweit zulässig – Köln.</value>
+  </data>
+  <data name="Consent_Title" xml:space="preserve">
+    <value>Datenschutz- &amp; Nutzungsbedingungen</value>
+  </data>
+  <data name="Consent_Intro" xml:space="preserve">
+    <value>Notwendige Cookies halten PhysioTech sicher. Datenschutzerklärung und Nutzungsbedingungen sind für Konten erforderlich. Die Speicherung des KI-Chat-Verlaufs können Sie jederzeit ein- oder ausschalten.</value>
+  </data>
+  <data name="Consent_AccountNote" xml:space="preserve">
+    <value>Wichtig: Datenschutzerklärung und Nutzungsbedingungen lassen sich hier nicht abschalten — sie sind für Registrierung und Kontonutzung erforderlich. Nur die Speicherung des KI-Chat-Verlaufs ist änderbar. Angemeldete Nutzer speichern diese Wahl im Konto; Gäste auf diesem Gerät.</value>
+  </data>
+  <data name="Consent_Necessary_Title" xml:space="preserve">
+    <value>Notwendige Cookies</value>
+  </data>
+  <data name="Consent_Necessary_Desc" xml:space="preserve">
+    <value>Erforderlich für Sicherheit, Anmeldesitzungen, Spracheinstellung und den grundlegenden Betrieb der Website. Immer aktiv.</value>
+  </data>
+  <data name="Consent_Necessary_Badge" xml:space="preserve">
+    <value>Immer aktiv</value>
+  </data>
+  <data name="Consent_Optional_Section" xml:space="preserve">
+    <value>Optional</value>
+  </data>
+  <data name="Consent_Analytics_Title" xml:space="preserve">
+    <value>Analyse</value>
+  </data>
+  <data name="Consent_Analytics_Desc" xml:space="preserve">
+    <value>Hilft uns zu verstehen, wie Besucher PhysioTech nutzen, damit wir Seiten und Funktionen verbessern können. Es werden keine Passwörter erfasst.</value>
+  </data>
+  <data name="Consent_ChatHistory_Title" xml:space="preserve">
+    <value>KI-Chat-Verlauf</value>
+  </data>
+  <data name="Consent_ChatHistory_Desc" xml:space="preserve">
+    <value>Ermöglicht das Speichern Ihrer KI-Assistenten-Gespräche auf unseren Servern. Deaktivieren Sie dies, um das Speichern neuer Chat-Nachrichten zwischen Ihnen und der KI zu beenden. Gäste speichern diese Wahl auf diesem Gerät; angemeldete Nutzer in ihrem Konto.</value>
+  </data>
+  <data name="Consent_AcceptSelected" xml:space="preserve">
+    <value>Auswahl akzeptieren</value>
+  </data>
+  <data name="Consent_AcceptAll" xml:space="preserve">
+    <value>Alle akzeptieren</value>
+  </data>
+  <data name="Consent_RejectOptional" xml:space="preserve">
+    <value>Optionale ablehnen</value>
+  </data>
+  <data name="Consent_Customize" xml:space="preserve">
+    <value>Anpassen</value>
+  </data>
+  <data name="Consent_Save" xml:space="preserve">
+    <value>Einstellungen speichern</value>
+  </data>
+  <data name="Consent_PrivacyLink" xml:space="preserve">
+    <value>Vollständige Datenschutzerklärung lesen</value>
+  </data>
+  <data name="Consent_On" xml:space="preserve">
+    <value>AN</value>
+  </data>
+  <data name="Consent_Off" xml:space="preserve">
+    <value>AUS</value>
+  </data>
+  <data name="Consent_PrivacyPolicy_Title" xml:space="preserve">
+    <value>Datenschutzerklärung</value>
+  </data>
+  <data name="Consent_PrivacyPolicy_Desc" xml:space="preserve">
+    <value>Erklärt, wie wir personenbezogene Daten verarbeiten (DSGVO). Für die Kontoerstellung erforderlich — hier nur lesbar.</value>
+  </data>
+  <data name="Consent_Terms_Title" xml:space="preserve">
+    <value>Nutzungsbedingungen</value>
+  </data>
+  <data name="Consent_Terms_Desc" xml:space="preserve">
+    <value>Regeln für die Nutzung von PhysioTech. Für die Kontoerstellung erforderlich — hier nur lesbar.</value>
+  </data>
+  <data name="Consent_TermsLink" xml:space="preserve">
+    <value>Nutzungsbedingungen lesen</value>
+  </data>
+  <data name="Consent_ReadOnly_Badge" xml:space="preserve">
+    <value>Nur lesen</value>
+  </data>
+  <data name="Footer_PrivacySettings" xml:space="preserve">
+    <value>Datenschutz- &amp; Nutzungsbedingungen</value>
+  </data>
+  <data name="Privacy_ConsentBanner_Title" xml:space="preserve">
+    <value>Ihre Datenschutz-Auswahl</value>
+  </data>
+  <data name="Privacy_ConsentBanner_Text" xml:space="preserve">
+    <value>Sie können optionale Datenschutz-Einstellungen jederzeit über „Datenschutz- &amp; Nutzungsbedingungen“ im Footer ändern. Notwendige Cookies und Kontodaten für die Anmeldung bleiben für die Plattform erforderlich.</value>
+  </data>
+  <data name="Privacy_ConsentBanner_Btn" xml:space="preserve">
+    <value>Datenschutz-Einstellungen öffnen</value>
+  </data>
+  <data name="Nav_Privacy" xml:space="preserve">
+    <value>Datenschutz</value>
+  </data>
+  <data name="Chat_Name" xml:space="preserve">
+    <value>PhysioTech Assistent</value>
+  </data>
+  <data name="Chat_StatusOnline" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="Chat_Welcome" xml:space="preserve">
+    <value>Willkommen bei PhysioTech 👋
+Ich bin Ihr PhysioTech-Assistent. Wie kann ich Ihnen helfen?</value>
+  </data>
+  <data name="Chat_Subtitle" xml:space="preserve">
+    <value>Intelligente Unterstützung für Ihre Fragen zur Physiotherapie.</value>
+  </data>
+  <data name="Chat_Placeholder" xml:space="preserve">
+    <value>Gib deine Nachricht ein…</value>
+  </data>
+  <data name="Chat_Open" xml:space="preserve">
+    <value>Chat öffnen</value>
+  </data>
+  <data name="Chat_Close" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+  <data name="Chat_Expand" xml:space="preserve">
+    <value>Vergrößern</value>
+  </data>
+  <data name="Chat_Collapse" xml:space="preserve">
+    <value>Verkleinern</value>
+  </data>
+  <data name="Chat_Send" xml:space="preserve">
+    <value>Senden</value>
+  </data>
+  <data name="Chat_Typing" xml:space="preserve">
+    <value>Assistent schreibt…</value>
+  </data>
+  <data name="Chat_ErrorGeneric" xml:space="preserve">
+    <value>Entschuldigung, der Assistent ist gerade nicht erreichbar. Bitte versuchen Sie es in einem Moment erneut.</value>
+  </data>
+  <data name="Chat_ErrorEmpty" xml:space="preserve">
+    <value>Bitte geben Sie eine Nachricht ein.</value>
+  </data>
+  <data name="Chat_ErrorConfig" xml:space="preserve">
+    <value>Der Chat ist vorübergehend nicht verfügbar. Bitte kontaktieren Sie die Praxis.</value>
+  </data>
+  <data name="ChatConversations" xml:space="preserve">
+    <value>Chat-Gespräche</value>
+  </data>
+  <data name="ChatConversations_Subtitle" xml:space="preserve">
+    <value>Schreibgeschütztes Archiv zugestimmter Chatbot-Gespräche.</value>
+  </data>
+  <data name="ChatConversations_ReadOnly" xml:space="preserve">
+    <value>Nur Lesen</value>
+  </data>
+  <data name="ChatConversations_Empty" xml:space="preserve">
+    <value>Noch keine Gespräche mit Nachrichten.</value>
+  </data>
+  <data name="ChatConversations_Session" xml:space="preserve">
+    <value>Sitzung</value>
+  </data>
+  <data name="ChatConversations_UserType" xml:space="preserve">
+    <value>Benutzertyp</value>
+  </data>
+  <data name="ChatConversations_UserId" xml:space="preserve">
+    <value>Benutzer-ID</value>
+  </data>
+  <data name="ChatConversations_Ip" xml:space="preserve">
+    <value>IP-Adresse</value>
+  </data>
+  <data name="ChatConversations_Consent" xml:space="preserve">
+    <value>Einwilligung</value>
+  </data>
+  <data name="ChatConversations_ConsentYes" xml:space="preserve">
+    <value>Einwilligung erteilt</value>
+  </data>
+  <data name="ChatConversations_LastMessage" xml:space="preserve">
+    <value>Letzte Nachricht</value>
+  </data>
+  <data name="ChatConversations_Created" xml:space="preserve">
+    <value>Erstellt</value>
+  </data>
+  <data name="ChatConversations_Details" xml:space="preserve">
+    <value>Gesprächsdetails</value>
+  </data>
+  <data name="ChatConversations_Transcript" xml:space="preserve">
+    <value>Transkript</value>
+  </data>
+  <data name="ChatConversations_NoMessages" xml:space="preserve">
+    <value>Dieses Gespräch enthält keine Nachrichten.</value>
+  </data>
+  <data name="ChatConversations_SenderUser" xml:space="preserve">
+    <value>Benutzer</value>
+  </data>
+  <data name="ChatConversations_SenderAi" xml:space="preserve">
+    <value>Assistent</value>
+  </data>
+  <data name="ChatConversations_PageOf" xml:space="preserve">
+    <value>Seite {0} von {1}</value>
+  </data>
+  <data name="ChatConversations_Prev" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="ChatConversations_Next" xml:space="preserve">
+    <value>Weiter</value>
+  </data>
+  <data name="ChatbotUserType_Guest" xml:space="preserve">
+    <value>Gast</value>
+  </data>
+  <data name="ChatbotUserType_Patient" xml:space="preserve">
+    <value>Patient</value>
+  </data>
+  <data name="ChatbotUserType_Therapist" xml:space="preserve">
+    <value>Therapeut</value>
+  </data>
+  <data name="ChatbotUserType_Admin" xml:space="preserve">
+    <value>Admin</value>
   </data>
 </root>

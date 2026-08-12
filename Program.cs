@@ -119,6 +119,41 @@ builder.Services.AddControllersWithViews()
                             QueueLimit = 0,
                             AutoReplenishment = true
                         }));
+
+                // Chatbot persistence APIs (Guest + authenticated). Higher than AuthPolicy for normal chat turns.
+                options.AddPolicy("ChatbotPolicy", httpContext =>
+                    RateLimitPartition.GetFixedWindowLimiter(
+                        partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown-ip",
+                        factory: _ => new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 30,
+                            Window = TimeSpan.FromMinutes(1),
+                            QueueLimit = 0,
+                            AutoReplenishment = true
+                        }));
+
+                options.OnRejected = async (context, cancellationToken) =>
+                {
+                    var path = context.HttpContext.Request.Path.Value ?? string.Empty;
+                    if (path.StartsWith("/api/chatbot", StringComparison.OrdinalIgnoreCase))
+                    {
+                        LogHelper.LogWithContext(
+                            $"Chatbot rate limit exceeded. path={path}",
+                            context.HttpContext.User?.Identity?.Name ?? "Anonymous",
+                            "Public",
+                            "ChatbotRateLimit",
+                            Serilog.Events.LogEventLevel.Warning);
+                    }
+
+                    context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+                    if (!context.HttpContext.Response.HasStarted)
+                    {
+                        context.HttpContext.Response.ContentType = "application/json";
+                        await context.HttpContext.Response.WriteAsync(
+                            "{\"success\":false,\"message\":\"Too many requests.\"}",
+                            cancellationToken);
+                    }
+                };
             });
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -149,6 +184,7 @@ builder.Services.AddControllersWithViews()
             builder.Services.AddScoped<AppointmentService>();
             builder.Services.AddScoped<BlogPostService>();
             builder.Services.AddScoped<AuditService>();
+            builder.Services.AddScoped<ChatbotService>();
             
             // Register FileService for prescription file handling
             builder.Services.AddScoped<IFileService, FileService>();

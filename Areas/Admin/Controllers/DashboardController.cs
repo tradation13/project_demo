@@ -16,6 +16,7 @@ namespace IPTS.Areas.Admin.Controllers
         private readonly MedicalCaseService _medicalCaseService;
         private readonly TestService _testService;
         private readonly TestGroupService _testGroupService;
+        private readonly ChatbotService _chatbotService;
         private readonly ApplicationDbContext _context;
 
         public DashboardController(
@@ -24,6 +25,7 @@ namespace IPTS.Areas.Admin.Controllers
             MedicalCaseService medicalCaseService,
             TestService testService,
             TestGroupService testGroupService,
+            ChatbotService chatbotService,
             ApplicationDbContext context)
         {
             _patientService = patientService;
@@ -31,6 +33,7 @@ namespace IPTS.Areas.Admin.Controllers
             _medicalCaseService = medicalCaseService;
             _testService = testService;
             _testGroupService = testGroupService;
+            _chatbotService = chatbotService;
             _context = context;
         }
 
@@ -44,7 +47,8 @@ namespace IPTS.Areas.Admin.Controllers
                 TotalMedicalCases = (await _medicalCaseService.GetAllAsync()).Count,
                 TotalTests = (await _testService.GetAllAsync()).Count,
                 TotalTestGroups = (await _testGroupService.GetAllAsync()).Count,
-                TotalUserTypes = (await _context.UserTypes.CountAsync())
+                TotalUserTypes = (await _context.UserTypes.CountAsync()),
+                TotalChatConversations = await _chatbotService.GetConversationsWithMessagesCountAsync()
             };
 
             return View(statistics);

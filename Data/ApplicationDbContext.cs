@@ -22,6 +22,8 @@ namespace IPTS.Data
 
         public DbSet<MedicalReportHistory> MedicalReportHistories { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<ChatConversation> ChatConversations { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
 
         //public DbSet<Report> Reports { get; set; }
 

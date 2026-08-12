@@ -14,11 +14,11 @@
         <div class="hero-orb hero-orb-3 absolute left-[40%] bottom-[5%] h-48 w-48 rounded-full bg-white/30 blur-3xl"></div>
     </div>
 
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="grid items-center gap-12 lg:grid-cols-2">
+    <div class="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid items-center gap-10 lg:grid-cols-[0.85fr_1.35fr] lg:gap-8 xl:gap-6">
 
             <!-- Content -->
-            <div class="z-10 order-2 space-y-8 lg:order-1">
+            <div class="z-10 order-2 space-y-8 lg:order-1 lg:max-w-xl">
                 <div class="space-y-6">
                     <h1 class="hero-title text-4xl font-bold leading-tight text-gray-900 md:text-5xl">
                         <span class="text-primary-600">PhysioTech</span> @SharedLocalizer["Hero_Slogan"]
@@ -43,7 +43,7 @@
                 </div>
 
                 <!-- Features -->
-                <div class="grid grid-cols-3 gap-4 pt-6">
+                <!-- <div class="grid grid-cols-3 gap-4 pt-6">
                     <div class="hero-feat text-center">
                         <div class="mb-2 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-white shadow-md">
                             <i class="fas fa-brain text-xl text-primary-600 hero-icon-pulse"></i>
@@ -62,19 +62,15 @@
                         </div>
                         <p class="text-sm font-normal text-gray-700">@SharedLocalizer["Shared_ExpertCare"]</p>
                     </div>
-                </div>
+                </div> -->
             </div>
 
-            <!-- Visual -->
-            <div class="hero-img relative order-1 lg:order-2 lg:scale-110">
-                <div class="relative">
-                    <!-- حلقات خلف الصورة -->
-                    <span class="hero-ring hero-ring-1"></span>
-                    <span class="hero-ring hero-ring-2"></span>
-
+            <!-- Visual — أكبر من النص على الشاشات الكبيرة -->
+            <div class="hero-img relative order-1 flex w-full items-center justify-center lg:order-2 lg:justify-end">
+                <div class="hero-img-box relative w-full">
                     <img src="/images/home/hero.svg"
                          alt="@SharedLocalizer["Hero_ImgAlt"]"
-                         class="h-auto w-full hero-svg" />
+                         class="h-full w-full object-contain object-center" />
                 </div>
             </div>
 
@@ -157,27 +153,25 @@
     .hero-icon-rise  { display:inline-block; animation:chartRise  2.4s ease-in-out infinite; animation-delay:.6s; }
     .hero-icon-float { display:inline-block; animation:iconFloat   2.8s ease-in-out infinite; animation-delay:1.2s; }
 
-    .hero-svg { animation:svgLevitate 4s ease-in-out infinite; }
-
-    /* حلقات خلف الصورة */
-    .hero-ring {
-        position:absolute;
-        inset:-12%;
-        border-radius:50%;
-        border:2px solid;
-        pointer-events:none;
-    }
-    .hero-ring-1 {
-        border-color: rgba(16,185,129,.18);
-        animation:ringExpand 3s ease-out infinite;
-    }
-    .hero-ring-2 {
-        border-color: rgba(16,185,129,.10);
-        animation:ringExpand 3s ease-out 1.5s infinite;
+    .hero-img-box {
+        width: 100%;
+        height: 380px;
     }
 
-    @@media (max-width:1023.98px) {
-        .hero-ring { display:none; }
+    @@media (min-width: 640px) {
+        .hero-img-box { height: 440px; }
+    }
+
+    @@media (min-width: 1024px) {
+        .hero-img-box { height: 540px; }
+    }
+
+    @@media (min-width: 1280px) {
+        .hero-img-box { height: 640px; }
+    }
+
+    @@media (min-width: 1536px) {
+        .hero-img-box { height: 720px; }
     }
 </style>
 

@@ -1169,6 +1169,15 @@
     <value>© {0} Physiotech. All rights reserved.</value>
     <comment>EmailService - footer copyright</comment>
   </data>
+  <data name="PrivacyPolicyRequired" xml:space="preserve">
+    <value>You must accept the privacy policy to register.</value>
+  </data>
+  <data name="TermsOfUseRequired" xml:space="preserve">
+    <value>You must accept the terms of use to register.</value>
+  </data>
+  <data name="HealthDataConsentRequired" xml:space="preserve">
+    <value>You must consent to the processing of your personal and health data to register as a patient.</value>
+  </data>
 </root>
 
 

@@ -262,13 +262,18 @@
                         </a>
                     </li>
                     <li>
+                        <a href="@Url.Action("Terms", "Home", new { area = "" })">
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>@SharedLocalizer["Footer_Terms"]
+                        </a>
+                    </li>
+                    <li>
                         <a href="@Url.Action("Impressum", "Home", new { area = "" })">
                             <i class="fas fa-chevron-right" aria-hidden="true"></i>@SharedLocalizer["Footer_Impressum"]
                         </a>
                     </li>
                     <li>
-                        <a href="@Url.Action("Terms", "Home", new { area = "" })">
-                            <i class="fas fa-chevron-right" aria-hidden="true"></i>@SharedLocalizer["Footer_Terms"]
+                        <a href="#" data-open-privacy-settings>
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>@SharedLocalizer["Footer_PrivacySettings"]
                         </a>
                     </li>
                 </ul>
@@ -307,16 +312,6 @@
             <p class="pt-footer__copy">
                 &copy; @DateTime.Now.Year <span>PhysioTech</span> — @SharedLocalizer["CopyRight"]
             </p>
-            <div class="pt-footer__badges">
-                <span class="pt-footer__badge">
-                    <i class="fas fa-database" aria-hidden="true"></i>
-                    @SharedLocalizer["Footer_Badge_Db"]
-                </span>
-                <span class="pt-footer__badge">
-                    <i class="fas fa-server" aria-hidden="true"></i>
-                    @SharedLocalizer["Footer_Badge_Hosting"]
-                </span>
-            </div>
         </div>
     </div>
 </footer>

@@ -563,6 +563,9 @@
         <a asp-controller="Home" asp-area="" asp-action="Contact">
             <i class="ti ti-mail" aria-hidden="true"></i> @SharedLocalizer["Contact"]
         </a>
+        <a asp-controller="Home" asp-area="" asp-action="Privacy">
+            <i class="ti ti-shield-lock" aria-hidden="true"></i> @SharedLocalizer["Nav_Privacy"]
+        </a>
 
         @if (User?.Identity?.IsAuthenticated == true)
         {
@@ -650,6 +653,10 @@
             <a class="pt-nav__link" asp-controller="Home" asp-area="" asp-action="Contact">
                 <i class="ti ti-mail" aria-hidden="true"></i>
                 @SharedLocalizer["Contact"]
+            </a>
+            <a class="pt-nav__link" asp-controller="Home" asp-area="" asp-action="Privacy">
+                <i class="ti ti-shield-lock" aria-hidden="true"></i>
+                @SharedLocalizer["Nav_Privacy"]
             </a>
 
             @{

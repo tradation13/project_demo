@@ -37,3 +37,29 @@ document.addEventListener('submit', function (e) {
         }
     });
 }, true);
+
+// Chat session isolation: clear SessionId before logout so the next identity gets a new UUID.
+(function () {
+    var CHAT_SESSION_KEY = "physiotech_n8n_chat_session";
+
+    function clearChatSessionId() {
+        try {
+            sessionStorage.removeItem(CHAT_SESSION_KEY);
+        } catch (e) { /* ignore */ }
+    }
+
+    window.PhysioTechClearChatSession = clearChatSessionId;
+
+    document.addEventListener(
+        "submit",
+        function (e) {
+            var form = e.target;
+            if (!(form instanceof HTMLFormElement)) return;
+            var action = (form.getAttribute("action") || "").toString();
+            if (/\/Auth\/Logout/i.test(action) || /action=Logout/i.test(action)) {
+                clearChatSessionId();
+            }
+        },
+        true
+    );
+})();

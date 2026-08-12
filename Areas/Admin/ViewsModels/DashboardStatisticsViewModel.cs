@@ -9,5 +9,6 @@ namespace IPTS.Areas.Admin.ViewsModels
         public int TotalTests { get; set; }
         public int TotalTestGroups { get; set; }
         public int TotalUserTypes { get; set; }
+        public int TotalChatConversations { get; set; }
     }
 }

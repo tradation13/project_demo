@@ -109,6 +109,16 @@ namespace IPTS.Models.Sidebar
 							Controller = "Blogs",
 							Area = "admin",
 							Roles = ["admin"]
+						},
+						// Chat conversations viewer - admin read-only
+						new()
+						{
+							Title = _loc["ChatConversations"],
+							Icon = "comments",
+							Action = "Index",
+							Controller = "ChatConversations",
+							Area = "admin",
+							Roles = ["admin"]
 						}
 					],
 					Roles = ["*"]

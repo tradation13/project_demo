@@ -2,20 +2,11 @@
 <section id="about" class="about-section relative overflow-hidden bg-gray-50/60 py-16 lg:py-24 flex items-center min-h-[90vh]">
     <div class="about-bg absolute inset-0 pointer-events-none overflow-hidden">
         <i class="about-float fa-solid fa-heart-pulse absolute left-6 top-16 text-6xl text-emerald-500/10"></i>
-        <i class="about-float about-float-delay-1 fa-solid fa-heart-pulse absolute left-[18%] top-[62%] text-4xl text-emerald-500/8"></i>
-        <i class="about-float about-float-delay-2 fa-solid fa-heart-pulse absolute right-[22%] top-[14%] text-5xl text-emerald-500/8"></i>
-
         <i class="about-float about-float-delay-1 fa-solid fa-hospital absolute right-8 top-24 text-7xl text-emerald-500/10"></i>
-        <i class="about-float about-float-delay-2 fa-solid fa-hospital absolute left-[42%] top-[18%] text-5xl text-emerald-500/8"></i>
-        <i class="about-float fa-solid fa-hospital absolute right-[12%] bottom-[18%] text-4xl text-emerald-500/8"></i>
-
         <i class="about-float about-float-delay-2 fa-solid fa-shield-halved absolute left-1/2 bottom-10 text-7xl text-emerald-500/10"></i>
-        <i class="about-float fa-solid fa-shield-halved absolute left-[8%] bottom-[14%] text-5xl text-emerald-500/8"></i>
-        <i class="about-float about-float-delay-1 fa-solid fa-shield-halved absolute right-[40%] top-[58%] text-4xl text-emerald-500/8"></i>
 
         <div class="about-orb absolute left-[8%] top-[18%] h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl"></div>
         <div class="about-orb about-orb-2 absolute right-[10%] bottom-[12%] h-80 w-80 rounded-full bg-emerald-400/10 blur-3xl"></div>
-        <div class="about-orb about-orb-3 absolute left-[36%] bottom-[24%] h-56 w-56 rounded-full bg-white/40 blur-3xl"></div>
     </div>
 
     <div class="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -80,13 +71,12 @@
 
 <style>
     @@keyframes aboutFloat {
-        0%, 100% { transform: translate3d(0,0,0) rotate(0deg) scale(1); }
-        33%       { transform: translate3d(18px,-16px,0) rotate(6deg) scale(1.04); }
-        66%       { transform: translate3d(-14px,12px,0) rotate(-5deg) scale(0.98); }
+        0%, 100% { transform: translate3d(0,0,0) rotate(0deg); }
+        50%       { transform: translate3d(10px,-8px,0) rotate(3deg); }
     }
     @@keyframes orbDrift {
         0%, 100% { transform: translate(0,0) scale(1); }
-        50%       { transform: translate(20px,-18px) scale(1.08); }
+        50%       { transform: translate(12px,-10px) scale(1.04); }
     }
     @@keyframes fadeUp {
         from { opacity:0; transform:translateY(36px); }
@@ -114,13 +104,12 @@
         50%      { opacity:.9; transform:scale(1.12); }
     }
 
-    .about-float { animation: aboutFloat 14s ease-in-out infinite; filter:blur(0.2px); will-change:transform; }
-    .about-float-delay-1 { animation-duration:17s; animation-delay:-4s; }
-    .about-float-delay-2 { animation-duration:19s; animation-delay:-8s; }
+    .about-float { animation: aboutFloat 18s ease-in-out infinite; will-change:transform; }
+    .about-float-delay-1 { animation-duration:22s; animation-delay:-6s; }
+    .about-float-delay-2 { animation-duration:26s; animation-delay:-10s; }
 
-    .about-orb   { animation: orbDrift 12s ease-in-out infinite; }
-    .about-orb-2 { animation-duration:16s; animation-delay:-5s; }
-    .about-orb-3 { animation-duration:20s; animation-delay:-9s; }
+    .about-orb   { animation: orbDrift 16s ease-in-out infinite; }
+    .about-orb-2 { animation-duration:20s; animation-delay:-7s; }
 
     .about-img-col,
     .about-text-col,

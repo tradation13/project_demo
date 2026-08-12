@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using IPTS.Areas.Admin.ViewsModels;
+﻿using IPTS.Areas.Admin.ViewsModels;
 using IPTS.ViewModels;
 
 namespace IPTS.ViewModels
@@ -15,9 +14,11 @@ namespace IPTS.ViewModels
         public string ConfirmPassword { get; set; } = string.Empty;
         public string UserTypeName { get; set; } = string.Empty;
         
-        [Required(ErrorMessage = "يجب الموافقة على سياسة الخصوصية")]
         public bool AcceptPrivacy { get; set; }
-        
+        public bool AcceptTerms { get; set; }
+        /// <summary>Patient health-data processing consent (Art. 9). Must stay unchecked by default.</summary>
+        public bool AcceptHealthDataConsent { get; set; }
+
         public CustomerRegisterViewModel? Customer { get; set; }
         public PatientRegisterViewModel? Patient { get; set; }
         public DoctorRegisterViewModel? Doctor { get; set; }

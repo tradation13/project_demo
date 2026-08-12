@@ -47,6 +47,20 @@ namespace IPTS.Validators
             RuleFor(x => x.UserTypeName)
                 .NotEmpty().WithMessage(x => localizer.GetSystem("UserTypeRequired"));
 
+            RuleFor(x => x.AcceptPrivacy)
+                .Equal(true).WithMessage(x => localizer.GetSystem("PrivacyPolicyRequired"));
+
+            RuleFor(x => x.AcceptTerms)
+                .Equal(true).WithMessage(x => localizer.GetSystem("TermsOfUseRequired"));
+
+            // Patient registration requires explicit health-data consent (unchecked by default).
+            When(x => string.Equals(x.UserTypeName, "patient", StringComparison.OrdinalIgnoreCase)
+                      || x.Patient != null, () =>
+            {
+                RuleFor(x => x.AcceptHealthDataConsent)
+                    .Equal(true).WithMessage(x => localizer.GetSystem("HealthDataConsentRequired"));
+            });
+
             // Nested validators for specific user types
             When(x => x.Customer != null, () =>
             {

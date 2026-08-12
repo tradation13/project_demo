@@ -1,19 +1,26 @@
-@* ─── Chatbot Coming-Soon Widget (Partial) ─── *@
-
+@* ─── PhysioTech Live Chatbot Widget (n8n) ─── *@
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 @{
-    var lang = (string)(ViewBag.Lang ?? System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
-    bool isDE = lang?.ToLower() == "de";
+    var culture = System.Globalization.CultureInfo.CurrentUICulture;
+    var isDE = culture.TwoLetterISOLanguageName.Equals("de", StringComparison.OrdinalIgnoreCase);
 
-    var chatName        = isDE ? "PhysioTech Assistent" : "PhysioTech Assistant";
-    var chatStatus      = isDE ? "Demnächst verfügbar" : "Coming soon";
-    var chatTitle       = isDE ? "KI-Assistent kommt bald!" : "AI Assistant coming soon!";
-    var chatSub         = isDE ? "Intelligente Unterstützung für Ihre Fragen zur Physiotherapie." : "Smart support for your physiotherapy questions.";
-    var chatPlaceholder = isDE ? "Gib deine Nachricht ein…" : "Type your message…";
-    var chatOpenChat    = isDE ? "Chat öffnen" : "Open chat";
-    var chatClose       = isDE ? "Schließen" : "Close";
-    var chatExpand      = isDE ? "Vergrößern" : "Expand";
-    var chatCollapse    = isDE ? "Verkleinern" : "Collapse";
-    var chatBadge       = isDE ? "Demnächst verfügbar" : "Coming soon";
+    var chatName = SharedLocalizer["Chat_Name"].Value;
+    var chatStatus = SharedLocalizer["Chat_StatusOnline"].Value;
+    var chatWelcome = SharedLocalizer["Chat_Welcome"].Value;
+    var chatSub = SharedLocalizer["Chat_Subtitle"].Value;
+    var chatPlaceholder = SharedLocalizer["Chat_Placeholder"].Value;
+    var chatOpenChat = SharedLocalizer["Chat_Open"].Value;
+    var chatClose = SharedLocalizer["Chat_Close"].Value;
+    var chatExpand = SharedLocalizer["Chat_Expand"].Value;
+    var chatCollapse = SharedLocalizer["Chat_Collapse"].Value;
+    var chatSend = SharedLocalizer["Chat_Send"].Value;
+    var chatTyping = SharedLocalizer["Chat_Typing"].Value;
+    var chatError = SharedLocalizer["Chat_ErrorGeneric"].Value;
+    var chatEmpty = SharedLocalizer["Chat_ErrorEmpty"].Value;
+    var chatConfig = SharedLocalizer["Chat_ErrorConfig"].Value;
+
+    var webhookUrl = Configuration["N8n:ChatWebhookUrl"] ?? string.Empty;
 }
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css" />
@@ -34,7 +41,8 @@
   .chat-panel {
     display: none;
     flex-direction: column;
-    width: 320px;
+    width: min(360px, calc(100vw - 1.5rem));
+    height: min(560px, calc(100vh - 7rem));
     border-radius: 16px;
     border: 0.5px solid #d1d5db;
     background: #ffffff;
@@ -56,6 +64,7 @@
     gap: 10px;
     padding: 14px 16px;
     background: #1a7a4a;
+    flex-shrink: 0;
   }
   .cp-avatar {
     width: 36px; height: 36px;
@@ -65,20 +74,23 @@
     flex-shrink: 0;
     font-size: 18px;
   }
-  .cp-info { flex: 1; }
+  .cp-info { flex: 1; min-width: 0; }
   .cp-name  { font-size: 13px; font-weight: 500; color: #fff; }
-  .cp-status { font-size: 11px; color: rgba(255,255,255,.7); margin-top: 1px; }
-  .cp-close {
-    background: none; border: none; cursor: pointer;
-    color: rgba(255,255,255,.7);
-    width: 28px; height: 28px;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    transition: background .15s;
-    font-size: 15px;
+  .cp-status {
+    font-size: 11px;
+    color: rgba(255,255,255,.85);
+    margin-top: 1px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
   }
-  .cp-close:hover { background: rgba(255,255,255,.15); color: #fff; }
-
+  .cp-status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #86efac;
+    box-shadow: 0 0 0 3px rgba(134,239,172,.25);
+  }
+  .cp-close,
   .cp-expand {
     background: none; border: none; cursor: pointer;
     color: rgba(255,255,255,.7);
@@ -87,107 +99,154 @@
     display: flex; align-items: center; justify-content: center;
     transition: background .15s;
     font-size: 15px;
-    margin-right: 6px;
   }
+  .cp-expand { margin-right: 6px; }
+  .cp-close:hover,
   .cp-expand:hover { background: rgba(255,255,255,.15); color: #fff; }
 
   .cp-body {
-    padding: 20px 18px 22px;
+    flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    text-align: center;
     background: #f9fafb;
+    padding: 0;
   }
 
-  /* حاوية المحتوى العلوي لمنع تباعدها */
-  .cp-content-top {
+  .cb-messages {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 14px 14px 8px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 14px;
+    gap: 10px;
+    scroll-behavior: smooth;
+  }
+
+  .cb-msg {
+    display: flex;
     width: 100%;
   }
+  .cb-msg--user { justify-content: flex-end; }
+  .cb-msg--ai,
+  .cb-msg--system { justify-content: flex-start; }
 
-  .ai-orb-wrap { position: relative; display: inline-block; }
-  .ai-orb {
-    width: 64px; height: 64px;
-    border-radius: 18px;
-    background: linear-gradient(145deg, #2dbe72, #1a7a4a);
-    display: flex; align-items: center; justify-content: center;
+  .cb-bubble {
+    max-width: 88%;
+    padding: 10px 12px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.55;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    unicode-bidi: plaintext;
+    text-align: start;
   }
-  .ai-orb i { font-size: 28px; color: #fff; }
-  .orb-ring {
-    position: absolute; inset: -4px;
-    border-radius: 22px;
-    border: 1.5px dashed rgba(45,190,114,.4);
-    animation: cb-spin 8s linear infinite;
+  .cb-msg--user .cb-bubble {
+    background: #1a7a4a;
+    color: #fff;
+    border-bottom-right-radius: 5px;
   }
-  @@keyframes cb-spin { to { transform: rotate(360deg); } }
+  .cb-msg--ai .cb-bubble {
+    background: #fff;
+    color: #111827;
+    border: 1px solid #e5e7eb;
+    border-bottom-left-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  .cb-msg--ai .cb-bubble a {
+    color: #1a7a4a;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .cb-msg--ai .cb-bubble a:hover {
+    color: #15663e;
+  }
+  .cb-msg--system .cb-bubble {
+    background: #fff7ed;
+    color: #9a3412;
+    border: 1px solid #fed7aa;
+    font-size: 12px;
+  }
 
-  .cs-badge {
+  .cb-bubble--typing {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 12px;
-    border-radius: 9999px;
-    background: rgba(26,122,74,.08);
-    border: 0.5px solid rgba(26,122,74,.25);
+    color: #6b7280;
   }
-  .badge-dot {
+  .cb-typing-label { font-size: 11px; margin-left: 2px; }
+  .cb-dot {
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: #1a7a4a;
-    animation: cb-blink 1.8s ease-in-out infinite;
+    background: #9ca3af;
+    animation: cb-bounce 1.2s infinite ease-in-out;
   }
-  @@keyframes cb-blink {
-    0%,100% { opacity:1; transform:scale(1); }
-    50%      { opacity:.4; transform:scale(.7); }
-  }
-  .badge-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: #1a7a4a;
+  .cb-dot:nth-child(2) { animation-delay: .15s; }
+  .cb-dot:nth-child(3) { animation-delay: .3s; }
+  @@keyframes cb-bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: .45; }
+    40% { transform: translateY(-4px); opacity: 1; }
   }
 
-  .cp-title {
-    font-size: 15px;
-    font-weight: 600;
-    color: #111827;
-    line-height: 1.3;
-    margin: 0;
-  }
-  .cp-sub {
-    font-size: 12px;
-    color: #6b7280;
-    line-height: 1.6;
-    max-width: 230px;
-    margin: 0;
-  }
-
-  .fake-input {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  .cb-composer {
+    flex-shrink: 0;
+    border-top: 1px solid #e5e7eb;
     background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 9px 12px;
-    opacity: .45;
-    pointer-events: none;
-    margin-top: auto; /* دفع الحقل للأسفل دائماً */
+    padding: 10px 12px 12px;
   }
-  .fake-input span {
-    flex: 1;
-    font-size: 12px;
+  .cb-composer-hint {
+    font-size: 11px;
     color: #9ca3af;
-    text-align: right;
+    margin: 0 0 8px;
+    line-height: 1.4;
   }
-  .fake-input i { font-size: 14px; color: #9ca3af; flex-shrink: 0; }
+  .cb-composer-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .cb-input {
+    flex: 1;
+    resize: none;
+    min-height: 40px;
+    max-height: 110px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 13px;
+    line-height: 1.4;
+    font-family: inherit;
+    color: #111827;
+    background: #f9fafb;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .cb-input:focus {
+    border-color: #86efac;
+    box-shadow: 0 0 0 3px rgba(26,122,74,.12);
+    background: #fff;
+  }
+  .cb-input:disabled { opacity: .7; }
+  .cb-send {
+    width: 40px; height: 40px;
+    border: none;
+    border-radius: 12px;
+    background: #1a7a4a;
+    color: #fff;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background .15s, transform .15s, opacity .15s;
+  }
+  .cb-send:hover { background: #15663e; }
+  .cb-send:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+  }
+  .cb-send.is-busy { opacity: .7; }
 
   .fab-btn {
     width: 56px; height: 56px;
@@ -202,7 +261,7 @@
     flex-shrink: 0;
     box-shadow: 0 8px 24px rgba(26,122,74,.4), 0 2px 6px rgba(0,0,0,.12);
   }
-  .fab-btn:hover { transform: scale(1.08) ; background: #15663e; }
+  .fab-btn:hover { transform: scale(1.08); background: #15663e; }
   .fab-btn i { font-size: 24px; }
   .fab-btn.open i.ic-chat { display: none; }
   .fab-btn:not(.open) i.ic-x { display: none; }
@@ -227,52 +286,49 @@
   }
 
   .chat-panel.expanded {
-    width: min(92vw, 92vh, 780px);
-    height: min(92vw, 92vh, 780px);
+    width: min(92vw, 780px);
+    height: min(88vh, 780px);
   }
 
-  .chat-panel.expanded .cp-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* تغيير التوزيع ليبدأ من الأعلى بشكل طبيعي */
-    overflow-y: auto;
-    min-height: 0;
-    gap: 24px; /* مسافة متناسقة وجذابة في الوضع الكبير */
+  @@media (max-width: 480px) {
+    .fab-area {
+      bottom: 1rem;
+      right: 1rem;
+      left: 1rem;
+      align-items: stretch;
+    }
+    .chat-panel {
+      width: 100%;
+      height: min(72vh, 560px);
+    }
+    .chat-panel.expanded {
+      width: 100%;
+      height: min(88vh, 720px);
+    }
+    .fab-btn { align-self: flex-end; }
   }
-
-  .chat-panel.expanded .fab-btn {
-    right: 0;
-  }
-
-  .ai-chip {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: #fff;
-    border: 0.5px solid #d1d5db;
-    border-radius: 9999px;
-    padding: 4px 10px 4px 7px;
-    box-shadow: 0 1px 4px rgba(0,0,0,.06);
-  }
-  .chip-icon {
-    width: 18px; height: 18px;
-    border-radius: 6px;
-    background: #1a7a4a;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .chip-icon i { font-size: 11px; color: #fff; }
-  .ai-chip span { font-size: 11px; font-weight: 500; color: #4b5563; }
 </style>
 
-<div class="fab-area">
+<div id="cbRoot"
+     class="fab-area"
+     data-webhook-url="@webhookUrl"
+     data-i18n-expand="@chatExpand"
+     data-i18n-collapse="@chatCollapse"
+     data-i18n-typing="@chatTyping"
+     data-i18n-error="@chatError"
+     data-i18n-empty="@chatEmpty"
+     data-i18n-config="@chatConfig"
+     lang="@(isDE ? "de" : "en")">
 
   <div class="chat-panel" id="cbPanel" role="dialog" aria-modal="true" aria-label="@chatName">
     <div class="cp-head">
       <div class="cp-avatar">🩺</div>
       <div class="cp-info">
         <div class="cp-name" id="cbName">@chatName</div>
-        <div class="cp-status" id="cbStatus">@chatStatus</div>
+        <div class="cp-status" id="cbStatus">
+          <span class="cp-status-dot" aria-hidden="true"></span>
+          @chatStatus
+        </div>
       </div>
       <button type="button" class="cp-expand" id="cbExpand" aria-label="@chatExpand">
         <i class="ti ti-maximize"></i>
@@ -283,27 +339,26 @@
     </div>
 
     <div class="cp-body">
-      <div class="cp-content-top">
-        <div class="ai-orb-wrap">
-          <div class="ai-orb">
-            <i class="ti ti-robot" aria-hidden="true"></i>
-          </div>
-          <div class="orb-ring"></div>
+      <div id="cbMessages" class="cb-messages" aria-live="polite">
+        <div class="cb-msg cb-msg--ai">
+          <div class="cb-bubble" dir="auto">@Html.Raw(chatWelcome.Replace("\n", "<br />"))</div>
         </div>
-
-        <div class="cs-badge">
-          <div class="badge-dot"></div>
-          <span class="badge-label">@chatBadge</span>
-        </div>
-
-        <p class="cp-title" id="cbTitle">@chatTitle</p>
-        <p class="cp-sub" id="cbSub">@chatSub</p>
       </div>
 
-      <div class="fake-input" aria-hidden="true">
-        <span id="cbFakeInput">@chatPlaceholder</span>
-        <i class="ti ti-send" aria-hidden="true"></i>
-      </div>
+      <form id="cbForm" class="cb-composer" autocomplete="off">
+        <p class="cb-composer-hint">@chatSub</p>
+        <div class="cb-composer-row">
+          <textarea id="cbInput"
+                    class="cb-input"
+                    rows="1"
+                    maxlength="4000"
+                    placeholder="@chatPlaceholder"
+                    aria-label="@chatPlaceholder"></textarea>
+          <button type="submit" class="cb-send" id="cbSend" aria-label="@chatSend" title="@chatSend">
+            <i class="ti ti-send" aria-hidden="true"></i>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -314,50 +369,6 @@
     </button>
     <div class="notif-dot" id="cbNotif"></div>
   </div>
-
 </div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const panel    = document.getElementById('cbPanel');
-    const expandEl = document.getElementById('cbExpand');
-    const toggle   = document.getElementById('cbToggle');
-    const closeEl  = document.getElementById('cbClose');
-    const notif    = document.getElementById('cbNotif');
-    const chip     = document.getElementById('cbChip');
-
-    function openPanel() {
-      panel.classList.add('open');
-      toggle.classList.add('open');
-      toggle.setAttribute('aria-expanded', 'true');
-      if (notif) notif.style.display = 'none';
-      if (chip) chip.style.display = 'none';
-    }
-    
-    function closePanel() {
-      panel.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      if (chip) chip.style.display = 'flex';
-    }
-
-    if (toggle) {
-      toggle.addEventListener('click', () =>
-        panel.classList.contains('open') ? closePanel() : openPanel()
-      );
-    }
-    if (expandEl) {
-      expandEl.addEventListener('click', function () {
-        const expanded = panel.classList.toggle('expanded');
-        this.setAttribute('aria-label', expanded ? '@chatCollapse' : '@chatExpand');
-        this.querySelector('i').className = expanded ? 'ti ti-minimize' : 'ti ti-maximize';
-      });
-    }
-    if (closeEl) {
-      closeEl.addEventListener('click', closePanel);
-    }
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && panel.classList.contains('open')) closePanel();
-    });
-  });
-</script>
+<script src="~/js/chatbot.js" asp-append-version="true"></script>

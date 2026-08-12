@@ -1,0 +1,464 @@
+@* ─── Privacy & Terms Settings Popup ─── *@
+@{
+    var privacyUrl = Url.Action("Privacy", "Home", new { area = "" }) ?? "/Home/Privacy";
+    var termsUrl = Url.Action("Terms", "Home", new { area = "" }) ?? "/Home/Terms";
+    var isAuthenticated = User?.Identity?.IsAuthenticated == true;
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css" />
+
+<div id="ptConsentRoot"
+     class="pt-consent"
+     data-authenticated="@(isAuthenticated ? "1" : "0")"
+     data-label-on="@SharedLocalizer["Consent_On"]"
+     data-label-off="@SharedLocalizer["Consent_Off"]">
+
+    <div id="ptConsentOverlay"
+         class="pt-consent__overlay"
+         hidden
+         role="presentation">
+        <div id="ptConsentPanel"
+             class="pt-consent__panel"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="ptConsentTitle"
+             tabindex="-1">
+
+            <div class="pt-consent__head">
+                <div class="pt-consent__icon" aria-hidden="true">
+                    <i class="ti ti-shield-lock"></i>
+                </div>
+                <div class="pt-consent__head-text">
+                    <h2 id="ptConsentTitle" class="pt-consent__title">@SharedLocalizer["Consent_Title"]</h2>
+                    <p class="pt-consent__intro">@SharedLocalizer["Consent_Intro"]</p>
+                </div>
+                <button type="button"
+                        id="ptConsentClose"
+                        class="pt-consent__close"
+                        aria-label="@SharedLocalizer["Chat_Close"]">
+                    <i class="ti ti-x" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="pt-consent__note" role="note">
+                <i class="ti ti-info-circle" aria-hidden="true"></i>
+                <p>@SharedLocalizer["Consent_AccountNote"]</p>
+            </div>
+
+            <div id="ptConsentDetails" class="pt-consent__details" hidden>
+
+                <p class="pt-consent__section-label">@SharedLocalizer["Consent_Necessary_Badge"]</p>
+
+                <div class="pt-consent__row pt-consent__row--locked">
+                    <span class="pt-consent__row-icon" aria-hidden="true"><i class="ti ti-lock"></i></span>
+                    <div class="pt-consent__row-main">
+                        <div class="pt-consent__row-title">@SharedLocalizer["Consent_Necessary_Title"]</div>
+                        <p class="pt-consent__row-desc">@SharedLocalizer["Consent_Necessary_Desc"]</p>
+                    </div>
+                    <span class="pt-consent__badge">@SharedLocalizer["Consent_Necessary_Badge"]</span>
+                </div>
+
+                <div class="pt-consent__row pt-consent__row--locked">
+                    <span class="pt-consent__row-icon" aria-hidden="true"><i class="ti ti-file-text"></i></span>
+                    <div class="pt-consent__row-main">
+                        <div class="pt-consent__row-title">@SharedLocalizer["Consent_PrivacyPolicy_Title"]</div>
+                        <p class="pt-consent__row-desc">
+                            @SharedLocalizer["Consent_PrivacyPolicy_Desc"]
+                            <a href="@privacyUrl" class="pt-consent__inline-link">@SharedLocalizer["Consent_PrivacyLink"]</a>
+                        </p>
+                    </div>
+                    <span class="pt-consent__badge pt-consent__badge--muted">@SharedLocalizer["Consent_ReadOnly_Badge"]</span>
+                </div>
+
+                <div class="pt-consent__row pt-consent__row--locked">
+                    <span class="pt-consent__row-icon" aria-hidden="true"><i class="ti ti-scale"></i></span>
+                    <div class="pt-consent__row-main">
+                        <div class="pt-consent__row-title">@SharedLocalizer["Consent_Terms_Title"]</div>
+                        <p class="pt-consent__row-desc">
+                            @SharedLocalizer["Consent_Terms_Desc"]
+                            <a href="@termsUrl" class="pt-consent__inline-link">@SharedLocalizer["Consent_TermsLink"]</a>
+                        </p>
+                    </div>
+                    <span class="pt-consent__badge pt-consent__badge--muted">@SharedLocalizer["Consent_ReadOnly_Badge"]</span>
+                </div>
+
+                <p class="pt-consent__section-label pt-consent__section-label--optional">@SharedLocalizer["Consent_Optional_Section"]</p>
+
+                <div class="pt-consent__row pt-consent__row--optional">
+                    <span class="pt-consent__row-icon pt-consent__row-icon--accent" aria-hidden="true"><i class="ti ti-message-chatbot"></i></span>
+                    <div class="pt-consent__row-main">
+                        <div class="pt-consent__row-title">@SharedLocalizer["Consent_ChatHistory_Title"]</div>
+                        <p class="pt-consent__row-desc">@SharedLocalizer["Consent_ChatHistory_Desc"]</p>
+                    </div>
+                    <label class="pt-consent__switch">
+                        <input type="checkbox" id="ptConsentChatHistory" />
+                        <span class="pt-consent__slider" aria-hidden="true"></span>
+                        <span id="ptConsentChatLabel" class="pt-consent__switch-label">@SharedLocalizer["Consent_Off"]</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="pt-consent__actions">
+                <button type="button" id="ptConsentAcceptAll" class="pt-consent__btn pt-consent__btn--primary">
+                    @SharedLocalizer["Consent_AcceptAll"]
+                </button>
+                <button type="button" id="ptConsentAcceptSelected" class="pt-consent__btn pt-consent__btn--secondary">
+                    @SharedLocalizer["Consent_AcceptSelected"]
+                </button>
+                <button type="button" id="ptConsentReject" class="pt-consent__btn pt-consent__btn--ghost">
+                    @SharedLocalizer["Consent_RejectOptional"]
+                </button>
+                <button type="button"
+                        id="ptConsentCustomize"
+                        class="pt-consent__btn pt-consent__btn--link"
+                        aria-expanded="false"
+                        aria-controls="ptConsentDetails">
+                    @SharedLocalizer["Consent_Customize"]
+                </button>
+            </div>
+
+            <div class="pt-consent__footer-link">
+                <a href="@privacyUrl">@SharedLocalizer["Consent_PrivacyLink"]</a>
+                <span class="pt-consent__footer-sep" aria-hidden="true"></span>
+                <a href="@termsUrl">@SharedLocalizer["Consent_TermsLink"]</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+  .pt-consent__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10050;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(15, 23, 42, 0.48);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .28s ease;
+  }
+  .pt-consent__overlay.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  @@media (min-width: 640px) {
+    .pt-consent__overlay {
+      align-items: center;
+      padding: 1.5rem;
+    }
+  }
+
+  .pt-consent__panel {
+    width: min(540px, 100%);
+    max-height: min(90vh, 740px);
+    overflow-y: auto;
+    border-radius: 22px;
+    background: #fff;
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.4) inset,
+      0 28px 64px rgba(15, 23, 42, .24);
+    transform: translateY(20px) scale(.985);
+    transition: transform .32s cubic-bezier(.22, 1, .36, 1);
+    outline: none;
+  }
+  .pt-consent__overlay.is-visible .pt-consent__panel {
+    transform: translateY(0) scale(1);
+  }
+
+  .pt-consent__head {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 1.25rem 1.25rem 1rem;
+    background:
+      radial-gradient(120% 80% at 0% 0%, rgba(16, 185, 129, 0.12), transparent 55%),
+      linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 45%, #eff6ff 100%);
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .pt-consent__icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #1a7a4a 0%, #0f766e 100%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.3rem;
+    box-shadow: 0 8px 18px rgba(26, 122, 74, 0.28);
+  }
+  .pt-consent__title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 750;
+    color: #064e3b;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  .pt-consent__intro {
+    margin: .4rem 0 0;
+    font-size: .82rem;
+    line-height: 1.55;
+    color: #475569;
+  }
+  .pt-consent__close {
+    margin-left: auto;
+    width: 34px;
+    height: 34px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    color: #64748b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .pt-consent__close:hover {
+    background: #fff;
+    border-color: #e2e8f0;
+    color: #0f172a;
+  }
+
+  .pt-consent__note {
+    display: flex;
+    gap: 10px;
+    margin: 1rem 1.25rem 0;
+    padding: .9rem 1rem;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #fffbeb 0%, #fff7ed 100%);
+    border: 1px solid #fed7aa;
+    color: #9a3412;
+    font-size: .8rem;
+    line-height: 1.55;
+  }
+  .pt-consent__note i {
+    margin-top: 2px;
+    flex-shrink: 0;
+    font-size: 1.05rem;
+    color: #c2410c;
+  }
+  .pt-consent__note p { margin: 0; }
+
+  .pt-consent__details {
+    padding: .85rem 1.25rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: .55rem;
+  }
+  .pt-consent__details[hidden] { display: none !important; }
+
+  .pt-consent__section-label {
+    margin: .35rem 0 .1rem;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #94a3b8;
+  }
+  .pt-consent__section-label--optional {
+    margin-top: .7rem;
+    color: #0f766e;
+  }
+
+  .pt-consent__row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: .95rem 1rem;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+  }
+  .pt-consent__row--locked {
+    background: #fafafa;
+  }
+  .pt-consent__row--optional {
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 60%, #f8fafc 100%);
+    border-color: #bbf7d0;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+  }
+  .pt-consent__row-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: #e2e8f0;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.05rem;
+  }
+  .pt-consent__row-icon--accent {
+    background: #dcfce7;
+    color: #166534;
+  }
+  .pt-consent__row-title {
+    font-size: .9rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+  .pt-consent__row-desc {
+    margin: .3rem 0 0;
+    font-size: .78rem;
+    line-height: 1.5;
+    color: #64748b;
+  }
+  .pt-consent__badge {
+    flex-shrink: 0;
+    font-size: .66rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #166534;
+    background: #dcfce7;
+    border: 1px solid #bbf7d0;
+    border-radius: 999px;
+    padding: .38rem .7rem;
+    white-space: nowrap;
+  }
+  .pt-consent__badge--muted {
+    color: #475569;
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+  }
+
+  .pt-consent__switch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+    user-select: none;
+  }
+  .pt-consent__switch input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .pt-consent__slider {
+    width: 48px;
+    height: 28px;
+    border-radius: 999px;
+    background: #cbd5e1;
+    position: relative;
+    transition: background .2s;
+  }
+  .pt-consent__slider::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .18);
+    transition: transform .2s;
+  }
+  .pt-consent__switch input:checked + .pt-consent__slider {
+    background: #1a7a4a;
+  }
+  .pt-consent__switch input:checked + .pt-consent__slider::after {
+    transform: translateX(20px);
+  }
+  .pt-consent__switch-label {
+    font-size: .65rem;
+    font-weight: 800;
+    color: #94a3b8;
+    letter-spacing: .05em;
+  }
+  .pt-consent__switch-label.is-on { color: #166534; }
+
+  .pt-consent__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .55rem;
+    padding: 1.1rem 1.25rem .4rem;
+  }
+  .pt-consent__btn {
+    border-radius: 13px;
+    border: 1px solid transparent;
+    padding: .72rem .85rem;
+    font-size: .82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .15s, border-color .15s, color .15s, transform .15s, box-shadow .15s;
+  }
+  .pt-consent__btn:active { transform: scale(.98); }
+  .pt-consent__btn--primary {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #1a7a4a 0%, #0f766e 100%);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(26, 122, 74, 0.22);
+  }
+  .pt-consent__btn--primary:hover {
+    background: linear-gradient(135deg, #15663e 0%, #0d9488 100%);
+  }
+  .pt-consent__btn--secondary {
+    background: #ecfdf5;
+    color: #166534;
+    border-color: #bbf7d0;
+  }
+  .pt-consent__btn--secondary:hover { background: #dcfce7; }
+  .pt-consent__btn--ghost {
+    background: #fff;
+    color: #475569;
+    border-color: #e2e8f0;
+  }
+  .pt-consent__btn--ghost:hover { background: #f8fafc; }
+  .pt-consent__btn--link {
+    grid-column: 1 / -1;
+    background: transparent;
+    color: #1a7a4a;
+    border: none;
+    font-weight: 650;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .pt-consent__footer-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    flex-wrap: wrap;
+    text-align: center;
+    padding: .2rem 1.25rem 1.2rem;
+  }
+  .pt-consent__footer-sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #cbd5e1;
+  }
+  .pt-consent__footer-link a {
+    font-size: .78rem;
+    color: #64748b;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .pt-consent__footer-link a:hover { color: #1a7a4a; }
+  .pt-consent__inline-link {
+    color: #1a7a4a;
+    font-weight: 650;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  body.pt-consent-open { overflow: hidden; }
+</style>
+
+<script src="~/js/privacy-consent.js" asp-append-version="true"></script>

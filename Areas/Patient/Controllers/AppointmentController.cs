@@ -124,7 +124,9 @@ namespace IPTS.Areas.Patient.Controllers
                 Serilog.Events.LogEventLevel.Information);
 
             // جلب كيان الطبيب مباشرة من DbContext المحقون
-            var doctorEntity = await _dbContext.Doctors.FirstOrDefaultAsync(d => d.Id == doctorId);
+            var doctorEntity = await _dbContext.Doctors
+                .Include(d => d.User)
+                .FirstOrDefaultAsync(d => d.Id == doctorId);
             if (doctorEntity == null || string.IsNullOrEmpty(doctorEntity.UserId))
                 return NotFound();
 
@@ -278,6 +280,18 @@ namespace IPTS.Areas.Patient.Controllers
                 "patient",
                 "PatientAppointment.Book",
                 Serilog.Events.LogEventLevel.Information);
+
+            var patientName = $"{patientId.FirstName} {patientId.LastName}".Trim();
+            await _appointmentService.SendAppointmentRequestedEmailsAsync(
+                doctorEntity.User?.Email,
+                doctor?.FullName ?? string.Empty,
+                string.IsNullOrWhiteSpace(patientName) ? (patientId.Email ?? string.Empty) : patientName,
+                patientId.Email,
+                patientId.PhoneNumber,
+                dto.UtcDateTime,
+                startSlotIndex,
+                endSlotIndex,
+                model.Notes);
 
             // Display-only: convert UTC booking time to clinic local for the success toast
             var clinicTz = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
@@ -533,12 +547,32 @@ namespace IPTS.Areas.Patient.Controllers
                 appointment.PrescriptionFileName = null;
             }
 
+            var oldScheduledTime = appointment.ScheduledTime;
+            var oldStartSlotIndex = appointment.StartSlotIndex;
+            var oldEndSlotIndex = appointment.EndSlotIndex;
+
             appointment.ScheduledTime = dto.UtcDateTime;
             appointment.StartSlotIndex = selectedSlots.Min();
             appointment.EndSlotIndex = selectedSlots.Max();
             appointment.Notes = model.Notes ?? string.Empty;
 
             await _dbContext.SaveChangesAsync();
+
+            var patientName = $"{user.FirstName} {user.LastName}".Trim();
+            var doctorName = $"{appointment.Doctor?.User?.FirstName} {appointment.Doctor?.User?.LastName}".Trim();
+            await _appointmentService.SendAppointmentUpdatedEmailsAsync(
+                appointment.Doctor?.User?.Email,
+                string.IsNullOrWhiteSpace(doctorName) ? model.DoctorName : doctorName,
+                string.IsNullOrWhiteSpace(patientName) ? (user.Email ?? string.Empty) : patientName,
+                user.Email,
+                user.PhoneNumber,
+                oldScheduledTime,
+                oldStartSlotIndex,
+                oldEndSlotIndex,
+                appointment.ScheduledTime,
+                appointment.StartSlotIndex,
+                appointment.EndSlotIndex,
+                appointment.Notes);
 
             TempData["SuccessMessage"] = _locService.GetSystem("Msg_AppointmentUpdateSuccess");
             return RedirectToAction(nameof(Appointments));

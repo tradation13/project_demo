@@ -506,7 +506,16 @@ public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel mo
         await _emailService.SendEmail(userForEmail.Email, emailSubject, emailBody);
     }
 }
-    }
 
-    
+        public async Task<List<string>> GetAdminEmailsAsync()
+        {
+            var admins = await _userManager.GetUsersInRoleAsync("admin");
+            return admins
+                .Select(u => u.Email)
+                .Where(email => !string.IsNullOrWhiteSpace(email))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .Cast<string>()
+                .ToList();
+        }
+    }
 }

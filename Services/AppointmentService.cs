@@ -6,6 +6,7 @@ using IPTS.Models.Enums;
 using IPTS.Resources;
 using IPTS.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace IPTS.Services
@@ -152,6 +153,211 @@ namespace IPTS.Services
                 "AppointmentService.SendAcceptanceEmailAsync",
                 Serilog.Events.LogEventLevel.Information);
         }
+
+        public async Task SendAppointmentRequestedEmailsAsync(
+            string? doctorEmail,
+            string doctorName,
+            string patientName,
+            string? patientEmail,
+            string? patientPhone,
+            DateTime scheduledUtc,
+            int startSlotIndex,
+            int endSlotIndex,
+            string? notes)
+        {
+            try
+            {
+                var (dateText, timeRange) = FormatClinicDateAndTimeRange(scheduledUtc, startSlotIndex, endSlotIndex);
+                var subject = GetStaffSystem("Email_Subject_AppointmentRequested");
+                var body = string.Format(
+                    GetStaffSystem("Email_Body_AppointmentRequested"),
+                    DisplayOrDash(patientName),
+                    DisplayOrDash(patientEmail),
+                    DisplayOrDash(patientPhone),
+                    DisplayOrDash(doctorName),
+                    dateText,
+                    timeRange,
+                    DisplayOrDash(notes)
+                );
+
+                await SendStaffEmailsAsync(
+                    doctorEmail,
+                    subject,
+                    body,
+                    $"requested appointment for {dateText} {timeRange}");
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogWithContext(
+                    $"SendAppointmentRequestedEmailsAsync failed: {ex.Message}",
+                    string.Empty,
+                    "patient",
+                    "AppointmentService.SendAppointmentRequestedEmailsAsync",
+                    Serilog.Events.LogEventLevel.Error);
+            }
+        }
+
+        public async Task SendAppointmentUpdatedEmailsAsync(
+            string? doctorEmail,
+            string doctorName,
+            string patientName,
+            string? patientEmail,
+            string? patientPhone,
+            DateTime oldScheduledUtc,
+            int oldStartSlotIndex,
+            int oldEndSlotIndex,
+            DateTime newScheduledUtc,
+            int newStartSlotIndex,
+            int newEndSlotIndex,
+            string? notes)
+        {
+            try
+            {
+                var (oldDateText, oldTimeRange) = FormatClinicDateAndTimeRange(oldScheduledUtc, oldStartSlotIndex, oldEndSlotIndex);
+                var (newDateText, newTimeRange) = FormatClinicDateAndTimeRange(newScheduledUtc, newStartSlotIndex, newEndSlotIndex);
+                var subject = GetStaffSystem("Email_Subject_AppointmentUpdated");
+                var body = string.Format(
+                    GetStaffSystem("Email_Body_AppointmentUpdated"),
+                    DisplayOrDash(patientName),
+                    DisplayOrDash(patientEmail),
+                    DisplayOrDash(patientPhone),
+                    DisplayOrDash(doctorName),
+                    oldDateText,
+                    oldTimeRange,
+                    newDateText,
+                    newTimeRange,
+                    DisplayOrDash(notes)
+                );
+
+                await SendStaffEmailsAsync(
+                    doctorEmail,
+                    subject,
+                    body,
+                    $"updated appointment from {oldDateText} {oldTimeRange} to {newDateText} {newTimeRange}");
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogWithContext(
+                    $"SendAppointmentUpdatedEmailsAsync failed: {ex.Message}",
+                    string.Empty,
+                    "patient",
+                    "AppointmentService.SendAppointmentUpdatedEmailsAsync",
+                    Serilog.Events.LogEventLevel.Error);
+            }
+        }
+
+        private async Task SendStaffEmailsAsync(string? doctorEmail, string subject, string body, string context)
+        {
+            List<string> adminEmails;
+            try
+            {
+                adminEmails = await _userService.GetAdminEmailsAsync();
+            }
+            catch (Exception ex)
+            {
+                adminEmails = [];
+                LogHelper.LogWithContext(
+                    $"Failed to load admin emails: {ex.Message}",
+                    string.Empty,
+                    "patient",
+                    "AppointmentService.SendStaffEmailsAsync",
+                    Serilog.Events.LogEventLevel.Error);
+            }
+
+            var recipients = new List<string>();
+            if (!string.IsNullOrWhiteSpace(doctorEmail))
+                recipients.Add(doctorEmail.Trim());
+            recipients.AddRange(adminEmails);
+
+            var uniqueRecipients = recipients
+                .Where(email => !string.IsNullOrWhiteSpace(email))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            if (uniqueRecipients.Count == 0)
+            {
+                LogHelper.LogWithContext(
+                    $"Skipped staff emails ({context}): no recipients",
+                    string.Empty,
+                    "patient",
+                    "AppointmentService.SendStaffEmailsAsync",
+                    Serilog.Events.LogEventLevel.Warning);
+                return;
+            }
+
+            var originalCulture = CultureInfo.CurrentCulture;
+            var originalUiCulture = CultureInfo.CurrentUICulture;
+            try
+            {
+                var german = CultureInfo.GetCultureInfo("de-DE");
+                CultureInfo.CurrentCulture = german;
+                CultureInfo.CurrentUICulture = german;
+
+                foreach (var toEmail in uniqueRecipients)
+                {
+                    try
+                    {
+                        await _emailService.SendEmail(toEmail, subject, body);
+                        LogHelper.LogWithContext(
+                            $"Staff email sent to {toEmail} ({context})",
+                            string.Empty,
+                            "patient",
+                            "AppointmentService.SendStaffEmailsAsync",
+                            Serilog.Events.LogEventLevel.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogHelper.LogWithContext(
+                            $"Failed staff email to {toEmail} ({context}): {ex.Message}",
+                            string.Empty,
+                            "patient",
+                            "AppointmentService.SendStaffEmailsAsync",
+                            Serilog.Events.LogEventLevel.Error);
+                    }
+                }
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = originalCulture;
+                CultureInfo.CurrentUICulture = originalUiCulture;
+            }
+        }
+
+        private string GetStaffSystem(string key)
+        {
+            var originalCulture = CultureInfo.CurrentCulture;
+            var originalUiCulture = CultureInfo.CurrentUICulture;
+            try
+            {
+                var german = CultureInfo.GetCultureInfo("de-DE");
+                CultureInfo.CurrentCulture = german;
+                CultureInfo.CurrentUICulture = german;
+                return _locService.GetSystem(key);
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = originalCulture;
+                CultureInfo.CurrentUICulture = originalUiCulture;
+            }
+        }
+
+        private static (string DateText, string TimeRange) FormatClinicDateAndTimeRange(
+            DateTime scheduledUtc,
+            int startSlotIndex,
+            int endSlotIndex)
+        {
+            var tz = TimeZoneInfo.FindSystemTimeZoneById(DefaultClinicTimeZoneId);
+            var utc = scheduledUtc.Kind == DateTimeKind.Unspecified
+                ? DateTime.SpecifyKind(scheduledUtc, DateTimeKind.Utc)
+                : scheduledUtc.ToUniversalTime();
+            var local = TimeZoneInfo.ConvertTimeFromUtc(utc, tz);
+            var startLocal = local.Date.AddHours(8).AddMinutes(startSlotIndex * 20);
+            var endLocal = local.Date.AddHours(8).AddMinutes((endSlotIndex + 1) * 20);
+            return (startLocal.ToString("dd.MM.yyyy"), $"{startLocal:HH:mm} – {endLocal:HH:mm}");
+        }
+
+        private static string DisplayOrDash(string? value)
+            => string.IsNullOrWhiteSpace(value) ? "—" : value.Trim();
         public async Task<bool> HasPendingAppointmentAsync(int patientId, int doctorId, DateTime scheduledDate, int slotIndex)
         {
             var day = scheduledDate.Date;

@@ -425,6 +425,22 @@
     <value>Sehr geehrte(r) {0},&lt;br/&gt;&lt;br/&gt;Ihre Terminanfrage wurde bestätigt.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Datum:&lt;/b&gt; {1}&lt;br/&gt;&lt;b&gt;Uhrzeit:&lt;/b&gt; {2}&lt;br/&gt;&lt;br/&gt;Wir freuen uns auf Ihren Besuch.&lt;br/&gt;&lt;br/&gt;Mit freundlichen Grüßen.</value>
     <comment/>
   </data>
+  <data name="Email_Subject_AppointmentRequested" xml:space="preserve">
+    <value>Neue Terminanfrage</value>
+    <comment/>
+  </data>
+  <data name="Email_Body_AppointmentRequested" xml:space="preserve">
+    <value>Sehr geehrte Damen und Herren,&lt;br/&gt;&lt;br/&gt;Es liegt eine neue Terminanfrage vor.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Patient:&lt;/b&gt; {0}&lt;br/&gt;&lt;b&gt;E-Mail:&lt;/b&gt; {1}&lt;br/&gt;&lt;b&gt;Telefon:&lt;/b&gt; {2}&lt;br/&gt;&lt;b&gt;Therapeut:&lt;/b&gt; {3}&lt;br/&gt;&lt;b&gt;Datum:&lt;/b&gt; {4}&lt;br/&gt;&lt;b&gt;Uhrzeit:&lt;/b&gt; {5}&lt;br/&gt;&lt;b&gt;Notizen:&lt;/b&gt; {6}&lt;br/&gt;&lt;b&gt;Status:&lt;/b&gt; Ausstehend&lt;br/&gt;&lt;br/&gt;Bitte prüfen Sie die Anfrage im System.&lt;br/&gt;&lt;br/&gt;Mit freundlichen Grüßen.</value>
+    <comment/>
+  </data>
+  <data name="Email_Subject_AppointmentUpdated" xml:space="preserve">
+    <value>Terminanfrage wurde geändert</value>
+    <comment/>
+  </data>
+  <data name="Email_Body_AppointmentUpdated" xml:space="preserve">
+    <value>Sehr geehrte Damen und Herren,&lt;br/&gt;&lt;br/&gt;Eine bestehende Terminanfrage wurde vom Patienten geändert.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Patient:&lt;/b&gt; {0}&lt;br/&gt;&lt;b&gt;E-Mail:&lt;/b&gt; {1}&lt;br/&gt;&lt;b&gt;Telefon:&lt;/b&gt; {2}&lt;br/&gt;&lt;b&gt;Therapeut:&lt;/b&gt; {3}&lt;br/&gt;&lt;b&gt;Bisheriger Termin:&lt;/b&gt; {4}, {5}&lt;br/&gt;&lt;b&gt;Neuer Termin:&lt;/b&gt; {6}, {7}&lt;br/&gt;&lt;b&gt;Notizen:&lt;/b&gt; {8}&lt;br/&gt;&lt;b&gt;Status:&lt;/b&gt; Ausstehend&lt;br/&gt;&lt;br/&gt;Bitte prüfen Sie die geänderte Anfrage im System.&lt;br/&gt;&lt;br/&gt;Mit freundlichen Grüßen.</value>
+    <comment/>
+  </data>
   <data name="Label_Report" xml:space="preserve">
     <value>Bericht</value>
     <comment/>

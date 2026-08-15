@@ -674,7 +674,12 @@
   <data name="DoctorPhotoImageOnly" xml:space="preserve">
     <value>Nur Bilddateien sind für Arztfotos zulässig</value>
     <comment/>
-  </data>  <data name="InvalidSlotIndex" xml:space="preserve">
+  </data>
+  <data name="DoctorBioMaxLength" xml:space="preserve">
+    <value>Der Text „Über mich“ darf 4000 Zeichen nicht überschreiten</value>
+    <comment/>
+  </data>
+  <data name="InvalidSlotIndex" xml:space="preserve">
     <value>Ungültiger Slot-Index</value>
     <comment/>
   </data>

@@ -970,6 +970,22 @@
     <value>Fachgebiet</value>
     <comment>VIiews -&gt; Profile -&gt;  Index</comment>
   </data>
+  <data name="Profile_Bio" xml:space="preserve">
+    <value>Über mich</value>
+    <comment>Views -&gt; Profile -&gt; Index</comment>
+  </data>
+  <data name="Profile_BioDe" xml:space="preserve">
+    <value>Über mich (Deutsch)</value>
+    <comment>Views -&gt; Profile -&gt; Index / Admin UserForm</comment>
+  </data>
+  <data name="Profile_BioEn" xml:space="preserve">
+    <value>Über mich (Englisch)</value>
+    <comment>Views -&gt; Profile -&gt; Index / Admin UserForm</comment>
+  </data>
+  <data name="Profile_BioPlaceholder" xml:space="preserve">
+    <value>Beschreiben Sie die physiotherapeutische Erfahrung des Therapeuten...</value>
+    <comment>Views -&gt; Profile -&gt; Index / Admin UserForm</comment>
+  </data>
   <data name="Profile_NotAvailable" xml:space="preserve">
     <value>Nicht verfügbar</value>
     <comment>VIiews -&gt; Profile -&gt;  Index</comment>

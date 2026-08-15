@@ -450,6 +450,31 @@
                             <span asp-validation-for="Doctor.SpecialtyId" class="mt-1.5 block text-xs text-red-500"></span>
                         </div>
 
+                        <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div>
+                                <label asp-for="Doctor.BioDe" class="@labelCls">@SharedLocalizer["Profile_BioDe"]</label>
+                                <textarea asp-for="Doctor.BioDe"
+                                          rows="6"
+                                          maxlength="4000"
+                                          placeholder="@SharedLocalizer["Profile_BioPlaceholder"]"
+                                          class="@(isDoctorProfile
+                                              ? "prac-input"
+                                              : "w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10")"></textarea>
+                                <span asp-validation-for="Doctor.BioDe" class="mt-1.5 block text-xs text-red-500"></span>
+                            </div>
+                            <div>
+                                <label asp-for="Doctor.BioEn" class="@labelCls">@SharedLocalizer["Profile_BioEn"]</label>
+                                <textarea asp-for="Doctor.BioEn"
+                                          rows="6"
+                                          maxlength="4000"
+                                          placeholder="@SharedLocalizer["Profile_BioPlaceholder"]"
+                                          class="@(isDoctorProfile
+                                              ? "prac-input"
+                                              : "w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10")"></textarea>
+                                <span asp-validation-for="Doctor.BioEn" class="mt-1.5 block text-xs text-red-500"></span>
+                            </div>
+                        </div>
+
                         <script>
                             function showFileName(input) {
                                 const label = document.getElementById('fileNameDisplay');
@@ -462,6 +487,12 @@
                 }
                 else if (ViewBag.Specialties is List<Specialty> specialties)
                 {
+                    var isDe = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName
+                        .Equals("de", StringComparison.OrdinalIgnoreCase);
+                    var doctorBio = isDe
+                        ? (string.IsNullOrWhiteSpace(Model.Doctor.BioDe) ? Model.Doctor.BioEn : Model.Doctor.BioDe)
+                        : (string.IsNullOrWhiteSpace(Model.Doctor.BioEn) ? Model.Doctor.BioDe : Model.Doctor.BioEn);
+
                     <div class="@sectionCard">
                         <div class="mb-4 flex items-center gap-2">
                             <span class="@sectionIcon"><i class="fas fa-stethoscope"></i></span>
@@ -475,6 +506,17 @@
                                    class="@inputWithIconReadonly" />
                         </div>
                     </div>
+
+                    @if (!string.IsNullOrWhiteSpace(doctorBio))
+                    {
+                        <div class="@sectionCard mt-4">
+                            <div class="mb-4 flex items-center gap-2">
+                                <span class="@sectionIcon"><i class="fas fa-user-pen"></i></span>
+                                <h3 class="@sectionTitle">@SharedLocalizer["Profile_Bio"]</h3>
+                            </div>
+                            <p class="whitespace-pre-line text-sm leading-relaxed @(isDoctorProfile ? "text-gray-600" : "text-slate-600")">@doctorBio</p>
+                        </div>
+                    }
                 }
             }
 

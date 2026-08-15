@@ -28,15 +28,19 @@
 <style>
   .fab-area {
     position: fixed;
-    bottom: 1.75rem;
-    right: 1.75rem;
+    bottom: max(2rem, env(safe-area-inset-bottom, 0px));
+    right: max(1.5rem, env(safe-area-inset-right, 0px));
+    left: auto;
     z-index: 9999;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 12px;
+    direction: ltr;
     font-family: 'Segoe UI', system-ui, sans-serif;
+    pointer-events: none;
   }
+  .fab-area > * { pointer-events: auto; }
 
   .chat-panel {
     display: none;
@@ -72,7 +76,8 @@
     background: rgba(255,255,255,.15);
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
-    font-size: 18px;
+    font-size: 20px;
+    color: #fff;
   }
   .cp-info { flex: 1; min-width: 0; }
   .cp-name  { font-size: 13px; font-weight: 500; color: #fff; }
@@ -262,9 +267,17 @@
     box-shadow: 0 8px 24px rgba(26,122,74,.4), 0 2px 6px rgba(0,0,0,.12);
   }
   .fab-btn:hover { transform: scale(1.08); background: #15663e; }
-  .fab-btn i { font-size: 24px; }
-  .fab-btn.open i.ic-chat { display: none; }
+  .fab-btn i { font-size: 26px; }
+  .fab-btn .ic-bot { display: flex; align-items: center; justify-content: center; }
+  .fab-btn.open .ic-bot { display: none; }
   .fab-btn:not(.open) i.ic-x { display: none; }
+
+  .fab-toggle-wrap {
+    position: relative;
+    display: flex;
+    align-self: flex-end;
+    margin-left: auto;
+  }
 
   .fab-btn::before {
     content: '';
@@ -292,20 +305,19 @@
 
   @@media (max-width: 480px) {
     .fab-area {
-      bottom: 1rem;
-      right: 1rem;
-      left: 1rem;
-      align-items: stretch;
+      bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+      right: max(1.25rem, env(safe-area-inset-right, 0px));
+      left: auto;
+      align-items: flex-end;
     }
     .chat-panel {
-      width: 100%;
+      width: min(360px, calc(100vw - 1.2rem));
       height: min(72vh, 560px);
     }
     .chat-panel.expanded {
-      width: 100%;
+      width: min(360px, calc(100vw - 1.2rem));
       height: min(88vh, 720px);
     }
-    .fab-btn { align-self: flex-end; }
   }
 </style>
 
@@ -322,7 +334,7 @@
 
   <div class="chat-panel" id="cbPanel" role="dialog" aria-modal="true" aria-label="@chatName">
     <div class="cp-head">
-      <div class="cp-avatar">🩺</div>
+      <div class="cp-avatar"><i class="ti ti-robot" aria-hidden="true"></i></div>
       <div class="cp-info">
         <div class="cp-name" id="cbName">@chatName</div>
         <div class="cp-status" id="cbStatus">
@@ -362,9 +374,11 @@
     </div>
   </div>
 
-  <div style="position:relative; display:inline-block;">
+  <div class="fab-toggle-wrap">
     <button type="button" class="fab-btn" id="cbToggle" aria-label="@chatOpenChat" aria-expanded="false" aria-controls="cbPanel">
-      <i class="ti ti-stethoscope ic-chat" aria-hidden="true"></i>
+      <span class="ic-bot" aria-hidden="true">
+        <i class="ti ti-robot"></i>
+      </span>
       <i class="ti ti-x ic-x" aria-hidden="true"></i>
     </button>
     <div class="notif-dot" id="cbNotif"></div>

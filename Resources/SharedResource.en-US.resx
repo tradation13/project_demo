@@ -914,6 +914,22 @@
     <value>Specialty</value>
     <comment>VIiews -&gt; Profile -&gt;  Index</comment>
   </data>
+  <data name="Profile_Bio" xml:space="preserve">
+    <value>About</value>
+    <comment>Views -&gt; Profile -&gt; Index</comment>
+  </data>
+  <data name="Profile_BioDe" xml:space="preserve">
+    <value>About (German)</value>
+    <comment>Views -&gt; Profile -&gt; Index / Admin UserForm</comment>
+  </data>
+  <data name="Profile_BioEn" xml:space="preserve">
+    <value>About (English)</value>
+    <comment>Views -&gt; Profile -&gt; Index / Admin UserForm</comment>
+  </data>
+  <data name="Profile_BioPlaceholder" xml:space="preserve">
+    <value>Describe the therapist's physiotherapy experience...</value>
+    <comment>Views -&gt; Profile -&gt; Index / Admin UserForm</comment>
+  </data>
   <data name="Profile_NotAvailable" xml:space="preserve">
     <value>Not Available</value>
     <comment>VIiews -&gt; Profile -&gt;  Index</comment>

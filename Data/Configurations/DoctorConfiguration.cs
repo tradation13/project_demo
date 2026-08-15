@@ -24,5 +24,13 @@ public class DoctorConfiguration : IEntityTypeConfiguration<Doctor>
                .WithOne(a => a.Doctor)
                .HasForeignKey(a => a.DoctorId)
                .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property(d => d.BioDe)
+               .HasMaxLength(4000)
+               .IsRequired(false);
+
+        builder.Property(d => d.BioEn)
+               .HasMaxLength(4000)
+               .IsRequired(false);
     }
 }

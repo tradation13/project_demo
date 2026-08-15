@@ -50,9 +50,15 @@
 }
 
 /* ── Logo ── */
+.pt-logo {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
 .pt-logo img {
-    height: 90px;
+    height: 56px;
     width: auto;
+    max-width: none;
     transition: transform .25s cubic-bezier(.34,1.56,.64,1), opacity .2s;
 }
 .pt-logo:hover img { transform: scale(1.06); }
@@ -481,7 +487,7 @@
 /* ══════════════════════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════════════════════ */
-@@media (max-width: 1099px) {
+@@media (max-width: 1399px) {
     .pt-nav, .pt-divider,
     .pt-join-btn, .pt-user { display: none !important; }
     .pt-hamburger { display: flex; }
@@ -502,7 +508,7 @@
         height: 12px;
     }
 }
-@@media (min-width: 1100px) {
+@@media (min-width: 1400px) {
     .pt-hamburger { display: none !important; }
 }
 </style>

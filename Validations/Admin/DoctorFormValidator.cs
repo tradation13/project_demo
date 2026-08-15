@@ -14,6 +14,14 @@ namespace IPTS.Validators.Admin
                 .Must(file => file == null || (file.ContentType.StartsWith("image/") &&
                     (file.ContentType == "image/jpeg" || file.ContentType == "image/png" || file.ContentType == "image/webp" || file.ContentType == "image/gif")))
                 .WithMessage(localizer.GetSystem("DoctorPhotoImageOnly"));
+
+            RuleFor(x => x.BioDe)
+                .MaximumLength(4000)
+                .WithMessage(localizer.GetSystem("DoctorBioMaxLength"));
+
+            RuleFor(x => x.BioEn)
+                .MaximumLength(4000)
+                .WithMessage(localizer.GetSystem("DoctorBioMaxLength"));
         }
     }
 }

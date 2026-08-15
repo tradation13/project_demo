@@ -589,6 +589,10 @@
     <value>Only image files are allowed for doctor photos</value>
     <comment/>
   </data>
+  <data name="DoctorBioMaxLength" xml:space="preserve">
+    <value>About text cannot exceed 4000 characters</value>
+    <comment/>
+  </data>
   <data name="TimeSlotsRequired" xml:space="preserve">
     <value>Time slots are required</value>
     <comment/>

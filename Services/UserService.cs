@@ -128,8 +128,15 @@ namespace IPTS.Services
                         {
                             UserId = user.Id,
                             SpecialtyId = model.Doctor.SpecialtyId,
-                            PhotoUrl = photoFileName
+                            PhotoUrl = photoFileName,
+                            BioDe = model.Doctor.BioDe,
+                            BioEn = model.Doctor.BioEn
                         });
+                        LogHelper.LogWithContext(
+                            $"Doctor profile created with specialty {model.Doctor.SpecialtyId}",
+                            user.Id,
+                            "doctor",
+                            "DoctorCreate");
                         break;
 
                     case "patient":
@@ -269,6 +276,11 @@ namespace IPTS.Services
                         LogHelper.LogWithContext($"[DoctorImage] Updated Doctor.PhotoUrl to: {photoFileName}", user.Id, "doctor", "DoctorImage");
                     }
                     // إذا لم يرفع صورة جديدة لا تفعل أي شيء للصورة
+                }
+
+                if (user.Doctor != null)
+                {
+                    LogHelper.LogWithContext("Doctor profile updated", user.Id, "doctor", "DoctorUpdate");
                 }
 
                 await _context.SaveChangesAsync();

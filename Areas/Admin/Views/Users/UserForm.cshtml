@@ -257,6 +257,27 @@
                             <span asp-validation-for="Doctor.PhotoFile" class="mt-1 block text-xs text-red-500"></span>
                         </div>
                     </div>
+
+                    <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <div class="flex flex-col">
+                            <label asp-for="Doctor.BioDe" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400">@SharedLocalizer["Profile_BioDe"]</label>
+                            <textarea asp-for="Doctor.BioDe"
+                                      rows="6"
+                                      maxlength="4000"
+                                      placeholder="@SharedLocalizer["Profile_BioPlaceholder"]"
+                                      class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"></textarea>
+                            <span asp-validation-for="Doctor.BioDe" class="mt-1.5 text-xs text-red-500"></span>
+                        </div>
+                        <div class="flex flex-col">
+                            <label asp-for="Doctor.BioEn" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400">@SharedLocalizer["Profile_BioEn"]</label>
+                            <textarea asp-for="Doctor.BioEn"
+                                      rows="6"
+                                      maxlength="4000"
+                                      placeholder="@SharedLocalizer["Profile_BioPlaceholder"]"
+                                      class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"></textarea>
+                            <span asp-validation-for="Doctor.BioEn" class="mt-1.5 text-xs text-red-500"></span>
+                        </div>
+                    </div>
                 </div>
                 break;
         }

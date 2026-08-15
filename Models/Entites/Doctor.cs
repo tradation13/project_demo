@@ -15,5 +15,8 @@ namespace IPTS.Models.Entites
 
         // اسم أو مسار صورة الطبيب
         public string? PhotoUrl { get; set; }
+
+        public string? BioDe { get; set; }
+        public string? BioEn { get; set; }
     }
 }

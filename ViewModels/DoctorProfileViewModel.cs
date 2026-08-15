@@ -10,5 +10,8 @@
         public string? PhotoUrl { get; set; }
         // الصورة الجديدة عند التعديل
         public IFormFile? PhotoFile { get; set; }
+
+        public string? BioDe { get; set; }
+        public string? BioEn { get; set; }
     }
 }

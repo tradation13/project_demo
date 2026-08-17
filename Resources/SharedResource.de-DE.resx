@@ -3450,4 +3450,32 @@ Ich bin Ihr PhysioTech-Assistent. Wie kann ich Ihnen helfen?</value>
   <data name="MedCase_PatientHealth_Readonly" xml:space="preserve">
     <value>Diese Werte stammen aus der Patientendatei und können hier nicht geändert werden.</value>
   </data>
+  <data name="MedCase_Det_PhotoCompare" xml:space="preserve">
+    <value>Visueller Vergleich</value>
+    <comment>Medical case test photos - section title</comment>
+  </data>
+  <data name="MedCase_Det_PhotoBefore" xml:space="preserve">
+    <value>Vorher</value>
+    <comment>Medical case test photos - initial</comment>
+  </data>
+  <data name="MedCase_Det_PhotoAfter" xml:space="preserve">
+    <value>Nachher</value>
+    <comment>Medical case test photos - final</comment>
+  </data>
+  <data name="MedCase_Det_PhotoUpload" xml:space="preserve">
+    <value>Foto hochladen</value>
+    <comment>Medical case test photos - upload</comment>
+  </data>
+  <data name="MedCase_Det_PhotoReplace" xml:space="preserve">
+    <value>Ersetzen</value>
+    <comment>Medical case test photos - replace</comment>
+  </data>
+  <data name="MedCase_Det_PhotoEmpty" xml:space="preserve">
+    <value>Kein Foto</value>
+    <comment>Medical case test photos - empty slot</comment>
+  </data>
+  <data name="MedCase_Det_ConfirmDeletePhoto" xml:space="preserve">
+    <value>Dieses Foto löschen?</value>
+    <comment>Medical case test photos - confirm delete</comment>
+  </data>
 </root>

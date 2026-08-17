@@ -424,4 +424,25 @@
   <data name="Info" xml:space="preserve">
     <value>Info</value>
   </data>
+  <data name="MedCase_Det_PhotoCompare" xml:space="preserve">
+    <value>Visual comparison</value>
+  </data>
+  <data name="MedCase_Det_PhotoBefore" xml:space="preserve">
+    <value>Before</value>
+  </data>
+  <data name="MedCase_Det_PhotoAfter" xml:space="preserve">
+    <value>After</value>
+  </data>
+  <data name="MedCase_Det_PhotoUpload" xml:space="preserve">
+    <value>Upload photo</value>
+  </data>
+  <data name="MedCase_Det_PhotoReplace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="MedCase_Det_PhotoEmpty" xml:space="preserve">
+    <value>No photo</value>
+  </data>
+  <data name="MedCase_Det_ConfirmDeletePhoto" xml:space="preserve">
+    <value>Delete this photo?</value>
+  </data>
 </root>

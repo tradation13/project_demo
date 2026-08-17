@@ -396,6 +396,28 @@
     color: #9ca3af; pointer-events: none;
 }
 
+.btn-photo-action {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 4px 10px; border-radius: 6px;
+    font-size: 12px; font-weight: 600;
+    background: #ecfdf5; color: #065f46;
+    border: 1px solid #6ee7b7;
+    cursor: pointer;
+    transition: background .15s;
+}
+.btn-photo-action:hover { background: #d1fae5; }
+
+.btn-photo-delete {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 4px 10px; border-radius: 6px;
+    font-size: 12px; font-weight: 600;
+    background: #fef2f2; color: #991b1b;
+    border: 1px solid #fca5a5;
+    cursor: pointer;
+    transition: background .15s;
+}
+.btn-photo-delete:hover { background: #fee2e2; }
+
 /* Responsive helpers */
 @media (max-width: 640px) {
     .btn-add-test,

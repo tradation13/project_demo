@@ -228,6 +228,22 @@
                                             </table>
                                         </div>
                                     }
+
+                                    @{
+                                        var pileTestId = testGroup.First().TestId;
+                                        var pilePhotos = (Model.TestPhotos ?? Enumerable.Empty<MedicalCaseTestPhoto>())
+                                            .Where(p => p.TestId == pileTestId)
+                                            .ToList();
+                                        var photoCompareModel = new TestPhotoCompareViewModel
+                                        {
+                                            MedicalCaseId = Model.Id,
+                                            TestId = pileTestId,
+                                            Area = "patient",
+                                            CanEdit = false,
+                                            Photos = pilePhotos
+                                        };
+                                    }
+                                    <partial name="_TestPhotoCompare" model="photoCompareModel" />
                                 </div>
                             </div>
                         }

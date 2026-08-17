@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using IPTS.Models.Entites;
+using IPTS.Models.Enums;
 using IPTS.Resources;
 using System.Globalization; // تأكد من إضافة هذا في الأعلى
 
@@ -10,14 +11,15 @@ namespace IPTS.Services
     {
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
-
         private readonly LocService _loc;
+        private readonly string _photosPath;
 
-        public MedicalReportService(LocService loc,HttpClient httpClient, IConfiguration configuration)
+        public MedicalReportService(LocService loc, HttpClient httpClient, IConfiguration configuration, IWebHostEnvironment env)
         {
             _loc = loc;
             _httpClient = httpClient;
             _apiKey = configuration["OpenAI:ApiKey"];
+            _photosPath = Path.Combine(env.ContentRootPath, "InternalStorage", "MedicalCasePhotos");
         }
 
         private static bool IsGerman(string lang) => lang.StartsWith("de", StringComparison.OrdinalIgnoreCase);
@@ -278,6 +280,65 @@ sb.Append($@"
         text-align: right;
     }}
 
+    .photo-compare-page {{
+        page-break-before: always;
+        break-before: page;
+        page-break-after: always;
+        break-after: page;
+        page-break-inside: avoid;
+        padding-top: 8px;
+    }}
+
+    .photo-compare-page h2 {{
+        margin-top: 0;
+        font-size: 1.25em;
+    }}
+
+    .photo-grid {{
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 10px;
+        table-layout: fixed;
+    }}
+
+    .photo-row-label {{
+        font-size: 13px;
+        font-weight: 700;
+        color: #00695c;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 4px 0 2px;
+        border: none;
+        background: transparent;
+    }}
+
+    .photo-cell {{
+        width: 50%;
+        vertical-align: middle;
+        text-align: center;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 6px;
+        height: 250px;
+    }}
+
+    .photo-cell img {{
+        max-width: 100%;
+        max-height: 238px;
+        width: auto;
+        height: auto;
+    }}
+
+    @media print {{
+        .photo-compare-page {{
+            page-break-before: always;
+            break-before: page;
+            page-break-after: always;
+            break-after: page;
+        }}
+    }}
+
     /* Responsive adjustments */
     @media(max-width: 768px) {{
         .info-section {{
@@ -374,6 +435,8 @@ if (testAnalyses.ContainsKey(testName))
                     sb.Append("</div>");
                 }
             }
+
+            AppendPhotoComparePages(sb, medicalCase);
 
     // تنويه الذكاء الاصطناعي + الفوتر
     sb.Append($@"
@@ -863,6 +926,91 @@ private string ExtractGeneralAnalysis(string aiText)
         return split[0].Replace("GENERAL_CLINICAL_ANALYSIS", "").Trim();
 
     return aiText;
+}
+
+private void AppendPhotoComparePages(StringBuilder sb, MedicalCase medicalCase)
+{
+    var photos = medicalCase.TestPhotos;
+    if (photos == null || photos.Count == 0)
+        return;
+
+    var testNames = (medicalCase.MedicalCaseTests ?? Enumerable.Empty<MedicalCaseTest>())
+        .Where(t => t.Test != null)
+        .GroupBy(t => t.TestId)
+        .ToDictionary(g => g.Key, g => g.First().Test.Name);
+
+    foreach (var pile in photos.GroupBy(p => p.TestId).OrderBy(g => testNames.GetValueOrDefault(g.Key, g.Key.ToString())))
+    {
+        var before = pile
+            .Where(p => p.PhotoKind == (int)EnMedicalCasePhotoKind.Initial)
+            .OrderBy(p => p.Slot)
+            .Select(ToPhotoDataUri)
+            .Where(uri => !string.IsNullOrWhiteSpace(uri))
+            .Cast<string>()
+            .ToList();
+
+        var after = pile
+            .Where(p => p.PhotoKind == (int)EnMedicalCasePhotoKind.Final)
+            .OrderBy(p => p.Slot)
+            .Select(ToPhotoDataUri)
+            .Where(uri => !string.IsNullOrWhiteSpace(uri))
+            .Cast<string>()
+            .ToList();
+
+        if (before.Count == 0 || after.Count == 0)
+            continue;
+
+        var testName = testNames.GetValueOrDefault(pile.Key, _loc.GetSystem("Test"));
+
+        sb.Append($@"
+        <div class='photo-compare-page'>
+            <h2>{_loc.GetSystem("TestPhoto_CompareTitle")}: {testName}</h2>
+            <table class='photo-grid'>
+                <tr><td class='photo-row-label' colspan='2'>{_loc.GetSystem("TestPhoto_Before")}</td></tr>
+                <tr>
+                    {PhotoCellHtml(before.ElementAtOrDefault(0))}
+                    {PhotoCellHtml(before.ElementAtOrDefault(1))}
+                </tr>
+                <tr><td class='photo-row-label' colspan='2'>{_loc.GetSystem("TestPhoto_After")}</td></tr>
+                <tr>
+                    {PhotoCellHtml(after.ElementAtOrDefault(0))}
+                    {PhotoCellHtml(after.ElementAtOrDefault(1))}
+                </tr>
+            </table>
+        </div>");
+    }
+}
+
+private static string PhotoCellHtml(string? dataUri)
+{
+    if (string.IsNullOrWhiteSpace(dataUri))
+        return "<td class='photo-cell'></td>";
+
+    return $"<td class='photo-cell'><img src='{dataUri}' alt='' /></td>";
+}
+
+private string? ToPhotoDataUri(MedicalCaseTestPhoto photo)
+{
+    if (string.IsNullOrWhiteSpace(photo.FileName))
+        return null;
+
+    var safeFileName = Path.GetFileName(photo.FileName);
+    var path = Path.Combine(_photosPath, safeFileName);
+    if (!File.Exists(path))
+        return null;
+
+    var bytes = File.ReadAllBytes(path);
+    if (bytes.Length == 0)
+        return null;
+
+    var mime = Path.GetExtension(safeFileName).ToLowerInvariant() switch
+    {
+        ".png" => "image/png",
+        ".webp" => "image/webp",
+        _ => "image/jpeg"
+    };
+
+    return $"data:{mime};base64,{Convert.ToBase64String(bytes)}";
 }
 
     }

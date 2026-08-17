@@ -19,6 +19,7 @@ namespace IPTS.Areas.Doctor.Controllers
         LocService locService,
         MedicalCaseService medicalCaseService,
         MedicalCaseTestService medicalCaseTestService,
+        MedicalCaseTestPhotoService medicalCaseTestPhotoService,
         PatientService patientService,
         TestService testService,
         PdfPrintService pdfPrintService,
@@ -30,6 +31,7 @@ namespace IPTS.Areas.Doctor.Controllers
         private readonly MedicalReportService _medicalReportService = medicalReportService;
         private readonly MedicalCaseService _medicalCaseService = medicalCaseService;
         private readonly MedicalCaseTestService _medicalCaseTestService = medicalCaseTestService;
+        private readonly MedicalCaseTestPhotoService _medicalCaseTestPhotoService = medicalCaseTestPhotoService;
         private readonly PatientService _patientService = patientService;
         private readonly TestService _testService = testService;
         private readonly PdfPrintService _pdfPrintService = pdfPrintService;
@@ -154,7 +156,9 @@ namespace IPTS.Areas.Doctor.Controllers
             var test = await _medicalCaseTestService.GetByIdAsync(id);
             if (test == null) return NotFound();
             var medicalCaseId = test.MedicalCaseId;
+            var testId = test.TestId;
             await _medicalCaseTestService.DeleteAsync(id);
+            await _medicalCaseTestPhotoService.DeletePileIfOrphanedAsync(medicalCaseId, testId);
             LogHelper.LogWithContext(
                 $"Deleted medical case test {id} from case {medicalCaseId}",
                 User?.Identity?.Name ?? "Unknown",
@@ -166,11 +170,81 @@ namespace IPTS.Areas.Doctor.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadTestPhoto(int medicalCaseId, int testId, int photoKind, int slot, IFormFile? file)
+        {
+            var (success, error) = await _medicalCaseTestPhotoService.SaveOrReplaceAsync(
+                medicalCaseId, testId, photoKind, slot, file);
+
+            if (!success)
+            {
+                TempData["ErrorMessage"] = error;
+                LogHelper.LogWithContext(
+                    $"Failed to upload comparison photo for case {medicalCaseId}, test {testId}, kind {photoKind}, slot {slot}: {error}",
+                    User?.Identity?.Name ?? "Unknown",
+                    "Doctor",
+                    "MedicalCasesController.UploadTestPhoto",
+                    LogEventLevel.Warning);
+            }
+            else
+            {
+                TempData["SuccessMessage"] = _locService.GetSystem("TestPhoto_SaveSuccess");
+                LogHelper.LogWithContext(
+                    $"Saved comparison photo for case {medicalCaseId}, test {testId}, kind {photoKind}, slot {slot}",
+                    User?.Identity?.Name ?? "Unknown",
+                    "Doctor",
+                    "MedicalCasesController.UploadTestPhoto",
+                    LogEventLevel.Information);
+            }
+
+            return RedirectToAction(nameof(Details), new { id = medicalCaseId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteTestPhoto(int id)
+        {
+            var (success, medicalCaseId, error) = await _medicalCaseTestPhotoService.DeleteAsync(id);
+            if (!success || !medicalCaseId.HasValue)
+            {
+                TempData["ErrorMessage"] = error ?? _locService.GetSystem("TestPhoto_NotFound");
+                if (medicalCaseId.HasValue)
+                    return RedirectToAction(nameof(Details), new { id = medicalCaseId.Value });
+                return NotFound();
+            }
+
+            LogHelper.LogWithContext(
+                $"Deleted comparison photo {id} from case {medicalCaseId.Value}",
+                User?.Identity?.Name ?? "Unknown",
+                "Doctor",
+                "MedicalCasesController.DeleteTestPhoto",
+                LogEventLevel.Warning);
+            return RedirectToAction(nameof(Details), new { id = medicalCaseId.Value });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ViewTestPhoto(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+                return NotFound();
+
+            var photo = await _medicalCaseTestPhotoService.GetByFileNameAsync(fileName);
+            if (photo == null)
+                return NotFound();
+
+            var opened = _medicalCaseTestPhotoService.OpenPhotoFile(photo.FileName);
+            if (opened == null || opened.Value.Stream == null)
+                return NotFound();
+
+            return File(opened.Value.Stream, opened.Value.ContentType);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateTestResult(int id, string result, decimal? standardValue)
         {
             if (standardValue.HasValue && (standardValue.Value < -100000m || standardValue.Value > 1000000m))
             {
-                TempData["Error"] = _locService.GetSystem("InvalidStandardValue");
+                TempData["ErrorMessage"] = _locService.GetSystem("InvalidStandardValue");
                 var existing = await _medicalCaseTestService.GetByIdAsync(id);
                 return RedirectToAction("Details", new { id = existing?.MedicalCaseId });
             }
@@ -199,6 +273,7 @@ public async Task<IActionResult> PrintReport(int id)
             .Include(mc => mc.MedicalCaseTests)
                 .ThenInclude(mct => mct.Test)
                     .ThenInclude(t => t.TestGroup)
+            .Include(mc => mc.TestPhotos)
     );
 
     if (medicalCase == null) return NotFound();

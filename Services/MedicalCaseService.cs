@@ -30,6 +30,7 @@ namespace IPTS.Services
                 q.Include(mc => mc.MedicalCaseTests)
                  .ThenInclude(mct => mct.Test)
                  .ThenInclude(t => t.TestGroup)
+                 .Include(mc => mc.TestPhotos)
             );
         }
 

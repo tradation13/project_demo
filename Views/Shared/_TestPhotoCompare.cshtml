@@ -1,0 +1,119 @@
+@model IPTS.ViewModels.TestPhotoCompareViewModel
+@{
+    var beforeKind = (int)EnMedicalCasePhotoKind.Initial;
+    var afterKind = (int)EnMedicalCasePhotoKind.Final;
+    var columns = new (int Kind, string Title)[]
+    {
+        (beforeKind, SharedLocalizer["MedCase_Det_PhotoBefore"].Value),
+        (afterKind, SharedLocalizer["MedCase_Det_PhotoAfter"].Value)
+    };
+    var confirmDelete = System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["MedCase_Det_ConfirmDeletePhoto"].Value);
+}
+
+@if (Model.CanEdit || Model.Photos.Any())
+{
+    <div class="mb-5 rounded-xl border border-teal-100 bg-gradient-to-r from-teal-50/70 to-white p-4 sm:p-5">
+        <h5 class="mb-4 text-center text-sm font-bold uppercase tracking-wide text-teal-800">
+            @SharedLocalizer["MedCase_Det_PhotoCompare"]
+        </h5>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+            @foreach (var column in columns)
+            {
+                <div>
+                    <p class="mb-2 text-center text-xs font-semibold uppercase tracking-wide text-gray-500">@column.Title</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        @for (var slot = 1; slot <= 2; slot++)
+                        {
+                            var photo = Model.Photos.FirstOrDefault(p => p.PhotoKind == column.Kind && p.Slot == slot);
+                            var inputId = $"photo-{Model.MedicalCaseId}-{Model.TestId}-{column.Kind}-{slot}";
+
+                            <div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
+                                @if (photo != null)
+                                {
+                                    var photoUrl = Url.Action("ViewTestPhoto", "MedicalCases", new { area = Model.Area, fileName = photo.FileName });
+                                    <a href="@photoUrl" target="_blank" rel="noopener noreferrer" class="block aspect-square bg-gray-50">
+                                        <img src="@photoUrl"
+                                             alt="@column.Title @slot"
+                                             class="h-full w-full object-cover" />
+                                    </a>
+                                    @if (Model.CanEdit)
+                                    {
+                                        <div class="flex items-center justify-center gap-2 border-t border-gray-100 bg-gray-50 px-2 py-2">
+                                            <form asp-action="UploadTestPhoto"
+                                                  asp-controller="MedicalCases"
+                                                  asp-area="doctor"
+                                                  method="post"
+                                                  enctype="multipart/form-data"
+                                                  class="inline">
+                                                <input type="hidden" name="medicalCaseId" value="@Model.MedicalCaseId" />
+                                                <input type="hidden" name="testId" value="@Model.TestId" />
+                                                <input type="hidden" name="photoKind" value="@column.Kind" />
+                                                <input type="hidden" name="slot" value="@slot" />
+                                                <input id="@inputId"
+                                                       type="file"
+                                                       name="file"
+                                                       accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                                                       class="hidden"
+                                                       onchange="this.form.submit()" />
+                                                <label for="@inputId" class="btn-photo-action cursor-pointer">
+                                                    @SharedLocalizer["MedCase_Det_PhotoReplace"]
+                                                </label>
+                                            </form>
+                                            <form asp-action="DeleteTestPhoto"
+                                                  asp-controller="MedicalCases"
+                                                  asp-area="doctor"
+                                                  method="post"
+                                                  class="inline">
+                                                <input type="hidden" name="id" value="@photo.Id" />
+                                                <button type="submit"
+                                                        class="btn-photo-delete"
+                                                        onclick="return confirm(@Html.Raw(confirmDelete))">
+                                                    @SharedLocalizer["Shared_Delete"]
+                                                </button>
+                                            </form>
+                                        </div>
+                                    }
+                                }
+                                else if (Model.CanEdit)
+                                {
+                                    <form asp-action="UploadTestPhoto"
+                                          asp-controller="MedicalCases"
+                                          asp-area="doctor"
+                                          method="post"
+                                          enctype="multipart/form-data"
+                                          class="h-full">
+                                        <input type="hidden" name="medicalCaseId" value="@Model.MedicalCaseId" />
+                                        <input type="hidden" name="testId" value="@Model.TestId" />
+                                        <input type="hidden" name="photoKind" value="@column.Kind" />
+                                        <input type="hidden" name="slot" value="@slot" />
+                                        <input id="@inputId"
+                                               type="file"
+                                               name="file"
+                                               accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                                               class="hidden"
+                                               onchange="this.form.submit()" />
+                                        <label for="@inputId"
+                                               class="flex aspect-square cursor-pointer flex-col items-center justify-center gap-1.5 bg-white px-2 text-center text-teal-700 transition hover:bg-teal-50">
+                                            <svg class="h-7 w-7 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 4v16m8-8H4"/>
+                                            </svg>
+                                            <span class="text-xs font-semibold">@SharedLocalizer["MedCase_Det_PhotoUpload"]</span>
+                                            <span class="text-[10px] text-gray-400">@slot / 2</span>
+                                        </label>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <div class="flex aspect-square items-center justify-center bg-gray-50 text-xs text-gray-400">
+                                        @SharedLocalizer["MedCase_Det_PhotoEmpty"]
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

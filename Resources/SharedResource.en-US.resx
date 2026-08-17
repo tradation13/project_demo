@@ -3432,4 +3432,32 @@ I'm your PhysioTech Assistant. How can I help you today?</value>
   <data name="MedCase_PatientHealth_Readonly" xml:space="preserve">
     <value>These values come from the patient file and cannot be changed here.</value>
   </data>
+  <data name="MedCase_Det_PhotoCompare" xml:space="preserve">
+    <value>Visual comparison</value>
+    <comment>Medical case test photos - section title</comment>
+  </data>
+  <data name="MedCase_Det_PhotoBefore" xml:space="preserve">
+    <value>Before</value>
+    <comment>Medical case test photos - initial</comment>
+  </data>
+  <data name="MedCase_Det_PhotoAfter" xml:space="preserve">
+    <value>After</value>
+    <comment>Medical case test photos - final</comment>
+  </data>
+  <data name="MedCase_Det_PhotoUpload" xml:space="preserve">
+    <value>Upload photo</value>
+    <comment>Medical case test photos - upload</comment>
+  </data>
+  <data name="MedCase_Det_PhotoReplace" xml:space="preserve">
+    <value>Replace</value>
+    <comment>Medical case test photos - replace</comment>
+  </data>
+  <data name="MedCase_Det_PhotoEmpty" xml:space="preserve">
+    <value>No photo</value>
+    <comment>Medical case test photos - empty slot</comment>
+  </data>
+  <data name="MedCase_Det_ConfirmDeletePhoto" xml:space="preserve">
+    <value>Delete this photo?</value>
+    <comment>Medical case test photos - confirm delete</comment>
+  </data>
 </root>

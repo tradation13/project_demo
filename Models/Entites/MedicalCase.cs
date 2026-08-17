@@ -38,6 +38,7 @@ namespace IPTS.Models.Entites
         public string PersonalGoals { get; set; }
 
         public ICollection<MedicalCaseTest> MedicalCaseTests { get; set; }
+        public ICollection<MedicalCaseTestPhoto> TestPhotos { get; set; } = new List<MedicalCaseTestPhoto>();
         public ICollection<MedicalReportHistory> MedicalReportHistories { get; set; }
     }
 

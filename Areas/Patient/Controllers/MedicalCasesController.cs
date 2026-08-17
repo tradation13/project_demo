@@ -15,6 +15,7 @@ namespace IPTS.Areas.Patient.Controllers
     LocService locService,
     MedicalCaseService medicalCaseService,
     MedicalCaseTestService medicalCaseTestService,
+    MedicalCaseTestPhotoService medicalCaseTestPhotoService,
     PatientService patientService,
     TestService testService,
     PdfPrintService pdfPrintService,
@@ -28,6 +29,7 @@ namespace IPTS.Areas.Patient.Controllers
         private readonly MedicalReportService _medicalReportService = medicalReportService;
     private readonly MedicalCaseService _medicalCaseService = medicalCaseService;
     private readonly MedicalCaseTestService _medicalCaseTestService = medicalCaseTestService;
+    private readonly MedicalCaseTestPhotoService _medicalCaseTestPhotoService = medicalCaseTestPhotoService;
     private readonly PatientService _patientService = patientService;
     private readonly TestService _testService = testService;
     private readonly PdfPrintService _pdfPrintService = pdfPrintService;
@@ -121,6 +123,7 @@ public async Task<IActionResult> PrintReport(int id)
             .Include(mc => mc.MedicalCaseTests)
                 .ThenInclude(mct => mct.Test)
                     .ThenInclude(t => t.TestGroup)
+            .Include(mc => mc.TestPhotos)
                     
     );
 
@@ -357,6 +360,27 @@ return File(pdfBytes, "application/pdf", $"{filePrefix}_Case{medicalCase.Id}_{me
             var patient = await _patientService.GetByIdAsync(medicalCase.PatientId, q => q.Include(p => p.User));
             ViewBag.Patient = patient;
             return View(medicalCase);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ViewTestPhoto(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+                return NotFound();
+
+            var currentPatientId = await GetCurrentPatientIdAsync();
+            if (!currentPatientId.HasValue)
+                return Forbid();
+
+            var photo = await _medicalCaseTestPhotoService.GetByFileNameAsync(fileName);
+            if (photo?.MedicalCase == null || photo.MedicalCase.PatientId != currentPatientId.Value)
+                return NotFound();
+
+            var opened = _medicalCaseTestPhotoService.OpenPhotoFile(photo.FileName);
+            if (opened == null || opened.Value.Stream == null)
+                return NotFound();
+
+            return File(opened.Value.Stream, opened.Value.ContentType);
         }
     }
 }

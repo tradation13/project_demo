@@ -209,4 +209,31 @@
     <value>© {0} Physiotech. All rights reserved.</value>
     <comment>EmailService - footer copyright</comment>
   </data>
+  <data name="TestPhoto_InvalidKind" xml:space="preserve">
+    <value>Invalid photo type.</value>
+  </data>
+  <data name="TestPhoto_InvalidSlot" xml:space="preserve">
+    <value>Invalid photo slot.</value>
+  </data>
+  <data name="TestPhoto_TestNotInCase" xml:space="preserve">
+    <value>This test is not part of the medical case.</value>
+  </data>
+  <data name="TestPhoto_UploadFailed" xml:space="preserve">
+    <value>Failed to save the photo.</value>
+  </data>
+  <data name="TestPhoto_NotFound" xml:space="preserve">
+    <value>Photo not found.</value>
+  </data>
+  <data name="TestPhoto_SaveSuccess" xml:space="preserve">
+    <value>Photo saved successfully.</value>
+  </data>
+  <data name="TestPhoto_CompareTitle" xml:space="preserve">
+    <value>Visual comparison</value>
+  </data>
+  <data name="TestPhoto_Before" xml:space="preserve">
+    <value>Before</value>
+  </data>
+  <data name="TestPhoto_After" xml:space="preserve">
+    <value>After</value>
+  </data>
 </root>

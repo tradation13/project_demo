@@ -8,6 +8,15 @@
 
 <div class="prac-page space-y-6">
 
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">@TempData["ErrorMessage"]</div>
+    }
+
     <div class="flex items-center gap-3">
         <div class="avatar-lg">
             @{
@@ -235,6 +244,22 @@
                                     }
                                 }
 
+                                @{
+                                    var pileTestId = testGroup.First().TestId;
+                                    var pilePhotos = (Model.TestPhotos ?? Enumerable.Empty<MedicalCaseTestPhoto>())
+                                        .Where(p => p.TestId == pileTestId)
+                                        .ToList();
+                                    var photoCompareModel = new TestPhotoCompareViewModel
+                                    {
+                                        MedicalCaseId = Model.Id,
+                                        TestId = pileTestId,
+                                        Area = "doctor",
+                                        CanEdit = true,
+                                        Photos = pilePhotos
+                                    };
+                                }
+                                <partial name="_TestPhotoCompare" model="photoCompareModel" />
+
                                 <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                                     @foreach (var test in testGroup.OrderBy(t => t.CreatedAt))
                                     {
@@ -300,7 +325,7 @@
                                                     <input type="hidden" name="id" value="@test.Id" />
                                                     <button type="submit"
                                                             class="btn-delete"
-                                                            onclick="return confirm('Delete this test?')">
+                                                            onclick="return confirm('@SharedLocalizer["MedCase_Det_ConfirmDelete"]')">
                                                         <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                                         </svg>

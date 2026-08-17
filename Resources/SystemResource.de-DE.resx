@@ -1122,6 +1122,33 @@
   <data name="HealthDataConsentRequired" xml:space="preserve">
     <value>Sie müssen der Verarbeitung Ihrer personenbezogenen Daten und Gesundheitsdaten zustimmen, um sich als Patient zu registrieren.</value>
   </data>
+  <data name="TestPhoto_InvalidKind" xml:space="preserve">
+    <value>Ungültiger Fototyp.</value>
+  </data>
+  <data name="TestPhoto_InvalidSlot" xml:space="preserve">
+    <value>Ungültiger Fotoplatz.</value>
+  </data>
+  <data name="TestPhoto_TestNotInCase" xml:space="preserve">
+    <value>Dieser Test gehört nicht zu diesem medizinischen Fall.</value>
+  </data>
+  <data name="TestPhoto_UploadFailed" xml:space="preserve">
+    <value>Das Foto konnte nicht gespeichert werden.</value>
+  </data>
+  <data name="TestPhoto_NotFound" xml:space="preserve">
+    <value>Foto nicht gefunden.</value>
+  </data>
+  <data name="TestPhoto_SaveSuccess" xml:space="preserve">
+    <value>Foto erfolgreich gespeichert.</value>
+  </data>
+  <data name="TestPhoto_CompareTitle" xml:space="preserve">
+    <value>Visueller Vergleich</value>
+  </data>
+  <data name="TestPhoto_Before" xml:space="preserve">
+    <value>Vorher</value>
+  </data>
+  <data name="TestPhoto_After" xml:space="preserve">
+    <value>Nachher</value>
+  </data>
 </root>
 
 

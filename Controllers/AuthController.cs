@@ -413,7 +413,10 @@ namespace IPTS.Controllers
         [OutputCache(Duration = 3600)]
         public async Task<IActionResult> Register()
         {
-            var model = new RegisterViewModel();
+            var model = new RegisterViewModel
+            {
+                Patient = new PatientRegisterViewModel()
+            };
 
             return View(model);
         }
@@ -425,6 +428,7 @@ namespace IPTS.Controllers
 
             if (!ModelState.IsValid)
             {
+                model.Patient ??= new PatientRegisterViewModel();
                 return View(model);
             }
 
@@ -436,6 +440,7 @@ namespace IPTS.Controllers
                 foreach (var error in translatedErrors)
                     ModelState.AddModelError(string.Empty, error);
 
+                model.Patient ??= new PatientRegisterViewModel();
                 return View(model);
             }
 

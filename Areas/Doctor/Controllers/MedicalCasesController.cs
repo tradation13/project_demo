@@ -99,20 +99,12 @@ namespace IPTS.Areas.Doctor.Controllers
     Description = model.Description,
     PatientId = model.PatientId,
     DoctorId = doctor.Id,
-    
-    Weight = model.Weight,
-    Height = model.Height,
-    BloodGroup = model.BloodGroup,
     DominantSide = model.DominantSide,
     ActivityLevel = model.ActivityLevel,
-    IsSmoker = model.IsSmoker,
-    HasChronicDisease = model.HasChronicDisease,
-
     InjuryHistory = model.InjuryHistory,
     Medications = model.Medications,
     FunctionalAbility = model.FunctionalAbility,
     PersonalGoals = model.PersonalGoals,
-
     CreatedAt = model.CreatedAt == default ? DateTime.UtcNow : model.CreatedAt.ToUniversalTime()
 };
 

@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using IPTS.Models.Enums;
+using IPTS.ViewModels;
 
 namespace IPTS.Areas.Admin.ViewsModels
 {
-    public class PatientFormViewModel
+    public class PatientFormViewModel : IPatientHealthFields
     {
         public int? Id { get; set; }
         
@@ -12,5 +14,11 @@ namespace IPTS.Areas.Admin.ViewsModels
         public DateTime BirthDate { get; set; }
         
         public string? UserId { get; set; }
+
+        public float? Weight { get; set; }
+        public float? Height { get; set; }
+        public EnBloodGroup? BloodGroup { get; set; }
+        public bool? IsSmoker { get; set; }
+        public bool? HasChronicDisease { get; set; }
     }
 }

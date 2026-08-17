@@ -378,6 +378,9 @@
                         <span class="@sectionIcon"><i class="fas fa-notes-medical"></i></span>
                         <h3 class="@sectionTitle">@SharedLocalizer["Profile_PatientDetails"]</h3>
                     </div>
+                    <input type="hidden" asp-for="Patient.Id" />
+                    <input type="hidden" asp-for="Patient.UserId" />
+                    <input type="hidden" asp-for="Patient.BirthDate" />
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div>
                             <label class="@labelCls">@SharedLocalizer["Shared_Date_Of_Birth"]</label>
@@ -388,6 +391,47 @@
                             </div>
                         </div>
                     </div>
+
+                    @if (isEditMode)
+                    {
+                        ViewData["HealthFieldsVariant"] = "profile";
+                        ViewData["HealthLabelClass"] = labelCls;
+                        ViewData["HealthInputClass"] = inputEdit;
+                        <div class="mt-5">
+                            <partial name="_PatientHealthFields" for="Patient" />
+                        </div>
+                    }
+                    else
+                    {
+                        var bloodKey = PatientHealthHelper.GetBloodGroupResourceKey(Model.Patient.BloodGroup);
+                        <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div>
+                                <label class="@labelCls">@SharedLocalizer["MedCase_Weight"]</label>
+                                <input type="text" readonly class="@inputReadonly"
+                                       value="@(Model.Patient.Weight.HasValue ? $"{Model.Patient.Weight} kg" : SharedLocalizer["Patient_NotSpecified"].Value)" />
+                            </div>
+                            <div>
+                                <label class="@labelCls">@SharedLocalizer["MedCase_Height"]</label>
+                                <input type="text" readonly class="@inputReadonly"
+                                       value="@(Model.Patient.Height.HasValue ? $"{Model.Patient.Height} cm" : SharedLocalizer["Patient_NotSpecified"].Value)" />
+                            </div>
+                            <div>
+                                <label class="@labelCls">@SharedLocalizer["MedCase_BloodGroup"]</label>
+                                <input type="text" readonly class="@inputReadonly"
+                                       value="@(string.IsNullOrEmpty(bloodKey) ? SharedLocalizer["Patient_NotSpecified"].Value : SharedLocalizer[bloodKey].Value)" />
+                            </div>
+                            <div>
+                                <label class="@labelCls">@SharedLocalizer["MedCase_Smoker"]</label>
+                                <input type="text" readonly class="@inputReadonly"
+                                       value="@(Model.Patient.IsSmoker == true ? SharedLocalizer["Shared_Yes"].Value : Model.Patient.IsSmoker == false ? SharedLocalizer["Shared_No"].Value : SharedLocalizer["Patient_NotSpecified"].Value)" />
+                            </div>
+                            <div>
+                                <label class="@labelCls">@SharedLocalizer["MedCase_ChronicDiseases"]</label>
+                                <input type="text" readonly class="@inputReadonly"
+                                       value="@(Model.Patient.HasChronicDisease == true ? SharedLocalizer["Shared_Yes"].Value : Model.Patient.HasChronicDisease == false ? SharedLocalizer["Shared_No"].Value : SharedLocalizer["Patient_NotSpecified"].Value)" />
+                            </div>
+                        </div>
+                    }
                 </div>
             }
 

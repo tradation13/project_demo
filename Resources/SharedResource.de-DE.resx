@@ -3438,4 +3438,16 @@ Ich bin Ihr PhysioTech-Assistent. Wie kann ich Ihnen helfen?</value>
   <data name="ChatbotUserType_Admin" xml:space="preserve">
     <value>Admin</value>
   </data>
+  <data name="Patient_HealthData" xml:space="preserve">
+    <value>Grundlegende Gesundheitsdaten</value>
+  </data>
+  <data name="Patient_HealthData_Optional" xml:space="preserve">
+    <value>Optional — Sie können diese Angaben jetzt machen oder später im Profil ergänzen.</value>
+  </data>
+  <data name="Patient_NotSpecified" xml:space="preserve">
+    <value>Nicht angegeben</value>
+  </data>
+  <data name="MedCase_PatientHealth_Readonly" xml:space="preserve">
+    <value>Diese Werte stammen aus der Patientendatei und können hier nicht geändert werden.</value>
+  </data>
 </root>

@@ -1,6 +1,7 @@
 using FluentValidation;
 using IPTS.Areas.Doctor.ViewsModels;
 using IPTS.Resources;
+using IPTS.Validators;
 
 namespace IPTS.Validators.Doctor
 {
@@ -36,6 +37,8 @@ namespace IPTS.Validators.Doctor
             RuleFor(x => x.DateOfBirth)
                 .NotEmpty().WithMessage(localizer.GetSystem("BirthDateRequired"))
                 .LessThan(DateTime.Now.Date).WithMessage(localizer.GetSystem("InvalidBirthDate"));
+
+            this.AddPatientHealthRules(localizer);
         }
     }
 }

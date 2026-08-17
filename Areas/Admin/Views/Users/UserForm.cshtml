@@ -189,6 +189,11 @@
                             <span asp-validation-for="Patient.BirthDate" class="mt-1.5 text-xs text-red-500"></span>
                         </div>
                     </div>
+
+                    @{ ViewData["HealthFieldsVariant"] = "admin"; }
+                    <div class="mt-6">
+                        <partial name="_PatientHealthFields" for="Patient" />
+                    </div>
                 </div>
                 break;
 

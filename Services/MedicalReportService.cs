@@ -314,18 +314,18 @@ sb.Append($@"
             <p><strong>{_loc.GetSystem("Description")}:</strong> {medicalCase?.Description}</p>
         </div>
 
-        {(medicalCase.Height.HasValue || medicalCase.Weight.HasValue || medicalCase.BloodGroup != null ? $@"
+        {(medicalCase.Patient?.Height.HasValue == true || medicalCase.Patient?.Weight.HasValue == true || medicalCase.Patient?.BloodGroup != null ? $@"
         <div class='info-box'>
             <h3>{_loc.GetSystem("PhysicalMeasurements")}</h3>
-            {(medicalCase.Height.HasValue ? $"<p><strong>{_loc.GetSystem("Height")}:</strong> {medicalCase.Height} cm</p>" : "")}
-            {(medicalCase.Weight.HasValue ? $"<p><strong>{_loc.GetSystem("Weight")}:</strong> {medicalCase.Weight} kg</p>" : "")}
-            {(medicalCase.BloodGroup != null ? $"<p><strong>{_loc.GetSystem("BloodGroup")}:</strong> {FormatBloodGroup(medicalCase.BloodGroup.ToString())}</p>" : "")}
+            {(medicalCase.Patient.Height.HasValue ? $"<p><strong>{_loc.GetSystem("Height")}:</strong> {medicalCase.Patient.Height} cm</p>" : "")}
+            {(medicalCase.Patient.Weight.HasValue ? $"<p><strong>{_loc.GetSystem("Weight")}:</strong> {medicalCase.Patient.Weight} kg</p>" : "")}
+            {(medicalCase.Patient.BloodGroup != null ? $"<p><strong>{_loc.GetSystem("BloodGroup")}:</strong> {FormatBloodGroup(medicalCase.Patient.BloodGroup.ToString())}</p>" : "")}
         </div>" : "")}
-        {(medicalCase.IsSmoker.HasValue || medicalCase.HasChronicDisease.HasValue || medicalCase.ActivityLevel != null ? $@"
+        {(medicalCase.Patient?.IsSmoker.HasValue == true || medicalCase.Patient?.HasChronicDisease.HasValue == true || medicalCase.ActivityLevel != null ? $@"
         <div class='info-box'>
             <h3>{_loc.GetSystem("HealthHistory")}</h3>
-            {(medicalCase.IsSmoker.HasValue ? $"<p><strong>{_loc.GetSystem("IsSmoker")}:</strong> {(medicalCase.IsSmoker == true ? _loc.GetSystem("Yes") : _loc.GetSystem("No"))}</p>" : "")}
-            {(medicalCase.HasChronicDisease.HasValue ? $"<p><strong>{_loc.GetSystem("ChronicDiseases")}:</strong> {(medicalCase.HasChronicDisease == true ? _loc.GetSystem("Yes") : _loc.GetSystem("No"))}</p>" : "")}
+            {(medicalCase.Patient.IsSmoker.HasValue ? $"<p><strong>{_loc.GetSystem("IsSmoker")}:</strong> {(medicalCase.Patient.IsSmoker == true ? _loc.GetSystem("Yes") : _loc.GetSystem("No"))}</p>" : "")}
+            {(medicalCase.Patient.HasChronicDisease.HasValue ? $"<p><strong>{_loc.GetSystem("ChronicDiseases")}:</strong> {(medicalCase.Patient.HasChronicDisease == true ? _loc.GetSystem("Yes") : _loc.GetSystem("No"))}</p>" : "")}
             {(medicalCase.ActivityLevel != null ? $"<p><strong>{_loc.GetSystem("ActivityLevel")}:</strong> {FormatActivityLevel(medicalCase.ActivityLevel.ToString(), lang)}</p>" : "")}
         </div>" : "")}
     </div>
@@ -399,11 +399,11 @@ private async Task<string> GetAiAnalysisAsync(MedicalCase medicalCase, string la
         
   // 1. بناء بيانات المريض البدنية والتاريخ الصحي ديناميكياً (فقط للقيم الموجودة)
 var vitalsSb = new StringBuilder();
-if (medicalCase.Height.HasValue) vitalsSb.AppendLine($"- Height: {medicalCase.Height} cm");
-if (medicalCase.Weight.HasValue) vitalsSb.AppendLine($"- Weight: {medicalCase.Weight} kg");
-if (medicalCase.BloodGroup != null) vitalsSb.AppendLine($"- Blood Group: {medicalCase.BloodGroup}");
-if (medicalCase.IsSmoker.HasValue) vitalsSb.AppendLine($"- Is Smoker: {(medicalCase.IsSmoker == true ? "Yes" : "No")}");
-if (medicalCase.HasChronicDisease.HasValue) vitalsSb.AppendLine($"- Has Chronic Diseases: {(medicalCase.HasChronicDisease == true ? "Yes" : "No")}");
+if (medicalCase.Patient?.Height.HasValue == true) vitalsSb.AppendLine($"- Height: {medicalCase.Patient.Height} cm");
+if (medicalCase.Patient?.Weight.HasValue == true) vitalsSb.AppendLine($"- Weight: {medicalCase.Patient.Weight} kg");
+if (medicalCase.Patient?.BloodGroup != null) vitalsSb.AppendLine($"- Blood Group: {medicalCase.Patient.BloodGroup}");
+if (medicalCase.Patient?.IsSmoker.HasValue == true) vitalsSb.AppendLine($"- Is Smoker: {(medicalCase.Patient.IsSmoker == true ? "Yes" : "No")}");
+if (medicalCase.Patient?.HasChronicDisease.HasValue == true) vitalsSb.AppendLine($"- Has Chronic Diseases: {(medicalCase.Patient.HasChronicDisease == true ? "Yes" : "No")}");
 if (medicalCase.ActivityLevel != null) vitalsSb.AppendLine($"- Activity Level: {medicalCase.ActivityLevel}");
 if (!string.IsNullOrWhiteSpace(medicalCase.InjuryHistory)) vitalsSb.AppendLine($"- Injury History: {medicalCase.InjuryHistory}");
 if (!string.IsNullOrWhiteSpace(medicalCase.Medications)) vitalsSb.AppendLine($"- Medications: {medicalCase.Medications}");

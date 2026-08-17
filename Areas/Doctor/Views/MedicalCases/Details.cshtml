@@ -45,6 +45,21 @@
                     </svg>
                     <a href="mailto:@patient?.User?.Email">@patient?.User?.Email</a>
                 </div>
+
+                @{
+                    var bloodKey = PatientHealthHelper.GetBloodGroupResourceKey(patient?.BloodGroup);
+                    string YesNoOrDash(bool? value) =>
+                        value == true ? SharedLocalizer["Shared_Yes"].Value
+                        : value == false ? SharedLocalizer["Shared_No"].Value
+                        : SharedLocalizer["Patient_NotSpecified"].Value;
+                }
+                <div class="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                    <p class="text-xs text-gray-500"><span class="font-semibold text-gray-600">@SharedLocalizer["MedCase_Weight"]:</span> @(patient?.Weight.HasValue == true ? $"{patient.Weight} kg" : SharedLocalizer["Patient_NotSpecified"].Value)</p>
+                    <p class="text-xs text-gray-500"><span class="font-semibold text-gray-600">@SharedLocalizer["MedCase_Height"]:</span> @(patient?.Height.HasValue == true ? $"{patient.Height} cm" : SharedLocalizer["Patient_NotSpecified"].Value)</p>
+                    <p class="text-xs text-gray-500"><span class="font-semibold text-gray-600">@SharedLocalizer["MedCase_BloodGroup"]:</span> @(string.IsNullOrEmpty(bloodKey) ? SharedLocalizer["Patient_NotSpecified"].Value : SharedLocalizer[bloodKey].Value)</p>
+                    <p class="text-xs text-gray-500"><span class="font-semibold text-gray-600">@SharedLocalizer["MedCase_Smoker"]:</span> @YesNoOrDash(patient?.IsSmoker)</p>
+                    <p class="text-xs text-gray-500"><span class="font-semibold text-gray-600">@SharedLocalizer["MedCase_ChronicDiseases"]:</span> @YesNoOrDash(patient?.HasChronicDisease)</p>
+                </div>
             </div>
 
             <div class="flex items-center gap-3 flex-wrap">

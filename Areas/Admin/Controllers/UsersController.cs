@@ -110,6 +110,9 @@ namespace IPTS.Areas.Admin.Controllers
                         LogEventLevel.Warning
                     );
                 }
+
+                if (string.Equals(UserType, "patient", StringComparison.OrdinalIgnoreCase))
+                    model.Patient ??= new PatientFormViewModel();
                 await PrepareUserFormViewBagAsync(UserType);
 
                 return View(model);
@@ -143,6 +146,8 @@ namespace IPTS.Areas.Admin.Controllers
                 );
 
                 await PrepareUserFormViewBagAsync(UserType);
+                if (string.Equals(UserType, "patient", StringComparison.OrdinalIgnoreCase))
+                    model.Patient ??= new PatientFormViewModel();
                 return View("UserForm", model);
             }
 
@@ -211,6 +216,8 @@ namespace IPTS.Areas.Admin.Controllers
                 );
                 ModelState.AddModelError(string.Empty, _locService.GetSystem("Msg_ErrorSave"));
                 await PrepareUserFormViewBagAsync(UserType);
+                if (string.Equals(UserType, "patient", StringComparison.OrdinalIgnoreCase))
+                    model.Patient ??= new PatientFormViewModel();
                 return View("UserForm", model);
             }
         }

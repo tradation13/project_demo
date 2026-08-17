@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using IPTS.Models.Enums;
 
 namespace IPTS.ViewModels
 {
-    public class PatientCreateViewModel
+    public class PatientCreateViewModel : IPatientHealthFields
     {
         [Required(ErrorMessage = "Username is required")]
         [StringLength(50, ErrorMessage = "Username cannot exceed 50 characters")]
@@ -47,5 +48,11 @@ namespace IPTS.ViewModels
         [Required(ErrorMessage = "Birth Date is required")]
         [Display(Name = "Birth Date")]
         public DateTime BirthDate { get; set; }
+
+        public float? Weight { get; set; }
+        public float? Height { get; set; }
+        public EnBloodGroup? BloodGroup { get; set; }
+        public bool? IsSmoker { get; set; }
+        public bool? HasChronicDisease { get; set; }
     }
 }

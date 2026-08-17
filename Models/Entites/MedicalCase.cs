@@ -13,16 +13,8 @@ namespace IPTS.Models.Entites
         public Doctor Doctor { get; set; }
         public int? DoctorId { get; set; }
 
-        // Physical Vitals
-    public float? Weight { get; set; }
-    public float? Height { get; set; }
-    
-    public EnDominantSide? DominantSide { get; set; }
-    public EnBloodGroup? BloodGroup { get; set; }
-    public EnActivityLevel? ActivityLevel { get; set; }
-
-    public bool? IsSmoker { get; set; }
-    public bool? HasChronicDisease { get; set; }
+        public EnDominantSide? DominantSide { get; set; }
+        public EnActivityLevel? ActivityLevel { get; set; }
 
         // --- معلومات إضافية لتحسين جودة التقرير --- //
         /// <summary>

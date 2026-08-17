@@ -65,6 +65,40 @@
                     <span asp-validation-for="Description" class="mt-1 block text-xs font-medium text-red-800 empty:hidden"></span>
                 </div>
             </div>
+
+            @{
+                var bloodKey = PatientHealthHelper.GetBloodGroupResourceKey(patient?.BloodGroup);
+                string YesNoOrDash(bool? value) =>
+                    value == true ? SharedLocalizer["Shared_Yes"].Value
+                    : value == false ? SharedLocalizer["Shared_No"].Value
+                    : SharedLocalizer["Patient_NotSpecified"].Value;
+            }
+            <div class="border-t border-gray-100 px-6 py-5 sm:px-8">
+                <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-400">@SharedLocalizer["Patient_HealthData"]</p>
+                <p class="mb-4 text-xs text-gray-500">@SharedLocalizer["MedCase_PatientHealth_Readonly"]</p>
+                <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+                    <div class="rounded-lg border border-gray-100 bg-gray-50 px-3 py-2.5">
+                        <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">@SharedLocalizer["MedCase_Weight"]</p>
+                        <p class="mt-1 text-sm font-semibold text-gray-800">@(patient?.Weight.HasValue == true ? $"{patient.Weight} kg" : SharedLocalizer["Patient_NotSpecified"].Value)</p>
+                    </div>
+                    <div class="rounded-lg border border-gray-100 bg-gray-50 px-3 py-2.5">
+                        <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">@SharedLocalizer["MedCase_Height"]</p>
+                        <p class="mt-1 text-sm font-semibold text-gray-800">@(patient?.Height.HasValue == true ? $"{patient.Height} cm" : SharedLocalizer["Patient_NotSpecified"].Value)</p>
+                    </div>
+                    <div class="rounded-lg border border-gray-100 bg-gray-50 px-3 py-2.5">
+                        <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">@SharedLocalizer["MedCase_BloodGroup"]</p>
+                        <p class="mt-1 text-sm font-semibold text-gray-800">@(string.IsNullOrEmpty(bloodKey) ? SharedLocalizer["Patient_NotSpecified"].Value : SharedLocalizer[bloodKey].Value)</p>
+                    </div>
+                    <div class="rounded-lg border border-gray-100 bg-gray-50 px-3 py-2.5">
+                        <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">@SharedLocalizer["MedCase_Smoker"]</p>
+                        <p class="mt-1 text-sm font-semibold text-gray-800">@YesNoOrDash(patient?.IsSmoker)</p>
+                    </div>
+                    <div class="rounded-lg border border-gray-100 bg-gray-50 px-3 py-2.5">
+                        <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">@SharedLocalizer["MedCase_ChronicDiseases"]</p>
+                        <p class="mt-1 text-sm font-semibold text-gray-800">@YesNoOrDash(patient?.HasChronicDisease)</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Wide two-column layout: vitals beside clinical history, instead of one long stacked column -->
@@ -79,30 +113,6 @@
                 </h3>
 
                 <div class="grid gap-5 sm:grid-cols-2">
-                    <div>
-                        <label asp-for="Weight" class="mb-2 block text-sm font-semibold text-gray-700">@SharedLocalizer["MedCase_Weight"]</label>
-                        <div class="relative">
-                            <input asp-for="Weight" type="number" step="0.1" placeholder="70" class="w-full rounded-lg border border-gray-200 px-3 py-2.5 pe-12 text-sm text-gray-900 outline-none transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200" />
-                            <span class="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3 text-xs font-medium text-gray-400">kg</span>
-                        </div>
-                        <span asp-validation-for="Weight" class="mt-1 block text-xs font-medium text-red-800 empty:hidden"></span>
-                    </div>
-
-                    <div>
-                        <label asp-for="Height" class="mb-2 block text-sm font-semibold text-gray-700">@SharedLocalizer["MedCase_Height"]</label>
-                        <div class="relative">
-                            <input asp-for="Height" type="number" step="0.1" placeholder="175" class="w-full rounded-lg border border-gray-200 px-3 py-2.5 pe-12 text-sm text-gray-900 outline-none transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200" />
-                            <span class="pointer-events-none absolute inset-y-0 end-0 flex items-center pe-3 text-xs font-medium text-gray-400">cm</span>
-                        </div>
-                        <span asp-validation-for="Height" class="mt-1 block text-xs font-medium text-red-800 empty:hidden"></span>
-                    </div>
-
-                    <div id="bmiBadge" class="hidden sm:col-span-2">
-                        <span id="bmiPill" class="inline-flex items-center gap-1.5 rounded-full border border-teal-200 bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700">
-                            BMI <span id="bmiValue">0</span>
-                        </span>
-                    </div>
-
                     <div>
                         <label asp-for="DominantSide" class="mb-2 block text-sm font-semibold text-gray-700">@SharedLocalizer["MedCase_DominantSide"]</label>
                         <div class="relative">
@@ -136,72 +146,6 @@
                             </span>
                         </div>
                         <span asp-validation-for="ActivityLevel" class="mt-1 block text-xs font-medium text-red-800 empty:hidden"></span>
-                    </div>
-
-                    <div class="sm:col-span-2">
-                        <label class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-gray-700">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-gray-400">
-                                <path d="M12 3s6 6.5 6 11a6 6 0 1 1-12 0c0-4.5 6-11 6-11z" />
-                            </svg>
-                            @SharedLocalizer["MedCase_BloodGroup"]
-                        </label>
-
-                        <select asp-for="BloodGroup" id="BloodGroup" class="hidden">
-                            <option value="">@SharedLocalizer["Shared_Select"]</option>
-                            <optgroup label="@SharedLocalizer["BloodGroup_PositiveGroup"]">
-                                <option value="@((byte)EnBloodGroup.APositive)">@SharedLocalizer["BloodGroup_APositive"]</option>
-                                <option value="@((byte)EnBloodGroup.BPositive)">@SharedLocalizer["BloodGroup_BPositive"]</option>
-                                <option value="@((byte)EnBloodGroup.OPositive)">@SharedLocalizer["BloodGroup_OPositive"]</option>
-                                <option value="@((byte)EnBloodGroup.ABPositive)">@SharedLocalizer["BloodGroup_ABPositive"]</option>
-                            </optgroup>
-                            <optgroup label="@SharedLocalizer["BloodGroup_NegativeGroup"]">
-                                <option value="@((byte)EnBloodGroup.ANegative)">@SharedLocalizer["BloodGroup_ANegative"]</option>
-                                <option value="@((byte)EnBloodGroup.BNegative)">@SharedLocalizer["BloodGroup_BNegative"]</option>
-                                <option value="@((byte)EnBloodGroup.ONegative)">@SharedLocalizer["BloodGroup_ONegative"]</option>
-                                <option value="@((byte)EnBloodGroup.ABNegative)">@SharedLocalizer["BloodGroup_ABNegative"]</option>
-                            </optgroup>
-                        </select>
-
-                        <div class="space-y-3 rounded-lg border border-gray-100 bg-gray-50/60 p-3">
-                            <div>
-                                <p class="mb-1.5 text-xs font-medium uppercase tracking-wide text-gray-400">@SharedLocalizer["BloodGroup_PositiveGroup"]</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <button type="button" data-value="@((byte)EnBloodGroup.APositive)" class="blood-pill rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-semibold text-gray-600 transition-all duration-150 hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50 hover:text-red-800">@SharedLocalizer["BloodGroup_APositive"]</button>
-                                    <button type="button" data-value="@((byte)EnBloodGroup.BPositive)" class="blood-pill rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-semibold text-gray-600 transition-all duration-150 hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50 hover:text-red-800">@SharedLocalizer["BloodGroup_BPositive"]</button>
-                                    <button type="button" data-value="@((byte)EnBloodGroup.OPositive)" class="blood-pill rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-semibold text-gray-600 transition-all duration-150 hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50 hover:text-red-800">@SharedLocalizer["BloodGroup_OPositive"]</button>
-                                    <button type="button" data-value="@((byte)EnBloodGroup.ABPositive)" class="blood-pill rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-semibold text-gray-600 transition-all duration-150 hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50 hover:text-red-800">@SharedLocalizer["BloodGroup_ABPositive"]</button>
-                                </div>
-                            </div>
-                            <div>
-                                <p class="mb-1.5 text-xs font-medium uppercase tracking-wide text-gray-400">@SharedLocalizer["BloodGroup_NegativeGroup"]</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <button type="button" data-value="@((byte)EnBloodGroup.ANegative)" class="blood-pill rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-semibold text-gray-600 transition-all duration-150 hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50 hover:text-red-800">@SharedLocalizer["BloodGroup_ANegative"]</button>
-                                    <button type="button" data-value="@((byte)EnBloodGroup.BNegative)" class="blood-pill rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-semibold text-gray-600 transition-all duration-150 hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50 hover:text-red-800">@SharedLocalizer["BloodGroup_BNegative"]</button>
-                                    <button type="button" data-value="@((byte)EnBloodGroup.ONegative)" class="blood-pill rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-semibold text-gray-600 transition-all duration-150 hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50 hover:text-red-800">@SharedLocalizer["BloodGroup_ONegative"]</button>
-                                    <button type="button" data-value="@((byte)EnBloodGroup.ABNegative)" class="blood-pill rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-semibold text-gray-600 transition-all duration-150 hover:-translate-y-0.5 hover:border-red-200 hover:bg-red-50 hover:text-red-800">@SharedLocalizer["BloodGroup_ABNegative"]</button>
-                                </div>
-                            </div>
-                        </div>
-                        <span asp-validation-for="BloodGroup" class="mt-1 block text-xs font-medium text-red-800 empty:hidden"></span>
-                    </div>
-
-                    <div class="grid gap-3 sm:col-span-2 sm:grid-cols-2">
-                        <label class="flex cursor-pointer items-center justify-between gap-3 rounded-lg border border-gray-200 px-4 py-3 transition-colors duration-150 hover:bg-gray-50">
-                            <span class="text-sm font-medium text-gray-700">@SharedLocalizer["MedCase_Smoker"]</span>
-                            <span class="relative inline-flex h-6 w-11 shrink-0 items-center">
-                                <input asp-for="IsSmoker" type="checkbox" class="peer absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0" />
-                                <span class="absolute inset-0 rounded-full bg-gray-200 transition-colors duration-200 peer-checked:bg-indigo-600 peer-focus-visible:ring-2 peer-focus-visible:ring-indigo-300 peer-focus-visible:ring-offset-2"></span>
-                                <span class="pointer-events-none relative inline-block h-5 w-5 translate-x-0.5 rounded-full bg-white shadow transition-transform duration-200 peer-checked:translate-x-5"></span>
-                            </span>
-                        </label>
-                        <label class="flex cursor-pointer items-center justify-between gap-3 rounded-lg border border-gray-200 px-4 py-3 transition-colors duration-150 hover:bg-gray-50">
-                            <span class="text-sm font-medium text-gray-700">@SharedLocalizer["MedCase_ChronicDiseases"]</span>
-                            <span class="relative inline-flex h-6 w-11 shrink-0 items-center">
-                                <input asp-for="HasChronicDisease" type="checkbox" class="peer absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0" />
-                                <span class="absolute inset-0 rounded-full bg-gray-200 transition-colors duration-200 peer-checked:bg-indigo-600 peer-focus-visible:ring-2 peer-focus-visible:ring-indigo-300 peer-focus-visible:ring-offset-2"></span>
-                                <span class="pointer-events-none relative inline-block h-5 w-5 translate-x-0.5 rounded-full bg-white shadow transition-transform duration-200 peer-checked:translate-x-5"></span>
-                            </span>
-                        </label>
                     </div>
                 </div>
             </div>
@@ -257,64 +201,3 @@
         </div>
     </form>
 </div>
-
-<script>
-    const weightInput = document.getElementById("Weight");
-    const heightInput = document.getElementById("Height");
-    const bmiBadge = document.getElementById("bmiBadge");
-    const bmiPill = document.getElementById("bmiPill");
-    const bmiValue = document.getElementById("bmiValue");
-
-    function updateBmi() {
-        const w = parseFloat(weightInput.value);
-        const h = parseFloat(heightInput.value);
-
-        if (!w || !h) {
-            bmiBadge.classList.add("hidden");
-            return;
-        }
-
-        const bmi = w / Math.pow(h / 100, 2);
-        let tone = "border-teal-200 bg-teal-50 text-teal-700";
-
-        if (bmi < 18.5) {
-            tone = "border-indigo-200 bg-indigo-50 text-indigo-700";
-        } else if (bmi >= 25) {
-            tone = "border-red-300 bg-red-50 text-red-800";
-        }
-
-        bmiValue.textContent = bmi.toFixed(1);
-        bmiPill.className = "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold " + tone;
-        bmiBadge.classList.remove("hidden", "animate-pop-in");
-        requestAnimationFrame(function () {
-            bmiBadge.classList.add("animate-pop-in");
-        });
-    }
-
-    weightInput.addEventListener("input", updateBmi);
-    heightInput.addEventListener("input", updateBmi);
-    updateBmi();
-
-    const bloodSelect = document.getElementById("BloodGroup");
-    const bloodPills = document.querySelectorAll(".blood-pill");
-
-    function syncBloodGroup() {
-        bloodPills.forEach(function (pill) {
-            const isActive = pill.dataset.value === bloodSelect.value;
-            pill.classList.toggle("border-red-300", isActive);
-            pill.classList.toggle("bg-red-50", isActive);
-            pill.classList.toggle("text-red-800", isActive);
-            pill.classList.toggle("border-gray-200", !isActive);
-            pill.classList.toggle("text-gray-600", !isActive);
-        });
-    }
-
-    bloodPills.forEach(function (pill) {
-        pill.addEventListener("click", function () {
-            bloodSelect.value = pill.dataset.value;
-            syncBloodGroup();
-        });
-    });
-
-    syncBloodGroup();
-</script>

@@ -71,6 +71,11 @@
                 </div>
             </div>
 
+            <div class="rounded-2xl border border-slate-100 bg-slate-50/50 p-5">
+                @{ ViewData["HealthFieldsVariant"] = "auth"; }
+                <partial name="_PatientHealthFields" for="Patient" />
+            </div>
+
             <div x-data="{ show: false }">
                 <label asp-for="Password" class="@labelClasses">@SharedLocalizer["Shared_Password"]</label>
                 <div class="relative">

@@ -260,8 +260,12 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
                     UserTypeName = "patient",
                     Patient = new PatientRegisterViewModel
                     {
-                       
-                        BirthDate = model.BirthDate
+                        BirthDate = model.BirthDate,
+                        Weight = model.Weight,
+                        Height = model.Height,
+                        BloodGroup = model.BloodGroup,
+                        IsSmoker = model.IsSmoker,
+                        HasChronicDisease = model.HasChronicDisease
                     }
                 };
 

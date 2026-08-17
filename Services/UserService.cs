@@ -142,13 +142,18 @@ namespace IPTS.Services
                     case "patient":
                        if (model.Patient == null)
     throw new Exception(_locService.GetSystem("Error_PatientRequired"));
-                        await _context.Patients.AddAsync(new Patient
+                        var adminCreatedPatient = new Patient
                         {
                             UserId = user.Id,
-                            // IdentityNumber = model.Patient.IdentityNumber,
-                            // PostgreSQL timestamptz يتطلب Kind=Utc مع الحفاظ على نفس اليوم المُدخل
                             BirthDate = DateTime.SpecifyKind(model.Patient.BirthDate, DateTimeKind.Utc)
-                        });
+                        };
+                        model.Patient.CopyTo(adminCreatedPatient);
+                        await _context.Patients.AddAsync(adminCreatedPatient);
+                        LogHelper.LogWithContext(
+                            "Patient created with health data",
+                            user.Id,
+                            "patient",
+                            "PatientCreate");
                         break;
 
                    default:
@@ -283,6 +288,11 @@ namespace IPTS.Services
                     LogHelper.LogWithContext("Doctor profile updated", user.Id, "doctor", "DoctorUpdate");
                 }
 
+                if (user.Patient != null)
+                {
+                    LogHelper.LogWithContext("Patient profile updated", user.Id, "patient", "PatientUpdate");
+                }
+
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
             }
@@ -374,13 +384,18 @@ namespace IPTS.Services
                     case "patient":
                         if (model.Patient == null)
                             throw new Exception(_locService.GetSystem("Error_PatientRequired"));
-                        await _context.Patients.AddAsync(new Patient
+                        var registeredPatient = new Patient
                         {
                             UserId = user.Id,
-                            // IdentityNumber = model.Patient.IdentityNumber,
-                            // PostgreSQL timestamptz يتطلب Kind=Utc مع الحفاظ على نفس اليوم المُدخل
                             BirthDate = DateTime.SpecifyKind(model.Patient.BirthDate, DateTimeKind.Utc)
-                        });
+                        };
+                        model.Patient.CopyTo(registeredPatient);
+                        await _context.Patients.AddAsync(registeredPatient);
+                        LogHelper.LogWithContext(
+                            "Patient registered with health data",
+                            user.Id,
+                            "patient",
+                            "PatientRegister");
                         break;
 
                     default:
@@ -468,11 +483,16 @@ public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel mo
             var patient = new Patient
             {
                 UserId = userForEmail.Id,
-                // IdentityNumber = model.NationalId,
                 BirthDate = model.DateOfBirth.ToUniversalTime()
             };
+            model.CopyTo(patient);
 
             await _context.Patients.AddAsync(patient);
+            LogHelper.LogWithContext(
+                "Patient created by doctor with health data",
+                userForEmail.Id,
+                "patient",
+                "PatientCreateFromDoctor");
             await _context.SaveChangesAsync();
 
           

@@ -26,7 +26,14 @@ namespace IPTS.Areas.Doctor.Controllers
 [HttpGet]
 public IActionResult Create()
 {
-    return View();
+    return View(new PatientRegistrationViewModel
+    {
+        UserName = string.Empty,
+        FirstName = string.Empty,
+        LastName = string.Empty,
+        PhoneNumber = string.Empty,
+        Email = string.Empty
+    });
 }
 
 

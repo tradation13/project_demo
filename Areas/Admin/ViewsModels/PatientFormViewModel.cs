@@ -11,7 +11,7 @@ namespace IPTS.Areas.Admin.ViewsModels
         public string IdentityNumber { get; set; } = string.Empty;
         
         [Display(Name = "Label_BirthDate")]
-        public DateTime BirthDate { get; set; }
+        public DateTime BirthDate { get; set; } = DateTime.Today;
         
         public string? UserId { get; set; }
 

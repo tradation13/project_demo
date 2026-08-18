@@ -530,6 +530,10 @@
     <value>Zurück zur Startseite</value>
     <comment>VIiews -&gt; Auth -&gt;  Login</comment>
   </data>
+  <data name="Login_Subtitle" xml:space="preserve">
+    <value>Bitte geben Sie Ihre Zugangsdaten ein, um sich anzumelden.</value>
+    <comment>Views -&gt; Auth -&gt; Login</comment>
+  </data>
   <data name="Login_RememberMe" xml:space="preserve">
     <value>Angemeldet bleiben</value>
     <comment>VIiews -&gt; Auth -&gt;  Login</comment>
@@ -555,8 +559,12 @@
     <comment>VIiews -&gt; Auth -&gt;  ForgotPasswordConfirmation</comment>
   </data>
   <data name="Reg_Header" xml:space="preserve">
-    <value>Registrieren, um Ihr Konto zu erstellen und Ihren Gesundheitsweg mit uns zu beginnen!</value>
-    <comment>VIiews -&gt; Auth -&gt;  Register</comment>
+    <value>Konto erstellen</value>
+    <comment>Views -&gt; Auth -&gt; Register</comment>
+  </data>
+  <data name="Reg_Subtitle" xml:space="preserve">
+    <value>Bitte füllen Sie das Formular aus, um sich als Patientin bzw. Patient zu registrieren.</value>
+    <comment>Views -&gt; Auth -&gt; Register</comment>
   </data>
   <data name="Reg_Placeholder_User" xml:space="preserve">
     <value>Benutzernamen eingeben</value>

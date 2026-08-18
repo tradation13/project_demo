@@ -1,70 +1,110 @@
-<svg viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" role="img" style=""><defs><mask id="imagine-text-gaps-ykah0j" maskUnits="userSpaceOnUse"><rect x="0" y="0" width="680" height="420" fill="white"/><rect x="56" y="11" width="241.87982177734375" height="23" fill="black" rx="2"/><rect x="56" y="32" width="272.24359130859375" height="19" fill="black" rx="2"/><rect x="20.828125" y="320" width="29.24798583984375" height="19" fill="black" rx="2"/><rect x="13.875" y="264" width="36.21397399902344" height="19" fill="black" rx="2"/><rect x="13.484375" y="208" width="36.59197998046875" height="19" fill="black" rx="2"/><rect x="14.015625" y="152" width="36.069976806640625" height="19" fill="black" rx="2"/><rect x="14.109375" y="96" width="35.97398376464844" height="19" fill="black" rx="2"/><rect x="9.140625" y="60" width="40.947967529296875" height="19" fill="black" rx="2"/><rect x="44.4140625" y="303" width="31.246490478515625" height="18" fill="black" rx="2"/><rect x="167.328125" y="289" width="33.42448425292969" height="18" fill="black" rx="2"/><rect x="353.3515625" y="173" width="33.375" height="18" fill="black" rx="2"/><rect x="600.171875" y="82" width="35.6319580078125" height="19" fill="black" rx="2"/><rect x="49.2421875" y="336" width="20.515625" height="19" fill="black" rx="2"/><rect x="109.984375" y="336" width="24.061996459960938" height="19" fill="black" rx="2"/><rect x="172.125" y="336" width="24.061996459960938" height="19" fill="black" rx="2"/><rect x="233.796875" y="336" width="25.061996459960938" height="19" fill="black" rx="2"/><rect x="296.09375" y="336" width="24.06201171875" height="19" fill="black" rx="2"/><rect x="358.0546875" y="336" width="24.06201171875" height="19" fill="black" rx="2"/><rect x="420.2734375" y="336" width="23.06201171875" height="19" fill="black" rx="2"/><rect x="482.1015625" y="336" width="24.06201171875" height="19" fill="black" rx="2"/><rect x="544.0546875" y="336" width="24.06201171875" height="19" fill="black" rx="2"/><rect x="603.6171875" y="336" width="28.51397705078125" height="19" fill="black" rx="2"/><rect x="299.34375" y="360" width="101.14385986328125" height="19" fill="black" rx="2"/><rect x="76" y="388" width="146.68577575683594" height="19" fill="black" rx="2"/><rect x="291" y="388" width="83.89990234375" height="19" fill="black" rx="2"/></mask></defs>
-<title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Patient hand mobility progress over therapy sessions</title>
-<desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Line chart showing hand mobility recovery percentage across 10 sessions, fluctuating but trending upward from 18% to 88%, with a linear improvement trend line</desc>
+<svg viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Hand mobility recovery progress chart</title>
+<desc>Line chart with numeric percentage and date labels showing mobility scores rising and falling across ten sessions, trending upward overall.</desc>
 
-<text x="60" y="28" font-size="15" font-weight="500" fill="var(--text-primary)" style="fill:rgb(11, 11, 11);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:15px;font-weight:500;text-anchor:start;dominant-baseline:auto">Hand mobility recovery progress</text>
-<text x="60" y="46" font-size="12" fill="var(--text-muted)" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">Range of motion score across therapy sessions</text>
+<defs>
+  <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#16A34A" stop-opacity="0.28"/>
+    <stop offset="55%" stop-color="#22C55E" stop-opacity="0.10"/>
+    <stop offset="100%" stop-color="#22C55E" stop-opacity="0"/>
+  </linearGradient>
 
-<line x1="60" y1="70" x2="60" y2="330" stroke="var(--border-strong)" stroke-width="1" mask="url(#imagine-text-gaps-ykah0j)" style="fill:rgb(0, 0, 0);stroke:color(srgb 0.0431373 0.0431373 0.0431373 / 0.2);color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<line x1="60" y1="330" x2="640" y2="330" stroke="var(--border-strong)" stroke-width="1" style="fill:rgb(0, 0, 0);stroke:color(srgb 0.0431373 0.0431373 0.0431373 / 0.2);color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <linearGradient id="lineStroke" x1="0" y1="1" x2="1" y2="0">
+    <stop offset="0%" stop-color="#0F7A3D"/>
+    <stop offset="55%" stop-color="#22B15A"/>
+    <stop offset="100%" stop-color="#34D399"/>
+  </linearGradient>
 
-<g style="fill:rgb(0, 0, 0);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-<line x1="60" y1="274" x2="640" y2="274" stroke="var(--border)" stroke-width="1" style="fill:rgb(0, 0, 0);stroke:color(srgb 0.0431373 0.0431373 0.0431373 / 0.1);color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<line x1="60" y1="218" x2="640" y2="218" stroke="var(--border)" stroke-width="1" style="fill:rgb(0, 0, 0);stroke:color(srgb 0.0431373 0.0431373 0.0431373 / 0.1);color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<line x1="60" y1="162" x2="640" y2="162" stroke="var(--border)" stroke-width="1" style="fill:rgb(0, 0, 0);stroke:color(srgb 0.0431373 0.0431373 0.0431373 / 0.1);color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<line x1="60" y1="106" x2="640" y2="106" stroke="var(--border)" stroke-width="1" style="fill:rgb(0, 0, 0);stroke:color(srgb 0.0431373 0.0431373 0.0431373 / 0.1);color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <radialGradient id="haloGlow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#34D399" stop-opacity="0.45"/>
+    <stop offset="100%" stop-color="#34D399" stop-opacity="0"/>
+  </radialGradient>
+
+  <filter id="lineGlow" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="4.5" result="blur"/>
+    <feMerge>
+      <feMergeNode in="blur"/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+</defs>
+
+<!-- baseline -->
+<line x1="40" y1="350" x2="640" y2="350" stroke="#0F7A3D" stroke-opacity="0.18" stroke-width="1.5"/>
+
+<!-- trend guide -->
+<line x1="50" y1="312" x2="630" y2="88" stroke="#86EFAC" stroke-width="1.5" stroke-dasharray="1 7" stroke-linecap="round" opacity="0.9"/>
+
+<!-- area under curve -->
+<path d="M 50 317.7
+  C 60.75 311.55, 93.02 283.5, 114.5 280.8
+  C 135.98 278.1, 157.42 307.27, 178.9 301.5
+  C 200.38 295.73, 221.92 252.73, 243.4 246.2
+  C 264.88 239.67, 286.33 270.0, 307.8 262.3
+  C 329.27 254.6, 350.72 207.68, 372.2 200
+  C 393.68 192.32, 415.22 224.28, 436.7 216.2
+  C 458.18 208.12, 479.62 159.58, 501.1 151.5
+  C 522.58 143.42, 544.12 176.92, 565.6 167.7
+  C 587.08 158.48, 619.27 108.12, 630 96.2
+  L 630 350 L 50 350 Z" fill="url(#areaFill)"/>
+
+<!-- line -->
+<path d="M 50 317.7
+  C 60.75 311.55, 93.02 283.5, 114.5 280.8
+  C 135.98 278.1, 157.42 307.27, 178.9 301.5
+  C 200.38 295.73, 221.92 252.73, 243.4 246.2
+  C 264.88 239.67, 286.33 270.0, 307.8 262.3
+  C 329.27 254.6, 350.72 207.68, 372.2 200
+  C 393.68 192.32, 415.22 224.28, 436.7 216.2
+  C 458.18 208.12, 479.62 159.58, 501.1 151.5
+  C 522.58 143.42, 544.12 176.92, 565.6 167.7
+  C 587.08 158.48, 619.27 108.12, 630 96.2"
+  fill="none" stroke="url(#lineStroke)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#lineGlow)" opacity="0.95"/>
+
+<!-- data points -->
+<g fill="#FFFFFF" stroke="#16A34A" stroke-width="2.25">
+  <circle cx="50" cy="317.7" r="4.5"/>
+  <circle cx="114.5" cy="280.8" r="4.5"/>
+  <circle cx="178.9" cy="301.5" r="4.5"/>
+  <circle cx="243.4" cy="246.2" r="4.5"/>
+  <circle cx="307.8" cy="262.3" r="4.5"/>
+  <circle cx="372.2" cy="200" r="4.5"/>
+  <circle cx="436.7" cy="216.2" r="4.5"/>
+  <circle cx="501.1" cy="151.5" r="4.5" stroke="#22B15A"/>
+  <circle cx="565.6" cy="167.7" r="4.5" stroke="#22B15A"/>
 </g>
 
-<text x="45" y="334" text-anchor="end" font-size="12" fill="var(--text-muted)" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:end;dominant-baseline:auto">0%</text>
-<text x="45" y="278" text-anchor="end" font-size="12" fill="var(--text-muted)" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:end;dominant-baseline:auto">20%</text>
-<text x="45" y="222" text-anchor="end" font-size="12" fill="var(--text-muted)" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:end;dominant-baseline:auto">40%</text>
-<text x="45" y="166" text-anchor="end" font-size="12" fill="var(--text-muted)" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:end;dominant-baseline:auto">60%</text>
-<text x="45" y="110" text-anchor="end" font-size="12" fill="var(--text-muted)" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:end;dominant-baseline:auto">80%</text>
-<text x="45" y="74" text-anchor="end" font-size="12" fill="var(--text-muted)" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:end;dominant-baseline:auto">100%</text>
+<!-- milestone point -->
+<circle cx="630" cy="96.2" r="24" fill="url(#haloGlow)"/>
+<circle cx="630" cy="96.2" r="8.5" fill="#FFFFFF" stroke="#34D399" stroke-width="2.5"/>
+<circle cx="630" cy="96.2" r="4" fill="#22C55E"/>
 
-<line x1="60" y1="294" x2="618" y2="90" stroke="var(--border-strong)" stroke-width="1.5" stroke-dasharray="4 4" mask="url(#imagine-text-gaps-ykah0j)" style="fill:rgb(0, 0, 0);stroke:color(srgb 0.0431373 0.0431373 0.0431373 / 0.2);color:rgb(11, 11, 11);stroke-width:1.5px;stroke-dasharray:4px, 4px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-<path d="M 60 302 L 122 270 L 184 288 L 246 240 L 308 254 L 370 200 L 432 214 L 494 158 L 556 172 L 618 110" fill="none" stroke="#378ADD" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" style="fill:none;stroke:rgb(55, 138, 221);color:rgb(11, 11, 11);stroke-width:2.5px;stroke-linecap:round;stroke-linejoin:round;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-<path d="M 60 302 L 122 270 L 184 288 L 246 240 L 308 254 L 370 200 L 432 214 L 494 158 L 556 172 L 618 110 L 618 330 L 60 330 Z" fill="#378ADD" opacity="0.07" style="fill:rgb(55, 138, 221);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.07;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-<g fill="#378ADD" stroke="var(--surface-1)" stroke-width="2" style="fill:rgb(55, 138, 221);stroke:rgb(252, 252, 251);color:rgb(11, 11, 11);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-<circle cx="60" cy="302" r="4" style="fill:rgb(55, 138, 221);stroke:rgb(252, 252, 251);color:rgb(11, 11, 11);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<circle cx="122" cy="270" r="4" style="fill:rgb(55, 138, 221);stroke:rgb(252, 252, 251);color:rgb(11, 11, 11);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<circle cx="184" cy="288" r="4" style="fill:rgb(55, 138, 221);stroke:rgb(252, 252, 251);color:rgb(11, 11, 11);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<circle cx="246" cy="240" r="4" style="fill:rgb(55, 138, 221);stroke:rgb(252, 252, 251);color:rgb(11, 11, 11);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<circle cx="308" cy="254" r="4" style="fill:rgb(55, 138, 221);stroke:rgb(252, 252, 251);color:rgb(11, 11, 11);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<circle cx="370" cy="200" r="4" style="fill:rgb(55, 138, 221);stroke:rgb(252, 252, 251);color:rgb(11, 11, 11);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<circle cx="432" cy="214" r="4" style="fill:rgb(55, 138, 221);stroke:rgb(252, 252, 251);color:rgb(11, 11, 11);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<circle cx="494" cy="158" r="4" style="fill:rgb(55, 138, 221);stroke:rgb(252, 252, 251);color:rgb(11, 11, 11);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<circle cx="556" cy="172" r="4" style="fill:rgb(55, 138, 221);stroke:rgb(252, 252, 251);color:rgb(11, 11, 11);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<circle cx="618" cy="110" r="5" style="fill:rgb(55, 138, 221);stroke:rgb(252, 252, 251);color:rgb(11, 11, 11);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<!-- percentage values -->
+<g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12.5" font-weight="700" fill="#0B5C2C" text-anchor="middle">
+  <text x="50" y="335">11%</text>
+  <text x="114.5" y="266">23%</text>
+  <text x="178.9" y="319">16%</text>
+  <text x="243.4" y="232">35%</text>
+  <text x="307.8" y="280">29%</text>
+  <text x="372.2" y="186">50%</text>
+  <text x="436.7" y="234">45%</text>
+  <text x="501.1" y="137">66%</text>
+  <text x="565.6" y="186">61%</text>
+  <text x="630" y="70" font-size="14">85%</text>
 </g>
 
-<text x="60" y="316" text-anchor="middle" font-size="11" fill="#0C447C" style="fill:rgb(12, 68, 124);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">18%</text>
-<text x="184" y="302" text-anchor="middle" font-size="11" fill="#0C447C" style="fill:rgb(12, 68, 124);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">32%</text>
-<text x="370" y="186" text-anchor="middle" font-size="11" fill="#0C447C" style="fill:rgb(12, 68, 124);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:11px;font-weight:400;text-anchor:middle;dominant-baseline:auto">55%</text>
-<text x="618" y="96" text-anchor="middle" font-size="12" fill="#0C447C" font-weight="500" style="fill:rgb(12, 68, 124);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:500;text-anchor:middle;dominant-baseline:auto">88%</text>
-
-<g font-size="12" fill="var(--text-muted)" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-<text x="60" y="350" text-anchor="middle" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">S1</text>
-<text x="122" y="350" text-anchor="middle" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">S2</text>
-<text x="184" y="350" text-anchor="middle" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">S3</text>
-<text x="246" y="350" text-anchor="middle" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">S4</text>
-<text x="308" y="350" text-anchor="middle" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">S5</text>
-<text x="370" y="350" text-anchor="middle" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">S6</text>
-<text x="432" y="350" text-anchor="middle" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">S7</text>
-<text x="494" y="350" text-anchor="middle" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">S8</text>
-<text x="556" y="350" text-anchor="middle" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">S9</text>
-<text x="618" y="350" text-anchor="middle" style="fill:rgb(137, 135, 129);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">S10</text>
+<!-- date labels -->
+<g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10.5" font-weight="500" fill="#4B7A5C" text-anchor="middle">
+  <text x="50" y="368">5/1</text>
+  <text x="114.5" y="368">12/1</text>
+  <text x="178.9" y="368">19/1</text>
+  <text x="243.4" y="368">26/1</text>
+  <text x="307.8" y="368">2/2</text>
+  <text x="372.2" y="368">9/2</text>
+  <text x="436.7" y="368">16/2</text>
+  <text x="501.1" y="368">23/2</text>
+  <text x="565.6" y="368">2/3</text>
+  <text x="630" y="368">9/3</text>
 </g>
 
-<text x="350" y="374" text-anchor="middle" font-size="12" fill="var(--text-secondary)" style="fill:rgb(82, 81, 78);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Therapy session</text>
-
-<g style="fill:rgb(0, 0, 0);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-<circle cx="70" cy="398" r="4" fill="#378ADD" style="fill:rgb(55, 138, 221);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<text x="80" y="402" font-size="12" fill="var(--text-secondary)" style="fill:rgb(82, 81, 78);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">Recorded mobility score</text>
-<line x1="270" y1="398" x2="290" y2="398" stroke="var(--border-strong)" stroke-width="1.5" stroke-dasharray="4 4" style="fill:rgb(0, 0, 0);stroke:color(srgb 0.0431373 0.0431373 0.0431373 / 0.2);color:rgb(11, 11, 11);stroke-width:1.5px;stroke-dasharray:4px, 4px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<text x="296" y="402" font-size="12" fill="var(--text-secondary)" style="fill:rgb(82, 81, 78);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:anthropic-sans, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">Overall trend</text>
-</g>
 </svg>

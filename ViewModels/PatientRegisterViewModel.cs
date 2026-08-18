@@ -14,7 +14,7 @@ namespace IPTS.ViewModels
         
         [Required(ErrorMessage = "Birth Date is required")]
         [Display(Name = "Birth Date")]
-        public DateTime BirthDate { get; set; }
+        public DateTime BirthDate { get; set; } = DateTime.Today;
         
         public string? UserId { get; set; }
 

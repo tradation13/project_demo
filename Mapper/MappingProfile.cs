@@ -17,6 +17,8 @@ namespace IPTS.Mapper
             CreateMap<AppUser, UserListViewModel>()
                 .ForMember(dest => dest.UserTypeName, opt =>
                     opt.MapFrom(src => src.UserType != null ? src.UserType.Name : "-"))
+                .ForMember(dest => dest.PatientId, opt =>
+                    opt.MapFrom(src => src.Patient != null ? (int?)src.Patient.Id : null))
                 .ReverseMap();
 
             CreateMap<AppUser, UserProfileViewModel>()

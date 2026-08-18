@@ -12,7 +12,7 @@ namespace IPTS.Validators.Admin
             // RuleFor(x => x.IdentityNumber).NotEmpty().WithMessage(localizer.GetSystem("IdentityRequired"));
             RuleFor(x => x.IdentityNumber).MaximumLength(50).WithMessage(localizer.GetSystem("IdentityMaxLength"));
             RuleFor(x => x.BirthDate).NotEmpty().WithMessage(localizer.GetSystem("BirthDateRequired"));
-            RuleFor(x => x.BirthDate).LessThan(DateTime.UtcNow).WithMessage(localizer.GetSystem("InvalidBirthDate"));
+            RuleFor(x => x.BirthDate).LessThanOrEqualTo(DateTime.Today).WithMessage(localizer.GetSystem("InvalidBirthDate"));
             this.AddPatientHealthRules(localizer);
         }
     }

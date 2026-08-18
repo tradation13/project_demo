@@ -48,6 +48,7 @@ namespace IPTS.Areas.Admin.Controllers
                 var users = await _userService
                     .GetAllAsync<UserListViewModel>(u => u
                         .Include(u => u.UserType)
+                        .Include(u => u.Patient)
                         .Where(u => showInactive
                             ? u.Status == EnUserStatus.Deleted
                             : u.Status != EnUserStatus.Deleted))
@@ -112,7 +113,11 @@ namespace IPTS.Areas.Admin.Controllers
                 }
 
                 if (string.Equals(UserType, "patient", StringComparison.OrdinalIgnoreCase))
+                {
                     model.Patient ??= new PatientFormViewModel();
+                    if (string.IsNullOrEmpty(id) && model.Patient.BirthDate == default)
+                        model.Patient.BirthDate = DateTime.Today;
+                }
                 await PrepareUserFormViewBagAsync(UserType);
 
                 return View(model);

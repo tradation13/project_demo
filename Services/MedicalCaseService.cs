@@ -34,5 +34,18 @@ namespace IPTS.Services
             );
         }
 
+        public async Task<MedicalCase?> GetCaseForReportAsync(int caseId)
+        {
+            return await GetByIdAsync<int>(caseId, q => q
+                .Include(mc => mc.Patient).ThenInclude(p => p.User)
+                .Include(mc => mc.Doctor).ThenInclude(d => d.User)
+                .Include(mc => mc.Doctor).ThenInclude(d => d.Specialty)
+                .Include(mc => mc.MedicalCaseTests)
+                    .ThenInclude(mct => mct.Test)
+                        .ThenInclude(t => t.TestGroup)
+                .Include(mc => mc.TestPhotos)
+            );
+        }
+
     }
 }

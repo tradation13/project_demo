@@ -415,7 +415,10 @@ namespace IPTS.Controllers
         {
             var model = new RegisterViewModel
             {
-                Patient = new PatientRegisterViewModel()
+                Patient = new PatientRegisterViewModel
+                {
+                    BirthDate = DateTime.Today
+                }
             };
 
             return View(model);

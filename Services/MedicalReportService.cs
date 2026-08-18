@@ -1,5 +1,7 @@
 using System.Text;
 using System.Text.Json;
+using IPTS.Data;
+using IPTS.Helpers;
 using IPTS.Models.Entites;
 using IPTS.Models.Enums;
 using IPTS.Resources;
@@ -7,19 +9,37 @@ using System.Globalization; // تأكد من إضافة هذا في الأعلى
 
 namespace IPTS.Services
 {
+    public sealed class MedicalReportPdfResult
+    {
+        public required byte[] PdfBytes { get; init; }
+        public required string DownloadFileName { get; init; }
+    }
+
     public class MedicalReportService
     {
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
         private readonly LocService _loc;
         private readonly string _photosPath;
+        private readonly string _reportsPath;
+        private readonly ApplicationDbContext _context;
+        private readonly PdfPrintService _pdfPrintService;
 
-        public MedicalReportService(LocService loc, HttpClient httpClient, IConfiguration configuration, IWebHostEnvironment env)
+        public MedicalReportService(
+            LocService loc,
+            HttpClient httpClient,
+            IConfiguration configuration,
+            IWebHostEnvironment env,
+            ApplicationDbContext context,
+            PdfPrintService pdfPrintService)
         {
             _loc = loc;
             _httpClient = httpClient;
             _apiKey = configuration["OpenAI:ApiKey"];
             _photosPath = Path.Combine(env.ContentRootPath, "InternalStorage", "MedicalCasePhotos");
+            _reportsPath = Path.Combine(env.ContentRootPath, "InternalStorage", "MedicalReports");
+            _context = context;
+            _pdfPrintService = pdfPrintService;
         }
 
         private static bool IsGerman(string lang) => lang.StartsWith("de", StringComparison.OrdinalIgnoreCase);
@@ -1012,6 +1032,64 @@ private string? ToPhotoDataUri(MedicalCaseTestPhoto photo)
 
     return $"data:{mime};base64,{Convert.ToBase64String(bytes)}";
 }
+
+        public async Task<MedicalReportPdfResult> GeneratePdfAsync(
+            MedicalCase medicalCase,
+            string lang,
+            HttpUser httpUser,
+            bool saveToHistory)
+        {
+            var html = await GenerateHtmlReport(medicalCase, lang);
+            var pdfBytes = _pdfPrintService.GeneratePdf(httpUser, html, $"Medical Report - {medicalCase.Name}");
+
+            if (saveToHistory && medicalCase.Patient != null && !string.IsNullOrWhiteSpace(medicalCase.Patient.UserId))
+            {
+                Directory.CreateDirectory(_reportsPath);
+
+                var storedFileName = $"{Guid.NewGuid()}_{medicalCase.Name}.pdf";
+                await File.WriteAllBytesAsync(Path.Combine(_reportsPath, storedFileName), pdfBytes);
+
+                _context.MedicalReportHistories.Add(new MedicalReportHistory
+                {
+                    MedicalCaseId = medicalCase.Id,
+                    UserId = medicalCase.Patient.UserId,
+                    ReportUrl = storedFileName,
+                    CreatedAt = DateTime.UtcNow,
+                });
+                await _context.SaveChangesAsync();
+            }
+
+            var filePrefix = IsGerman(lang) ? "MedizinischerBericht" : "MedicalReport";
+            var lastName = medicalCase.Patient?.User?.LastName ?? "Patient";
+
+            return new MedicalReportPdfResult
+            {
+                PdfBytes = pdfBytes,
+                DownloadFileName = $"{filePrefix}_Case{medicalCase.Id}_{lastName}.pdf"
+            };
+        }
+
+        public FileStream? OpenReportFile(string? fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+                return null;
+
+            var safeFileName = Path.GetFileName(fileName);
+            if (string.IsNullOrWhiteSpace(safeFileName) || safeFileName != fileName)
+                return null;
+
+            var path = Path.Combine(_reportsPath, safeFileName);
+            var fullPath = Path.GetFullPath(path);
+            var fullFolder = Path.GetFullPath(_reportsPath);
+
+            if (!fullPath.StartsWith(fullFolder, StringComparison.OrdinalIgnoreCase))
+                return null;
+
+            if (!File.Exists(fullPath))
+                return null;
+
+            return new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+        }
 
     }
 }

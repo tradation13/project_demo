@@ -400,8 +400,14 @@
   <data name="Login_PageTitle" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="Login_Subtitle" xml:space="preserve">
+    <value>Please enter your credentials to access your account.</value>
+  </data>
   <data name="Reg_PageTitle" xml:space="preserve">
     <value>Register</value>
+  </data>
+  <data name="Reg_Subtitle" xml:space="preserve">
+    <value>Please complete the form below to register as a patient.</value>
   </data>
   <data name="ForgotPass_PageTitle" xml:space="preserve">
     <value>Forgot Password</value>

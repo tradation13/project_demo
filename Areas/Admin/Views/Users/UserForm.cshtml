@@ -84,21 +84,35 @@
                 <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div class="flex flex-col">
                         <label asp-for="Password" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400"></label>
-                        <div class="relative">
-                            <span class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-slate-300">
+                        <div x-data="{ show: false }" class="relative">
+                            <span class="pointer-events-none absolute inset-y-0 start-0 z-10 flex items-center ps-3 text-slate-300">
                                 <i class="fas fa-lock text-xs"></i>
                             </span>
-                            <input asp-for="Password" type="password" class="w-full rounded-lg border border-slate-200 bg-white py-2 ps-9 pe-3 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10" />
+                            <input asp-for="Password"
+                                   :type="show ? 'text' : 'password'"
+                                   class="w-full rounded-lg border border-slate-200 bg-white py-2 ps-9 pe-11 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10" />
+                            <button x-on:click="show = !show" type="button"
+                                    class="absolute inset-y-0 end-0 flex w-11 items-center justify-center text-slate-400 transition hover:text-slate-600"
+                                    aria-label="@SharedLocalizer["Shared_Password"]">
+                                <i :class="show ? 'fas fa-eye' : 'fas fa-eye-slash'" class="text-xs"></i>
+                            </button>
                         </div>
                         <span asp-validation-for="Password" class="mt-1.5 text-xs text-red-500"></span>
                     </div>
                     <div class="flex flex-col">
                         <label asp-for="ConfirmPassword" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400"></label>
-                        <div class="relative">
-                            <span class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-slate-300">
+                        <div x-data="{ show: false }" class="relative">
+                            <span class="pointer-events-none absolute inset-y-0 start-0 z-10 flex items-center ps-3 text-slate-300">
                                 <i class="fas fa-lock text-xs"></i>
                             </span>
-                            <input asp-for="ConfirmPassword" type="password" class="w-full rounded-lg border border-slate-200 bg-white py-2 ps-9 pe-3 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10" />
+                            <input asp-for="ConfirmPassword"
+                                   :type="show ? 'text' : 'password'"
+                                   class="w-full rounded-lg border border-slate-200 bg-white py-2 ps-9 pe-11 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10" />
+                            <button x-on:click="show = !show" type="button"
+                                    class="absolute inset-y-0 end-0 flex w-11 items-center justify-center text-slate-400 transition hover:text-slate-600"
+                                    aria-label="@SharedLocalizer["Shared_ConfirmPassword"]">
+                                <i :class="show ? 'fas fa-eye' : 'fas fa-eye-slash'" class="text-xs"></i>
+                            </button>
                         </div>
                         <span asp-validation-for="ConfirmPassword" class="mt-1.5 text-xs text-red-500"></span>
                     </div>
@@ -170,11 +184,21 @@
 
             case "patient":
                 <div class="rounded-2xl border border-slate-100 bg-white px-8 py-7 shadow-sm shadow-slate-100">
-                    <div class="mb-6 flex items-center gap-3">
-                        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                            <i class="fas fa-user-injured"></i>
-                        </span>
-                        <h4 class="text-xl font-bold text-slate-800">@SharedLocalizer["Appt_Sched_PatientInfo"]</h4>
+                    <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                                <i class="fas fa-user-injured"></i>
+                            </span>
+                            <h4 class="text-xl font-bold text-slate-800">@SharedLocalizer["Appt_Sched_PatientInfo"]</h4>
+                        </div>
+                        @if (isEditMode && Model.Patient?.Id is int patientId && patientId > 0)
+                        {
+                            <a href="@Url.Action("Index", "MedicalCases", new { area = "admin", patientId })"
+                               class="inline-flex items-center gap-2 rounded-xl border border-teal-200 bg-teal-50 px-4 py-2 text-sm font-semibold text-teal-800 transition hover:bg-teal-100">
+                                <i class="fas fa-notes-medical text-xs"></i>
+                                @SharedLocalizer["Shared_Medical_Cases"]
+                            </a>
+                        }
                     </div>
 
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -184,7 +208,9 @@
                                 <span class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-slate-300">
                                     <i class="fas fa-calendar-days text-xs"></i>
                                 </span>
-                                <input asp-for="Patient.BirthDate" type="date" class="w-full rounded-lg border border-slate-200 bg-white py-2 ps-9 pe-3 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10" />
+                                <input asp-for="Patient.BirthDate" type="date"
+                                       max="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                       class="w-full rounded-lg border border-slate-200 bg-white py-2 ps-9 pe-3 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10" />
                             </div>
                             <span asp-validation-for="Patient.BirthDate" class="mt-1.5 text-xs text-red-500"></span>
                         </div>
@@ -314,4 +340,26 @@
             display.classList.add('text-slate-500');
         }
     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const birthDate = document.getElementById('Patient_BirthDate');
+        if (!birthDate) return;
+
+        const now = new Date();
+        const today = [
+            now.getFullYear(),
+            String(now.getMonth() + 1).padStart(2, '0'),
+            String(now.getDate()).padStart(2, '0')
+        ].join('-');
+        birthDate.max = today;
+
+        @if (!isEditMode)
+        {
+            <text>
+            if (!birthDate.value || birthDate.value.startsWith('0001')) {
+                birthDate.value = today;
+            }
+            </text>
+        }
+    });
 </script>

@@ -739,8 +739,12 @@
     <comment>VIiews -&gt; Auth -&gt;  Login</comment>
   </data>
   <data name="Login_BackHome" xml:space="preserve">
-    <value>Back to PhysioTech Home</value>
+    <value>Return to homepage</value>
     <comment>VIiews -&gt; Auth -&gt;  Login</comment>
+  </data>
+  <data name="Login_Subtitle" xml:space="preserve">
+    <value>Please enter your credentials to access your account.</value>
+    <comment>Views -&gt; Auth -&gt; Login</comment>
   </data>
   <data name="Login_RememberMe" xml:space="preserve">
     <value>Remember Me</value>
@@ -763,8 +767,12 @@
     <comment>VIiews -&gt; Auth -&gt;  ForgotPasswordConfirmation</comment>
   </data>
   <data name="Reg_Header" xml:space="preserve">
-    <value>Sign up to create your account and start your health journey with us!</value>
-    <comment>VIiews -&gt; Auth -&gt;  Register</comment>
+    <value>Create an account</value>
+    <comment>Views -&gt; Auth -&gt; Register</comment>
+  </data>
+  <data name="Reg_Subtitle" xml:space="preserve">
+    <value>Please complete the form below to register as a patient.</value>
+    <comment>Views -&gt; Auth -&gt; Register</comment>
   </data>
   <data name="Reg_Placeholder_User" xml:space="preserve">
     <value>Enter your username</value>

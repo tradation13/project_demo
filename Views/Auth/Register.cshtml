@@ -1,34 +1,31 @@
 ﻿@model RegisterViewModel
-@using IPTS.Models.Entites
 @{
     Layout = "~/Views/Shared/Layouts/_AuthLayout.cshtml";
     ViewData["Title"] = SharedLocalizer["Reg_PageTitle"];
-    string fieldClasses = "auth-ui-input mt-1 w-full rounded-2xl border border-slate-200 bg-white/90 px-4 py-3.5 text-[15px] text-slate-900 outline-none transition-all placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10";
-    string labelClasses = "mb-1.5 block text-sm font-medium text-slate-700";
+    var fieldClasses = "mt-1 w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 outline-none transition focus:border-[#0D7A62] focus:ring-2 focus:ring-[#0D7A62]/15";
+    var labelClasses = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500";
+    var checkboxClasses = "mt-1 h-4 w-4 rounded border-slate-300 text-[#0D7A62] focus:ring-[#0D7A62]";
 }
 
-<div class="auth-ui-card auth-ui-pad relative mx-auto w-full max-w-4xl overflow-hidden rounded-[2rem] border border-white/70 bg-white/85 p-8 shadow-[0_24px_80px_rgba(15,23,42,0.12)] backdrop-blur-xl sm:p-10">
-    <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-[2rem]">
-        <div class="auth-ui-orb auth-ui-orb-a absolute -left-10 -top-10 h-40 w-40 rounded-full bg-emerald-500/10 blur-3xl"></div>
-        <div class="auth-ui-orb auth-ui-orb-b absolute -bottom-12 -right-8 h-44 w-44 rounded-full bg-blue-500/10 blur-3xl"></div>
-    </div>
+<div class="mx-auto w-full max-w-4xl overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+    <div class="h-1 bg-[#0D7A62]"></div>
 
-    <div class="relative z-10">
-        <div class="mb-8 text-center sm:text-start">
-            <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-blue-600 text-white shadow-lg shadow-emerald-500/20 ring-1 ring-white/60 sm:mx-0">
-                <i class="fas fa-user-plus text-lg" aria-hidden="true"></i>
-            </div>
-            <h2 class="auth-ui-title text-3xl font-extrabold tracking-tight sm:text-[2rem]">
+    <div class="px-7 py-8 sm:px-9 sm:py-10">
+        <div class="mb-8 border-b border-slate-100 pb-6">
+            <h1 class="text-xl font-semibold tracking-tight text-slate-800 sm:text-2xl">
                 @SharedLocalizer["Reg_Header"]
-            </h2>
+            </h1>
+            <p class="mt-2 text-sm leading-6 text-slate-500">
+                @SharedLocalizer["Reg_Subtitle"]
+            </p>
         </div>
 
-        <form asp-controller="Auth" asp-action="Register" method="post" autocomplete="off" onsubmit="return checkPrivacyConsent()" class="space-y-6">
+        <form asp-controller="Auth" asp-action="Register" method="post" autocomplete="off" onsubmit="return checkPrivacyConsent()" class="space-y-6 text-sm">
             @Html.AntiForgeryToken()
 
             @if (!ViewData.ModelState.IsValid && ViewData.ModelState.Values.Any(v => v.Errors.Any()))
             {
-                <div asp-validation-summary="All" class="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-600"></div>
+                <div asp-validation-summary="All" class="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700"></div>
             }
 
             <input hidden asp-for="UserTypeName" value="patient" />
@@ -36,42 +33,43 @@
             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
                     <label asp-for="FirstName" class="@labelClasses">@SharedLocalizer["Shared_FirstName"]</label>
-                    <input asp-for="FirstName" class="@fieldClasses" placeholder="@SharedLocalizer["Reg_Placeholder_FirstName"]" />
-                    <span asp-validation-for="FirstName" class="mt-1 block text-xs text-red-500"></span>
+                    <input asp-for="FirstName" class="@fieldClasses" />
+                    <span asp-validation-for="FirstName" class="mt-1.5 block text-xs text-red-600"></span>
                 </div>
 
                 <div>
                     <label asp-for="LastName" class="@labelClasses">@SharedLocalizer["Shared_LastName"]</label>
-                    <input asp-for="LastName" class="@fieldClasses" placeholder="@SharedLocalizer["Reg_Placeholder_LastName"]" />
-                    <span asp-validation-for="LastName" class="mt-1 block text-xs text-red-500"></span>
+                    <input asp-for="LastName" class="@fieldClasses" />
+                    <span asp-validation-for="LastName" class="mt-1.5 block text-xs text-red-600"></span>
                 </div>
 
                 <div>
                     <label asp-for="UserName" class="@labelClasses">@SharedLocalizer["Shared_UserName"]</label>
-                    <input asp-for="UserName" class="@fieldClasses" placeholder="@SharedLocalizer["Patient_Placeholder_User"]" />
-                    <span asp-validation-for="UserName" class="mt-1 block text-xs text-red-500"></span>
+                    <input asp-for="UserName" class="@fieldClasses" />
+                    <span asp-validation-for="UserName" class="mt-1.5 block text-xs text-red-600"></span>
                 </div>
 
                 <div>
                     <label asp-for="Email" class="@labelClasses">@SharedLocalizer["Shared_Email"]</label>
-                    <input asp-for="Email" class="@fieldClasses" placeholder="Leo@gmail.com" />
-                    <span asp-validation-for="Email" class="mt-1 block text-xs text-red-500"></span>
+                    <input asp-for="Email" class="@fieldClasses" />
+                    <span asp-validation-for="Email" class="mt-1.5 block text-xs text-red-600"></span>
                 </div>
 
                 <div>
                     <label asp-for="PhoneNumber" class="@labelClasses">@SharedLocalizer["Shared_Phone"]</label>
-                    <input asp-for="PhoneNumber" class="@fieldClasses" placeholder="+49 0X XXX XXXX" />
-                    <span asp-validation-for="PhoneNumber" class="mt-1 block text-xs text-red-500"></span>
+                    <input asp-for="PhoneNumber" class="@fieldClasses" />
+                    <span asp-validation-for="PhoneNumber" class="mt-1.5 block text-xs text-red-600"></span>
                 </div>
 
                 <div>
                     <label asp-for="Patient.BirthDate" class="@labelClasses">@SharedLocalizer["Shared_Date_Of_Birth"]</label>
-                    <input asp-for="Patient.BirthDate" type="date" class="@fieldClasses" />
-                    <span asp-validation-for="Patient.BirthDate" class="mt-1 block text-xs text-red-500"></span>
+                    <input asp-for="Patient.BirthDate" type="date" class="@fieldClasses"
+                           max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                    <span asp-validation-for="Patient.BirthDate" class="mt-1.5 block text-xs text-red-600"></span>
                 </div>
             </div>
 
-            <div class="rounded-2xl border border-slate-100 bg-slate-50/50 p-5">
+            <div class="rounded-lg border border-slate-200 bg-slate-50/70 p-5">
                 @{ ViewData["HealthFieldsVariant"] = "auth"; }
                 <partial name="_PatientHealthFields" for="Patient" />
             </div>
@@ -79,192 +77,128 @@
             <div x-data="{ show: false }">
                 <label asp-for="Password" class="@labelClasses">@SharedLocalizer["Shared_Password"]</label>
                 <div class="relative">
-                    <input :type="show ? 'text' : 'password'" asp-for="Password" class="@fieldClasses pr-12" placeholder="••••••••" />
-                    <button x-on:click="show = !show" type="button" class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 transition-colors hover:text-emerald-600">
-                        <i class="fa-solid" :class="show ? 'fa-eye' : 'fa-eye-slash'"></i>
+                    <input :type="show ? 'text' : 'password'" asp-for="Password" class="@fieldClasses pe-11" />
+                    <button x-on:click="show = !show" type="button"
+                            class="absolute inset-y-0 end-0 flex w-11 items-center justify-center text-slate-400 transition hover:text-slate-600"
+                            aria-label="@SharedLocalizer["Shared_Password"]">
+                        <i class="fa-solid text-sm" :class="show ? 'fa-eye' : 'fa-eye-slash'"></i>
                     </button>
                 </div>
-                <span asp-validation-for="Password" class="mt-1 block text-xs text-red-500"></span>
+                <span asp-validation-for="Password" class="mt-1.5 block text-xs text-red-600"></span>
             </div>
 
             <div x-data="{ show: false }">
                 <label asp-for="ConfirmPassword" class="@labelClasses">@SharedLocalizer["Shared_ConfirmPassword"]</label>
                 <div class="relative">
-                    <input :type="show ? 'text' : 'password'" asp-for="ConfirmPassword" class="@fieldClasses pr-12" placeholder="••••••••" />
-                    <button x-on:click="show = !show" type="button" class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 transition-colors hover:text-emerald-600">
-                        <i class="fa-solid" :class="show ? 'fa-eye' : 'fa-eye-slash'"></i>
+                    <input :type="show ? 'text' : 'password'" asp-for="ConfirmPassword" class="@fieldClasses pe-11" />
+                    <button x-on:click="show = !show" type="button"
+                            class="absolute inset-y-0 end-0 flex w-11 items-center justify-center text-slate-400 transition hover:text-slate-600"
+                            aria-label="@SharedLocalizer["Shared_ConfirmPassword"]">
+                        <i class="fa-solid text-sm" :class="show ? 'fa-eye' : 'fa-eye-slash'"></i>
                     </button>
                 </div>
-                <span asp-validation-for="ConfirmPassword" class="mt-1 block text-xs text-red-500"></span>
+                <span asp-validation-for="ConfirmPassword" class="mt-1.5 block text-xs text-red-600"></span>
             </div>
 
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div class="flex flex-col gap-3">
+            <div class="space-y-4 border-t border-slate-100 pt-5">
+                <div>
                     <div class="flex items-start gap-3">
-                        <input asp-for="AcceptPrivacy" type="checkbox" class="mt-1 h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-600" />
+                        <input asp-for="AcceptPrivacy" type="checkbox" class="@checkboxClasses" />
                         <label asp-for="AcceptPrivacy" class="text-sm text-slate-600">
                             @SharedLocalizer["Reg_PrivacyConsent"]
-                            <a href="@Url.Action("Privacy", "Home", new { returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}" })" class="font-medium text-emerald-600 hover:underline">
+                            <a href="@Url.Action("Privacy", "Home", new { returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}" })" class="font-semibold text-[#0D7A62] hover:underline">
                                 @SharedLocalizer["Shared_Privacy_Title"]
                             </a>
                         </label>
                     </div>
-                    <span asp-validation-for="AcceptPrivacy" class="block text-xs text-red-500"></span>
+                    <span asp-validation-for="AcceptPrivacy" class="mt-1.5 block text-xs text-red-600"></span>
+                </div>
 
+                <div>
                     <div class="flex items-start gap-3">
-                        <input asp-for="AcceptTerms" type="checkbox" class="mt-1 h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-600" />
+                        <input asp-for="AcceptTerms" type="checkbox" class="@checkboxClasses" />
                         <label asp-for="AcceptTerms" class="text-sm text-slate-600">
                             @SharedLocalizer["Reg_TermsConsent"]
-                            <a href="@Url.Action("Terms", "Home", new { returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}" })" class="font-medium text-emerald-600 hover:underline">
+                            <a href="@Url.Action("Terms", "Home", new { returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}" })" class="font-semibold text-[#0D7A62] hover:underline">
                                 @SharedLocalizer["Footer_Terms"]
                             </a>
                         </label>
                     </div>
-                    <span asp-validation-for="AcceptTerms" class="block text-xs text-red-500"></span>
+                    <span asp-validation-for="AcceptTerms" class="mt-1.5 block text-xs text-red-600"></span>
+                </div>
 
-                    <div class="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4">
-                        <div class="flex items-start gap-3">
-                            <input asp-for="AcceptHealthDataConsent" type="checkbox" class="mt-1 h-4 w-4 shrink-0 rounded border-slate-300 text-emerald-600 focus:ring-emerald-600" />
-                            <label asp-for="AcceptHealthDataConsent" class="text-sm leading-relaxed text-slate-700">
-                                @SharedLocalizer["Reg_HealthConsent_Before"]
-                                <a href="@Url.Action("Privacy", "Home", new { returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}" })" class="font-semibold text-emerald-700 hover:underline">
-                                    @SharedLocalizer["Reg_HealthConsent_Link"]
-                                </a>
-                                @SharedLocalizer["Reg_HealthConsent_After"]
-                            </label>
-                        </div>
-                        <span asp-validation-for="AcceptHealthDataConsent" class="mt-2 block text-xs text-red-500"></span>
+                <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                    <div class="flex items-start gap-3">
+                        <input asp-for="AcceptHealthDataConsent" type="checkbox" class="@checkboxClasses shrink-0" />
+                        <label asp-for="AcceptHealthDataConsent" class="text-sm leading-relaxed text-slate-700">
+                            @SharedLocalizer["Reg_HealthConsent_Before"]
+                            <a href="@Url.Action("Privacy", "Home", new { returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}" })" class="font-semibold text-[#0D7A62] hover:underline">
+                                @SharedLocalizer["Reg_HealthConsent_Link"]
+                            </a>
+                            @SharedLocalizer["Reg_HealthConsent_After"]
+                        </label>
                     </div>
+                    <span asp-validation-for="AcceptHealthDataConsent" class="mt-2 block text-xs text-red-600"></span>
                 </div>
             </div>
 
-            <div class="flex justify-center">
+            <div class="flex flex-col gap-3 pt-1">
                 <button type="submit"
-                        class="inline-flex w-full max-w-[420px] items-center justify-center rounded-2xl bg-gradient-to-r from-emerald-600 to-emerald-500 py-3.5 text-sm font-semibold text-white shadow-lg shadow-emerald-600/20 transition-all duration-200 hover:-translate-y-0.5 hover:from-emerald-700 hover:to-emerald-600 hover:shadow-xl hover:shadow-emerald-700/25 active:scale-[0.99]">
+                        class="inline-flex w-full items-center justify-center rounded-lg bg-[#0D7A62] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0a6350]">
                     @SharedLocalizer["Reg_SubmitBtn"]
                 </button>
             </div>
-        </form>
 
-        <p class="mt-8 text-center text-sm text-slate-500">
-            @SharedLocalizer["Reg_AlreadyHaveAccount"]
-            <a href="@Url.Action("Login", "Auth")" class="font-semibold text-emerald-600 hover:underline">
-                @SharedLocalizer["Reg_SignIn_Link"]
-            </a>
-        </p>
+            <p class="pt-1 text-center text-sm text-slate-500">
+                @SharedLocalizer["Reg_AlreadyHaveAccount"]
+                <a href="@Url.Action("Login", "Auth")"
+                   class="font-semibold text-[#0D7A62] hover:text-[#0a6350] hover:underline">
+                    @SharedLocalizer["Reg_SignIn_Link"]
+                </a>
+            </p>
+        </form>
     </div>
 </div>
 
-<!-- Privacy Consent Modal -->
 <div id="privacyModal"
-     class="fixed inset-0 z-50 flex hidden items-center justify-center p-4 transition-all duration-300">
-
-    <div class="absolute inset-0 bg-white/40 backdrop-blur-md pm-backdrop"></div>
-
-    <div class="relative w-[90%] max-w-[340px] transform overflow-hidden rounded-[2.5rem] border border-slate-100 bg-white p-8 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.1)] transition-all pm-card">
-
-        <div class="text-center">
-            <div class="pm-icon-wrap mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-orange-50 text-orange-500">
-                <span class="pm-ring"></span>
-                <i class="fa-solid fa-shield-halved text-2xl pm-shield"></i>
-            </div>
-
-            <h3 class="pm-title mb-3 text-xl font-bold tracking-tight text-slate-800">
+     class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div class="absolute inset-0 bg-slate-900/40"></div>
+    <div class="relative w-full max-w-sm overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg">
+        <div class="h-1 bg-[#0D7A62]"></div>
+        <div class="px-6 py-7 text-center">
+            <h3 class="mb-2 text-lg font-semibold text-slate-800">
                 @SharedLocalizer["Reg_PrivacyModal_Title"]
             </h3>
-
-            <p class="pm-msg mb-8 text-sm leading-relaxed text-slate-500">
+            <p class="mb-6 text-sm leading-relaxed text-slate-500">
                 @SharedLocalizer["Reg_PrivacyModal_Message"]
             </p>
-
-            <button onclick="closePrivacyModal()"
-                    class="pm-btn w-full rounded-2xl bg-slate-900 py-4 text-sm font-bold text-white transition-all hover:bg-slate-800 active:scale-95">
+            <button type="button" onclick="closePrivacyModal()"
+                    class="inline-flex w-full items-center justify-center rounded-lg bg-[#0D7A62] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0a6350]">
                 @SharedLocalizer["Shared_GotIt"]
             </button>
         </div>
-
     </div>
 </div>
-
-<style>
-    @@keyframes pmBackdropIn {
-        from { opacity:0; }
-        to   { opacity:1; }
-    }
-    @@keyframes pmCardIn {
-        from { opacity:0; transform:scale(.88) translateY(24px); }
-        to   { opacity:1; transform:scale(1)   translateY(0); }
-    }
-    @@keyframes pmFadeUp {
-        from { opacity:0; transform:translateY(14px); }
-        to   { opacity:1; transform:translateY(0); }
-    }
-    @@keyframes pmShieldBob {
-        0%,100% { transform:translateY(0) rotate(0deg); }
-        30%      { transform:translateY(-6px) rotate(-5deg); }
-        60%      { transform:translateY(-3px) rotate(4deg); }
-    }
-    @@keyframes pmRingPulse {
-        0%   { transform:scale(1);   opacity:.45; }
-        100% { transform:scale(1.9); opacity:0; }
-    }
-
-    .pm-backdrop {
-        animation: pmBackdropIn .3s ease forwards;
-    }
-
-    .pm-card {
-        animation: pmCardIn .45s cubic-bezier(.22,1,.36,1) .05s both;
-    }
-
-    .pm-icon-wrap {
-        position: relative;
-    }
-    .pm-ring {
-        position: absolute;
-        inset: 0;
-        border-radius: 50%;
-        border: 2px solid #fb923c;
-        animation: pmRingPulse 2s ease-out infinite;
-        pointer-events: none;
-    }
-    .pm-shield {
-        display: inline-block;
-        animation: pmShieldBob 2.8s ease-in-out infinite;
-    }
-
-    .pm-title {
-        opacity: 0;
-        animation: pmFadeUp .5s cubic-bezier(.22,1,.36,1) .22s forwards;
-    }
-    .pm-msg {
-        opacity: 0;
-        animation: pmFadeUp .5s cubic-bezier(.22,1,.36,1) .32s forwards;
-    }
-
-    .pm-btn {
-        opacity: 0;
-        animation: pmFadeUp .5s cubic-bezier(.22,1,.36,1) .42s forwards;
-        position: relative;
-        overflow: hidden;
-    }
-    .pm-btn::after {
-        content: '';
-        position: absolute;
-        top: 0; left: -75%;
-        width: 50%; height: 100%;
-        background: linear-gradient(120deg, transparent, rgba(255,255,255,.12), transparent);
-        transform: skewX(-20deg);
-        transition: left .4s ease;
-    }
-    .pm-btn:hover::after { left: 130%; }
-</style>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById('privacyModal');
     if (modal) {
         document.body.appendChild(modal);
+    }
+
+    const birthDate = document.getElementById('Patient_BirthDate');
+    if (birthDate) {
+        const now = new Date();
+        const today = [
+            now.getFullYear(),
+            String(now.getMonth() + 1).padStart(2, '0'),
+            String(now.getDate()).padStart(2, '0')
+        ].join('-');
+        birthDate.max = today;
+        if (!birthDate.value || birthDate.value.startsWith('0001')) {
+            birthDate.value = today;
+        }
     }
 });
 

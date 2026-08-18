@@ -1,11 +1,9 @@
 ﻿using IPTS.Resources;
-using IPTS.Data;
 using IPTS.Helpers;
 using IPTS.Models.Entites;
 using IPTS.Services;
 using IPTS.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,10 +20,8 @@ namespace IPTS.Areas.Doctor.Controllers
         MedicalCaseTestPhotoService medicalCaseTestPhotoService,
         PatientService patientService,
         TestService testService,
-        PdfPrintService pdfPrintService,
         UserService userService,
-        MedicalReportService medicalReportService,
-        ApplicationDbContext context) : Controller
+        MedicalReportService medicalReportService) : Controller
     {
         private readonly LocService _locService = locService;
         private readonly MedicalReportService _medicalReportService = medicalReportService;
@@ -34,9 +30,7 @@ namespace IPTS.Areas.Doctor.Controllers
         private readonly MedicalCaseTestPhotoService _medicalCaseTestPhotoService = medicalCaseTestPhotoService;
         private readonly PatientService _patientService = patientService;
         private readonly TestService _testService = testService;
-        private readonly PdfPrintService _pdfPrintService = pdfPrintService;
         private readonly UserService _userService = userService;
-        private readonly ApplicationDbContext _context = context;
         public async Task<IActionResult> Index(int patientId)
         {
 
@@ -260,85 +254,32 @@ namespace IPTS.Areas.Doctor.Controllers
                 LogEventLevel.Information);
             return RedirectToAction("Details", new { id = test?.MedicalCaseId });
         }
-[HttpGet]
-public async Task<IActionResult> PrintReport(int id)
-{
-    
-    var medicalCase = await _medicalCaseService.GetByIdAsync(
-        id,
-        q => q
-            .Include(mc => mc.Patient).ThenInclude(p => p.User)
-            .Include(mc => mc.Doctor).ThenInclude(d => d.User)
-            .Include(mc => mc.Doctor).ThenInclude(d => d.Specialty)
-            .Include(mc => mc.MedicalCaseTests)
-                .ThenInclude(mct => mct.Test)
-                    .ThenInclude(t => t.TestGroup)
-            .Include(mc => mc.TestPhotos)
-    );
+        [HttpGet]
+        public async Task<IActionResult> PrintReport(int id)
+        {
+            var medicalCase = await _medicalCaseService.GetCaseForReportAsync(id);
+            if (medicalCase == null) return NotFound();
 
-    if (medicalCase == null) return NotFound();
+            var requestCulture = HttpContext.Features.Get<IRequestCultureFeature>();
+            var currentLang = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName ?? "en";
+            var result = await _medicalReportService.GeneratePdfAsync(
+                medicalCase,
+                currentLang,
+                new HttpUser(HttpContext),
+                saveToHistory: true);
 
-     var requestCulture = HttpContext.Features.Get<IRequestCultureFeature>();
-    string currentLang = requestCulture?.RequestCulture.Culture.TwoLetterISOLanguageName ?? "en";
-    
-    string html = await _medicalReportService.GenerateHtmlReport(medicalCase, currentLang);
+            return File(result.PdfBytes, "application/pdf", result.DownloadFileName);
+        }
 
-    
-    byte[] pdfBytes = _pdfPrintService.GeneratePdf(new Helpers.HttpUser(HttpContext), html, $"Medical Report - {medicalCase.Name}");
+        [HttpGet]
+        public IActionResult ViewReport(string fileName)
+        {
+            var stream = _medicalReportService.OpenReportFile(fileName);
+            if (stream == null)
+                return NotFound(_locService.GetSystem("Error_ReportFileNotFound"));
 
-    
-
-    
-    string fileName = $"{Guid.NewGuid()}_{medicalCase.Name}.pdf";
-    string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "InternalStorage", "MedicalReports");
-
-   
-    if (!Directory.Exists(folderPath))
-    {
-        Directory.CreateDirectory(folderPath);
-    }
-
-    string filePath = Path.Combine(folderPath, fileName);
-
-    
-    await System.IO.File.WriteAllBytesAsync(filePath, pdfBytes);
-
-    
-    var reportHistory = new MedicalReportHistory
-    {
-        MedicalCaseId = medicalCase.Id,
-        UserId = medicalCase.Patient.UserId, 
-        ReportUrl = fileName, 
-        CreatedAt = DateTime.UtcNow,
-    };
-
-    
-    _context.MedicalReportHistories.Add(reportHistory);
-    await _context.SaveChangesAsync();
-
-   
-string filePrefix = (currentLang == "de") ? "MedizinischerBericht" : "MedicalReport";
-
-return File(pdfBytes, "application/pdf", $"{filePrefix}_Case{medicalCase.Id}_{medicalCase.Patient.User.LastName}.pdf");
-}
-
-[HttpGet]
-public IActionResult ViewReport(string fileName)
-{
-    if (string.IsNullOrEmpty(fileName)) return NotFound();
-
-    
-    var path = Path.Combine(Directory.GetCurrentDirectory(), "InternalStorage", "MedicalReports", fileName);
-
- 
-    if (!System.IO.File.Exists(path)) return NotFound(_locService.GetSystem("Error_ReportFileNotFound"));
-
-   
-    var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
-    
-    
-    return File(fileStream, "application/pdf");
-}
+            return File(stream, "application/pdf");
+        }
 
 
 

@@ -30,6 +30,15 @@
             pillWrap = "space-y-3 rounded-lg border border-slate-100 bg-slate-50/70 p-3";
             sectionTitleCls = "mb-4 text-sm font-bold text-slate-800";
             break;
+        case "auth":
+            labelCls = "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500";
+            inputCls = "w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 outline-none transition focus:border-[#0D7A62] focus:ring-2 focus:ring-[#0D7A62]/15";
+            selectCls = inputCls;
+            hintCls = "mt-1.5 block text-xs text-red-600 empty:hidden";
+            pillBase = "blood-pill rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm font-semibold text-slate-600 transition hover:border-slate-300";
+            pillWrap = "space-y-3 rounded-lg border border-slate-200 bg-white p-3";
+            sectionTitleCls = "mb-4 text-sm font-semibold text-slate-800";
+            break;
         default:
             labelCls = ViewData["HealthLabelClass"] as string ?? "mb-1.5 block text-sm font-medium text-slate-700";
             inputCls = ViewData["HealthInputClass"] as string ?? "mt-1 w-full rounded-2xl border border-slate-200 bg-white/90 px-4 py-3.5 text-[15px] text-slate-900 outline-none transition-all placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10";

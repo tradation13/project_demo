@@ -1,0 +1,86 @@
+@model IPTS.Models.Entites.MedicalCase
+@{
+    Layout = "~/Views/Shared/Layouts/_DashboardLayout.cshtml";
+    ViewData["Title"] = SharedLocalizer["MedCase_Det_Title"];
+    var patient = ViewBag.Patient as IPTS.Models.Entites.Patient ?? Model.Patient;
+    var fullName = $"{patient?.User?.FirstName} {patient?.User?.LastName}".Trim();
+    var doctorName = $"{Model.Doctor?.User?.FirstName} {Model.Doctor?.User?.LastName}".Trim();
+    var bloodKey = PatientHealthHelper.GetBloodGroupResourceKey(patient?.BloodGroup);
+    string YesNoOrDash(bool? value) =>
+        value == true ? SharedLocalizer["Shared_Yes"].Value
+        : value == false ? SharedLocalizer["Shared_No"].Value
+        : SharedLocalizer["Patient_NotSpecified"].Value;
+    var hasFinishedTest = Model.MedicalCaseTests?.Any(t => !string.IsNullOrWhiteSpace(t.Result)) == true;
+}
+
+<div class="space-y-5">
+
+    <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">@SharedLocalizer["Shared_Medical_Cases"]</p>
+            <h4 class="mt-1 text-2xl font-bold text-slate-800">@Model.Name</h4>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+            @if (hasFinishedTest)
+            {
+                <a href="@Url.Action("PrintReport", "MedicalCases", new { area = "admin", id = Model.Id })"
+                   class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary/20 transition hover:-translate-y-0.5 hover:shadow-lg">
+                    <i class="fas fa-print text-xs"></i>
+                    @SharedLocalizer["Shared_Print_Report"]
+                </a>
+            }
+            <a href="@Url.Action("Index", "MedicalCases", new { area = "admin", patientId = Model.PatientId })"
+               class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50">
+                <i class="fas fa-arrow-left text-xs"></i>
+                @SharedLocalizer["Shared_Back"]
+            </a>
+        </div>
+    </div>
+
+    <div class="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
+        <div class="border-b border-slate-100 bg-gradient-to-r from-slate-50 via-white to-primary/5 px-6 py-6 sm:px-8">
+            <div class="flex flex-wrap items-start gap-4">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-indigo-600 text-lg font-bold text-white shadow-sm shadow-primary/20">
+                    @(fullName.Length > 0
+                        ? string.Join("", fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(n => n[0].ToString().ToUpper()))
+                        : "P")
+                </span>
+                <div class="min-w-0 flex-1">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">@SharedLocalizer["Shared_Patient"]</p>
+                    <h5 class="mt-1 text-lg font-bold text-slate-800">@fullName</h5>
+                    <p class="mt-1 text-sm text-slate-500">
+                        @(patient?.User?.Email)
+                        @if (!string.IsNullOrWhiteSpace(patient?.User?.PhoneNumber))
+                        {
+                            <span class="mx-2 text-slate-300">|</span>
+                            @patient.User.PhoneNumber
+                        }
+                    </p>
+                    @if (!string.IsNullOrWhiteSpace(doctorName))
+                    {
+                        <p class="mt-2 text-sm text-slate-500">
+                            @SharedLocalizer["Appt_DoctorName"]:
+                            <span class="font-semibold text-slate-700">@doctorName</span>
+                        </p>
+                    }
+                </div>
+            </div>
+
+            <div class="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                <p class="text-xs text-slate-500"><span class="font-semibold text-slate-600">@SharedLocalizer["MedCase_Weight"]:</span> @(patient?.Weight.HasValue == true ? $"{patient.Weight} kg" : SharedLocalizer["Patient_NotSpecified"].Value)</p>
+                <p class="text-xs text-slate-500"><span class="font-semibold text-slate-600">@SharedLocalizer["MedCase_Height"]:</span> @(patient?.Height.HasValue == true ? $"{patient.Height} cm" : SharedLocalizer["Patient_NotSpecified"].Value)</p>
+                <p class="text-xs text-slate-500"><span class="font-semibold text-slate-600">@SharedLocalizer["MedCase_BloodGroup"]:</span> @(string.IsNullOrEmpty(bloodKey) ? SharedLocalizer["Patient_NotSpecified"].Value : SharedLocalizer[bloodKey].Value)</p>
+                <p class="text-xs text-slate-500"><span class="font-semibold text-slate-600">@SharedLocalizer["MedCase_Smoker"]:</span> @YesNoOrDash(patient?.IsSmoker)</p>
+                <p class="text-xs text-slate-500"><span class="font-semibold text-slate-600">@SharedLocalizer["MedCase_ChronicDiseases"]:</span> @YesNoOrDash(patient?.HasChronicDisease)</p>
+                <p class="text-xs text-slate-500"><span class="font-semibold text-slate-600">@SharedLocalizer["Shared_Created"]:</span> @Model.CreatedAt.ToString("yyyy-MM-dd")</p>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Description))
+            {
+                <p class="mt-4 text-sm leading-relaxed text-slate-600">@Model.Description</p>
+            }
+        </div>
+    </div>
+
+    <partial name="MedicalCases/_CaseTestsReadOnly" model="@(new MedicalCaseTestsReadOnlyViewModel { Case = Model, Area = "admin" })" />
+</div>

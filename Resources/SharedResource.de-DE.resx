@@ -1083,11 +1083,11 @@
     <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
   </data>
   <data name="Error_Title" xml:space="preserve">
-    <value>Fehler</value>
+    <value>Vorübergehend nicht verfügbar</value>
     <comment>VIiews -&gt; Shared -&gt; Error</comment>
   </data>
   <data name="Error_Header" xml:space="preserve">
-    <value>Beim Verarbeiten Ihrer Anfrage ist ein Fehler aufgetreten.</value>
+    <value>Wir sind in Kürze wieder für Sie da</value>
     <comment>VIiews -&gt; Shared -&gt; Error</comment>
   </data>
   <data name="Error_RequestId" xml:space="preserve">
@@ -3524,5 +3524,17 @@ Ich bin Ihr PhysioTech-Assistent. Wie kann ich Ihnen helfen?</value>
   </data>
   <data name="GuestBooking_Finishing" xml:space="preserve">
     <value>Ihre Buchung wird abgeschlossen…</value>
+  </data>
+  <data name="Error_Message" xml:space="preserve">
+    <value>Die Website hat ein vorübergehendes Problem. Bitte aktualisieren Sie die Seite in einem Moment, oder kontaktieren Sie uns, falls das Problem bestehen bleibt.</value>
+    <comment>Views -&gt; Shared -&gt; Error</comment>
+  </data>
+  <data name="Error_Refresh" xml:space="preserve">
+    <value>Seite aktualisieren</value>
+    <comment>Views -&gt; Shared -&gt; Error</comment>
+  </data>
+  <data name="Error_ContactUs" xml:space="preserve">
+    <value>Kontakt</value>
+    <comment>Views -&gt; Shared -&gt; Error</comment>
   </data>
 </root>

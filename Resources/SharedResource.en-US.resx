@@ -1027,11 +1027,11 @@
     <comment>Models -&gt; Sidebar -&gt; SidebarProvider</comment>
   </data>
   <data name="Error_Title" xml:space="preserve">
-    <value>Error</value>
+    <value>Temporarily unavailable</value>
     <comment>VIiews -&gt; Shared -&gt; Error</comment>
   </data>
   <data name="Error_Header" xml:space="preserve">
-    <value>An error occurred while processing your request.</value>
+    <value>We will be back shortly</value>
     <comment>VIiews -&gt; Shared -&gt; Error</comment>
   </data>
   <data name="Error_RequestId" xml:space="preserve">
@@ -3506,5 +3506,17 @@ I'm your PhysioTech Assistant. How can I help you today?</value>
   </data>
   <data name="GuestBooking_Finishing" xml:space="preserve">
     <value>Finishing your booking…</value>
+  </data>
+  <data name="Error_Message" xml:space="preserve">
+    <value>The website encountered a temporary problem. Please try refreshing the page in a moment, or contact our team if it continues.</value>
+    <comment>Views -&gt; Shared -&gt; Error</comment>
+  </data>
+  <data name="Error_Refresh" xml:space="preserve">
+    <value>Refresh page</value>
+    <comment>Views -&gt; Shared -&gt; Error</comment>
+  </data>
+  <data name="Error_ContactUs" xml:space="preserve">
+    <value>Contact us</value>
+    <comment>Views -&gt; Shared -&gt; Error</comment>
   </data>
 </root>

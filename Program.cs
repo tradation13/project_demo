@@ -215,6 +215,12 @@ builder.Services.AddControllersWithViews()
             builder.Services.AddMemoryCache();
             var app = builder.Build();
 
+            app.UseExceptionHandler("/Home/Error");
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseHsts();
+            }
+
 // 1. السماح بالوصول للملفات الثابتة العادية في wwwroot
 app.UseStaticFiles(); 
 

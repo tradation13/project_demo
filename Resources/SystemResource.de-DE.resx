@@ -1170,6 +1170,9 @@
   <data name="Booking_CompleteRequiredFields" xml:space="preserve">
     <value>Bitte geben Sie vor der Buchung Ihr Geburtsdatum und Ihre Telefonnummer an.</value>
   </data>
+  <data name="Error_Unhandled" xml:space="preserve">
+    <value>Es ist ein vorübergehendes Problem aufgetreten. Bitte versuchen Sie es in Kürze erneut.</value>
+  </data>
 </root>
 
 

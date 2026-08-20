@@ -1,12 +1,17 @@
+using IPTS.Helpers;
 using IPTS.Models;
 using IPTS.Resources;
 using IPTS.Services;
 using IPTS.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
+using Serilog.Events;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace IPTS.Controllers
 {
@@ -149,6 +154,34 @@ public IActionResult SetLanguage(string culture, string returnUrl)
     return Redirect(returnUrl); 
 }
 
+        [AllowAnonymous]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            var requestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            var feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            var path = feature?.Path ?? "(direct)";
+            var exception = feature?.Error;
+
+            if (exception != null)
+            {
+                LogHelper.LogWithContext(
+                    $"Unhandled exception on '{path}'. requestId={requestId}. {exception.GetType().Name}: {exception.Message}",
+                    User?.Identity?.Name ?? "Anonymous",
+                    User?.FindFirst(ClaimTypes.Role)?.Value ?? "Guest",
+                    "HomeController.Error",
+                    LogEventLevel.Error);
+            }
+
+            if (ApiRequestHelper.IsAjaxOrJsonRequest(Request))
+            {
+                return StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    ApiResult<object>.Fail("SERVER_ERROR", _locService.GetSystem("Error_Unhandled")));
+            }
+
+            return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { RequestId = requestId });
+        }
 
     }
 }

@@ -1,24 +1,62 @@
 ﻿@model ErrorViewModel
 @{
     ViewData["Title"] = SharedLocalizer["Error_Title"];
+    Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
 }
 
-<h1 class="text-danger">@SharedLocalizer["Error_Title"].</h1>
-<h2 class="text-danger">@SharedLocalizer["Error_Header"]</h2>
+<section class="relative overflow-hidden bg-slate-50 py-16 sm:py-24">
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+        <div class="absolute left-[6%] top-[18%] h-64 w-64 rounded-full bg-[#0D7A62]/8 blur-3xl"></div>
+        <div class="absolute right-[8%] bottom-[12%] h-72 w-72 rounded-full bg-sky-200/30 blur-3xl"></div>
+    </div>
 
-@if (Model.ShowRequestId)
-{
-    <p>
-        <strong>@SharedLocalizer["Error_RequestId"]:</strong> <code>@Model.RequestId</code>
-    </p>
-}
+    <div class="relative z-10 mx-auto max-w-xl px-4 sm:px-6">
+        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div class="h-1 bg-[#0D7A62]"></div>
 
-<h3>@SharedLocalizer["Error_DevMode_Title"]</h3>
-<p>
-    @SharedLocalizer["Error_DevMode_Desc"]
-</p>
-<p>
-    <strong>@SharedLocalizer["Error_DevMode_Warning"]</strong>
-    @SharedLocalizer["Error_DevMode_Info"]
-</p>
-    
+            <div class="px-7 py-10 text-center sm:px-10 sm:py-12">
+                <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-[#0D7A62]/15 bg-[#0D7A62]/8">
+                    <i class="fa-solid fa-heart-pulse text-2xl text-[#0D7A62]"></i>
+                </div>
+
+                <p class="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#0D7A62]">
+                    PhysioTech
+                </p>
+                <h1 class="text-2xl font-semibold tracking-tight text-slate-800 sm:text-3xl">
+                    @SharedLocalizer["Error_Header"]
+                </h1>
+                <p class="mx-auto mt-4 max-w-md text-sm leading-7 text-slate-500 sm:text-[15px]">
+                    @SharedLocalizer["Error_Message"]
+                </p>
+
+                <div class="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+                    <button type="button"
+                            onclick="window.location.reload()"
+                            class="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0D7A62] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0a6350]">
+                        <i class="fa-solid fa-rotate-right text-xs"></i>
+                        @SharedLocalizer["Error_Refresh"]
+                    </button>
+                    <a href="@Url.Action("Contact", "Home")"
+                       class="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-[#0D7A62]/30 hover:text-[#0D7A62]">
+                        <i class="fa-solid fa-envelope text-xs"></i>
+                        @SharedLocalizer["Error_ContactUs"]
+                    </a>
+                </div>
+
+                <a href="@Url.Action("Index", "Home")"
+                   class="mt-5 inline-flex items-center justify-center gap-2 text-sm font-medium text-slate-500 transition hover:text-[#0D7A62]">
+                    <i class="fa-solid fa-house text-xs"></i>
+                    @SharedLocalizer["Access_GoHome"]
+                </a>
+
+                @if (Model?.ShowRequestId == true)
+                {
+                    <p class="mt-8 border-t border-slate-100 pt-5 text-xs text-slate-400">
+                        @SharedLocalizer["Error_RequestId"]:
+                        <code class="font-medium text-slate-500">@Model.RequestId</code>
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+</section>

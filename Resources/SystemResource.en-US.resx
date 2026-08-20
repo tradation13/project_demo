@@ -1246,6 +1246,9 @@
   <data name="Booking_CompleteRequiredFields" xml:space="preserve">
     <value>Please add your date of birth and phone number before booking.</value>
   </data>
+  <data name="Error_Unhandled" xml:space="preserve">
+    <value>A temporary problem occurred. Please try again shortly.</value>
+  </data>
 </root>
 
 

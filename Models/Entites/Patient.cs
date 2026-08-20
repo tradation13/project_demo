@@ -9,7 +9,7 @@ namespace IPTS.Models.Entites
         public AppUser User { get; set; }
 
         // public string IdentityNumber { get; set; } = string.Empty;
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         public float? Weight { get; set; }
         public float? Height { get; set; }

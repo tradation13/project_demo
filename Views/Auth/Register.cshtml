@@ -20,7 +20,7 @@
             </p>
         </div>
 
-        <form asp-controller="Auth" asp-action="Register" method="post" autocomplete="off" onsubmit="return checkPrivacyConsent()" class="space-y-6 text-sm">
+        <form id="registerForm" asp-area="" asp-controller="Auth" asp-action="Register" method="post" autocomplete="off" onsubmit="return checkPrivacyConsent()" class="space-y-6 text-sm">
             @Html.AntiForgeryToken()
 
             @if (!ViewData.ModelState.IsValid && ViewData.ModelState.Values.Any(v => v.Errors.Any()))
@@ -29,6 +29,8 @@
             }
 
             <input hidden asp-for="UserTypeName" value="patient" />
+            <input type="hidden" asp-for="Patient.UserId" />
+            <input type="hidden" asp-for="BookingDoctorUserId" />
 
             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
@@ -43,35 +45,11 @@
                     <span asp-validation-for="LastName" class="mt-1.5 block text-xs text-red-600"></span>
                 </div>
 
-                <div>
-                    <label asp-for="UserName" class="@labelClasses">@SharedLocalizer["Shared_UserName"]</label>
-                    <input asp-for="UserName" class="@fieldClasses" />
-                    <span asp-validation-for="UserName" class="mt-1.5 block text-xs text-red-600"></span>
-                </div>
-
-                <div>
+                <div class="sm:col-span-2">
                     <label asp-for="Email" class="@labelClasses">@SharedLocalizer["Shared_Email"]</label>
                     <input asp-for="Email" class="@fieldClasses" />
                     <span asp-validation-for="Email" class="mt-1.5 block text-xs text-red-600"></span>
                 </div>
-
-                <div>
-                    <label asp-for="PhoneNumber" class="@labelClasses">@SharedLocalizer["Shared_Phone"]</label>
-                    <input asp-for="PhoneNumber" class="@fieldClasses" />
-                    <span asp-validation-for="PhoneNumber" class="mt-1.5 block text-xs text-red-600"></span>
-                </div>
-
-                <div>
-                    <label asp-for="Patient.BirthDate" class="@labelClasses">@SharedLocalizer["Shared_Date_Of_Birth"]</label>
-                    <input asp-for="Patient.BirthDate" type="date" class="@fieldClasses"
-                           max="@DateTime.Today.ToString("yyyy-MM-dd")" />
-                    <span asp-validation-for="Patient.BirthDate" class="mt-1.5 block text-xs text-red-600"></span>
-                </div>
-            </div>
-
-            <div class="rounded-lg border border-slate-200 bg-slate-50/70 p-5">
-                @{ ViewData["HealthFieldsVariant"] = "auth"; }
-                <partial name="_PatientHealthFields" for="Patient" />
             </div>
 
             <div x-data="{ show: false }">
@@ -187,18 +165,55 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.appendChild(modal);
     }
 
-    const birthDate = document.getElementById('Patient_BirthDate');
-    if (birthDate) {
-        const now = new Date();
-        const today = [
-            now.getFullYear(),
-            String(now.getMonth() + 1).padStart(2, '0'),
-            String(now.getDate()).padStart(2, '0')
-        ].join('-');
-        birthDate.max = today;
-        if (!birthDate.value || birthDate.value.startsWith('0001')) {
-            birthDate.value = today;
+    const STORAGE_KEY = 'registerDraft';
+    const form = document.getElementById('registerForm');
+    const textFields = ['FirstName', 'LastName', 'Email'];
+
+    const readDraft = () => {
+        try {
+            return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || 'null');
+        } catch (e) {
+            return null;
         }
+    };
+
+    const saveDraft = () => {
+        try {
+            const draft = {};
+            textFields.forEach((id) => {
+                const el = document.getElementById(id);
+                if (el) draft[id] = el.value;
+            });
+            sessionStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
+        } catch (e) { /* ignore private mode / quota */ }
+    };
+
+    const restoreDraft = () => {
+        const firstName = document.getElementById('FirstName');
+        if (firstName && firstName.value.trim()) return;
+
+        const draft = readDraft();
+        if (!draft) return;
+
+        textFields.forEach((id) => {
+            const el = document.getElementById(id);
+            if (el && !el.value && draft[id]) el.value = draft[id];
+        });
+    };
+
+    restoreDraft();
+
+    if (form) {
+        form.addEventListener('input', saveDraft);
+        form.addEventListener('change', saveDraft);
+        form.addEventListener('submit', function () {
+            const privacy = document.getElementById('AcceptPrivacy');
+            const terms = document.getElementById('AcceptTerms');
+            const health = document.getElementById('AcceptHealthDataConsent');
+            if (privacy && privacy.checked && terms && terms.checked && health && health.checked) {
+                try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
+            }
+        });
     }
 });
 

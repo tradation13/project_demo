@@ -194,9 +194,26 @@ namespace IPTS.Services
                 var phoneProp = typeof(TViewModel).GetProperty("PhoneNumber");
 
                 var email = emailProp?.GetValue(model)?.ToString() ?? "";
-                var phoneNumber = phoneProp?.GetValue(model)?.ToString() ?? "";
+                var phoneNumber = phoneProp?.GetValue(model)?.ToString();
 
                 await ValidateEmailAndPhoneAsync(email, phoneNumber, userId);
+
+                if (model is UserProfileViewModel profileModel)
+                {
+                    var newUserName = profileModel.UserName?.Trim() ?? "";
+                    if (string.IsNullOrWhiteSpace(newUserName))
+                        throw new Exception(_locService.GetSystem("UsernameRequired"));
+
+                    if (!string.Equals(user.UserName, newUserName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var existingByName = await _userManager.FindByNameAsync(newUserName);
+                        if (existingByName != null && existingByName.Id != userId)
+                            throw new Exception(_locService.GetSystem("Error_UsernameTaken"));
+
+                        user.UserName = newUserName;
+                        user.NormalizedUserName = _userManager.NormalizeName(newUserName);
+                    }
+                }
 
                 if (!string.Equals(user.Email, email, StringComparison.OrdinalIgnoreCase))
                 {
@@ -321,23 +338,48 @@ namespace IPTS.Services
 
             return result;
         }
-        private async Task ValidateEmailAndPhoneAsync(string email, string phoneNumber, string? userId = null)
+
+        public async Task CompleteRequiredBookingProfileAsync(string userId, DateTime birthDate, string phoneNumber)
+        {
+            var user = await _context.Users
+                .Include(u => u.Patient)
+                .FirstOrDefaultAsync(u => u.Id == userId)
+                ?? throw new Exception(_locService.GetSystem("Error_UserNotFound"));
+
+            if (user.Patient == null)
+                throw new Exception(_locService.GetSystem("Error_PatientProfileNotFound"));
+
+            var normalizedPhone = phoneNumber.Trim();
+            await ValidateEmailAndPhoneAsync(user.Email ?? string.Empty, normalizedPhone, userId);
+
+            user.PhoneNumber = normalizedPhone;
+            user.Patient.BirthDate = DateTime.SpecifyKind(birthDate.Date, DateTimeKind.Utc);
+
+            await _context.SaveChangesAsync();
+            LogHelper.LogWithContext(
+                "Patient completed required booking profile fields",
+                userId,
+                "patient",
+                "PatientBookingProfile");
+        }
+
+        private async Task ValidateEmailAndPhoneAsync(string email, string? phoneNumber, string? userId = null)
         {
             if (string.IsNullOrWhiteSpace(email))
                 throw new Exception(_locService.GetSystem("Error_EmailEmpty"));
-
-            if (string.IsNullOrWhiteSpace(phoneNumber))
-                throw new Exception(_locService.GetSystem("Error_PhoneEmpty"));
 
             var existingUserByEmail = await _userManager.FindByEmailAsync(email);
             if (existingUserByEmail != null && existingUserByEmail.Id != userId)
                 throw new Exception(_locService.GetSystem("Error_EmailAlreadyInUse"));
 
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+                return;
+
             var existingUserByPhone = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber && u.Id != userId);
             if (existingUserByPhone != null)
                 throw new Exception(_locService.GetSystem("Error_PhoneAlreadyInUse"));
         }
-        public async Task<IdentityResult> RegisterAsync(RegisterViewModel model)
+        public async Task<IdentityResult> RegisterAsync(RegisterViewModel model, string? bookingDoctorUserId = null)
         {
             var userType = await _context.UserTypes.FirstOrDefaultAsync(ut => ut.Name == model.UserTypeName && ut.Registerable) ?? throw new Exception(_locService.GetSystem("Error_UserTypeNotRegisterable"));
             await using var transaction = await _context.Database.BeginTransactionAsync();
@@ -351,7 +393,7 @@ namespace IPTS.Services
                     LastName = model.LastName,
                     FirstName = model.FirstName,
                     Email = model.Email,
-                    PhoneNumber = model.PhoneNumber,
+                    PhoneNumber = string.IsNullOrWhiteSpace(model.PhoneNumber) ? null : model.PhoneNumber,
                     Status = userStatus,
                     AcceptedPrivacyPolicy = model.AcceptPrivacy,
                     AcceptedTermsOfUse = model.AcceptTerms,
@@ -382,12 +424,13 @@ namespace IPTS.Services
                         break;
 
                     case "patient":
-                        if (model.Patient == null)
-                            throw new Exception(_locService.GetSystem("Error_PatientRequired"));
+                        model.Patient ??= new PatientRegisterViewModel();
                         var registeredPatient = new Patient
                         {
                             UserId = user.Id,
-                            BirthDate = DateTime.SpecifyKind(model.Patient.BirthDate, DateTimeKind.Utc)
+                            BirthDate = model.Patient.BirthDate.HasValue
+                                ? DateTime.SpecifyKind(model.Patient.BirthDate.Value, DateTimeKind.Utc)
+                                : null
                         };
                         model.Patient.CopyTo(registeredPatient);
                         await _context.Patients.AddAsync(registeredPatient);
@@ -411,7 +454,7 @@ var confirmationLink = _linkGenerator.GetUriByAction(
     _httpContextAccessor.HttpContext!,
     action: "ConfirmEmail", 
     controller: "Auth",
-    values: new { userId = user.Id, token = emailToken }
+    values: new { userId = user.Id, token = emailToken, doctorUserId = bookingDoctorUserId }
 );
 
               await _emailService.SendEmail(

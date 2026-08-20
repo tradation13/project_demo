@@ -18,6 +18,7 @@ namespace IPTS.ViewModels
         public bool AcceptTerms { get; set; }
         /// <summary>Patient health-data processing consent (Art. 9). Must stay unchecked by default.</summary>
         public bool AcceptHealthDataConsent { get; set; }
+        public string? BookingDoctorUserId { get; set; }
 
         public CustomerRegisterViewModel? Customer { get; set; }
         public PatientRegisterViewModel? Patient { get; set; }

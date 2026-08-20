@@ -21,6 +21,8 @@ namespace IPTS.Areas.Patient.Controllers
         private readonly UserService _userService = userService;
         private readonly IFileService _fileService = fileService;
         private readonly IPTS.Data.ApplicationDbContext _dbContext = dbContext;
+
+        [AllowAnonymous]
         [HttpGet("{Id}")]
         public async Task<IActionResult> Index([FromRoute] string Id, [FromQuery] DateTime? date)
         {
@@ -95,6 +97,134 @@ namespace IPTS.Areas.Patient.Controllers
 
             return View(vm);
         }
+
+        [HttpGet("api/readiness")]
+        public async Task<IActionResult> BookingReadiness()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, ApiResult<BookingReadinessDto>.Fail(
+                    "UNAUTHENTICATED",
+                    _locService.GetSystem("Auth_InvalidLogin")));
+            }
+
+            var user = await _userService.GetByIdAsync(userId, q => q.Include(u => u.Patient));
+            if (user == null)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, ApiResult<BookingReadinessDto>.Fail(
+                    "UNAUTHENTICATED",
+                    _locService.GetSystem("Auth_InvalidLogin")));
+            }
+
+            if (!User.IsInRole("patient") || user.Patient == null)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, ApiResult<BookingReadinessDto>.Fail(
+                    "FORBIDDEN_ROLE",
+                    _locService.GetSystem("Auth_BookingPatientOnly")));
+            }
+
+            if (!user.EmailConfirmed)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, ApiResult<BookingReadinessDto>.Fail(
+                    "EMAIL_NOT_CONFIRMED",
+                    _locService.GetSystem("Auth_EmailNotVerified"),
+                    data: ToReadinessDto(user, PatientBookingGate.GetMissingFields(user), isEmailConfirmed: false)));
+            }
+
+            var missing = PatientBookingGate.GetMissingFields(user);
+            var dto = ToReadinessDto(user, missing, isEmailConfirmed: true);
+
+            return Ok(ApiResult<BookingReadinessDto>.Success("READY_CHECK", _locService.GetSystem("Booking_ReadyCheck"), dto));
+        }
+
+        [HttpPost("api/complete-profile")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CompleteRequiredProfile([FromBody] CompleteRequiredProfileRequest model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, ApiResult<BookingReadinessDto>.Fail(
+                    "UNAUTHENTICATED",
+                    _locService.GetSystem("Auth_InvalidLogin")));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ApiResult<BookingReadinessDto>.Fail(
+                    "VALIDATION_ERROR",
+                    _locService.GetSystem("Booking_CompleteProfileFailed"),
+                    ApiRequestHelper.ToErrorDictionary(ModelState)));
+            }
+
+            var user = await _userService.GetByIdAsync(userId, q => q.Include(u => u.Patient));
+            if (user?.Patient == null)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, ApiResult<BookingReadinessDto>.Fail(
+                    "FORBIDDEN_ROLE",
+                    _locService.GetSystem("Error_PatientProfileNotFound")));
+            }
+
+            if (!user.EmailConfirmed)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, ApiResult<BookingReadinessDto>.Fail(
+                    "EMAIL_NOT_CONFIRMED",
+                    _locService.GetSystem("Auth_EmailNotVerified")));
+            }
+
+            try
+            {
+                await _userService.CompleteRequiredBookingProfileAsync(
+                    userId,
+                    model.BirthDate!.Value,
+                    model.PhoneNumber!);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogWithContext(
+                    $"Complete booking profile failed: {ex.Message}",
+                    userId,
+                    "patient",
+                    "PatientAppointment.CompleteRequiredProfile",
+                    Serilog.Events.LogEventLevel.Warning);
+
+                var isConflict = ex.Message.Contains(_locService.GetSystem("Error_PhoneAlreadyInUse"), StringComparison.OrdinalIgnoreCase);
+                return StatusCode(
+                    isConflict ? StatusCodes.Status409Conflict : StatusCodes.Status400BadRequest,
+                    ApiResult<BookingReadinessDto>.Fail(
+                        isConflict ? "PHONE_ALREADY_IN_USE" : "PROFILE_UPDATE_FAILED",
+                        ex.Message));
+            }
+
+            var refreshed = await _userService.GetByIdAsync(userId, q => q.Include(u => u.Patient));
+            var missing = PatientBookingGate.GetMissingFields(refreshed);
+            LogHelper.LogWithContext(
+                "Booking required profile completed",
+                userId,
+                "patient",
+                "PatientAppointment.CompleteRequiredProfile");
+
+            return Ok(ApiResult<BookingReadinessDto>.Success(
+                "PROFILE_COMPLETED",
+                _locService.GetSystem("Booking_ProfileCompleted"),
+                ToReadinessDto(refreshed, missing, isEmailConfirmed: true)));
+        }
+
+        private static BookingReadinessDto ToReadinessDto(AppUser? user, List<string> missing, bool isEmailConfirmed)
+        {
+            return new BookingReadinessDto
+            {
+                IsAuthenticated = user != null,
+                IsEmailConfirmed = isEmailConfirmed,
+                Role = "patient",
+                Missing = missing,
+                CanBook = isEmailConfirmed && missing.Count == 0,
+                BirthDate = user?.Patient?.BirthDate,
+                PhoneNumber = user?.PhoneNumber
+            };
+        }
+
         [HttpPost("{doctorId}/book")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Book([FromRoute] int doctorId, SingleAppointmentCreateViewModel model)
@@ -187,6 +317,19 @@ namespace IPTS.Areas.Patient.Controllers
                     Serilog.Events.LogEventLevel.Error);
 
                 TempData["ErrorMessage"] = _locService.GetSystem("Error_PatientProfileNotFound");
+                return RedirectToAction(nameof(Index), new { Id = doctorUserId, date = selectedDate.ToString("yyyy-MM-dd") });
+            }
+
+            if (!patientId.EmailConfirmed)
+            {
+                TempData["WarningMessage"] = _locService.GetSystem("Auth_EmailNotVerified");
+                return RedirectToAction(nameof(Index), new { Id = doctorUserId, date = selectedDate.ToString("yyyy-MM-dd") });
+            }
+
+            if (!PatientBookingGate.CanBook(patientId))
+            {
+                TempData["NeedBookingProfile"] = true;
+                TempData["InfoMessage"] = _locService.GetSystem("Booking_CompleteRequiredFields");
                 return RedirectToAction(nameof(Index), new { Id = doctorUserId, date = selectedDate.ToString("yyyy-MM-dd") });
             }
 

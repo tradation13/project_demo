@@ -1149,6 +1149,27 @@
   <data name="TestPhoto_After" xml:space="preserve">
     <value>Nachher</value>
   </data>
+  <data name="Auth_BookingPatientOnly" xml:space="preserve">
+    <value>Nur Patientenkonten können auf dieser Seite Termine buchen.</value>
+  </data>
+  <data name="Auth_ModalLoginSuccess" xml:space="preserve">
+    <value>Erfolgreich angemeldet.</value>
+  </data>
+  <data name="Auth_EmailConfirmedSelectSlot" xml:space="preserve">
+    <value>Ihre E-Mail ist bestätigt. Bitte wählen Sie eine Uhrzeit für die Buchung.</value>
+  </data>
+  <data name="Booking_ReadyCheck" xml:space="preserve">
+    <value>Buchungsvoraussetzungen geprüft.</value>
+  </data>
+  <data name="Booking_CompleteProfileFailed" xml:space="preserve">
+    <value>Bitte füllen Sie die Pflichtfelder aus.</value>
+  </data>
+  <data name="Booking_ProfileCompleted" xml:space="preserve">
+    <value>Pflichtangaben gespeichert.</value>
+  </data>
+  <data name="Booking_CompleteRequiredFields" xml:space="preserve">
+    <value>Bitte geben Sie vor der Buchung Ihr Geburtsdatum und Ihre Telefonnummer an.</value>
+  </data>
 </root>
 
 

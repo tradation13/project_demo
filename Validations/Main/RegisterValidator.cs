@@ -8,20 +8,21 @@ namespace IPTS.Validators
     {
         public RegisterValidator(LocService localizer)
         {
-            // UserName
-            RuleFor(x => x.UserName)
-                .NotEmpty().WithMessage(x => localizer.GetSystem("UsernameRequired"))
-                .MaximumLength(50).WithMessage(x => localizer.GetSystem("UsernameMaxLength"));
+            When(x => !string.IsNullOrWhiteSpace(x.UserName), () =>
+            {
+                RuleFor(x => x.UserName)
+                    .MaximumLength(50).WithMessage(x => localizer.GetSystem("UsernameMaxLength"));
+            });
 
-            // Email
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage(x => localizer.GetSystem("EmailRequired"))
                 .EmailAddress().WithMessage(x => localizer.GetSystem("InvalidEmailFormat"));
 
-            // PhoneNumber
-            RuleFor(x => x.PhoneNumber)
-                .NotEmpty().WithMessage(x => localizer.GetSystem("PhoneRequired"))
-                .Matches(@"^\+?[1-9]\d{1,14}$").WithMessage(x => localizer.GetSystem("InvalidPhoneFormat"));
+            When(x => !string.IsNullOrWhiteSpace(x.PhoneNumber), () =>
+            {
+                RuleFor(x => x.PhoneNumber)
+                    .Matches(@"^\+?[1-9]\d{1,14}$").WithMessage(x => localizer.GetSystem("InvalidPhoneFormat"));
+            });
 
             // FirstName
             RuleFor(x => x.FirstName)

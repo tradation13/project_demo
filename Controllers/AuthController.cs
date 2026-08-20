@@ -201,6 +201,280 @@ namespace IPTS.Controllers
                             controllerName: redirectedRoute.Controller,
                             routeValues: new { area = redirectedRoute.Area });
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [EnableRateLimiting("AuthPolicy")]
+        public async Task<IActionResult> ApiLogin([FromBody] GuestLoginRequest model)
+        {
+            var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ApiResult<GuestAuthSuccessDto>.Fail(
+                    "VALIDATION_ERROR",
+                    _locService.GetSystem("Auth_InvalidLogin"),
+                    ApiRequestHelper.ToErrorDictionary(ModelState)));
+            }
+
+            AppUser? user = model.UsernameOrEmail.Contains('@')
+                ? await _userManager.FindByEmailAsync(model.UsernameOrEmail)
+                : await _userManager.FindByNameAsync(model.UsernameOrEmail);
+
+            if (user == null)
+            {
+                LogHelper.LogWithContext(
+                    $"Failed modal login for unknown identity '{model.UsernameOrEmail}'",
+                    "Anonymous",
+                    "Guest",
+                    "Auth.ApiLogin",
+                    LogEventLevel.Warning);
+
+                await _auditService.WriteAsync(
+                    EnAuditAction.LoginFailed,
+                    $"Failed modal login for unknown identity '{model.UsernameOrEmail}'",
+                    actorUserName: model.UsernameOrEmail,
+                    ipAddress: ip);
+
+                return StatusCode(StatusCodes.Status401Unauthorized, ApiResult<GuestAuthSuccessDto>.Fail(
+                    "INVALID_CREDENTIALS",
+                    _locService.GetSystem("Auth_InvalidLogin")));
+            }
+
+            if (user.Status != EnUserStatus.Active)
+            {
+                await _auditService.WriteAsync(
+                    EnAuditAction.LoginFailed,
+                    "Modal login blocked because user is inactive",
+                    actorUserId: user.Id,
+                    actorUserName: user.UserName,
+                    targetUserId: user.Id,
+                    ipAddress: ip);
+
+                return StatusCode(StatusCodes.Status403Forbidden, ApiResult<GuestAuthSuccessDto>.Fail(
+                    "USER_INACTIVE",
+                    _locService.GetSystem("Auth_UserInactive")));
+            }
+
+            if (!user.EmailConfirmed)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, ApiResult<GuestAuthSuccessDto>.Fail(
+                    "EMAIL_NOT_CONFIRMED",
+                    _locService.GetSystem("Auth_EmailNotVerified"),
+                    data: new GuestAuthSuccessDto
+                    {
+                        IsEmailConfirmed = false,
+                        Email = user.Email,
+                        Role = await GetPrimaryRoleAsync(user)
+                    }));
+            }
+
+            var signInResult = await _signInManager.PasswordSignInAsync(
+                user.UserName!,
+                model.Password,
+                model.RememberMe,
+                lockoutOnFailure: true);
+
+            if (!signInResult.Succeeded)
+            {
+                if (signInResult.IsLockedOut)
+                {
+                    LogHelper.LogWithContext(
+                        $"Account locked for user '{user.UserName}' during modal login",
+                        user.Id,
+                        "Auth",
+                        "Auth.ApiLogin",
+                        LogEventLevel.Warning);
+
+                    await _auditService.WriteAsync(
+                        EnAuditAction.AccountLocked,
+                        "Account temporarily locked after failed modal login attempts",
+                        actorUserId: user.Id,
+                        actorUserName: user.UserName,
+                        targetUserId: user.Id,
+                        ipAddress: ip);
+
+                    return StatusCode(StatusCodes.Status423Locked, ApiResult<GuestAuthSuccessDto>.Fail(
+                        "ACCOUNT_LOCKED",
+                        _locService.GetSystem("Auth_LockoutTemporary")));
+                }
+
+                LogHelper.LogWithContext(
+                    $"Failed modal login for user '{user.UserName}'",
+                    user.Id,
+                    "Auth",
+                    "Auth.ApiLogin",
+                    LogEventLevel.Warning);
+
+                await _auditService.WriteAsync(
+                    EnAuditAction.LoginFailed,
+                    "Invalid password (modal)",
+                    actorUserId: user.Id,
+                    actorUserName: user.UserName,
+                    targetUserId: user.Id,
+                    ipAddress: ip);
+
+                return StatusCode(StatusCodes.Status401Unauthorized, ApiResult<GuestAuthSuccessDto>.Fail(
+                    "INVALID_CREDENTIALS",
+                    _locService.GetSystem("Auth_InvalidLogin")));
+            }
+
+            var role = await GetPrimaryRoleAsync(user);
+            if (!string.Equals(role, "patient", StringComparison.OrdinalIgnoreCase))
+            {
+                await _signInManager.SignOutAsync();
+                return StatusCode(StatusCodes.Status403Forbidden, ApiResult<GuestAuthSuccessDto>.Fail(
+                    "FORBIDDEN_ROLE",
+                    _locService.GetSystem("Auth_BookingPatientOnly")));
+            }
+
+            LogHelper.LogWithContext(
+                $"Successful modal login for user '{user.UserName}'",
+                user.Id,
+                "Auth",
+                "Auth.ApiLogin",
+                LogEventLevel.Information);
+
+            await _auditService.WriteAsync(
+                EnAuditAction.LoginSuccess,
+                "User signed in from booking modal",
+                actorUserId: user.Id,
+                actorUserName: user.UserName,
+                targetUserId: user.Id,
+                ipAddress: ip);
+
+            return Ok(ApiResult<GuestAuthSuccessDto>.Success(
+                "LOGIN_SUCCESS",
+                _locService.GetSystem("Auth_ModalLoginSuccess"),
+                new GuestAuthSuccessDto
+                {
+                    IsEmailConfirmed = true,
+                    Role = role,
+                    Email = user.Email
+                }));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [EnableRateLimiting("AuthPolicy")]
+        public async Task<IActionResult> ApiRegister([FromBody] GuestRegisterRequest model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ApiResult<GuestAuthSuccessDto>.Fail(
+                    "VALIDATION_ERROR",
+                    _locService.GetSystem("Code_RegistrationFailed"),
+                    ApiRequestHelper.ToErrorDictionary(ModelState)));
+            }
+
+            string? bookingDoctorUserId = null;
+            if (!string.IsNullOrWhiteSpace(model.DoctorUserId))
+            {
+                var doctorUser = await _userManager.FindByIdAsync(model.DoctorUserId);
+                if (doctorUser != null && await _userManager.IsInRoleAsync(doctorUser, "doctor"))
+                    bookingDoctorUserId = doctorUser.Id;
+            }
+
+            var registerModel = new RegisterViewModel
+            {
+                FirstName = model.FirstName.Trim(),
+                LastName = model.LastName.Trim(),
+                Email = model.Email.Trim(),
+                UserName = model.Email.Trim(),
+                Password = model.Password,
+                ConfirmPassword = model.ConfirmPassword,
+                UserTypeName = "patient",
+                AcceptPrivacy = model.AcceptPrivacy,
+                AcceptTerms = model.AcceptTerms,
+                AcceptHealthDataConsent = model.AcceptHealthDataConsent,
+                Patient = new PatientRegisterViewModel()
+            };
+
+            var result = await _userService.RegisterAsync(registerModel, bookingDoctorUserId);
+            if (!result.Succeeded)
+            {
+                var translatedErrors = _identityErrorTranslator.TranslateErrorsList(result.Errors);
+                LogHelper.LogWithContext(
+                    $"Modal registration failed for '{model.Email}': {string.Join(" | ", translatedErrors)}",
+                    "Anonymous",
+                    "Guest",
+                    "Auth.ApiRegister",
+                    LogEventLevel.Warning);
+
+                var isConflict = translatedErrors.Any(e =>
+                    e.Contains(_locService.GetSystem("Error_EmailAlreadyInUse"), StringComparison.OrdinalIgnoreCase)
+                    || e.Contains(_locService.GetSystem("Error_UsernameTaken"), StringComparison.OrdinalIgnoreCase));
+
+                return StatusCode(
+                    isConflict ? StatusCodes.Status409Conflict : StatusCodes.Status400BadRequest,
+                    ApiResult<GuestAuthSuccessDto>.Fail(
+                        isConflict ? "EMAIL_ALREADY_IN_USE" : "REGISTRATION_FAILED",
+                        translatedErrors.FirstOrDefault() ?? _locService.GetSystem("Code_RegistrationFailed")));
+            }
+
+            LogHelper.LogWithContext(
+                $"Modal registration succeeded for '{model.Email}'. Email confirmation required.",
+                "Anonymous",
+                "Guest",
+                "Auth.ApiRegister",
+                LogEventLevel.Information);
+
+            return StatusCode(StatusCodes.Status201Created, ApiResult<GuestAuthSuccessDto>.Success(
+                "EMAIL_CONFIRMATION_REQUIRED",
+                _locService.GetSystem("Email_CheckInbox"),
+                new GuestAuthSuccessDto
+                {
+                    IsEmailConfirmed = false,
+                    Role = "patient",
+                    Email = model.Email.Trim()
+                }));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [EnableRateLimiting("AuthPolicy")]
+        public async Task<IActionResult> ApiResendConfirmation([FromBody] GuestResendConfirmationRequest model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ApiResult<object>.Fail(
+                    "VALIDATION_ERROR",
+                    _locService.GetSystem("EmailRequired"),
+                    ApiRequestHelper.ToErrorDictionary(ModelState)));
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email.Trim());
+            if (user != null && !user.EmailConfirmed)
+            {
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var confirmationLink = Url.Action(
+                    "ConfirmEmail",
+                    "Auth",
+                    new { userId = user.Id, token },
+                    Request.Scheme);
+
+                await _emailService.SendEmail(
+                    user.Email,
+                    _locService.GetSystem("Email_VerifyTitle"),
+                    $"{_locService.GetSystem("Email_VerifyInstruction")} <a href='{confirmationLink}'>{_locService.GetSystem("Email_VerifyButton")}</a>");
+
+                LogHelper.LogWithContext(
+                    $"Resent confirmation email to '{user.Email}'",
+                    user.Id,
+                    "Guest",
+                    "Auth.ApiResendConfirmation");
+            }
+
+            return Ok(ApiResult<object>.Success(
+                "CONFIRMATION_EMAIL_SENT",
+                _locService.GetSystem("Auth_ResendSuccess")));
+        }
+
+        private async Task<string> GetPrimaryRoleAsync(AppUser user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            return roles.FirstOrDefault() ?? string.Empty;
+        }
         private record RedirectRoute(string ActionName, string Controller, string Area);
         private RedirectRoute GetRedirectedRoute(AppUser user)
         {
@@ -410,15 +684,12 @@ namespace IPTS.Controllers
 
         // Step 2: Show Registration Form
         [HttpGet("register")]
-        [OutputCache(Duration = 3600)]
-        public async Task<IActionResult> Register()
+        public IActionResult Register(string? doctorUserId = null)
         {
             var model = new RegisterViewModel
             {
-                Patient = new PatientRegisterViewModel
-                {
-                    BirthDate = DateTime.Today
-                }
+                Patient = new PatientRegisterViewModel(),
+                BookingDoctorUserId = doctorUserId
             };
 
             return View(model);
@@ -427,15 +698,15 @@ namespace IPTS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            
+            model.Patient ??= new PatientRegisterViewModel();
+            model.UserTypeName = "patient";
 
             if (!ModelState.IsValid)
             {
-                model.Patient ??= new PatientRegisterViewModel();
                 return View(model);
             }
 
-            var result = await _userService.RegisterAsync(model);
+            var result = await _userService.RegisterAsync(model, model.BookingDoctorUserId);
 
             if (!result.Succeeded)
             {
@@ -487,7 +758,7 @@ namespace IPTS.Controllers
             return View(new VerifyEmailViewModel { Email = user.Email });
         }
         [HttpGet]
-        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        public async Task<IActionResult> ConfirmEmail(string userId, string token, string? doctorUserId = null)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return NotFound();
@@ -497,13 +768,27 @@ namespace IPTS.Controllers
             {
                 TempData["SuccessMessage"] = _locService.GetSystem("Auth_VerifySuccess");
                 await _signInManager.SignInAsync(user, false);
-                var redirectedRoute = GetRedirectedRoute(user);
 
+                if (!string.IsNullOrWhiteSpace(doctorUserId))
+                {
+                    var doctorUser = await _userManager.FindByIdAsync(doctorUserId);
+                    if (doctorUser != null && await _userManager.IsInRoleAsync(doctorUser, "doctor"))
+                    {
+                        TempData["InfoMessage"] = _locService.GetSystem("Auth_EmailConfirmedSelectSlot");
+                        LogHelper.LogWithContext(
+                            $"Email confirmed; redirecting to booking page for doctorUserId={doctorUserId}",
+                            user.Id,
+                            "patient",
+                            "Auth.ConfirmEmail");
+                        return RedirectToAction("Index", "Appointment", new { area = "patient", Id = doctorUserId });
+                    }
+                }
+
+                var redirectedRoute = GetRedirectedRoute(user);
                 return RedirectToAction(
                     actionName: redirectedRoute.ActionName,
                     controllerName: redirectedRoute.Controller,
                     routeValues: new { area = redirectedRoute.Area });
-
             }
 
             TempData["ErrorMessage"] = _locService.GetSystem("Auth_VerifyFailed");

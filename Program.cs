@@ -99,7 +99,28 @@ builder.Services.AddControllersWithViews()
                 options.Cookie.SameSite = SameSiteMode.Lax;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 options.SlidingExpiration = true;
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    if (ApiRequestHelper.IsAjaxOrJsonRequest(context.Request))
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        return Task.CompletedTask;
+                    }
 
+                    context.Response.Redirect(context.RedirectUri);
+                    return Task.CompletedTask;
+                };
+                options.Events.OnRedirectToAccessDenied = context =>
+                {
+                    if (ApiRequestHelper.IsAjaxOrJsonRequest(context.Request))
+                    {
+                        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                        return Task.CompletedTask;
+                    }
+
+                    context.Response.Redirect(context.RedirectUri);
+                    return Task.CompletedTask;
+                };
             });
             // builder.Services.AddControllersWithViews();
 

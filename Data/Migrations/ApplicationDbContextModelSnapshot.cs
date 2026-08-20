@@ -630,7 +630,7 @@ namespace IPTS.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("BirthDate")
+                    b.Property<DateTime?>("BirthDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<byte?>("BloodGroup")

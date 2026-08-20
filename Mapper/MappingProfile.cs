@@ -25,11 +25,15 @@ namespace IPTS.Mapper
                 .ForMember(dest => dest.Admin, opt => opt.MapFrom(src => src.Admin))
                 .ForMember(dest => dest.Doctor, opt => opt.MapFrom(src => src.Doctor))
                 .ForMember(dest => dest.Patient, opt => opt.MapFrom(src => src.Patient))
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(dest => dest.UserName, opt => opt.Ignore())
+                .ForMember(dest => dest.NormalizedUserName, opt => opt.Ignore());
 
             CreateMap<UserProfileViewModel, AppUser>()
                 .ForMember(dest => dest.UserType, opt => opt.Ignore())
                 .ForMember(dest => dest.UserTypeId, opt => opt.Ignore())
+                .ForMember(dest => dest.UserName, opt => opt.Ignore())
+                .ForMember(dest => dest.NormalizedUserName, opt => opt.Ignore())
                 .AfterMap((src, dest) =>
                 {
                     if (!string.IsNullOrEmpty(src.Email))
@@ -75,8 +79,10 @@ namespace IPTS.Mapper
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.User, opt => opt.Ignore())
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
-                // PostgreSQL timestamptz يتطلب Kind=Utc؛ حقل التاريخ من النموذج يأتي بـ Kind=Unspecified
-                .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => DateTime.SpecifyKind(src.BirthDate, DateTimeKind.Utc)));
+                .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src =>
+                    src.BirthDate.HasValue
+                        ? DateTime.SpecifyKind(src.BirthDate.Value, DateTimeKind.Utc)
+                        : (DateTime?)null));
                 // .ForMember(dest => dest.IdentityNumber, opt => opt.MapFrom(src => src.IdentityNumber));
 
             CreateMap<Patient, PatientFormViewModel>()

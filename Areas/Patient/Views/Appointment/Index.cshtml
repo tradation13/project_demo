@@ -109,7 +109,8 @@
 
         <!-- Booking Form -->
 
-          <form action="/patient/Appointment/@doctorItem.Id/book"
+          <form id="bookingForm"
+              action="/patient/Appointment/@doctorItem.Id/book"
               method="post"
               enctype="multipart/form-data"
               class="rounded-3xl border border-gray-100 bg-white p-6 shadow-xl">
@@ -241,7 +242,38 @@
     </div>
 </section>
 
+<partial name="_GuestBookingAuthModal" model="Model" />
+
+@{
+    var isAuthenticated = User?.Identity?.IsAuthenticated == true;
+    var needBookingProfile = TempData["NeedBookingProfile"] as bool? == true;
+}
+
 <script>
+window.guestBookingConfig = {
+    isAuthenticated: @(isAuthenticated ? "true" : "false"),
+    needProfile: @(needBookingProfile ? "true" : "false"),
+    doctorUserId: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(doctorItem.UserId ?? "")),
+    doctorId: @doctorItem.Id,
+    selectedDate: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model?.SelectedDate.ToString("yyyy-MM-dd"))),
+    urls: {
+        login: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Url.Action("ApiLogin", "Auth", new { area = "" }))),
+        resend: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Url.Action("ApiResendConfirmation", "Auth", new { area = "" }))),
+        readiness: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Url.Action("BookingReadiness", "Appointment", new { area = "patient" }))),
+        completeProfile: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Url.Action("CompleteRequiredProfile", "Appointment", new { area = "patient" })))
+    },
+    strings: {
+        genericError: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["GuestBooking_GenericError"].Value)),
+        checkEmail: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["GuestBooking_CheckEmail"].Value)),
+        resendOk: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["GuestBooking_ResendOk"].Value)),
+        authTitle: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["GuestBooking_Title"].Value)),
+        authSubtitle: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["GuestBooking_Subtitle"].Value)),
+        profileTitle: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["GuestBooking_CompleteProfileTitle"].Value)),
+        confirmTitle: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["GuestBooking_ConfirmTitle"].Value)),
+        finishing: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(SharedLocalizer["GuestBooking_Finishing"].Value))
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     const maxSlots = 4;
     const slotInputs = document.querySelectorAll('input[name="SelectedSlotIndices"]');
@@ -395,6 +427,263 @@ document.addEventListener('DOMContentLoaded', () => {
             fileNameDisplay.classList.add('hidden');
         }
     };
+
+    (function initGuestBooking() {
+        const cfg = window.guestBookingConfig || {};
+        const form = document.getElementById('bookingForm');
+        const modal = document.getElementById('guestBookingModal');
+        if (!form || !modal) return;
+
+        const tokenInput = form.querySelector('input[name="__RequestVerificationToken"]');
+        const errorBox = document.getElementById('guestAuthError');
+        const loginForm = document.getElementById('guestLoginForm');
+        const confirmPanel = document.getElementById('guestConfirmEmailPanel');
+        const profileForm = document.getElementById('guestCompleteProfileForm');
+        const registerLinkWrap = document.getElementById('guestRegisterLinkWrap');
+        const titleEl = document.getElementById('guestBookingModalTitle');
+        const subtitleEl = document.getElementById('guestBookingModalSubtitle');
+        const confirmMsg = document.getElementById('guestConfirmEmailMessage');
+        const loadingEl = document.getElementById('guestBookingLoading');
+        let pendingEmail = '';
+        let submittingAfterAuth = false;
+
+        const showLoading = () => {
+            if (!loadingEl) return;
+            loadingEl.classList.remove('hidden');
+            loadingEl.classList.add('flex');
+            document.body.classList.add('overflow-hidden');
+        };
+
+        const hideLoading = () => {
+            if (!loadingEl) return;
+            loadingEl.classList.add('hidden');
+            loadingEl.classList.remove('flex');
+            document.body.classList.remove('overflow-hidden');
+        };
+
+        const refreshAntiforgeryToken = async () => {
+            try {
+                const response = await fetch(window.location.href, {
+                    method: 'GET',
+                    credentials: 'same-origin',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+                const html = await response.text();
+                const match = html.match(/name="__RequestVerificationToken"[^>]*value="([^"]+)"/)
+                    || html.match(/value="([^"]+)"[^>]*name="__RequestVerificationToken"/);
+                if (match && tokenInput) tokenInput.value = match[1];
+            } catch (e) { /* keep current token */ }
+        };
+
+        const submitBookingForm = () => {
+            submittingAfterAuth = true;
+            closeModal();
+            showLoading();
+            form.submit();
+        };
+
+        const showError = (message, fieldErrors) => {
+            errorBox.classList.remove('border-emerald-200', 'bg-emerald-50', 'text-emerald-700');
+            errorBox.classList.add('border-red-200', 'bg-red-50', 'text-red-700');
+            const parts = [];
+            if (message) parts.push(message);
+            if (fieldErrors) {
+                Object.keys(fieldErrors).forEach((key) => {
+                    (fieldErrors[key] || []).forEach((msg) => parts.push(msg));
+                });
+            }
+            errorBox.textContent = parts.join(' ') || cfg.strings.genericError;
+            errorBox.classList.remove('hidden');
+        };
+
+        const clearError = () => {
+            errorBox.textContent = '';
+            errorBox.classList.add('hidden');
+        };
+
+        const openModal = () => {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.classList.add('overflow-hidden');
+        };
+
+        const closeModal = () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.classList.remove('overflow-hidden');
+        };
+
+        const showPanel = (panel) => {
+            clearError();
+            loginForm.classList.toggle('hidden', panel !== 'auth');
+            registerLinkWrap?.classList.toggle('hidden', panel !== 'auth');
+            confirmPanel.classList.toggle('hidden', panel !== 'confirm');
+            profileForm.classList.toggle('hidden', panel !== 'profile');
+            if (panel === 'auth') {
+                titleEl.textContent = cfg.strings.authTitle;
+                subtitleEl.textContent = cfg.strings.authSubtitle;
+                return;
+            }
+            if (panel === 'confirm') {
+                titleEl.textContent = cfg.strings.confirmTitle;
+                subtitleEl.textContent = '';
+            }
+            if (panel === 'profile') {
+                titleEl.textContent = cfg.strings.profileTitle;
+                subtitleEl.textContent = '';
+            }
+        };
+
+        const fillProfile = (data) => {
+            const birth = document.getElementById('guestProfileBirthDate');
+            const phone = document.getElementById('guestProfilePhone');
+            if (birth && data?.birthDate) {
+                birth.value = String(data.birthDate).slice(0, 10);
+            }
+            if (phone && data?.phoneNumber) {
+                phone.value = data.phoneNumber;
+            }
+        };
+
+        const getToken = () => tokenInput ? tokenInput.value : '';
+
+        const jsonFetch = async (url, body) => {
+            const response = await fetch(url, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'RequestVerificationToken': getToken()
+                },
+                body: JSON.stringify(body)
+            });
+            let payload = null;
+            try { payload = await response.json(); } catch (e) { payload = null; }
+            return { response, payload };
+        };
+
+        const continueBooking = async () => {
+            const { response, payload } = await fetch(cfg.urls.readiness, {
+                method: 'GET',
+                credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            }).then(async (res) => {
+                let data = null;
+                try { data = await res.json(); } catch (e) { data = null; }
+                return { response: res, payload: data };
+            });
+
+            if (response.status === 403 && payload?.code === 'EMAIL_NOT_CONFIRMED') {
+                hideLoading();
+                pendingEmail = payload?.data?.email || pendingEmail;
+                confirmMsg.textContent = cfg.strings.checkEmail.replace('{0}', pendingEmail || '');
+                showPanel('confirm');
+                openModal();
+                return;
+            }
+
+            if (!response.ok || !payload?.ok) {
+                hideLoading();
+                showError(payload?.message || cfg.strings.genericError, payload?.errors);
+                showPanel('auth');
+                openModal();
+                return;
+            }
+
+            const missing = payload.data?.missing || [];
+            if (missing.length) {
+                hideLoading();
+                fillProfile(payload.data);
+                showPanel('profile');
+                openModal();
+                return;
+            }
+
+            submitBookingForm();
+        };
+
+        form.addEventListener('submit', async (event) => {
+            if (submittingAfterAuth) return;
+            const selected = getSelected();
+            if (!selected.length) {
+                event.preventDefault();
+                return;
+            }
+            event.preventDefault();
+            if (!cfg.isAuthenticated) {
+                showPanel('auth');
+                openModal();
+                return;
+            }
+            await continueBooking();
+        });
+
+        modal.querySelectorAll('[data-guest-modal-close]').forEach((el) => {
+            el.addEventListener('click', closeModal);
+        });
+
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            clearError();
+            const { payload, response } = await jsonFetch(cfg.urls.login, {
+                usernameOrEmail: document.getElementById('guestLoginIdentity').value,
+                password: document.getElementById('guestLoginPassword').value,
+                rememberMe: document.getElementById('guestLoginRemember').checked
+            });
+            if (response.status === 403 && payload?.code === 'EMAIL_NOT_CONFIRMED') {
+                pendingEmail = payload?.data?.email || document.getElementById('guestLoginIdentity').value;
+                confirmMsg.textContent = (payload?.message || cfg.strings.checkEmail).replace('{0}', pendingEmail);
+                showPanel('confirm');
+                return;
+            }
+            if (!response.ok || !payload?.ok) {
+                showError(payload?.message || cfg.strings.genericError, payload?.errors);
+                return;
+            }
+            cfg.isAuthenticated = true;
+            showLoading();
+            closeModal();
+            await refreshAntiforgeryToken();
+            await continueBooking();
+        });
+
+        document.getElementById('guestResendEmailBtn')?.addEventListener('click', async () => {
+            clearError();
+            const email = pendingEmail || document.getElementById('guestLoginIdentity')?.value;
+            const { payload, response } = await jsonFetch(cfg.urls.resend, { email });
+            if (!response.ok || !payload?.ok) {
+                showError(payload?.message || cfg.strings.genericError, payload?.errors);
+                return;
+            }
+            showError(payload.message || cfg.strings.resendOk);
+            errorBox.classList.remove('border-red-200', 'bg-red-50', 'text-red-700');
+            errorBox.classList.add('border-emerald-200', 'bg-emerald-50', 'text-emerald-700');
+        });
+
+        profileForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            clearError();
+            const { payload, response } = await jsonFetch(cfg.urls.completeProfile, {
+                birthDate: document.getElementById('guestProfileBirthDate').value,
+                phoneNumber: document.getElementById('guestProfilePhone').value
+            });
+            if (!response.ok || !payload?.ok) {
+                showError(payload?.message || cfg.strings.genericError, payload?.errors);
+                return;
+            }
+            cfg.needProfile = false;
+            submitBookingForm();
+        });
+
+        if (cfg.isAuthenticated && cfg.needProfile) {
+            continueBooking();
+        }
+    })();
 
 });
 </script>

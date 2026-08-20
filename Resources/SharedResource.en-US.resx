@@ -3468,4 +3468,43 @@ I'm your PhysioTech Assistant. How can I help you today?</value>
     <value>Delete this photo?</value>
     <comment>Medical case test photos - confirm delete</comment>
   </data>
+  <data name="GuestBooking_Title" xml:space="preserve">
+    <value>Sign in to book</value>
+  </data>
+  <data name="GuestBooking_Subtitle" xml:space="preserve">
+    <value>Sign in to finish booking. Your selected time stays on this page.</value>
+  </data>
+  <data name="GuestBooking_RegisterTab" xml:space="preserve">
+    <value>Quick register</value>
+  </data>
+  <data name="GuestBooking_RegisterSubmit" xml:space="preserve">
+    <value>Create account</value>
+  </data>
+  <data name="GuestBooking_ResendEmail" xml:space="preserve">
+    <value>Resend confirmation email</value>
+  </data>
+  <data name="GuestBooking_CompleteProfileHint" xml:space="preserve">
+    <value>We need your date of birth and phone number before confirming the appointment.</value>
+  </data>
+  <data name="GuestBooking_SaveAndBook" xml:space="preserve">
+    <value>Save and book</value>
+  </data>
+  <data name="GuestBooking_GenericError" xml:space="preserve">
+    <value>Something went wrong. Please try again.</value>
+  </data>
+  <data name="GuestBooking_CheckEmail" xml:space="preserve">
+    <value>We sent a confirmation link to {0}. Confirm your email, then return here to choose a time slot.</value>
+  </data>
+  <data name="GuestBooking_ResendOk" xml:space="preserve">
+    <value>If this email exists, a confirmation link has been sent.</value>
+  </data>
+  <data name="GuestBooking_CompleteProfileTitle" xml:space="preserve">
+    <value>Complete required details</value>
+  </data>
+  <data name="GuestBooking_ConfirmTitle" xml:space="preserve">
+    <value>Confirm your email</value>
+  </data>
+  <data name="GuestBooking_Finishing" xml:space="preserve">
+    <value>Finishing your booking…</value>
+  </data>
 </root>

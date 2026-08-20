@@ -609,7 +609,7 @@
     <div class="pt-drawer__foot">
         @if (User?.Identity?.IsAuthenticated != true)
         {
-            <a class="pt-drawer__join" asp-controller="Auth" asp-action="Login">
+            <a class="pt-drawer__join" asp-area="" asp-controller="Auth" asp-action="Login">
                 @SharedLocalizer["Join"]
             </a>
         }
@@ -703,7 +703,7 @@
 
             @if (User?.Identity?.IsAuthenticated != true)
             {
-                <a class="pt-join-btn" asp-controller="Auth" asp-action="Login">
+                <a class="pt-join-btn" asp-area="" asp-controller="Auth" asp-action="Login">
                     @SharedLocalizer["Join"]
                 </a>
             }

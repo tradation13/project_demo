@@ -15,6 +15,8 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
         //        .IsRequired()
         //        .HasMaxLength(50);
 
+        builder.Property(p => p.BirthDate).IsRequired(false);
+
         builder.Property(p => p.Weight).IsRequired(false);
         builder.Property(p => p.Height).IsRequired(false);
 

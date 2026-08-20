@@ -9,6 +9,7 @@ namespace IPTS.ViewModels
         public string Email { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string FirstName { get; set; } = null!;
+        public string UserName { get; set; } = string.Empty;
         public string? PhoneNumber { get; set; }
 
         // بيانات خاصة بالحساب

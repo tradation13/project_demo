@@ -218,23 +218,27 @@
                      : "rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600")"></div>
 
             <div class="grid grid-cols-1 gap-4 @(isAdminProfile ? "md:grid-cols-2" : "sm:grid-cols-2")">
-                @if (!isEditMode && Model.Doctor == null)
-                {
-                    <div>
-                        <label class="@labelCls">@SharedLocalizer["Shared_UserName"]</label>
+                <div>
+                    <label asp-for="UserName" class="@labelCls">@SharedLocalizer["Shared_UserName"]</label>
+                    <div class="relative">
                         @if (useIconInputs || isAdminProfile)
                         {
-                            <div class="relative">
-                                <span class="@fieldIcon"><i class="fas fa-at text-xs"></i></span>
-                                <input value="@ViewBag.UserName" disabled class="@inputWithIconReadonly" />
-                            </div>
+                            <span class="@fieldIcon"><i class="fas fa-at text-xs"></i></span>
+                        }
+                        @if (isEditMode)
+                        {
+                            <input asp-for="UserName" class="@(useIconInputs || isAdminProfile ? inputWithIconEdit : inputEdit)" />
                         }
                         else
                         {
-                            <input value="@ViewBag.UserName" disabled class="@inputReadonly" />
+                            <input asp-for="UserName" disabled class="@(useIconInputs || isAdminProfile ? inputWithIconReadonly : inputReadonly)" />
                         }
                     </div>
-                }
+                    @if (isEditMode)
+                    {
+                        <span asp-validation-for="UserName" class="mt-1.5 block text-xs text-red-500"></span>
+                    }
+                </div>
 
                 <div>
                     <label asp-for="Email" class="@labelCls">@SharedLocalizer["Shared_Email"]</label>
@@ -380,15 +384,28 @@
                     </div>
                     <input type="hidden" asp-for="Patient.Id" />
                     <input type="hidden" asp-for="Patient.UserId" />
-                    <input type="hidden" asp-for="Patient.BirthDate" />
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div>
-                            <label class="@labelCls">@SharedLocalizer["Shared_Date_Of_Birth"]</label>
+                            <label asp-for="Patient.BirthDate" class="@labelCls">@SharedLocalizer["Shared_Date_Of_Birth"]</label>
                             <div class="relative">
                                 <span class="@fieldIcon"><i class="fas fa-cake-candles text-xs"></i></span>
-                                <input type="text" value="@Model.Patient.BirthDate.ToShortDateString()" readonly
-                                       class="@inputWithIconReadonly" />
+                                @if (isEditMode)
+                                {
+                                    <input asp-for="Patient.BirthDate" type="date" max="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                           class="@inputWithIconEdit" />
+                                }
+                                else
+                                {
+                                    <input type="text"
+                                           value="@(Model.Patient.BirthDate.HasValue ? Model.Patient.BirthDate.Value.ToShortDateString() : SharedLocalizer["Patient_NotSpecified"].Value)"
+                                           readonly
+                                           class="@inputWithIconReadonly" />
+                                }
                             </div>
+                            @if (isEditMode)
+                            {
+                                <span asp-validation-for="Patient.BirthDate" class="mt-1.5 block text-xs text-red-500"></span>
+                            }
                         </div>
                     </div>
 

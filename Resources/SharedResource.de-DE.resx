@@ -3486,4 +3486,43 @@ Ich bin Ihr PhysioTech-Assistent. Wie kann ich Ihnen helfen?</value>
     <value>Dieses Foto löschen?</value>
     <comment>Medical case test photos - confirm delete</comment>
   </data>
+  <data name="GuestBooking_Title" xml:space="preserve">
+    <value>Zum Buchen anmelden</value>
+  </data>
+  <data name="GuestBooking_Subtitle" xml:space="preserve">
+    <value>Melden Sie sich an, um die Buchung abzuschließen. Ihre Zeitauswahl bleibt auf dieser Seite.</value>
+  </data>
+  <data name="GuestBooking_RegisterTab" xml:space="preserve">
+    <value>Schnell registrieren</value>
+  </data>
+  <data name="GuestBooking_RegisterSubmit" xml:space="preserve">
+    <value>Konto erstellen</value>
+  </data>
+  <data name="GuestBooking_ResendEmail" xml:space="preserve">
+    <value>Bestätigungs-E-Mail erneut senden</value>
+  </data>
+  <data name="GuestBooking_CompleteProfileHint" xml:space="preserve">
+    <value>Vor der Terminbestätigung benötigen wir Ihr Geburtsdatum und Ihre Telefonnummer.</value>
+  </data>
+  <data name="GuestBooking_SaveAndBook" xml:space="preserve">
+    <value>Speichern und buchen</value>
+  </data>
+  <data name="GuestBooking_GenericError" xml:space="preserve">
+    <value>Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.</value>
+  </data>
+  <data name="GuestBooking_CheckEmail" xml:space="preserve">
+    <value>Wir haben einen Bestätigungslink an {0} gesendet. Bestätigen Sie Ihre E-Mail und kehren Sie hierher zurück, um eine Uhrzeit zu wählen.</value>
+  </data>
+  <data name="GuestBooking_ResendOk" xml:space="preserve">
+    <value>Falls diese E-Mail existiert, wurde ein Bestätigungslink gesendet.</value>
+  </data>
+  <data name="GuestBooking_CompleteProfileTitle" xml:space="preserve">
+    <value>Pflichtangaben ergänzen</value>
+  </data>
+  <data name="GuestBooking_ConfirmTitle" xml:space="preserve">
+    <value>E-Mail bestätigen</value>
+  </data>
+  <data name="GuestBooking_Finishing" xml:space="preserve">
+    <value>Ihre Buchung wird abgeschlossen…</value>
+  </data>
 </root>

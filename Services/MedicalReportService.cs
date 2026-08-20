@@ -384,7 +384,7 @@ sb.Append($@"
         <div class='info-box'>
             <h3>{_loc.GetSystem("PatientInformation")}</h3>
             <p><strong>{_loc.GetSystem("Name")}:</strong> {medicalCase?.Patient?.User?.FirstName} {medicalCase?.Patient?.User?.LastName}</p>
-            <p><strong>{_loc.GetSystem("BirthDate")}:</strong> {medicalCase?.Patient?.BirthDate:yyyy-MM-dd}</p>
+            <p><strong>{_loc.GetSystem("BirthDate")}:</strong> {(medicalCase?.Patient?.BirthDate.HasValue == true ? medicalCase.Patient.BirthDate.Value.ToString("yyyy-MM-dd") : "N/A")}</p>
             <p><strong>{_loc.GetSystem("CaseID")}:</strong> #{medicalCase?.Id}</p>
         </div>
 
@@ -492,7 +492,8 @@ if (!string.IsNullOrWhiteSpace(medicalCase.InjuryHistory)) vitalsSb.AppendLine($
 if (!string.IsNullOrWhiteSpace(medicalCase.Medications)) vitalsSb.AppendLine($"- Medications: {medicalCase.Medications}");
 if (!string.IsNullOrWhiteSpace(medicalCase.FunctionalAbility)) vitalsSb.AppendLine($"- Functional Ability: {medicalCase.FunctionalAbility}");
 if (!string.IsNullOrWhiteSpace(medicalCase.PersonalGoals)) vitalsSb.AppendLine($"- Personal Goals: {medicalCase.PersonalGoals}");
-vitalsSb.AppendLine($"- Patient Date of Birth: {medicalCase.Patient.BirthDate:yyyy-MM-dd}");
+if (medicalCase.Patient?.BirthDate.HasValue == true)
+    vitalsSb.AppendLine($"- Patient Date of Birth: {medicalCase.Patient.BirthDate.Value:yyyy-MM-dd}");
 vitalsSb.AppendLine($"- Current Date: {DateTime.Today:yyyy-MM-dd}");
 
 // 2. بناء الرسالة (System Message)

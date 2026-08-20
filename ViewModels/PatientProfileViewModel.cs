@@ -11,7 +11,7 @@ namespace IPTS.ViewModels
         // public string IdentityNumber { get; set; } = string.Empty;
         
         [Display(Name = "Birth Date")]
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
         
         public string? UserId { get; set; }
 

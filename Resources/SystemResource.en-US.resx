@@ -1225,6 +1225,27 @@
   <data name="TestPhoto_After" xml:space="preserve">
     <value>After</value>
   </data>
+  <data name="Auth_BookingPatientOnly" xml:space="preserve">
+    <value>Only patient accounts can book appointments from this page.</value>
+  </data>
+  <data name="Auth_ModalLoginSuccess" xml:space="preserve">
+    <value>Signed in successfully.</value>
+  </data>
+  <data name="Auth_EmailConfirmedSelectSlot" xml:space="preserve">
+    <value>Your email is confirmed. Please select a time slot to book.</value>
+  </data>
+  <data name="Booking_ReadyCheck" xml:space="preserve">
+    <value>Booking requirements checked.</value>
+  </data>
+  <data name="Booking_CompleteProfileFailed" xml:space="preserve">
+    <value>Please complete the required fields.</value>
+  </data>
+  <data name="Booking_ProfileCompleted" xml:space="preserve">
+    <value>Required details saved.</value>
+  </data>
+  <data name="Booking_CompleteRequiredFields" xml:space="preserve">
+    <value>Please add your date of birth and phone number before booking.</value>
+  </data>
 </root>
 
 

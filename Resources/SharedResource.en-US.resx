@@ -3519,4 +3519,13 @@ I'm your PhysioTech Assistant. How can I help you today?</value>
     <value>Contact us</value>
     <comment>Views -&gt; Shared -&gt; Error</comment>
   </data>
+  <data name="Users_PageOf" xml:space="preserve">
+    <value>Page {0} of {1}</value>
+  </data>
+  <data name="Users_Prev" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Users_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
 </root>

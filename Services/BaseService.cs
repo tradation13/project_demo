@@ -27,12 +27,27 @@ namespace IPTS.Services
         public async Task<List<TEntity>> GetAllAsync(
      Func<IQueryable<TEntity>, IQueryable<TEntity>>? queryFunc = null)
         {
-            IQueryable<TEntity> query = _dbSet.AsQueryable();
+            IQueryable<TEntity> query = _dbSet.AsNoTracking();
 
             if (queryFunc != null)
                 query = queryFunc(query);
 
             return await query.ToListAsync();
+        }
+
+        public Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _dbSet.AsNoTracking().CountAsync(predicate);
+        }
+
+        public async Task<int> CountAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>>? queryFunc = null)
+        {
+            IQueryable<TEntity> query = _dbSet.AsNoTracking();
+
+            if (queryFunc != null)
+                query = queryFunc(query);
+
+            return await query.CountAsync();
         }
         public async Task<TEntity?> GetByIdAsync<TKey>(
         TKey id,

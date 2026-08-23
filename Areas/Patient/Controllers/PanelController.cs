@@ -1,4 +1,5 @@
 ﻿using IPTS.Areas.Patient.ViewsModels;
+using IPTS.Helpers;
 using IPTS.Resources;
 using IPTS.Services;
 using IPTS.ViewModels;
@@ -29,15 +30,21 @@ namespace IPTS.Models.Entites
             if (patient?.Patient == null)
                 return NotFound(_locService.GetSystem("Error_PatientProfileNotFound"));
 
-            // Count appointments and medical cases
-            var appointmentsCount = (await _appointmentService.GetAllAsync(q => q.Where(a => a.PatientId == patient.Patient.Id))).Count;
-            var medicalCasesCount = (await _medicalCaseService.GetAllAsync(q => q.Where(a => a.PatientId == patient.Patient.Id))).Count;
+            var appointmentsCount = await _appointmentService.CountAsync(a => a.PatientId == patient.Patient.Id);
+            var medicalCasesCount = await _medicalCaseService.CountAsync(a => a.PatientId == patient.Patient.Id);
 
             var vm = new PatientPanelViewModel
             {
                 AppointmentsCount = appointmentsCount,
                 MedicalCasesCount = medicalCasesCount
             };
+
+            LogHelper.LogWithContext(
+                "Loaded patient panel counts",
+                userId,
+                "patient",
+                "PanelController.Index",
+                Serilog.Events.LogEventLevel.Information);
 
             return View(vm);
         }

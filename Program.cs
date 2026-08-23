@@ -211,7 +211,19 @@ builder.Services.AddControllersWithViews()
             // Register FileService for prescription file handling
             builder.Services.AddScoped<IFileService, FileService>();
             
-            builder.Services.AddOutputCache();
+            builder.Services.AddOutputCache(options =>
+            {
+                options.AddPolicy("PublicPage", policy =>
+                    policy.Expire(TimeSpan.FromHours(1))
+                        .VaryByValue((httpContext, _) =>
+                        {
+                            var culture = CultureInfo.CurrentUICulture.Name;
+                            var userKey = httpContext.User.Identity?.IsAuthenticated == true
+                                ? httpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "auth"
+                                : "anon";
+                            return ValueTask.FromResult(new KeyValuePair<string, string>("pub", $"{culture}|{userKey}"));
+                        }));
+            });
             builder.Services.AddMemoryCache();
             var app = builder.Build();
 
@@ -316,6 +328,7 @@ app.UseRequestLocalization(localizationOptions);
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseOutputCache();
 
 
             app.MapControllerRoute(

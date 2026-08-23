@@ -6,6 +6,7 @@ using IPTS.Models.Enums;
 using IPTS.Resources;
 using IPTS.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using System.Globalization;
 using System.Security.Claims;
 
@@ -33,8 +34,8 @@ namespace IPTS.Services
                 return new List<AppointmentViewModel>(); // Return empty list if doctor not found
             }
 
-            // Get appointments with full navigation properties
             var appointments = await _context.Appointments
+                .AsNoTracking()
                 .Include(a => a.Patient)
                     .ThenInclude(p => p!.User)
                 .Include(a => a.Doctor)
@@ -43,8 +44,70 @@ namespace IPTS.Services
                 .OrderByDescending(a => a.ScheduledTime)
                 .ToListAsync();
 
-            // Map to ViewModel using AutoMapper
             return _mapper.Map<List<AppointmentViewModel>>(appointments);
+        }
+
+        public async Task<(List<AppointmentViewModel> Items, int TotalCount)> GetPagedAppointmentsForDoctorAsync(
+            string userId,
+            int page,
+            int pageSize,
+            string? patientName,
+            AppointmentStatus? status,
+            DateTime? fromDate,
+            DateTime? toDate)
+        {
+            var user = await _userService.GetByIdAsync(userId, q => q.Include(u => u.Doctor));
+            if (user?.Doctor == null)
+                return ([], 0);
+
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+
+            IQueryable<Appointment> query = _context.Appointments
+                .AsNoTracking()
+                .Where(a => a.DoctorId == user.Doctor.Id);
+
+            if (!string.IsNullOrWhiteSpace(patientName))
+            {
+                var pattern = $"%{patientName.Trim()}%";
+                query = query.Where(a =>
+                    a.Patient != null
+                    && a.Patient.User != null
+                    && (
+                        EF.Functions.ILike(a.Patient.User.FirstName + " " + a.Patient.User.LastName, pattern)
+                        || EF.Functions.ILike(a.Patient.User.FirstName, pattern)
+                        || EF.Functions.ILike(a.Patient.User.LastName, pattern)
+                        || (a.Patient.User.UserName != null && EF.Functions.ILike(a.Patient.User.UserName, pattern))
+                    ));
+            }
+
+            if (status.HasValue)
+                query = query.Where(a => a.Status == status.Value);
+
+            if (fromDate.HasValue)
+            {
+                var fromUtc = DateTime.SpecifyKind(fromDate.Value.Date, DateTimeKind.Utc);
+                query = query.Where(a => a.ScheduledTime >= fromUtc);
+            }
+
+            if (toDate.HasValue)
+            {
+                var toExclusiveUtc = DateTime.SpecifyKind(toDate.Value.Date.AddDays(1), DateTimeKind.Utc);
+                query = query.Where(a => a.ScheduledTime < toExclusiveUtc);
+            }
+
+            var totalCount = await query.CountAsync();
+            var appointments = await query
+                .Include(a => a.Patient)
+                    .ThenInclude(p => p!.User)
+                .Include(a => a.Doctor)
+                    .ThenInclude(d => d!.User)
+                .OrderByDescending(a => a.ScheduledTime)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (_mapper.Map<List<AppointmentViewModel>>(appointments), totalCount);
         }
         public async Task<bool> ConfirmAndUpdateSlotsAsync(int appointmentId, List<int> selectedSlots)
         {

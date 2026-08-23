@@ -4,6 +4,8 @@ using IPTS.Services;
 using IPTS.Data;
 using Microsoft.EntityFrameworkCore;
 using IPTS.Areas.Admin.ViewsModels;
+using IPTS.Helpers;
+using Serilog.Events;
 
 namespace IPTS.Areas.Admin.Controllers
 {
@@ -41,15 +43,22 @@ namespace IPTS.Areas.Admin.Controllers
         {
             var statistics = new DashboardStatisticsViewModel
             {
-                TotalPatients = (await _patientService.GetAllAsync()).Count,
-                TotalDoctors = (await _context.Doctors.CountAsync()),
-                TotalAdmins = (await _context.Admins.CountAsync()),
-                TotalMedicalCases = (await _medicalCaseService.GetAllAsync()).Count,
-                TotalTests = (await _testService.GetAllAsync()).Count,
-                TotalTestGroups = (await _testGroupService.GetAllAsync()).Count,
-                TotalUserTypes = (await _context.UserTypes.CountAsync()),
+                TotalPatients = await _patientService.CountAsync(),
+                TotalDoctors = await _context.Doctors.AsNoTracking().CountAsync(),
+                TotalAdmins = await _context.Admins.AsNoTracking().CountAsync(),
+                TotalMedicalCases = await _medicalCaseService.CountAsync(),
+                TotalTests = await _testService.CountAsync(),
+                TotalTestGroups = await _testGroupService.CountAsync(),
+                TotalUserTypes = await _context.UserTypes.AsNoTracking().CountAsync(),
                 TotalChatConversations = await _chatbotService.GetConversationsWithMessagesCountAsync()
             };
+
+            LogHelper.LogWithContext(
+                "Loaded admin dashboard statistics",
+                User?.Identity?.Name ?? "Unknown",
+                "Admin",
+                "DashboardController.Index",
+                LogEventLevel.Information);
 
             return View(statistics);
         }

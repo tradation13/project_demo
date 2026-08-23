@@ -22,7 +22,7 @@ namespace IPTS.Controllers
         private readonly EmailService _emailService = emailService;
         private readonly IConfiguration _configuration = configuration;
 
-        [OutputCache(Duration = 3600)]
+        [OutputCache(PolicyName = "PublicPage")]
         public IActionResult Index()
         {
             return View();
@@ -42,7 +42,7 @@ namespace IPTS.Controllers
         {
             return View();
         }
-        [OutputCache(Duration = 3600)]
+        [OutputCache(PolicyName = "PublicPage")]
         public IActionResult About()
         {
             return View();

@@ -38,31 +38,31 @@ namespace IPTS.Areas.Admin.Controllers
         private readonly SpecialtyService _specialtyService = specialtyService;
         private readonly AuditService _auditService = auditService;
 
-        public async Task<IActionResult> Index(string status = "active")
+        public async Task<IActionResult> Index(string status = "active", int page = 1, int pageSize = 10)
         {
             try
             {
                 var showInactive = string.Equals(status, "inactive", StringComparison.OrdinalIgnoreCase);
-                ViewBag.StatusFilter = showInactive ? "inactive" : "active";
+                var (users, totalCount) = await _userService.GetPagedUsersAsync(showInactive, page, pageSize);
 
-                var users = await _userService
-                    .GetAllAsync<UserListViewModel>(u => u
-                        .Include(u => u.UserType)
-                        .Include(u => u.Patient)
-                        .Where(u => showInactive
-                            ? u.Status == EnUserStatus.Deleted
-                            : u.Status != EnUserStatus.Deleted))
-                    ?? new List<UserListViewModel>();
+                var model = new UserListPageViewModel
+                {
+                    Items = users,
+                    Page = page < 1 ? 1 : page,
+                    PageSize = pageSize < 1 ? 10 : pageSize,
+                    TotalCount = totalCount,
+                    StatusFilter = showInactive ? "inactive" : "active"
+                };
 
                 LogHelper.LogWithContext(
-                    $"Viewed {(showInactive ? "inactive" : "active")} users list",
+                    $"Viewed {(showInactive ? "inactive" : "active")} users list. page={model.Page}, total={totalCount}",
                     User?.Identity?.Name ?? "Unknown",
                     "Admin",
                     "UsersController.Index",
-                    LogEventLevel.Warning
+                    LogEventLevel.Information
                 );
 
-                return View(users);
+                return View(model);
             }
             catch (Exception ex)
             {

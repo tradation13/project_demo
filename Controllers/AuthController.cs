@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Serilog.Events;
@@ -44,7 +43,6 @@ namespace IPTS.Controllers
         private readonly AuditService _auditService = auditService;
 
         [HttpGet]
-        [OutputCache(Duration = 3600)]
         public IActionResult Login(string? returnUrl = null)
         {
 

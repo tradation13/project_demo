@@ -34,40 +34,27 @@ namespace IPTS.Areas.Doctor.Controllers
             try
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var appointments = await _appointmentService.GetAppointmentsForDoctorAsync(userId);
+                AppointmentStatus? parsedStatus = null;
+                if (!string.IsNullOrWhiteSpace(status) && Enum.TryParse<AppointmentStatus>(status, true, out var st))
+                    parsedStatus = st;
 
-                // Apply filters in-memory on the mapped viewmodels
-                if (!string.IsNullOrWhiteSpace(patientName))
-                {
-                    appointments = appointments.Where(a => !string.IsNullOrWhiteSpace(a.PatientName) && a.PatientName.Contains(patientName, StringComparison.OrdinalIgnoreCase)).ToList();
-                }
-
-                if (!string.IsNullOrWhiteSpace(status))
-                {
-                    if (Enum.TryParse<AppointmentStatus>(status, true, out var st))
-                    {
-                        appointments = appointments.Where(a => a.Status == st).ToList();
-                    }
-                }
-
-                if (!string.IsNullOrWhiteSpace(fromDate) && DateTime.TryParse(fromDate, out var fromDt))
-                {
-                    appointments = appointments.Where(a => a.ScheduledTime.Date >= fromDt.Date).ToList();
-                }
-
-                if (!string.IsNullOrWhiteSpace(toDate) && DateTime.TryParse(toDate, out var toDt))
-                {
-                    appointments = appointments.Where(a => a.ScheduledTime.Date <= toDt.Date).ToList();
-                }
+                DateTime? parsedFrom = DateTime.TryParse(fromDate, out var fromDt) ? fromDt : null;
+                DateTime? parsedTo = DateTime.TryParse(toDate, out var toDt) ? toDt : null;
 
                 const int pageSize = 10;
-                var total = appointments?.Count ?? 0;
-                var paged = appointments.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                var (paged, total) = await _appointmentService.GetPagedAppointmentsForDoctorAsync(
+                    userId,
+                    page,
+                    pageSize,
+                    patientName,
+                    parsedStatus,
+                    parsedFrom,
+                    parsedTo);
 
                 var viewModel = new IPTS.Areas.Doctor.ViewsModels.AppointmentListViewModel
                 {
                     Items = paged,
-                    Page = page,
+                    Page = page < 1 ? 1 : page,
                     PageSize = pageSize,
                     TotalCount = total,
                     PatientName = patientName,

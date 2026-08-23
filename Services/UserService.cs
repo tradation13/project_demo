@@ -28,6 +28,32 @@ namespace IPTS.Services
         private readonly IdentityErrorTranslator _identityErrorTranslator = identityErrorTranslator;
         private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
 
+        public async Task<(List<UserListViewModel> Items, int TotalCount)> GetPagedUsersAsync(
+            bool showInactive,
+            int page,
+            int pageSize)
+        {
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+
+            var query = _dbSet
+                .AsNoTracking()
+                .Include(u => u.UserType)
+                .Include(u => u.Patient)
+                .Where(u => showInactive
+                    ? u.Status == EnUserStatus.Deleted
+                    : u.Status != EnUserStatus.Deleted);
+
+            var totalCount = await query.CountAsync();
+            var users = await query
+                .OrderBy(u => u.UserName)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (_mapper.Map<List<UserListViewModel>>(users), totalCount);
+        }
+
         private async Task<AppUser> CreateUserAndSetTheDefaultRoleAsync(AppUser user, string password, string userTypeName)
         {
             await ValidateEmailAndPhoneAsync(user.Email, user.PhoneNumber);

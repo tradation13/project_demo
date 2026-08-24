@@ -1,5 +1,7 @@
 using IPTS.Helpers;
 using IPTS.Models;
+using IPTS.Models.Entites;
+using IPTS.Models.Enums;
 using IPTS.Resources;
 using IPTS.Services;
 using IPTS.ViewModels;
@@ -9,6 +11,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Serilog.Events;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -98,31 +101,32 @@ namespace IPTS.Controllers
         [HttpGet]
         public async Task<IActionResult> Therapies(string search = "", string sort = "name", string specialty = "")
         {
-            var therapies = await _userService.GetAllAsync<DoctorViewModel>(u => u.Include(u => u.Doctor).Where(u => u.Doctor != null && u.Status == Models.Enums.EnUserStatus.Active));
-
-            // Filter by search
-            if (!string.IsNullOrWhiteSpace(search))
+            var therapies = await _userService.GetAllAsync<DoctorViewModel>(u =>
             {
-                therapies = therapies.Where(d =>
-                    d.FullName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                    d.Specialty.Contains(search, StringComparison.OrdinalIgnoreCase)
-                ).ToList();
-            }
+                IQueryable<AppUser> q = u
+                    .Include(x => x.Doctor!)
+                        .ThenInclude(d => d.Specialty)
+                    .Where(x => x.Doctor != null && x.Status == EnUserStatus.Active);
 
-            // Filter by specialty
-            if (!string.IsNullOrWhiteSpace(specialty))
-            {
-                therapies = therapies.Where(d => d.Specialty == specialty).ToList();
-            }
+                if (!string.IsNullOrWhiteSpace(search))
+                {
+                    var pattern = $"%{search.Trim()}%";
+                    q = q.Where(x =>
+                        EF.Functions.ILike(x.FirstName + " " + x.LastName, pattern)
+                        || EF.Functions.ILike(x.FirstName, pattern)
+                        || EF.Functions.ILike(x.LastName, pattern)
+                        || (x.Doctor!.Specialty != null && EF.Functions.ILike(x.Doctor.Specialty.Name, pattern)));
+                }
 
-            // - Sort -
-            therapies = sort switch
-            {
-                "rating" => [.. therapies.OrderByDescending(d => d.Rating)],
-                "experience" => [.. therapies.OrderByDescending(d => d.YearsOfExperience)],
-                "availability" => [.. therapies.OrderByDescending(d => d.IsAvailable)],
-                _ => [.. therapies.OrderBy(d => d.FullName)]
-            };
+                if (!string.IsNullOrWhiteSpace(specialty))
+                    q = q.Where(x => x.Doctor!.Specialty != null && x.Doctor.Specialty.Name == specialty);
+
+                return sort == "availability"
+                    ? q.OrderByDescending(x => x.Status == EnUserStatus.Active)
+                        .ThenBy(x => x.FirstName)
+                        .ThenBy(x => x.LastName)
+                    : q.OrderBy(x => x.FirstName).ThenBy(x => x.LastName);
+            });
 
             return View(therapies);
         }

@@ -43,29 +43,21 @@ namespace IPTS.Controllers
         private readonly AuditService _auditService = auditService;
 
         [HttpGet]
-        public IActionResult Login(string? returnUrl = null)
+        public async Task<IActionResult> Login(string? returnUrl = null)
         {
-
-            //if (accessDeniedSituation != null )
-            //    TempData["ErrorMessage"] = "You are not authorized to access this page";
-
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                var currentUser = _userManager.GetUserAsync(User).Result;
-                var redirectedRoute = GetRedirectedRoute(currentUser);
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser == null)
+                    return View(new LoginViewModel { ReturnUrl = returnUrl });
 
+                var redirectedRoute = GetRedirectedRoute(currentUser);
 
                 return RedirectToAction(
                     actionName: redirectedRoute.ActionName,
                     controllerName: redirectedRoute.Controller,
                     routeValues: new { area = redirectedRoute.Area });
             }
-            //var u = new AppUser { UserName = "Admin", Email = "muhammadkalumian@gmail.com" };
-            //var s = await _userManager.CreateAsync(u, "Kalumian@4002");
-
-            //var adminUser = await _userManager.FindByNameAsync("Admin");
-            //await _roleManager.CreateAsync(new IdentityRole("Admin"));
-            //await _userManager.AddToRoleAsync(adminUser, "Admin");
 
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }

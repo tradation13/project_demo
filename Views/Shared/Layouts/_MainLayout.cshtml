@@ -100,27 +100,19 @@
     <link rel="icon" type="image/png" sizes="256x256" href="/images/favicon-256x256.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon-512x512.png">
     
-    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-@*     <link rel="stylesheet" href="~/IPTS.styles.css" asp-append-version="true" /> 
- *@       <link href="~/css/output.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css" />
+    <link href="~/css/output.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" asp-append-version="true" />
     @if (string.Equals(ViewContext.RouteData.Values["area"]?.ToString(), "Doctor", StringComparison.OrdinalIgnoreCase)
         || ViewBag.LoadPractitionerCss == true)
     {
         <link rel="stylesheet" href="~/css/practitioner.css" asp-append-version="true" />
     }
 
-    <!-- Tailwind CSS -->
-@*     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
- *@
-    <!-- Alpine Persist Plugin -->
-    @* <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.13.5/dist/cdn.min.js"></script>
-*@
-
-
-    <!-- Alpine Core -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="~/lib/alpinejs/cdn.min.js" asp-append-version="true"></script>
 
 </head>
 <body>

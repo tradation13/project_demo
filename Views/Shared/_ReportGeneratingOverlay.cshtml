@@ -1,0 +1,50 @@
+@*
+  Blocking overlay while Print Report generates a PDF.
+  Trigger: click any a[data-print-report] (handled in site.js).
+*@
+<style>
+    .report-gen-overlay[hidden] { display: none !important; }
+    .report-gen-bar {
+        overflow: hidden;
+        height: 0.4rem;
+        border-radius: 9999px;
+        background: #dcfce7;
+    }
+    .report-gen-bar > span {
+        display: block;
+        height: 100%;
+        width: 40%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #86efac, #22c55e, #15803d);
+        animation: report-gen-slide 1.15s ease-in-out infinite;
+    }
+    @@keyframes report-gen-slide {
+        0% { transform: translateX(-120%); }
+        100% { transform: translateX(320%); }
+    }
+    a[data-print-report][aria-busy="true"] {
+        pointer-events: none;
+        opacity: .55;
+    }
+</style>
+<div id="report-generating-overlay"
+     hidden
+     class="report-gen-overlay fixed inset-0 z-[110] flex items-center justify-center bg-slate-900/35 p-4"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="report-generating-title"
+     aria-busy="false"
+     data-error="@SharedLocalizer["Shared_Report_GenerateFailed"]">
+    <div class="w-full max-w-sm rounded-2xl border border-slate-200/70 bg-white p-6 shadow-lg shadow-slate-400/30">
+        <div class="mb-4 flex items-start gap-3">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+            </span>
+            <div>
+                <h3 id="report-generating-title" class="text-lg font-bold text-slate-800">@SharedLocalizer["Shared_Report_Generating"]</h3>
+                <p class="mt-1 text-sm leading-5 text-slate-500">@SharedLocalizer["Shared_Report_Generating_Hint"]</p>
+            </div>
+        </div>
+        <div class="report-gen-bar" aria-hidden="true"><span></span></div>
+    </div>
+</div>

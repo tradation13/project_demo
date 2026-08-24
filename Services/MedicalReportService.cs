@@ -13,6 +13,7 @@ namespace IPTS.Services
     {
         public required byte[] PdfBytes { get; init; }
         public required string DownloadFileName { get; init; }
+        public string? StoredFileName { get; init; }
     }
 
     public class MedicalReportService
@@ -1043,11 +1044,12 @@ private string? ToPhotoDataUri(MedicalCaseTestPhoto photo)
             var html = await GenerateHtmlReport(medicalCase, lang);
             var pdfBytes = _pdfPrintService.GeneratePdf(httpUser, html, $"Medical Report - {medicalCase.Name}");
 
+            string? storedFileName = null;
             if (saveToHistory && medicalCase.Patient != null && !string.IsNullOrWhiteSpace(medicalCase.Patient.UserId))
             {
                 Directory.CreateDirectory(_reportsPath);
 
-                var storedFileName = $"{Guid.NewGuid()}_{medicalCase.Name}.pdf";
+                storedFileName = $"{Guid.NewGuid()}_{medicalCase.Name}.pdf";
                 await File.WriteAllBytesAsync(Path.Combine(_reportsPath, storedFileName), pdfBytes);
 
                 _context.MedicalReportHistories.Add(new MedicalReportHistory
@@ -1066,7 +1068,8 @@ private string? ToPhotoDataUri(MedicalCaseTestPhoto photo)
             return new MedicalReportPdfResult
             {
                 PdfBytes = pdfBytes,
-                DownloadFileName = $"{filePrefix}_Case{medicalCase.Id}_{lastName}.pdf"
+                DownloadFileName = $"{filePrefix}_Case{medicalCase.Id}_{lastName}.pdf",
+                StoredFileName = storedFileName
             };
         }
 

@@ -17,9 +17,9 @@ namespace IPTS.Services
         Task<bool> DeletePrescriptionFileAsync(string? fileName);
 
         /// <summary>
-        /// يقرأ ملف الوصفة الطبية ويعيده كـ bytes
+        /// يفتح ملف الوصفة للبث دون تحميله كاملًا في الذاكرة.
         /// </summary>
-        Task<(byte[]? Content, string? ContentType, string? FileName)> GetPrescriptionFileAsync(string fileName);
+        (FileStream? Stream, string? ContentType, string? FileName) OpenPrescriptionFile(string fileName);
 
         /// <summary>
         /// يتحقق من صحة الملف (الحجم والامتداد)
@@ -104,11 +104,19 @@ namespace IPTS.Services
                 if (string.IsNullOrWhiteSpace(fileName))
                     return true;
 
-                var filePath = Path.Combine(_prescriptionStoragePath, fileName);
+                var safeFileName = Path.GetFileName(fileName);
+                if (string.IsNullOrWhiteSpace(safeFileName) || safeFileName != fileName)
+                    return true;
 
-                if (File.Exists(filePath))
+                var filePath = Path.Combine(_prescriptionStoragePath, safeFileName);
+                var fullPath = Path.GetFullPath(filePath);
+                var fullFolder = Path.GetFullPath(_prescriptionStoragePath);
+                if (!fullPath.StartsWith(fullFolder, StringComparison.OrdinalIgnoreCase))
+                    return false;
+
+                if (File.Exists(fullPath))
                 {
-                    File.Delete(filePath);
+                    File.Delete(fullPath);
                     return await Task.FromResult(true);
                 }
 
@@ -120,22 +128,28 @@ namespace IPTS.Services
             }
         }
 
-        public async Task<(byte[]? Content, string? ContentType, string? FileName)> GetPrescriptionFileAsync(string fileName)
+        public (FileStream? Stream, string? ContentType, string? FileName) OpenPrescriptionFile(string fileName)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(fileName))
                     return (null, null, null);
 
-                var filePath = Path.Combine(_prescriptionStoragePath, fileName);
-
-                if (!File.Exists(filePath))
+                var safeFileName = Path.GetFileName(fileName);
+                if (string.IsNullOrWhiteSpace(safeFileName) || safeFileName != fileName)
                     return (null, null, null);
 
-                var fileBytes = await File.ReadAllBytesAsync(filePath);
-                var contentType = GetContentType(filePath);
+                var filePath = Path.Combine(_prescriptionStoragePath, safeFileName);
+                var fullPath = Path.GetFullPath(filePath);
+                var fullFolder = Path.GetFullPath(_prescriptionStoragePath);
+                if (!fullPath.StartsWith(fullFolder, StringComparison.OrdinalIgnoreCase))
+                    return (null, null, null);
 
-                return (fileBytes, contentType, fileName);
+                if (!File.Exists(fullPath))
+                    return (null, null, null);
+
+                var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                return (stream, GetContentType(fullPath), safeFileName);
             }
             catch
             {

@@ -4,7 +4,6 @@ using IPTS.Models.Entites;
 using IPTS.Models.Enums;
 using IPTS.Services;
 using IPTS.ViewModels;
-using IPTS.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -858,17 +857,14 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
                 if (string.IsNullOrWhiteSpace(appointment.PrescriptionFileName))
                     return NotFound();
 
-                    var (content, contentType, fileName) = await _fileService.GetPrescriptionFileAsync(appointment.PrescriptionFileName);
-                    if (content == null)
-                        return NotFound();
+                var opened = _fileService.OpenPrescriptionFile(appointment.PrescriptionFileName);
+                if (opened.Stream == null)
+                    return NotFound();
 
-                    
-                    if (!string.IsNullOrWhiteSpace(fileName))
-                    {
-                        Response.Headers["Content-Disposition"] = $"inline; filename=\"{fileName}\"";
-                    }
+                if (!string.IsNullOrWhiteSpace(opened.FileName))
+                    Response.Headers["Content-Disposition"] = $"inline; filename=\"{opened.FileName}\"";
 
-                    return File(content, contentType ?? "application/octet-stream");
+                return File(opened.Stream, opened.ContentType ?? "application/octet-stream");
             }
             catch (Exception ex)
             {

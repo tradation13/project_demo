@@ -63,3 +63,58 @@ document.addEventListener('submit', function (e) {
         true
     );
 })();
+
+// Print Report: disable the button and show a blocking overlay until the PDF is ready.
+(function () {
+    var overlay = document.getElementById('report-generating-overlay');
+    if (!overlay) return;
+
+    var busyLink = null;
+
+    function setBusy(busy) {
+        overlay.hidden = !busy;
+        overlay.setAttribute('aria-busy', busy ? 'true' : 'false');
+        document.body.style.overflow = busy ? 'hidden' : '';
+        if (busyLink) {
+            busyLink.setAttribute('aria-busy', busy ? 'true' : 'false');
+            if (!busy) busyLink = null;
+        }
+    }
+
+    document.addEventListener('click', function (e) {
+        var link = e.target.closest && e.target.closest('a[data-print-report]');
+        if (!link) return;
+        if (e.defaultPrevented) return;
+        if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        if (overlay.getAttribute('aria-busy') === 'true') {
+            e.preventDefault();
+            return;
+        }
+
+        e.preventDefault();
+        busyLink = link;
+        setBusy(true);
+
+        var generateUrl = link.href + (link.href.indexOf('?') >= 0 ? '&' : '?') + 'response=json';
+        fetch(generateUrl, { credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+            .then(function (res) {
+                if (!res.ok) throw new Error('print-report-failed');
+                return res.json();
+            })
+            .then(function (data) {
+                if (!data || !data.downloadUrl) throw new Error('print-report-failed');
+                var a = document.createElement('a');
+                a.href = data.downloadUrl;
+                a.download = data.downloadFileName || 'report.pdf';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            })
+            .catch(function () {
+                window.alert(overlay.getAttribute('data-error') || 'Could not generate the report.');
+            })
+            .finally(function () {
+                setBusy(false);
+            });
+    });
+})();

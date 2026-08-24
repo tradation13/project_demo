@@ -936,6 +936,10 @@ video {
   z-index: 90;
 }
 
+.z-\[110\] {
+  z-index: 110;
+}
+
 .order-1 {
   order: 1;
 }
@@ -2590,6 +2594,10 @@ video {
   background-color: rgb(234 179 8 / var(--tw-bg-opacity));
 }
 
+.bg-slate-900\/35 {
+  background-color: rgb(15 23 42 / 0.35);
+}
+
 .bg-opacity-20 {
   --tw-bg-opacity: 0.2;
 }
@@ -3209,6 +3217,10 @@ video {
   line-height: 1.25;
 }
 
+.leading-5 {
+  line-height: 1.25rem;
+}
+
 .tracking-\[0\.18em\] {
   letter-spacing: 0.18em;
 }
@@ -3700,6 +3712,11 @@ video {
 
 .shadow-slate-300\/40 {
   --tw-shadow-color: rgb(203 213 225 / 0.4);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+.shadow-slate-400\/30 {
+  --tw-shadow-color: rgb(148 163 184 / 0.3);
   --tw-shadow: var(--tw-shadow-colored);
 }
 

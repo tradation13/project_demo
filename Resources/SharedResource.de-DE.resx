@@ -2386,6 +2386,18 @@
     <value>Bericht drucken</value>
     <comment>Shared</comment>
   </data>
+  <data name="Shared_Report_Generating" xml:space="preserve">
+    <value>Bericht wird erstellt…</value>
+    <comment>Overlay-Titel während der PDF-Erstellung</comment>
+  </data>
+  <data name="Shared_Report_Generating_Hint" xml:space="preserve">
+    <value>Bitte warten. Dies kann einen Moment dauern.</value>
+    <comment>Overlay-Hinweis während der PDF-Erstellung</comment>
+  </data>
+  <data name="Shared_Report_GenerateFailed" xml:space="preserve">
+    <value>Der Bericht konnte nicht erstellt werden.</value>
+    <comment>Anzeige, wenn das Erstellen des Berichts fehlschlägt</comment>
+  </data>
   <data name="Shared_Created" xml:space="preserve">
     <value>Erstellt</value>
     <comment>Shared</comment>

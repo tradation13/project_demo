@@ -125,7 +125,29 @@
     }
 
     /* ══ خلفية ══ */
-    .hero-float { animation:heroFloat 14s ease-in-out infinite; will-change:transform; }
+    .hero-float { animation:heroFloat 14s ease-in-out infinite; }
+    .hero-paused .hero-float,
+    .hero-paused .hero-orb,
+    .hero-paused .hero-icon-pulse,
+    .hero-paused .hero-icon-rise,
+    .hero-paused .hero-icon-float {
+        animation-play-state: paused;
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        .hero-title,
+        .hero-desc,
+        .hero-btns,
+        .hero-feat,
+        .hero-img { opacity: 1; }
+        .hero-float,
+        .hero-orb,
+        .hero-icon-pulse,
+        .hero-icon-rise,
+        .hero-icon-float {
+            animation: none !important;
+        }
+    }
     .hero-float-d1 { animation-duration:17s; animation-delay:-5s; }
     .hero-float-d2 { animation-duration:20s; animation-delay:-9s; }
 
@@ -177,6 +199,19 @@
 
 <script>
 (function(){
+    var section = document.querySelector('.hero-section');
+    if (section) {
+        var motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        var sectionObs = new IntersectionObserver(function(entries){
+            entries.forEach(function(e){
+                section.classList.toggle('hero-paused', !e.isIntersecting);
+            });
+        }, { threshold: 0 });
+        sectionObs.observe(section);
+        if (motion.matches)
+            section.classList.add('hero-paused');
+    }
+
     var obs = new IntersectionObserver(function(entries){
         entries.forEach(function(e){
             if(e.isIntersecting){

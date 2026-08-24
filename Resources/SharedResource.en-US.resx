@@ -2190,6 +2190,18 @@
     <value>Print Report</value>
     <comment>Shared</comment>
   </data>
+  <data name="Shared_Report_Generating" xml:space="preserve">
+    <value>Generating report…</value>
+    <comment>Overlay title while Print Report PDF is being generated</comment>
+  </data>
+  <data name="Shared_Report_Generating_Hint" xml:space="preserve">
+    <value>Please wait. This can take a moment.</value>
+    <comment>Overlay hint while Print Report PDF is being generated</comment>
+  </data>
+  <data name="Shared_Report_GenerateFailed" xml:space="preserve">
+    <value>Could not generate the report.</value>
+    <comment>Shown when Print Report fails</comment>
+  </data>
   <data name="Shared_Created" xml:space="preserve">
     <value>Created</value>
     <comment>Shared</comment>

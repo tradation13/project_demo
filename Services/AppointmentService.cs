@@ -489,14 +489,20 @@ namespace IPTS.Services
         {
             return await _context.Patients
                 .Include(p => p.User)
-                .FirstOrDefaultAsync(p => p.User.PhoneNumber == phoneNumber);
+                .FirstOrDefaultAsync(p =>
+                    p.User != null
+                    && p.User.Status == EnUserStatus.Active
+                    && p.User.PhoneNumber == phoneNumber);
         }
 
         public async Task<Patient?> SearchPatientByEmailAsync(string email)
         {
             return await _context.Patients
                 .Include(p => p.User)
-                .FirstOrDefaultAsync(p => p.User.Email == email);
+                .FirstOrDefaultAsync(p =>
+                    p.User != null
+                    && p.User.Status == EnUserStatus.Active
+                    && p.User.Email == email);
         }
 
         public async Task<List<AppointmentTimeSlotViewModel>> GetAvailableTimeSlotsAsync(
@@ -1032,18 +1038,21 @@ namespace IPTS.Services
                 return false;
             }
         }
-  public async Task<List<Patient>> SearchPatientsAsync(string term)
-{
-    if (string.IsNullOrWhiteSpace(term)) return new List<Patient>();
+        public async Task<List<Patient>> SearchPatientsAsync(string term)
+        {
+            if (string.IsNullOrWhiteSpace(term))
+                return [];
 
-    return await _context.Patients
-        .Include(p => p.User) // نضمن تحميل بيانات المستخدم
-        .Where(p => p.User.FirstName.Contains(term) || 
-                    p.User.LastName.Contains(term) 
-                    )
-        .Take(5)
-        .ToListAsync();
-}
+            var trimmed = term.Trim();
+            return await _context.Patients
+                .AsNoTracking()
+                .Include(p => p.User)
+                .Where(p => p.User != null
+                    && p.User.Status == EnUserStatus.Active
+                    && (p.User.FirstName.Contains(trimmed) || p.User.LastName.Contains(trimmed)))
+                .Take(5)
+                .ToListAsync();
+        }
 
     }
 

@@ -268,7 +268,43 @@ namespace IPTS.Areas.Doctor.Controllers
                 new HttpUser(HttpContext),
                 saveToHistory: true);
 
+            LogHelper.LogWithContext(
+                $"Generated medical report for case {id}",
+                User?.Identity?.Name ?? "Unknown",
+                "Doctor",
+                "MedicalCasesController.PrintReport",
+                LogEventLevel.Information);
+
+            if (string.Equals(Request.Query["response"], "json", StringComparison.OrdinalIgnoreCase))
+            {
+                if (string.IsNullOrWhiteSpace(result.StoredFileName))
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+
+                return Json(new
+                {
+                    downloadUrl = Url.Action(nameof(DownloadReport), new
+                    {
+                        fileName = result.StoredFileName,
+                        downloadName = result.DownloadFileName
+                    }),
+                    downloadFileName = result.DownloadFileName
+                });
+            }
+
             return File(result.PdfBytes, "application/pdf", result.DownloadFileName);
+        }
+
+        [HttpGet]
+        public IActionResult DownloadReport(string fileName, string? downloadName = null)
+        {
+            var stream = _medicalReportService.OpenReportFile(fileName);
+            if (stream == null)
+                return NotFound(_locService.GetSystem("Error_ReportFileNotFound"));
+
+            var name = string.IsNullOrWhiteSpace(downloadName)
+                ? fileName
+                : Path.GetFileName(downloadName);
+            return File(stream, "application/pdf", name);
         }
 
         [HttpGet]

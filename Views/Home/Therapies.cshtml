@@ -163,11 +163,7 @@
                                          class="h-24 w-24 rounded-full object-cover" />
                                 }
                             </div>
-                            <h3 class="mb-2 text-xl font-bold text-gray-900">@(doctorItem.FullName ?? SharedLocalizer["Shared_NotAvailable"])</h3>
-                            
-                            <p class="mb-2 font-normal text-blue-600">
-                                @(SharedLocalizer[doctorItem.Specialty ?? "N/A"])
-                            </p>
+                            <h3 class="mb-4 text-xl font-bold text-gray-900">@(doctorItem.FullName ?? SharedLocalizer["Shared_NotAvailable"])</h3>
 
                             <a href="@Url.Action("Index","Profile", new { id = doctorItem.UserId })"
                                class="bg-primary-50 mb-2 inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-bold text-primary-600 transition-colors hover:bg-primary-100">

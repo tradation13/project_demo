@@ -741,13 +741,14 @@ namespace IPTS.Areas.Patient.Controllers
                 return NotFound(_locService.GetSystem("Error_PrescriptionNotFound"));
 
             // Get file
-            var (fileBytes, contentType, fileName) = await _fileService.GetPrescriptionFileAsync(appointment.PrescriptionFileName);
-            if (fileBytes == null)
+            var opened = _fileService.OpenPrescriptionFile(appointment.PrescriptionFileName);
+            if (opened.Stream == null)
                 return NotFound(_locService.GetSystem("Error_PrescriptionNotFound"));
 
             // Serve inline so browser displays instead of forcing download
-            Response.Headers["Content-Disposition"] = $"inline; filename=\"{fileName}\"";
-            return File(fileBytes, contentType ?? "application/octet-stream");
+            if (!string.IsNullOrWhiteSpace(opened.FileName))
+                Response.Headers["Content-Disposition"] = $"inline; filename=\"{opened.FileName}\"";
+            return File(opened.Stream, opened.ContentType ?? "application/octet-stream");
         }
 
         [HttpPost("delete/{id:int}")]

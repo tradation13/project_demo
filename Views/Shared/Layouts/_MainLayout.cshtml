@@ -75,30 +75,11 @@
     }
     </script>
 
-    @* Icon Set *@
-    <!-- Favicon base -->
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" href="/images/favicon.ico" sizes="32x32">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="/images/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
-
-    <!-- Apple iOS -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-
-    <!-- Android / PWA -->
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <link rel="manifest" href="/images/site.webmanifest">
     <meta name="theme-color" content="#22C55E">
-
-    <!-- Windows tiles -->
-    <meta name="msapplication-TileColor" content="#22C55E">
-    <meta name="msapplication-config" content="/browserconfig.xml">
-
-    <!-- Optional: Favicons for bigger displays -->
-    <link rel="icon" type="image/png" sizes="128x128" href="/images/favicon-128x128.png">
-    <link rel="icon" type="image/png" sizes="256x256" href="/images/favicon-256x256.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon-512x512.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -123,8 +104,6 @@
 
     @await Html.PartialAsync("~/Views/Shared/PublicSide/PrivacyConsentPopup.cshtml")
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
 

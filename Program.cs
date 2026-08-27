@@ -16,7 +16,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Serilog;
-using SQLitePCL;
 using System;
 using System.Data;
 using System.Diagnostics;
@@ -32,8 +31,6 @@ namespace IPTS
     {
         public static async Task Main(string[] args)
         {
-            Batteries.Init(); 
-
             var builder = WebApplication.CreateBuilder(args);
 
 
@@ -49,13 +46,11 @@ builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 // 4. تفعيل الفحص التلقائي (Auto Validation) لكي لا تضطر لكتابة كود فحص في كل Controller
 builder.Services.AddFluentValidationAutoValidation();
 
-builder.Services.AddMvc(opt =>
-{
-	opt.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
-});
-
 // 5. إعداد MVC مع دعم الـ SharedResource للـ DataAnnotations
-builder.Services.AddControllersWithViews()
+builder.Services.AddControllersWithViews(opt =>
+{
+    opt.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+})
     .AddViewLocalization()
     .AddDataAnnotationsLocalization(options =>
     {
@@ -122,7 +117,6 @@ builder.Services.AddControllersWithViews()
                     return Task.CompletedTask;
                 };
             });
-            // builder.Services.AddControllersWithViews();
 
             builder.Services.AddAuthentication();
             builder.Services.AddAuthorization();

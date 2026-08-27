@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Mime; // ضروري لدمج الصور
 using System.Text;
+using System.Text.RegularExpressions;
 using IPTS.Resources;
 
 namespace IPTS.Services
@@ -70,62 +71,70 @@ else
             await client.SendMailAsync(mailMessage);
         }
 
-        // في دالة GetHtmlTemplate
-private string GetHtmlTemplate(string content, string contentId)
-{
-    var primaryColor = "#27ae60"; // الأخضر الجذاب اللي اخترناه
-    var websiteLabel = _locService.GetSystem("Label_Website");
-    var addressLabel = _locService.GetSystem("Label_Address");
-    var emailLabel = _locService.GetSystem("Label_Email");
-    var phoneLabel = _locService.GetSystem("Label_Phone");
-    var copyrightText = string.Format(_locService.GetSystem("Email_Footer_Copyright"), DateTime.UtcNow.Year);
+        private static string StyleContentLinks(string content)
+        {
+            const string buttonStyle =
+                "display:inline-block;background-color:#16A34A;color:#ffffff;text-decoration:none;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:bold;line-height:1.2;";
 
-    return $@"
-    <div dir='ltr' style='direction: ltr; font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 30px;'>
-        <div style='max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; border-top: 5px solid {primaryColor};'>
-            
-            <div style='text-align: center; padding: 25px 20px;'>
-                <img src='cid:{contentId}' alt='Physiotech Logo' width='90' />
-                <h2 style='color: {primaryColor}; margin-top: 15px; margin-bottom: 0;'>Physiotech</h2>
-            </div>
+            return Regex.Replace(
+                content,
+                @"<a\s+(?![^>]*style=)",
+                $"<a style='{buttonStyle}' ",
+                RegexOptions.IgnoreCase);
+        }
 
-            <div style='padding: 30px 40px; text-align: left; direction: ltr; color: #555; line-height: 1.8;'>
-                <div style='background-color: #f9f9f9; padding: 20px; border-radius: 8px; direction: ltr; unicode-bidi: plaintext;'>
-                    {content}
-                </div>
-            </div>
+        private string GetHtmlTemplate(string content, string contentId)
+        {
+            const string primaryColor = "#16A34A";
+            var websiteLabel = _locService.GetSystem("Label_Website");
+            var addressLabel = _locService.GetSystem("Label_Address");
+            var emailLabel = _locService.GetSystem("Label_Email");
+            var phoneLabel = _locService.GetSystem("Label_Phone");
+            var copyrightText = string.Format(_locService.GetSystem("Email_Footer_Copyright"), DateTime.UtcNow.Year);
+            var styledContent = StyleContentLinks(content);
 
-            <div style='padding: 28px 32px 20px; border-top: 1px solid #eee; background-color: #fafafa;'>
-                <table role='presentation' width='100%' cellpadding='0' cellspacing='0' border='0' style='width: 100%; border-collapse: collapse;'>
-                    <tr>
-                        <td width='50%' valign='top' align='left' style='padding: 0 12px 0 0; font-size: 13px; line-height: 1.5;'>
-                            <div style='margin-bottom: 14px;'>
-                                <div style='font-size: 11px; color: #a8a8a8; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px;'>{websiteLabel}</div>
-                                <a href='https://physiotech-ehrenfeld.de/' style='color: {primaryColor}; text-decoration: none; font-weight: 600;'>physiotech-ehrenfeld.de</a>
-                            </div>
-                            <div>
-                                <div style='font-size: 11px; color: #a8a8a8; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px;'>{addressLabel}</div>
-                                <span style='color: #555;'>Venloer Straße 305,<br />50823 Köln-Ehrenfeld</span>
-                            </div>
-                        </td>
-                        <td width='50%' valign='top' align='right' style='padding: 0 0 0 12px; font-size: 13px; line-height: 1.5;'>
-                            <div style='margin-bottom: 14px;'>
-                                <div style='font-size: 11px; color: #a8a8a8; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px;'>{emailLabel}</div>
-                                <a href='mailto:dr.kurtoglu@physiotech-ehrenfeld.de' style='color: {primaryColor}; text-decoration: none; font-weight: 600;'>dr.kurtoglu@physiotech-ehrenfeld.de</a>
-                            </div>
-                            <div>
-                                <div style='font-size: 11px; color: #a8a8a8; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px;'>{phoneLabel}</div>
-                                <a href='tel:+491728758302' style='color: #555; text-decoration: none;'>0172 8758302</a>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <div style='margin-top: 22px; padding-top: 16px; border-top: 1px solid #eee; text-align: center; font-size: 11px; color: #999; line-height: 1.5;'>
-                    {copyrightText}
-                </div>
+            return $@"
+<table role='presentation' width='100%' cellpadding='0' cellspacing='0' border='0' style='width:100%;border-collapse:collapse;background-color:#f1f5f9;'>
+  <tr>
+    <td align='center' style='padding:16px 12px;'>
+      <table role='presentation' width='480' cellpadding='0' cellspacing='0' border='0' style='width:100%;max-width:480px;border-collapse:collapse;background-color:#ffffff;border-radius:10px;overflow:hidden;border-top:4px solid {primaryColor};font-family:Arial,Helvetica,sans-serif;'>
+        <tr>
+          <td align='center' style='padding:20px 24px 10px;'>
+            <img src='cid:{contentId}' alt='Physiotech' width='180' style='display:block;width:180px;max-width:70%;height:auto;border:0;' />
+          </td>
+        </tr>
+        <tr>
+          <td style='padding:8px 20px 20px;font-size:14px;line-height:1.6;color:#334155;text-align:left;direction:ltr;'>
+            {styledContent}
+          </td>
+        </tr>
+        <tr>
+          <td style='padding:14px 20px 18px;border-top:1px solid #e5e7eb;background-color:#f8fafc;font-size:12px;line-height:1.45;color:#64748b;'>
+            <div style='margin-bottom:8px;'>
+              <span style='display:block;font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.4px;'>{websiteLabel}</span>
+              <a href='https://physiotech-ehrenfeld.de/' style='color:{primaryColor};text-decoration:none;font-weight:600;'>physiotech-ehrenfeld.de</a>
             </div>
-        </div>
-    </div>";
-}
+            <div style='margin-bottom:8px;'>
+              <span style='display:block;font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.4px;'>{emailLabel}</span>
+              <a href='mailto:dr.kurtoglu@physiotech-ehrenfeld.de' style='color:{primaryColor};text-decoration:none;'>dr.kurtoglu@physiotech-ehrenfeld.de</a>
+            </div>
+            <div style='margin-bottom:8px;'>
+              <span style='display:block;font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.4px;'>{phoneLabel}</span>
+              <a href='tel:+491728758302' style='color:#334155;text-decoration:none;'>0172 8758302</a>
+            </div>
+            <div>
+              <span style='display:block;font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.4px;'>{addressLabel}</span>
+              <span style='color:#334155;'>Venloer Straße 305, 50823 Köln-Ehrenfeld</span>
+            </div>
+            <div style='margin-top:12px;padding-top:10px;border-top:1px solid #e5e7eb;text-align:center;font-size:11px;color:#94a3b8;'>
+              {copyrightText}
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>";
+        }
     }
 }

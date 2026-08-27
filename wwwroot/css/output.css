@@ -1195,10 +1195,6 @@ video {
   display: none;
 }
 
-.aspect-\[680\/420\] {
-  aspect-ratio: 680/420;
-}
-
 .aspect-square {
   aspect-ratio: 1 / 1;
 }

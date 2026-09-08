@@ -1,15 +1,31 @@
-﻿using IPTS.Models.Entites;
+﻿using IPTS.Data;
+using IPTS.Helpers;
+using IPTS.Models.Entites;
 using IPTS.Models.Enums;
 using IPTS.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Security.Claims;
+using Serilog.Events;
 
 namespace IPTS.Data.Bootstrap
 {
     public static class ServiceProviderExtensions
     {
+        private static readonly string[] DefaultSpecialties =
+        [
+            "Pediatric",
+            "Cardiopulmonary",
+            "Critical Care",
+            "Geriatric",
+            "Women's Health",
+            "Sports",
+            "Other",
+            "Post-Surgical Rehabilitation",
+            "Prosthetics & Orthotics",
+            "Musculoskeletal",
+            "Neurological"
+        ];
+
         public static async Task EnsureInfrastructureAsync(this IServiceProvider services)
         {
             try
@@ -26,6 +42,7 @@ namespace IPTS.Data.Bootstrap
                 Console.WriteLine("SeedIdentity Start ...");
 
                 await SeedIdentityAsync(sp);
+                await SeedSpecialtiesAsync(db);
 
                 Console.WriteLine("SeedIdentity End ...");
                 Console.WriteLine("--- Botsrtap End --");
@@ -88,6 +105,38 @@ namespace IPTS.Data.Bootstrap
                 await userMgr.AddToRoleAsync(u, "Admin");
            
             }
+        }
+
+        private static async Task SeedSpecialtiesAsync(ApplicationDbContext db)
+        {
+            var existing = await db.Specialties
+                .AsNoTracking()
+                .Select(s => s.Name)
+                .ToListAsync();
+
+            var missing = DefaultSpecialties
+                .Where(name => existing.All(e => !string.Equals(e, name, StringComparison.OrdinalIgnoreCase)))
+                .ToList();
+
+            if (missing.Count == 0)
+            {
+                Console.WriteLine("Specialties already seeded.");
+                return;
+            }
+
+            foreach (var name in missing)
+                await db.Specialties.AddAsync(new Specialty { Name = name });
+
+            await db.SaveChangesAsync();
+
+            LogHelper.LogWithContext(
+                $"Seeded {missing.Count} specialties",
+                "system",
+                "Bootstrap",
+                "SeedSpecialtiesAsync",
+                LogEventLevel.Information);
+
+            Console.WriteLine($"Specialties seeded: {string.Join(", ", missing)}");
         }
     }
 }

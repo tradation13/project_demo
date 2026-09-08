@@ -3540,4 +3540,19 @@ I'm your PhysioTech Assistant. How can I help you today?</value>
   <data name="Users_Next" xml:space="preserve">
     <value>Next</value>
   </data>
+  <data name="AssignDoctor_Title" xml:space="preserve">
+    <value>Assign therapist</value>
+  </data>
+  <data name="AssignDoctor_Patient" xml:space="preserve">
+    <value>Patient</value>
+  </data>
+  <data name="AssignDoctor_Select" xml:space="preserve">
+    <value>Therapist</value>
+  </data>
+  <data name="AssignDoctor_Placeholder" xml:space="preserve">
+    <value>Select a therapist</value>
+  </data>
+  <data name="AssignDoctor_Save" xml:space="preserve">
+    <value>Assign</value>
+  </data>
 </root>

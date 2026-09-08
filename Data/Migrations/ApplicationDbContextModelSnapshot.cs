@@ -646,6 +646,9 @@ namespace IPTS.Data.Migrations
                     b.Property<bool?>("IsSmoker")
                         .HasColumnType("boolean");
 
+                    b.Property<int?>("AssignedDoctorId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
@@ -654,6 +657,8 @@ namespace IPTS.Data.Migrations
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AssignedDoctorId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -1085,11 +1090,18 @@ namespace IPTS.Data.Migrations
 
             modelBuilder.Entity("IPTS.Models.Entites.Patient", b =>
                 {
+                    b.HasOne("IPTS.Models.Entites.Doctor", "AssignedDoctor")
+                        .WithMany()
+                        .HasForeignKey("AssignedDoctorId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("IPTS.Models.Entites.AppUser", "User")
                         .WithOne("Patient")
                         .HasForeignKey("IPTS.Models.Entites.Patient", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AssignedDoctor");
 
                     b.Navigation("User");
                 });

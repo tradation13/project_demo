@@ -3558,4 +3558,19 @@ Ich bin Ihr PhysioTech-Assistent. Wie kann ich Ihnen helfen?</value>
   <data name="Users_Next" xml:space="preserve">
     <value>Weiter</value>
   </data>
+  <data name="AssignDoctor_Title" xml:space="preserve">
+    <value>Therapeut zuweisen</value>
+  </data>
+  <data name="AssignDoctor_Patient" xml:space="preserve">
+    <value>Patient</value>
+  </data>
+  <data name="AssignDoctor_Select" xml:space="preserve">
+    <value>Therapeut</value>
+  </data>
+  <data name="AssignDoctor_Placeholder" xml:space="preserve">
+    <value>Therapeut auswählen</value>
+  </data>
+  <data name="AssignDoctor_Save" xml:space="preserve">
+    <value>Zuweisen</value>
+  </data>
 </root>

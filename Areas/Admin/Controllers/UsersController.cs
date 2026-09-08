@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using IPTS.Areas.Admin.ViewsModels;
+using IPTS.Data;
 using IPTS.Models.Entites;
 using IPTS.Models.Enums;
 using IPTS.Services;
@@ -25,7 +26,8 @@ namespace IPTS.Areas.Admin.Controllers
         SignInManager<AppUser> signInManager,
         SpecialtyService specialtyService,
         LocService locService,
-        AuditService auditService
+        AuditService auditService,
+        ApplicationDbContext context
         ) : Controller
     {
         private readonly LocService _locService = locService;
@@ -37,6 +39,7 @@ namespace IPTS.Areas.Admin.Controllers
         private readonly UserService _userService = userService;
         private readonly SpecialtyService _specialtyService = specialtyService;
         private readonly AuditService _auditService = auditService;
+        private readonly ApplicationDbContext _context = context;
 
         public async Task<IActionResult> Index(string status = "active", int page = 1, int pageSize = 10)
         {
@@ -441,6 +444,119 @@ namespace IPTS.Areas.Admin.Controllers
                 );
                 throw;
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AssignDoctor(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return BadRequest();
+
+            try
+            {
+                var user = await _userService.GetByIdAsync(id, q => q.Include(u => u.Patient).Include(u => u.UserType));
+                if (user?.Patient == null || !string.Equals(user.UserType?.Name, "patient", StringComparison.OrdinalIgnoreCase))
+                    return NotFound();
+
+                await LoadDoctorsAsync();
+
+                LogHelper.LogWithContext(
+                    $"Opened assign-doctor form for patient {id}",
+                    User?.Identity?.Name ?? "Unknown",
+                    "Admin",
+                    "UsersController.AssignDoctor",
+                    LogEventLevel.Information);
+
+                return View(new AssignDoctorViewModel
+                {
+                    PatientId = user.Patient.Id,
+                    UserId = user.Id,
+                    PatientName = $"{user.FirstName} {user.LastName}".Trim(),
+                    PatientEmail = user.Email ?? string.Empty,
+                    AssignedDoctorId = user.Patient.AssignedDoctorId ?? 0
+                });
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogWithContext(
+                    $"Error opening assign-doctor form: {ex.Message}",
+                    User?.Identity?.Name ?? "Unknown",
+                    "Admin",
+                    "UsersController.AssignDoctor",
+                    LogEventLevel.Error);
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignDoctor(AssignDoctorViewModel model)
+        {
+            await LoadDoctorsAsync();
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            try
+            {
+                var patient = await _context.Patients
+                    .Include(p => p.User)
+                    .FirstOrDefaultAsync(p => p.Id == model.PatientId);
+                if (patient == null)
+                    return NotFound();
+
+                var doctorExists = await _context.Doctors.AnyAsync(d => d.Id == model.AssignedDoctorId);
+                if (!doctorExists)
+                {
+                    ModelState.AddModelError(nameof(model.AssignedDoctorId), _locService.GetSystem("AssignDoctor_DoctorRequired"));
+                    return View(model);
+                }
+
+                patient.AssignedDoctorId = model.AssignedDoctorId;
+                await _context.SaveChangesAsync();
+
+                await _auditService.WriteAsync(
+                    EnAuditAction.EntityUpdated,
+                    $"Admin assigned patient '{patient.User?.UserName}' to doctor {model.AssignedDoctorId}",
+                    actorUserId: User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value,
+                    actorUserName: User.Identity?.Name,
+                    targetUserId: patient.UserId,
+                    entityName: nameof(Patient),
+                    entityId: patient.Id.ToString(),
+                    ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());
+
+                LogHelper.LogWithContext(
+                    $"Assigned patient {patient.Id} to doctor {model.AssignedDoctorId}",
+                    User?.Identity?.Name ?? "Unknown",
+                    "Admin",
+                    "UsersController.AssignDoctor",
+                    LogEventLevel.Warning);
+
+                TempData["SuccessMessage"] = _locService.GetSystem("AssignDoctor_Success");
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                LogHelper.LogWithContext(
+                    $"Error assigning doctor: {ex.Message}",
+                    User?.Identity?.Name ?? "Unknown",
+                    "Admin",
+                    "UsersController.AssignDoctor",
+                    LogEventLevel.Fatal);
+                ModelState.AddModelError(string.Empty, _locService.GetSystem("Msg_ErrorSave"));
+                return View(model);
+            }
+        }
+
+        private async Task LoadDoctorsAsync()
+        {
+            ViewBag.Doctors = await _context.Doctors
+                .AsNoTracking()
+                .Include(d => d.User)
+                .Where(d => d.User != null && d.User.Status != EnUserStatus.Deleted)
+                .OrderBy(d => d.User!.LastName)
+                .ThenBy(d => d.User!.FirstName)
+                .ToListAsync();
         }
     }
 }

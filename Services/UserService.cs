@@ -549,10 +549,12 @@ public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel mo
             userForEmail = await CreateUserAndSetTheDefaultRoleAsync(user, generatedPassword, "patient");
 
            
+            var assignedDoctor = await _context.Doctors.FirstOrDefaultAsync(d => d.UserId == _currentUser.userId);
             var patient = new Patient
             {
                 UserId = userForEmail.Id,
-                BirthDate = model.DateOfBirth.ToUniversalTime()
+                BirthDate = model.DateOfBirth.ToUniversalTime(),
+                AssignedDoctorId = assignedDoctor?.Id
             };
             model.CopyTo(patient);
 

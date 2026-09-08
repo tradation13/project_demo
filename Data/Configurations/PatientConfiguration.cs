@@ -34,6 +34,11 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
              .HasForeignKey<Patient>(p => p.UserId)
              .OnDelete(DeleteBehavior.Cascade);
 
+        builder.HasOne(p => p.AssignedDoctor)
+               .WithMany()
+               .HasForeignKey(p => p.AssignedDoctorId)
+               .OnDelete(DeleteBehavior.SetNull);
+
         // العلاقة مع Appointments
         builder.HasMany(p => p.Appointments)
                .WithOne(a => a.Patient)

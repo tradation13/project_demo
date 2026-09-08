@@ -1249,6 +1249,15 @@
   <data name="Error_Unhandled" xml:space="preserve">
     <value>A temporary problem occurred. Please try again shortly.</value>
   </data>
+  <data name="AssignDoctor_DoctorRequired" xml:space="preserve">
+    <value>Please select a therapist.</value>
+  </data>
+  <data name="AssignDoctor_PatientRequired" xml:space="preserve">
+    <value>Patient is required.</value>
+  </data>
+  <data name="AssignDoctor_Success" xml:space="preserve">
+    <value>Patient assigned to the therapist.</value>
+  </data>
 </root>
 
 

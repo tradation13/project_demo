@@ -1,5 +1,6 @@
 ﻿using IPTS.Areas.Doctor.ViewsModels;
 using IPTS.Data;
+using IPTS.Helpers;
 using IPTS.Models.Entites;
 using IPTS.Resources;
 using IPTS.Services;
@@ -7,6 +8,7 @@ using IPTS.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Serilog.Events;
 using System.Security.Claims;
 
 namespace IPTS.Areas.Doctor.Controllers
@@ -14,11 +16,10 @@ namespace IPTS.Areas.Doctor.Controllers
     [Area("doctor")]
     [Authorize(Roles = "doctor")]
 
-    public class PatientsController(LocService locService,ApplicationDbContext context, UserService userService, AppointmentService appointmentService) : Controller
+    public class PatientsController(LocService locService,ApplicationDbContext context, UserService userService) : Controller
     {
         private readonly ApplicationDbContext _context = context;
         private readonly UserService _userService = userService;
-        private readonly AppointmentService _appointmentService = appointmentService;
         private readonly LocService _locService = locService;
 
 
@@ -74,13 +75,20 @@ public async Task<IActionResult> Create(PatientRegistrationViewModel model)
             var doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.UserId == userId);
             if (doctor == null) return NotFound();
 
-            // Explicitly specify the type argument for GetAllAsync to resolve CS0411  
-            var patientIds = (await _appointmentService.GetAllAsync(q => q.Where(a => a.DoctorId == doctor.Id))).Select(a => a.PatientId).Distinct();
-
             var patients = await _context.Patients
                 .Include(p => p.User)
-                .Where(p => patientIds.Contains(p.Id))
+                .Where(p => p.AssignedDoctorId == doctor.Id
+                    || p.Appointments.Any(a => a.DoctorId == doctor.Id))
+                .OrderBy(p => p.User.LastName)
+                .ThenBy(p => p.User.FirstName)
                 .ToListAsync();
+
+            LogHelper.LogWithContext(
+                $"Loaded {patients.Count} patients for doctor {doctor.Id}",
+                User?.Identity?.Name ?? "Unknown",
+                "Doctor",
+                "PatientsController.Index",
+                LogEventLevel.Information);
 
             return View(patients);
         }

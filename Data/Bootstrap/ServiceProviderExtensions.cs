@@ -35,6 +35,7 @@ namespace IPTS.Data.Bootstrap
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                throw;
             }
         }
         private static async Task SeedIdentityAsync(IServiceProvider sp)

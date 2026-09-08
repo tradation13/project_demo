@@ -17,6 +17,9 @@ namespace IPTS.Models.Entites
         public bool? IsSmoker { get; set; }
         public bool? HasChronicDisease { get; set; }
 
+        public int? AssignedDoctorId { get; set; }
+        public Doctor? AssignedDoctor { get; set; }
+
         public ICollection<Appointment> Appointments { get; set; }
         public ICollection<MedicalCase> MedicalCases { get; set; }
     }

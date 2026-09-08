@@ -340,7 +340,7 @@ app.UseRequestLocalization(localizationOptions);
             
             //app.MapRazorPages();
 
-            //await app.Services.EnsureInfrastructureAsync();
+            await app.Services.EnsureInfrastructureAsync();
 
             //app.Use(async (context, next) =>
             //{

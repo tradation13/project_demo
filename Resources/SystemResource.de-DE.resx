@@ -1173,6 +1173,15 @@
   <data name="Error_Unhandled" xml:space="preserve">
     <value>Es ist ein vorübergehendes Problem aufgetreten. Bitte versuchen Sie es in Kürze erneut.</value>
   </data>
+  <data name="AssignDoctor_DoctorRequired" xml:space="preserve">
+    <value>Bitte wählen Sie einen Therapeuten aus.</value>
+  </data>
+  <data name="AssignDoctor_PatientRequired" xml:space="preserve">
+    <value>Patient ist erforderlich.</value>
+  </data>
+  <data name="AssignDoctor_Success" xml:space="preserve">
+    <value>Patient wurde dem Therapeuten zugewiesen.</value>
+  </data>
 </root>
 
 

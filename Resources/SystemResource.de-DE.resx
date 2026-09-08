@@ -374,7 +374,7 @@
     <comment/>
   </data>
   <data name="Msg_PatientRegisteredPasswordInfo" xml:space="preserve">
-    <value>Patient registriert! Das Passwortformat ist: Aa{0}_1</value>
+    <value>Patient registriert. Die Zugangsdaten wurden an {0} gesendet.</value>
     <comment/>
   </data>
   <data name="Msg_AlreadyHasAppointmentRedirect" xml:space="preserve">
@@ -530,8 +530,13 @@
     <comment/>
   </data>
   <data name="Email_Welcome_Body" xml:space="preserve">
-    <value>    &lt;div style='font-family: Segoe UI, sans-serif; line-height: 1.6;'&gt;        &lt;h2 style='color: #007bff;'&gt;Willkommen bei PhysioTech&lt;/h2&gt;        &lt;p&gt;Sehr geehrte(r) {0} {1},&lt;/p&gt;        &lt;p&gt;Ihr medizinisches Profil wurde erfolgreich von &lt;strong&gt;Dr. {2}&lt;/strong&gt; erstellt.&lt;/p&gt;        &lt;div style='background-color: #f4f4f4; padding: 20px; border-left: 5px solid #007bff; margin: 20px 0;'&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Login-Portal:&lt;/strong&gt; &lt;a href='{3}'&gt;{3}&lt;/a&gt;&lt;/p&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Benutzername:&lt;/strong&gt; {4}&lt;/p&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Temporäres Passwort:&lt;/strong&gt; &lt;code style='background: #eee; padding: 2px 5px;'&gt;{5}&lt;/code&gt;&lt;/p&gt;        &lt;/div&gt;        &lt;p style='color: #d9534f;'&gt;&lt;strong&gt;Hinweis:&lt;/strong&gt; Bitte ändern Sie Ihr Passwort nach dem ersten Login.&lt;/p&gt;        &lt;br&gt;        &lt;p&gt;Mit freundlichen Grüßen,&lt;br&gt;Ihr PhysioTech Management Team&lt;/p&gt;    &lt;/div&gt;</value>
-    <comment/>
+    <value>&lt;div style='font-family: Segoe UI, sans-serif; line-height: 1.6;'&gt;&lt;h2 style='color: #007bff;'&gt;Willkommen bei PhysioTech&lt;/h2&gt;&lt;p&gt;Sehr geehrte(r) {0} {1},&lt;/p&gt;&lt;p&gt;Ihr medizinisches Profil wurde erfolgreich von &lt;strong&gt;Dr. {2}&lt;/strong&gt; erstellt.&lt;/p&gt;&lt;div style='background-color: #f4f4f4; padding: 20px; border-left: 5px solid #007bff; margin: 20px 0;'&gt;&lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Benutzername:&lt;/strong&gt; {4}&lt;/p&gt;&lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Temporäres Passwort:&lt;/strong&gt; &lt;code style='background: #eee; padding: 2px 5px;'&gt;{5}&lt;/code&gt;&lt;/p&gt;&lt;p style='margin: 16px 0 8px;'&gt;&lt;a href='{3}'&gt;{7}&lt;/a&gt;&lt;/p&gt;&lt;p style='margin: 8px 0;'&gt;&lt;a href='{6}'&gt;{8}&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;&lt;p&gt;Sie können sich jetzt anmelden und einen Termin buchen. Ihr Passwort können Sie später jederzeit ändern.&lt;/p&gt;&lt;p&gt;Mit freundlichen Grüßen,&lt;br&gt;Ihr PhysioTech Management Team&lt;/p&gt;&lt;/div&gt;</value>
+  </data>
+  <data name="Email_Welcome_LoginButton" xml:space="preserve">
+    <value>Anmeldeseite</value>
+  </data>
+  <data name="Email_Welcome_SetPassword" xml:space="preserve">
+    <value>Passwort ändern</value>
   </data>
   <data name="UsernameRequired" xml:space="preserve">
     <value>Benutzername ist erforderlich</value>

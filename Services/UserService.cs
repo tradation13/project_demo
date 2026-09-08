@@ -9,7 +9,7 @@ using IPTS.Resources;
 using IPTS.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Security.Cryptography;
 
 namespace IPTS.Services
 {
@@ -523,10 +523,7 @@ public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel mo
     if (await _userManager.FindByNameAsync(model.UserName) != null)
         throw new Exception(_locService.GetSystem("Error_UsernameTaken"));
 
-    // if (await _context.Patients.AnyAsync(p => p.IdentityNumber == model.NationalId))
-    //     throw new Exception(_locService.GetSystem("Error_NationalIdRegistered"));
-
-    string generatedPassword = $"Aa{model.Email}_1";
+    var generatedPassword = GenerateStrongPassword();
     AppUser? userForEmail = null;
 
   
@@ -542,7 +539,7 @@ public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel mo
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
                 Status = EnUserStatus.Active,
-                EmailConfirmed = false
+                EmailConfirmed = true
             };
 
            
@@ -580,23 +577,73 @@ public async Task RegisterPatientFromDoctorAsync(PatientRegistrationViewModel mo
    
     if (userForEmail != null)
     {
-
-        var baseUrl = _configuration["App:BaseUrl"];
-        var loginUrl = $"{baseUrl}/Auth/Login";
-
+        var token = await _userManager.GeneratePasswordResetTokenAsync(userForEmail);
+        var loginUrl = BuildAbsoluteAction("Login", "Auth", new { area = "" });
+        var resetUrl = BuildAbsoluteAction(
+            "ResetPasswordConfirm",
+            "Auth",
+            new { area = "", token, email = userForEmail.Email });
 
         var emailSubject = _locService.GetSystem("Email_Welcome_Subject");
-        
-       var emailBody = string.Format(_locService.GetSystem("Email_Welcome_Body"), 
-    model.FirstName, 
-    model.LastName, 
-    doctorName, 
-    loginUrl, 
-    model.UserName, 
-    generatedPassword);
+        var emailBody = string.Format(
+            _locService.GetSystem("Email_Welcome_Body"),
+            model.FirstName,
+            model.LastName,
+            doctorName,
+            loginUrl,
+            model.UserName,
+            generatedPassword,
+            resetUrl,
+            _locService.GetSystem("Email_Welcome_LoginButton"),
+            _locService.GetSystem("Email_Welcome_SetPassword"));
+
         await _emailService.SendEmail(userForEmail.Email, emailSubject, emailBody);
+
+        LogHelper.LogWithContext(
+            $"Sent welcome email with login and password-setup links to patient {userForEmail.Id}",
+            _currentUser.userId,
+            "doctor",
+            "PatientCreateFromDoctor");
     }
 }
+
+        private string BuildAbsoluteAction(string action, string controller, object values)
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
+            if (httpContext != null)
+            {
+                var url = _linkGenerator.GetUriByAction(httpContext, action, controller, values);
+                if (!string.IsNullOrWhiteSpace(url))
+                    return url;
+            }
+
+            var baseUrl = (_configuration["App:BaseUrl"] ?? string.Empty).TrimEnd('/');
+            return $"{baseUrl}/{controller}/{action}";
+        }
+
+        private static string GenerateStrongPassword(int length = 16)
+        {
+            const string upper = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+            const string lower = "abcdefghijkmnopqrstuvwxyz";
+            const string digits = "23456789";
+            const string special = "!@#$%*?";
+            var all = upper + lower + digits + special;
+            var chars = new char[length];
+            chars[0] = upper[RandomNumberGenerator.GetInt32(upper.Length)];
+            chars[1] = lower[RandomNumberGenerator.GetInt32(lower.Length)];
+            chars[2] = digits[RandomNumberGenerator.GetInt32(digits.Length)];
+            chars[3] = special[RandomNumberGenerator.GetInt32(special.Length)];
+            for (var i = 4; i < length; i++)
+                chars[i] = all[RandomNumberGenerator.GetInt32(all.Length)];
+
+            for (var i = chars.Length - 1; i > 0; i--)
+            {
+                var j = RandomNumberGenerator.GetInt32(i + 1);
+                (chars[i], chars[j]) = (chars[j], chars[i]);
+            }
+
+            return new string(chars);
+        }
 
         public async Task<List<string>> GetAdminEmailsAsync()
         {

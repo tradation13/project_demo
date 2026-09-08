@@ -374,7 +374,7 @@
     <comment/>
   </data>
   <data name="Msg_PatientRegisteredPasswordInfo" xml:space="preserve">
-    <value>Patient registered. Password information sent.</value>
+    <value>Patient registered. Login details were sent to {0}.</value>
     <comment/>
   </data>
   <data name="Msg_AlreadyHasAppointmentRedirect" xml:space="preserve">
@@ -534,8 +534,13 @@
     <comment/>
   </data>
   <data name="Email_Welcome_Body" xml:space="preserve">
-    <value>    &lt;div style='font-family: Segoe UI, sans-serif; line-height: 1.6;'&gt;        &lt;h2 style='color: #007bff;'&gt;Welcome to PhysioTech&lt;/h2&gt;        &lt;p&gt;Dear {0} {1},&lt;/p&gt;        &lt;p&gt;Your medical profile has been successfully created by &lt;strong&gt;Dr. {2}&lt;/strong&gt;.&lt;/p&gt;        &lt;div style='background-color: #f4f4f4; padding: 20px; border-left: 5px solid #007bff; margin: 20px 0;'&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Login Portal:&lt;/strong&gt; &lt;a href='{3}'&gt;{3}&lt;/a&gt;&lt;/p&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Username:&lt;/strong&gt; {4}&lt;/p&gt;            &lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Temporary Password:&lt;/strong&gt; &lt;code style='background: #eee; padding: 2px 5px;'&gt;{5}&lt;/code&gt;&lt;/p&gt;        &lt;/div&gt;        &lt;p style='color: #d9534f;'&gt;&lt;strong&gt;Note:&lt;/strong&gt; Please change your password after your first login.&lt;/p&gt;        &lt;br&gt;        &lt;p&gt;Best Regards,&lt;br&gt;PhysioTech Management Team&lt;/p&gt;    &lt;/div&gt;</value>
-    <comment/>
+    <value>&lt;div style='font-family: Segoe UI, sans-serif; line-height: 1.6;'&gt;&lt;h2 style='color: #007bff;'&gt;Welcome to PhysioTech&lt;/h2&gt;&lt;p&gt;Dear {0} {1},&lt;/p&gt;&lt;p&gt;Your medical profile has been successfully created by &lt;strong&gt;Dr. {2}&lt;/strong&gt;.&lt;/p&gt;&lt;div style='background-color: #f4f4f4; padding: 20px; border-left: 5px solid #007bff; margin: 20px 0;'&gt;&lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Username:&lt;/strong&gt; {4}&lt;/p&gt;&lt;p style='margin: 5px 0;'&gt;&lt;strong&gt;Temporary password:&lt;/strong&gt; &lt;code style='background: #eee; padding: 2px 5px;'&gt;{5}&lt;/code&gt;&lt;/p&gt;&lt;p style='margin: 16px 0 8px;'&gt;&lt;a href='{3}'&gt;{7}&lt;/a&gt;&lt;/p&gt;&lt;p style='margin: 8px 0;'&gt;&lt;a href='{6}'&gt;{8}&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;&lt;p&gt;You can sign in now to book an appointment, and change your password later whenever you like.&lt;/p&gt;&lt;p&gt;Best Regards,&lt;br&gt;PhysioTech Management Team&lt;/p&gt;&lt;/div&gt;</value>
+  </data>
+  <data name="Email_Welcome_LoginButton" xml:space="preserve">
+    <value>Login page</value>
+  </data>
+  <data name="Email_Welcome_SetPassword" xml:space="preserve">
+    <value>Change password</value>
   </data>
   <data name="UsernameRequired" xml:space="preserve">
     <value>Username is required</value>
@@ -826,7 +831,7 @@
     <comment/>
   </data>
   <data name="Msg_PatientRegisteredPasswordInfo" xml:space="preserve">
-    <value>Patient registered. Password information sent.</value>
+    <value>Patient registered. Login details were sent to {0}.</value>
     <comment/>
   </data>
   <data name="Msg_SearchCriteriaRequired" xml:space="preserve">

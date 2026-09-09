@@ -1,4 +1,5 @@
 @model List<IPTS.Models.Entites.MedicalCase>
+@inject IWebHostEnvironment WebHostEnvironment
 @{
     ViewData["Title"] = @SharedLocalizer["Shared_Medical_Cases"];
     Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
@@ -41,7 +42,7 @@
                         var latestReportFileExists = latestReport != null
                             && !string.IsNullOrWhiteSpace(latestReport.ReportUrl)
                             && System.IO.File.Exists(System.IO.Path.Combine(
-                                Directory.GetCurrentDirectory(),
+                                WebHostEnvironment.ContentRootPath,
                                 "InternalStorage",
                                 "MedicalReports",
                                 latestReport.ReportUrl));

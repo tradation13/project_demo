@@ -1023,7 +1023,7 @@
     <comment>File validation - prescriptions</comment>
   </data>
   <data name="File_SizeExceededWithCurrent" xml:space="preserve">
-    <value>Die Dateigröße darf 5 MB nicht überschreiten. Aktuelle Größe: {0} MB</value>
+    <value>Die Dateigröße überschreitet das Limit von 50 MB. Aktuelle Größe: {0} MB</value>
     <comment>File validation - prescriptions</comment>
   </data>
   <data name="File_UnsupportedTypePrescription" xml:space="preserve">
@@ -1035,7 +1035,7 @@
     <comment>File validation - blog images</comment>
   </data>
   <data name="File_TooLarge" xml:space="preserve">
-    <value>Datei zu groß</value>
+    <value>Die Dateigröße überschreitet das Limit von 50 MB.</value>
     <comment>File validation - blog images</comment>
   </data>
   <data name="File_InvalidExtension" xml:space="preserve">

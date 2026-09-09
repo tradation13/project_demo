@@ -22,7 +22,9 @@ using System.Diagnostics;
 using IPTS.Models.Sidebar;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Threading.RateLimiting;
 
 namespace IPTS
@@ -68,7 +70,19 @@ builder.Services.AddControllersWithViews(opt =>
                 config.Enrich.FromLogContext(); 
             });
 
-            builder.WebHost.UseWebRoot(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"));
+            const long maxUploadBytes = 52_428_800; // 50 MB
+
+            builder.WebHost.UseWebRoot(Path.Combine(builder.Environment.ContentRootPath, "wwwroot"));
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.Limits.MaxRequestBodySize = maxUploadBytes;
+            });
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = maxUploadBytes;
+                options.ValueLengthLimit = int.MaxValue;
+                options.MultipartHeadersLengthLimit = int.MaxValue;
+            });
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
@@ -230,38 +244,24 @@ builder.Services.AddControllersWithViews(opt =>
 // 1. السماح بالوصول للملفات الثابتة العادية في wwwroot
 app.UseStaticFiles(); 
 
-// 2. تعريف مسار مجلد الصور (خارج wwwroot)
+// 2. تعريف مسار مجلد التخزين (خارج wwwroot) — يعمل محلياً وعلى Docker عبر ContentRootPath
 var internalStoragePath = Path.Combine(builder.Environment.ContentRootPath, "InternalStorage");
-
-// تأكد أن المجلد موجود عشان ما يرمي Exception ويقفل الموقع
-if (!Directory.Exists(internalStoragePath))
-{
-    Directory.CreateDirectory(internalStoragePath);
-}
-
-// 3. منح تصريح مرور لمجلد InternalStorage
-// قبل الحماية
-// app.UseStaticFiles(new StaticFileOptions
-// {
-//     FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(internalStoragePath),
-//     RequestPath = "/InternalStorage"
-// });
-
-// بعد الحماية
+var allStorageFolders = new[] { "BlogsImages", "DoctorPhotos", "MedicalCasePhotos", "MedicalReports", "Prescriptions" };
 var publicStorageFolders = new[] { "BlogsImages", "DoctorPhotos" };
 
+Directory.CreateDirectory(internalStoragePath);
+foreach (var folderName in allStorageFolders)
+    Directory.CreateDirectory(Path.Combine(internalStoragePath, folderName));
+
+// 3. خدمة المجلدات العامة فقط كملفات ثابتة — التقارير/الاختبارات/الوصفات تُخدم عبر Controllers
 foreach (var folderName in publicStorageFolders)
 {
-    var folderPath = Path.Combine(internalStoragePath, folderName);
-
-    if(!Directory.Exists(folderPath))
-    Directory.CreateDirectory(folderPath);
-
     app.UseStaticFiles(new StaticFileOptions
     {
-        FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(folderPath),
+        FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+            Path.Combine(internalStoragePath, folderName)),
         RequestPath = $"/InternalStorage/{folderName}"
-    });     
+    });
 }
 
             // 4. إعداد اللغات (Middleware)

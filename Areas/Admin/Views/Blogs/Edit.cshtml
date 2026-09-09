@@ -76,7 +76,7 @@
                 const preview = document.getElementById('blogFilesPreview');
                 const errorsEl = document.getElementById('blogFilesErrors');
 
-                const maxFileSize = 5 * 1024 * 1024; // 5MB - matches server
+                const maxFileSize = 50 * 1024 * 1024; // 50MB - matches server
                 const allowedExt = ['.jpg','.jpeg','.png','.webp'];
                 const msgInvalidExt = @Json.Serialize(SharedLocalizer["Dropzone_InvalidExtension"].Value);
                 const msgTooLarge = @Json.Serialize(SharedLocalizer["Dropzone_FileTooLarge"].Value);

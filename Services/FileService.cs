@@ -32,7 +32,7 @@ namespace IPTS.Services
         private readonly LocService _locService;
         private readonly string _prescriptionStoragePath;
         private readonly string[] _allowedExtensions = { ".jpg", ".jpeg", ".png", ".pdf" };
-        private const long MaxFileSize = 5 * 1024 * 1024; // 5 MB
+        private const long MaxFileSize = 50 * 1024 * 1024; // 50 MB
 
         public FileService(LocService locService, IWebHostEnvironment env)
         {

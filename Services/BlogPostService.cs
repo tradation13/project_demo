@@ -15,7 +15,7 @@ namespace IPTS.Services
         private readonly LocService _locService;
         private readonly string _storagePath;
         private readonly string[] _allowedExtensions = [".jpg", ".jpeg", ".png", ".webp"];
-        private const long MaxFileSize = 5 * 1024 * 1024;
+        private const long MaxFileSize = 50 * 1024 * 1024;
 
         public BlogPostService(ApplicationDbContext context, IWebHostEnvironment env, LocService locService)
         {

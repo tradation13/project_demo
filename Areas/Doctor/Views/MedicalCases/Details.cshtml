@@ -22,7 +22,10 @@
             @{
                 var fullName = $"{patient?.User?.FirstName} {patient?.User?.LastName}".Trim();
                 var initials = fullName.Length > 0
-                    ? string.Join("", fullName.Split(' ').Take(2).Select(n => n[0].ToString().ToUpper()))
+                    ? string.Join("", fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                        .Where(n => n.Length > 0)
+                        .Take(2)
+                        .Select(n => n[0].ToString().ToUpper()))
                     : "P";
             }
             @initials

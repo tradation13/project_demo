@@ -212,7 +212,7 @@
     <value>Drop files here or click to choose</value>
   </data>
   <data name="Dropzone_Tip_Sub" xml:space="preserve">
-    <value>Supported: JPG, PNG, WEBP. Max size: 5MB.</value>
+    <value>Supported: JPG, PNG, WEBP. Max size: 50MB.</value>
   </data>
   <data name="Blog_Image_Delete_Failed" xml:space="preserve">
     <value>Image could not be removed.</value>
@@ -371,7 +371,7 @@
     <value>Invalid extension: {0}</value>
   </data>
   <data name="Dropzone_FileTooLarge" xml:space="preserve">
-    <value>File too large: {0}</value>
+    <value>File {0} exceeds the 50MB limit.</value>
   </data>
   <data name="Error_PatientProfileNotFound" xml:space="preserve">
     <value>Patient profile not found.</value>

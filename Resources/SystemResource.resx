@@ -154,7 +154,7 @@
     <comment>File validation - prescriptions</comment>
   </data>
   <data name="File_SizeExceededWithCurrent" xml:space="preserve">
-    <value>File size must not exceed 5MB. Current size: {0}MB</value>
+    <value>File size exceeds the 50MB limit. Current size: {0}MB</value>
     <comment>File validation - prescriptions</comment>
   </data>
   <data name="File_UnsupportedTypePrescription" xml:space="preserve">
@@ -166,7 +166,7 @@
     <comment>File validation - blog images</comment>
   </data>
   <data name="File_TooLarge" xml:space="preserve">
-    <value>File too large</value>
+    <value>File size exceeds the 50MB limit.</value>
     <comment>File validation - blog images</comment>
   </data>
   <data name="File_InvalidExtension" xml:space="preserve">

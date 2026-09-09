@@ -202,7 +202,7 @@
     <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
   </data>
    <data name="Dropzone_Tip_Sub" xml:space="preserve">
-    <value>Supported file types: JPG, PNG, GIF</value>
+    <value>Supported: JPG, PNG, WEBP. Max size: 50MB.</value>
     <comment>Views -&gt; Admin -&gt; Blogs - form labels</comment>
   </data>
   <data name="ChooseFiles" xml:space="preserve">
@@ -1898,7 +1898,7 @@
     <value>Upload Medical Prescription</value>
   </data>
   <data name="FileFormatAndSizeLimit" xml:space="preserve">
-    <value>Allowed formats: JPEG, PNG, PDF. Max size: 5MB.</value>
+    <value>Allowed formats: JPEG, PNG, PDF. Max size: 50MB.</value>
   </data>
   <data name="FileSelected" xml:space="preserve">
     <value>File selected</value>
@@ -1907,7 +1907,7 @@
     <value>Drop files here or click to choose</value>
   </data>
   <data name="Dropzone_Tip_Sub" xml:space="preserve">
-    <value>Supported: JPG, PNG, WEBP. Max size: 5MB.</value>
+    <value>Supported: JPG, PNG, WEBP. Max size: 50MB.</value>
   </data>
   <data name="ChooseFiles" xml:space="preserve">
     <value>Choose Files</value>
@@ -2708,7 +2708,7 @@
     <comment>Blog file upload client validation</comment>
   </data>
   <data name="Dropzone_FileTooLarge" xml:space="preserve">
-    <value>File too large: {0}</value>
+    <value>File {0} exceeds the 50MB limit.</value>
     <comment>Blog file upload client validation</comment>
   </data>
   <data name="Error_PatientProfileNotFound" xml:space="preserve">

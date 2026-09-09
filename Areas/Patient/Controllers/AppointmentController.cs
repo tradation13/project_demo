@@ -436,16 +436,9 @@ namespace IPTS.Areas.Patient.Controllers
                 endSlotIndex,
                 model.Notes);
 
-            // Display-only: convert UTC booking time to clinic local for the success toast
-            var clinicTz = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
-            var localWhen = TimeZoneInfo.ConvertTimeFromUtc(
-                DateTime.SpecifyKind(dto.UtcDateTime, DateTimeKind.Utc),
-                clinicTz);
-            var friendlyWhen = localWhen.ToString("dd.MM.yyyy HH:mm");
-
-            TempData["SuccessMessage"] = string.Format(
-                _locService.GetSystem("Msg_AppointmentBookedWithDuration"),
-                friendlyWhen);
+            var utcWhen = DateTime.SpecifyKind(dto.UtcDateTime, DateTimeKind.Utc);
+            TempData["SuccessMessageUtc"] = utcWhen.ToString("o");
+            TempData["SuccessMessage"] = _locService.GetSystem("Msg_AppointmentBookedWithDuration");
             return RedirectToAction(
                 "Appointments",
                 "Appointment",                 

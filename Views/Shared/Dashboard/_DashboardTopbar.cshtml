@@ -1,4 +1,4 @@
-﻿﻿<div class="flex w-full flex-col">
+﻿<div class="flex w-full flex-col">
     <header class="flex h-16 items-start justify-between bg-white px-6 pt-4 pb-2">
         <!-- start::Mobile menu button -->
         <div class="flex items-center">
@@ -111,18 +111,21 @@
                         <hr>
 
                         <!-- Logout -->
-                        <form method="post" action="@Url.Action("Logout", "Auth", new { area = "" })"
+                        <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post"
                               x-data="{ linkHover: false }"
-                              class="flex items-center justify-between bg-opacity-20 px-3 py-2 hover:bg-gray-100"
+                              class="bg-opacity-20 hover:bg-gray-100"
                               x-on:mouseover="linkHover = true"
                               x-on:mouseleave="linkHover = false">
-                            <div class="flex items-center">
-                                <i class="fas fa-sign-out-alt text-red-600"></i>
-                                <button type="submit" class="ml-3 text-sm font-bold capitalize text-gray-600"
-                                        :class=" linkHover ? 'text-red-600' : ''">
-                                     @SharedLocalizer["Shared_Logout"]
-                                </button>
-                            </div>
+                            <button type="submit"
+                                    class="flex w-full items-center justify-between px-3 py-2 text-left">
+                                <div class="flex items-center">
+                                    <i class="fas fa-sign-out-alt text-red-600"></i>
+                                    <span class="ml-3 text-sm font-bold capitalize text-gray-600"
+                                          :class=" linkHover ? 'text-red-600' : ''">
+                                        @SharedLocalizer["Shared_Logout"]
+                                    </span>
+                                </div>
+                            </button>
                         </form>
                     </div>
                 </div>

@@ -3116,7 +3116,7 @@
     <value>4. Special rules for health and performance parameters (digital performance tracking)</value>
   </data>
   <data name="Privacy_DS_S4_Intro" xml:space="preserve">
-    <value>In physiotherapeutic diagnostics, therapy and training control we may record, in addition to classic findings, specific performance, movement and function parameters (e.g. movement analyses, joint angles, strength values, motor performance values and sensor-based tracking data).</value>
+    <value>In physiotherapeutic diagnostics, therapy and training control we may record, in addition to classic findings, diagnostic and functional tests, related clinical images, and specific performance, movement and function parameters (e.g. movement analyses, joint angles, strength values, motor performance values and sensor-based tracking data).</value>
   </data>
   <data name="Privacy_DS_S4_Purpose" xml:space="preserve">
     <value>Purpose: Quantitative progress documentation, evidence-based training control, individual adaptation of rehabilitation plans, and monitoring therapeutic success.</value>
@@ -3167,7 +3167,7 @@
     <value>This website uses SSL/TLS encryption to protect the transmission of confidential content such as appointment requests or health-related parameters. You can recognize an encrypted connection by the browser address changing from http:// to https:// and by the padlock icon in the address bar.</value>
   </data>
   <data name="Reg_HealthConsent_Before" xml:space="preserve">
-    <value>I consent to the processing of the personal data and health data I enter here for the purposes of appointment scheduling, treatment documentation and billing in accordance with the</value>
+    <value>I consent to the processing of the personal data and health data I enter here, including diagnostic and functional test results and related clinical images collected to plan and optimize my treatment, for the purposes of appointment scheduling, treatment documentation and billing, in accordance with the</value>
   </data>
   <data name="Reg_HealthConsent_Link" xml:space="preserve">
     <value>Privacy Policy</value>

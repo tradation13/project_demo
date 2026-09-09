@@ -784,10 +784,11 @@ public async Task<IActionResult> SearchPatient([FromForm] string? SearchName, [F
 
                 var startSlot = model.SelectedSlots.Min();
                 var endSlot = model.SelectedSlots.Max();
+                var confirmed = await _appointmentService.GetByIdAsync<int>(model.AppointmentId);
                 await _appointmentService.SendAcceptanceEmailAsync(
                     model.PatientEmail,
                     model.PatientName,
-                    model.ScheduledDate,
+                    confirmed?.ScheduledTime ?? model.ScheduledDate,
                     startSlot,
                     endSlot);
 

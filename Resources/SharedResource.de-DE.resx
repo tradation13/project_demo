@@ -3134,7 +3134,7 @@
     <value>4. Besondere Bestimmungen für Gesundheits- und Leistungsparameter (Digitales Performancetracking)</value>
   </data>
   <data name="Privacy_DS_S4_Intro" xml:space="preserve">
-    <value>Im Rahmen unserer physiotherapeutischen Diagnostik, Therapie und Trainingssteuerung erfassen wir neben klassischen Befunddaten auch spezifische Leistungs-, Bewegungs- und Funktionsparameter (z. B. Bewegungsanalysen, Gelenkwinkel, Kraftwerte, motorische Leistungswerte und sensorbasierte Trackingdaten).</value>
+    <value>Im Rahmen unserer physiotherapeutischen Diagnostik, Therapie und Trainingssteuerung erfassen wir neben klassischen Befunddaten auch diagnostische und funktionelle Tests, zugehörige klinische Aufnahmen sowie spezifische Leistungs-, Bewegungs- und Funktionsparameter (z. B. Bewegungsanalysen, Gelenkwinkel, Kraftwerte, motorische Leistungswerte und sensorbasierte Trackingdaten).</value>
   </data>
   <data name="Privacy_DS_S4_Purpose" xml:space="preserve">
     <value>Zweck der Verarbeitung: Quantitative Verlaufsdokumentation, evidenzbasierte Trainingssteuerung, individuelle Anpassung von Rehabilitationsplänen sowie Erfolgskontrolle therapeutischer Maßnahmen.</value>
@@ -3185,7 +3185,7 @@
     <value>Diese Website nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte, wie z. B. Terminanfragen oder gesundheitsbezogener Parameter, eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von „http://“ auf „https://“ wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.</value>
   </data>
   <data name="Reg_HealthConsent_Before" xml:space="preserve">
-    <value>Ich willige ein, dass meine hier eingegebenen personenbezogenen Daten und Gesundheitsdaten zum Zwecke der Terminvereinbarung, Behandlungsdokumentation und Abrechnung gemäß der</value>
+    <value>Ich willige ein, dass meine hier eingegebenen personenbezogenen Daten und Gesundheitsdaten – einschließlich diagnostischer und funktioneller Testergebnisse sowie zugehöriger klinischer Aufnahmen zur Optimierung meines Behandlungsverlaufs – zum Zwecke der Terminvereinbarung, Behandlungsdokumentation und Abrechnung gemäß der</value>
   </data>
   <data name="Reg_HealthConsent_Link" xml:space="preserve">
     <value>Datenschutzerklärung</value>

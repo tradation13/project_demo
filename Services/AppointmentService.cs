@@ -142,10 +142,7 @@ namespace IPTS.Services
             appointment.Status = AppointmentStatus.Confirmed;
             appointment.StartSlotIndex = normalizedSlots.Min();
             appointment.EndSlotIndex = normalizedSlots.Max();
-            appointment.ScheduledTime = DateTime.SpecifyKind(
-                appointment.ScheduledTime.Date.AddMinutes(appointment.StartSlotIndex * 20),
-                DateTimeKind.Utc
-            );
+            appointment.ScheduledTime = ClinicSlotToUtc(appointment.ScheduledTime, appointment.StartSlotIndex);
 
             _dbSet.Update(appointment);
             await _context.SaveChangesAsync();
@@ -194,10 +191,7 @@ namespace IPTS.Services
                 return;
             }
 
-            var startTime = scheduledDate.Date.AddHours(8).AddMinutes(startSlotIndex * 20);
-            var endTime = scheduledDate.Date.AddHours(8).AddMinutes((endSlotIndex + 1) * 20);
-            var dateText = startTime.ToString("dd.MM.yyyy");
-            var timeRange = $"{startTime:HH:mm} – {endTime:HH:mm}";
+            var (dateText, timeRange) = FormatUtcDateAndTimeRange(scheduledDate, startSlotIndex, endSlotIndex);
 
             var subject = _locService.GetSystem("Email_Subject_AppointmentAccepted");
             var body = string.Format(
@@ -230,7 +224,7 @@ namespace IPTS.Services
         {
             try
             {
-                var (dateText, timeRange) = FormatClinicDateAndTimeRange(scheduledUtc, startSlotIndex, endSlotIndex);
+                var (dateText, timeRange) = FormatUtcDateAndTimeRange(scheduledUtc, startSlotIndex, endSlotIndex);
                 var subject = GetStaffSystem("Email_Subject_AppointmentRequested");
                 var body = string.Format(
                     GetStaffSystem("Email_Body_AppointmentRequested"),
@@ -276,8 +270,8 @@ namespace IPTS.Services
         {
             try
             {
-                var (oldDateText, oldTimeRange) = FormatClinicDateAndTimeRange(oldScheduledUtc, oldStartSlotIndex, oldEndSlotIndex);
-                var (newDateText, newTimeRange) = FormatClinicDateAndTimeRange(newScheduledUtc, newStartSlotIndex, newEndSlotIndex);
+                var (oldDateText, oldTimeRange) = FormatUtcDateAndTimeRange(oldScheduledUtc, oldStartSlotIndex, oldEndSlotIndex);
+                var (newDateText, newTimeRange) = FormatUtcDateAndTimeRange(newScheduledUtc, newStartSlotIndex, newEndSlotIndex);
                 var subject = GetStaffSystem("Email_Subject_AppointmentUpdated");
                 var body = string.Format(
                     GetStaffSystem("Email_Body_AppointmentUpdated"),
@@ -404,19 +398,33 @@ namespace IPTS.Services
             }
         }
 
-        private static (string DateText, string TimeRange) FormatClinicDateAndTimeRange(
+        private static (string DateText, string TimeRange) FormatUtcDateAndTimeRange(
             DateTime scheduledUtc,
             int startSlotIndex,
             int endSlotIndex)
         {
-            var tz = TimeZoneInfo.FindSystemTimeZoneById(DefaultClinicTimeZoneId);
             var utc = scheduledUtc.Kind == DateTimeKind.Unspecified
                 ? DateTime.SpecifyKind(scheduledUtc, DateTimeKind.Utc)
                 : scheduledUtc.ToUniversalTime();
-            var local = TimeZoneInfo.ConvertTimeFromUtc(utc, tz);
-            var startLocal = local.Date.AddHours(8).AddMinutes(startSlotIndex * 20);
-            var endLocal = local.Date.AddHours(8).AddMinutes((endSlotIndex + 1) * 20);
-            return (startLocal.ToString("dd.MM.yyyy"), $"{startLocal:HH:mm} – {endLocal:HH:mm}");
+            var durationMinutes = Math.Max(1, (endSlotIndex - startSlotIndex) + 1) * 20;
+            var endUtc = utc.AddMinutes(durationMinutes);
+            return (
+                utc.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                $"{utc.ToString("HH:mm", CultureInfo.InvariantCulture)} – {endUtc.ToString("HH:mm", CultureInfo.InvariantCulture)} UTC");
+        }
+
+        private static DateTime ClinicSlotToUtc(DateTime existingUtc, int startSlotIndex)
+        {
+            var tz = TimeZoneInfo.FindSystemTimeZoneById(DefaultClinicTimeZoneId);
+            var utc = existingUtc.Kind == DateTimeKind.Unspecified
+                ? DateTime.SpecifyKind(existingUtc, DateTimeKind.Utc)
+                : existingUtc.ToUniversalTime();
+            var clinicLocal = TimeZoneInfo.ConvertTimeFromUtc(utc, tz);
+            var wall = DateTime.SpecifyKind(clinicLocal.Date, DateTimeKind.Unspecified)
+                .AddHours(8)
+                .AddMinutes(startSlotIndex * 20);
+            var offset = tz.GetUtcOffset(wall);
+            return new DateTimeOffset(wall, offset).UtcDateTime;
         }
 
         private static string DisplayOrDash(string? value)

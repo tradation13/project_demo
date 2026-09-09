@@ -51,12 +51,13 @@
                         "Cancelled" => "status-cancelled",
                         _ => "result-empty"
                     };
+                    var scheduledUtcIso = DateTime.SpecifyKind(a.ScheduledTime, DateTimeKind.Utc).ToString("o");
 
                     <div class="prac-row">
                         <div class="prac-row-main">
                             <div class="prac-row-body">
                                 <div class="flex flex-wrap items-center gap-2">
-                                    <p class="test-name !mb-0">@a.ScheduledTime.ToString("yyyy-MM-dd")</p>
+                                    <p class="test-name !mb-0 appt-local-date" data-utc="@scheduledUtcIso">@a.ScheduledTime.ToString("yyyy-MM-dd")</p>
                                     <span class="status-chip @badgeClass">@SharedLocalizer[$"Status_{a.Status}"]</span>
                                 </div>
                                 <div class="test-date mt-1.5">
@@ -64,7 +65,7 @@
                                         <circle cx="12" cy="12" r="10" stroke-width="2"/>
                                         <path stroke-linecap="round" stroke-width="2" d="M12 6v6l4 2"/>
                                     </svg>
-                                    @a.ScheduledTime.ToString("HH:mm")
+                                    <span class="appt-local-time" data-utc="@scheduledUtcIso">@a.ScheduledTime.ToString("HH:mm")</span>
                                 </div>
                             </div>
                         </div>
@@ -87,3 +88,26 @@
         </div>
     }
 </div>
+<script>
+    document.querySelectorAll('.appt-local-date').forEach(el => {
+        const utc = el.getAttribute('data-utc');
+        if (!utc) return;
+        const date = new Date(utc);
+        if (Number.isNaN(date.getTime())) return;
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        el.textContent = `${y}-${m}-${d}`;
+    });
+    document.querySelectorAll('.appt-local-time').forEach(el => {
+        const utc = el.getAttribute('data-utc');
+        if (!utc) return;
+        const date = new Date(utc);
+        if (Number.isNaN(date.getTime())) return;
+        el.textContent = new Intl.DateTimeFormat(undefined, {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }).format(date);
+    });
+</script>

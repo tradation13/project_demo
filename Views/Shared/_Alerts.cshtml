@@ -10,6 +10,7 @@
 }
 
 @{
+    var bookedUtcIso = TempData["SuccessMessageUtc"] as string;
     var alerts = new[]
     {
         new { Messages = GetMessages(TempData["SuccessMessage"]), Title = @SharedLocalizer["Success"], Bg = "bg-green-100", Border = "border-green-300", Color = "text-green-600", Icon = "fas fa-check-circle" },
@@ -38,7 +39,14 @@
                         <i class="@alert.Icon @alert.Color text-xl"></i>
                         <div class="flex flex-col justify-center">
                             <span class="@alert.Color font-bold">@alert.Title</span>
-                            <span class="@alert.Color text-sm">@text</span>
+                            @if (!string.IsNullOrWhiteSpace(bookedUtcIso) && text.Contains("{0}"))
+                            {
+                                <span class="@alert.Color text-sm js-local-when" data-utc="@bookedUtcIso" data-template="@text"></span>
+                            }
+                            else
+                            {
+                                <span class="@alert.Color text-sm">@text</span>
+                            }
                         </div>
                     </div>
                     <button x-on:click ="show = false" class="text-xl text-gray-400 hover:text-gray-500">&#10005;</button>
@@ -47,3 +55,21 @@
         }
     }
 </div>
+<script>
+    document.querySelectorAll('.js-local-when').forEach(el => {
+        const utc = el.getAttribute('data-utc');
+        const template = el.getAttribute('data-template') || '{0}';
+        if (!utc) return;
+        const date = new Date(utc);
+        if (Number.isNaN(date.getTime())) return;
+        const formatted = new Intl.DateTimeFormat(undefined, {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }).format(date);
+        el.textContent = template.replace('{0}', formatted);
+    });
+</script>

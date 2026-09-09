@@ -76,7 +76,10 @@
                 <div class="space-y-2 text-sm text-gray-700 sm:text-base">
                     <div class="flex flex-col gap-0.5 sm:flex-row sm:gap-2">
                         <span class="text-gray-500 sm:min-w-[170px]">@SharedLocalizer["Shared_Date"] & @SharedLocalizer["Shared_Time"]:</span>
-                        <span class="break-words">@Model.ScheduledTime.ToString("dddd, dd MMM yyyy - HH:mm", fmt)</span>
+                        @{
+                            var scheduledUtcIso = DateTime.SpecifyKind(Model.ScheduledTime, DateTimeKind.Utc).ToString("o");
+                        }
+                        <span class="break-words appt-local-datetime" data-utc="@scheduledUtcIso">@Model.ScheduledTime.ToString("dddd, dd MMM yyyy - HH:mm", fmt)</span>
                     </div>
                     <div class="flex flex-col gap-0.5 sm:flex-row sm:gap-2">
                         <span class="text-gray-500 sm:min-w-[170px]">@SharedLocalizer["Req_Duration"]:</span>
@@ -131,3 +134,20 @@
         </div>
     </div>
 </div>
+<script>
+    document.querySelectorAll('.appt-local-datetime').forEach(el => {
+        const utc = el.getAttribute('data-utc');
+        if (!utc) return;
+        const date = new Date(utc);
+        if (Number.isNaN(date.getTime())) return;
+        el.textContent = new Intl.DateTimeFormat(undefined, {
+            weekday: 'long',
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }).format(date);
+    });
+</script>

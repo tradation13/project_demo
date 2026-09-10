@@ -1,6 +1,7 @@
 @{
     ViewData["Title"] = SharedLocalizer["Impressum_Title"];
     Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
+    var isDE = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.Equals("de", StringComparison.OrdinalIgnoreCase);
 }
 
 <section class="legal-page relative overflow-hidden bg-gradient-to-b from-white via-emerald-50/30 to-white py-12 sm:py-16">
@@ -22,7 +23,10 @@
                 <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
                     <h2 class="mb-3 text-xl font-bold text-gray-900">@SharedLocalizer["Impressum_Section1_Title"]</h2>
                     <address class="not-italic space-y-1 text-gray-700">
-                        <p class="text-lg font-semibold text-gray-900">@SharedLocalizer["Impressum_Company"]</p>
+                        <p class="text-lg font-semibold text-gray-900">
+                            @SharedLocalizer["Impressum_Company"] (Inhaber: Dr. Ahmet Kurtoğlu)
+                        </p>
+                        <p>@(isDE ? "Berufsbezeichnung: Praxis für Physiotherapie" : "Job title: Praxis für Physiotherapie")</p>
                         <p>@SharedLocalizer["Impressum_Address_Line1"]</p>
                         <p>@SharedLocalizer["Impressum_Address_Line2"]</p>
                         <p class="pt-2">
@@ -64,6 +68,23 @@
                             <span>@SharedLocalizer["Legal_Host_Server_Text"]</span>
                         </li>
                     </ul>
+                </section>
+
+                <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+                    <h2 class="mb-3 text-xl font-bold text-gray-900">@(isDE ? "Streitschlichtung" : "Dispute resolution")</h2>
+                    <p>
+                        @(isDE
+                            ? "Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:"
+                            : "The European Commission provides a platform for online dispute resolution (ODR):")
+                        <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" class="text-emerald-700 hover:underline break-all">
+                            https://ec.europa.eu/consumers/odr
+                        </a>
+                    </p>
+                    <p class="mt-3">
+                        @(isDE
+                            ? "Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen."
+                            : "We are neither willing nor obliged to participate in dispute resolution proceedings before a consumer arbitration board.")
+                    </p>
                 </section>
 
             </div>

@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = SharedLocalizer["Privacy_Title"];
     Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
+    var isDE = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.Equals("de", StringComparison.OrdinalIgnoreCase);
 }
 
 <section class="legal-page relative overflow-hidden bg-gradient-to-b from-white via-emerald-50/30 to-white py-12 sm:py-16">
@@ -75,7 +76,21 @@
 
                     <h3 class="mb-2 text-lg font-bold text-gray-800">@SharedLocalizer["Privacy_DS_S3b_Title"]</h3>
                     <p class="mb-2">@SharedLocalizer["Privacy_DS_S3b_Text"]</p>
-                    <p class="text-sm text-gray-600">@SharedLocalizer["Privacy_DS_S3b_Legal"]</p>
+                    <p class="mb-6 text-sm text-gray-600">@SharedLocalizer["Privacy_DS_S3b_Legal"]</p>
+
+                    <h3 class="mb-2 text-lg font-bold text-gray-800">c) Cookies</h3>
+                    <p class="mb-6">
+                        @(isDE
+                            ? "Wir verwenden notwendige Cookies für den Betrieb der Website (Sicherheit, Anmeldung, Sprache). Optionale Analyse-Cookies setzen wir nur, wenn Sie dem zugestimmt haben. Sie können diese Auswahl jederzeit über „Datenschutz- & Nutzungsbedingungen“ im Footer ändern."
+                            : "We use necessary cookies to operate the website (security, login, language). Optional analytics cookies are used only if you have consented. You can change this choice at any time via “Privacy & Terms” in the footer.")
+                    </p>
+
+                    <h3 class="mb-2 text-lg font-bold text-gray-800">@(isDE ? "d) KI-Chat-Assistent" : "d) AI chat assistant")</h3>
+                    <p>
+                        @(isDE
+                            ? "Auf der Website steht ein KI-Assistent für allgemeine Fragen zur Verfügung. Wenn Sie den Chat nutzen, werden Ihre Nachrichten verarbeitet, um eine Antwort zu erzeugen. Die Speicherung des Chat-Verlaufs ist optional und kann in den Datenschutz-Einstellungen deaktiviert werden. Der Chat ersetzt keine persönliche Behandlung und stellt keine Diagnose dar."
+                            : "The website offers an AI assistant for general questions. If you use the chat, your messages are processed to generate a reply. Saving chat history is optional and can be turned off in the privacy settings. The chat does not replace personal treatment and is not a diagnosis.")
+                    </p>
                 </section>
 
                 <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">

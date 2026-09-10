@@ -3010,7 +3010,7 @@
     <comment>Views -&gt; Home -&gt; Impressum</comment>
   </data>
   <data name="Impressum_Section1_Title" xml:space="preserve">
-    <value>Angaben gemäß § 5 TMG</value>
+    <value>Angaben gemäß § 5 DDG</value>
     <comment>Views -&gt; Home -&gt; Impressum</comment>
   </data>
   <data name="Impressum_Company" xml:space="preserve">
@@ -3038,7 +3038,7 @@
     <comment>Views -&gt; Home -&gt; Impressum</comment>
   </data>
   <data name="Impressum_Section3_Text" xml:space="preserve">
-    <value>Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt.</value>
+    <value>Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt.</value>
     <comment>Views -&gt; Home -&gt; Impressum</comment>
   </data>
   <data name="Impressum_Section4_Title" xml:space="preserve">
@@ -3055,6 +3055,22 @@
   </data>
   <data name="Impressum_Hosting_Text" xml:space="preserve">
     <value>Zur Sicherstellung eines datenschutzkonformen Betriebs werden unsere Systeme und Ihre Daten in Deutschland verarbeitet und gespeichert.</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Profession" xml:space="preserve">
+    <value>Berufsbezeichnung: Praxis für Physiotherapie</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Dispute_Title" xml:space="preserve">
+    <value>Streitschlichtung</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Dispute_Text" xml:space="preserve">
+    <value>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Dispute_Note" xml:space="preserve">
+    <value>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</value>
     <comment>Views -&gt; Home -&gt; Impressum</comment>
   </data>
   <data name="Terms_Title" xml:space="preserve">
@@ -3129,6 +3145,18 @@
   </data>
   <data name="Privacy_DS_S3b_Legal" xml:space="preserve">
     <value>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung bzw. vorvertragliche Maßnahmen) i. V. m. Art. 9 Abs. 2 lit. h DSGVO und § 22 Abs. 1 Nr. 1 lit. b BDSG.</value>
+  </data>
+  <data name="Privacy_DS_S3c_Title" xml:space="preserve">
+    <value>c) Cookies</value>
+  </data>
+  <data name="Privacy_DS_S3c_Text" xml:space="preserve">
+    <value>Wir verwenden notwendige Cookies für den Betrieb der Website (Sicherheit, Anmeldung, Sprache). Optionale Analyse-Cookies setzen wir nur, wenn Sie dem zugestimmt haben. Sie können diese Auswahl jederzeit über „Datenschutz- &amp; Nutzungsbedingungen“ im Footer ändern.</value>
+  </data>
+  <data name="Privacy_DS_S3d_Title" xml:space="preserve">
+    <value>d) KI-Chat-Assistent</value>
+  </data>
+  <data name="Privacy_DS_S3d_Text" xml:space="preserve">
+    <value>Auf der Website steht ein KI-Assistent für allgemeine Fragen zur Verfügung. Wenn Sie den Chat nutzen, werden Ihre Nachrichten verarbeitet, um eine Antwort zu erzeugen. Die Speicherung des Chat-Verlaufs ist optional und kann in den Datenschutz-Einstellungen deaktiviert werden. Der Chat ersetzt keine persönliche Behandlung und stellt keine Diagnose dar.</value>
   </data>
   <data name="Privacy_DS_S4_Title" xml:space="preserve">
     <value>4. Besondere Bestimmungen für Gesundheits- und Leistungsparameter (Digitales Performancetracking)</value>

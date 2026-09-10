@@ -2992,7 +2992,7 @@
     <comment>Views -&gt; Home -&gt; Impressum</comment>
   </data>
   <data name="Impressum_Section1_Title" xml:space="preserve">
-    <value>Information pursuant to § 5 TMG</value>
+    <value>Information pursuant to § 5 DDG</value>
     <comment>Views -&gt; Home -&gt; Impressum</comment>
   </data>
   <data name="Impressum_Company" xml:space="preserve">
@@ -3020,7 +3020,7 @@
     <comment>Views -&gt; Home -&gt; Impressum</comment>
   </data>
   <data name="Impressum_Section3_Text" xml:space="preserve">
-    <value>As a service provider, we are responsible for our own content on these pages in accordance with general laws pursuant to § 7 (1) TMG. According to §§ 8 to 10 TMG, we are not obliged to monitor transmitted or stored third-party information. Obligations to remove or block the use of information under general laws remain unaffected.</value>
+    <value>As a service provider, we are responsible for our own content on these pages in accordance with general laws pursuant to § 7 (1) DDG. According to §§ 8 to 10 DDG, we are not obliged to monitor transmitted or stored third-party information. Obligations to remove or block the use of information under general laws remain unaffected.</value>
     <comment>Views -&gt; Home -&gt; Impressum</comment>
   </data>
   <data name="Impressum_Section4_Title" xml:space="preserve">
@@ -3037,6 +3037,22 @@
   </data>
   <data name="Impressum_Hosting_Text" xml:space="preserve">
     <value>To ensure GDPR-compliant operations, our systems and your data are processed and stored in Germany.</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Profession" xml:space="preserve">
+    <value>Job title: Praxis für Physiotherapie</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Dispute_Title" xml:space="preserve">
+    <value>Dispute resolution</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Dispute_Text" xml:space="preserve">
+    <value>The European Commission provides a platform for online dispute resolution (ODR):</value>
+    <comment>Views -&gt; Home -&gt; Impressum</comment>
+  </data>
+  <data name="Impressum_Dispute_Note" xml:space="preserve">
+    <value>We are neither willing nor obliged to participate in dispute resolution proceedings before a consumer arbitration board.</value>
     <comment>Views -&gt; Home -&gt; Impressum</comment>
   </data>
   <data name="Terms_Title" xml:space="preserve">
@@ -3111,6 +3127,18 @@
   </data>
   <data name="Privacy_DS_S3b_Legal" xml:space="preserve">
     <value>Legal basis: Art. 6(1)(b) GDPR (performance of a contract / pre-contractual steps) in conjunction with Art. 9(2)(h) GDPR and Section 22(1) No. 1(b) BDSG.</value>
+  </data>
+  <data name="Privacy_DS_S3c_Title" xml:space="preserve">
+    <value>c) Cookies</value>
+  </data>
+  <data name="Privacy_DS_S3c_Text" xml:space="preserve">
+    <value>We use necessary cookies to operate the website (security, login, language). Optional analytics cookies are used only if you have consented. You can change this choice at any time via “Privacy &amp; Terms” in the footer.</value>
+  </data>
+  <data name="Privacy_DS_S3d_Title" xml:space="preserve">
+    <value>d) AI chat assistant</value>
+  </data>
+  <data name="Privacy_DS_S3d_Text" xml:space="preserve">
+    <value>The website offers an AI assistant for general questions. If you use the chat, your messages are processed to generate a reply. Saving chat history is optional and can be turned off in the privacy settings. The chat does not replace personal treatment and is not a diagnosis.</value>
   </data>
   <data name="Privacy_DS_S4_Title" xml:space="preserve">
     <value>4. Special rules for health and performance parameters (digital performance tracking)</value>

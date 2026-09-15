@@ -380,23 +380,17 @@ namespace IPTS.Areas.Patient.Controllers
                 }
             }
 
-            foreach (var slot in selectedSlots)
+            if (await _appointmentService.HasPendingAppointmentAsync(model.PatientId, model.DoctorId))
             {
-                var hasPending = await _appointmentService.HasPendingAppointmentAsync(
-                    model.PatientId, model.DoctorId, model.ScheduledDate, slot);
+                LogHelper.LogWithContext(
+                    $"Appointment.Book blocked: pending appointment already exists. patientId={model.PatientId}, doctorId={model.DoctorId}",
+                    currentUserId,
+                    "patient",
+                    "PatientAppointment.Book",
+                    Serilog.Events.LogEventLevel.Warning);
 
-                if (hasPending)
-                {
-                    LogHelper.LogWithContext(
-                        $"Appointment.Book duplicate pending appointment found. patientId={model.PatientId}, doctorId={model.DoctorId}, utcDate={scheduledDateUtc:yyyy-MM-dd}, slotIndex={slot}",
-                        currentUserId,
-                        "patient",
-                        "PatientAppointment.Book",
-                        Serilog.Events.LogEventLevel.Warning);
-
-                    TempData["ErrorMessage"] = _locService.GetSystem("Error_AlreadyHasPendingAppointment");
-                    return RedirectToAction(nameof(Index), new { Id = doctorUserId, date = selectedDate.ToString("yyyy-MM-dd") });
-                }
+                TempData["ErrorMessage"] = _locService.GetSystem("Error_AlreadyHasPendingAppointment");
+                return RedirectToAction(nameof(Index), new { Id = doctorUserId, date = selectedDate.ToString("yyyy-MM-dd") });
             }
 
             model.SelectedSlotIndices = selectedSlots;

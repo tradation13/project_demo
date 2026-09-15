@@ -429,15 +429,11 @@ namespace IPTS.Services
 
         private static string DisplayOrDash(string? value)
             => string.IsNullOrWhiteSpace(value) ? "—" : value.Trim();
-        public async Task<bool> HasPendingAppointmentAsync(int patientId, int doctorId, DateTime scheduledDate, int slotIndex)
+        public async Task<bool> HasPendingAppointmentAsync(int patientId, int doctorId)
         {
-            var day = scheduledDate.Date;
             return await _dbSet.AnyAsync(a =>
                 a.PatientId == patientId &&
                 a.DoctorId == doctorId &&
-                a.ScheduledTime.Date == day &&
-                a.StartSlotIndex <= slotIndex &&
-                a.EndSlotIndex >= slotIndex &&
                 a.Status == AppointmentStatus.Pending
             );
         }
@@ -809,6 +805,17 @@ namespace IPTS.Services
                 {
                     LogHelper.LogWithContext(
                         $"CreateSingleSlotAppointmentAsync blocked: slots already occupied. doctorId={model.DoctorId}, slots={startSlotIndex}-{endSlotIndex}",
+                        string.Empty,
+                        "patient",
+                        "AppointmentService.CreateSingleSlotAppointmentAsync",
+                        Serilog.Events.LogEventLevel.Warning);
+                    return false;
+                }
+
+                if (await HasPendingAppointmentAsync(model.PatientId, model.DoctorId))
+                {
+                    LogHelper.LogWithContext(
+                        $"CreateSingleSlotAppointmentAsync blocked: patient already has a pending appointment. patientId={model.PatientId}, doctorId={model.DoctorId}",
                         string.Empty,
                         "patient",
                         "AppointmentService.CreateSingleSlotAppointmentAsync",

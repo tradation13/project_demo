@@ -398,7 +398,7 @@
     <comment/>
   </data>
   <data name="Error_AlreadyHasPendingAppointment" xml:space="preserve">
-    <value>Sie haben bereits eine ausstehende Terminanfrage für dieses Zeitfenster bei diesem Arzt.</value>
+    <value>Sie haben bereits eine ausstehende Terminanfrage bei diesem Therapeuten. Bitte warten Sie auf Annahme, Ablehnung oder Abschluss, bevor Sie einen neuen Termin buchen.</value>
     <comment/>
   </data>
   <data name="Msg_AppointmentBookedWithDuration" xml:space="preserve">

@@ -398,7 +398,7 @@
     <comment/>
   </data>
   <data name="Error_AlreadyHasPendingAppointment" xml:space="preserve">
-    <value>You already have a pending appointment for this time slot with this doctor.</value>
+    <value>You already have a pending appointment request with this therapist. Please wait until it is accepted, declined, or completed before booking again.</value>
     <comment/>
   </data>
   <data name="Error_AppointmentBookingFailed" xml:space="preserve">

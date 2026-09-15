@@ -1,0 +1,111 @@
+@model int?
+@{
+    var height = Model is > 0 ? Model.Value : 360;
+    const string mapSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2513.844788326759!2d6.9208479!3d50.9450953!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf213dfedc01bd%3A0x633f0f91127667ba!2sVenloer%20Str.%20305%2C%2050823%20K%C3%B6ln%2C%20Germany!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s";
+}
+
+<div class="pt-map-gate"
+     data-map-gate
+     data-map-src="@mapSrc"
+     style="min-height:@(height)px">
+    <div class="pt-map-gate__cover">
+        <div class="pt-map-gate__icon" aria-hidden="true">
+            <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <p class="pt-map-gate__address">@SharedLocalizer["MapGate_Address"]</p>
+        <p class="pt-map-gate__text">@SharedLocalizer["MapGate_Text"]</p>
+        <button type="button" class="pt-map-gate__btn" data-map-load>
+            <i class="fas fa-map" aria-hidden="true"></i>
+            @SharedLocalizer["MapGate_Btn"]
+        </button>
+    </div>
+    <iframe title="@SharedLocalizer["MapGate_Title"]"
+            width="100%"
+            height="@height"
+            style="border:0"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            hidden></iframe>
+</div>
+
+<style>
+    .pt-map-gate {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        background:
+            radial-gradient(120% 80% at 20% 10%, rgba(16, 185, 129, 0.14), transparent 55%),
+            linear-gradient(160deg, #f0fdf4 0%, #ecfdf5 45%, #f8fafc 100%);
+    }
+    .pt-map-gate.is-loaded {
+        background: #f8fafc;
+    }
+    .pt-map-gate iframe {
+        display: block;
+        width: 100%;
+    }
+    .pt-map-gate iframe[hidden] {
+        display: none !important;
+    }
+    .pt-map-gate__cover {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: .65rem;
+        padding: 1.25rem 1.5rem;
+        text-align: center;
+    }
+    .pt-map-gate.is-loaded .pt-map-gate__cover {
+        display: none;
+    }
+    .pt-map-gate__icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(145deg, #1a7a4a 0%, #0f766e 100%);
+        color: #fff;
+        font-size: 1.15rem;
+        box-shadow: 0 8px 18px rgba(26, 122, 74, 0.22);
+    }
+    .pt-map-gate__address {
+        margin: 0;
+        font-size: .95rem;
+        font-weight: 700;
+        color: #064e3b;
+        line-height: 1.4;
+    }
+    .pt-map-gate__text {
+        margin: 0;
+        max-width: 28rem;
+        font-size: .8rem;
+        line-height: 1.5;
+        color: #475569;
+    }
+    .pt-map-gate__btn {
+        display: inline-flex;
+        align-items: center;
+        gap: .45rem;
+        margin-top: .2rem;
+        border: 0;
+        border-radius: 12px;
+        padding: .7rem 1.1rem;
+        background: linear-gradient(135deg, #1a7a4a 0%, #0f766e 100%);
+        color: #fff;
+        font-size: .85rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 8px 16px rgba(26, 122, 74, 0.2);
+        transition: transform .15s ease, filter .15s ease;
+    }
+    .pt-map-gate__btn:hover { filter: brightness(1.06); }
+    .pt-map-gate__btn:active { transform: scale(.98); }
+</style>
+
+<script src="~/js/google-map-gate.js" asp-append-version="true"></script>

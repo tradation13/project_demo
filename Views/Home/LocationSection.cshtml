@@ -28,7 +28,7 @@
                     </div>
                     <div>
                         <p class="text-sm font-bold text-gray-500">@SharedLocalizer["Shared_Phone"]</p>
-                        <a href="tel:0172 8758302" class="font-bold text-primary-600 hover:text-primary-700">0172 8758302</a>
+                        <a href="tel:022170244490" class="font-bold text-primary-600 hover:text-primary-700">0221 702 444 90</a>
                     </div>
                 </div>
 
@@ -53,19 +53,11 @@
                 </div>
             </div>
 
-            <!-- Map -->
+            <!-- Map: embed loads only after an explicit click -->
             <div class="map-wrapper w-full contact-card" data-delay="200">
                 <div class="relative overflow-hidden rounded-2xl border border-gray-200 shadow-md">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2513.844788326759!2d6.9208479!3d50.9450953!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf213dfedc01bd%3A0x633f0f91127667ba!2sVenloer%20Str.%20305%2C%2050823%20K%C3%B6ln%2C%20Germany!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
-                        width="100%"
-                        height="360"
-                        style="border:0;"
-                        allowfullscreen=""
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    @await Html.PartialAsync("~/Views/Shared/PublicSide/GoogleMapGate.cshtml", 360)
                 </div>
-                <p class="mt-3 text-sm text-gray-500">@SharedLocalizer["Contact_Map_Hint"]</p>
             </div>
         </div>
     </div>

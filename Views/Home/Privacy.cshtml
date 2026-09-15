@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = SharedLocalizer["Privacy_Title"];
     Layout = "~/Views/Shared/Layouts/_PublicSideLayout.cshtml";
-    var isDE = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.Equals("de", StringComparison.OrdinalIgnoreCase);
 }
 
 <section class="legal-page relative overflow-hidden bg-gradient-to-b from-white via-emerald-50/30 to-white py-12 sm:py-16">
@@ -50,7 +49,7 @@
                         <p>@SharedLocalizer["Privacy_DS_S2_Owner"]</p>
                         <p>@SharedLocalizer["Privacy_DS_S2_Address"]</p>
                         <p class="pt-2">
-                            <a href="tel:01728758302" class="text-emerald-700 hover:underline">@SharedLocalizer["Privacy_DS_S2_Phone"]</a>
+                            <a href="tel:022170244490" class="text-emerald-700 hover:underline">@SharedLocalizer["Privacy_DS_S2_Phone"]</a>
                         </p>
                         <p>
                             <a href="mailto:dr.kurtoglu@physiotech-ehrenfeld.de" class="break-all text-emerald-700 hover:underline">
@@ -59,6 +58,7 @@
                         </p>
                     </address>
                     <p class="mt-4">@SharedLocalizer["Privacy_DS_S2_Definition"]</p>
+                    <p class="mt-4">@SharedLocalizer["Privacy_DS_S2_Dpo"]</p>
                 </section>
 
                 <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
@@ -78,19 +78,14 @@
                     <p class="mb-2">@SharedLocalizer["Privacy_DS_S3b_Text"]</p>
                     <p class="mb-6 text-sm text-gray-600">@SharedLocalizer["Privacy_DS_S3b_Legal"]</p>
 
-                    <h3 class="mb-2 text-lg font-bold text-gray-800">c) Cookies</h3>
-                    <p class="mb-6">
-                        @(isDE
-                            ? "Wir verwenden notwendige Cookies für den Betrieb der Website (Sicherheit, Anmeldung, Sprache). Optionale Analyse-Cookies setzen wir nur, wenn Sie dem zugestimmt haben. Sie können diese Auswahl jederzeit über „Datenschutz- & Nutzungsbedingungen“ im Footer ändern."
-                            : "We use necessary cookies to operate the website (security, login, language). Optional analytics cookies are used only if you have consented. You can change this choice at any time via “Privacy & Terms” in the footer.")
-                    </p>
+                    <h3 class="mb-2 text-lg font-bold text-gray-800">@SharedLocalizer["Privacy_DS_S3c_Title"]</h3>
+                    <p class="mb-6">@SharedLocalizer["Privacy_DS_S3c_Text"]</p>
 
-                    <h3 class="mb-2 text-lg font-bold text-gray-800">@(isDE ? "d) KI-Chat-Assistent" : "d) AI chat assistant")</h3>
-                    <p>
-                        @(isDE
-                            ? "Auf der Website steht ein KI-Assistent für allgemeine Fragen zur Verfügung. Wenn Sie den Chat nutzen, werden Ihre Nachrichten verarbeitet, um eine Antwort zu erzeugen. Die Speicherung des Chat-Verlaufs ist optional und kann in den Datenschutz-Einstellungen deaktiviert werden. Der Chat ersetzt keine persönliche Behandlung und stellt keine Diagnose dar."
-                            : "The website offers an AI assistant for general questions. If you use the chat, your messages are processed to generate a reply. Saving chat history is optional and can be turned off in the privacy settings. The chat does not replace personal treatment and is not a diagnosis.")
-                    </p>
+                    <h3 class="mb-2 text-lg font-bold text-gray-800">@SharedLocalizer["Privacy_DS_S3d_Title"]</h3>
+                    <p class="mb-6">@SharedLocalizer["Privacy_DS_S3d_Text"]</p>
+
+                    <h3 class="mb-2 text-lg font-bold text-gray-800">@SharedLocalizer["Privacy_DS_S3e_Title"]</h3>
+                    <p>@SharedLocalizer["Privacy_DS_S3e_Text"]</p>
                 </section>
 
                 <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
@@ -115,6 +110,7 @@
                         <li>@SharedLocalizer["Privacy_DS_S5_Item4"]</li>
                         <li>@SharedLocalizer["Privacy_DS_S5_Item5"]</li>
                         <li>@SharedLocalizer["Privacy_DS_S5_Item6"]</li>
+                        <li>@SharedLocalizer["Privacy_DS_S5_Item8"]</li>
                         <li>@SharedLocalizer["Privacy_DS_S5_Item7"]</li>
                     </ul>
                 </section>
@@ -122,6 +118,30 @@
                 <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
                     <h2 class="mb-3 text-xl font-bold text-gray-900 sm:text-2xl">@SharedLocalizer["Privacy_DS_S6_Title"]</h2>
                     <p>@SharedLocalizer["Privacy_DS_S6_Text"]</p>
+                </section>
+
+                <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+                    <h2 class="mb-3 text-xl font-bold text-gray-900 sm:text-2xl">@SharedLocalizer["Privacy_DS_S7_Title"]</h2>
+                    <p class="mb-3">@SharedLocalizer["Privacy_DS_S7_Intro"]</p>
+                    <ul class="list-disc space-y-3 pl-5 text-left">
+                        <li>@SharedLocalizer["Privacy_DS_S7_Hosting"]</li>
+                        <li>@SharedLocalizer["Privacy_DS_S7_OpenAI"]</li>
+                        <li>@SharedLocalizer["Privacy_DS_S7_N8n"]</li>
+                        <li>@SharedLocalizer["Privacy_DS_S7_Maps"]</li>
+                        <li>@SharedLocalizer["Privacy_DS_S7_Transfer"]</li>
+                    </ul>
+                </section>
+
+                <section class="pp-section rounded-2xl border border-gray-100 bg-white/85 p-5 shadow-sm sm:p-6">
+                    <h2 class="mb-3 text-xl font-bold text-gray-900 sm:text-2xl">@SharedLocalizer["Privacy_DS_S8_Title"]</h2>
+                    <p class="mb-3">@SharedLocalizer["Privacy_DS_S8_Intro"]</p>
+                    <ul class="list-disc space-y-3 pl-5 text-left">
+                        <li>@SharedLocalizer["Privacy_DS_S8_Logs"]</li>
+                        <li>@SharedLocalizer["Privacy_DS_S8_Contact"]</li>
+                        <li>@SharedLocalizer["Privacy_DS_S8_Account"]</li>
+                        <li>@SharedLocalizer["Privacy_DS_S8_Chat"]</li>
+                        <li>@SharedLocalizer["Privacy_DS_S8_Medical"]</li>
+                    </ul>
                 </section>
 
             </div>

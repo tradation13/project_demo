@@ -695,7 +695,7 @@
     <comment>VIiews -&gt; Home -&gt; Privacy</comment>
   </data>
   <data name="Privacy_Section1_WhyUseText" xml:space="preserve">
-    <value>Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Andere Daten können zur Analyse des Nutzerverhaltens verwendet werden.</value>
+    <value>Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Eine Analyse des Surfverhaltens durch Tracking-Tools findet nicht statt.</value>
     <comment>VIiews -&gt; Home -&gt; Privacy</comment>
   </data>
   <data name="Privacy_Section1_RightsTitle" xml:space="preserve">
@@ -759,7 +759,7 @@
     <comment>VIiews -&gt; Home -&gt; Privacy</comment>
   </data>
   <data name="Privacy_Section3_ResponsiblePhone" xml:space="preserve">
-    <value>Telefon: 0172 8758302</value>
+    <value>Telefon: 0221 702 444 90</value>
     <comment>VIiews -&gt; Home -&gt; Privacy</comment>
   </data>
   <data name="Privacy_Section3_ResponsibleEmail" xml:space="preserve">
@@ -895,7 +895,7 @@
     <comment>VIiews -&gt; Home -&gt; Privacy</comment>
   </data>
   <data name="Privacy_Section5_GoogleAnalyticsText" xml:space="preserve">
-    <value>Google Analytics analysiert anonymes Nutzerverhalten; die IP-Anonymisierung ist aktiviert.</value>
+    <value>Wir setzen Google Analytics nicht ein.</value>
     <comment>VIiews -&gt; Home -&gt; Privacy</comment>
   </data>
   <data name="Privacy_Section5_FacebookPixelTitle" xml:space="preserve">
@@ -2906,7 +2906,7 @@
     <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
   </data>
   <data name="AboutCEO_Name" xml:space="preserve">
-    <value>Außerordentlicher Professor Dr. Ahmed Kurtoglu</value>
+    <value>Außerordentlicher Professor Dr. Ahmet Kurtoğlu</value>
     <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
   </data>
   <data name="AboutCEO_Role" xml:space="preserve">
@@ -2938,7 +2938,7 @@
     <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
   </data>
   <data name="AboutCEO_Bio_P1" xml:space="preserve">
-    <value>Außerordentlicher Professor Dr. Ahmed Kurtoglu ist Sportwissenschaftler und Physiotherapeut mit umfassender akademischer und klinischer Erfahrung. Als international aktiver Forscher ist er Autor von mehr als 100 wissenschaftlichen Publikationen, rund 20 Fachbüchern und über 50 Konferenzbeiträgen.</value>
+    <value>Außerordentlicher Professor Dr. Ahmet Kurtoğlu ist Sportwissenschaftler und Physiotherapeut mit umfassender akademischer und klinischer Erfahrung. Als international aktiver Forscher ist er Autor von mehr als 100 wissenschaftlichen Publikationen, rund 20 Fachbüchern und über 50 Konferenzbeiträgen.</value>
     <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
   </data>
   <data name="AboutCEO_Bio_P2" xml:space="preserve">
@@ -2946,7 +2946,7 @@
     <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
   </data>
   <data name="AboutCEO_Bio_P3" xml:space="preserve">
-    <value>Dr. Kurtoglu strebt danach, moderne Sporttechnologie mit wissenschaftlichem Wissen zu verbinden, und hat in diesem Rahmen an der Entwicklung innovativer VR-basierter Trainings- und Rehabilitationsplattformen mitgewirkt. Durch die Integration intelligenter Patientenüberwachungssysteme und künstlicher Intelligenz für Fitness (FITNESS AI) zielen diese darauf ab, einen sicheren, messbaren und effektiven Heilungsprozess für Patienten zu schaffen.</value>
+    <value>Dr. Ahmet Kurtoğlu strebt danach, moderne Sporttechnologie mit wissenschaftlichem Wissen zu verbinden, und hat in diesem Rahmen an der Entwicklung innovativer VR-basierter Trainings- und Rehabilitationsplattformen mitgewirkt. Durch die Integration intelligenter Patientenüberwachungssysteme und künstlicher Intelligenz für Fitness (FITNESS AI) zielen diese darauf ab, einen sicheren, messbaren und effektiven Heilungsprozess für Patienten zu schaffen.</value>
     <comment>Views -&gt; Home -&gt; AboutCEOSection</comment>
   </data>
   <data name="AboutCEO_Bio_P4" xml:space="preserve">
@@ -2990,7 +2990,7 @@
     <comment>Views -&gt; Home -&gt; Legal pages</comment>
   </data>
   <data name="Legal_Host_Db_Text" xml:space="preserve">
-    <value>Ihre personenbezogenen Daten werden in Datenbanken gespeichert, die sich in Deutschland befinden.</value>
+    <value>Stammdaten und Praxisdaten, die wir selbst speichern, liegen in Datenbanken in Deutschland.</value>
     <comment>Views -&gt; Home -&gt; Legal pages</comment>
   </data>
   <data name="Legal_Host_Server_Title" xml:space="preserve">
@@ -2998,11 +2998,11 @@
     <comment>Views -&gt; Home -&gt; Legal pages</comment>
   </data>
   <data name="Legal_Host_Server_Text" xml:space="preserve">
-    <value>Die Website und die zugehörige Infrastruktur werden auf Servern in Deutschland betrieben.</value>
+    <value>Die Website und unsere eigene Infrastruktur werden auf Servern in Deutschland betrieben.</value>
     <comment>Views -&gt; Home -&gt; Legal pages</comment>
   </data>
   <data name="Legal_Host_Privacy_Extra" xml:space="preserve">
-    <value>Wichtig: Sowohl die Hosting-Server als auch die Datenbanken befinden sich in Deutschland. Die Verarbeitung personenbezogener Daten erfolgt damit innerhalb der Europäischen Union und unterliegt der DSGVO.</value>
+    <value>Das Hosting in Deutschland gilt für unsere eigenen Systeme. Einzelne Funktionen können Daten an externe Dienstleister übermitteln, auch außerhalb der EU. Einzelheiten stehen in der Datenschutzerklärung.</value>
     <comment>Views -&gt; Home -&gt; Privacy</comment>
   </data>
   <data name="Impressum_Title" xml:space="preserve">
@@ -3030,7 +3030,7 @@
     <comment>Views -&gt; Home -&gt; Impressum</comment>
   </data>
   <data name="Impressum_Section2_Text" xml:space="preserve">
-    <value>Dr. Ahmed Kurtoglu — Inhaltlich Verantwortlicher gemäß § 18 Abs. 2 MStV.</value>
+    <value>Dr. Ahmet Kurtoğlu — Inhaltlich Verantwortlicher gemäß § 18 Abs. 2 MStV.</value>
     <comment>Views -&gt; Home -&gt; Impressum</comment>
   </data>
   <data name="Impressum_Section3_Title" xml:space="preserve">
@@ -3054,7 +3054,7 @@
     <comment>Views -&gt; Home -&gt; Impressum</comment>
   </data>
   <data name="Impressum_Hosting_Text" xml:space="preserve">
-    <value>Zur Sicherstellung eines datenschutzkonformen Betriebs werden unsere Systeme und Ihre Daten in Deutschland verarbeitet und gespeichert.</value>
+    <value>Unsere Website und unsere eigenen Datenbanken werden in Deutschland betrieben. Einzelne Funktionen (z. B. KI-Analyse, Chat, Karten) können Daten an externe Dienstleister übermitteln, auch außerhalb der EU.</value>
     <comment>Views -&gt; Home -&gt; Impressum</comment>
   </data>
   <data name="Impressum_Profession" xml:space="preserve">
@@ -3105,7 +3105,7 @@
     <value>Adresse: Venloer Str. 305, 50823 Köln</value>
   </data>
   <data name="Privacy_DS_S2_Phone" xml:space="preserve">
-    <value>Telefon: 0172 875 8302</value>
+    <value>Telefon: 0221 702 444 90</value>
   </data>
   <data name="Privacy_DS_S2_Email" xml:space="preserve">
     <value>E-Mail: dr.kurtoglu@physiotech-ehrenfeld.de</value>
@@ -3150,13 +3150,13 @@
     <value>c) Cookies</value>
   </data>
   <data name="Privacy_DS_S3c_Text" xml:space="preserve">
-    <value>Wir verwenden notwendige Cookies für den Betrieb der Website (Sicherheit, Anmeldung, Sprache). Optionale Analyse-Cookies setzen wir nur, wenn Sie dem zugestimmt haben. Sie können diese Auswahl jederzeit über „Datenschutz- &amp; Nutzungsbedingungen“ im Footer ändern.</value>
+    <value>Wir verwenden nur technisch notwendige Cookies für den Betrieb der Website (Sicherheit, Anmeldung, Sprache). Es werden keine Analyse- oder Tracking-Cookies gesetzt.</value>
   </data>
   <data name="Privacy_DS_S3d_Title" xml:space="preserve">
     <value>d) KI-Chat-Assistent</value>
   </data>
   <data name="Privacy_DS_S3d_Text" xml:space="preserve">
-    <value>Auf der Website steht ein KI-Assistent für allgemeine Fragen zur Verfügung. Wenn Sie den Chat nutzen, werden Ihre Nachrichten verarbeitet, um eine Antwort zu erzeugen. Die Speicherung des Chat-Verlaufs ist optional und kann in den Datenschutz-Einstellungen deaktiviert werden. Der Chat ersetzt keine persönliche Behandlung und stellt keine Diagnose dar.</value>
+    <value>Auf der Website steht ein KI-Assistent für allgemeine Fragen zur Verfügung. Sobald Sie eine Nachricht senden, wird der Text zur Erzeugung einer Antwort an einen externen Dienst (n8n Cloud) übermittelt. Diese Übermittlung erfolgt unabhängig davon, ob die Speicherung des Chat-Verlaufs auf unseren Servern aktiviert ist. Die optionale Speicherung können Sie in den Datenschutz-Einstellungen deaktivieren. Bitte geben Sie keine Gesundheits- oder anderen besonders schützenswerten Daten in den Chat ein. Der Chat ersetzt keine persönliche Behandlung und stellt keine Diagnose dar.</value>
   </data>
   <data name="Privacy_DS_S4_Title" xml:space="preserve">
     <value>4. Besondere Bestimmungen für Gesundheits- und Leistungsparameter (Digitales Performancetracking)</value>
@@ -3174,7 +3174,7 @@
     <value>Widerruflichkeit: Eine erteilte Einwilligung zur Erfassung und Verarbeitung digitaler Performanceparameter können Sie jederzeit formlos mit Wirkung für die Zukunft widerrufen. Die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung bleibt davon unberührt.</value>
   </data>
   <data name="Privacy_DS_S4_Recipients" xml:space="preserve">
-    <value>Empfänger der Daten: Eine Weitergabe Ihrer Daten erfolgt ausschließlich im gesetzlich zulässigen Rahmen (z. B. Abrechnungsdienstleister gem. Art. 28 DSGVO, gesetzliche/private Kostenträger) oder mit Ihrer gesonderten schriftlichen Einwilligung (z. B. an Ihren behandelnden Arzt).</value>
+    <value>Empfänger der Daten: Eine Weitergabe erfolgt im gesetzlich zulässigen Rahmen (z. B. Abrechnungsdienstleister gem. Art. 28 DSGVO, gesetzliche/private Kostenträger) oder mit Ihrer gesonderten schriftlichen Einwilligung (z. B. an Ihren behandelnden Arzt). Für die KI-gestützte Auswertung von Behandlungsfällen können fallbezogene Gesundheitsdaten zusätzlich an OpenAI übermittelt werden; Einzelheiten siehe Abschnitt 7.</value>
   </data>
   <data name="Privacy_DS_S4_Retention" xml:space="preserve">
     <value>Speicherdauer: Gemäß § 630f Abs. 3 BGB sind wir gesetzlich verpflichtet, patientenbezogene Behandlungs- und Messdokumentationen für mindestens 10 Jahre nach Abschluss der Behandlung aufzubewahren.</value>
@@ -3282,13 +3282,13 @@
     <value>Wir können diese Nutzungsbedingungen anpassen, wenn dies erforderlich ist (z. B. bei Gesetzesänderungen oder neuen Funktionen). Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts. Gerichtsstand ist – soweit zulässig – Köln.</value>
   </data>
   <data name="Consent_Title" xml:space="preserve">
-    <value>Datenschutz- &amp; Nutzungsbedingungen</value>
+    <value>Datenschutz-Einstellungen</value>
   </data>
   <data name="Consent_Intro" xml:space="preserve">
-    <value>Notwendige Cookies halten PhysioTech sicher. Datenschutzerklärung und Nutzungsbedingungen sind für Konten erforderlich. Die Speicherung des KI-Chat-Verlaufs können Sie jederzeit ein- oder ausschalten.</value>
+    <value>Notwendige Cookies bleiben aktiv. Optional können Sie nur die Speicherung des KI-Chat-Verlaufs auf unseren Servern erlauben. Das Senden einer Nachricht zur Antwort erfolgt unabhängig davon.</value>
   </data>
   <data name="Consent_AccountNote" xml:space="preserve">
-    <value>Wichtig: Datenschutzerklärung und Nutzungsbedingungen lassen sich hier nicht abschalten — sie sind für Registrierung und Kontonutzung erforderlich. Nur die Speicherung des KI-Chat-Verlaufs ist änderbar. Angemeldete Nutzer speichern diese Wahl im Konto; Gäste auf diesem Gerät.</value>
+    <value>Diese Auswahl können Sie jederzeit über den Footer wieder ändern oder widerrufen. Angemeldete Nutzer speichern die Chat-Wahl im Konto; Gäste auf diesem Gerät.</value>
   </data>
   <data name="Consent_Necessary_Title" xml:space="preserve">
     <value>Notwendige Cookies</value>
@@ -3306,13 +3306,13 @@
     <value>Analyse</value>
   </data>
   <data name="Consent_Analytics_Desc" xml:space="preserve">
-    <value>Hilft uns zu verstehen, wie Besucher PhysioTech nutzen, damit wir Seiten und Funktionen verbessern können. Es werden keine Passwörter erfasst.</value>
+    <value>Wir setzen keine Analyse- oder Tracking-Cookies ein.</value>
   </data>
   <data name="Consent_ChatHistory_Title" xml:space="preserve">
     <value>KI-Chat-Verlauf</value>
   </data>
   <data name="Consent_ChatHistory_Desc" xml:space="preserve">
-    <value>Ermöglicht das Speichern Ihrer KI-Assistenten-Gespräche auf unseren Servern. Deaktivieren Sie dies, um das Speichern neuer Chat-Nachrichten zwischen Ihnen und der KI zu beenden. Gäste speichern diese Wahl auf diesem Gerät; angemeldete Nutzer in ihrem Konto.</value>
+    <value>Nur die Speicherung des Verlaufs auf unseren Servern. Auch wenn dies aus ist, wird Ihre Nachricht zur Antwort an einen externen Dienst gesendet. Gäste speichern diese Wahl auf diesem Gerät; angemeldete Nutzer im Konto.</value>
   </data>
   <data name="Consent_AcceptSelected" xml:space="preserve">
     <value>Auswahl akzeptieren</value>
@@ -3357,13 +3357,13 @@
     <value>Nur lesen</value>
   </data>
   <data name="Footer_PrivacySettings" xml:space="preserve">
-    <value>Datenschutz- &amp; Nutzungsbedingungen</value>
+    <value>Datenschutz-Einstellungen</value>
   </data>
   <data name="Privacy_ConsentBanner_Title" xml:space="preserve">
     <value>Ihre Datenschutz-Auswahl</value>
   </data>
   <data name="Privacy_ConsentBanner_Text" xml:space="preserve">
-    <value>Sie können optionale Datenschutz-Einstellungen jederzeit über „Datenschutz- &amp; Nutzungsbedingungen“ im Footer ändern. Notwendige Cookies und Kontodaten für die Anmeldung bleiben für die Plattform erforderlich.</value>
+    <value>Sie können optionale Datenschutz-Einstellungen jederzeit über „Datenschutz-Einstellungen“ im Footer ändern oder widerrufen. Notwendige Cookies bleiben für den Betrieb erforderlich.</value>
   </data>
   <data name="Privacy_ConsentBanner_Btn" xml:space="preserve">
     <value>Datenschutz-Einstellungen öffnen</value>
@@ -3600,5 +3600,74 @@ Ich bin Ihr PhysioTech-Assistent. Wie kann ich Ihnen helfen?</value>
   </data>
   <data name="AssignDoctor_Save" xml:space="preserve">
     <value>Zuweisen</value>
+  </data>
+  <data name="MapGate_Title" xml:space="preserve">
+    <value>Standort</value>
+  </data>
+  <data name="MapGate_Address" xml:space="preserve">
+    <value>Venloer Straße 305, 50823 Köln-Ehrenfeld</value>
+  </data>
+  <data name="MapGate_Text" xml:space="preserve">
+    <value>Zum Anzeigen der interaktiven Karte werden Daten an Google übermittelt.</value>
+  </data>
+  <data name="MapGate_Btn" xml:space="preserve">
+    <value>Karte laden</value>
+  </data>
+  <data name="Privacy_DS_S3e_Title" xml:space="preserve">
+    <value>e) Google Maps</value>
+  </data>
+  <data name="Privacy_DS_S3e_Text" xml:space="preserve">
+    <value>Wir binden Google Maps erst nach Ihrer ausdrücklichen Aktion ein (Schaltfläche „Karte laden“). Erst dann werden technische Daten wie Ihre IP-Adresse an Google Ireland Ltd. bzw. Google LLC (USA) übermittelt. Rechtsgrundlage ist Ihre Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.</value>
+  </data>
+  <data name="Privacy_DS_S7_Title" xml:space="preserve">
+    <value>7. Empfänger und Übermittlung in Drittländer</value>
+  </data>
+  <data name="Privacy_DS_S7_Intro" xml:space="preserve">
+    <value>Neben der Speicherung auf unseren Systemen in Deutschland setzen wir für einzelne Funktionen externe Dienstleister ein. Die folgende Übersicht beschreibt den tatsächlichen Datenfluss. Sie ersetzt keine gesonderte rechtliche Prüfung der Verträge mit den Anbietern.</value>
+  </data>
+  <data name="Privacy_DS_S7_Hosting" xml:space="preserve">
+    <value>Eigene Systeme: Website und von uns gespeicherte Praxis-/Kontodaten werden auf Servern und in Datenbanken in Deutschland verarbeitet.</value>
+  </data>
+  <data name="Privacy_DS_S7_OpenAI" xml:space="preserve">
+    <value>OpenAI (OpenAI Ireland Ltd. bzw. OpenAI LLC, USA; Modell gpt-4o-mini): Für die KI-gestützte Auswertung von Behandlungsfällen können Zustandsbeschreibungen, Testergebnisse und therapeutische Parameter übermittelt werden. Zweck ist die Erstellung eines Analyse- bzw. Berichtstextes für die Praxis. Dabei kann es sich um Gesundheitsdaten im Sinne von Art. 9 DSGVO handeln.</value>
+  </data>
+  <data name="Privacy_DS_S7_N8n" xml:space="preserve">
+    <value>n8n Cloud: Nachrichten des Website-Chats werden zur Antwortverarbeitung an einen externen Webhook übermittelt (Nachrichtentext und Sitzungskennung). Die Übermittlung erfolgt mit dem Senden, auch wenn die Speicherung des Verlaufs auf unseren Servern deaktiviert ist. Zur Antworterzeugung können weitere KI-Dienste eingebunden werden.</value>
+  </data>
+  <data name="Privacy_DS_S7_Maps" xml:space="preserve">
+    <value>Google Maps (Google Ireland Ltd. bzw. Google LLC, USA): Technische Daten wie die IP-Adresse werden erst nach dem Klick auf „Karte laden“ übermittelt (siehe Abschnitt 3 e).</value>
+  </data>
+  <data name="Privacy_DS_S7_Transfer" xml:space="preserve">
+    <value>Übermittlung in die USA: Soweit ein Empfänger am EU-US Data Privacy Framework teilnimmt, kann die Übermittlung auf den Angemessenheitsbeschluss der EU-Kommission (Art. 45 DSGVO) gestützt werden, andernfalls auf geeignete Garantien wie Standardvertragsklauseln (Art. 46 DSGVO). Die konkrete vertragliche Absicherung mit den Anbietern ist gesondert zu prüfen.</value>
+  </data>
+  <data name="Chat_TransferNote" xml:space="preserve">
+    <value>Ihre Nachricht wird zur Antwort an einen externen Dienst gesendet. Bitte keine medizinischen oder anderen sensiblen Daten eingeben.</value>
+  </data>
+  <data name="Privacy_DS_S2_Dpo" xml:space="preserve">
+    <value>Ein betrieblicher Datenschutzbeauftragter ist nicht bestellt. Fragen zum Datenschutz richten Sie bitte an die verantwortliche Stelle (Dr. Ahmet Kurtoğlu, Kontaktangaben oben).</value>
+  </data>
+  <data name="Privacy_DS_S5_Item8" xml:space="preserve">
+    <value>Recht auf Widerruf einer Einwilligung (Art. 7 Abs. 3 DSGVO): Sie können eine erteilte Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen, z. B. über „Datenschutz-Einstellungen“ im Footer. Die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung bleibt unberührt.</value>
+  </data>
+  <data name="Privacy_DS_S8_Title" xml:space="preserve">
+    <value>8. Speicherdauer</value>
+  </data>
+  <data name="Privacy_DS_S8_Intro" xml:space="preserve">
+    <value>Wir speichern personenbezogene Daten nur so lange, wie es für den jeweiligen Zweck oder gesetzliche Pflichten erforderlich ist:</value>
+  </data>
+  <data name="Privacy_DS_S8_Logs" xml:space="preserve">
+    <value>Server-Logfiles (z. B. IP-Adresse, Zeitpunkt des Abrufs): in der Regel 14 Tage, danach Löschung, soweit keine längere Aufbewahrung zur Abwehr von Angriffen erforderlich ist.</value>
+  </data>
+  <data name="Privacy_DS_S8_Contact" xml:space="preserve">
+    <value>Kontaktformular-Anfragen: in der Regel 1 Jahr nach abschließender Bearbeitung, sofern kein Vertrag oder Behandlungsverhältnis entsteht.</value>
+  </data>
+  <data name="Privacy_DS_S8_Account" xml:space="preserve">
+    <value>Patientenkonto ohne laufende Behandlung: bis zur Löschung des Kontos oder nach 2 Jahren ohne Nutzung.</value>
+  </data>
+  <data name="Privacy_DS_S8_Chat" xml:space="preserve">
+    <value>Gespeicherter KI-Chat-Verlauf: bis Sie die Speicherung deaktivieren oder das Konto löschen, längstens 1 Jahr.</value>
+  </data>
+  <data name="Privacy_DS_S8_Medical" xml:space="preserve">
+    <value>Patientenbezogene Behandlungs- und Messdokumentation: mindestens 10 Jahre nach Abschluss der Behandlung (§ 630f Abs. 3 BGB).</value>
   </data>
 </root>

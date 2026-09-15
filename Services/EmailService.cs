@@ -120,7 +120,7 @@ else
             </div>
             <div style='margin-bottom:8px;'>
               <span style='display:block;font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.4px;'>{phoneLabel}</span>
-              <a href='tel:+491728758302' style='color:#334155;text-decoration:none;'>0172 8758302</a>
+              <a href='tel:+4922170244490' style='color:#334155;text-decoration:none;'>0221 702 444 90</a>
             </div>
             <div>
               <span style='display:block;font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.4px;'>{addressLabel}</span>

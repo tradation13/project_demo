@@ -19,6 +19,7 @@
     var chatError = SharedLocalizer["Chat_ErrorGeneric"].Value;
     var chatEmpty = SharedLocalizer["Chat_ErrorEmpty"].Value;
     var chatConfig = SharedLocalizer["Chat_ErrorConfig"].Value;
+    var chatTransferNote = SharedLocalizer["Chat_TransferNote"].Value;
 
     var webhookUrl = Configuration["N8n:ChatWebhookUrl"] ?? string.Empty;
 }
@@ -203,8 +204,26 @@
   .cb-composer-hint {
     font-size: 11px;
     color: #9ca3af;
-    margin: 0 0 8px;
+    margin: 0 0 6px;
     line-height: 1.4;
+  }
+  .cb-composer-legal {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 11px;
+    color: #9a3412;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 10px;
+    margin: 0 0 8px;
+    padding: 8px 10px;
+    line-height: 1.45;
+  }
+  .cb-composer-legal i {
+    margin-top: 1px;
+    flex-shrink: 0;
+    color: #c2410c;
   }
   .cb-composer-row {
     display: flex;
@@ -357,6 +376,10 @@
 
       <form id="cbForm" class="cb-composer" autocomplete="off">
         <p class="cb-composer-hint">@chatSub</p>
+        <p class="cb-composer-legal">
+          <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+          <span>@chatTransferNote</span>
+        </p>
         <div class="cb-composer-row">
           <textarea id="cbInput"
                     class="cb-input"

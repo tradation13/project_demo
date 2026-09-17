@@ -40,6 +40,14 @@
             <span asp-validation-for="TestGroupId" class="mt-1.5 block text-xs text-red-500"></span>
         </div>
 
+        <div>
+            <label asp-for="StandardValue" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400">@SharedLocalizer["Tests_StandardValue"]</label>
+            <input asp-for="StandardValue" type="number" step="any"
+                   class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
+                   placeholder="@SharedLocalizer["Tests_StandardValue"]" />
+            <span asp-validation-for="StandardValue" class="mt-1.5 block text-xs text-red-500"></span>
+        </div>
+
         <div class="flex flex-wrap items-center gap-3 pt-2">
             <button type="submit"
                     class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">

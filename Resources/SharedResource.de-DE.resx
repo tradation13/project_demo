@@ -3670,4 +3670,46 @@ Ich bin Ihr PhysioTech-Assistent. Wie kann ich Ihnen helfen?</value>
   <data name="Privacy_DS_S8_Medical" xml:space="preserve">
     <value>Patientenbezogene Behandlungs- und Messdokumentation: mindestens 10 Jahre nach Abschluss der Behandlung (§ 630f Abs. 3 BGB).</value>
   </data>
+  <data name="MedicalConditions" xml:space="preserve">
+    <value>Krankheitsbilder</value>
+  </data>
+  <data name="MedicalConditions_AddNew" xml:space="preserve">
+    <value>Krankheitsbild hinzufügen</value>
+  </data>
+  <data name="MedicalConditions_Edit" xml:space="preserve">
+    <value>Krankheitsbild bearbeiten</value>
+  </data>
+  <data name="MedicalConditions_Name" xml:space="preserve">
+    <value>Name des Krankheitsbilds</value>
+  </data>
+  <data name="MedicalConditions_Select" xml:space="preserve">
+    <value>Krankheitsbild auswählen</value>
+  </data>
+  <data name="Tests_StandardValue" xml:space="preserve">
+    <value>Standardwert</value>
+  </data>
+  <data name="Tests_Parameters" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="Tests_ParameterKey" xml:space="preserve">
+    <value>Schlüssel</value>
+  </data>
+  <data name="Tests_ParameterValue" xml:space="preserve">
+    <value>Wert</value>
+  </data>
+  <data name="Tests_AddParameter" xml:space="preserve">
+    <value>Parameter hinzufügen</value>
+  </data>
+  <data name="Tests_NoParameters" xml:space="preserve">
+    <value>Noch keine Parameter.</value>
+  </data>
+  <data name="TestGroups_NoTests" xml:space="preserve">
+    <value>Diese Gruppe enthält noch keine Tests.</value>
+  </data>
+  <data name="TestGroups_NoCases" xml:space="preserve">
+    <value>Dieser Test wird noch in keiner Fallakte verwendet.</value>
+  </data>
+  <data name="MedCase_AllCases" xml:space="preserve">
+    <value>Alle medizinischen Fälle</value>
+  </data>
 </root>

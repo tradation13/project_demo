@@ -236,4 +236,16 @@
   <data name="TestPhoto_After" xml:space="preserve">
     <value>After</value>
   </data>
+  <data name="MedicalConditionRequired" xml:space="preserve">
+    <value>Please select a medical condition.</value>
+  </data>
+  <data name="MedicalCondition_InUse" xml:space="preserve">
+    <value>This condition is used by medical cases and cannot be deleted.</value>
+  </data>
+  <data name="ParameterKeyRequired" xml:space="preserve">
+    <value>Parameter key is required.</value>
+  </data>
+  <data name="InvalidTestId" xml:space="preserve">
+    <value>Invalid test identifier</value>
+  </data>
 </root>

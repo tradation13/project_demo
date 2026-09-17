@@ -6,5 +6,6 @@
         public string Name { get; set; }
         public int TestGroupId { get; set; }
         public string? TestGroupName { get; set; }
+        public decimal? StandardValue { get; set; }
     }
 }

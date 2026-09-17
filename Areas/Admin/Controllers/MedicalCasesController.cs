@@ -24,16 +24,29 @@ namespace IPTS.Areas.Admin.Controllers
         private readonly PatientService _patientService = patientService;
         private readonly MedicalReportService _medicalReportService = medicalReportService;
 
-        public async Task<IActionResult> Index(int patientId)
+        public async Task<IActionResult> Index(int? patientId)
         {
-            var patient = await _patientService.GetByIdAsync(patientId, q => q.Include(p => p.User));
-            if (patient == null) return NotFound();
+            if (patientId.HasValue)
+            {
+                var patient = await _patientService.GetByIdAsync(patientId.Value, q => q.Include(p => p.User));
+                if (patient == null) return NotFound();
 
-            var medicalCases = await _medicalCaseService.GetCasesForPatientAsync(patientId);
-            ViewBag.Patient = patient;
+                ViewBag.Patient = patient;
+                var patientCases = await _medicalCaseService.GetCasesForPatientAsync(patientId.Value);
 
+                LogHelper.LogWithContext(
+                    $"Viewed medical cases for patient {patientId}",
+                    User?.Identity?.Name ?? "Unknown",
+                    "Admin",
+                    "MedicalCasesController.Index",
+                    LogEventLevel.Information);
+
+                return View(patientCases);
+            }
+
+            var medicalCases = await _medicalCaseService.GetAllCasesAsync();
             LogHelper.LogWithContext(
-                $"Viewed medical cases for patient {patientId}",
+                "Viewed all medical cases",
                 User?.Identity?.Name ?? "Unknown",
                 "Admin",
                 "MedicalCasesController.Index",

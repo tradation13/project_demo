@@ -54,9 +54,18 @@
 
             <div class="grid gap-5 p-6 sm:p-8 lg:grid-cols-2">
                 <div>
-                    <label asp-for="Name" class="prac-label">@SharedLocalizer["MedCase_Create_Name"]</label>
-                    <input asp-for="Name" class="prac-input" />
-                    <span asp-validation-for="Name" class="mt-1 block text-xs font-medium text-red-800 empty:hidden"></span>
+                    <label asp-for="MedicalConditionId" class="prac-label">@SharedLocalizer["MedCase_Create_Name"]</label>
+                    <select asp-for="MedicalConditionId" class="prac-input">
+                        <option value="">@SharedLocalizer["MedicalConditions_Select"]</option>
+                        @if (ViewBag.Conditions is IEnumerable<IPTS.Models.Entites.MedicalCondition> conditions)
+                        {
+                            foreach (var condition in conditions)
+                            {
+                                <option value="@condition.Id">@condition.Name</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="MedicalConditionId" class="mt-1 block text-xs font-medium text-red-800 empty:hidden"></span>
                 </div>
 
                 <div>

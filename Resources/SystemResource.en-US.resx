@@ -1263,6 +1263,15 @@
   <data name="AssignDoctor_Success" xml:space="preserve">
     <value>Patient assigned to the therapist.</value>
   </data>
+  <data name="MedicalConditionRequired" xml:space="preserve">
+    <value>Please select a medical condition.</value>
+  </data>
+  <data name="MedicalCondition_InUse" xml:space="preserve">
+    <value>This condition is used by medical cases and cannot be deleted.</value>
+  </data>
+  <data name="ParameterKeyRequired" xml:space="preserve">
+    <value>Parameter key is required.</value>
+  </data>
 </root>
 
 

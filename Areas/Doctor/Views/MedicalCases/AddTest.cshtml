@@ -54,6 +54,7 @@
                     @foreach (var t in tests)
                     {
                         <li data-id="@t.Id" data-name="@t.Name" data-group="@t.TestGroup?.Name"
+                            data-standard="@(t.StandardValue?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "")"
                             class="flex cursor-pointer items-center justify-between gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 transition-all duration-150 hover:scale-[1.02] hover:bg-indigo-50 hover:text-indigo-700">
                             <span class="truncate">@t.Name</span>
                             @if (t.TestGroup != null)
@@ -123,6 +124,7 @@
     const suggestionBox = document.getElementById("suggestions");
     const hiddenInput = document.getElementById("selectedTestId");
     const hiddenNameInput = document.getElementById("selectedTestName");
+    const standardInput = document.querySelector('[name="StandardValue"]');
     const selectedChip = document.getElementById("selectedChip");
     const selectedChipText = document.getElementById("selectedChipText");
     const clearBtn = document.getElementById("clearSelection");
@@ -155,6 +157,7 @@
     function clearSelection() {
         hiddenInput.value = "";
         hiddenNameInput.value = "";
+        if (standardInput) standardInput.value = "";
         selectedChip.classList.add("hidden");
         selectedChip.classList.remove("flex", "animate-pop-in");
     }
@@ -192,6 +195,7 @@
         searchInput.value = displayName;
         hiddenInput.value = testId;
         hiddenNameInput.value = testName;
+        if (standardInput) standardInput.value = li.dataset.standard || "";
 
         showChip(displayName);
         hideSuggestions();

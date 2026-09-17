@@ -12,6 +12,16 @@ namespace IPTS.Services
         {
         }
 
+        public async Task<List<MedicalCase>> GetAllCasesAsync()
+        {
+            return await GetAllAsync(q =>
+                q.Include(mc => mc.Patient).ThenInclude(p => p.User)
+                 .Include(mc => mc.MedicalCaseTests)
+                 .Include(mc => mc.MedicalReportHistories)
+                 .OrderByDescending(mc => mc.CreatedAt)
+            );
+        }
+
        // جلب كل الحالات الصحية لمريض
  public async Task<List<MedicalCase>> GetCasesForPatientAsync(int patientId, int? DoctorId = null)
  {

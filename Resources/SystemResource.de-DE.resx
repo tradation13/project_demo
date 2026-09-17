@@ -1187,6 +1187,15 @@
   <data name="AssignDoctor_Success" xml:space="preserve">
     <value>Patient wurde dem Therapeuten zugewiesen.</value>
   </data>
+  <data name="MedicalConditionRequired" xml:space="preserve">
+    <value>Bitte wählen Sie ein Krankheitsbild aus.</value>
+  </data>
+  <data name="MedicalCondition_InUse" xml:space="preserve">
+    <value>Dieses Krankheitsbild wird in Fallakten verwendet und kann nicht gelöscht werden.</value>
+  </data>
+  <data name="ParameterKeyRequired" xml:space="preserve">
+    <value>Parameterschlüssel ist erforderlich.</value>
+  </data>
 </root>
 
 

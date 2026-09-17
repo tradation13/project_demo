@@ -46,6 +46,11 @@ namespace IPTS.Data.Configurations
                    .HasMaxLength(2000)
                    .IsRequired(false);
 
+            builder.HasOne(mc => mc.MedicalCondition)
+                   .WithMany(c => c.MedicalCases)
+                   .HasForeignKey(mc => mc.MedicalConditionId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasOne(mc => mc.Patient)
                    .WithMany(a => a.MedicalCases)
                    .HasForeignKey(mc => mc.PatientId)

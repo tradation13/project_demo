@@ -141,14 +141,25 @@ namespace IPTS.Mapper
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.TestGroupId, opt => opt.MapFrom(src => src.TestGroupId))
-                .ForMember(dest => dest.TestGroupName, opt => opt.MapFrom(src => src.TestGroup.Name));
+                .ForMember(dest => dest.TestGroupName, opt => opt.MapFrom(src => src.TestGroup.Name))
+                .ForMember(dest => dest.StandardValue, opt => opt.MapFrom(src => src.StandardValue));
+
+            CreateMap<MedicalCondition, MedicalConditionViewModel>().ReverseMap()
+                .ForMember(dest => dest.MedicalCases, opt => opt.Ignore());
+
+            CreateMap<TestParameter, TestParameterViewModel>().ReverseMap()
+                .ForMember(dest => dest.Test, opt => opt.Ignore());
 
             // ViewModel to Entity
             CreateMap<TestViewModel, Test>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.TestGroupId, opt => opt.MapFrom(src => src.TestGroupId))
-                .ForMember(dest => dest.TestGroup, opt => opt.Ignore()); // Set via EF navigation
+                .ForMember(dest => dest.StandardValue, opt => opt.MapFrom(src => src.StandardValue))
+                .ForMember(dest => dest.TestGroup, opt => opt.Ignore())
+                .ForMember(dest => dest.MedicalCaseTests, opt => opt.Ignore())
+                .ForMember(dest => dest.TestPhotos, opt => opt.Ignore())
+                .ForMember(dest => dest.Parameters, opt => opt.Ignore());
 
             // -----------------------------
             // Appointment Mapping

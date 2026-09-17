@@ -12,6 +12,10 @@ public class TestConfiguration : IEntityTypeConfiguration<Test>
                .IsRequired()
                .HasMaxLength(100);
 
+        builder.Property(t => t.StandardValue)
+               .HasColumnType("numeric(18,4)")
+               .IsRequired(false);
+
         builder.HasOne(t => t.TestGroup)
                .WithMany(tg => tg.Tests)
                .HasForeignKey(t => t.TestGroupId)

@@ -136,15 +136,24 @@ namespace IPTS.Models.Sidebar
                             Area = "admin",
                             Roles = ["admin"]
                         },
-                        new ()
-                        {
-                            Title = _loc["Tests"],
-                            Icon = "flask",
-                            Action = "Index",
-                            Controller = "Tests",
-                            Area = "admin",
-                            Roles = ["admin"]
-                        }
+                      new ()
+                      {
+                          Title = _loc["Tests"],
+                          Icon = "flask",
+                          Action = "Index",
+                          Controller = "Tests",
+                          Area = "admin",
+                          Roles = ["admin"]
+                      },
+                      new ()
+                      {
+                          Title = _loc["MedicalConditions"],
+                          Icon = "notes-medical",
+                          Action = "Index",
+                          Controller = "MedicalConditions",
+                          Area = "admin",
+                          Roles = ["admin"]
+                      }
                     ],
                     Roles = ["admin"]
                 },

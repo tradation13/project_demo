@@ -18,6 +18,8 @@ namespace IPTS.Data
         public DbSet<Specialty> Specialties { get; set; }
         public DbSet<Test> Tests { get; set; }
         public DbSet<TestGroup> TestGroups { get; set; }
+        public DbSet<TestParameter> TestParameters { get; set; }
+        public DbSet<MedicalCondition> MedicalConditions { get; set; }
         public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<BlogPostImage> BlogPostImages { get; set; }
 

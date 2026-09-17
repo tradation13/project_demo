@@ -197,6 +197,8 @@ builder.Services.AddControllersWithViews(opt =>
             builder.Services.AddScoped<EmailService>();
             builder.Services.AddScoped<PdfPrintService>();
             builder.Services.AddScoped<TestGroupService>();
+            builder.Services.AddScoped<MedicalConditionService>();
+            builder.Services.AddScoped<TestParameterService>();
             builder.Services.AddScoped<MedicalCaseService>();
             builder.Services.AddScoped<MedicalCaseTestService>();
             builder.Services.AddScoped<MedicalCaseTestPhotoService>();

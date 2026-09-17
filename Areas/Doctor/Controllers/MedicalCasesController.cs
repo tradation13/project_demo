@@ -20,6 +20,7 @@ namespace IPTS.Areas.Doctor.Controllers
         MedicalCaseTestPhotoService medicalCaseTestPhotoService,
         PatientService patientService,
         TestService testService,
+        MedicalConditionService medicalConditionService,
         UserService userService,
         MedicalReportService medicalReportService) : Controller
     {
@@ -30,6 +31,7 @@ namespace IPTS.Areas.Doctor.Controllers
         private readonly MedicalCaseTestPhotoService _medicalCaseTestPhotoService = medicalCaseTestPhotoService;
         private readonly PatientService _patientService = patientService;
         private readonly TestService _testService = testService;
+        private readonly MedicalConditionService _medicalConditionService = medicalConditionService;
         private readonly UserService _userService = userService;
         public async Task<IActionResult> Index(int patientId)
         {
@@ -59,7 +61,7 @@ namespace IPTS.Areas.Doctor.Controllers
             var patient = await _patientService.GetByIdAsync(patientId, q => q.Include(p => p.User));
             if (patient == null) return NotFound();
 
-            ViewBag.Patient = patient;
+            await FillCreateBags(patient);
             return View(new MedicalCaseViewModel { PatientId = patientId, CreatedAt = DateTime.Now });
         }
 
@@ -67,44 +69,59 @@ namespace IPTS.Areas.Doctor.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MedicalCaseViewModel model)
         {
+            var patient = await _patientService.GetByIdAsync(model.PatientId, q => q.Include(p => p.User));
             if (!ModelState.IsValid)
             {
-                var patient = await _patientService.GetByIdAsync(model.PatientId, q => q.Include(p => p.User));
-                ViewBag.Patient = patient;
+                await FillCreateBags(patient);
                 return View(model);
             }
 
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {
-                return Forbid(); 
+                return Forbid();
             }
 
             var doctor = (await _userService.GetByIdAsync(userId, o => o.Include(q => q.Doctor))).Doctor;
             if (doctor == null)
             {
                 ModelState.AddModelError("", _locService.GetSystem("Error_DoctorProfileNotFound"));
-                var patient = await _patientService.GetByIdAsync(model.PatientId, q => q.Include(p => p.User));
-                ViewBag.Patient = patient;
+                await FillCreateBags(patient);
                 return View(model);
             }
 
-           var entity = new MedicalCase
-{
-    Name = model.Name,
-    Description = model.Description,
-    PatientId = model.PatientId,
-    DoctorId = doctor.Id,
-    DominantSide = model.DominantSide,
-    ActivityLevel = model.ActivityLevel,
-    InjuryHistory = model.InjuryHistory,
-    Medications = model.Medications,
-    FunctionalAbility = model.FunctionalAbility,
-    PersonalGoals = model.PersonalGoals,
-    CreatedAt = model.CreatedAt == default ? DateTime.UtcNow : model.CreatedAt.ToUniversalTime()
-};
+            var condition = await _medicalConditionService.GetByIdAsync(model.MedicalConditionId);
+            if (condition == null)
+            {
+                ModelState.AddModelError(nameof(model.MedicalConditionId), _locService.GetSystem("MedicalConditionRequired"));
+                await FillCreateBags(patient);
+                return View(model);
+            }
+
+            var entity = new MedicalCase
+            {
+                Name = condition.Name,
+                MedicalConditionId = condition.Id,
+                Description = model.Description,
+                PatientId = model.PatientId,
+                DoctorId = doctor.Id,
+                DominantSide = model.DominantSide,
+                ActivityLevel = model.ActivityLevel,
+                InjuryHistory = model.InjuryHistory,
+                Medications = model.Medications,
+                FunctionalAbility = model.FunctionalAbility,
+                PersonalGoals = model.PersonalGoals,
+                CreatedAt = model.CreatedAt == default ? DateTime.UtcNow : model.CreatedAt.ToUniversalTime()
+            };
 
             await _medicalCaseService.AddAsync(entity);
+
+            LogHelper.LogWithContext(
+                $"Created medical case '{entity.Name}' for patient {model.PatientId}",
+                User?.Identity?.Name ?? "Unknown",
+                "Doctor",
+                "MedicalCasesController.Create",
+                LogEventLevel.Information);
 
             return RedirectToAction(nameof(Index), new { patientId = model.PatientId });
         }
@@ -131,6 +148,12 @@ namespace IPTS.Areas.Doctor.Controllers
                 var medicalCase = await _medicalCaseService.GetByIdAsync(model.MedicalCaseId, q => q.Include(mc => mc.Patient).ThenInclude(p => p.User));
                 ViewBag.Patient = medicalCase?.Patient;
                 return View(model);
+            }
+
+            if (!model.StandardValue.HasValue)
+            {
+                var catalogTest = await _testService.GetByIdAsync(model.TestId);
+                model.StandardValue = catalogTest?.StandardValue;
             }
 
             await _medicalCaseTestService.AddAsync(model);
@@ -317,7 +340,10 @@ namespace IPTS.Areas.Doctor.Controllers
             return File(stream, "application/pdf");
         }
 
-
-
+        private async Task FillCreateBags(IPTS.Models.Entites.Patient? patient)
+        {
+            ViewBag.Patient = patient;
+            ViewBag.Conditions = await _medicalConditionService.GetAllAsync(q => q.OrderBy(c => c.Name));
+        }
     }
 }

@@ -123,5 +123,49 @@ namespace IPTS.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var group = await _testGroupService.GetByIdAsync(id, q => q
+                .Include(g => g.Tests)
+                    .ThenInclude(t => t.MedicalCaseTests)
+                        .ThenInclude(mct => mct.MedicalCase)
+                            .ThenInclude(mc => mc.Patient)
+                                .ThenInclude(p => p.User));
+
+            if (group == null) return NotFound();
+
+            var model = new TestGroupDetailsViewModel
+            {
+                Id = group.Id,
+                Name = group.Name,
+                Tests = (group.Tests ?? Enumerable.Empty<Test>())
+                    .OrderBy(t => t.Name)
+                    .Select(t => new TestGroupDetailsTestViewModel
+                    {
+                        Id = t.Id,
+                        Name = t.Name,
+                        StandardValue = t.StandardValue,
+                        Cases = (t.MedicalCaseTests ?? Enumerable.Empty<MedicalCaseTest>())
+                            .Where(mct => mct.MedicalCase != null)
+                            .GroupBy(mct => mct.MedicalCaseId)
+                            .Select(g => g.First().MedicalCase)
+                            .OrderByDescending(mc => mc.CreatedAt)
+                            .Select(mc => new TestGroupDetailsCaseViewModel
+                            {
+                                Id = mc.Id,
+                                Name = mc.Name,
+                                PatientName = $"{mc.Patient?.User?.FirstName} {mc.Patient?.User?.LastName}".Trim(),
+                                CreatedAt = mc.CreatedAt
+                            })
+                            .ToList()
+                    })
+                    .ToList()
+            };
+
+            LogHelper.LogWithContext($"Viewed test group details {group.Name}", User?.Identity?.Name ?? "Unknown", "Admin", "TestGroupsController.Details", LogEventLevel.Information);
+
+            return View(model);
+        }
     }
 }

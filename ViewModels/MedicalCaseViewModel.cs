@@ -5,7 +5,8 @@ namespace IPTS.ViewModels
     public class MedicalCaseViewModel
     {
         public int Id { get; set; }
-        public string Name { get; set; } = string.Empty; 
+        public string Name { get; set; } = string.Empty;
+        public int MedicalConditionId { get; set; }
         public string Description { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public int DoctorId { get; set; }

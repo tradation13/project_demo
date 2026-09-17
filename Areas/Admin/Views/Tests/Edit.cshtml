@@ -45,6 +45,12 @@
                 </select>
                 <span asp-validation-for="TestGroupId" class="mt-1.5 block text-xs text-red-500"></span>
             </div>
+            <div>
+                <label asp-for="StandardValue" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400">@SharedLocalizer["Tests_StandardValue"]</label>
+                <input asp-for="StandardValue" type="number" step="any"
+                       class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10" />
+                <span asp-validation-for="StandardValue" class="mt-1.5 block text-xs text-red-500"></span>
+            </div>
         </div>
 
         <div class="flex flex-wrap items-center gap-3 pt-2">
@@ -61,4 +67,82 @@
 
         <div asp-validation-summary="All" class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-500"></div>
     </form>
+</div>
+
+@{
+    var parameters = ViewBag.Parameters as List<TestParameterViewModel> ?? new List<TestParameterViewModel>();
+}
+
+<div class="mt-6 rounded-2xl border border-slate-100 bg-white px-8 py-7 shadow-sm shadow-slate-100">
+    <div class="mb-5 flex items-center gap-3">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <i class="fas fa-sliders-h"></i>
+        </span>
+        <h4 class="text-xl font-bold text-slate-800">@SharedLocalizer["Tests_Parameters"]</h4>
+    </div>
+
+    <form asp-action="AddParameter" method="post" class="mb-6 grid grid-cols-1 gap-3 md:grid-cols-4">
+        <input type="hidden" name="TestId" value="@Model.Id" />
+        <div>
+            <input name="Key" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10" placeholder="@SharedLocalizer["Tests_ParameterKey"]" />
+        </div>
+        <div>
+            <input name="Value" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10" placeholder="@SharedLocalizer["Tests_ParameterValue"]" />
+        </div>
+        <div>
+            <input name="Date" type="date" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10" />
+        </div>
+        <div>
+            <button type="submit"
+                    class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-primary/20">
+                <i class="fas fa-plus text-xs"></i>
+                @SharedLocalizer["Tests_AddParameter"]
+            </button>
+        </div>
+    </form>
+
+    <div class="overflow-hidden rounded-2xl border border-slate-100">
+        <table class="w-full whitespace-nowrap text-sm">
+            <thead class="bg-slate-50 text-slate-600">
+                <tr>
+                    <th class="px-4 py-3 font-semibold">@SharedLocalizer["Tests_ParameterKey"]</th>
+                    <th class="px-4 py-3 font-semibold">@SharedLocalizer["Tests_ParameterValue"]</th>
+                    <th class="px-4 py-3 font-semibold">@SharedLocalizer["Shared_Date"]</th>
+                    <th class="px-4 py-3 text-center font-semibold">@SharedLocalizer["Appt_Actions"]</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                @if (!parameters.Any())
+                {
+                    <tr>
+                        <td colspan="4" class="px-4 py-6 text-center text-sm text-slate-400">@SharedLocalizer["Tests_NoParameters"]</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var parameter in parameters)
+                    {
+                        <tr>
+                            <td class="px-4 py-3 font-medium text-slate-700">@parameter.Key</td>
+                            <td class="px-4 py-3 text-slate-600">@(parameter.Value ?? "—")</td>
+                            <td class="px-4 py-3 text-slate-500">@(parameter.Date?.ToString("yyyy-MM-dd") ?? "—")</td>
+                            <td class="px-4 py-3 text-center">
+                                <form asp-action="DeleteParameter" method="post" data-confirm class="inline">
+                                    <input type="hidden" name="id" value="@parameter.Id" />
+                                    <input type="hidden" name="testId" value="@Model.Id" />
+                                    <button type="submit" class="inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-red-50">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4
+                                                    a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

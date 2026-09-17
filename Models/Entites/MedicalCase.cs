@@ -6,6 +6,8 @@ namespace IPTS.Models.Entites
     {
         public int Id { get; set; }
         public string Name { get; set; } // اسم المرض أو الحالة
+        public int? MedicalConditionId { get; set; }
+        public MedicalCondition MedicalCondition { get; set; }
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public int PatientId { get; set; }

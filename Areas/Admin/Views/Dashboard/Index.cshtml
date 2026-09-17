@@ -62,10 +62,11 @@
             </div>
         </a>
 
-        <div class="overflow-hidden rounded-2xl border border-slate-100 bg-white transition-all duration-150">
+        <a asp-area="Admin" asp-controller="MedicalCases" asp-action="Index"
+           class="group block overflow-hidden rounded-2xl border border-slate-100 bg-white transition-all duration-150 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md hover:shadow-primary/10">
             <div class="h-1 bg-gradient-to-r from-primary to-indigo-600"></div>
             <div class="p-4 pb-3">
-                <div class="mb-3 flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-red-500">
+                <div class="mb-3 flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-red-500 transition-colors group-hover:bg-red-500 group-hover:text-white">
                     <i class="fas fa-file-medical text-sm"></i>
                 </div>
                 <p class="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-400">@SharedLocalizer["Dashboard_TotalCases"]</p>
@@ -74,7 +75,7 @@
             <div class="border-t border-slate-100 px-4 py-2 text-xs text-slate-400">
                 @SharedLocalizer["Dashboard_Cases_Description"]
             </div>
-        </div>
+        </a>
 
         <a asp-area="Admin" asp-controller="Tests" asp-action="Index"
            class="group block overflow-hidden rounded-2xl border border-slate-100 bg-white transition-all duration-150 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md hover:shadow-primary/10">

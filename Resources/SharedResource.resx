@@ -451,4 +451,46 @@
   <data name="MedCase_Det_ConfirmDeletePhoto" xml:space="preserve">
     <value>Delete this photo?</value>
   </data>
+  <data name="MedicalConditions" xml:space="preserve">
+    <value>Medical Conditions</value>
+  </data>
+  <data name="MedicalConditions_AddNew" xml:space="preserve">
+    <value>Add Medical Condition</value>
+  </data>
+  <data name="MedicalConditions_Edit" xml:space="preserve">
+    <value>Edit Medical Condition</value>
+  </data>
+  <data name="MedicalConditions_Name" xml:space="preserve">
+    <value>Condition name</value>
+  </data>
+  <data name="MedicalConditions_Select" xml:space="preserve">
+    <value>Select a condition</value>
+  </data>
+  <data name="Tests_StandardValue" xml:space="preserve">
+    <value>Standard value</value>
+  </data>
+  <data name="Tests_Parameters" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
+  <data name="Tests_ParameterKey" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="Tests_ParameterValue" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Tests_AddParameter" xml:space="preserve">
+    <value>Add parameter</value>
+  </data>
+  <data name="Tests_NoParameters" xml:space="preserve">
+    <value>No parameters yet.</value>
+  </data>
+  <data name="TestGroups_NoTests" xml:space="preserve">
+    <value>This group has no tests yet.</value>
+  </data>
+  <data name="TestGroups_NoCases" xml:space="preserve">
+    <value>No medical cases use this test yet.</value>
+  </data>
+  <data name="MedCase_AllCases" xml:space="preserve">
+    <value>All medical cases</value>
+  </data>
 </root>

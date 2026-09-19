@@ -30,7 +30,61 @@
     .animate-pop-in {
         animation: popIn 0.2s ease-out both;
     }
+
+    .voice-mic-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        border-radius: 0.5rem;
+        border: 1px solid #e5e7eb;
+        background: #fff;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #4f46e5;
+        cursor: pointer;
+        flex-shrink: 0;
+        white-space: nowrap;
+        transition: background-color .15s, border-color .15s, color .15s;
+    }
+    .voice-mic-btn:hover {
+        background: #eef2ff;
+    }
+    .voice-mic-btn.is-listening {
+        border-color: #fecaca;
+        background: #fef2f2;
+        color: #dc2626;
+    }
+    .voice-listening-field {
+        border-color: #f87171 !important;
+        box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.18);
+    }
 </style>
+
+@{
+    var voiceStart = SharedLocalizer["MedCase_Voice_Start"].Value;
+    var voiceStop = SharedLocalizer["MedCase_Voice_Stop"].Value;
+    var voiceDenied = SharedLocalizer["MedCase_Voice_Denied"].Value;
+    var voiceNetwork = SharedLocalizer["MedCase_Voice_Network"].Value;
+
+    void VoiceMicButton(string targetId)
+    {
+        <button type="button"
+                class="voice-mic-btn"
+                data-voice-target="@targetId"
+                data-start-label="@voiceStart"
+                data-stop-label="@voiceStop"
+                data-denied-label="@voiceDenied"
+                data-network-label="@voiceNetwork"
+                title="@voiceStart"
+                aria-label="@voiceStart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-3.5 w-3.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v2.25m-3 0h6m-3-15.75a3 3 0 0 1 3 3v6a3 3 0 1 1-6 0v-6a3 3 0 0 1 3-3Z" />
+            </svg>
+            <span data-voice-label>@voiceStart</span>
+        </button>
+    }
+}
 
 <div class="prac-page mx-auto max-w-7xl">
     <form asp-action="Create" method="post" class="space-y-6">
@@ -69,7 +123,10 @@
                 </div>
 
                 <div>
-                    <label asp-for="Description" class="prac-label">@SharedLocalizer["MedCase_Create_Desc"]</label>
+                    <div class="mb-1.5 flex items-center justify-between gap-2">
+                        <label asp-for="Description" class="prac-label mb-0">@SharedLocalizer["MedCase_Create_Desc"]</label>
+                        @{ VoiceMicButton("Description"); }
+                    </div>
                     <input asp-for="Description" class="prac-input" />
                     <span asp-validation-for="Description" class="mt-1 block text-xs font-medium text-red-800 empty:hidden"></span>
                 </div>
@@ -169,25 +226,37 @@
 
                 <div class="grid gap-5">
                     <div>
-                        <label asp-for="InjuryHistory" class="mb-2 block text-sm font-semibold text-gray-700">@SharedLocalizer["MedCase_InjuryHistory_Label"]</label>
+                        <div class="mb-2 flex items-start justify-between gap-2">
+                            <label asp-for="InjuryHistory" class="text-sm font-semibold text-gray-700">@SharedLocalizer["MedCase_InjuryHistory_Label"]</label>
+                            @{ VoiceMicButton("InjuryHistory"); }
+                        </div>
                         <textarea asp-for="InjuryHistory" rows="2" placeholder="@SharedLocalizer["MedCase_InjuryHistory_Placeholder"]" class="w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm text-gray-900 outline-none transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"></textarea>
                         <span asp-validation-for="InjuryHistory" class="mt-1 block text-xs font-medium text-red-800 empty:hidden"></span>
                     </div>
 
                     <div>
-                        <label asp-for="Medications" class="mb-2 block text-sm font-semibold text-gray-700">@SharedLocalizer["MedCase_Medications_Label"]</label>
+                        <div class="mb-2 flex items-start justify-between gap-2">
+                            <label asp-for="Medications" class="text-sm font-semibold text-gray-700">@SharedLocalizer["MedCase_Medications_Label"]</label>
+                            @{ VoiceMicButton("Medications"); }
+                        </div>
                         <textarea asp-for="Medications" rows="2" placeholder="@SharedLocalizer["MedCase_Medications_Placeholder"]" class="w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm text-gray-900 outline-none transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"></textarea>
                         <span asp-validation-for="Medications" class="mt-1 block text-xs font-medium text-red-800 empty:hidden"></span>
                     </div>
 
                     <div>
-                        <label asp-for="FunctionalAbility" class="mb-2 block text-sm font-semibold text-gray-700">@SharedLocalizer["MedCase_FunctionalAbility_Label"]</label>
+                        <div class="mb-2 flex items-start justify-between gap-2">
+                            <label asp-for="FunctionalAbility" class="text-sm font-semibold text-gray-700">@SharedLocalizer["MedCase_FunctionalAbility_Label"]</label>
+                            @{ VoiceMicButton("FunctionalAbility"); }
+                        </div>
                         <textarea asp-for="FunctionalAbility" rows="2" placeholder="@SharedLocalizer["MedCase_FunctionalAbility_Placeholder"]" class="w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm text-gray-900 outline-none transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"></textarea>
                         <span asp-validation-for="FunctionalAbility" class="mt-1 block text-xs font-medium text-red-800 empty:hidden"></span>
                     </div>
 
                     <div>
-                        <label asp-for="PersonalGoals" class="mb-2 block text-sm font-semibold text-gray-700">@SharedLocalizer["MedCase_PersonalGoals_Label"]</label>
+                        <div class="mb-2 flex items-start justify-between gap-2">
+                            <label asp-for="PersonalGoals" class="text-sm font-semibold text-gray-700">@SharedLocalizer["MedCase_PersonalGoals_Label"]</label>
+                            @{ VoiceMicButton("PersonalGoals"); }
+                        </div>
                         <textarea asp-for="PersonalGoals" rows="2" placeholder="@SharedLocalizer["MedCase_PersonalGoals_Placeholder"]" class="w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm text-gray-900 outline-none transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200"></textarea>
                         <span asp-validation-for="PersonalGoals" class="mt-1 block text-xs font-medium text-red-800 empty:hidden"></span>
                     </div>
@@ -210,3 +279,170 @@
         </div>
     </form>
 </div>
+
+<script>
+(function () {
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var buttons = document.querySelectorAll("[data-voice-target]");
+
+    if (!SpeechRecognition) {
+        buttons.forEach(function (btn) { btn.hidden = true; });
+        return;
+    }
+
+    var recognition = null;
+    var activeBtn = null;
+    var activeInput = null;
+    var pendingBtn = null;
+    var sessionBase = "";
+
+    function speechLang() {
+        var lang = document.documentElement.lang || "en-US";
+        if (lang === "de") return "de-DE";
+        if (lang === "en") return "en-US";
+        return lang;
+    }
+
+    function setListening(btn, on) {
+        if (!btn) return;
+        btn.classList.toggle("is-listening", on);
+        var label = btn.querySelector("[data-voice-label]");
+        var text = on ? btn.dataset.stopLabel : btn.dataset.startLabel;
+        if (label) label.textContent = text;
+        btn.setAttribute("title", text);
+        btn.setAttribute("aria-label", text);
+        btn.setAttribute("aria-pressed", on ? "true" : "false");
+    }
+
+    function setFieldListening(on) {
+        if (!activeInput) return;
+        activeInput.classList.toggle("voice-listening-field", on);
+    }
+
+    function mergeOverlap(prev, next) {
+        prev = (prev || "").replace(/\s+/g, " ").trim();
+        next = (next || "").replace(/\s+/g, " ").trim();
+        if (!next) return prev;
+        if (!prev) return next;
+        if (prev === next) return prev;
+
+        var prevLower = prev.toLowerCase();
+        var nextLower = next.toLowerCase();
+
+        if (prev.length >= 3 && nextLower.startsWith(prevLower)) return next;
+        if (next.length >= 3 && prevLower.endsWith(nextLower)) return prev;
+        if (next.length >= 3 && prevLower.includes(nextLower)) return prev;
+        if (prev.length >= 3 && nextLower.includes(prevLower)) return next;
+
+        var max = Math.min(prev.length, next.length);
+        for (var n = max; n >= 3; n--) {
+            if (prevLower.slice(-n) === nextLower.slice(0, n)) {
+                return (prev + next.slice(n)).replace(/\s+/g, " ").trim();
+            }
+        }
+
+        return prev + " " + next;
+    }
+
+    function writeTranscript(event) {
+        if (!activeInput || !event || !event.results) return;
+
+        var spoken = "";
+        for (var i = 0; i < event.results.length; i++) {
+            var piece = (event.results[i][0] && event.results[i][0].transcript) || "";
+            spoken = mergeOverlap(spoken, piece);
+        }
+
+        var parts = [];
+        if (sessionBase) parts.push(sessionBase);
+        if (spoken) parts.push(spoken);
+        activeInput.value = parts.join(" ");
+        activeInput.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    function stopListening() {
+        if (!recognition) return;
+        try { recognition.stop(); } catch (e) { }
+    }
+
+    function resetSession() {
+        setFieldListening(false);
+        setListening(activeBtn, false);
+        activeBtn = null;
+        activeInput = null;
+        sessionBase = "";
+        recognition = null;
+    }
+
+    function startFor(btn) {
+        var input = document.getElementById(btn.getAttribute("data-voice-target"));
+        if (!input) return;
+
+        activeBtn = btn;
+        activeInput = input;
+        sessionBase = (input.value || "").trim();
+        setListening(btn, true);
+        setFieldListening(true);
+        input.focus();
+
+        recognition = new SpeechRecognition();
+        recognition.lang = speechLang();
+        recognition.interimResults = true;
+        recognition.continuous = true;
+        recognition.maxAlternatives = 1;
+
+        recognition.onresult = function (event) {
+            writeTranscript(event);
+        };
+
+        recognition.onerror = function (event) {
+            if (event.error === "not-allowed" || event.error === "service-not-allowed") {
+                alert(btn.dataset.deniedLabel || "");
+            } else if (event.error === "network") {
+                alert(btn.dataset.networkLabel || "");
+            }
+
+            if (event.error !== "no-speech" && event.error !== "aborted") {
+                pendingBtn = null;
+            }
+        };
+
+        recognition.onend = function () {
+            var next = pendingBtn;
+            pendingBtn = null;
+            resetSession();
+            if (next) {
+                startFor(next);
+            }
+        };
+
+        try {
+            recognition.start();
+        } catch (e) {
+            resetSession();
+        }
+    }
+
+    buttons.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            if (activeBtn === btn) {
+                pendingBtn = null;
+                setListening(btn, false);
+                setFieldListening(false);
+                stopListening();
+                return;
+            }
+
+            if (activeBtn) {
+                pendingBtn = btn;
+                setListening(activeBtn, false);
+                setFieldListening(false);
+                stopListening();
+                return;
+            }
+
+            startFor(btn);
+        });
+    });
+})();
+</script>

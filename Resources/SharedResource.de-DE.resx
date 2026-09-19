@@ -2119,6 +2119,10 @@
   <data name="MedCase_FunctionalAbility_Placeholder" xml:space="preserve"><value>Beispiel: Schwierigkeiten beim Treppensteigen oder längeren Gehen...</value></data>
   <data name="MedCase_PersonalGoals_Label" xml:space="preserve"><value>Persönliche Ziele des Patienten</value></data>
   <data name="MedCase_PersonalGoals_Placeholder" xml:space="preserve"><value>Beispiel: Rückkehr zum Laufen, das Kind schmerzfrei tragen...</value></data>
+  <data name="MedCase_Voice_Start" xml:space="preserve"><value>Diktieren</value></data>
+  <data name="MedCase_Voice_Stop" xml:space="preserve"><value>Stopp</value></data>
+  <data name="MedCase_Voice_Denied" xml:space="preserve"><value>Mikrofonzugriff wurde verweigert.</value></data>
+  <data name="MedCase_Voice_Network" xml:space="preserve"><value>Die Spracheingabe benötigt eine Internetverbindung.</value></data>
 
 <data name="Profile_ChangePhoto" xml:space="preserve">
     <value>Profilfoto ändern</value>
